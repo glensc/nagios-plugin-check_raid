@@ -1,0 +1,110 @@
+#!/usr/bin/perl -w
+# vim:ts=4
+#
+# Check RAID status.  Look for any known types
+# of RAID configurations, and check them all.
+# Return CRITICAL if in a DEGRADED state, since
+# if the whole array has failed you'll have already noticed it!
+# Return UNKNOWN if there are no RAID configs that can be found.
+# Return WARNING if rebuilding or initialising
+#
+# S Shipway, university of auckland
+#
+# Thanks to M Carmier for megaraid section
+#
+# Version 1.1 : IPS; Solaris, AIX, Linux software RAID; megaide
+# Version 2.0 : Added megaraid, mpt (serveraid), aacli (serveraid)
+
+use strict;
+use Getopt::Long;
+use vars qw($opt_v $opt_d $opt_h $opt_W $opt_S);
+my(%ERRORS) = ( OK=>0, WARNING=>1, CRITICAL=>2, UNKNOWN=>3, WARN=>1, CRIT=>2 );
+my($VERSION) = "2.0";
+my($message, $status);
+my(@ignore);
+
+#####################################################################
+sub print_usage () {
+	print "Usage: check_raid [list of devices to ignore]\n";
+	print "       check_raid -v\n";
+	print "       check_raid -h\n";
+}
+
+sub print_help () {
+	print "check_raid, Revision: $VERSION \n";
+	print "Copyright (c) 2004-2006 S Shipway
+This plugin reports the current server's RAID status
+";
+	print_usage();
+}
+
+#####################################################################
+# return true if parameter is not in ignore list
+sub valid($) {
+	my($v) = $_[0];
+	$v = lc $v;
+	foreach ( @ignore ) { return 0 if((lc $_) eq $v); }
+	return 1;
+}
+#####################################################################
+sub check_mdstat {
+	my($l);
+	my($s,$n,$f);
+
+	open MDSTAT,"</proc/mdstat" or return;
+	while( $l = <MDSTAT> ) {
+		if( $l =~ /^(\S+)\s+:/ ) { $n = $1; $f = ''; next; }
+		if( $l =~ /(\S+)\[\d+\]\(F\)/ ) { $f = $1; next; }
+		if( $l =~ /\s*.*\[([U_]+)\]/ ) {
+			$s = $1;
+			next if(!valid($n));
+			if($s =~ /_/ ) {
+				$status = $ERRORS{CRITICAL};
+				$message .= "md:$n:$f:$s ";
+			} else {
+				$message .= "md:$n:$s ";
+			}
+		}
+	}
+	close MDSTAT;
+}
+#####################################################################
+$ENV{'BASH_ENV'}=''; 
+$ENV{'ENV'}='';
+
+Getopt::Long::Configure('bundling');
+GetOptions
+	("v"   => \$opt_v, "version"    => \$opt_v,
+	 "h"   => \$opt_h, "help"       => \$opt_h,
+	 "d" => \$opt_d, "debug" => \$opt_d,
+	 "W" => \$opt_W, "warnonly" => \$opt_W );
+
+@ignore = @ARGV if(@ARGV);
+
+if ($opt_v) {
+	print "check_raid Revision: $VERSION\n" ;
+	exit $ERRORS{'OK'};
+}
+if ($opt_h) {print_help(); exit $ERRORS{'OK'};}
+if($opt_W) {
+	$ERRORS{CRITICAL} = $ERRORS{WARNING};
+}
+
+$status = $ERRORS{OK}; $message = '';
+
+check_mdstat  if( -f "/proc/mdstat" );
+
+if( $message ) {
+	if( $status == $ERRORS{OK} ) {
+		print "OK: ";
+	} elsif( $status == $ERRORS{WARNING} ) {
+		print "WARNING: ";
+	} elsif( $status == $ERRORS{CRITICAL} ) {
+		print "CRITICAL: ";
+	}
+	print "$message\n";
+} else {
+	$status = $ERRORS{UNKNOWN};
+	print "No RAID configuration found.\n";
+}
+exit $status;
