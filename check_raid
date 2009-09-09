@@ -25,18 +25,19 @@ my($message, $status);
 my(@ignore);
 
 my $sudo = find_prog('sudo');
+my $cat = find_prog('cat');
 
 # various raids
-my $megaide = 1 if -d "/proc/megaide";        # MegaIDE RAID controller
-my $mdstat = 1 if -f "/proc/mdstat";          # Linux LVM
-my $mpt_status = find_prog("mpt-status");     # LSILogic MPT ServeRAID
-my $megaraid = 1 if -d "/proc/megaraid";      # MegaRAID
-my $aaccli = find_prog("aaccli");             # Adaptec ServeRAID
-my $lsraid = find_prog("lsraid");             # Linux, software RAID
-my $metastat = find_prog("metastat");         # Solaris, software RAID
+my $megaide = 1 if -d '/proc/megaide';        # MegaIDE RAID controller
+my $mdstat = 1 if -f '/proc/mdstat';          # Linux LVM
+my $mpt_status = find_prog('mpt-status');     # LSILogic MPT ServeRAID
+my $megaraid = 1 if -d '/proc/megaraid';      # MegaRAID
+my $aaccli = find_prog('aaccli');             # Adaptec ServeRAID
+my $lsraid = find_prog('lsraid');             # Linux, software RAID
+my $metastat = find_prog('metastat');         # Solaris, software RAID
 my $lsvg = find_prog('lsvg');                 # AIX LVM
 my $ipssend = find_prog('ipssend');           # Serveraid IPS
-my $afacli = find_prog("afacli");             # Adaptec RAID
+my $afacli = find_prog('afacli');             # Adaptec RAID
 
 #####################################################################
 sub print_usage () {
@@ -96,7 +97,7 @@ sub check_megaide {
 		if (-r $f) {
 			open $fh, '<', $f or next;
 	   	} else {
-		   	my @CMD = ('cat', $f);
+		   	my @CMD = ($cat, $f);
 			unshift(@CMD, $sudo) if $> and $sudo;
 			open($fh , '-|', @CMD) or next;
 	   	}
@@ -290,7 +291,7 @@ sub check_megaraid {
 		if (-r $f) {
 			open $fh, '<', $f or next;
 	   	} else {
-		   	my @CMD = ('cat', $f);
+		   	my @CMD = ($cat, $f);
 			unshift(@CMD, $sudo) if $> and $sudo;
 			open($fh , '-|', @CMD) or next;
 	   	}
@@ -337,6 +338,7 @@ sub sudoers {
 	die "Unable to find sudoers file.\n" unless -f $sudoers;
 	die "Unable to write to sudoers file.\n" unless -w $sudoers;
 	die "visudo program not found\n" unless -x $visudo;
+	die "cat program not found\n" unless -x $cat;
 
 	print "Updating file $sudoers\n";
 
@@ -358,10 +360,10 @@ sub sudoers {
     print $fh "ALL  ALL=(root) NOPASSWD: $ipssend getconfig 1 LD\n" if $ipssend;
     print $fh "ALL  ALL=(root) NOPASSWD: $aaccli container list /full\n" if $aaccli;
     print $fh "ALL  ALL=(root) NOPASSWD: $mpt_status\n" if $mpt_status and -d "/proc/mpt";
-	print $fh "ALL  ALL=(root) NOPASSWD:/bin/cat /proc/megaide/0/status\n" if -d "/proc/megaide/0";
-	print $fh "ALL  ALL=(root) NOPASSWD:/bin/cat /proc/megaide/1/status\n" if -d "/proc/megaide/1";
+	print $fh "ALL  ALL=(root) NOPASSWD: $cat /proc/megaide/0/status\n" if -d "/proc/megaide/0";
+	print $fh "ALL  ALL=(root) NOPASSWD: $cat /proc/megaide/1/status\n" if -d "/proc/megaide/1";
 	foreach my $mr ( glob('/proc/mega*/*/raiddrives*') ) {
-		print $fh "ALL  ALL=(root) NOPASSWD:/bin/cat $mr\n" if -d $mr;
+		print $fh "ALL  ALL=(root) NOPASSWD: $cat $mr\n" if -d $mr;
 	}
 	close $fh;
 
@@ -369,7 +371,7 @@ sub sudoers {
 	system($visudo, '-c', '-f', $new) == 0 or unlink($new),exit $? >> 8;
 
 	# use the new file
-	rename($new, $old) or die $!;
+	rename($new, $sudoers) or die $!;
 
 	print "sudoers file updated.\n";
 }
