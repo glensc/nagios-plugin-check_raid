@@ -158,33 +158,40 @@ sub check_lsraid {
 }
 
 sub check_vg {
-	my(@vg, $vg);
-	my($l,@f);
-	my($s,$n,$f);
+	my @CMD = $lsvg;
+	unshift(@CMD, $sudo) if $> and $sudo;
 
-	my $CMD = $lsvg;
-	$CMD = "$sudo $CMD" if $> and $sudo;
+	my @vg;
+	open(my $fh , '-|', @CMD) or return;
+	while (<$fh>) {
+	   	chomp;
+	   	push @vg, $_;
+   	}
+	close $fh;
 
-	open LSVG,"$CMD 2>/dev/null |" or return;
-	while( $l = <LSVG> ) { chomp $l; push @vg, $l; }
-	close LSVG;
-	foreach $vg ( @vg ) {
-		next if(!valid($vg)); # skip entire VG
-		open LSVG,"$lsvg -l $vg 2>/dev/null |" or return;
-		while( $l = <LSVG> ) {
-			@f = split " ",$l;
-			($n,$s) = ($f[0],$f[5]);
-			next if(!valid($n) or !$s);
-			next if( $f[3] eq $f[2] ); # not a mirrored LV
-			if( $s =~ /open\/(\S+)/i ) {
+	foreach my $vg (@vg) {
+		next unless valid($vg); # skip entire VG
+
+		open(my $fh , '-|', @CMD, '-l', $vg) or next;
+
+		while (<$fh>) {
+			my @f = split /\s/;
+		   	my ($n, $s) = ($f[0],$f[5]);
+			next if (!valid($n) or !$s);
+			next if ($f[3] eq $f[2]); # not a mirrored LV
+
+			if ($s =~ /open\/(\S+)/i) {
 				$s = $1;
-				if( $s ne 'syncd' ) { $status = $ERRORS{CRITICAL}; }
+				if ($s ne 'syncd') {
+				   	$status = $ERRORS{CRITICAL};
+			   	}
 				$message .= "lvm:$n:$s ";
 			}
 		}
-		close LSVG;
+		close $fh;
 	}
 }
+
 sub check_ips {
 	my($l,@f);
 	my($s,$n,$c);
@@ -281,22 +288,19 @@ sub check_mpt {
 }
 
 sub check_megaraid {
-	my($f,$l);
-	my($s,$n);
-	my($CMD);
-
-	foreach $f ( glob('/proc/megaraid/*/raiddrives*') ) {
-		if ($sudo && !-r $f) {
-            $CMD = "$sudo /bin/cat $f |";
-        } else {
-			$CMD = "<$f";
-        }
-		open MEGARAID,$CMD or next;
-		while( $l = <MEGARAID> ) {
-			if( $l =~ /logical drive\s*:\s*(\d+).*, state\s*:\s*(\S+)/i ) {
-				($n,$s)=($1,$2);
-				next if(!valid($n));
-				if($s ne 'optimal') {
+	my $fh;
+	foreach my $f (glob('/proc/megaraid/*/raiddrives*')) {
+		if (-r $f) {
+			open $fh, '<', $f or next;
+	   	} else {
+		   	my @CMD = ('cat', $f);
+			unshift(@CMD, $sudo) if $> and $sudo;
+			open($fh , '-|', @CMD) or next;
+	   	}
+		while (<$fh>) {
+			if (my($n, $s) = /logical drive\s*:\s*(\d+).*, state\s*:\s*(\S+)/i) {
+				next unless valid($n);
+				if ($s ne 'optimal') {
 					$status = $ERRORS{CRITICAL};
 					$message .= "Megaraid:$n:$s ";
 				} else {
@@ -305,7 +309,7 @@ sub check_megaraid {
 				last;
 			}
 		}
-		close MEGARAID;
+		close $fh;
 	}
 }
 
