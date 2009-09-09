@@ -47,7 +47,7 @@ sub print_usage () {
 
 sub print_help () {
 	print "check_raid, Revision: $VERSION \n";
-	print "Copyright (c) 2004-2006 S Shipway, Copyright (c) 2009, Elan Ruusam√e <glen\@delfi.ee>
+	print "Copyright (c) 2004-2006 S Shipway, Copyright (c) 2009, Elan Ruusam√§e <glen\@delfi.ee>
 This plugin reports the current server's RAID status
 ";
 	print_usage();
