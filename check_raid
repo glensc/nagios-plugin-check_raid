@@ -152,7 +152,7 @@ sub check_lsraid {
 			$message .= "md:$n:$s ";
 		}
 	}
-	close MDSTAT;
+	close LSRAID;
 }
 sub check_vg {
 	my(@vg, $vg);
