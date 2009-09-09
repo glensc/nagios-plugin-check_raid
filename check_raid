@@ -168,10 +168,7 @@ sub check_ips {
 	my($s,$n,$c);
 	my($CMD);
 
-	$CMD = "/usr/local/nrpe/ipssend";
-	$CMD = "/usr/local/bin/ipssend" if(-f "/usr/local/bin/ipssend");
-	$CMD = "/usr/bin/ipssend" if(-f "/usr/bin/ipssend");
-	return if(! -f $CMD);
+	$CMD = find_prog("ipssend") or return;
 	$CMD .= " getconfig 1 LD";
 	$CMD = "$SUDO $CMD" if( $> );
 
@@ -195,11 +192,9 @@ sub check_ips {
 sub check_aaccli {
 	my($dsk,$stat);
 	my($aaccli)="";
-	$aaccli = "/usr/local/nrpe/aaccli" if(-f "/usr/local/nrpe/aaccli");
-	$aaccli = "/usr/local/bin/aaccli" if(-f "/usr/local/bin/aaccli");
-	$aaccli = "/usr/sbin/aaccli" if(-f "/usr/sbin/aaccli");
-	chdir "/tmp";
+	$aaccli = find_prog("aaccli");
 	if(!$aaccli) { $message .= "aaccli:not_installed "; return; }
+	chdir "/tmp";
 	open AACCLI,"|$SUDO $aaccli >/dev/null 2>&1";
 	print AACCLI "open aac0\n";
 	print AACCLI "logfile start $$.log\n";
@@ -245,12 +240,9 @@ sub check_afacli {
 	$message .= "afacli:not_supported ";
 }
 sub check_mpt {
-	my($cmd) = "/usr/local/nrpe/mpt-status";
 	my($dsk,$stat);
 
-	$cmd = "/usr/local/bin/mpt-status" if(-f "/usr/local/bin/mpt-status");
-	$cmd = "/usr/bin/mpt-status" if(-f "/usr/bin/mpt-status");
-	return if(! -f $cmd);
+	my($cmd) = find_prog("mpt-status") or return;
 
 	open CMD,"$SUDO $cmd|" or return;	
 	while ( <CMD> ) {
@@ -294,25 +286,42 @@ sub check_megaraid {
 	}
 }
 
+sub find_prog {
+	my $prog = shift;
+
+    my @paths = split /:/, $ENV{'PATH'};
+    unshift(@paths, qw(/usr/local/nrpe /usr/local/bin /sbin /usr/sbin /bin /usr/sbin));
+
+	for my $path (@paths) {
+		return "$path/$prog" if -x "$path/$prog";
+	}
+	return undef;
+}
+
+sub find_file {
+	for my $file (@_) {
+		return $file if -f $file;
+	}
+	return undef;
+}
 
 ###########################################################################
 sub sudoers {
-	my($f);
+	my $f = find_file('/usr/local/etc/sudoers', '/etc/sudoers');
 
-	$f = '/usr/local/etc/sudoers';
-	$f = '/etc/sudoers' if(! -f $f ); 
-	if(! -f "$f" ) { print "Unable to find sudoers file.\n"; return; }
-	if(! -w "$f" ) { print "Unable to write to sudoers file.\n"; return; }
+	if (! -f $f) { print "Unable to find sudoers file.\n"; return; }
+	if (! -w $f) { print "Unable to write to sudoers file.\n"; return; }
 
 	print "Updating file $f\n";
 	open SUDOERS, ">>$f";
-	print SUDOERS "ALL  ALL=(root) NOPASSWD:/usr/local/bin/ipssend getconfig 1 LD\n" if( -f "/usr/local/bin/ipssend" );
-	print SUDOERS "ALL  ALL=(root) NOPASSWD:/usr/local/bin/aaccli container list /full\n" if( -f "/usr/local/bin/aaccli" );
-	print SUDOERS "ALL  ALL=(root) NOPASSWD:/bin/cat /proc/megaide/0/status\n" if( -d "/proc/megaide/0" );
-	print SUDOERS "ALL  ALL=(root) NOPASSWD:/bin/cat /proc/megaide/1/status\n" if( -d "/proc/megaide/1" );
-	print SUDOERS "ALL  ALL=(root) NOPASSWD:/usr/local/bin/mpt-status\n" if( -d "/proc/mpt" );
+	my $prog;
+	$prog = find_prog('ipsend') and print SUDOERS "ALL  ALL=(root) NOPASSWD: $prog getconfig 1 LD\n";
+	$prog = find_prog('aaccli') and print SUDOERS "ALL  ALL=(root) NOPASSWD: $prog container list /full\n";
+	$prog = find_prog('mpt-status') and print SUDOERS "ALL  ALL=(root) NOPASSWD: $prog\n" if -d "/proc/mpt";
+	print SUDOERS "ALL  ALL=(root) NOPASSWD:/bin/cat /proc/megaide/0/status\n" if -d "/proc/megaide/0";
+	print SUDOERS "ALL  ALL=(root) NOPASSWD:/bin/cat /proc/megaide/1/status\n" if -d "/proc/megaide/1";
 	foreach my $mr ( glob('/proc/mega*/*/raiddrives*') ) {
-		print SUDOERS "ALL  ALL=(root) NOPASSWD:/bin/cat $mr\n" if( -d $mr );
+		print SUDOERS "ALL  ALL=(root) NOPASSWD:/bin/cat $mr\n" if -d $mr;
 	}
 
 	close SUDOERS;
@@ -348,19 +357,17 @@ if($opt_W) {
 
 $status = $ERRORS{OK}; $message = '';
 
-check_megaide if( -d "/proc/megaide" );           # MegaIDE RAID controller
-check_mdstat  if( -f "/proc/mdstat" );            # Linux LVM 
-check_mpt     if( -d "/proc/mpt"  );              # LSILogic MPT ServeRAID 
-check_megaraid if( -d "/proc/megaraid"  );        # MegaRAID
-check_aaccli  if( -d "/proc/scsi/aacraid"  );     # Adaptec ServeRAID
-check_lsraid  if( -x "/sbin/lsraid" );            # Linux, software RAID
-check_metastat if( -x "/usr/sbin/metastat" );     # Solaris, software RAID
-check_vg      if( -x "/usr/sbin/lsvg" );          # AIX LVM
-check_ips     if( -x "/usr/local/bin/ipssend"
-					or -x "/usr/bin/ipssend"  );  # Serveraid IPS
-check_afacli  if( -x "/usr/local/bin/afacli" 
-					or -x "/usr/bin/afacli" );    # Adaptec RAID
-# Cant do megaRAID controller, it needs X and java (yuck)
+check_megaide if -d "/proc/megaide";              # MegaIDE RAID controller
+check_mdstat  if -f "/proc/mdstat";               # Linux LVM
+check_mpt     if -d "/proc/mpt";                  # LSILogic MPT ServeRAID
+check_megaraid if -d "/proc/megaraid";            # MegaRAID
+check_aaccli  if -d "/proc/scsi/aacraid";         # Adaptec ServeRAID
+check_lsraid  if find_prog("lsraid");             # Linux, software RAID
+check_metastat if find_prog("metastat");          # Solaris, software RAID
+check_vg      if find_prog('lsvg');               # AIX LVM
+check_ips     if find_prog('ipsend');             # Serveraid IPS
+check_afacli  if find_prog("afacli");             # Adaptec RAID
+# Can't do megaRAID controller, it needs X and java (yuck)
 
 if( $message ) {
 	if( $status == $ERRORS{OK} ) {
