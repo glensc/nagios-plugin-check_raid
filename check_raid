@@ -47,6 +47,54 @@ sub valid($) {
 	return 1;
 }
 #####################################################################
+sub check_metastat {
+	my($l,$s,$d,$sd);
+
+	open METASTAT,"/usr/sbin/metastat |" or return;
+	while( $l = <METASTAT> ) {
+		chomp $l;
+		if($l =~ /^(\S+):/) { $d = $1; $sd = ''; next; }
+		if($l =~ /Submirror \d+:\s+(\S+)/) { $sd = $1; next; }
+		if($l =~ /State: (\S.+)/) { $s = $1; 
+			if($sd and valid($sd) and valid($d)) {
+				if($s =~ /Okay/i) {
+					# no worries...
+				} elsif($s =~ /Resync/i) {
+					$status = $ERRORS{WARNING} if(!$status);
+				} else {
+					$status = $ERRORS{ERROR};
+				}
+				$message .= "$d:$sd:$s ";
+			}
+		}
+	}
+	close METASTAT;
+}
+sub check_megaide { 
+	my($f,$l);
+	my($s,$n);
+	my($CMD);
+
+	foreach $f ( glob('/proc/megaide/*/status') ) {
+		if( -r $f ) { $CMD = "<$f"; }
+		else { $CMD = "sudo cat $f |"; }
+		open MEGAIDE,$CMD or next;
+		while( $l = <MEGAIDE> ) {
+			if( $l =~ /Status\s*:\s*(\S+).*Logical Drive.*:\s*(\d+)/i ) {
+				($s,$n)=($1,$2);
+				next if(!valid($n));
+				if($s ne 'ONLINE') {
+					$status = $ERRORS{CRITICAL};
+					$message .= "Megaide:$n:$s ";
+				} else {
+					$message .= "Megaide:$n:$s ";
+				}
+				last;
+			}
+		}
+		close MEGAIDE;
+	}
+}
 sub check_mdstat {
 	my($l);
 	my($s,$n,$f);
@@ -68,6 +116,92 @@ sub check_mdstat {
 	}
 	close MDSTAT;
 }
+sub check_lsraid {
+	my($l);
+	my($s,$n,$f);
+
+	open LSRAID,"/sbin/lsraid -A -p |" or return;
+	while( $l = <LSRAID> ) {
+		chomp $l;
+		if( $l =~ /\/dev\/(\S+) \S+ (\S+)/ ) {
+			($n,$s) = ($1,$2);
+			next if(!valid($n));
+			if($s =~ /good|online/ ) { # no worries 
+			} elsif($s =~ /sync/ ) { 
+				$status = $ERRORS{WARNING} if(!$status); 
+			} else { $status = $ERRORS{CRITICAL}; }
+			$message .= "md:$n:$s ";
+		}
+	}
+	close MDSTAT;
+}
+sub check_vg {
+	my(@vg, $vg);
+	my($l,@f);
+	my($s,$n,$f);
+
+	open LSVG,"/usr/sbin/lsvg |" or return;
+	while( $l = <LSVG> ) { chomp $l; push @vg, $l; }
+	close LSVG;
+	foreach $vg ( @vg ) {
+		next if(!valid($vg)); # skip entire VG
+		open LSVG,"/usr/sbin/lsvg -l $vg |" or return;
+		while( $l = <LSVG> ) { 
+			@f = split " ",$l;
+			($n,$s) = ($f[0],$f[5]);
+			next if(!valid($n) or !$s);	
+			next if( $f[3] eq $f[2] ); # not a mirrored LV
+			if( $s =~ /open\/(\S+)/i ) {
+				$s = $1;
+				if( $s ne 'syncd' ) { $status = $ERRORS{CRITICAL}; }
+				$message .= "lvm:$n:$s ";
+			}
+		}
+		close LSVG;
+	}
+}
+sub check_ips {
+	my($l,@f);
+	my($s,$n,$c);
+	my($CMD);
+
+	$CMD = "/usr/local/bin/ipssend getconfig 1 LD";
+	$CMD = "sudo $CMD" if( $> );
+
+	open IPS,"$CMD |" or return;
+	while( $l = <IPS> ) { 
+		chomp $l; 
+		if( $l =~ /drive number (\d+)/i ) { $n = $1; next; }
+		next if(!valid($n));	
+		if( $l =~ /Status .*: (\S+)\s+(\S+)/ ) {
+			($s,$c) = ($1,$2);
+			if( $c =~ /SYN/i ) { # resynching
+				$status = $ERRORS{WARNING} if(!$status);
+			} elsif( $c !~ /OKY/i ) { # not OK
+				$status = $ERRORS{CRITICAL};
+			}
+			$message .= "ips:$n:$s ";
+		}
+	}
+	close IPS;
+}
+sub sudoers {
+	my($f);
+
+	$f = '/usr/local/etc/sudoers';
+	$f = '/etc/sudoers' if(! -f $f ); 
+	if(! -f "$f" ) { print "Unable to find sudoers file.\n"; return; }
+	if(! -w "$f" ) { print "Unable to write to sudoers file.\n"; return; }
+
+	print "Updating file $f\n";
+	open SUDOERS, ">>$f";
+	print SUDOERS "ALL  ALL=(root) NOPASSWD:/usr/local/bin/ipssend getconfig 1 LD\n" if( -f "/usr/local/bin/ipssend" );
+	print SUDOERS "ALL  ALL=(root) NOPASSWD:/bin/cat /proc/megaide/0/status\n" if( -d "/proc/megaide/0" );
+	print SUDOERS "ALL  ALL=(root) NOPASSWD:/bin/cat /proc/megaide/1/status\n" if( -d "/proc/megaide/1" );
+
+	close SUDOERS;
+	print "sudoers file updated.\n";
+}
 #####################################################################
 $ENV{'BASH_ENV'}=''; 
 $ENV{'ENV'}='';
@@ -77,7 +211,13 @@ GetOptions
 	("v"   => \$opt_v, "version"    => \$opt_v,
 	 "h"   => \$opt_h, "help"       => \$opt_h,
 	 "d" => \$opt_d, "debug" => \$opt_d,
+	 "S" => \$opt_S, "sudoers" => \$opt_S,
 	 "W" => \$opt_W, "warnonly" => \$opt_W );
+
+if($opt_S) {
+	sudoers;
+	exit 0;
+}
 
 @ignore = @ARGV if(@ARGV);
 
@@ -92,7 +232,12 @@ if($opt_W) {
 
 $status = $ERRORS{OK}; $message = '';
 
-check_mdstat  if( -f "/proc/mdstat" );
+check_megaide if( -d "/proc/megaide" ); # Linux, hardware RAID
+check_mdstat  if( -f "/proc/mdstat" ); # Linux, software RAID
+check_lsraid  if( -x "/sbin/lsraid" ); #  Linux, software RAID
+check_metastat if( -x "/usr/sbin/metastat" ); # Solaris, software RAID
+check_vg      if( -x "/usr/sbin/lsvg" ); # AIX LVM
+check_ips     if( -x "/usr/local/bin/ipssend"  ); # Serveraid
 
 if( $message ) {
 	if( $status == $ERRORS{OK} ) {
