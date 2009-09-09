@@ -14,15 +14,29 @@
 #
 # Version 1.1 : IPS; Solaris, AIX, Linux software RAID; megaide
 # Version 2.0 : Added megaraid, mpt (serveraid), aacli (serveraid)
+# Version 2.1 : Made script more generic and secure
 
 use strict;
 use Getopt::Long;
 use vars qw($opt_v $opt_d $opt_h $opt_W $opt_S);
 my(%ERRORS) = ( OK=>0, WARNING=>1, CRITICAL=>2, UNKNOWN=>3, WARN=>1, CRIT=>2 );
-my($VERSION) = "2.0";
+my($VERSION) = "2.1";
 my($message, $status);
 my(@ignore);
-my($SUDO) = "/usr/bin/sudo";
+
+my $sudo = find_prog('sudo');
+
+# various raids
+my $megaide = 1 if -d "/proc/megaide";        # MegaIDE RAID controller
+my $mdstat = 1 if -f "/proc/mdstat";          # Linux LVM
+my $mpt_status = find_prog("mpt-status");     # LSILogic MPT ServeRAID
+my $megaraid = 1 if -d "/proc/megaraid";      # MegaRAID
+my $aaccli = find_prog("aaccli")              # Adaptec ServeRAID
+my $lsraid = find_prog("lsraid");             # Linux, software RAID
+my $metastat = find_prog("metastat");         # Solaris, software RAID
+my $lsvg = find_prog('lsvg');                 # AIX LVM
+my $ipssend = find_prog('ipssend');           # Serveraid IPS
+my $afacli = find_prog("afacli");             # Adaptec RAID
 
 #####################################################################
 sub print_usage () {
@@ -33,7 +47,7 @@ sub print_usage () {
 
 sub print_help () {
 	print "check_raid, Revision: $VERSION \n";
-	print "Copyright (c) 2004-2006 S Shipway
+	print "Copyright (c) 2004-2006 S Shipway, Copyright (c) 2009, Elan Ruusam√e <glen\@delfi.ee>
 This plugin reports the current server's RAID status
 ";
 	print_usage();
@@ -51,7 +65,7 @@ sub valid($) {
 sub check_metastat {
 	my($l,$s,$d,$sd);
 
-	open METASTAT,"/usr/sbin/metastat |" or return;
+	open METASTAT,"$metastat |" or return;
 	while( $l = <METASTAT> ) {
 		chomp $l;
 		if($l =~ /^(\S+):/) { $d = $1; $sd = ''; next; }
@@ -78,7 +92,7 @@ sub check_megaide {
 
 	foreach $f ( glob('/proc/megaide/*/status') ) {
 		if( -r $f ) { $CMD = "<$f"; }
-		else { $CMD = "$SUDO cat $f |"; }
+		else { $CMD = "$sudo cat $f |"; }
 		open MEGAIDE,$CMD or next;
 		while( $l = <MEGAIDE> ) {
 			if( $l =~ /Status\s*:\s*(\S+).*Logical Drive.*:\s*(\d+)/i ) {
@@ -121,8 +135,7 @@ sub check_lsraid {
 	my($l);
 	my($s,$n,$f);
 
-	return if(! -x "/sbin/lsraid");
-	open LSRAID,"/sbin/lsraid -A -p 2>/dev/null |" or return;
+	open LSRAID,"$lsraid -A -p 2>/dev/null |" or return;
 	while( $l = <LSRAID> ) {
 		chomp $l;
 		if( $l =~ /\/dev\/(\S+) \S+ (\S+)/ ) {
@@ -142,13 +155,12 @@ sub check_vg {
 	my($l,@f);
 	my($s,$n,$f);
 
-	return if(! -x "/usr/sbin/lsvg");
-	open LSVG,"/usr/sbin/lsvg 2>/dev/null |" or return;
+	open LSVG,"$lsvg 2>/dev/null |" or return;
 	while( $l = <LSVG> ) { chomp $l; push @vg, $l; }
 	close LSVG;
 	foreach $vg ( @vg ) {
 		next if(!valid($vg)); # skip entire VG
-		open LSVG,"/usr/sbin/lsvg -l $vg 2>/dev/null |" or return;
+		open LSVG,"$lsvg -l $vg 2>/dev/null |" or return;
 		while( $l = <LSVG> ) { 
 			@f = split " ",$l;
 			($n,$s) = ($f[0],$f[5]);
@@ -168,9 +180,8 @@ sub check_ips {
 	my($s,$n,$c);
 	my($CMD);
 
-	$CMD = find_prog("ipssend") or return;
-	$CMD .= " getconfig 1 LD";
-	$CMD = "$SUDO $CMD" if( $> );
+	my $CMD = "$ipssend getconfig 1 LD";
+	$CMD = "$sudo $CMD" if $>;
 
 	open IPS,"$CMD |" or return;
 	while( $l = <IPS> ) { 
@@ -191,11 +202,9 @@ sub check_ips {
 }
 sub check_aaccli {
 	my($dsk,$stat);
-	my($aaccli)="";
-	$aaccli = find_prog("aaccli");
-	if(!$aaccli) { $message .= "aaccli:not_installed "; return; }
+
 	chdir "/tmp";
-	open AACCLI,"|$SUDO $aaccli >/dev/null 2>&1";
+	open AACCLI,"|$sudo $aaccli >/dev/null 2>&1";
 	print AACCLI "open aac0\n";
 	print AACCLI "logfile start $$.log\n";
 	print AACCLI "container list /full\n";
@@ -242,9 +251,7 @@ sub check_afacli {
 sub check_mpt {
 	my($dsk,$stat);
 
-	my($cmd) = find_prog("mpt-status") or return;
-
-	open CMD,"$SUDO $cmd|" or return;	
+	open CMD,"$sudo $mpt_status |" or return;	
 	while ( <CMD> ) {
 		next if(! /vol_id\s*(\d+).*state\s+(\S+),/ );
 		($dsk,$stat) = ($1,$2);
@@ -266,8 +273,11 @@ sub check_megaraid {
 	my($CMD);
 
 	foreach $f ( glob('/proc/megaraid/*/raiddrives*') ) {
-		if( -r $f ) { $CMD = "<$f"; }
-		else { $CMD = "$SUDO /bin/cat $f |"; }
+		if (-r $f) {
+            $CMD = "<$f";
+        } else {
+            $CMD = "$sudo /bin/cat $f |";
+        }
 		open MEGARAID,$CMD or next;
 		while( $l = <MEGARAID> ) {
 			if( $l =~ /logical drive\s*:\s*(\d+).*, state\s*:\s*(\S+)/i ) {
@@ -314,10 +324,9 @@ sub sudoers {
 
 	print "Updating file $f\n";
 	open SUDOERS, ">>$f";
-	my $prog;
-	$prog = find_prog('ipsend') and print SUDOERS "ALL  ALL=(root) NOPASSWD: $prog getconfig 1 LD\n";
-	$prog = find_prog('aaccli') and print SUDOERS "ALL  ALL=(root) NOPASSWD: $prog container list /full\n";
-	$prog = find_prog('mpt-status') and print SUDOERS "ALL  ALL=(root) NOPASSWD: $prog\n" if -d "/proc/mpt";
+    print SUDOERS "ALL  ALL=(root) NOPASSWD: $ipssend getconfig 1 LD\n" if $ipssend;
+    print SUDOERS "ALL  ALL=(root) NOPASSWD: $aaccli container list /full\n" if $aaccli;
+    print SUDOERS "ALL  ALL=(root) NOPASSWD: $mpt_status\n" if $mpt_status and -d "/proc/mpt"
 	print SUDOERS "ALL  ALL=(root) NOPASSWD:/bin/cat /proc/megaide/0/status\n" if -d "/proc/megaide/0";
 	print SUDOERS "ALL  ALL=(root) NOPASSWD:/bin/cat /proc/megaide/1/status\n" if -d "/proc/megaide/1";
 	foreach my $mr ( glob('/proc/mega*/*/raiddrives*') ) {
@@ -359,14 +368,14 @@ $status = $ERRORS{OK}; $message = '';
 
 check_megaide if -d "/proc/megaide";              # MegaIDE RAID controller
 check_mdstat  if -f "/proc/mdstat";               # Linux LVM
-check_mpt     if -d "/proc/mpt";                  # LSILogic MPT ServeRAID
+check_mpt     if $mpt_status and -d "/proc/mpt";  # LSILogic MPT ServeRAID
 check_megaraid if -d "/proc/megaraid";            # MegaRAID
-check_aaccli  if -d "/proc/scsi/aacraid";         # Adaptec ServeRAID
-check_lsraid  if find_prog("lsraid");             # Linux, software RAID
-check_metastat if find_prog("metastat");          # Solaris, software RAID
-check_vg      if find_prog('lsvg');               # AIX LVM
-check_ips     if find_prog('ipsend');             # Serveraid IPS
-check_afacli  if find_prog("afacli");             # Adaptec RAID
+check_aaccli  if $aaccli and -d "/proc/scsi/aacraid";         # Adaptec ServeRAID
+check_lsraid  if $lsraid;                         # Linux, software RAID
+check_metastat if $metastat;                      # Solaris, software RAID
+check_vg      if $lsvg;                           # AIX LVM
+check_ips     if $ipssend;                        # Serveraid IPS
+check_afacli  if $afacli;                         # Adaptec RAID
 # Can't do megaRAID controller, it needs X and java (yuck)
 
 if( $message ) {
