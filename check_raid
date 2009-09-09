@@ -115,6 +115,7 @@ sub check_megaide {
 		close $fh;
 	}
 }
+
 sub check_mdstat {
 	my($n,$f);
 
@@ -264,8 +265,6 @@ sub check_afacli {
 }
 
 sub check_mpt {
-	my($dsk,$stat);
-
 	my @CMD = $mpt_status;
 	unshift(@CMD, $sudo) if $> and $sudo;
 
