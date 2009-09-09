@@ -61,24 +61,25 @@ sub valid($) {
 	foreach ( @ignore ) { return 0 if((lc $_) eq $v); }
 	return 1;
 }
+
 #####################################################################
 sub check_metastat {
 	my($l,$s,$d,$sd);
 
-	my $CMD = $metastat;
-	$CMD = "$sudo $CMD" if $> and $sudo;
+	my @CMD = $metastat;
+	unshift(@CMD, $sudo) if $> and $sudo;
 
-	open METASTAT,"$CMD |" or return;
-	while( $l = <METASTAT> ) {
-		chomp $l;
-		if($l =~ /^(\S+):/) { $d = $1; $sd = ''; next; }
-		if($l =~ /Submirror \d+:\s+(\S+)/) { $sd = $1; next; }
-		if($l =~ /State: (\S.+)/) { $s = $1;
-			if($sd and valid($sd) and valid($d)) {
-				if($s =~ /Okay/i) {
+	open(my $fh , '-|', @CMD) or return;
+	while (<$fh>) {
+		chomp;
+		if (/^(\S+):/) { $d = $1; $sd = ''; next; }
+		if (/Submirror \d+:\s+(\S+)/) { $sd = $1; next; }
+		if (my($s) = /State: (\S.+)/) {
+			if ($sd and valid($sd) and valid($d)) {
+				if ($s =~ /Okay/i) {
 					# no worries...
-				} elsif($s =~ /Resync/i) {
-					$status = $ERRORS{WARNING} if(!$status);
+				} elsif ($s =~ /Resync/i) {
+					$status = $ERRORS{WARNING} unless $status;
 				} else {
 					$status = $ERRORS{ERROR};
 				}
@@ -86,8 +87,9 @@ sub check_metastat {
 			}
 		}
 	}
-	close METASTAT;
+	close $fh;
 }
+
 sub check_megaide {
 	my $fh;
 	foreach my $f (glob('/proc/megaide/*/status')) {
@@ -132,10 +134,8 @@ sub check_mdstat {
 	}
 	close $fh;
 }
-sub check_lsraid {
-	my($l);
-	my($s,$n,$f);
 
+sub check_lsraid {
 	my @CMD = ($lsraid, '-A', '-p');
 	unshift(@CMD, $sudo) if $> and $sudo;
 
@@ -271,16 +271,15 @@ sub check_mpt {
 
 	open(my $fh , '-|', @CMD) or return;
 	while (<$fh>) {
-		next if(! /vol_id\s*(\d+).*state\s+(\S+),/ );
-		($dsk,$stat) = ($1,$2);
-		next if(!valid($dsk));
+		next unless (my($dsk, $stat) = /vol_id\s*(\d+).*state\s+(\S+),/);
+		next unless valid($dsk);
 		$message .= "mpt:$dsk:$stat ";
-		if(!$status and $stat =~ /INITIAL|INACTIVE|RESYNC/) {
-			$status = $ERRORS{WARNING} ;
-		} elsif($stat =~ /DEGRADED/) {
-			$status = $ERRORS{CRITICAL} ;
-		} elsif(!$status and $stat !~ /ONLINE/) {
-			$status = $ERRORS{UNKNOWN} ;
+		if (!$status and $stat =~ /INITIAL|INACTIVE|RESYNC/) {
+			$status = $ERRORS{WARNING};
+		} elsif ($stat =~ /DEGRADED/) {
+			$status = $ERRORS{CRITICAL};
+		} elsif (!$status and $stat !~ /ONLINE/) {
+			$status = $ERRORS{UNKNOWN};
 		}
 	}
 	close $fh;
