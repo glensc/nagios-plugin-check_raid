@@ -1,13 +1,15 @@
+# TODO:
+# If you call 'check_raid -S' as root it will attempt to add the required lines to the sudoers file in order for itself to work.
 %define		plugin	check_raid
 Summary:	Nagios plugin to check current server's RAID status
 Name:		nagios-plugin-%{plugin}
 Version:	2.0
-Release:	0.1
+Release:	0.2
 License:	Unknown
 Group:		Networking
 Source0:	%{plugin}
 # Source0-md5:	168cc7a68638ed2e07df81c4bd43603a
-URL:		http://www.monitoringexchange.org/cgi-bin/page.cgi?g=Detailed/1692.html;d=1
+URL:		http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
 Source1:	%{plugin}.cfg
 Requires:	nagios-core
 BuildArch:	noarch
@@ -17,11 +19,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		plugindir	%{_prefix}/lib/nagios/plugins
 
 %description
-This plugin reports the current server's RAID status.
+This plugin chekcs Check all RAID volumes (hardware and software) that
+can be identified.
 
 Supports:
-- IPS; Solaris, AIX, Linux software RAID; megaide
-- megaraid, mpt (serveraid), aacli (serveraid)
+- Linux, Solaris and AIX software RAID
+- Linux MegaIDE/IPS/Serveraid/MPT/LSI hardware RAID controllers.
 
 %prep
 %setup -qcT
