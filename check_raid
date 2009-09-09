@@ -331,25 +331,49 @@ sub find_file {
 
 ###########################################################################
 sub sudoers {
-	my $f = find_file('/usr/local/etc/sudoers', '/etc/sudoers');
+	my $sudoers = find_file('/usr/local/etc/sudoers', '/etc/sudoers');
+	my $visudo = find_prog('visudo');
 
-	if (! -f $f) { print "Unable to find sudoers file.\n"; return; }
-	if (! -w $f) { print "Unable to write to sudoers file.\n"; return; }
+	die "Unable to find sudoers file.\n" unless -f $sudoers;
+	die "Unable to write to sudoers file.\n" unless -w $sudoers;
+	die "visudo program not found\n" unless -x $visudo;
 
-	print "Updating file $f\n";
-	open SUDOERS, ">>$f";
-    print SUDOERS "ALL  ALL=(root) NOPASSWD: $ipssend getconfig 1 LD\n" if $ipssend;
-    print SUDOERS "ALL  ALL=(root) NOPASSWD: $aaccli container list /full\n" if $aaccli;
-    print SUDOERS "ALL  ALL=(root) NOPASSWD: $mpt_status\n" if $mpt_status and -d "/proc/mpt";
-	print SUDOERS "ALL  ALL=(root) NOPASSWD:/bin/cat /proc/megaide/0/status\n" if -d "/proc/megaide/0";
-	print SUDOERS "ALL  ALL=(root) NOPASSWD:/bin/cat /proc/megaide/1/status\n" if -d "/proc/megaide/1";
-	foreach my $mr ( glob('/proc/mega*/*/raiddrives*') ) {
-		print SUDOERS "ALL  ALL=(root) NOPASSWD:/bin/cat $mr\n" if -d $mr;
+	print "Updating file $sudoers\n";
+
+	# NOTE: secure as visudo itself: /etc is root owned
+	my $new = $sudoers.".new.".$$;
+
+	# setup to have sane perm for new sudoers file
+	umask(0227);
+
+	# insert old sudoers
+	open my $old, '<', $sudoers or die $!;
+	open my $fh, '>', $new or die $!;
+	while (<$old>) {
+		print $fh $_;
 	}
+	close $old or die $!;
 
-	close SUDOERS;
+	# append new values
+    print $fh "ALL  ALL=(root) NOPASSWD: $ipssend getconfig 1 LD\n" if $ipssend;
+    print $fh "ALL  ALL=(root) NOPASSWD: $aaccli container list /full\n" if $aaccli;
+    print $fh "ALL  ALL=(root) NOPASSWD: $mpt_status\n" if $mpt_status and -d "/proc/mpt";
+	print $fh "ALL  ALL=(root) NOPASSWD:/bin/cat /proc/megaide/0/status\n" if -d "/proc/megaide/0";
+	print $fh "ALL  ALL=(root) NOPASSWD:/bin/cat /proc/megaide/1/status\n" if -d "/proc/megaide/1";
+	foreach my $mr ( glob('/proc/mega*/*/raiddrives*') ) {
+		print $fh "ALL  ALL=(root) NOPASSWD:/bin/cat $mr\n" if -d $mr;
+	}
+	close $fh;
+
+	# validate sudoers
+	system($visudo, '-c', '-f', $new) == 0 or unlink($new),exit $? >> 8;
+
+	# use the new file
+	rename($new, $old) or die $!;
+
 	print "sudoers file updated.\n";
 }
+
 #####################################################################
 $ENV{'BASH_ENV'}='';
 $ENV{'ENV'}='';
