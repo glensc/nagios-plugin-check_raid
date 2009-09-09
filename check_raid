@@ -193,28 +193,26 @@ sub check_vg {
 }
 
 sub check_ips {
-	my($l,@f);
-	my($s,$n,$c);
+	my @CMD = $ipssend;
+	unshift(@CMD, $sudo) if $> and $sudo;
 
-	my $CMD = "$ipssend getconfig 1 LD";
-	$CMD = "$sudo $CMD" if $> and $sudo;
+	my $n;
+	open(my $fh , '-|', @CMD) or return;
+	while (<$fh>) {
+		chomp;
+		if (/drive number (\d+)/i ) { $n = $1; next; }
+		next unless valid($n);
 
-	open IPS,"$CMD |" or return;
-	while( $l = <IPS> ) {
-		chomp $l;
-		if( $l =~ /drive number (\d+)/i ) { $n = $1; next; }
-		next if(!valid($n));
-		if( $l =~ /Status .*: (\S+)\s+(\S+)/ ) {
-			($s,$c) = ($1,$2);
-			if( $c =~ /SYN|RBL/i ) { # resynching
-				$status = $ERRORS{WARNING} if(!$status);
-			} elsif( $c !~ /OKY/i ) { # not OK
+		if (my($s, $c) = /Status .*: (\S+)\s+(\S+)/ ) {
+			if ($c =~ /SYN|RBL/i ) { # resynching
+				$status = $ERRORS{WARNING} unless $status;
+			} elsif ($c !~ /OKY/i) { # not OK
 				$status = $ERRORS{CRITICAL};
 			}
 			$message .= "ips:$n:$s ";
 		}
 	}
-	close IPS;
+	close $fh;
 }
 
 sub check_aaccli {
