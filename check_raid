@@ -173,7 +173,7 @@ sub check_vg {
 		while( $l = <LSVG> ) {
 			@f = split " ",$l;
 			($n,$s) = ($f[0],$f[5]);
-			next if(!valid($n) or !$s);	
+			next if(!valid($n) or !$s);
 			next if( $f[3] eq $f[2] ); # not a mirrored LV
 			if( $s =~ /open\/(\S+)/i ) {
 				$s = $1;
@@ -195,7 +195,7 @@ sub check_ips {
 	while( $l = <IPS> ) {
 		chomp $l;
 		if( $l =~ /drive number (\d+)/i ) { $n = $1; next; }
-		next if(!valid($n));	
+		next if(!valid($n));
 		if( $l =~ /Status .*: (\S+)\s+(\S+)/ ) {
 			($s,$c) = ($1,$2);
 			if( $c =~ /SYN|RBL/i ) { # resynching
@@ -267,7 +267,7 @@ sub check_mpt {
 	my $CMD = $mpt_status;
 	$CMD = "$sudo $CMD" if $> and $sudo;
 
-	open CMD,"$CMD |" or return;	
+	open CMD,"$CMD |" or return;
 	while ( <CMD> ) {
 		next if(! /vol_id\s*(\d+).*state\s+(\S+),/ );
 		($dsk,$stat) = ($1,$2);
