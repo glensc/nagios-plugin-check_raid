@@ -217,14 +217,16 @@ sub check_ips {
 
 sub check_aaccli {
 	my @CMD = $aaccli;
-
 	unshift(@CMD, $sudo) if $> and $sudo;
 
 	use IPC::Open2;
-	my $pid = open2(\*STAT, \*AACCLI, @CMD) or return;
-	print AACCLI "open aac0\n";
-	print AACCLI "container list /full\n";
-	print AACCLI "exit\n";
+
+	my ($read, $write);
+	my $pid = open2($read, $write, @CMD) or return;
+	print $write "open aac0\n";
+	print $write "container list /full\n";
+	print $write "exit\n";
+	close $write;
 #File foo receiving all output.
 #
 #AAC0>
@@ -240,22 +242,21 @@ sub check_aaccli {
 #AAC0>
 #COMMAND: logfile end
 #Executing: logfile end
-	while ( <STAT> ) {
-		if( /(\d:\d\d?:\d+)\s+\S+:\S+\s+(\S+)/ ) {
-			my ($dsk,$stat) = ($1,$2);
-			next if(!valid($dsk));
+	while (<$read>) {
+		if (my ($dsk, $stat) = /(\d:\d\d?:\d+)\s+\S+:\S+\s+(\S+)/) {
+			next unless valid($dsk);
 			$dsk =~ s/:/\//g;
-			next if(!valid($dsk));
+			next unless valid($dsk);
 			$message .= "aac:$dsk:$stat ";
-			$status = $ERRORS{CRITICAL} if($stat eq "Broken");
-			$status = $ERRORS{WARNING} if(!$status and $stat eq "Rebuild");
-			$status = $ERRORS{WARNING} if(!$status and $stat eq "Bld/Vfy");
-			$status = $ERRORS{CRITICAL} if($stat eq "Missing");
-			$status = $ERRORS{WARNING} if(!$status and $stat eq "Verify");
-			$status = $ERRORS{WARNING} if(!$status and $stat eq "VfyRepl");
+			$status = $ERRORS{CRITICAL} if ($stat eq "Broken");
+			$status = $ERRORS{WARNING} if (!$status and $stat eq "Rebuild");
+			$status = $ERRORS{WARNING} if (!$status and $stat eq "Bld/Vfy");
+			$status = $ERRORS{CRITICAL} if ($stat eq "Missing");
+			$status = $ERRORS{WARNING} if (!$status and $stat eq "Verify");
+			$status = $ERRORS{WARNING} if (!$status and $stat eq "VfyRepl");
 		}
 	}
-	close STAT;
+	close $read;
 }
 
 sub check_afacli {
