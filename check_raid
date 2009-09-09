@@ -114,17 +114,15 @@ sub check_megaide {
 	}
 }
 sub check_mdstat {
-	my($l);
-	my($s,$n,$f);
+	my($n,$f);
 
-	open MDSTAT,"</proc/mdstat" or return;
-	while( $l = <MDSTAT> ) {
-		if( $l =~ /^(\S+)\s+:/ ) { $n = $1; $f = ''; next; }
-		if( $l =~ /(\S+)\[\d+\]\(F\)/ ) { $f = $1; next; }
-		if( $l =~ /\s*.*\[([U_]+)\]/ ) {
-			$s = $1;
-			next if(!valid($n));
-			if($s =~ /_/ ) {
+	open my $fh, '<', '/proc/mdstat' or return;
+	while (<$fh>) {
+		if (/^(\S+)\s+:/ ) { $n = $1; $f = ''; next; }
+		if (/(\S+)\[\d+\]\(F\)/ ) { $f = $1; next; }
+		if (my($s) = /\s*.*\[([U_]+)\]/ ) {
+			next unless valid($n);
+			if ($s =~ /_/) {
 				$status = $ERRORS{CRITICAL};
 				$message .= "md:$n:$f:$s ";
 			} else {
@@ -132,7 +130,7 @@ sub check_mdstat {
 			}
 		}
 	}
-	close MDSTAT;
+	close $fh;
 }
 sub check_lsraid {
 	my($l);
