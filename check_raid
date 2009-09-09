@@ -259,11 +259,11 @@ sub check_afacli {
 sub check_mpt {
 	my($dsk,$stat);
 
-	my $CMD = $mpt_status;
-	$CMD = "$sudo $CMD" if $> and $sudo;
+	my @CMD = $mpt_status;
+	unshift(@CMD, $sudo) if $> and $sudo;
 
-	open CMD,"$CMD |" or return;
-	while ( <CMD> ) {
+	open(my $fh , '-|', @CMD) or return;
+	while (<$fh>) {
 		next if(! /vol_id\s*(\d+).*state\s+(\S+),/ );
 		($dsk,$stat) = ($1,$2);
 		next if(!valid($dsk));
@@ -276,7 +276,7 @@ sub check_mpt {
 			$status = $ERRORS{UNKNOWN} ;
 		}
 	}
-	close CMD;
+	close $fh;
 }
 
 sub check_megaraid {
@@ -368,11 +368,14 @@ if($opt_S) {
 @ignore = @ARGV if(@ARGV);
 
 if ($opt_v) {
-	print "check_raid Revision: $VERSION\n" ;
+	print "check_raid Version $VERSION\n" ;
 	exit $ERRORS{'OK'};
 }
-if ($opt_h) {print_help(); exit $ERRORS{'OK'};}
-if($opt_W) {
+if ($opt_h) {
+	print_help();
+	exit $ERRORS{'OK'};
+}
+if ($opt_W) {
 	$ERRORS{CRITICAL} = $ERRORS{WARNING};
 }
 
