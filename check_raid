@@ -89,19 +89,19 @@ sub check_metastat {
 	close METASTAT;
 }
 sub check_megaide {
-	my($f,$l);
-	my($s,$n);
-	my($CMD);
-
-	foreach $f ( glob('/proc/megaide/*/status') ) {
-		if( -r $f ) { $CMD = "<$f"; }
-		else { $CMD = "$sudo cat $f |"; }
-		open MEGAIDE,$CMD or next;
-		while( $l = <MEGAIDE> ) {
-			if( $l =~ /Status\s*:\s*(\S+).*Logical Drive.*:\s*(\d+)/i ) {
-				($s,$n)=($1,$2);
-				next if(!valid($n));
-				if($s ne 'ONLINE') {
+	my $fh;
+	foreach my $f (glob('/proc/megaide/*/status')) {
+		if (-r $f) {
+			open $fh, '<', $f or next;
+	   	} else {
+		   	my @CMD = ('cat', $f);
+			unshift(@CMD, $sudo) if $> and $sudo;
+			open($fh , '-|', @CMD) or next;
+	   	}
+		while (<$fh>) {
+			if (my($s, $n) = /Status\s*:\s*(\S+).*Logical Drive.*:\s*(\d+)/i) {
+				next unless valid($n);
+				if ($s ne 'ONLINE') {
 					$status = $ERRORS{CRITICAL};
 					$message .= "Megaide:$n:$s ";
 				} else {
@@ -110,7 +110,7 @@ sub check_megaide {
 				last;
 			}
 		}
-		close MEGAIDE;
+		close $fh;
 	}
 }
 sub check_mdstat {
@@ -136,24 +136,27 @@ sub check_lsraid {
 	my($l);
 	my($s,$n,$f);
 
-	my $CMD = "$lsraid -A -p";
-	$CMD = "$sudo $CMD" if $> and $sudo;
+	my @CMD = ($lsraid, '-A', '-p');
+	unshift(@CMD, $sudo) if $> and $sudo;
 
-	open LSRAID,"$CMD 2>/dev/null |" or return;
-	while( $l = <LSRAID> ) {
-		chomp $l;
-		if( $l =~ /\/dev\/(\S+) \S+ (\S+)/ ) {
-			($n,$s) = ($1,$2);
-			next if(!valid($n));
-			if($s =~ /good|online/ ) { # no worries
-			} elsif($s =~ /sync/ ) {
-				$status = $ERRORS{WARNING} if(!$status);
-			} else { $status = $ERRORS{CRITICAL}; }
+	open(my $fh , '-|', @CMD) or return;
+	while (<$fh>) {
+		chomp;
+		if (my($n, $s) = m{/dev/(\S+) \S+ (\S+)}) {
+			next unless valid($n);
+			if ($s =~ /good|online/) {
+			   	# no worries
+			} elsif ($s =~ /sync/) {
+				$status = $ERRORS{WARNING} unless $status;
+			} else {
+			   	$status = $ERRORS{CRITICAL};
+		   	}
 			$message .= "md:$n:$s ";
 		}
 	}
-	close LSRAID;
+	close $fh;
 }
+
 sub check_vg {
 	my(@vg, $vg);
 	my($l,@f);
