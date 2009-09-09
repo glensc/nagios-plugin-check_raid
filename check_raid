@@ -208,20 +208,17 @@ sub check_ips {
 	}
 	close IPS;
 }
+
 sub check_aaccli {
-	my($dsk,$stat);
+	my @CMD = $aaccli;
 
-	my $CMD = $aaccli;
-	$CMD = "$sudo $CMD" if $> and $sudo;
+	unshift(@CMD, $sudo) if $> and $sudo;
 
-	chdir "/tmp";
-	open AACCLI,"|$CMD >/dev/null 2>&1";
+	use IPC::Open2;
+	my $pid = open2(\*STAT, \*AACCLI, @CMD) or return;
 	print AACCLI "open aac0\n";
-	print AACCLI "logfile start $$.log\n";
 	print AACCLI "container list /full\n";
-	print AACCLI "logfile end\n";
 	print AACCLI "exit\n";
-	close AACCLI;
 #File foo receiving all output.
 #
 #AAC0>
@@ -237,10 +234,9 @@ sub check_aaccli {
 #AAC0>
 #COMMAND: logfile end
 #Executing: logfile end
-	open STAT,"<$$.log";
 	while ( <STAT> ) {
 		if( /(\d:\d\d?:\d+)\s+\S+:\S+\s+(\S+)/ ) {
-			($dsk,$stat) = ($1,$2);
+			my ($dsk,$stat) = ($1,$2);
 			next if(!valid($dsk));
 			$dsk =~ s/:/\//g;
 			next if(!valid($dsk));
@@ -254,7 +250,6 @@ sub check_aaccli {
 		}
 	}
 	close STAT;
-	unlink "$$.log";
 }
 
 sub check_afacli {
@@ -387,7 +382,7 @@ check_megaide if -d "/proc/megaide";              # MegaIDE RAID controller
 check_mdstat  if -f "/proc/mdstat";               # Linux LVM
 check_mpt     if $mpt_status and -d "/proc/mpt";  # LSILogic MPT ServeRAID
 check_megaraid if -d "/proc/megaraid";            # MegaRAID
-check_aaccli  if $aaccli and -d "/proc/scsi/aacraid";         # Adaptec ServeRAID
+check_aaccli if $aaccli and -d "/proc/scsi/aacraid";         # Adaptec ServeRAID
 check_lsraid  if $lsraid;                         # Linux, software RAID
 check_metastat if $metastat;                      # Solaris, software RAID
 check_vg      if $lsvg;                           # AIX LVM
