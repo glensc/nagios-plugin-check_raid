@@ -379,7 +379,7 @@ sub sudoers {
 	# use the new file
 	rename($new, $sudoers) or die $!;
 
-	print "sudoers file updated.\n";
+	print "$sudoers file updated.\n";
 }
 
 #####################################################################
