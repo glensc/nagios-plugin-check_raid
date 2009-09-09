@@ -73,7 +73,7 @@ sub check_metastat {
 		chomp $l;
 		if($l =~ /^(\S+):/) { $d = $1; $sd = ''; next; }
 		if($l =~ /Submirror \d+:\s+(\S+)/) { $sd = $1; next; }
-		if($l =~ /State: (\S.+)/) { $s = $1; 
+		if($l =~ /State: (\S.+)/) { $s = $1;
 			if($sd and valid($sd) and valid($d)) {
 				if($s =~ /Okay/i) {
 					# no worries...
@@ -88,7 +88,7 @@ sub check_metastat {
 	}
 	close METASTAT;
 }
-sub check_megaide { 
+sub check_megaide {
 	my($f,$l);
 	my($s,$n);
 	my($CMD);
@@ -147,9 +147,9 @@ sub check_lsraid {
 		if( $l =~ /\/dev\/(\S+) \S+ (\S+)/ ) {
 			($n,$s) = ($1,$2);
 			next if(!valid($n));
-			if($s =~ /good|online/ ) { # no worries 
-			} elsif($s =~ /sync/ ) { 
-				$status = $ERRORS{WARNING} if(!$status); 
+			if($s =~ /good|online/ ) { # no worries
+			} elsif($s =~ /sync/ ) {
+				$status = $ERRORS{WARNING} if(!$status);
 			} else { $status = $ERRORS{CRITICAL}; }
 			$message .= "md:$n:$s ";
 		}
@@ -170,7 +170,7 @@ sub check_vg {
 	foreach $vg ( @vg ) {
 		next if(!valid($vg)); # skip entire VG
 		open LSVG,"$lsvg -l $vg 2>/dev/null |" or return;
-		while( $l = <LSVG> ) { 
+		while( $l = <LSVG> ) {
 			@f = split " ",$l;
 			($n,$s) = ($f[0],$f[5]);
 			next if(!valid($n) or !$s);	
@@ -192,8 +192,8 @@ sub check_ips {
 	$CMD = "$sudo $CMD" if $> and $sudo;
 
 	open IPS,"$CMD |" or return;
-	while( $l = <IPS> ) { 
-		chomp $l; 
+	while( $l = <IPS> ) {
+		chomp $l;
 		if( $l =~ /drive number (\d+)/i ) { $n = $1; next; }
 		next if(!valid($n));	
 		if( $l =~ /Status .*: (\S+)\s+(\S+)/ ) {
@@ -284,7 +284,7 @@ sub check_mpt {
 	close CMD;
 }
 
-sub check_megaraid { 
+sub check_megaraid {
 	my($f,$l);
 	my($s,$n);
 	my($CMD);
@@ -354,7 +354,7 @@ sub sudoers {
 	print "sudoers file updated.\n";
 }
 #####################################################################
-$ENV{'BASH_ENV'}=''; 
+$ENV{'BASH_ENV'}='';
 $ENV{'ENV'}='';
 
 Getopt::Long::Configure('bundling');
