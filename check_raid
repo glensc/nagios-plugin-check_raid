@@ -356,14 +356,18 @@ sub sudoers {
 	}
 	close $old or die $!;
 
+	# setup alias, so we could easily remove these later by matching lines with 'CHECK_RAID'
+	# also this avoids installing ourselves twice.
+	print $fh "User_Alias CHECK_RAID=nagios\n";
+
 	# append new values
-    print $fh "ALL  ALL=(root) NOPASSWD: $ipssend getconfig 1 LD\n" if $ipssend;
-    print $fh "ALL  ALL=(root) NOPASSWD: $aaccli container list /full\n" if $aaccli;
-    print $fh "ALL  ALL=(root) NOPASSWD: $mpt_status\n" if $mpt_status and -d "/proc/mpt";
-	print $fh "ALL  ALL=(root) NOPASSWD: $cat /proc/megaide/0/status\n" if -d "/proc/megaide/0";
-	print $fh "ALL  ALL=(root) NOPASSWD: $cat /proc/megaide/1/status\n" if -d "/proc/megaide/1";
-	foreach my $mr ( glob('/proc/mega*/*/raiddrives*') ) {
-		print $fh "ALL  ALL=(root) NOPASSWD: $cat $mr\n" if -d $mr;
+    print $fh "CHECK_RAID  ALL=(root) NOPASSWD: $ipssend getconfig 1 LD\n" if $ipssend;
+    print $fh "CHECK_RAID  ALL=(root) NOPASSWD: $aaccli container list /full\n" if $aaccli;
+    print $fh "CHECK_RAID  ALL=(root) NOPASSWD: $mpt_status\n" if $mpt_status and -d "/proc/mpt";
+	print $fh "CHECK_RAID  ALL=(root) NOPASSWD: $cat /proc/megaide/0/status\n" if -d "/proc/megaide/0";
+	print $fh "CHECK_RAID  ALL=(root) NOPASSWD: $cat /proc/megaide/1/status\n" if -d "/proc/megaide/1";
+	foreach my $mr (glob('/proc/mega*/*/raiddrives*')) {
+		print $fh "CHECK_RAID  ALL=(root) NOPASSWD: $cat $mr\n" if -d $mr;
 	}
 	close $fh;
 
