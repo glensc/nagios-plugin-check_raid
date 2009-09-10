@@ -1,25 +1,27 @@
 #!/usr/bin/perl -w
 # vim:ts=4
 #
-# Check RAID status.  Look for any known types
-# of RAID configurations, and check them all.
-# Return CRITICAL if in a DEGRADED state, since
-# if the whole array has failed you'll have already noticed it!
+# Check RAID status. Look for any known types of RAID configurations, and check them all.
+# Return CRITICAL if in a DEGRADED state, since if the whole array has failed you'll have already noticed it!
 # Return UNKNOWN if there are no RAID configs that can be found.
 # Return WARNING if rebuilding or initialising
 #
-# S Shipway, university of auckland
-#
+# 2004-2006 S Shipway, university of auckland
 # Thanks to M Carmier for megaraid section
+# 2009 Elan Ruusamäe <glen\@delfi.ee>
 #
 # Version 1.1 : IPS; Solaris, AIX, Linux software RAID; megaide
 # Version 2.0 : Added megaraid, mpt (serveraid), aacli (serveraid)
-# Version 2.1 : Made script more generic and secure, Added gdth, dpt_i2o, 3ware
+# Version 2.1 :
+# - Made script more generic and secure
+# - Added gdth
+# - Added dpt_i2o
+# - Added 3ware SATA RAID
 
 use strict;
 use Getopt::Long;
 use vars qw($opt_v $opt_d $opt_h $opt_W $opt_S);
-my(%ERRORS) = ( OK=>0, WARNING=>1, CRITICAL=>2, UNKNOWN=>3, WARN=>1, CRIT=>2 );
+my(%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 my($VERSION) = "2.1";
 my($message, $status);
 my(@ignore);
@@ -45,8 +47,9 @@ sub print_usage () {
 }
 
 sub print_help () {
-	print "check_raid, Revision: $VERSION \n";
+	print "check_raid, v$VERSION\n";
 	print "Copyright (c) 2004-2006 S Shipway, Copyright (c) 2009, Elan Ruusamäe <glen\@delfi.ee>
+
 This plugin reports the current server's RAID status
 ";
 	print_usage();
@@ -55,15 +58,16 @@ This plugin reports the current server's RAID status
 #####################################################################
 # return true if parameter is not in ignore list
 sub valid($) {
-	my($v) = $_[0];
-	$v = lc $v;
-	foreach ( @ignore ) { return 0 if((lc $_) eq $v); }
+	my($v) = lc $_[0];
+	foreach (@ignore) {
+		return 0 if lc $_ eq $v;
+	}
 	return 1;
 }
 
 #####################################################################
 sub check_metastat {
-	my($l,$s,$d,$sd);
+	my($d,$sd);
 
 	my @CMD = $metastat;
 	unshift(@CMD, $sudo) if $> and $sudo;
@@ -94,11 +98,11 @@ sub check_megaide {
 	foreach my $f (glob('/proc/megaide/*/status')) {
 		if (-r $f) {
 			open $fh, '<', $f or next;
-	   	} else {
-		   	my @CMD = ($cat, $f);
+		} else {
+			my @CMD = ($cat, $f);
 			unshift(@CMD, $sudo) if $> and $sudo;
 			open($fh , '-|', @CMD) or next;
-	   	}
+		}
 		while (<$fh>) {
 			if (my($s, $n) = /Status\s*:\s*(\S+).*Logical Drive.*:\s*(\d+)/i) {
 				next unless valid($n);
@@ -116,7 +120,7 @@ sub check_megaide {
 }
 
 sub check_mdstat {
-	my($n,$f);
+	my($n, $f);
 
 	open my $fh, '<', '/proc/mdstat' or return;
 	while (<$fh>) {
@@ -145,12 +149,12 @@ sub check_lsraid {
 		if (my($n, $s) = m{/dev/(\S+) \S+ (\S+)}) {
 			next unless valid($n);
 			if ($s =~ /good|online/) {
-			   	# no worries
+				# no worries
 			} elsif ($s =~ /sync/) {
 				$status = $ERRORS{WARNING} unless $status;
 			} else {
-			   	$status = $ERRORS{CRITICAL};
-		   	}
+				$status = $ERRORS{CRITICAL};
+			}
 			$message .= "md:$n:$s ";
 		}
 	}
@@ -164,9 +168,9 @@ sub check_vg {
 	my @vg;
 	open(my $fh , '-|', @CMD) or return;
 	while (<$fh>) {
-	   	chomp;
-	   	push @vg, $_;
-   	}
+		chomp;
+		push @vg, $_;
+	}
 	close $fh;
 
 	foreach my $vg (@vg) {
@@ -176,15 +180,15 @@ sub check_vg {
 
 		while (<$fh>) {
 			my @f = split /\s/;
-		   	my ($n, $s) = ($f[0],$f[5]);
+			my ($n, $s) = ($f[0],$f[5]);
 			next if (!valid($n) or !$s);
 			next if ($f[3] eq $f[2]); # not a mirrored LV
 
 			if ($s =~ /open\/(\S+)/i) {
 				$s = $1;
 				if ($s ne 'syncd') {
-				   	$status = $ERRORS{CRITICAL};
-			   	}
+					$status = $ERRORS{CRITICAL};
+				}
 				$message .= "lvm:$n:$s ";
 			}
 		}
@@ -314,11 +318,11 @@ sub check_megaraid {
 	foreach my $f (glob('/proc/megaraid/*/raiddrives*')) {
 		if (-r $f) {
 			open $fh, '<', $f or next;
-	   	} else {
-		   	my @CMD = ($cat, $f);
+		} else {
+			my @CMD = ($cat, $f);
 			unshift(@CMD, $sudo) if $> and $sudo;
 			open($fh , '-|', @CMD) or next;
-	   	}
+		}
 		while (<$fh>) {
 			if (my($n, $s) = /logical drive\s*:\s*(\d+).*, state\s*:\s*(\S+)/i) {
 				next unless valid($n);
@@ -368,7 +372,7 @@ sub check_dpt_i2o {
 		my ($controller) = $file =~ m{([^/]+$)};
 		while (<$fh>) {
 			chomp;
-			if (my ($c, $t, $l, $s) = m/TID=\d+, \(Channel=(\d+), Target=(\d+), Lun=(\d+)\)  \((\S+)\)/) {
+			if (my ($c, $t, $l, $s) = m/TID=\d+,\s+\(Channel=(\d+),\s+Target=(\d+),\s+Lun=(\d+)\)\s+\((\S+)\)/) {
 				if ($s ne "online") {
 					$status = $ERRORS{CRITICAL} unless $status;
 				}
@@ -387,51 +391,51 @@ sub check_tw_cli {
 	my @CMD = $tw_cli;
 	unshift(@CMD, $sudo) if $> and $sudo;
 
-    my (@c, $fh);
-    # scan controllers
+	my (@c, $fh);
+	# scan controllers
 	open($fh , '-|', @CMD, 'info') or return;
 	while (<$fh>) {
-        push(@c, $1) if /^(c\d+)/;
-    }
-    close $fh;
+		push(@c, $1) if /^(c\d+)/;
+	}
+	close $fh;
 
-    for my $c (@c) {
-        # check each unit on controllers
-        open($fh , '-|', @CMD, 'info', $c, 'unitstatus') or return;
-        while (<$fh>) {
-            next unless (my($u, $s, $p) = /^(u\d+)\s+\S+\s+(\S+)\s+(\S+)/);
+	for my $c (@c) {
+		# check each unit on controllers
+		open($fh , '-|', @CMD, 'info', $c, 'unitstatus') or return;
+		while (<$fh>) {
+			next unless (my($u, $s, $p) = /^(u\d+)\s+\S+\s+(\S+)\s+(\S+)/);
 
-            if ($s eq 'OK') {
-                $message .= "3ware:/$c/$u $s ";
+			if ($s eq 'OK') {
+				$message .= "3ware:/$c/$u $s ";
 
-            } elsif ($s eq 'REBUILDING') {
-                $status = $ERRORS{WARNING} unless $status;
-                $message .= "3ware:/$c/$u $s $p% ";
+			} elsif ($s eq 'REBUILDING') {
+				$status = $ERRORS{WARNING} unless $status;
+				$message .= "3ware:/$c/$u $s $p% ";
 
-            } elsif ($s eq 'DEGRADED') {
-                open(my $fh , '-|', @CMD, 'info', $c, 'drivestatus') or return;
-                my $ds = '';
-                while (<$fh>) {
-                    next unless (my($p, $s) = /^(p\d+)\s+(\S+)\s+\Q$u\E/);
-                    $ds .= "$p:$s ";
-                }
-                close $fh;
-                $message .= "3ware:/$c/$u $s $ds ";
-                $status = $ERRORS{CRITICAL};
-            } else {
-                $message .= "3ware:/$c/$u $_ ";
-                $status = $ERRORS{UNKNOWN};
-            }
-        }
-        close $fh;
-    }
+			} elsif ($s eq 'DEGRADED') {
+				open(my $fh , '-|', @CMD, 'info', $c, 'drivestatus') or return;
+				my $ds = '';
+				while (<$fh>) {
+					next unless (my($p, $s) = /^(p\d+)\s+(\S+)\s+\Q$u\E/);
+					$ds .= "$p:$s ";
+				}
+				close $fh;
+				$message .= "3ware:/$c/$u $s $ds ";
+				$status = $ERRORS{CRITICAL};
+			} else {
+				$message .= "3ware:/$c/$u $_ ";
+				$status = $ERRORS{UNKNOWN};
+			}
+		}
+		close $fh;
+	}
 }
 
 sub find_prog {
 	my $prog = shift;
 
-    my @paths = split /:/, $ENV{'PATH'};
-    unshift(@paths, qw(/usr/local/nrpe /usr/local/bin /sbin /usr/sbin /bin /usr/sbin));
+	my @paths = split /:/, $ENV{'PATH'};
+	unshift(@paths, qw(/usr/local/nrpe /usr/local/bin /sbin /usr/sbin /bin /usr/sbin));
 
 	for my $path (@paths) {
 		return "$path/$prog" if -x "$path/$prog";
@@ -450,14 +454,14 @@ sub find_file {
 sub sudoers {
 	# build values to be added
 	my @sudo;
-    push(@sudo, "CHECK_RAID  ALL=(root) NOPASSWD: $ipssend getconfig 1 LD\n") if $ipssend;
-    push(@sudo, "CHECK_RAID  ALL=(root) NOPASSWD: $aaccli container list /full\n") if $aaccli;
-	push(@sudo, "CHECK_RAID  ALL=(root) NOPASSWD: $tw_cli info*\n") if $tw_cli;
-    push(@sudo, "CHECK_RAID  ALL=(root) NOPASSWD: $mpt_status\n") if $mpt_status and -d "/proc/mpt";
-	push(@sudo, "CHECK_RAID  ALL=(root) NOPASSWD: $cat /proc/megaide/0/status\n") if -d "/proc/megaide/0";
-	push(@sudo, "CHECK_RAID  ALL=(root) NOPASSWD: $cat /proc/megaide/1/status\n") if -d "/proc/megaide/1";
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $ipssend getconfig 1 LD\n") if $ipssend;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $aaccli container list /full\n") if $aaccli;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $tw_cli info*\n") if $tw_cli;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $mpt_status\n") if $mpt_status and -d "/proc/mpt";
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/0/status\n") if -d "/proc/megaide/0";
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/1/status\n") if -d "/proc/megaide/1";
 	foreach my $mr (glob('/proc/mega*/*/raiddrives*')) {
-		push(@sudo, "CHECK_RAID  ALL=(root) NOPASSWD: $cat $mr\n") if -d $mr;
+		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat $mr\n") if -d $mr;
 	}
 
 	unless (@sudo) {
@@ -512,22 +516,22 @@ $ENV{'BASH_ENV'}='';
 $ENV{'ENV'}='';
 
 Getopt::Long::Configure('bundling');
-GetOptions
-	("v"   => \$opt_v, "version"    => \$opt_v,
-	 "h"   => \$opt_h, "help"       => \$opt_h,
+GetOptions("v" => \$opt_v, "version" => \$opt_v,
+	 "h" => \$opt_h, "help" => \$opt_h,
 	 "d" => \$opt_d, "debug" => \$opt_d,
 	 "S" => \$opt_S, "sudoers" => \$opt_S,
-	 "W" => \$opt_W, "warnonly" => \$opt_W );
+	 "W" => \$opt_W, "warnonly" => \$opt_W
+);
 
-if($opt_S) {
+if ($opt_S) {
 	sudoers;
 	exit 0;
 }
 
-@ignore = @ARGV if(@ARGV);
+@ignore = @ARGV if @ARGV;
 
 if ($opt_v) {
-	print "check_raid Version $VERSION\n" ;
+	print "check_raid Version $VERSION\n";
 	exit $ERRORS{'OK'};
 }
 if ($opt_h) {
@@ -555,13 +559,15 @@ check_ips if $ipssend;                                  # Serveraid IPS
 check_tw_cli if $tw_cli;                                # 3ware SATA RAID
 # Can't do megaRAID controller, it needs X and java (yuck)
 
-if( $message ) {
-	if( $status == $ERRORS{OK} ) {
+if ($message) {
+	if ($status == $ERRORS{OK}) {
 		print "OK: ";
-	} elsif( $status == $ERRORS{WARNING} ) {
+	} elsif ($status == $ERRORS{WARNING}) {
 		print "WARNING: ";
-	} elsif( $status == $ERRORS{CRITICAL} ) {
+	} elsif ($status == $ERRORS{CRITICAL}) {
 		print "CRITICAL: ";
+	} else {
+		print "UNKNOWN: ";
 	}
 	print "$message\n";
 } else {
