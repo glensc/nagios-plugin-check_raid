@@ -452,6 +452,7 @@ sub sudoers {
 	my @sudo;
     push(@sudo, "CHECK_RAID  ALL=(root) NOPASSWD: $ipssend getconfig 1 LD\n") if $ipssend;
     push(@sudo, "CHECK_RAID  ALL=(root) NOPASSWD: $aaccli container list /full\n") if $aaccli;
+	push(@sudo, "CHECK_RAID  ALL=(root) NOPASSWD: $tw_cli info*\n") if $tw_cli;
     push(@sudo, "CHECK_RAID  ALL=(root) NOPASSWD: $mpt_status\n") if $mpt_status and -d "/proc/mpt";
 	push(@sudo, "CHECK_RAID  ALL=(root) NOPASSWD: $cat /proc/megaide/0/status\n") if -d "/proc/megaide/0";
 	push(@sudo, "CHECK_RAID  ALL=(root) NOPASSWD: $cat /proc/megaide/1/status\n") if -d "/proc/megaide/1";
