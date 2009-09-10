@@ -351,12 +351,10 @@ sub check_gdth {
 			chomp;
 			last if (/Array Drives:/); # Stop after the Logical Drive block
 			if (my ($num, $status) = m/^\s+Number:\s+(\d+)\s+Status:\s+(\S+)$/) {
-				if ("ok" ne $status) {
+				if ($status ne "ok") {
 					$status = $ERRORS{CRITICAL} unless $status;
-					$message .= "gdth:$controller:$num($status) ";
-				} else {
-					$message .= "gdth:$controller:$num($status) ";
 				}
+				$message .= "gdth:$controller,$num:$status ";
 			}
 		}
 		close($fh);
