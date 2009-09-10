@@ -213,6 +213,12 @@ sub check_ips {
 }
 
 sub check_aaccli {
+	unless ($aaccli) {
+		$message .= "aac:aaccli program not found ";
+		$status = $ERRORS{CRITICAL};
+		return;
+	}
+
 	my @CMD = $aaccli;
 	unshift(@CMD, $sudo) if $> and $sudo;
 
@@ -285,6 +291,12 @@ sub check_afacli {
 }
 
 sub check_mpt {
+	unless ($mpt_status) {
+		$message .= "mpt:mpt-status program not found ";
+		$status = $ERRORS{CRITICAL};
+		return;
+	}
+
 	my @CMD = $mpt_status;
 	unshift(@CMD, $sudo) if $> and $sudo;
 
@@ -536,10 +548,10 @@ $status = $ERRORS{OK}; $message = '';
 check_gdth if -d "/proc/scsi/gdth";                     # Linux Gdth RAID
 check_megaide if -d "/proc/megaide";                    # MegaIDE RAID controller
 check_mdstat if -f "/proc/mdstat";                      # Linux LVM
-check_mpt if $mpt_status and -d "/proc/mpt";            # LSILogic MPT ServeRAID
+check_mpt -d "/proc/mpt";                               # LSILogic MPT ServeRAID
 check_dpt_i2o if -d "/proc/scsi/dpt_i2o";               # i2o RAID
 check_megaraid if -d "/proc/megaraid";                  # MegaRAID
-check_aaccli if $aaccli and -d "/proc/scsi/aacraid";    # Adaptec ServeRAID
+check_aaccli -d "/proc/scsi/aacraid";                   # Adaptec ServeRAID
 check_afacli if $afacli;                                # Adaptec AACRAID
 check_lsraid if $lsraid;                                # Linux, software RAID
 check_metastat if $metastat;                            # Solaris, software RAID
