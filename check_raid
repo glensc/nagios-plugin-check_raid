@@ -363,6 +363,23 @@ sub check_gdth {
 	}
 }
 
+sub check_dpt_i2o {
+	for my $file (</proc/scsi/dpt_i2o/*>) {
+		open my $fh, '<', $file or return;
+		my ($controller) = $file =~ m{([^/]+$)};
+		while (<$fh>) {
+			chomp;
+			if (my ($c, $t, $l, $status) = m/TID=\d+, \(Channel=(\d+), Target=(\d+), Lun=(\d+)\)  \((\S+)\)/) {
+				if ($status ne "online") {
+					$status = $ERRORS{CRITICAL} unless $status;
+				}
+				$message .= "dpt_i2o:$c,$t,$l:$status ";
+			}
+		}
+		close($fh);
+	}
+}
+
 sub find_prog {
 	my $prog = shift;
 
@@ -479,6 +496,7 @@ check_gdth if -d "/proc/scsi/gdth";                     # Linux Gdth RAID
 check_megaide if -d "/proc/megaide";                    # MegaIDE RAID controller
 check_mdstat  if -f "/proc/mdstat";                     # Linux LVM
 check_mpt     if $mpt_status and -d "/proc/mpt";        # LSILogic MPT ServeRAID
+check_dpt_i2o if -d "/proc/scsi/dpt_i2o";               # i2o RAID
 check_megaraid if -d "/proc/megaraid";                  # MegaRAID
 check_aaccli if $aaccli and -d "/proc/scsi/aacraid";    # Adaptec ServeRAID
 check_afacli  if $afacli;                               # Adaptec AACRAID
