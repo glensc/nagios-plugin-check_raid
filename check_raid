@@ -350,11 +350,11 @@ sub check_gdth {
 		while (<$fh>) {
 			chomp;
 			last if (/Array Drives:/); # Stop after the Logical Drive block
-			if (my ($num, $status) = m/^\s+Number:\s+(\d+)\s+Status:\s+(\S+)$/) {
-				if ($status ne "ok") {
+			if (my ($num, $s) = m/^\s+Number:\s+(\d+)\s+Status:\s+(\S+)$/) {
+				if ($s ne "ok") {
 					$status = $ERRORS{CRITICAL} unless $status;
 				}
-				$message .= "gdth:$controller,$num:$status ";
+				$message .= "gdth:$controller,$num:$s ";
 			}
 		}
 		close($fh);
@@ -367,11 +367,11 @@ sub check_dpt_i2o {
 		my ($controller) = $file =~ m{([^/]+$)};
 		while (<$fh>) {
 			chomp;
-			if (my ($c, $t, $l, $status) = m/TID=\d+, \(Channel=(\d+), Target=(\d+), Lun=(\d+)\)  \((\S+)\)/) {
-				if ($status ne "online") {
+			if (my ($c, $t, $l, $s) = m/TID=\d+, \(Channel=(\d+), Target=(\d+), Lun=(\d+)\)  \((\S+)\)/) {
+				if ($s ne "online") {
 					$status = $ERRORS{CRITICAL} unless $status;
 				}
-				$message .= "dpt_i2o:$c,$t,$l:$status ";
+				$message .= "dpt_i2o:$c,$t,$l:$s ";
 			}
 		}
 		close($fh);
