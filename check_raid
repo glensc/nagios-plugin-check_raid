@@ -14,7 +14,7 @@
 #
 # Version 1.1 : IPS; Solaris, AIX, Linux software RAID; megaide
 # Version 2.0 : Added megaraid, mpt (serveraid), aacli (serveraid)
-# Version 2.1 : Made script more generic and secure, Added gdth
+# Version 2.1 : Made script more generic and secure, Added gdth, dpt_i2o, 3ware
 
 use strict;
 use Getopt::Long;
@@ -28,13 +28,14 @@ my $sudo = find_prog('sudo');
 my $cat = find_prog('cat');
 
 # various raids
-my $mpt_status = find_prog('mpt-status');     # LSILogic MPT ServeRAID
-my $aaccli = find_prog('aaccli');             # Adaptec ServeRAID
-my $afacli = find_prog('afacli');             # Adaptec AACRAID
-my $lsraid = find_prog('lsraid');             # Linux, software RAID
-my $metastat = find_prog('metastat');         # Solaris, software RAID
-my $lsvg = find_prog('lsvg');                 # AIX LVM
-my $ipssend = find_prog('ipssend');           # Serveraid IPS
+my $mpt_status = find_prog('mpt-status');                       # LSILogic MPT ServeRAID
+my $aaccli = find_prog('aaccli');                               # Adaptec ServeRAID
+my $afacli = find_prog('afacli');                               # Adaptec AACRAID
+my $lsraid = find_prog('lsraid');                               # Linux, software RAID
+my $metastat = find_prog('metastat');                           # Solaris, software RAID
+my $lsvg = find_prog('lsvg');                                   # AIX LVM
+my $ipssend = find_prog('ipssend');                             # Serveraid IPS
+my $tw_cli = find_prog('tw_cli-9xxx') || find_prog('tw_cli');   # 3ware SATA RAID
 
 #####################################################################
 sub print_usage () {
@@ -378,6 +379,54 @@ sub check_dpt_i2o {
 	}
 }
 
+# check designed from check_3ware.sh by:
+# Sander Klein <sander [AT] pictura [dash] dp [DOT] nl>
+# http://www.pictura-dp.nl/
+# Version 20070706
+sub check_tw_cli {
+	my @CMD = $tw_cli;
+	unshift(@CMD, $sudo) if $> and $sudo;
+
+    my (@c, $fh);
+    # scan controllers
+	open($fh , '-|', @CMD, 'info') or return;
+	while (<$fh>) {
+        push(@c, $1) if /^(c\d+)/;
+    }
+    close $fh;
+
+    for my $c (@c) {
+        # check each unit on controllers
+        open($fh , '-|', @CMD, 'info', $c, 'unitstatus') or return;
+        while (<$fh>) {
+            next unless (my($u, $s, $p) = /^(u\d+)\s+\S+\s+(\S+)\s+(\S+)/);
+
+            if ($s eq 'OK') {
+                $message .= "3ware:/$c/$u $s ";
+
+            } elsif ($s eq 'REBUILDING') {
+                $status = $ERRORS{WARNING} unless $status;
+                $message .= "3ware:/$c/$u $s $p% ";
+
+            } elsif ($s eq 'DEGRADED') {
+                open(my $fh , '-|', @CMD, 'info', $c, 'drivestatus') or return;
+                my $ds = '';
+                while (<$fh>) {
+                    next unless (my($p, $s) = /^(p\d+)\s+(\S+)\s+\Q$u\E/);
+                    $ds .= "$p:$s ";
+                }
+                close $fh;
+                $message .= "3ware:/$c/$u $s $ds ";
+                $status = $ERRORS{CRITICAL};
+            } else {
+                $message .= "3ware:/$c/$u $_ ";
+                $status = $ERRORS{UNKNOWN};
+            }
+        }
+        close $fh;
+    }
+}
+
 sub find_prog {
 	my $prog = shift;
 
@@ -492,16 +541,17 @@ $status = $ERRORS{OK}; $message = '';
 
 check_gdth if -d "/proc/scsi/gdth";                     # Linux Gdth RAID
 check_megaide if -d "/proc/megaide";                    # MegaIDE RAID controller
-check_mdstat  if -f "/proc/mdstat";                     # Linux LVM
-check_mpt     if $mpt_status and -d "/proc/mpt";        # LSILogic MPT ServeRAID
+check_mdstat if -f "/proc/mdstat";                      # Linux LVM
+check_mpt if $mpt_status and -d "/proc/mpt";            # LSILogic MPT ServeRAID
 check_dpt_i2o if -d "/proc/scsi/dpt_i2o";               # i2o RAID
 check_megaraid if -d "/proc/megaraid";                  # MegaRAID
 check_aaccli if $aaccli and -d "/proc/scsi/aacraid";    # Adaptec ServeRAID
-check_afacli  if $afacli;                               # Adaptec AACRAID
-check_lsraid  if $lsraid;                               # Linux, software RAID
+check_afacli if $afacli;                                # Adaptec AACRAID
+check_lsraid if $lsraid;                                # Linux, software RAID
 check_metastat if $metastat;                            # Solaris, software RAID
-check_vg      if $lsvg;                                 # AIX LVM
-check_ips     if $ipssend;                              # Serveraid IPS
+check_vg if $lsvg;                                      # AIX LVM
+check_ips if $ipssend;                                  # Serveraid IPS
+check_tw_cli if $tw_cli;                                # 3ware SATA RAID
 # Can't do megaRAID controller, it needs X and java (yuck)
 
 if( $message ) {
