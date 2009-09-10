@@ -548,7 +548,7 @@ $status = $ERRORS{OK}; $message = '';
 check_gdth if -d "/proc/scsi/gdth";                     # Linux Gdth RAID
 check_megaide if -d "/proc/megaide";                    # MegaIDE RAID controller
 check_mdstat if -f "/proc/mdstat";                      # Linux LVM
-check_mpt -d "/proc/mpt";                               # LSILogic MPT ServeRAID
+check_mpt if -d "/proc/mpt";                            # LSILogic MPT ServeRAID
 check_dpt_i2o if -d "/proc/scsi/dpt_i2o";               # i2o RAID
 check_megaraid if -d "/proc/megaraid";                  # MegaRAID
 check_aaccli if -d "/proc/scsi/aacraid";                # Adaptec ServeRAID
