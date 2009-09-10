@@ -14,7 +14,7 @@
 #
 # Version 1.1 : IPS; Solaris, AIX, Linux software RAID; megaide
 # Version 2.0 : Added megaraid, mpt (serveraid), aacli (serveraid)
-# Version 2.1 : Made script more generic and secure
+# Version 2.1 : Made script more generic and secure, Added gdth
 
 use strict;
 use Getopt::Long;
@@ -28,10 +28,7 @@ my $sudo = find_prog('sudo');
 my $cat = find_prog('cat');
 
 # various raids
-my $megaide = 1 if -d '/proc/megaide';        # MegaIDE RAID controller
-my $mdstat = 1 if -f '/proc/mdstat';          # Linux LVM
 my $mpt_status = find_prog('mpt-status');     # LSILogic MPT ServeRAID
-my $megaraid = 1 if -d '/proc/megaraid';      # MegaRAID
 my $aaccli = find_prog('aaccli');             # Adaptec ServeRAID
 my $lsraid = find_prog('lsraid');             # Linux, software RAID
 my $metastat = find_prog('metastat');         # Solaris, software RAID
@@ -311,6 +308,35 @@ sub check_megaraid {
 	}
 }
 
+# based on check_gdth by Petter Reinholdtsen
+# http://homepages.uni-paderborn.de/odenbach/projects/check_gdth/
+sub check_gdth {
+# Looking for this text block:
+# Logical Drives:
+#  Number:        0               Status:         ok
+#  Capacity [MB]: 17333           Type:           RAID-1
+#  Slave Number:  15              Status:         ok
+#  Missing Drv.:  0               Invalid Drv.:   0
+#  To Array Drv.: --
+	for my $file (</proc/scsi/gdth/*>) {
+		open my $fh, '<', $file or return;
+		my ($controller) = $file =~ m{([^/]+$)};
+		while (<$fh>) {
+			chomp;
+			last if (/Array Drives:/); # Stop after the Logical Drive block
+			if (my ($num, $status) = m/^\s+Number:\s+(\d+)\s+Status:\s+(\S+)$/) {
+				if ("ok" ne $status) {
+					$status = $ERRORS{CRITICAL} unless $status;
+					$message .= "gdth:$controller:$num($status) ";
+				} else {
+					$message .= "gdth:$controller:$num($status) ";
+				}
+			}
+		}
+		close($fh);
+	}
+}
+
 sub find_prog {
 	my $prog = shift;
 
@@ -415,6 +441,7 @@ if ($opt_W) {
 
 $status = $ERRORS{OK}; $message = '';
 
+check_gdth if -d "/proc/scsi/gdth";               # Linux Gdth RAID
 check_megaide if -d "/proc/megaide";              # MegaIDE RAID controller
 check_mdstat  if -f "/proc/mdstat";               # Linux LVM
 check_mpt     if $mpt_status and -d "/proc/mpt";  # LSILogic MPT ServeRAID
