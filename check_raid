@@ -309,7 +309,7 @@ sub check_mpt {
 			$status = $ERRORS{WARNING};
 		} elsif ($stat =~ /DEGRADED/) {
 			$status = $ERRORS{CRITICAL};
-		} elsif (!$status and $stat !~ /ONLINE/) {
+		} elsif (!$status and $stat !~ /ONLINE|OPTIMAL/) {
 			$status = $ERRORS{UNKNOWN};
 		}
 	}
