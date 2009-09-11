@@ -17,6 +17,7 @@
 # - Added gdth
 # - Added dpt_i2o
 # - Added 3ware SATA RAID
+# - Added Adaptec AAC-RAID via arcconf
 
 use strict;
 use Getopt::Long;
@@ -38,6 +39,7 @@ my $metastat = find_prog('metastat');                           # Solaris, softw
 my $lsvg = find_prog('lsvg');                                   # AIX LVM
 my $ipssend = find_prog('ipssend');                             # Serveraid IPS
 my $tw_cli = find_prog('tw_cli-9xxx') || find_prog('tw_cli');   # 3ware SATA RAID
+my $arcconf = find_prog('arcconf');                             # Adaptec AAC-RAID
 
 #####################################################################
 sub print_usage () {
@@ -432,6 +434,109 @@ sub check_tw_cli {
 	}
 }
 
+# check designed from check-aacraid.py, Anchor System - <http://www.anchor.com.au>
+# Oliver Hookins, Paul De Audney, Barney Desmond.
+# Perl port (check_raid) by Elan Ruusamäe.
+sub check_arcconf {
+	my @CMD = $arcconf;
+	unshift(@CMD, $sudo) if $> and $sudo;
+
+	# status messages pushed here
+	my @status;
+
+	# we chdir to /var/log, as tool is creating 'UcliEvt.log'
+	chdir('/var/log') || chdir('/');
+
+	my ($fh, $d);
+	open($fh , '-|', @CMD, 'GETCONFIG', '1', 'LD') or return;
+	while (<$fh>) {
+		$d = $1, next if /^Logical device number (\d+)/;
+		next unless (my ($s) = /^\s*Status of logical device\s+:\s+(.+)/);
+		push(@status, "Logical Device $d:$s");
+	}
+	close $fh;
+
+	open($fh , '-|', @CMD, 'GETCONFIG', '1', 'AD') or return;
+	while (<$fh>) {
+		if (my($s) = /Controller Status\s*:\s*(.*)/) {
+			if ($s ne 'Optimal') {
+				$status = $ERRORS{CRITICAL};
+			}
+			push(@status, "Controller:$s");
+			next;
+		}
+
+		if (my($s) = /Defunct disk drive count\s:\s*(\d+)/) {
+			$status = $ERRORS{CRITICAL};
+			push(@status, "Defunct drives:$s");
+			next;
+		}
+
+		if (my($td, $fd, $dd) = m{Logical devices/Failed/Degraded\s*:\s*(\d+)/(\d+)/(\d+)}) {
+			if (int($fd) > 0) {
+				$status = $ERRORS{CRITICAL};
+				push(@status, "Failed drives: $fd");
+			}
+			if (int($dd) > 0) {
+				$status = $ERRORS{CRITICAL};
+				push(@status, "Degraded drives: $dd");
+			}
+			next;
+		}
+
+		if (my($s) = /^\s*Status\s*:\s*(.*)$/) {
+			next if $s eq "Not Installed";
+
+			if ($s eq "Charging") {
+				$status = $ERRORS{WARNING} unless $status;
+			} elsif ($s != "Optimal") {
+				$status = $ERRORS{CRITICAL};
+			}
+			push(@status, "Battery Status: $s");
+			next;
+		}
+
+		if (my($s) = /^\s*Over temperature\s*:\s*(.*)$/) {
+			if ($s ne "No") {
+				$status = $ERRORS{CRITICAL};
+				push(@status, "Battery Overtemp: $s");
+			}
+			next;
+		}
+
+		if (my($s) = /\s*Capacity remaining\s*:\s*(\d+)\s*percent.*$/) {
+			push(@status, "Battery Capacity: $s%");
+			if (int($s) < 50) {
+				$status = $ERRORS{WARNING} unless $status;
+			}
+			if (int($s) < 25) {
+				$status = $ERRORS{CRITICAL};
+			}
+			next;
+		}
+
+		if (my($d, $h, $m) = /\s*Time remaining \(at current draw\)\s*:\s*(\d+) days, (\d+) hours, (\d+) minutes/) {
+			my $mins = int($d) * 1440 + int($h) * 60 + int($m);
+			if ($mins < 1440) {
+				$status = $ERRORS{WARNING} unless $status;
+			}
+			if ($mins < 720) {
+				$status = $ERRORS{CRITICAL};
+			}
+
+			if ($mins < 60) {
+				push(@status, "Battery Time: $mins mins");
+			} else {
+				push(@status, "Battery Time: ".($mins/60) + "hours");
+			}
+			next;
+		}
+	}
+	close $fh;
+
+	$message = "arcconf:".join(', ', @status) if @status;
+}
+
 sub find_prog {
 	my $prog = shift;
 
@@ -558,6 +663,7 @@ check_metastat if $metastat;                            # Solaris, software RAID
 check_vg if $lsvg;                                      # AIX LVM
 check_ips if $ipssend;                                  # Serveraid IPS
 check_tw_cli if $tw_cli;                                # 3ware SATA RAID
+check_arcconf if $arcconf;                              # Adaptec AAC-RAID
 # Can't do megaRAID controller, it needs X and java (yuck)
 
 if ($message) {
