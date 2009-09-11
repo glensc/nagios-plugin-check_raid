@@ -566,6 +566,7 @@ sub sudoers {
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $mpt_status\n") if $mpt_status and -d "/proc/mpt";
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/0/status\n") if -d "/proc/megaide/0";
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/1/status\n") if -d "/proc/megaide/1";
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $arcconf GETCONFIG 1 *\n") if $arcconf;
 	foreach my $mr (glob('/proc/mega*/*/raiddrives*')) {
 		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat $mr\n") if -d $mr;
 	}
