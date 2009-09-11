@@ -515,7 +515,7 @@ sub check_arcconf {
 
 			if ($s eq "Charging") {
 				$status = $ERRORS{WARNING} unless $status;
-			} elsif ($s != "Optimal") {
+			} elsif ($s ne "Optimal") {
 				$status = $ERRORS{CRITICAL};
 			}
 			push(@status, "Battery Status: $s");
@@ -551,9 +551,9 @@ sub check_arcconf {
 			}
 
 			if ($mins < 60) {
-				push(@status, "Battery Time: $mins mins");
+				push(@status, "Battery Time: ${m}m");
 			} else {
-				push(@status, "Battery Time: ".($mins/60) + "hours");
+				push(@status, "Battery Time: ${d}d, ${h}h, ${m}m");
 			}
 			next;
 		}
