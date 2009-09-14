@@ -2,8 +2,8 @@
 Summary:	Nagios plugin to check current server's RAID status
 Name:		nagios-plugin-%{plugin}
 Version:	2.1
-Release:	0.5
-License:	Unknown
+Release:	0.26
+License:	GPL v2
 Group:		Networking
 Source0:	%{plugin}
 # Source0-md5:	168cc7a68638ed2e07df81c4bd43603a
@@ -11,6 +11,10 @@ URL:		http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID
 Source1:	%{plugin}.cfg
 Requires:	nagios-core
 Requires:	sudo
+Suggests:	arcconf
+Suggests:	mpt-status
+Suggests:	tw_cli-9xxx
+Suggests:	megarc-scsi
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -23,7 +27,10 @@ can be identified.
 
 Supports:
 - Linux, Solaris and AIX software RAID
-- Linux MegaIDE/IPS/Serveraid/MPT/LSI hardware RAID controllers.
+- Linux MegaIDE/IPS/Serveraid/MPT/LSI/GDTH/I2O hardware RAID controllers.
+- 3ware SATA RAID
+- Adaptec AAC RAID
+- LSI MegaRaid
 
 %prep
 %setup -qcT
