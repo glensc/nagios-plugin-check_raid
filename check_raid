@@ -18,6 +18,7 @@
 # - Added dpt_i2o
 # - Added 3ware SATA RAID
 # - Added Adaptec AAC-RAID via arcconf
+# - Added LSI MegaRaid via megarc
 
 use strict;
 use Getopt::Long;
@@ -40,6 +41,7 @@ my $lsvg = which('lsvg');
 my $ipssend = which('ipssend');
 my $tw_cli = which('tw_cli-9xxx') || which('tw_cli');
 my $arcconf = which('arcconf');
+my $megarc = which('megarc');
 
 #####################################################################
 sub print_usage () {
@@ -576,6 +578,87 @@ sub check_arcconf {
 	$message = "arcconf:".join(', ', @status) if @status;
 }
 
+# LSI MegaRaid or Dell Perc arrays
+# Check the status of all arrays on all Lsi MegaRaid controllers on the local
+# machine. Uses the megarc program written by Lsi to get the status of all
+# arrays on all local Lsi MegaRaid controllers.
+#
+# check designed from check_lsi_megaraid:
+# http://www.monitoringexchange.org/cgi-bin/page.cgi?g=Detailed/2416.html;d=1
+# Perl port (check_raid) by Elan Ruusamäe.
+sub check_megarc {
+	my @CMD = $megarc;
+	unshift(@CMD, $sudo) if $> and $sudo;
+
+	# status messages pushed here
+	my @status;
+
+	# get controllers
+	open(my $fh , '-|', @CMD, '-AllAdpInfo', '-nolog') or return;
+	my @lines = <$fh>;
+	close $fh;
+
+    if ($lines[11] =~ /No Adapters Found/) {
+		$status = $ERRORS{WARNING} unless $status;
+		$message = "megarc: No LSI adapters were found on this machine";
+		return;
+	}
+	my @c;
+	foreach (@lines[12..$#lines]) {
+		if (my ($id) = /^\s*(\d+)/) {
+			push(@c, int($id));
+		}
+	}
+	unless (@c) {
+		$status = $ERRORS{WARNING} unless $status;
+		$message = "megarc: No LSI adapters were found on this machine";
+		return;
+	}
+
+	foreach my $c (@c) {
+		open($fh , '-|', @CMD, '-dispCfg', "-a$c", '-nolog') or return;
+		my (%d, %s, $ld);
+		while (<$fh>) {
+			# Logical Drive : 0( Adapter: 0 ):  Status: OPTIMAL
+			if (my($d, $s) = /Logical Drive\s+:\s+(\d+).+Status:\s+(\S+)/) {
+				$ld = $d;
+				$s{$ld} = $s;
+				next;
+			}
+			# SpanDepth :01     RaidLevel: 5  RdAhead : Adaptive  Cache: DirectIo
+			if (my($s) = /RaidLevel:\s+(\S+)/) {
+				$d{$ld} = $s if defined $ld;
+				next;
+			}
+		}
+		close $fh;
+
+		# now process the details
+		unless (keys %d) {
+            push(@status, "No arrays found on controller $c");
+			$status = $ERRORS{WARNING} unless $status;
+			return;
+		}
+
+		while (my($d, $s) = each %s) {
+			if ($s ne 'OPTIMAL') {
+				# The Array number here is incremented by one because of the
+				# inconsistent way that the LSI tools count arrays.
+				# This brings it back in line with the view in the bios
+				# and from megamgr.bin where the array counting starts at
+				# 1 instead of 0
+				push(@status, "Array ".(int($d) + 1)." status is ".$s{$d}." (Raid-$s on adapter $c)");
+				$status = $ERRORS{CRITICAL};
+				next;
+			}
+
+			push(@status, "Logical Drive $d: $s");
+		}
+	}
+
+	$message = "megarc: ".join(', ', @status) if @status;
+}
+
 sub which {
 	my $prog = shift;
 
@@ -606,6 +689,8 @@ sub sudoers {
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/0/status\n") if -d "/proc/megaide/0";
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/1/status\n") if -d "/proc/megaide/1";
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $arcconf GETCONFIG 1 *\n") if $arcconf;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megarc -AllAdpInfo -nolog\n") if $megarc;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megarc -dispCfg -a* -nolog\n") if $megarc;
 	foreach my $mr (glob('/proc/mega*/*/raiddrives*')) {
 		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat $mr\n") if -d $mr;
 	}
@@ -704,6 +789,7 @@ check_vg if $lsvg;
 check_ips if $ipssend;
 check_tw_cli if $tw_cli;
 check_arcconf if $arcconf;
+check_megarc if $megarc;
 
 if ($message) {
 	if ($status == $ERRORS{OK}) {
