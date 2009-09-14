@@ -6,7 +6,6 @@ Release:	0.26
 License:	GPL v2
 Group:		Networking
 Source0:	%{plugin}
-# Source0-md5:	168cc7a68638ed2e07df81c4bd43603a
 URL:		http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
 Source1:	%{plugin}.cfg
 Requires:	nagios-core
