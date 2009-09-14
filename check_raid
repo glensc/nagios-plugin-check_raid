@@ -598,7 +598,7 @@ sub check_megarc {
 	my @lines = <$fh>;
 	close $fh;
 
-    if ($lines[11] =~ /No Adapters Found/) {
+	if ($lines[11] =~ /No Adapters Found/) {
 		$status = $ERRORS{WARNING} unless $status;
 		$message = "megarc: No LSI adapters were found on this machine";
 		return;
@@ -635,7 +635,7 @@ sub check_megarc {
 
 		# now process the details
 		unless (keys %d) {
-            push(@status, "No arrays found on controller $c");
+			push(@status, "No arrays found on controller $c");
 			$status = $ERRORS{WARNING} unless $status;
 			return;
 		}
