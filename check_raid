@@ -277,17 +277,18 @@ sub check_afacli {
 	close $write;
 
 	while (<$read>) {
-		next if (my ($dsk, $stat) = /(\d:\d\d?:\d+)\s+\S+:\S+\s+(\S+)/);
-		next unless valid($dsk);
-		$dsk =~ s/:/\//g;
-		next unless valid($dsk);
-		$message .= "aac:$dsk:$stat ";
-		$status = $ERRORS{CRITICAL} if ($stat eq "Broken");
-		$status = $ERRORS{WARNING} if (!$status and $stat eq "Rebuild");
-		$status = $ERRORS{WARNING} if (!$status and $stat eq "Bld/Vfy");
-		$status = $ERRORS{CRITICAL} if ($stat eq "Missing");
-		$status = $ERRORS{WARNING} if (!$status and $stat eq "Verify");
-		$status = $ERRORS{WARNING} if (!$status and $stat eq "VfyRepl");
+		if (my ($dsk, $stat) = /(\d:\d\d?:\d+)\s+\S+:\S+\s+(\S+)/) {
+			next unless valid($dsk);
+			$dsk =~ s/:/\//g;
+			next unless valid($dsk);
+			$message .= "aac:$dsk:$stat ";
+			$status = $ERRORS{CRITICAL} if ($stat eq "Broken");
+			$status = $ERRORS{WARNING} if (!$status and $stat eq "Rebuild");
+			$status = $ERRORS{WARNING} if (!$status and $stat eq "Bld/Vfy");
+			$status = $ERRORS{CRITICAL} if ($stat eq "Missing");
+			$status = $ERRORS{WARNING} if (!$status and $stat eq "Verify");
+			$status = $ERRORS{WARNING} if (!$status and $stat eq "VfyRepl");
+		}
 	}
 	close $read;
 }
