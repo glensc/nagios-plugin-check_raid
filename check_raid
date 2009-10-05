@@ -8,7 +8,7 @@
 #
 # 2004-2006 S Shipway, university of auckland
 # Thanks to M Carmier for megaraid section
-# 2009 Elan Ruusamäe <glen\@delfi.ee>
+# 2009 Elan Ruusamäe <glen@delfi.ee>
 #
 # Version 1.1 : IPS; Solaris, AIX, Linux software RAID; megaide
 # Version 2.0 : Added megaraid, mpt (serveraid), aacli (serveraid)
@@ -345,7 +345,7 @@ sub check_mpt {
 	}
 	close $fh;
 
-	$message = "mpt:".join(', ', @status) if @status;
+	$message .= "mpt:".join(', ', @status) if @status;
 }
 
 # MegaRAID
@@ -407,7 +407,7 @@ sub check_gdth {
 		push(@status, "Logical Drive ".join(', ', @ld)) if @ld;
 	}
 
-	$message = "gdth:".join(', ', @status) if @status;
+	$message .= "gdth:".join(', ', @status) if @status;
 }
 
 sub check_dpt_i2o {
@@ -577,7 +577,7 @@ sub check_arcconf {
 	}
 	close $fh;
 
-	$message = "arcconf:".join(', ', @status) if @status;
+	$message .= "arcconf:".join(', ', @status) if @status;
 }
 
 # LSI MegaRaid or Dell Perc arrays
@@ -602,7 +602,7 @@ sub check_megarc {
 
 	if ($lines[11] =~ /No Adapters Found/) {
 		$status = $ERRORS{WARNING} unless $status;
-		$message = "megarc: No LSI adapters were found on this machine";
+		$message .= "megarc: No LSI adapters were found on this machine";
 		return;
 	}
 	my @c;
@@ -613,7 +613,7 @@ sub check_megarc {
 	}
 	unless (@c) {
 		$status = $ERRORS{WARNING} unless $status;
-		$message = "megarc: No LSI adapters were found on this machine";
+		$message .= "megarc: No LSI adapters were found on this machine";
 		return;
 	}
 
@@ -658,7 +658,7 @@ sub check_megarc {
 		}
 	}
 
-	$message = "megarc: ".join(', ', @status) if @status;
+	$message .= "megarc: ".join(', ', @status) if @status;
 }
 
 sub check_cmdtool2 {
@@ -680,7 +680,7 @@ sub check_cmdtool2 {
 
 	unless (@c) {
 		$status = $ERRORS{WARNING} unless $status;
-		$message = "CmdTool2: No LSI adapters were found on this machine";
+		$message .= "CmdTool2: No LSI adapters were found on this machine";
 		return;
 	}
 
@@ -704,7 +704,7 @@ sub check_cmdtool2 {
 		}
 	}
 
-	$message = "CmdTool2: ".join(', ', @status) if @status;
+	$message .= "CmdTool2: ".join(', ', @status) if @status;
 }
 
 sub which {
@@ -823,7 +823,8 @@ if ($opt_W) {
 	$ERRORS{CRITICAL} = $ERRORS{WARNING};
 }
 
-$status = $ERRORS{OK}; $message = '';
+$status = $ERRORS{UNKNOWN};
+$message = '';
 
 check_gdth if -d "/proc/scsi/gdth";
 check_megaide if -d "/proc/megaide";
