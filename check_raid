@@ -19,6 +19,7 @@
 # - Added 3ware SATA RAID
 # - Added Adaptec AAC-RAID via arcconf
 # - Added LSI MegaRaid via megarc
+# - Added LSI MegaRaid via CmdTool2
 
 use strict;
 use Getopt::Long;
@@ -42,6 +43,7 @@ my $ipssend = which('ipssend');
 my $tw_cli = which('tw_cli-9xxx') || which('tw_cli');
 my $arcconf = which('arcconf');
 my $megarc = which('megarc');
+my $cmdtool2 = which('CmdTool2');
 
 #####################################################################
 sub print_usage () {
@@ -659,6 +661,52 @@ sub check_megarc {
 	$message = "megarc: ".join(', ', @status) if @status;
 }
 
+sub check_cmdtool2 {
+	my @CMD = $cmdtool2;
+	unshift(@CMD, $sudo) if $> and $sudo;
+
+	# status messages pushed here
+	my @status;
+
+	# get adapters
+	open(my $fh , '-|', @CMD, '-AdpAllInfo', '-aALL', '-nolog') or return;
+	my @c;
+	while (<$fh>) {
+		if (my($c) = /^Adapter #(\d+)/) {
+			push(@c, $c);
+		}
+	}
+	close $fh;
+
+	unless (@c) {
+		$status = $ERRORS{WARNING} unless $status;
+		$message = "CmdTool2: No LSI adapters were found on this machine";
+		return;
+	}
+
+	foreach my $c (@c) {
+		open($fh , '-|', @CMD, '-CfgDsply', "-a$c", '-nolog') or return;
+		my ($d);
+		while (<$fh>) {
+			# DISK GROUPS: 0
+			if (my($s) = /^DISK GROUPS: (\d+)/) {
+				$d = int($s);
+				next;
+			}
+
+			# State: Optimal
+			if (my($s) = /^State: (\S+)$/) {
+				if ($s ne 'Optimal') {
+					$status = $ERRORS{CRITICAL};
+				}
+				push(@status, "Logical Drive $c,$d: $s");
+			}
+		}
+	}
+
+	$message = "CmdTool2: ".join(', ', @status) if @status;
+}
+
 sub which {
 	my $prog = shift;
 
@@ -691,6 +739,8 @@ sub sudoers {
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $arcconf GETCONFIG 1 *\n") if $arcconf;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megarc -AllAdpInfo -nolog\n") if $megarc;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megarc -dispCfg -a* -nolog\n") if $megarc;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmdtool2 -AdpAllInfo -nolog\n") if $cmdtool2;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmdtool2 -CfgDsply -a* -nolog\n") if $cmdtool2;
 	foreach my $mr (glob('/proc/mega*/*/raiddrives*')) {
 		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat $mr\n") if -d $mr;
 	}
@@ -790,6 +840,7 @@ check_ips if $ipssend;
 check_tw_cli if $tw_cli;
 check_arcconf if $arcconf;
 check_megarc if $megarc;
+check_cmdtool2 if $cmdtool2;
 
 if ($message) {
 	if ($status == $ERRORS{OK}) {

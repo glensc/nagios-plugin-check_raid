@@ -10,10 +10,11 @@ URL:		http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID
 Source1:	%{plugin}.cfg
 Requires:	nagios-core
 Requires:	sudo
+Suggests:	CmdTool2
 Suggests:	arcconf
+Suggests:	megarc-scsi
 Suggests:	mpt-status
 Suggests:	tw_cli-9xxx
-Suggests:	megarc-scsi
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
