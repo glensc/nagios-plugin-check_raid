@@ -20,6 +20,7 @@
 # - Added Adaptec AAC-RAID via arcconf
 # - Added LSI MegaRaid via megarc
 # - Added LSI MegaRaid via CmdTool2
+# - Added HP/Compaq Smarty Array via cciss_vol_status
 
 use strict;
 use Getopt::Long;
@@ -44,6 +45,7 @@ my $tw_cli = which('tw_cli-9xxx') || which('tw_cli');
 my $arcconf = which('arcconf');
 my $megarc = which('megarc');
 my $cmdtool2 = which('CmdTool2');
+my $cciss_vol_status = which('cciss_vol_status');
 
 #####################################################################
 sub print_usage () {
@@ -707,6 +709,68 @@ sub check_cmdtool2 {
 	$message .= "CmdTool2: ".join(', ', @status) if @status;
 }
 
+sub check_cciss {
+	unless ($cciss_vol_status) {
+		$message .= "cciss:cciss_vol_status program not found";
+		$status = $ERRORS{CRITICAL};
+		return;
+	}
+
+	my @CMD = $cciss_vol_status;
+	unshift(@CMD, $sudo) if $> and $sudo;
+
+	# status messages pushed here
+	my @status;
+
+	# find controllers
+#	cciss0: HP Smart Array P400i Controller
+#	Board ID: 0x3235103c
+#	Firmware Version: 4.06
+#	IRQ: 98
+#	Logical drives: 1
+#	Current Q depth: 0
+#	Current # commands on controller: 0
+#	Max Q depth since init: 249
+#	Max # commands on controller since init: 275
+#	Max SG entries since init: 31
+#	Sequential access devices: 0
+#
+#	cciss/c0d0:      220.12GB       RAID 1(1+0)
+
+	my @c;
+	foreach my $f (</proc/driver/cciss/*>) {
+		open my $fh, '<', $f or next;
+		while (<$fh>) {
+			next unless (my($s) = m{^(cciss/[^:]+):});
+			push(@c, "/dev/$s");
+		}
+		close $fh;
+	}
+
+	unless (@c) {
+		$status = $ERRORS{WARNING} unless $status;
+		$message .= "cciss: No Smart Array Adapters were found on this machine";
+		return;
+	}
+
+	foreach my $c (@c) {
+		open(my $fh , '-|', @CMD, $c) or return;
+		while (<$fh>) {
+			chomp;
+			# /dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK.
+			if (my($s) = /status: (\S+)\./) {
+				if ($s ne 'OK') {
+					$status = $ERRORS{CRITICAL};
+				}
+				push(@status, $_);
+			}
+		}
+		close($fh);
+	}
+
+	$message .= "cciss: ".join(', ', @status) if @status;
+}
+
 sub which {
 	my $prog = shift;
 
@@ -743,6 +807,21 @@ sub sudoers {
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmdtool2 -CfgDsply -a* -nolog\n") if $cmdtool2;
 	foreach my $mr (glob('/proc/mega*/*/raiddrives*')) {
 		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat $mr\n") if -d $mr;
+	}
+
+	if ($cciss_vol_status) {
+		my @c;
+		foreach my $f (</proc/driver/cciss/*>) {
+			open my $fh, '<', $f or next;
+			while (<$fh>) {
+				next unless (my($s) = m{^(cciss/[^:]+):});
+				push(@c, "/dev/$s");
+			}
+			close $fh;
+		}
+		foreach my $c (@c) {
+			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cciss_vol_status $c\n");
+		}
 	}
 
 	unless (@sudo) {
@@ -842,6 +921,7 @@ check_tw_cli if $tw_cli;
 check_arcconf if $arcconf;
 check_megarc if $megarc;
 check_cmdtool2 if $cmdtool2;
+check_cciss if -d "/proc/driver/cciss";
 
 if ($message) {
 	if ($status == $ERRORS{OK}) {
