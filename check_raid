@@ -902,7 +902,7 @@ if ($opt_W) {
 	$ERRORS{CRITICAL} = $ERRORS{WARNING};
 }
 
-$status = $ERRORS{UNKNOWN};
+$status = $ERRORS{OK};
 $message = '';
 
 check_gdth if -d "/proc/scsi/gdth";
