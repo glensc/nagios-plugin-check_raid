@@ -103,7 +103,7 @@ sub check_metastat {
 # MegaIDE RAID controller
 sub check_megaide {
 	my $fh;
-	foreach my $f (glob('/proc/megaide/*/status')) {
+	foreach my $f (</proc/megaide/*/status>) {
 		if (-r $f) {
 			open $fh, '<', $f or next;
 		} else {
@@ -353,7 +353,7 @@ sub check_mpt {
 # MegaRAID
 sub check_megaraid {
 	my $fh;
-	foreach my $f (glob('/proc/megaraid/*/raiddrives*')) {
+	foreach my $f (</proc/megaraid/*/raiddrives*>) {
 		if (-r $f) {
 			open $fh, '<', $f or next;
 		} else {
@@ -362,15 +362,16 @@ sub check_megaraid {
 			open($fh , '-|', @CMD) or next;
 		}
 		while (<$fh>) {
-			next if (my($n, $s) = /logical drive\s*:\s*(\d+).*, state\s*:\s*(\S+)/i);
-			next unless valid($n);
-			if ($s ne 'optimal') {
-				$status = $ERRORS{CRITICAL};
-				$message .= "Megaraid:$n:$s ";
-			} else {
-				$message .= "Megaraid:$n:$s ";
+			if (my($n, $s) = /logical drive\s*:\s*(\d+).*, state\s*:\s*(\S+)/i) {
+				next unless valid($n);
+				if ($s ne 'optimal') {
+					$status = $ERRORS{CRITICAL};
+					$message .= "Megaraid:$n:$s ";
+				} else {
+					$message .= "Megaraid:$n:$s ";
+				}
+				last;
 			}
-			last;
 		}
 		close $fh;
 	}
@@ -817,7 +818,7 @@ sub sudoers {
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megarc -dispCfg -a* -nolog\n") if $megarc;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmdtool2 -AdpAllInfo -aALL -nolog\n") if $cmdtool2;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmdtool2 -CfgDsply -a* -nolog\n") if $cmdtool2;
-	foreach my $mr (glob('/proc/mega*/*/raiddrives*')) {
+	foreach my $mr (</proc/mega*/*/raiddrives*>) {
 		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat $mr\n") if -d $mr;
 	}
 
