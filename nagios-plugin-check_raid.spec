@@ -32,7 +32,7 @@ Supports:
 - 3ware SATA RAID
 - Adaptec AAC RAID
 - LSI MegaRaid
-- HP/Compaq Smarty Array
+- HP/Compaq Smart Array
 
 %prep
 %setup -qcT
