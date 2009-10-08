@@ -436,6 +436,9 @@ sub check_tw_cli {
 	my @CMD = $tw_cli;
 	unshift(@CMD, $sudo) if $> and $sudo;
 
+	# status messages pushed here
+	my @status;
+
 	my (@c, $fh);
 	# scan controllers
 	open($fh , '-|', @CMD, 'info') or return;
@@ -444,6 +447,12 @@ sub check_tw_cli {
 	}
 	close $fh;
 
+	unless (@c) {
+		$status = $ERRORS{WARNING} unless $status;
+		$message .= "3ware: No Adapters were found on this machine";
+		return;
+	}
+
 	for my $c (@c) {
 		# check each unit on controllers
 		open($fh , '-|', @CMD, 'info', $c, 'unitstatus') or next;
@@ -451,31 +460,34 @@ sub check_tw_cli {
 			next unless (my($u, $s, $p) = /^(u\d+)\s+\S+\s+(\S+)\s+(\S+)/);
 
 			if ($s eq 'OK') {
-				$message .= "3ware:/$c/$u $s ";
+				push(@status, "$c/$u $s");
 
 			} elsif ($s eq 'REBUILDING') {
 				$status = $ERRORS{WARNING} unless $status;
-				$message .= "3ware:/$c/$u $s $p% ";
+				push(@status, "$c/$u $s $p% ");
 
 			} elsif ($s eq 'DEGRADED') {
 				open(my $fh , '-|', @CMD, 'info', $c, 'drivestatus');
-				my $ds = '';
+				my @ds;
 				if ($fh) {
+					my @p;
 					while (<$fh>) {
 						next unless (my($p, $s) = /^(p\d+)\s+(\S+)\s+\Q$u\E/);
-						$ds .= "$p:$s ";
+						push(@ds, "$p:$s");
 					}
 					close $fh;
 				}
-				$message .= "3ware:/$c/$u $s $ds ";
+				push(@status, "$c/$u $s (disks: ".join(' ', @ds). ")");
 				$status = $ERRORS{CRITICAL};
 			} else {
-				$message .= "3ware:/$c/$u $_ ";
+				push(@status, "$c/$u $_");
 				$status = $ERRORS{UNKNOWN};
 			}
 		}
 		close $fh;
 	}
+
+	$message .= "3ware: ".join(', ', @status) if @status;
 }
 
 # Adaptec AAC-RAID
