@@ -352,8 +352,12 @@ sub check_mpt {
 
 # MegaRAID
 sub check_megaraid {
-	my $fh;
+
+	# status messages pushed here
+	my @status;
+
 	foreach my $f (</proc/megaraid/*/raiddrives*>) {
+		my $fh;
 		if (-r $f) {
 			open $fh, '<', $f or next;
 		} else {
@@ -361,20 +365,20 @@ sub check_megaraid {
 			unshift(@CMD, $sudo) if $> and $sudo;
 			open($fh , '-|', @CMD) or next;
 		}
+		my ($n) = $f =~ m{/proc/megaraid/([^/]+)};
 		while (<$fh>) {
-			if (my($n, $s) = /logical drive\s*:\s*(\d+).*, state\s*:\s*(\S+)/i) {
-				next unless valid($n);
+			if (my($s) = /logical drive\s*:\s*\d+.*, state\s*:\s*(\S+)/i) {
 				if ($s ne 'optimal') {
 					$status = $ERRORS{CRITICAL};
-					$message .= "Megaraid:$n:$s ";
-				} else {
-					$message .= "Megaraid:$n:$s ";
 				}
+				push(@status, "$n: $s");
 				last;
 			}
 		}
 		close $fh;
 	}
+
+	$message .= "MegaRAID: ".join(', ', @status) if @status;
 }
 
 # Linux Gdth RAID
