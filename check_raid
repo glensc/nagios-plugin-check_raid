@@ -448,7 +448,9 @@ sub check_tw_cli {
 	# scan controllers
 	open($fh , '-|', @CMD, 'info') or return;
 	while (<$fh>) {
-		push(@c, $1) if /^(c\d+)/;
+		if (my($c, $model) = /^(c\d+)\s+(\S+)/) {
+			push(@c, [$c, $model]);
+		}
 	}
 	close $fh;
 
@@ -458,18 +460,20 @@ sub check_tw_cli {
 		return;
 	}
 
-	for my $c (@c) {
+	for my $i (@c) {
+		my ($c, $model) = @$i;
 		# check each unit on controllers
 		open($fh , '-|', @CMD, 'info', $c, 'unitstatus') or next;
+		my @cstatus;
 		while (<$fh>) {
 			next unless (my($u, $s, $p) = /^(u\d+)\s+\S+\s+(\S+)\s+(\S+)/);
 
 			if ($s eq 'OK') {
-				push(@status, "$c/$u $s");
+				push(@cstatus, "$u:$s");
 
 			} elsif ($s eq 'REBUILDING') {
 				$status = $ERRORS{WARNING} unless $status;
-				push(@status, "$c/$u $s $p% ");
+				push(@cstatus, "$u:$s $p% ");
 
 			} elsif ($s eq 'DEGRADED') {
 				open(my $fh , '-|', @CMD, 'info', $c, 'drivestatus');
@@ -482,13 +486,14 @@ sub check_tw_cli {
 					}
 					close $fh;
 				}
-				push(@status, "$c/$u $s (disks: ".join(' ', @ds). ")");
+				push(@cstatus, "$u:$s (disks: ".join(' ', @ds). ")");
 				$status = $ERRORS{CRITICAL};
 			} else {
-				push(@status, "$c/$u $_");
+				push(@cstatus, "$u:$_");
 				$status = $ERRORS{UNKNOWN};
 			}
 		}
+		push(@status, "$c($model): ". join(',', @cstatus));
 		close $fh;
 	}
 
