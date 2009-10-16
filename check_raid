@@ -864,7 +864,8 @@ sub check_hp_msa {
 	}
 	$modem->close();
 
-	while (my($c, $s) = each %c) {
+	foreach $c (sort { $a cmp $b } keys %c) {
+		my $s = $c{$c};
 		$s = join(', ', @$s);
 		$s = 'OK' unless $s;
 		push(@status, "$c: $s");
