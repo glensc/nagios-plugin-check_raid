@@ -21,6 +21,7 @@
 # - Added LSI MegaRaid via megarc
 # - Added LSI MegaRaid via CmdTool2
 # - Added HP/Compaq Smarty Array via cciss_vol_status
+# - Added HP MSA1500 check via serial line
 
 use strict;
 use Getopt::Long;
@@ -793,6 +794,80 @@ sub check_cciss {
 	$message .= "cciss: ".join(', ', @status) if @status;
 }
 
+sub check_hp_msa {
+	my $device = "/dev/ttyS0";
+
+	# status messages pushed here
+	my @status;
+
+	my $modem = new SerialLine($device);
+	my $fh = $modem->open() or return;
+
+	# check first controller
+	print $fh "show this_controller\r";
+	print $fh "show other_controller\r";
+	# this will issue termination match, ie. invalid command
+	print $fh "exit\r";
+
+	my ($c, %c);
+	while (<$fh>) {
+		chomp;
+		s/[\n\r]$//;
+		last if /Invalid CLI command/;
+		# Controller 1 (right controller):
+		if (my($s) = /^(Controller \d+)/) {
+			$c = $s;
+			$c{$c} = [];
+			next;
+		}
+		# Surface Scan:   Running, LUN 10 (68% Complete)
+		if (my($s, $m) = /Surface Scan:\s+(\S+)[,.]\s*(.*)/) {
+			if ($s eq 'Running') {
+				my ($l, $p) = $m =~ m{(LUN \d+) \((\d+)% Complete\)};
+				push(@{$c{$c}}, "Surface: $l ($p%)");
+				$status = $ERRORS{WARNING} unless $status;
+			} elsif ($s ne 'Complete') {
+				push(@{$c{$c}}, "Surface: $s, $m");
+				$status = $ERRORS{WARNING} unless $status;
+			}
+			next;
+		}
+		# Rebuild Status: Running, LUN 0 (67% Complete)
+		if (my($s, $m) = /Rebuild Status:\s+(\S+)[,.]\s*(.*)/) {
+			if ($s eq 'Running') {
+				my ($l, $p) = $m =~ m{(LUN \d+) \((\d+)% Complete\)};
+				push(@{$c{$c}}, "Rebuild: $l ($p%)");
+				$status = $ERRORS{WARNING} unless $status;
+			} elsif ($s ne 'Complete') {
+				push(@{$c{$c}}, "Rebuild: $s, $m");
+				$status = $ERRORS{WARNING} unless $status;
+			}
+			next;
+		}
+		# Expansion:      Complete.
+		if (my($s, $m) = /Expansion:\s+(\S+)[.,]\s*(.*)/) {
+			if ($s eq 'Running') {
+				my ($l, $p) = $m =~ m{(LUN \d+) \((\d+)% Complete\)};
+				push(@{$c{$c}}, "Expansion: $l ($p%)");
+				$status = $ERRORS{WARNING} unless $status;
+			} elsif ($s ne 'Complete') {
+				push(@{$c{$c}}, "Expansion: $s, $m");
+				$status = $ERRORS{WARNING} unless $status;
+			}
+			next;
+		}
+	}
+	$modem->close();
+
+	while (my($c, $s) = each %c) {
+		$s = join(', ', @$s);
+		$s = 'OK' unless $s;
+		push(@status, "$c: $s");
+	}
+
+	$message .= "hp_msa: ".join(', ', @status) if @status;
+}
+
 sub which {
 	my $prog = shift;
 
@@ -944,6 +1019,8 @@ check_arcconf if $arcconf;
 check_megarc if $megarc;
 check_cmdtool2 if $cmdtool2;
 check_cciss if -d "/proc/driver/cciss";
+# TODO: better detect, unhardcode out modem dev
+check_hp_msa if -e "/dev/mail_storage/spool"; # pretty stupid test
 
 if ($message) {
 	if ($status == $ERRORS{OK}) {
@@ -961,3 +1038,64 @@ if ($message) {
 	print "No RAID configuration found.\n";
 }
 exit $status;
+
+package SerialLine;
+# Package dealing with connecting to serial line and handling UUCP style locks.
+use strict;
+use Carp;
+
+sub new {
+	my $self = shift;
+	my $class = ref($self) || $self;
+	my $device = shift;
+
+	my $this = {
+		lockdir => "/var/lock",
+		lockfile => undef,
+		device => $device,
+		fh => undef,
+	};
+
+	bless($this, $class);
+}
+
+sub lock {
+	my $self = shift;
+	# create lock in style: /var/lock/LCK..ttyS0
+	my $device = shift;
+	my ($lockfile) = $self->{device} =~ m#/dev/(.+)#;
+	$lockfile = "$self->{lockdir}/LCK..$lockfile";
+	if (-e $lockfile) {
+		carp "$lockfile already exists\n";
+		return 0
+	}
+	open(my $fh, '>', $lockfile) || croak "Can't create lock: $lockfile\n";
+	close($fh);
+
+	$self->{lockfile} = $lockfile;
+}
+
+sub open {
+	my $self = shift;
+
+	$self->lock or return;
+
+	# open the device
+	open(my $fh, "+>$self->{device}") || croak "Couldn't open $self->{device}, $!\n";
+
+	$self->{fh} = $fh;
+}
+
+sub close {
+	my $self = shift;
+	if ($self->{fh}) {
+		close($self->{fh});
+		undef($self->{fh});
+		unlink $self->{lockfile} or carp $!;
+	}
+}
+
+sub DESTORY {
+	my $self = shift;
+	$self->close();
+}
