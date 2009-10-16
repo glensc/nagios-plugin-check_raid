@@ -801,7 +801,12 @@ sub check_hp_msa {
 	my @status;
 
 	my $modem = new SerialLine($device);
-	my $fh = $modem->open() or return;
+	my $fh = $modem->open();
+	unless ($fh) {
+		$status = $ERRORS{WARNING} unless $status;
+		$message .= "hp_msa: Can't open $device";
+		return;
+	}
 
 	# check first controller
 	print $fh "show this_controller\r";
@@ -1066,8 +1071,7 @@ sub lock {
 	my ($lockfile) = $self->{device} =~ m#/dev/(.+)#;
 	$lockfile = "$self->{lockdir}/LCK..$lockfile";
 	if (-e $lockfile) {
-		carp "$lockfile already exists\n";
-		return 0
+		return 0;
 	}
 	open(my $fh, '>', $lockfile) || croak "Can't create lock: $lockfile\n";
 	close($fh);
