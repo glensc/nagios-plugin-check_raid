@@ -809,16 +809,28 @@ sub check_hp_msa {
 	}
 
 	# check first controller
+	print $fh "\r";
+	print $fh "show globals\r";
 	print $fh "show this_controller\r";
 	print $fh "show other_controller\r";
 	# this will issue termination match, ie. invalid command
 	print $fh "exit\r";
 
-	my ($c, %c);
+	my ($c, %c, %t);
 	while (<$fh>) {
 		chomp;
 		s/[\n\r]$//;
 		last if /Invalid CLI command/;
+
+		# Temperature:
+		# EMU: 23 Celsius,  73 Fahrenheit
+		# PS1: 22 Celsius,  71 Fahrenheit
+		# PS2: 22 Celsius,  71 Fahrenheit
+		if (my($s, $c) = /(\S+): (\d+) Celsius,\s+\d+ Fahrenheit/) {
+			$t{$s} = int($c);
+			next;
+		}
+
 		# Controller 1 (right controller):
 		if (my($s) = /^(Controller \d+)/) {
 			$c = $s;
