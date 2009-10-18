@@ -883,6 +883,19 @@ sub check_hp_msa {
 		push(@status, "$c: $s");
 	}
 
+	# check that no temp is over the treshold
+	my $warn = 28;
+	my $crit = 33;
+	while (my($t, $c) = each %t) {
+		if ($c > $crit) {
+			push(@status, "$t: ${c}C");
+			$status = $ERRORS{CRITICAL};
+		} elsif ($c > $warn) {
+			push(@status, "$t: ${c}C");
+			$status = $ERRORS{WARNING} unless $status;
+		}
+	}
+
 	$message .= "hp_msa: ".join(', ', @status) if @status;
 }
 
