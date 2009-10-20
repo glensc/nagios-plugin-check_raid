@@ -794,17 +794,29 @@ sub check_cciss {
 	$message .= "cciss: ".join(', ', @status) if @status;
 }
 
+# check from /sys if there are any MSA VOLUME's present.
+sub sys_have_msa {
+	for my $file (</sys/block/*/device/model>) {
+		open my $fh, '<', $file or next;
+		my $model = <$fh>;
+		close($fh);
+		return 1 if ($model =~ /^MSA.+VOLUME/);
+	}
+	return 0;
+}
+
 sub check_hp_msa {
-	my $device = "/dev/ttyS0";
+	# TODO: unhardcode out modem dev
+	my $ctldevice = "/dev/ttyS0";
 
 	# status messages pushed here
 	my @status;
 
-	my $modem = new SerialLine($device);
+	my $modem = new SerialLine($ctldevice);
 	my $fh = $modem->open();
 	unless ($fh) {
 		$status = $ERRORS{WARNING} unless $status;
-		$message .= "hp_msa: Can't open $device";
+		$message .= "hp_msa: Can't open $ctldevice";
 		return;
 	}
 
@@ -1050,8 +1062,8 @@ check_arcconf if $arcconf;
 check_megarc if $megarc;
 check_cmdtool2 if $cmdtool2;
 check_cciss if -d "/proc/driver/cciss";
-# TODO: better detect, unhardcode out modem dev
-check_hp_msa if -e "/dev/mail_storage/spool"; # pretty stupid test
+check_hp_msa if sys_have_msa;
+
 
 if ($message) {
 	if ($status == $ERRORS{OK}) {
@@ -1100,6 +1112,7 @@ sub lock {
 		return 0;
 	}
 	open(my $fh, '>', $lockfile) || croak "Can't create lock: $lockfile\n";
+	print $fh $$;
 	close($fh);
 
 	$self->{lockfile} = $lockfile;
