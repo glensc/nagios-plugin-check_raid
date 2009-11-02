@@ -6,9 +6,12 @@
 # Return UNKNOWN if there are no RAID configs that can be found.
 # Return WARNING if rebuilding or initialising
 #
-# 2004-2006 S Shipway, university of auckland
-# Thanks to M Carmier for megaraid section
+# 2004-2006 Steve Shipway, university of auckland,
+# http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
+# Steve Shipway Thanks M Carmier for megaraid section.
 # 2009 Elan Ruusamäe <glen@delfi.ee>
+#
+# License: Unknown (No contact from original author)
 #
 # Version 1.1 : IPS; Solaris, AIX, Linux software RAID; megaide
 # Version 2.0 : Added megaraid, mpt (serveraid), aacli (serveraid)
@@ -57,7 +60,7 @@ sub print_usage () {
 
 sub print_help () {
 	print "check_raid, v$VERSION\n";
-	print "Copyright (c) 2004-2006 S Shipway, Copyright (c) 2009, Elan Ruusamäe <glen\@delfi.ee>
+	print "Copyright (c) 2004-2006 Steve Shipway, Copyright (c) 2009, Elan Ruusamäe <glen\@delfi.ee>
 
 This plugin reports the current server's RAID status
 ";
