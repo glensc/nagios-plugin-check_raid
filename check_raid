@@ -11,7 +11,7 @@
 # Steve Shipway Thanks M Carmier for megaraid section.
 # 2009 Elan Ruusamäe <glen@delfi.ee>
 #
-# License: Unknown (No contact from original author)
+# License: GPL v2
 #
 # Version 1.1 : IPS; Solaris, AIX, Linux software RAID; megaide
 # Version 2.0 : Added megaraid, mpt (serveraid), aacli (serveraid)
