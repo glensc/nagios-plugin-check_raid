@@ -558,11 +558,6 @@ sub check_arcconf {
 		if (my($s) = /^\s*Status\s*:\s*(.*)$/) {
 			next if $s eq "Not Installed";
 
-			if ($s eq "Charging") {
-				$status = $ERRORS{WARNING} unless $status;
-			} elsif ($s ne "Optimal") {
-				$status = $ERRORS{CRITICAL};
-			}
 			push(@status, "Battery Status: $s");
 			next;
 		}
