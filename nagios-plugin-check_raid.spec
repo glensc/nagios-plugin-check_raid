@@ -9,6 +9,7 @@ Source0:	%{plugin}
 URL:		http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
 Source1:	%{plugin}.cfg
 Requires:	nagios-core
+Requires:	perl-base >= 1:5.8.0
 Requires:	sudo
 Suggests:	CmdTool2
 Suggests:	arcconf

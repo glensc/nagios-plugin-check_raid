@@ -10,6 +10,11 @@
 # http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
 # Steve Shipway Thanks M Carmier for megaraid section.
 # 2009 Elan Ruusamäe <glen@delfi.ee>
+
+# Requires: perl 5.8 for the open(my $fh , '-|', @CMD) syntax
+# you may workaround for earlier perl it as:
+# open(my $fh , join(" ", @CMD, '|') or return;
+# http://perldoc.perl.org/perl58delta.html#PerlIO-is-Now-The-Default
 #
 # License: GPL v2
 #
