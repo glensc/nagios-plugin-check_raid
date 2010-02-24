@@ -966,8 +966,9 @@ sub sudoers {
 		foreach my $f (</proc/driver/cciss/*>) {
 			open my $fh, '<', $f or next;
 			while (<$fh>) {
-				next unless (my($s) = m{^(cciss/[^:]+):});
-				push(@c, "/dev/$s");
+				if (my($s) = m{^(cciss/[^:]+):}) {
+					push(@c, "/dev/$s");
+				}
 			}
 			close $fh;
 		}
