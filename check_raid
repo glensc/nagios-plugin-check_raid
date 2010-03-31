@@ -793,12 +793,15 @@ sub check_cciss {
 		open(my $fh , '-|', @CMD, $c) or die $!;
 		while (<$fh>) {
 			chomp;
-			# /dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK.
-			if (my($state, $s) = /(.*status: (.*?))\.\s*$/) {
+			# strip for better pattern matching
+			s/\.\s*$//;
+
+			# /dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK
+			if (my($s) = /status: (.*?)$/) {
 				if ($s ne 'OK') {
 					$status = $ERRORS{CRITICAL};
 				}
-				push(@status, $state);
+				push(@status, $_);
 			}
 		}
 		close($fh);
