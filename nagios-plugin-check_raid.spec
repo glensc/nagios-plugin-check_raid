@@ -8,7 +8,7 @@ Group:		Networking
 Source0:	%{plugin}
 Source1:	%{plugin}.cfg
 URL:		http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
-Requires:	nagios-core
+Requires:	nagios-common
 Requires:	perl-base >= 1:5.8.0
 Requires:	sudo
 Suggests:	CmdTool2
