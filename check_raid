@@ -135,30 +135,39 @@ sub check_megaide {
 	}
 }
 
-# Linux LVM
+# Linux Multi-Device (md)
 sub check_mdstat {
-	my($n, $f);
-
 	open my $fh, '<', '/proc/mdstat' or return;
 
-	my @status;
-	while (<$fh>) {
-		if (/^(\S+)\s+:/ ) { $n = $1; $f = ''; next; }
-		next if (($f) = /(\S+)\[\d+\]\(F\)/);
-		next unless (my($s) = /\s*.*\[([U_]+)\]/);
-		next unless valid($n);
+	my ($md, $md_units);
+	my (@status, @failed_disks);
 
-		if ($s =~ /_/) {
+	while (<$fh>) {
+		if (/^(\S+)\s+:/) {
+			$md = $1;
+			@failed_disks = $_ =~ m/(\S+)\[\d+\]\(F\)/g;
+			next;
+		}
+		next unless (($md_units) = /^\s+.*\[([U_]+)\]/);
+		next unless valid($md);
+
+		if ($md_units =~ /_/) {
 			$status = $ERRORS{CRITICAL};
-			push(@status, "$n:$f:$s");
+			push(@status, "$md:@failed_disks:$md_units");
+
+		} elsif (scalar @failed_disks > 0) {
+			$status = $ERRORS{WARNING} unless $status;
+			push(@status, "$md:hot-spare failure: @failed_disks:$md_units");
+
 		} else {
-			push(@status, "$n:$s");
+			push(@status, "$md:$md_units");
 		}
 	}
 	close $fh;
 
 	$message .= "md:[".join(', ', @status)."] " if @status;
 }
+
 
 # Linux, software RAID
 sub check_lsraid {
