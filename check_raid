@@ -140,14 +140,15 @@ sub check_megaide {
 sub check_mdstat {
 	open my $fh, '<', '/proc/mdstat' or return;
 
-	my ($md, $md_status, $resync_status);
+	my ($md, $md_pers, $md_status, $resync_status);
 	my (@status, @failed_disks);
 
 	while (<$fh>) {
 		chomp;
 
-		if (my($s) = /^(\S+)\s+:/) {
+		if (my($s, $p) = /^(\S+)\s+:\s*(?:\S+)\s+(\S+)/) {
 			$md = $s;
+			$md_pers = $p;
 			@failed_disks = $_ =~ m/(\S+)\[\d+\]\(F\)/g;
 			undef $resync_status;
 			next;
@@ -183,19 +184,19 @@ sub check_mdstat {
 
 		if ($md_status =~ /_/) {
 			$status = $ERRORS{CRITICAL};
-			push(@status, "$md:@failed_disks:$md_status");
+			push(@status, "$md($md_pers):@failed_disks:$md_status");
 
 		} elsif (scalar @failed_disks > 0) {
 			$status = $ERRORS{WARNING} unless $status;
-			push(@status, "$md:hot-spare failure: @failed_disks:$md_status");
+			push(@status, "$md($md_pers):hot-spare failure: @failed_disks:$md_status");
 
 		} elsif ($resync_status) {
 			$status = $ERRORS{WARNING} unless $status;
-			push(@status, "$md:$md_status ($resync_status)");
+			push(@status, "$md($md_pers):$md_status ($resync_status)");
 			undef $resync_status;
 
 		} else {
-			push(@status, "$md:$md_status");
+			push(@status, "$md($md_pers):$md_status");
 		}
 	}
 	close $fh;
