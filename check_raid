@@ -18,8 +18,27 @@
 #
 # License: GPL v2
 #
+# Supports:
+# - Adaptec AAC RAID via aaccli or afacli or arcconf
+# - AIX software RAID via lsvg
+# - HP/Compaq Smart Array via cciss_vol_status
+# - HP SmartArray (MSA1500) via serial line
+# - Linux 3ware SATA RAID via tw_cli
+# - Linux DPT/I2O hardware RAID controllers via /proc/scsi/dpt_i2o
+# - Linux GDTH hardware RAID controllers via /proc/scsi/gdth
+# - Linux LSI MegaRaid hardware RAID via CmdTool2
+# - Linux LSI MegaRaid hardware RAID via megarc
+# - Linux LSI MegaRaid hardware RAID via /proc/megaraid
+# - Linux MegaIDE hardware RAID controllers via /proc/megaide
+# - Linux MPT hardware RAID via mpt-status
+# - Linux software RAID (md) via /proc/mdstat
+# - LSI MegaRaid via lsraid
+# - Serveraid IPS via ipssend
+# - Solaris software RAID via metastat
+#
+# Changes:
 # Version 1.1 : IPS; Solaris, AIX, Linux software RAID; megaide
-# Version 2.0 : Added megaraid, mpt (serveraid), aacli (serveraid)
+# Version 2.0 : Added megaraid, mpt (serveraid), aaccli (serveraid)
 # Version 2.1 :
 # - Made script more generic and secure
 # - Added gdth
@@ -28,7 +47,7 @@
 # - Added Adaptec AAC-RAID via arcconf
 # - Added LSI MegaRaid via megarc
 # - Added LSI MegaRaid via CmdTool2
-# - Added HP/Compaq Smarty Array via cciss_vol_status
+# - Added HP/Compaq Smart Array via cciss_vol_status
 # - Added HP MSA1500 check via serial line
 
 use strict;
@@ -227,7 +246,7 @@ sub check_lsraid {
 }
 
 # AIX LVM
-sub check_vg {
+sub check_lsvg {
 	my @CMD = $lsvg;
 	unshift(@CMD, $sudo) if $> and $sudo;
 
@@ -263,7 +282,7 @@ sub check_vg {
 }
 
 # Serveraid IPS
-sub check_ips {
+sub check_ipssend {
 	my @CMD = $ipssend;
 	unshift(@CMD, $sudo) if $> and $sudo;
 
@@ -1117,8 +1136,8 @@ check_aaccli if -d "/proc/scsi/aacraid";
 check_afacli if $afacli;
 check_lsraid if $lsraid;
 check_metastat if $metastat;
-check_vg if $lsvg;
-check_ips if $ipssend;
+check_lsvg if $lsvg;
+check_ipssend if $ipssend;
 check_tw_cli if $tw_cli;
 check_arcconf if $arcconf;
 check_megarc if $megarc;
