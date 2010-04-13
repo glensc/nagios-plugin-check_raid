@@ -1,0 +1,8 @@
+Personalities : [linear] [raid1] 
+md1 : active raid1 sdc1[0] sdd1[1]
+      71826496 blocks [2/2] [UU]
+      
+md0 : active linear sdf2[0] sde6[1]
+      58291648 blocks 64k rounding
+      
+unused devices: <none>
