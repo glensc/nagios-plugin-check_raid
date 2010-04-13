@@ -9,7 +9,7 @@
 # 2004-2006 Steve Shipway, university of auckland,
 # http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
 # Steve Shipway Thanks M Carmier for megaraid section.
-# 2009 Elan Ruusamäe <glen@delfi.ee>
+# 2009-2010 Elan Ruusamäe <glen@delfi.ee>
 
 # Requires: perl 5.8 for the open(my $fh , '-|', @CMD) syntax
 # you may workaround for earlier perl it as:
@@ -136,31 +136,66 @@ sub check_megaide {
 }
 
 # Linux Multi-Device (md)
+# TODO: check linerar devices
 sub check_mdstat {
 	open my $fh, '<', '/proc/mdstat' or return;
 
-	my ($md, $md_units);
+	my ($md, $md_status, $resync_status);
 	my (@status, @failed_disks);
 
 	while (<$fh>) {
-		if (/^(\S+)\s+:/) {
-			$md = $1;
+		chomp;
+
+		if (my($s) = /^(\S+)\s+:/) {
+			$md = $s;
 			@failed_disks = $_ =~ m/(\S+)\[\d+\]\(F\)/g;
+			undef $resync_status;
 			next;
 		}
-		next unless (($md_units) = /^\s+.*\[([U_]+)\]/);
+
+		# linux-2.6.33/drivers/md/dm-raid1.c, device_status_char
+		# A => Alive - No failures
+		# D => Dead - A write failure occurred leaving mirror out-of-sync
+		# S => Sync - A sychronization failure occurred, mirror out-of-sync
+		# R => Read - A read failure occurred, mirror data unaffected
+		# U => for the rest
+		if (my($s) = /^\s+.*\[([U_]+)\]/) {
+			$md_status = $s;
+			next;
+		}
+
+		# linux-2.6.33/drivers/md/md.c, md_seq_show
+		if (my($action) = m{(resync=(?:PENDING|DELAYED))}) {
+			$resync_status = $action;
+			next;
+		}
+		# linux-2.6.33/drivers/md/md.c, status_resync
+		# [==>..................]  resync = 13.0% (95900032/732515712) finish=175.4min speed=60459K/sec
+		if (my($action, $perc, $eta, $speed) = m{(resync|recovery|check|reshape) = ([\d.]+%) \(\d+/\d+\) finish=([\d.]+min) speed=(\d+K/sec)}) {
+			$resync_status = "$action:$perc $speed ETA: $eta";
+			next;
+		}
+
+		# we need empty line denoting end of one md
+		next unless /^\s+$/;
+
 		next unless valid($md);
 
-		if ($md_units =~ /_/) {
+		if ($md_status =~ /_/) {
 			$status = $ERRORS{CRITICAL};
-			push(@status, "$md:@failed_disks:$md_units");
+			push(@status, "$md:@failed_disks:$md_status");
 
 		} elsif (scalar @failed_disks > 0) {
 			$status = $ERRORS{WARNING} unless $status;
-			push(@status, "$md:hot-spare failure: @failed_disks:$md_units");
+			push(@status, "$md:hot-spare failure: @failed_disks:$md_status");
+
+		} elsif ($resync_status) {
+			$status = $ERRORS{WARNING} unless $status;
+			push(@status, "$md:$md_status ($resync_status)");
+			undef $resync_status;
 
 		} else {
-			push(@status, "$md:$md_units");
+			push(@status, "$md:$md_status");
 		}
 	}
 	close $fh;
