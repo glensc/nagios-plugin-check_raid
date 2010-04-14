@@ -1,0 +1,32 @@
+h001 ~ # MegaCli -LdInfo -LALL -aALL
+
+
+Adapter 0 -- Virtual Drive Information:
+Virtual Disk: 0 (Target Id: 0)
+Name:OS
+RAID Level: Primary-1, Secondary-0, RAID Level Qualifier-0
+Size:136.125 GB
+State: Optimal
+Stripe Size: 64 KB
+Number Of Drives:2
+Span Depth:1
+Default Cache Policy: WriteBack, ReadAdaptive, Direct, No Write Cache if Bad BBU
+Current Cache Policy: WriteBack, ReadAdaptive, Direct, No Write Cache if Bad BBU
+Access Policy: Read/Write
+Disk Cache Policy: Disk's Default
+Encryption Type: None
+Virtual Disk: 1 (Target Id: 1)
+Name:DATA
+RAID Level: Primary-5, Secondary-0, RAID Level Qualifier-3
+Size:272.25 GB
+State: Optimal
+Stripe Size: 64 KB
+Number Of Drives:3
+Span Depth:1
+Default Cache Policy: WriteBack, ReadAdaptive, Direct, No Write Cache if Bad BBU
+Current Cache Policy: WriteBack, ReadAdaptive, Direct, No Write Cache if Bad BBU
+Access Policy: Read/Write
+Disk Cache Policy: Disk's Default
+Encryption Type: None
+
+Exit Code: 0x00
