@@ -1,0 +1,35 @@
+Adapter #0
+
+Enclosure Device ID: 8
+Slot Number: 0
+Device Id: 0
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+Raw Size: 140014MB [0x11177328 Sectors]
+Non Coerced Size: 139502MB [0x11077328 Sectors]
+Coerced Size: 139392MB [0x11040000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x50010b900018e42a
+SAS Address(1): 0x0
+Connected Port Number: 0 
+Inquiry Data: MAXTOR  ATLAS10K5_147SASBP00J498LV8K    
+
+Enclosure Device ID: 8
+Slot Number: 1
+Device Id: 1
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+Raw Size: 140014MB [0x11177328 Sectors]
+Non Coerced Size: 139502MB [0x11077328 Sectors]
+Coerced Size: 139392MB [0x11040000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x5000c50004e9ab61
+SAS Address(1): 0x0
+Connected Port Number: 1 
+Inquiry Data: SEAGATE ST3146356SS     HS093QN070RR
