@@ -16,6 +16,7 @@ Requires:	sudo
 Suggests:	CmdTool2
 Suggests:	arcconf
 Suggests:	cciss_vol_status
+Suggests:	megacli-sas
 Suggests:	megarc-scsi
 Suggests:	mpt-status
 Suggests:	tw_cli-9xxx

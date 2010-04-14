@@ -32,6 +32,7 @@
 # - Linux MegaIDE hardware RAID controllers via /proc/megaide
 # - Linux MPT hardware RAID via mpt-status
 # - Linux software RAID (md) via /proc/mdstat
+# - LSI Logic MegaRAID SAS series via MegaCli
 # - LSI MegaRaid via lsraid
 # - Serveraid IPS via ipssend
 # - Solaris software RAID via metastat
@@ -66,6 +67,7 @@ my $mpt_status = which('mpt-status');
 my $aaccli = which('aaccli');
 my $afacli = which('afacli');
 my $lsraid = which('lsraid');
+my $megacli = which('MegaCli64') || which('MegaCli');
 my $metastat = which('metastat');
 my $lsvg = which('lsvg');
 my $ipssend = which('ipssend');
@@ -243,6 +245,48 @@ sub check_lsraid {
 		$message .= "md:$n:$s ";
 	}
 	close $fh;
+}
+
+# Linux, software RAID
+# MegaRAID SAS 8xxx controllers
+# based on info from here:
+# http://www.bxtra.net/Articles/2008-09-16/Dell-Perc6i-RAID-Monitoring-Script-using-MegaCli-LSI-CentOS-52-64-bits
+# TODO: http://www.techno-obscura.com/~delgado/code/check_megaraid_sas
+sub check_megacli {
+	my @CMD = ($megacli, '-PDList', '-aALL');
+	unshift(@CMD, $sudo) if $> and $sudo;
+
+	open(my $fh , '-|', @CMD) or return;
+	my (@status, @devs, %cur);
+	while (<$fh>) {
+		if (my($s) = /Device Id: (\S+)/) {
+			push(@devs, { %cur }) if %cur;
+			%cur = ( dev => $s, state => undef, name => undef );
+			next;
+		}
+		if (my($s) = /Firmware state: (\S+)/) {
+			$cur{state} = $s;
+			next;
+		}
+		if (my($s) = /Inquiry Data: (.+)/) {
+			# trim some spaces
+			$s =~ s/\s+/ /g; $s =~ s/^\s+|\s+$//g;
+			$cur{name} = $s;
+			next;
+		}
+	}
+	close $fh;
+	push(@devs, { %cur }) if %cur;
+
+	foreach my $dev (@devs) {
+		push(@status, sprintf "Dev%02d (%s): %s", $dev->{dev}, $dev->{name}, $dev->{state});
+		if ($dev->{state} ne 'Online') {
+			# TODO: process other statuses
+			$status = $ERRORS{CRITICAL};
+		}
+	}
+
+	$message .= "MegaCli:".join(', ', @status) if @status;
 }
 
 # AIX LVM
@@ -1025,6 +1069,7 @@ sub sudoers {
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megarc -dispCfg -a* -nolog\n") if $megarc;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmdtool2 -AdpAllInfo -aALL -nolog\n") if $cmdtool2;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmdtool2 -CfgDsply -a* -nolog\n") if $cmdtool2;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megacli -PDList -aALL\n") if $megacli;
 	foreach my $mr (</proc/mega*/*/raiddrives*>) {
 		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat $mr\n") if -d $mr;
 	}
@@ -1135,6 +1180,7 @@ check_megaraid if -d "/proc/megaraid";
 check_aaccli if -d "/proc/scsi/aacraid";
 check_afacli if $afacli;
 check_lsraid if $lsraid;
+check_megacli if $megacli;
 check_metastat if $metastat;
 check_lsvg if $lsvg;
 check_ipssend if $ipssend;
