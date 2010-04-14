@@ -1171,13 +1171,13 @@ if ($opt_W) {
 $status = $ERRORS{OK};
 $message = '';
 
-check_gdth if -d "/proc/scsi/gdth";
-check_megaide if -d "/proc/megaide";
-check_mdstat if -f "/proc/mdstat";
-check_mpt if -d "/proc/mpt";
-check_dpt_i2o if -d "/proc/scsi/dpt_i2o";
-check_megaraid if -d "/proc/megaraid";
-check_aaccli if -d "/proc/scsi/aacraid";
+check_gdth if -d "/proc/scsi/gdth" and valid("/proc/scsi/gdth");
+check_megaide if -d "/proc/megaide" and valid("/proc/megaide");
+check_mdstat if -f "/proc/mdstat" and valid("/proc/mdstat");
+check_mpt if -d "/proc/mpt" and valid("/proc/mpt");
+check_dpt_i2o if -d "/proc/scsi/dpt_i2o" and valid("/proc/scsi/dpt_i2o");
+check_megaraid if -d "/proc/megaraid" and valid("/proc/megaraidc");
+check_aaccli if -d "/proc/scsi/aacraid" and valid("/proc/scsi/aacraid");
 check_afacli if $afacli;
 check_lsraid if $lsraid;
 check_megacli if $megacli;
@@ -1188,7 +1188,7 @@ check_tw_cli if $tw_cli;
 check_arcconf if $arcconf;
 check_megarc if $megarc;
 check_cmdtool2 if $cmdtool2;
-check_cciss if -d "/proc/driver/cciss";
+check_cciss if -d "/proc/driver/cciss" and valid("/proc/driver/cciss");
 check_hp_msa if sys_have_msa;
 
 
