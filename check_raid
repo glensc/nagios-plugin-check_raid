@@ -1,5 +1,7 @@
 #!/usr/bin/perl -w
 # vim:ts=4
+# Nagios EPN Workaround:
+# nagios: -epn
 #
 # Check RAID status. Look for any known types of RAID configurations, and check them all.
 # Return CRITICAL if in a DEGRADED state, since if the whole array has failed you'll have already noticed it!
