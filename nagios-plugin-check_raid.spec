@@ -4,7 +4,7 @@
 Summary:	Nagios plugin to check current server's RAID status
 Name:		nagios-plugin-%{plugin}
 Version:	2.1
-Release:	11.2
+Release:	12
 License:	GPL v2
 Group:		Networking
 Source0:	%{plugin}
