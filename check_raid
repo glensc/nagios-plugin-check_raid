@@ -12,6 +12,8 @@
 # http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
 # Steve Shipway Thanks M Carmier for megaraid section.
 # 2009-2010 Elan Ruusamäe <glen@pld-linux.org>
+#
+# $Id$
 
 # Requires: perl 5.8 for the open(my $fh , '-|', @CMD) syntax
 # you may workaround for earlier perl it as:
@@ -52,8 +54,7 @@
 # - Added LSI MegaRaid via CmdTool2
 # - Added HP/Compaq Smart Array via cciss_vol_status
 # - Added HP MSA1500 check via serial line
-#
-# $Id$
+# - Added checks via HP hpacucli utility.
 
 use strict;
 use Getopt::Long;
@@ -80,6 +81,7 @@ my $arcconf = which('arcconf');
 my $megarc = which('megarc');
 my $cmdtool2 = which('CmdTool2');
 my $cciss_vol_status = which('cciss_vol_status');
+my $hpacucli = which('hpacucli');
 
 #####################################################################
 sub print_usage () {
@@ -922,6 +924,104 @@ sub check_cciss {
 	$message .= "cciss: ".join(', ', @status) if @status;
 }
 
+sub check_hpacucli {
+	my @CMD = $hpacucli;
+	unshift(@CMD, $sudo) if $> and $sudo;
+
+	# status messages pushed here
+	my @status;
+
+	# TODO: allow target customize:
+	# hpacucli <target> is of format:
+	#  [controller all|slot=#|wwn=#|chassisname="AAA"|serialnumber=#|chassisserialnumber=#|ctrlpath=#:# ]
+	#  [array all|<id>]
+	#  [physicaldrive all|allunassigned|[#:]#:#|[#:]#:#-[#:]#:#]
+	#  [logicaldrive all|#]
+	#  [enclosure all|#:#|serialnumber=#|chassisname=#]
+	#  [licensekey all|<key>]
+
+	# Scan controllers
+	my (%targets, $fh);
+	open($fh , '-|', @CMD, 'controller', 'all', 'show', 'status') or return;
+	while (<$fh>) {
+		# Numeric slot
+		if (my($model, $slot) = /^(\S.+) in Slot (\d+)/) {
+			$targets{"slot=$slot"} = $model;
+			next;
+		}
+		# Named Entry
+		if (my($model, $cn) = /^(\S.+) in (.+)/) {
+			$targets{"chassisname=$cn"} = $cn;
+			next;
+		}
+	}
+	close $fh;
+
+	unless (%targets) {
+		$status = $ERRORS{WARNING} unless $status;
+		$message .= "hpacucli: No Controllers were found on this machine";
+		return;
+	}
+
+
+	# Scan logical drives
+	while (my($target, $model) = each %targets) {
+		# check each controllers
+		open($fh , '-|', @CMD, 'controller', $target, 'logicaldrive', 'all', 'show') or next;
+
+		my ($array, %array);
+		while (<$fh>) {
+			# "array A"
+			# "array A (Failed)"
+			# "array B (Failed)"
+			if (my($a, $s) = /^\s+array (\S+)(?:\s*\((\S+)\))?$/) {
+				$array = $a;
+				# Offset 0 is Array own status
+				# XXX: I don't like this one: undef could be false positive
+				$array{$array}[0] = $s || 'OK';
+			}
+
+			# skip if no active array yet
+			next unless $array;
+
+			# logicaldrive 1 (68.3 GB, RAID 1, OK)
+			# capture only status
+			if (my($drive, $s) = /^\s+logicaldrive (\d+) \([\d.]+ .B, [^,]+, (\S+)\)$/) {
+				# Offset 1 is each logical drive status
+				$array{$array}[1]{$drive} = $s;
+			}
+		}
+		close $fh;
+
+		my @cstatus;
+		while (my($array, $d) = each %array) {
+			my ($astatus, $ld) = @$d;
+
+			if ($astatus eq 'OK') {
+				push(@cstatus, "Array $array($astatus)");
+			} else {
+				my @astatus;
+				# extra details for non-normal arrays
+				foreach my $lun (sort { $a cmp $b } keys %$ld) {
+					my $s = $ld->{$lun};
+					push(@astatus, "LUN$lun:$s");
+
+					if ($s eq 'OK' or $s eq 'Disabled') {
+					} elsif ($s eq 'Failed' or $s eq 'Interim Recovery Mode') {
+						$status = $ERRORS{CRITICAL};
+					} elsif ($s eq 'Rebuild' or $s eq 'Recover') {
+						$status = $ERRORS{WARNING} unless $status;
+					}
+				}
+				push(@cstatus, "Array $array($astatus)[". join(',', @astatus). "]");
+			}
+		}
+		push(@status, "$model: ".join(', ', @cstatus));
+	}
+
+	$message .= "hpacucli: ".join(', ', @status) if @status;
+}
+
 # check from /sys if there are any MSA VOLUME's present.
 sub sys_have_msa {
 	for my $file (</sys/block/*/device/model>) {
@@ -1193,8 +1293,8 @@ check_arcconf if $arcconf;
 check_megarc if $megarc;
 check_cmdtool2 if $cmdtool2;
 check_cciss if -d "/proc/driver/cciss" and valid("/proc/driver/cciss");
+check_hpacucli if $hpacucli;
 check_hp_msa if sys_have_msa;
-
 
 if ($message) {
 	if ($status == $ERRORS{OK}) {
