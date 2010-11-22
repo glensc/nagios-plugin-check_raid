@@ -1295,7 +1295,8 @@ check_megarc if $megarc;
 check_cmdtool2 if $cmdtool2;
 check_cciss if -d "/proc/driver/cciss" and valid("/proc/driver/cciss");
 check_hpacucli if $hpacucli;
-check_hp_msa if sys_have_msa;
+# disabled: use hpacucli instead
+#check_hp_msa if sys_have_msa;
 
 if ($message) {
 	if ($status == $ERRORS{OK}) {
