@@ -26,8 +26,8 @@
 # - Adaptec AAC RAID via aaccli or afacli or arcconf
 # - AIX software RAID via lsvg
 # - HP/Compaq Smart Array via cciss_vol_status
-# - HP SmartArray Controllers and RAID Array Controllers via hpacucli
-# - HP SmartArray (MSA1500) via serial line
+# - HP Smart Array Controllers and MSA Controllers via hpacucli (see hapacucli readme)
+# - HP Smart Array (MSA1500) via serial line
 # - Linux 3ware SATA RAID via tw_cli
 # - Linux DPT/I2O hardware RAID controllers via /proc/scsi/dpt_i2o
 # - Linux GDTH hardware RAID controllers via /proc/scsi/gdth
