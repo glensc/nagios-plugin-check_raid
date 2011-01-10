@@ -600,10 +600,14 @@ sub check_tw_cli {
 		open($fh , '-|', @CMD, 'info', $c, 'unitstatus') or next;
 		my @cstatus;
 		while (<$fh>) {
-			next unless (my($u, $s, $p) = /^(u\d+)\s+\S+\s+(\S+)\s+(\S+)/);
+			next unless (my($u, $s, $p, $p2) = /^(u\d+)\s+\S+\s+(\S+)\s+(\S+)\s+(\S+)/);
 
 			if ($s eq 'OK') {
 				push(@cstatus, "$u:$s");
+
+			} elsif ($s eq 'INITIALIZING') {
+				$status = $ERRORS{WARNING} unless $status;
+				push(@cstatus, "$u:$s $p2");
 
 			} elsif ($s eq 'REBUILDING') {
 				$status = $ERRORS{WARNING} unless $status;
