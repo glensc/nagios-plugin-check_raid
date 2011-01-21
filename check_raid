@@ -337,9 +337,13 @@ sub check_ipssend {
 	my @CMD = $ipssend;
 	unshift(@CMD, $sudo) if $> and $sudo;
 
-	open(my $fh , '-|', @CMD) or return;
+	my $n;
+	open(my $fh , '-|', @CMD, 'GETCONFIG', '1', 'LD') or return;
 	while (<$fh>) {
-		next if (my($n) = /drive number (\d+)/i);
+		if (/drive number (\d+)/i){
+		    $n=$1;
+		    next;
+		}
 		next unless valid($n);
 		next unless (my($s, $c) = /Status .*: (\S+)\s+(\S+)/);
 
