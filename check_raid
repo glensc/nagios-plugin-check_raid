@@ -423,7 +423,9 @@ sub check_afacli {
 	close $write;
 
 	while (<$read>) {
-		if (my($dsk, $stat) = /(\d:\d\d?:\d+)\s+\S+:\S+\s+(\S+)/) {
+ 		# 0    Mirror  465GB            Valid   0:00:0 64.0KB: 465GB Normal                        0  032511 17:55:06
+ 		# /dev/sda             root             0:01:0 64.0KB: 465GB Normal                        1  032511 17:55:06
+        if (my($dsk, $stat) = /(\d:\d\d?:\d+)\s+\S+:\s?\S+\s+(\S+)/) {
 			next unless valid($dsk);
 			$dsk =~ s/:/\//g;
 			next unless valid($dsk);
