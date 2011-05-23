@@ -96,7 +96,7 @@ sub print_usage () {
 
 sub print_help () {
 	print "check_raid, v$VERSION\n";
-	print "Copyright (c) 2004-2006 Steve Shipway, Copyright (c) 2009-2010, Elan Ruusamäe <glen\@pld-linux.org>
+	print "Copyright (c) 2004-2006 Steve Shipway, Copyright (c) 2009-2011, Elan Ruusamäe <glen\@pld-linux.org>
 
 This plugin reports the current server's RAID status
 ";
