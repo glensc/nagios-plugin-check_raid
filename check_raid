@@ -15,7 +15,7 @@
 #
 # $Id$
 
-# Requires: perl 5.8 for the open(my $fh , '-|', @CMD) syntax
+# Requires: Perl 5.8 for the open(my $fh , '-|', @CMD) syntax
 # you may workaround for earlier perl it as:
 # open(my $fh , join(" ", @CMD, '|') or return;
 # http://perldoc.perl.org/perl58delta.html#PerlIO-is-Now-The-Default
@@ -23,6 +23,7 @@
 # License: GPL v2
 # URL in Nagios Exchange: http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
 # URL in VCS: http://cvs.pld-linux.org/cgi-bin/cvsweb.cgi/packages/nagios-plugin-check_raid/check_raid
+# Current Maintainer: Elan Ruusamäe <glen@pld-linux.org>, patches welcome :)
 #
 # Supports:
 # - Adaptec AAC RAID via aaccli or afacli or arcconf
