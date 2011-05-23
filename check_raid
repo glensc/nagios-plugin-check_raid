@@ -11,7 +11,7 @@
 # 2004-2006 Steve Shipway, university of auckland,
 # http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
 # Steve Shipway Thanks M Carmier for megaraid section.
-# 2009-2010 Elan Ruusamäe <glen@pld-linux.org>
+# 2009-2011 Elan Ruusamäe <glen@pld-linux.org>
 #
 # $Id$
 
@@ -21,6 +21,8 @@
 # http://perldoc.perl.org/perl58delta.html#PerlIO-is-Now-The-Default
 #
 # License: GPL v2
+# URL in Nagios Exchange: http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
+# URL in VCS: http://cvs.pld-linux.org/cgi-bin/cvsweb.cgi/packages/nagios-plugin-check_raid/check_raid
 #
 # Supports:
 # - Adaptec AAC RAID via aaccli or afacli or arcconf
