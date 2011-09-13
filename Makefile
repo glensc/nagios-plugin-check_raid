@@ -5,7 +5,10 @@ PACKAGE_VERSION := $(shell awk '/Version:/{print $$2}' $(SPECFILE))
 
 all:
 
-dist:
+cvsup:
+	cvs up -dP
+
+dist: cvsup
 	rm -rf $(PACKAGE_NAME)-$(PACKAGE_VERSION)
 	install -d $(PACKAGE_NAME)-$(PACKAGE_VERSION)
 	cp -a check_raid check_raid.cfg t $(PACKAGE_NAME)-$(PACKAGE_VERSION)
