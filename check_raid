@@ -662,20 +662,16 @@ sub check_arcconf {
 	chdir('/var/log') || chdir('/');
 
 	my ($fh, $d);
-	open($fh , '-|', @CMD, 'GETCONFIG', '1', 'LD') or return;
+	open($fh , '-|', @CMD, 'GETCONFIG', '1', 'AL') or return;
 	while (<$fh>) {
-		$d = $1, next if /^Logical device number (\d+)/;
-		next unless (my ($s) = /^\s*Status of logical device\s+:\s+(.+)/);
-		push(@status, "Logical Device $d:$s");
+		last if /^Controller information/;
 	}
-	close $fh;
-
-	open($fh , '-|', @CMD, 'GETCONFIG', '1', 'AD') or return;
+	# Controller information
 	while (<$fh>) {
+		last if /^Logical device information/;
+
 		if (my($s) = /Controller Status\s*:\s*(.*)/) {
-			if ($s ne 'Optimal') {
-				$status = $ERRORS{CRITICAL};
-			}
+			$status = $ERRORS{CRITICAL} if ($s ne 'Optimal');
 			push(@status, "Controller:$s");
 			next;
 		}
@@ -700,7 +696,6 @@ sub check_arcconf {
 
 		if (my($s) = /^\s*Status\s*:\s*(.*)$/) {
 			next if $s eq "Not Installed";
-
 			push(@status, "Battery Status: $s");
 			next;
 		}
@@ -736,11 +731,19 @@ sub check_arcconf {
 			if ($mins < 60) {
 				push(@status, "Battery Time: ${m}m");
 			} else {
-				push(@status, "Battery Time: ${d}d, ${h}h, ${m}m");
+				push(@status, "Battery Time: ${d}d${h}h${m}m");
 			}
 			next;
 		}
 	}
+	# Logical device information
+	while (<$fh>) {
+		last if /^Physical Device information/;
+		$d = $1, next if /^Logical device number (\d+)/;
+		next unless (my ($s) = /^\s*Status of logical device\s+:\s+(.+)/);
+		push(@status, "Logical Device $d:$s");
+	}
+	# Physical Device information
 	close $fh;
 
 	$message .= "arcconf:".join(', ', @status) if @status;
@@ -1182,7 +1185,7 @@ sub sudoers {
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $mpt_status -s\n") if $mpt_status and -d "/proc/mpt";
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/0/status\n") if -d "/proc/megaide/0";
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/1/status\n") if -d "/proc/megaide/1";
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $arcconf GETCONFIG 1 *\n") if $arcconf;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $arcconf GETCONFIG 1 AL\n") if $arcconf;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megarc -AllAdpInfo -nolog\n") if $megarc;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megarc -dispCfg -a* -nolog\n") if $megarc;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmdtool2 -AdpAllInfo -aALL -nolog\n") if $cmdtool2;
