@@ -3,8 +3,8 @@
 %define		plugin	check_raid
 Summary:	Nagios plugin to check current server's RAID status
 Name:		nagios-plugin-%{plugin}
-Version:	2.1
-Release:	13
+Version:	2.1.1.97
+Release:	1
 License:	GPL v2
 Group:		Networking
 Source0:	%{plugin}
@@ -44,11 +44,14 @@ Supports:
 %setup -qcT
 cp -p %{SOURCE0} %{plugin}
 
+rev=$(awk '/Id: check_raid/{print $4}' check_raid)
+test %{version} = 2.1.$rev
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{plugindir}}
 install -p %{plugin} $RPM_BUILD_ROOT%{plugindir}/%{plugin}
-cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/%{plugin}.cfg
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/%{plugin}.cfg
 
 %clean
 rm -rf $RPM_BUILD_ROOT
