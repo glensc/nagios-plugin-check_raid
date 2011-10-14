@@ -262,6 +262,7 @@ sub check_lsraid {
 # based on info from here:
 # http://www.bxtra.net/Articles/2008-09-16/Dell-Perc6i-RAID-Monitoring-Script-using-MegaCli-LSI-CentOS-52-64-bits
 # TODO: http://www.techno-obscura.com/~delgado/code/check_megaraid_sas
+# TODO: process several adapters
 sub check_megacli {
 	my @CMD = ($megacli, '-PDList', '-aALL', '-NoLog');
 	unshift(@CMD, $sudo) if $> and $sudo;
@@ -274,7 +275,11 @@ sub check_megacli {
 			%cur = ( dev => $s, state => undef, name => undef );
 			next;
 		}
-		if (my($s) = /Firmware state: (\S+)/) {
+		if (my($s) = /Firmware state: (.+)/) {
+			# strip the extra state:
+			# 'Online, Spun Up'
+			# 'Hotspare, Spun down'
+			$s =~ s/,.+//;
 			$cur{state} = $s;
 			next;
 		}
@@ -288,15 +293,18 @@ sub check_megacli {
 	close $fh;
 	push(@devs, { %cur }) if %cur;
 
+	my @dstatus;
 	foreach my $dev (@devs) {
-		push(@status, sprintf "Dev%02d (%s): %s", $dev->{dev}, $dev->{name}, $dev->{state});
-		if ($dev->{state} ne 'Online') {
-			# TODO: process other statuses
+		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare') {
+			push(@dstatus, sprintf "%02d:%s", $dev->{dev}, $dev->{state});
+		} else {
 			$status = $ERRORS{CRITICAL};
+			# TODO: process other statuses
+			push(@dstatus, sprintf "%02d (%s): %s", $dev->{dev}, $dev->{name}, $dev->{state});
 		}
 	}
-
-	$message .= "MegaCli:".join(', ', @status) if @status;
+	push(@status, ($#devs + 1) . ' Devs: ' . join(',', @dstatus));
+	$message .= "MegaCli:[".join(' ', @status)."] " if @status;
 }
 
 # AIX LVM
