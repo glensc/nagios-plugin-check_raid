@@ -293,6 +293,14 @@ sub check_megacli {
 	close $fh;
 	push(@devs, { %cur }) if %cur;
 
+	my @vstatus;
+	foreach my $vol (@vols) {
+		push(@vstatus, sprintf "%s:%s", $vol->{name}, $vol->{state});
+		if ($vol->{state} ne 'Online') {
+			$status = $ERRORS{CRITICAL};
+		}
+	}
+
 	my @dstatus;
 	foreach my $dev (@devs) {
 		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare') {
@@ -303,7 +311,8 @@ sub check_megacli {
 			push(@dstatus, sprintf "%02d (%s): %s", $dev->{dev}, $dev->{name}, $dev->{state});
 		}
 	}
-	push(@status, ($#devs + 1) . ' Devs: ' . join(',', @dstatus));
+
+	push(@status, ($#vols + 1) . ' Vols: ' . join(',', @vstatus) . ', '. ($#devs + 1) . ' Devs: ' . join(',', @dstatus));
 	$message .= "MegaCli:[".join(' ', @status)."] " if @status;
 }
 
