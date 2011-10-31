@@ -296,7 +296,7 @@ sub check_megacli {
 	my @vstatus;
 	foreach my $vol (@vols) {
 		push(@vstatus, sprintf "%s:%s", $vol->{name}, $vol->{state});
-		if ($vol->{state} ne 'Online') {
+		if ($vol->{state} ne 'Optimal') {
 			$status = $ERRORS{CRITICAL};
 		}
 	}
