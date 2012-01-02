@@ -4,7 +4,7 @@
 # nagios: -epn
 #
 # Check RAID status. Look for any known types of RAID configurations, and check them all.
-# Return CRITICAL if in a DEGRADED state, since if the whole array has failed you'll have already noticed it!
+# Return CRITICAL if in a DEGRADED or FAILED state.
 # Return UNKNOWN if there are no RAID configs that can be found.
 # Return WARNING if rebuilding or initialising
 #
@@ -481,7 +481,7 @@ sub check_mpt {
 			next unless valid($d);
 			if (!$status and $s =~ /INITIAL|INACTIVE|RESYNC/) {
 				$status = $ERRORS{WARNING} unless $status;
-			} elsif ($s =~ /DEGRADED/) {
+			} elsif ($s =~ /DEGRADED|FAILED/) {
 				$status = $ERRORS{CRITICAL};
 			} elsif (!$status and $s !~ /ONLINE|OPTIMAL/) {
 				$status = $ERRORS{UNKNOWN} unless $status;
