@@ -28,7 +28,7 @@
 # Supports:
 # - Adaptec AAC RAID via aaccli or afacli or arcconf
 # - AIX software RAID via lsvg
-# - HP/Compaq Smart Array via cciss_vol_status
+# - HP/Compaq Smart Array via cciss_vol_status (hpsa supported too)
 # - HP Smart Array Controllers and MSA Controllers via hpacucli (see hapacucli readme)
 # - HP Smart Array (MSA1500) via serial line
 # - Linux 3ware SATA RAID via tw_cli
@@ -59,6 +59,7 @@
 # - Added HP/Compaq Smart Array via cciss_vol_status
 # - Added HP MSA1500 check via serial line
 # - Added checks via HP hpacucli utility.
+# - Added hpsa module support for cciss_vol_status
 
 use strict;
 use Getopt::Long;
@@ -894,67 +895,98 @@ sub check_cmdtool2 {
 	$message .= "CmdTool2: ".join(', ', @status) if @status;
 }
 
+# detects if hpsa (formerly cciss) is present in system
+sub detect_cciss {
+	my @devs;
+
+	# skip if no program present
+	return () unless $cciss_vol_status;
+
+	# check hpsa devs
+	if (-e "/sys/module/hpsa/refcnt") {
+		open my $fh, '<', "/sys/module/hpsa/refcnt";
+		my $refcnt = <$fh>;
+		close $fh;
+		if ($refcnt) {
+			# TODO: how to figure which sgX is actually in use?
+			# for now we collect all, and expect cciss_vol_status to ignore unknowns
+			foreach my $f (</sys/class/scsi_generic/sg*>) {
+				next unless (my($s) = $f =~ m{/(sg\d+)$});
+				push(@devs, "/dev/$s");
+			}
+		}
+	}
+
+	# check legacy cciss devs
+	if (-d "/proc/driver/cciss" and valid("/proc/driver/cciss")) {
+		# find controllers
+		#	cciss0: HP Smart Array P400i Controller
+		#	Board ID: 0x3235103c
+		#	Firmware Version: 4.06
+		#	IRQ: 98
+		#	Logical drives: 1
+		#	Current Q depth: 0
+		#	Current # commands on controller: 0
+		#	Max Q depth since init: 249
+		#	Max # commands on controller since init: 275
+		#	Max SG entries since init: 31
+		#	Sequential access devices: 0
+		#
+		#	cciss/c0d0:      220.12GB       RAID 1(1+0)
+		foreach my $f (</proc/driver/cciss/*>) {
+			open my $fh, '<', $f or next;
+			while (<$fh>) {
+				next unless (my($s) = m{^(cciss/[^:]+):});
+				push(@devs, "/dev/$s");
+			}
+			close $fh;
+		}
+	}
+
+	return wantarray ? @devs : \@devs;
+}
+
+# @param devices for cciss_vol_status, i.e /dev/cciss/c*d0 /dev/sg*
 sub check_cciss {
+	my @devs = @_;
+
 	unless ($cciss_vol_status) {
 		$message .= "cciss:cciss_vol_status program not found";
 		$status = $ERRORS{CRITICAL};
 		return;
 	}
 
-	my @CMD = $cciss_vol_status;
-	unshift(@CMD, $sudo) if $> and $sudo;
-
-	# status messages pushed here
-	my @status;
-
-	# find controllers
-#	cciss0: HP Smart Array P400i Controller
-#	Board ID: 0x3235103c
-#	Firmware Version: 4.06
-#	IRQ: 98
-#	Logical drives: 1
-#	Current Q depth: 0
-#	Current # commands on controller: 0
-#	Max Q depth since init: 249
-#	Max # commands on controller since init: 275
-#	Max SG entries since init: 31
-#	Sequential access devices: 0
-#
-#	cciss/c0d0:      220.12GB       RAID 1(1+0)
-
-	my @c;
-	foreach my $f (</proc/driver/cciss/*>) {
-		open my $fh, '<', $f or next;
-		while (<$fh>) {
-			next unless (my($s) = m{^(cciss/[^:]+):});
-			push(@c, "/dev/$s");
-		}
-		close $fh;
-	}
-
-	unless (@c) {
+	unless (@devs) {
 		$status = $ERRORS{WARNING} unless $status;
 		$message .= "cciss: No Smart Array Adapters were found on this machine";
 		return;
 	}
 
-	foreach my $c (@c) {
-		open(my $fh , '-|', @CMD, $c) or die $!;
-		while (<$fh>) {
-			chomp;
-			# strip for better pattern matching
-			s/\.\s*$//;
+	my @CMD = $cciss_vol_status;
+	unshift(@CMD, $sudo) if $> and $sudo;
 
-			# /dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK
-			if (my($s) = /status: (.*?)$/) {
-				if ($s !~ '^OK') {
-					$status = $ERRORS{CRITICAL};
-				}
-				push(@status, $_);
+	# add all devs at once, cciss_vol_status can do that
+	push(@CMD, @devs);
+
+	# status messages pushed here
+	my @status;
+
+	open(my $fh , '-|', @CMD) or die $!;
+	while (<$fh>) {
+		chomp;
+		# strip for better pattern matching
+		s/\.\s*$//;
+
+		# /dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK
+		# /dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK.
+		if (my($s) = /status: (.*?)$/) {
+			if ($s !~ '^OK') {
+				$status = $ERRORS{CRITICAL};
 			}
+			push(@status, $_);
 		}
-		close($fh);
 	}
+	close($fh);
 
 	$message .= "cciss: ".join(', ', @status) if @status;
 }
@@ -1216,17 +1248,9 @@ sub sudoers {
 	}
 
 	if ($cciss_vol_status) {
-		my @c;
-		foreach my $f (</proc/driver/cciss/*>) {
-			open my $fh, '<', $f or next;
-			while (<$fh>) {
-				if (my($s) = m{^(cciss/[^:]+):}) {
-					push(@c, "/dev/$s");
-				}
-			}
-			close $fh;
-		}
-		foreach my $c (@c) {
+		my @cciss_devs = detect_cciss;
+		if (@cciss_devs) {
+			my $c = join(' ', @cciss_devs);
 			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cciss_vol_status $c\n");
 		}
 	}
@@ -1329,7 +1353,12 @@ check_tw_cli if $tw_cli;
 check_arcconf if $arcconf;
 check_megarc if $megarc;
 check_cmdtool2 if $cmdtool2;
-check_cciss if -d "/proc/driver/cciss" and valid("/proc/driver/cciss");
+
+if ($cciss_vol_status) {
+	my @cciss_devs = detect_cciss;
+	check_cciss @cciss_devs;
+}
+
 check_hpacucli if $hpacucli;
 # disabled: use hpacucli instead
 #check_hp_msa if sys_have_msa;
