@@ -911,8 +911,10 @@ sub detect_cciss {
 			# TODO: how to figure which sgX is actually in use?
 			# for now we collect all, and expect cciss_vol_status to ignore unknowns
 			foreach my $f (</sys/class/scsi_generic/sg*>) {
-				next unless (my($s) = $f =~ m{/(sg\d+)$});
-				push(@devs, "/dev/$s");
+				next unless (my($dev) = $f =~ m{/(sg\d+)$});
+				$dev = "/dev/$dev";
+				# filter via valid() so could exclude devs
+				push(@devs, $dev) if valid($dev);
 			}
 		}
 	}
