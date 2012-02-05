@@ -633,7 +633,7 @@ sub check_tw_cli {
 			if ($s eq 'OK') {
 				push(@cstatus, "$u:$s");
 
-			} elsif ($s eq 'INITIALIZING') {
+			} elsif ($s eq 'INITIALIZING|VERIFYING') {
 				$status = $ERRORS{WARNING} unless $status;
 				push(@cstatus, "$u:$s $p2");
 
