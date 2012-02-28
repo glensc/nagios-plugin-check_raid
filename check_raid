@@ -211,7 +211,7 @@ sub check_mdstat {
 		}
 
 		# we need empty line denoting end of one md
-		next unless /^\s+$/;
+		next unless /^\s*$/;
 
 		next unless valid($md);
 
