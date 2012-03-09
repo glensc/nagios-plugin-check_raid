@@ -1359,9 +1359,9 @@ check_cmdtool2 if $cmdtool2;
 if ($cciss_vol_status) {
 	my @cciss_devs = detect_cciss;
 	check_cciss @cciss_devs;
+} elsif ($hpacucli) {
+    check_hpacucli;
 }
-
-check_hpacucli if $hpacucli;
 # disabled: use hpacucli instead
 #check_hp_msa if sys_have_msa;
 
