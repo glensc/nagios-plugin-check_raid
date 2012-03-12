@@ -3,7 +3,7 @@
 %define		plugin	check_raid
 Summary:	Nagios plugin to check current server's RAID status
 Name:		nagios-plugin-%{plugin}
-Version:	2.1.1.105
+Version:	2.1.1.113
 Release:	1
 License:	GPL v2
 Group:		Networking
@@ -20,6 +20,7 @@ Suggests:	hpacucli
 Suggests:	megacli-sas
 Suggests:	megarc-scsi
 Suggests:	mpt-status
+Suggests:	smartmontools
 Suggests:	tw_cli-9xxx
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
