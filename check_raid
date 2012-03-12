@@ -1060,6 +1060,23 @@ sub detect_cciss {
 	return wantarray ? @devs : \@devs;
 }
 
+# build list of cciss disks
+# used by smartctl check
+# just return all disks (0..15) for each cciss dev found
+sub detect_cciss_disks {
+	my @devs;
+
+	return unless $smartctl;
+
+	# build devices list for smartctl
+	foreach my $scsi_dev (@_) {
+		foreach my $disk (0..15) {
+			push(@devs, [ $scsi_dev, '-dcciss,', $disk ]);
+		}
+	}
+	return wantarray ? @devs : \@devs;
+}
+
 # @param devices for cciss_vol_status, i.e /dev/cciss/c*d0 /dev/sg*
 sub check_cciss {
 	my @devs = @_;
@@ -1107,17 +1124,11 @@ sub check_cciss {
 	$message .= '; ' if $message;
 	$message .= "cciss:[".join(', ', @status)."]";
 
-	# if we have smartctl installed, check also individual disk health
-	return unless $smartctl;
-
-	# build devices list for smartctl
-	my @smartctl_devs = ();
-	foreach my $scsi_dev (@devs) {
-		foreach my $disk (0..15) {
-			push(@smartctl_devs, [ $scsi_dev, '-dcciss,', $disk ]);
-		}
+	# check also individual disk health
+	my @cciss_disks = detect_cciss_disks(@devs);
+	if (@cciss_disks) {
+		check_smartctl(@cciss_disks);
 	}
-	check_smartctl(@smartctl_devs)
 }
 
 # check for -H parameter for physical disks
@@ -1449,6 +1460,13 @@ sub sudoers {
 		if (@cciss_devs) {
 			my $c = join(' ', @cciss_devs);
 			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cciss_vol_status $c\n");
+		}
+		my @cciss_disks = detect_cciss_disks(@cciss_devs);
+		foreach my $ref (@cciss_disks) {
+			my ($dev, $diskopt, $disk) = @$ref;
+			# escape comma for sudo
+			$diskopt =~ s/,/\\$&/g;
+			push(@sudo, "#CHECK_RAID ALL=(root) NOPASSWD: $smartctl -H $dev $diskopt$disk\n");
 		}
 	}
 
