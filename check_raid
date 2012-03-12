@@ -60,6 +60,7 @@
 # - Added HP MSA1500 check via serial line
 # - Added checks via HP hpacucli utility.
 # - Added hpsa module support for cciss_vol_status
+# - Added smartctl checks for cciss disks
 
 use strict;
 use Getopt::Long;
@@ -87,6 +88,7 @@ my $megarc = which('megarc');
 my $cmdtool2 = which('CmdTool2');
 my $cciss_vol_status = which('cciss_vol_status');
 my $hpacucli = which('hpacucli');
+my $smartctl = which('smartctl');
 
 #####################################################################
 sub print_usage () {
@@ -1081,7 +1083,81 @@ sub check_cciss {
 	return unless @status;
 
 	$message .= '; ' if $message;
-	$message .= "cciss: ".join(', ', @status);
+	$message .= "cciss:[".join(', ', @status)."]";
+
+	# if we have smartctl installed, check also individual disk health
+	return unless $smartctl;
+
+	# build devices list for smartctl
+	my @smartctl_devs = ();
+	foreach my $scsi_dev (@devs) {
+		foreach my $disk (0..15) {
+			push(@smartctl_devs, [ $scsi_dev, '-dcciss,', $disk ]);
+		}
+	}
+	check_smartctl(@smartctl_devs)
+}
+
+# check for -H parameter for physical disks
+# this is currently called out from check_cciss code
+# @param device list
+# device list being an array of:
+# - device to check (/dev/cciss/c0d0)
+# - disk options (-dcciss)
+# - disk number (0..15)
+sub check_smartctl {
+	my @devs = @_;
+
+	unless ($smartctl) {
+		$message .= "smartctl program not found";
+		$status = $ERRORS{CRITICAL};
+		return;
+	}
+
+	unless (@devs) {
+		$status = $ERRORS{WARNING} unless $status;
+		$message .= "smartctl: No devices to check";
+		return;
+	}
+
+	my @CMD = $smartctl;
+	unshift(@CMD, $sudo) if $> and $sudo;
+
+	# status messages pushed here
+	my @status;
+
+	foreach my $ref (@devs) {
+		my ($dev, $diskopt, $disk) = @$ref;
+
+		my @cmd = @CMD;
+		push(@cmd, '-H', $dev, $diskopt . $disk);
+
+		open(my $fh , '-|', @cmd) or die $!;
+		while (<$fh>) {
+			chomp;
+
+			# SMART Health Status: HARDWARE IMPENDING FAILURE GENERAL HARD DRIVE FAILURE [asc=5d, ascq=10]
+			if (my($s, $sc) = /SMART Health Status: (.*?)(\s*\[asc=\w+, ascq=\w+\])?$/) {
+				# use shorter output, message that hpacucli would use
+				if ($s eq 'HARDWARE IMPENDING FAILURE GENERAL HARD DRIVE FAILURE') {
+					$s = 'Predictive Failure';
+				}
+
+				if ($s eq 'Predictive Failure') {
+					$status = $ERRORS{WARNING} unless $status;
+				} elsif ($s !~ '^OK') {
+					$status = $ERRORS{CRITICAL};
+				}
+				push(@status, $dev.'#'.$disk.': '.$s);
+			}
+		}
+		close($fh);
+	}
+
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "smartctl:[".join(', ', @status)."]";
 }
 
 sub check_hpacucli {
