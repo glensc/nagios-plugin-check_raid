@@ -1,7 +1,0 @@
-AFA0> container list /full
-Executing: container list /full=TRUE
-Num          Total  Oth Chunk          Scsi   Partition                                      Creation        System
-Label Type   Size   Ctr Size   Usage   B:ID:L Offset:Size   State   RO Lk Task    Done%  Ent Date   Time      Files
------ ------ ------ --- ------ ------- ------ ------------- ------- -- -- ------- ------ --- ------ -------- ------
- 0    Mirror  465GB            Valid   0:00:0 64.0KB: 465GB Normal                        0  032511 17:55:06
- /dev/sda             root             0:01:0 64.0KB: 465GB Normal                        1  032511 17:55:06
