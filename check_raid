@@ -1466,7 +1466,7 @@ sub sudoers {
 			my ($dev, $diskopt, $disk) = @$ref;
 			# escape comma for sudo
 			$diskopt =~ s/,/\\$&/g;
-			push(@sudo, "#CHECK_RAID ALL=(root) NOPASSWD: $smartctl -H $dev $diskopt$disk\n");
+			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $smartctl -H $dev $diskopt$disk\n");
 		}
 	}
 
