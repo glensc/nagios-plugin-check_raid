@@ -116,6 +116,28 @@ sub valid($) {
 	return 1;
 }
 
+# a helper to join similar statuses for items
+# instead of printing
+#  0: OK, 1: OK, 2: OK, 3: NOK, 4: OK
+# it would print
+#  0-2,4: OK, 3: NOK
+# takes as input list:
+#  { status => @items }
+sub join_status {
+	my %status = %{$_[0]};
+
+	my @status;
+	while (my($status, $disks) = each %status) {
+		my @s;
+		foreach my $disk (@$disks) {
+			push(@s, $disk);
+		}
+		push(@status, join(',', @s).': '.$status);
+	}
+
+	return join ' ', @status;
+}
+
 # Solaris, software RAID
 sub check_metastat {
 	my($d,$sd);
@@ -1123,8 +1145,8 @@ sub check_smartctl {
 	my @CMD = $smartctl;
 	unshift(@CMD, $sudo) if $> and $sudo;
 
-	# status messages pushed here
-	my @status;
+	# status message for devs, latter just joined for shorter messages
+	my %status;
 
 	foreach my $ref (@devs) {
 		my ($dev, $diskopt, $disk) = @$ref;
@@ -1148,16 +1170,16 @@ sub check_smartctl {
 				} elsif ($s !~ '^OK') {
 					$status = $ERRORS{CRITICAL};
 				}
-				push(@status, $dev.'#'.$disk.': '.$s);
+				push(@{$status{$s}}, $dev.'#'.$disk);
 			}
 		}
 		close($fh);
 	}
 
-	return unless @status;
+	return unless %status;
 
 	$message .= '; ' if $message;
-	$message .= "smartctl:[".join(', ', @status)."]";
+	$message .= "smartctl:[".join_status(\%status)."]";
 }
 
 sub check_hpacucli {
