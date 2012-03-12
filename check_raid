@@ -121,6 +121,9 @@ sub check_metastat {
 	my @CMD = $metastat;
 	unshift(@CMD, $sudo) if $> and $sudo;
 
+	# status messages pushed here
+	my @status;
+
 	open(my $fh , '-|', @CMD) or return;
 	while (<$fh>) {
 		if (/^(\S+):/) { $d = $1; $sd = ''; next; }
@@ -134,16 +137,25 @@ sub check_metastat {
 				} else {
 					$status = $ERRORS{CRITICAL};
 				}
-				$message .= "$d:$sd:$s ";
+				push(@status, "$d:$sd:$s");
 			}
 		}
 	}
 	close $fh;
+
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "metastat:[".join(' ', @status)."]";
 }
 
 # MegaIDE RAID controller
 sub check_megaide {
 	my $fh;
+
+	# status messages pushed here
+	my @status;
+
 	foreach my $f (</proc/megaide/*/status>) {
 		if (-r $f) {
 			open $fh, '<', $f or next;
@@ -157,14 +169,19 @@ sub check_megaide {
 			next unless valid($n);
 			if ($s ne 'ONLINE') {
 				$status = $ERRORS{CRITICAL};
-				$message .= "Megaide:$n:$s ";
+				push(@status, "$n:$s");
 			} else {
-				$message .= "Megaide:$n:$s ";
+				push(@status, "$n:$s");
 			}
 			last;
 		}
 		close $fh;
 	}
+
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "megaide:[".join(' ', @status)."]";
 }
 
 # Linux Multi-Device (md)
@@ -234,7 +251,10 @@ sub check_mdstat {
 	}
 	close $fh;
 
-	$message .= "md:[".join(', ', @status)."] " if @status;
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "md:[".join(', ', @status)."]";
 }
 
 
@@ -242,6 +262,9 @@ sub check_mdstat {
 sub check_lsraid {
 	my @CMD = ($lsraid, '-A', '-p');
 	unshift(@CMD, $sudo) if $> and $sudo;
+
+	# status messages pushed here
+	my @status;
 
 	open(my $fh , '-|', @CMD) or return;
 	while (<$fh>) {
@@ -254,9 +277,14 @@ sub check_lsraid {
 		} else {
 			$status = $ERRORS{CRITICAL};
 		}
-		$message .= "md:$n:$s ";
+		push(@status, "$n:$s");
 	}
 	close $fh;
+
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "lsraid:[".join(', ', @status)."]";
 }
 
 # Linux, software RAID
@@ -315,13 +343,20 @@ sub check_megacli {
 	}
 
 	push(@status, ($#vols + 1) . ' Vols: ' . join(',', @vstatus) . ', '. ($#devs + 1) . ' Devs: ' . join(',', @dstatus));
-	$message .= "MegaCli:[".join(' ', @status)."] " if @status;
+
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "MegaCli:[".join(' ', @status)."] ";
 }
 
 # AIX LVM
 sub check_lsvg {
 	my @CMD = $lsvg;
 	unshift(@CMD, $sudo) if $> and $sudo;
+
+	# status messages pushed here
+	my @status;
 
 	my @vg;
 	open(my $fh , '-|', @CMD) or return;
@@ -347,17 +382,25 @@ sub check_lsvg {
 				if ($s ne 'syncd') {
 					$status = $ERRORS{CRITICAL};
 				}
-				$message .= "lvm:$n:$s ";
+				push(@status, "lvm:$n:$s");
 			}
 		}
 		close $fh;
 	}
+
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "lsvg:[".join(', ', @status)."]";
 }
 
 # Serveraid IPS
 sub check_ipssend {
 	my @CMD = $ipssend;
 	unshift(@CMD, $sudo) if $> and $sudo;
+
+	# status messages pushed here
+	my @status;
 
 	my $n;
 	open(my $fh , '-|', @CMD, 'GETCONFIG', '1', 'LD') or return;
@@ -374,9 +417,14 @@ sub check_ipssend {
 		} elsif ($c !~ /OKY/i) { # not OK
 			$status = $ERRORS{CRITICAL};
 		}
-		$message .= "ips:$n:$s ";
+		push(@status, "$n:$s");
 	}
 	close $fh;
+
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "ips:[".join(', ', @status)."]";
 }
 
 # Adaptec ServeRAID
@@ -389,6 +437,9 @@ sub check_aaccli {
 
 	my @CMD = $aaccli;
 	unshift(@CMD, $sudo) if $> and $sudo;
+
+	# status messages pushed here
+	my @status;
 
 	use IPC::Open2;
 
@@ -418,7 +469,7 @@ sub check_aaccli {
 			next unless valid($dsk);
 			$dsk =~ s/:/\//g;
 			next unless valid($dsk);
-			$message .= "aac:$dsk:$stat ";
+			push(@status, "$dsk:$stat");
 			$status = $ERRORS{CRITICAL} if ($stat eq "Broken");
 			$status = $ERRORS{WARNING} if (!$status and $stat eq "Rebuild");
 			$status = $ERRORS{WARNING} if (!$status and $stat eq "Bld/Vfy");
@@ -428,12 +479,20 @@ sub check_aaccli {
 		}
 	}
 	close $read;
+
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "aac:[".join(', ', @status)."]";
 }
 
 # Adaptec AACRAID
 sub check_afacli {
 	my @CMD = $afacli;
 	unshift(@CMD, $sudo) if $> and $sudo;
+
+	# status messages pushed here
+	my @status;
 
 	use IPC::Open2;
 
@@ -451,7 +510,7 @@ sub check_afacli {
 			next unless valid($dsk);
 			$dsk =~ s/:/\//g;
 			next unless valid($dsk);
-			$message .= "aac:$dsk:$stat ";
+			push(@status, "$dsk:$stat");
 			$status = $ERRORS{CRITICAL} if ($stat eq "Broken");
 			$status = $ERRORS{WARNING} if (!$status and $stat eq "Rebuild");
 			$status = $ERRORS{WARNING} if (!$status and $stat eq "Bld/Vfy");
@@ -461,6 +520,11 @@ sub check_afacli {
 		}
 	}
 	close $read;
+
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "aac:[".join(', ', @status)."]";
 }
 
 # LSILogic MPT ServeRAID
@@ -504,12 +568,14 @@ sub check_mpt {
 	}
 	close $fh;
 
-	$message .= "mpt:".join(', ', @status) if @status;
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "mpt:[".join(', ', @status)."]";
 }
 
 # MegaRAID
 sub check_megaraid {
-
 	# status messages pushed here
 	my @status;
 
@@ -535,7 +601,10 @@ sub check_megaraid {
 		close $fh;
 	}
 
-	$message .= "MegaRAID: ".join(', ', @status) if @status;
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "MegaRAID:[".join(', ', @status)."]";
 }
 
 # Linux Gdth RAID
@@ -570,12 +639,16 @@ sub check_gdth {
 		close($fh);
 		push(@status, "Logical Drive ".join(', ', @ld)) if @ld;
 	}
+	return unless @status;
 
-	$message .= "gdth:".join(', ', @status) if @status;
+	$message .= '; ' if $message;
+	$message .= "gdth:[".join(', ', @status)."]";
 }
 
 sub check_dpt_i2o {
+	# status messages pushed here
 	my @status;
+
 	for my $file (</proc/scsi/dpt_i2o/*>) {
 		open my $fh, '<', $file or return;
 		my ($controller) = $file =~ m{([^/]+$)};
@@ -591,7 +664,10 @@ sub check_dpt_i2o {
 		close($fh);
 	}
 
-	$message .= "dpt_i2o:[".join(', ', @status)."] " if @status;
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "dpt_i2o:[".join(', ', @status)."]";
 }
 
 # 3ware SATA RAID
@@ -663,7 +739,10 @@ sub check_tw_cli {
 		close $fh;
 	}
 
-	$message .= "3ware: ".join(', ', @status) if @status;
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "3ware:[".join(', ', @status)."]";
 }
 
 # Adaptec AAC-RAID
@@ -765,7 +844,10 @@ sub check_arcconf {
 	# Physical Device information
 	close $fh;
 
-	$message .= "arcconf:".join(', ', @status) if @status;
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "arcconf:[".join(', ', @status)."]";
 }
 
 # LSI MegaRaid or Dell Perc arrays
@@ -846,7 +928,10 @@ sub check_megarc {
 		}
 	}
 
-	$message .= "megarc: ".join(', ', @status) if @status;
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "megarc:[".join(', ', @status)."]";
 }
 
 sub check_cmdtool2 {
@@ -892,7 +977,10 @@ sub check_cmdtool2 {
 		}
 	}
 
-	$message .= "CmdTool2: ".join(', ', @status) if @status;
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "CmdTool2:[".join(', ', @status)."]";
 }
 
 # detects if hpsa (formerly cciss) is present in system
@@ -953,7 +1041,7 @@ sub check_cciss {
 	my @devs = @_;
 
 	unless ($cciss_vol_status) {
-		$message .= "cciss:cciss_vol_status program not found";
+		$message .= "cciss: cciss_vol_status program not found";
 		$status = $ERRORS{CRITICAL};
 		return;
 	}
@@ -990,7 +1078,10 @@ sub check_cciss {
 	}
 	close($fh);
 
-	$message .= "cciss: ".join(', ', @status) if @status;
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "cciss: ".join(', ', @status);
 }
 
 sub check_hpacucli {
@@ -1088,7 +1179,10 @@ sub check_hpacucli {
 		push(@status, "$model: ".join(', ', @cstatus));
 	}
 
-	$message .= "hpacucli: ".join(', ', @status) if @status;
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "hpacucli:[".join(', ', @status)."]";
 }
 
 # check from /sys if there are any MSA VOLUME's present.
@@ -1205,7 +1299,10 @@ sub check_hp_msa {
 		}
 	}
 
-	$message .= "hp_msa: ".join(', ', @status) if @status;
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "hp_msa:[".join(', ', @status)."]";
 }
 
 sub which {
