@@ -1651,7 +1651,7 @@ sub close {
 	}
 }
 
-sub DESTORY {
+sub DESTROY {
 	my $self = shift;
 	$self->close();
 }
