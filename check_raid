@@ -744,24 +744,28 @@ sub check_tw_cli {
 				push(@cstatus, "$u:$s $p% ");
 
 			} elsif ($s eq 'DEGRADED') {
-				open(my $fh , '-|', @CMD, 'info', $c, 'drivestatus');
-				my @ds;
-				if ($fh) {
-					my @p;
-					while (<$fh>) {
-						next unless (my($p, $s) = /^(p\d+)\s+(\S+)\s+\Q$u\E/);
-						push(@ds, "$p:$s");
-					}
-					close $fh;
-				}
-				push(@cstatus, "$u:$s (disks: ".join(' ', @ds). ")");
+				push(@cstatus, "$u:$s");
 				$status = $ERRORS{CRITICAL};
 			} else {
 				push(@cstatus, "$u:$_");
 				$status = $ERRORS{UNKNOWN} unless $status;
 			}
+			push(@status, "$c($model): ". join(',', @cstatus));
 		}
-		push(@status, "$c($model): ". join(',', @cstatus));
+		close $fh;
+
+		# check individual disk status
+		open($fh , '-|', @CMD, 'info', $c, 'drivestatus');
+		my (@p, @ds);
+		while (<$fh>) {
+			next unless (my($p, $s,) = /^(p\d+)\s+(\S+)\s+.+\s+.+\s+.+/);
+			push(@ds, "$p:$s");
+			foreach (@ds) {
+				$status = $ERRORS{CRITICAL} unless (/p\d+:OK/);
+			}
+		}
+
+		push(@status, "(disks: ".join(' ', @ds). ")");
 		close $fh;
 	}
 
