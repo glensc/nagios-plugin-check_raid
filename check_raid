@@ -44,6 +44,7 @@
 # - LSI MegaRaid via lsraid
 # - Serveraid IPS via ipssend
 # - Solaris software RAID via metastat
+# - Areca SATA RAID Support via cli64
 #
 # Changes:
 # Version 1.1 : IPS; Solaris, AIX, Linux software RAID; megaide
@@ -73,7 +74,7 @@ my(@ignore);
 my $sudo = which('sudo');
 my $cat = which('cat');
 
-# various RAID tools
+# Various RAID tools
 my $mpt_status = which('mpt-status');
 my $aaccli = which('aaccli');
 my $afacli = which('afacli');
@@ -89,6 +90,7 @@ my $cmdtool2 = which('CmdTool2');
 my $cciss_vol_status = which('cciss_vol_status');
 my $hpacucli = which('hpacucli');
 my $smartctl = which('smartctl');
+my $cli64 = which('cli64');
 
 #####################################################################
 sub print_usage () {
@@ -1294,6 +1296,57 @@ sub check_hpacucli {
 	$message .= "hpacucli:[".join(', ', @status)."]";
 }
 
+## Areca SATA RAID Support
+sub check_cli64 {
+	my @CMD = ($cli64);
+	unshift(@CMD, $sudo) if $> and $sudo;
+
+	## Check Array Status
+	my @status;
+	open(my $fh, '-|', @CMD, 'rsf', 'info') or return;
+	while (<$fh>) {
+		my @arraystatus;
+		next unless (my($s) = /^\s\d\s+Raid\sSet\s#\s\d+\s+\d+\s\d+.\d+\w+\s+\d+.\d+\w+\s+\d+.\d+\w+\s+(\w+)\s+/);
+		push(@arraystatus, $s);
+		$status = $ERRORS{CRITICAL} unless $s = /Normal|(R|r)e(B|b)uild/;
+		$status = $ERRORS{WARNING} if $s = /(R|r)e(B|b)uild/;
+		push(@status, "Array Status - " .join(':', @arraystatus));
+	}
+	close $fh;
+
+	## Check Drive Status
+	open($fh, '-|', @CMD, 'disk', 'info') or return;
+	my @drivestatus;
+	while (<$fh>) {
+		# Adjust the 2 numbers at the end of the next line to exclude slots,
+		# defaults exclude 25-29.
+		# This is necessary because fully excluding empty slots may cause the
+		# plugin to miss a failed drive.
+		next if (/^\s+\d+\s+\d+\s+SLOT\s2[5-9]/);
+
+		next unless (my($drive1, $stat1) = /^\s+\d+\s+\d+\s+SLOT\s(\d+)\s.+\s+\d+\.\d+\w+\s\s(.+)/) || (my($drive2, $stat2) = /^\s+\d+\s+(\d+)\s+\w+\s+\d+.\d\w+\s+(.+)/);
+
+		if (defined($drive1)) {
+			push(@drivestatus, "$drive1:$stat1");
+		} else {
+			push(@drivestatus, "$drive2:$stat2");
+		}
+
+		foreach (@drivestatus) {
+			if (/Raid\sSet\s#\s\d+/) {
+				s/Raid\sSet\s#\s\d+\s+/OK /;
+			}
+			$status = $ERRORS{CRITICAL} unless /OK |HotSpare|(R|r)e(B|b)uild/;
+		}
+	}
+	close $fh;
+
+	push(@status, "(Disk ".join(', ', @drivestatus). ")");
+
+	$message .= '; ' if $message;
+	$message .= "cli64:[".join(', ', @status)."]";
+}
+
 # check from /sys if there are any MSA VOLUME's present.
 sub sys_have_msa {
 	for my $file (</sys/block/*/device/model>) {
@@ -1451,6 +1504,8 @@ sub sudoers {
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megacli -PDList -aALL -NoLog\n") if $megacli;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $hpacucli controller all show status\n") if $hpacucli;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $hpacucli controller * logicaldrive all show\n") if $hpacucli;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cli64 rsf info\n") if $cli64;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cli64 disk info\n") if $cli64;
 	foreach my $mr (</proc/mega*/*/raiddrives*>) {
 		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat $mr\n") if -d $mr;
 	}
@@ -1568,6 +1623,7 @@ check_tw_cli if $tw_cli;
 check_arcconf if $arcconf;
 check_megarc if $megarc;
 check_cmdtool2 if $cmdtool2;
+check_cli64 if $cli64;
 
 if ($cciss_vol_status) {
 	my @cciss_devs = detect_cciss;
