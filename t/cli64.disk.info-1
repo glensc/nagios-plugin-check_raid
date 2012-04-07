@@ -1,0 +1,40 @@
+  # Enc# Slot#   ModelName                        Capacity  Usage
+===============================================================================
+  1  01  Slot#1  N.A.                                0.0GB  N.A.
+  2  01  Slot#2  N.A.                                0.0GB  N.A.
+  3  01  Slot#3  N.A.                                0.0GB  N.A.
+  4  01  Slot#4  N.A.                                0.0GB  N.A.
+  5  01  Slot#5  N.A.                                0.0GB  N.A.
+  6  01  Slot#6  N.A.                                0.0GB  N.A.
+  7  01  Slot#7  N.A.                                0.0GB  N.A.
+  8  01  Slot#8  N.A.                                0.0GB  N.A.
+  9  02  SLOT 01 ST31500341AS                     1500.3GB  Raid Set # 000
+ 10  02  SLOT 02 ST31500341AS                     1500.3GB  Raid Set # 000
+ 11  02  SLOT 03 ST31500341AS                     1500.3GB  Raid Set # 000
+ 12  02  SLOT 04 ST31500341AS                     1500.3GB  Raid Set # 000
+ 13  02  SLOT 05 ST31500341AS                     1500.3GB  Raid Set # 000
+ 14  02  SLOT 06 ST31500341AS                     1500.3GB  Raid Set # 000
+ 15  02  SLOT 07 ST31500341AS                     1500.3GB  Raid Set # 000
+ 16  02  SLOT 08 ST31500341AS                     1500.3GB  Raid Set # 000
+ 17  02  SLOT 09 ST31500341AS                     1500.3GB  Raid Set # 000
+ 18  02  SLOT 10 ST31500341AS                     1500.3GB  Raid Set # 000
+ 19  02  SLOT 11 ST31500341AS                     1500.3GB  Raid Set # 000
+ 20  02  SLOT 12 ST31500341AS                     1500.3GB  Raid Set # 000
+ 21  02  SLOT 13 ST31500341AS                     1500.3GB  Raid Set # 000
+ 22  02  SLOT 14 ST31500341AS                     1500.3GB  Raid Set # 000
+ 23  02  SLOT 15 ST31500341AS                     1500.3GB  Raid Set # 000
+ 24  02  SLOT 16 ST31500341AS                     1500.3GB  Raid Set # 000
+ 25  02  SLOT 17 ST31500341AS                     1500.3GB  Raid Set # 000
+ 26  02  SLOT 18 ST31500341AS                     1500.3GB  Raid Set # 000
+ 27  02  SLOT 19 ST31500341AS                     1500.3GB  Raid Set # 000
+ 28  02  SLOT 20 ST31500341AS                     1500.3GB  Raid Set # 000
+ 29  02  SLOT 21 ST31500341AS                     1500.3GB  Raid Set # 000
+ 30  02  SLOT 22 ST31500341AS                     1500.3GB  HotSpare
+ 31  02  SLOT 23 ST31500341AS                     1500.3GB  Raid Set # 000
+ 32  02  SLOT 24 ST31500341AS                     1500.3GB  Raid Set # 000
+ 33  02  SLOT 25 N.A.                                0.0GB  N.A.
+ 34  02  SLOT 26 N.A.                                0.0GB  N.A.
+ 35  02  SLOT 27 N.A.                                0.0GB  N.A.
+ 36  02  SLOT 28 N.A.                                0.0GB  N.A.
+===============================================================================
+GuiErrMsg<0x00>: Success.
