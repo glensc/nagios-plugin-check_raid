@@ -1056,7 +1056,8 @@ sub detect_cciss {
 		foreach my $f (</proc/driver/cciss/*>) {
 			open my $fh, '<', $f or next;
 			while (<$fh>) {
-				next unless (my($dev) = m{^(cciss/[^:]+):});
+				# check "c*d0" - iterate over each controller
+				next unless (my($dev) = m{^(cciss/c\d+d0):});
 				$dev = "/dev/$dev";
 				# filter via valid() so could exclude devs
 				push(@devs, $dev) if valid($dev);
