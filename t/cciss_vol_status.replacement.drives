@@ -1,0 +1,5 @@
+/dev/cciss/c0d0: (Smart Array P400) RAID 5 Volume 0 status: Ready for recovery operation. 
+  'Replacement' drives:
+         connector 2I box 1 bay 1                 ATA     GB0750EAFJK                          9QK24NBZ             HPG6    ¥
+
+/dev/cciss/c0d0: (Smart Array P400) RAID 5 Volume 1 status: OK. 
