@@ -324,7 +324,7 @@ sub check_megacli {
 	unshift(@CMD, $sudo) if $> and $sudo;
 
 	open(my $fh , '-|', @CMD) or return;
-	my (@status, @devs, @vols, %cur);
+	my (@status, @devs, @vols, %cur, %cur_vol);
 	while (<$fh>) {
 		if (my($s) = /Device Id: (\S+)/) {
 			push(@devs, { %cur }) if %cur;
@@ -349,8 +349,31 @@ sub check_megacli {
 	close $fh;
 	push(@devs, { %cur }) if %cur;
 
+	my @CMD_vol = ($megacli, '-LdInfo', '-Lall', '-aALL', '-NoLog');
+	unshift(@CMD_vol, $sudo) if $> and $sudo;
+
+	open(my $fh_vol, '-|', @CMD_vol) or return;
+	while (<$fh_vol>) {
+		if (my($s) = /Name\s*:\s*(\S+)/) {
+			push(@vols, { %cur_vol }) if %cur_vol;
+			%cur_vol = ( name => $s, state => undef );
+			next;
+		}
+		if (my($s) = /State\s*:\s*(\S+)/) {
+			$cur_vol{state} = $s;
+			next;
+		}
+	}
+	close $fh_vol;
+	push(@vols, { %cur_vol }) if %cur_vol;
+
 	my @vstatus;
 	foreach my $vol (@vols) {
+		# It's possible to create volumes without a name
+		if (!$vol->{name}) {
+			$vol->{name} = 'NoName';
+		}
+
 		push(@vstatus, sprintf "%s:%s", $vol->{name}, $vol->{state});
 		if ($vol->{state} ne 'Optimal') {
 			$status = $ERRORS{CRITICAL};
