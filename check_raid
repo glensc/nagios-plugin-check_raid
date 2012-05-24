@@ -784,7 +784,7 @@ sub check_tw_cli {
 			next unless (my($p, $s,) = /^(p\d+)\s+(\S+)\s+.+\s+.+\s+.+/);
 			push(@ds, "$p:$s");
 			foreach (@ds) {
-				$status = $ERRORS{CRITICAL} unless (/p\d+:OK/);
+				$status = $ERRORS{CRITICAL} unless (/p\d+:(OK|NOT-PRESENT)/);
 			}
 		}
 
