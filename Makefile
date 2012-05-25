@@ -1,18 +1,16 @@
-# $Id$ #
-SPECFILE        := $(firstword $(wildcard *.spec))
-PACKAGE_NAME    := $(patsubst %.spec,%,$(SPECFILE))
-PACKAGE_VERSION := $(shell awk '/Version:/{print $$2}' $(SPECFILE))
+# Makefile for check_raid plugin
+PLUGIN          := check_raid
+PLUGIN_SCRIPT   := $(PLUGIN).pl
+PLUGIN_VERSION  := $(shell awk -F'"' '/VERSION/&&/=/{print $$2}' $(PLUGIN_SCRIPT))
 
 all:
 
-cvsup:
-	cvs up -dP
-
-dist: cvsup
-	rm -rf $(PACKAGE_NAME)-$(PACKAGE_VERSION)
-	install -d $(PACKAGE_NAME)-$(PACKAGE_VERSION)
-	cp -a check_raid check_raid.cfg t $(PACKAGE_NAME)-$(PACKAGE_VERSION)
-	tar --exclude-vcs -czf $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz $(PACKAGE_NAME)-$(PACKAGE_VERSION)
-	rm -rf $(PACKAGE_NAME)-$(PACKAGE_VERSION)
-	md5sum -b $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz > $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz.md5
-	chmod 644 $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz.md5
+dist:
+	rm -rf $(PLUGIN)-$(PLUGIN_VERSION)
+	install -d $(PLUGIN)-$(PLUGIN_VERSION)
+	install -p $(PLUGIN_SCRIPT) $(PLUGIN)-$(PLUGIN_VERSION)/$(PLUGIN)
+	cp -a check_raid.cfg t $(PLUGIN)-$(PLUGIN_VERSION)
+	tar --exclude-vcs -czf $(PLUGIN)-$(PLUGIN_VERSION).tar.gz $(PLUGIN)-$(PLUGIN_VERSION)
+	rm -rf $(PLUGIN)-$(PLUGIN_VERSION)
+	md5sum -b $(PLUGIN)-$(PLUGIN_VERSION).tar.gz > $(PLUGIN)-$(PLUGIN_VERSION).tar.gz.md5
+	chmod 644 $(PLUGIN)-$(PLUGIN_VERSION).tar.gz $(PLUGIN)-$(PLUGIN_VERSION).tar.gz.md5
