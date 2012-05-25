@@ -12,8 +12,6 @@
 # http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
 # Steve Shipway Thanks M Carmier for megaraid section.
 # 2009-2012 Elan Ruusamäe <glen@pld-linux.org>
-#
-# $Id$
 
 # Requires: Perl 5.8 for the open(my $fh , '-|', @CMD) syntax.
 # You can workaround for earlier Perl it as:
@@ -21,9 +19,11 @@
 # http://perldoc.perl.org/perl58delta.html#PerlIO-is-Now-The-Default
 #
 # License: GPL v2
+# URL in VCS: https://github.com/glensc/nagios-plugin-check_raid
 # URL in Nagios Exchange: http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
-# URL in VCS: http://cvs.pld-linux.org/packages/nagios-plugin-check_raid/check_raid
-# Current Maintainer: Elan Ruusamäe <glen@pld-linux.org>, patches welcome, send them in unified format (diff -u)
+# Visit github page to report issues and send pull requests,
+# you can also mail them directly to Elan Ruusamäe <glen@pld-linux.org>,
+# but please send them unified format (diff -u) and attachment against latest version from github.
 #
 # Supports:
 # - Adaptec AAC RAID via aaccli or afacli or arcconf
@@ -62,12 +62,14 @@
 # - Added checks via HP hpacucli utility.
 # - Added hpsa module support for cciss_vol_status
 # - Added smartctl checks for cciss disks
+# Version 2.2:
+# - Project moved to github: https://github.com/glensc/nagios-plugin-check_raid
 
 use strict;
 use Getopt::Long;
 use vars qw($opt_v $opt_d $opt_h $opt_W $opt_S);
 my(%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
-my($VERSION) = "2.1";
+my($VERSION) = "2.2";
 my($message, $status);
 my(@ignore);
 
