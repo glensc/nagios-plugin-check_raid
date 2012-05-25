@@ -27,6 +27,14 @@ Currently supported:
 - Serveraid IPS via ipssend
 - Solaris software RAID via metastat
 
+You might need to install following tools depending on your raid:
+- CmdTool2: CmdTool2 SAS RAID Management Utility
+- arcconf: Adaptec uniform command line interface
+- cciss_vol_status: http://cciss.sourceforge.net/
+- megarc-scsi: LSI Logic MegaRAID Linux MegaRC utility
+- mpt-status: LSI RAID controllers - http://www.red-bean.com/~mab/mpt-status.html
+- tw_cli-9xxx: 3ware SATA RAID controllers - http://www.3ware.com/
+
 Plugin can install neccessary sudo rules (depending on system), when invoked with -S argument
 
 License: GPL v2
