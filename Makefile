@@ -2,8 +2,16 @@
 PLUGIN          := check_raid
 PLUGIN_SCRIPT   := $(PLUGIN).pl
 PLUGIN_VERSION  := $(shell awk -F'"' '/VERSION/&&/=/{print $$2}' $(PLUGIN_SCRIPT))
+PLUGINDIR		:= /usr/lib/nagios/plugins
+PLUGINCONF		:= /etc/nagios/plugins
 
 all:
+
+install:
+	install -d $(DESTDIR)$(PLUGINDIR)
+	install -p $(PLUGIN_SCRIPT) $(DESTDIR)$(PLUGINDIR)/$(PLUGIN)
+	install -d $(DESTDIR)$(PLUGINCONF)
+	cp -p $(PLUGIN).cfg $(DESTDIR)$(PLUGINCONF)
 
 dist:
 	rm -rf $(PLUGIN)-$(PLUGIN_VERSION)
