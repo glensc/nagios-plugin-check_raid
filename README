@@ -37,6 +37,8 @@ You might need to install following tools depending on your raid:
 
 Plugin can install neccessary sudo rules (depending on system), when invoked with -S argument
 
+Project entry in Nagios Exchange: http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
+
 License: GPL v2
 
 (c) 2004-2006 Steve Shipway, university of auckland,
