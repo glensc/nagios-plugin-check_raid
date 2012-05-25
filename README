@@ -1,0 +1,33 @@
+Nagios plugin to check current server's RAID status
+
+This plugin checks all RAID volumes (hardware and software) that can be
+identified.
+
+Supports:
+- Adaptec AAC RAID via aaccli or afacli or arcconf
+- AIX software RAID via lsvg
+- HP/Compaq Smart Array via cciss_vol_status (hpsa supported too)
+- HP Smart Array Controllers and MSA Controllers via hpacucli (see
+  hapacucli readme)
+- HP Smart Array (MSA1500) via serial line
+- Linux 3ware SATA RAID via tw_cli
+- Linux DPT/I2O hardware RAID controllers via /proc/scsi/dpt_i2o
+- Linux GDTH hardware RAID controllers via /proc/scsi/gdth
+- Linux LSI MegaRaid hardware RAID via CmdTool2
+- Linux LSI MegaRaid hardware RAID via megarc
+- Linux LSI MegaRaid hardware RAID via /proc/megaraid
+- Linux MegaIDE hardware RAID controllers via /proc/megaide
+- Linux MPT hardware RAID via mpt-status
+- Linux software RAID (md) via /proc/mdstat
+- LSI Logic MegaRAID SAS series via MegaCli
+- LSI MegaRaid via lsraid
+- Serveraid IPS via ipssend
+- Solaris software RAID via metastat
+
+License: GPL v2
+
+(c) 2004-2006 Steve Shipway, university of auckland,
+http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
+Steve Shipway Thanks M Carmier for megaraid section.
+
+(c) 2009-2012 Elan Ruusamäe <glen@pld-linux.org>
