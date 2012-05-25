@@ -6,6 +6,11 @@ identified.
 This is supposed to be a general plugin to run via NRPE.
 It checks for the various RAID systems, and verifies they are working correctly.
 
+Some checks require root permission, that is acomplished using sudo.
+
+Plugin can install neccessary sudo rules (detected for your system), when invoked with -S argument.
+You need to be root user and it will add required lines to the sudoers file.
+
 Currently supported:
 - Adaptec AAC RAID via aaccli or afacli or arcconf
 - AIX software RAID via lsvg
@@ -27,7 +32,15 @@ Currently supported:
 - Serveraid IPS via ipssend
 - Solaris software RAID via metastat
 
-Plugin can install neccessary sudo rules (depending on system), when invoked with -S argument
+You might need to install following tools depending on your raid:
+- CmdTool2: CmdTool2 SAS RAID Management Utility
+- arcconf: Adaptec uniform command line interface
+- cciss_vol_status: http://cciss.sourceforge.net/
+- megarc-scsi: LSI Logic MegaRAID Linux MegaRC utility
+- mpt-status: LSI RAID controllers - http://www.red-bean.com/~mab/mpt-status.html
+- tw_cli-9xxx: 3ware SATA RAID controllers - http://www.3ware.com/
+
+Project entry in Nagios Exchange: http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
 
 License: GPL v2
 
