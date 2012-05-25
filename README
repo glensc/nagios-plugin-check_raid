@@ -3,7 +3,10 @@ Nagios plugin to check current server's RAID status
 This plugin checks all RAID volumes (hardware and software) that can be
 identified.
 
-Supports:
+This is supposed to be a general plugin to run via NRPE.
+It checks for the various RAID systems, and verifies they are working correctly.
+
+Currently supported:
 - Adaptec AAC RAID via aaccli or afacli or arcconf
 - AIX software RAID via lsvg
 - HP/Compaq Smart Array via cciss_vol_status (hpsa supported too)
@@ -23,6 +26,8 @@ Supports:
 - LSI MegaRaid via lsraid
 - Serveraid IPS via ipssend
 - Solaris software RAID via metastat
+
+Plugin can install neccessary sudo rules (depending on system), when invoked with -S argument
 
 License: GPL v2
 
