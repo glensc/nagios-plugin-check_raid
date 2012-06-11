@@ -764,6 +764,10 @@ sub check_tw_cli {
 				$status = $ERRORS{WARNING} unless $status;
 				push(@cstatus, "$u:$s $p2");
 
+			} elsif ($s eq 'MIGRATING') {
+				$status = $ERRORS{WARNING} unless $status;
+				push(@cstatus, "$u:$s $p2");
+
 			} elsif ($s eq 'REBUILDING') {
 				$status = $ERRORS{WARNING} unless $status;
 				push(@cstatus, "$u:$s $p% ");
