@@ -1534,6 +1534,7 @@ sub sudoers {
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmdtool2 -AdpAllInfo -aALL -nolog\n") if $cmdtool2;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmdtool2 -CfgDsply -a* -nolog\n") if $cmdtool2;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megacli -PDList -aALL -NoLog\n") if $megacli;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megacli -LdInfo -Lall -aALL -NoLog\n") if $megacli;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $hpacucli controller all show status\n") if $hpacucli;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $hpacucli controller * logicaldrive all show\n") if $hpacucli;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cli64 rsf info\n") if $cli64;
