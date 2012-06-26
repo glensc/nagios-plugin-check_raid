@@ -184,7 +184,7 @@ sub check_megaide {
 	# status messages pushed here
 	my @status;
 
-	foreach my $f (</proc/megaide/*/status>) {
+	foreach my $f (</proc/megaide/*/status>) { # / silly comment to fix vim syntax hilighting
 		if (-r $f) {
 			open $fh, '<', $f or next;
 		} else {
@@ -231,6 +231,10 @@ sub check_mdstat {
 			next;
 		}
 
+		# raid0 is just there or its not. raid0 can't degrade.
+		$md_status = "OK" if $md_pers eq "raid0";
+
+
 		# linux-2.6.33/drivers/md/dm-raid1.c, device_status_char
 		# A => Alive - No failures
 		# D => Dead - A write failure occurred leaving mirror out-of-sync
@@ -250,7 +254,7 @@ sub check_mdstat {
 		# linux-2.6.33/drivers/md/md.c, status_resync
 		# [==>..................]  resync = 13.0% (95900032/732515712) finish=175.4min speed=60459K/sec
 		# [=>...................]  check =  8.8% (34390144/390443648) finish=194.2min speed=30550K/sec
-		if (my($action, $perc, $eta, $speed) = m{(resync|recovery|check|reshape)\s+=\s+([\d.]+%) \(\d+/\d+\) finish=([\d.]+min) speed=(\d+K/sec)}) {
+		if (my($action, $perc, $eta, $speed) = m{(resync|recovery|reshape)\s+=\s+([\d.]+%) \(\d+/\d+\) finish=([\d.]+min) speed=(\d+K/sec)}) {
 			$resync_status = "$action:$perc $speed ETA: $eta";
 			next;
 		}
