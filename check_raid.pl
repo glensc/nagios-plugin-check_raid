@@ -231,6 +231,10 @@ sub check_mdstat {
 			next;
 		}
 
+		# raid0 is just there or its not. raid0 can't degrade.
+		$md_status = "OK" if $md_pers eq "raid0";
+
+
 		# linux-2.6.33/drivers/md/dm-raid1.c, device_status_char
 		# A => Alive - No failures
 		# D => Dead - A write failure occurred leaving mirror out-of-sync
