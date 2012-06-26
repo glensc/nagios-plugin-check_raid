@@ -184,7 +184,7 @@ sub check_megaide {
 	# status messages pushed here
 	my @status;
 
-	foreach my $f (</proc/megaide/*/status>) {
+	foreach my $f (</proc/megaide/*/status>) { # / silly comment to fix vim syntax hilighting
 		if (-r $f) {
 			open $fh, '<', $f or next;
 		} else {
