@@ -66,12 +66,6 @@
 # - Project moved to github: https://github.com/glensc/nagios-plugin-check_raid
 # - SAS2IRCU support
 
-- Remove superfluous "Linux software RAID" line.
-- Add basic support for SAS2IRCU.
-
-patch from Christoph Anton Mitterer <calestyo#scientia.net>
-minor style fixes
-
 use strict;
 use Getopt::Long;
 use vars qw($opt_v $opt_d $opt_h $opt_W $opt_S);
@@ -1513,9 +1507,11 @@ sub check_hp_msa {
 # LSI SAS-2 controllers using the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU)
 # Based on the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU) User Guide
 # http://www.lsi.com/downloads/Public/Host%20Bus%20Adapters/Host%20Bus%20Adapters%20Common%20Files/SAS_SATA_6G_P12/SAS2IRCU_User_Guide.pdf
-sub check_sas2ircu {
-	# determine the number of adapters
-	my $numberOfAdapters = 0;
+
+# detect devices for sas2ircu
+# determines the number of adapters
+sub detect_sas2ircu {
+	my $numberOfAdapters = shift;
 	my @CMD = ($sas2ircu, 'LIST');
 	unshift(@CMD, $sudo) if $> and $sudo;
 	open(my $fh , '-|', @CMD) or return;
@@ -1531,8 +1527,13 @@ sub check_sas2ircu {
 		$status = $ERRORS{CRITICAL};
 	}
 
-	my @status;
+	return $numberOfAdapters;
+}
 
+sub check_sas2ircu {
+	my $numberOfAdapters = shift;
+
+	my @status;
 	# determine the RAID states of each controller
 	for (my $i = 0; $i < $numberOfAdapters; $i++) {
 		my @CMD = ($sas2ircu, $i, 'STATUS');
@@ -1609,8 +1610,16 @@ sub sudoers {
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $hpacucli controller * logicaldrive all show\n") if $hpacucli;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cli64 rsf info\n") if $cli64;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cli64 disk info\n") if $cli64;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu LIST\n") if $sas2ircu;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu [[\:digit\:]]* STATUS\n") if $sas2ircu;
+
+	if ($sas2ircu) {
+		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu LIST\n") if $sas2ircu;
+
+		my $sas2ircu_adapters = detect_sas2ircu;
+		for (my $i = 0; $i < $sas2ircu_adapters; $i++) {
+			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu $i STATUS\n");
+		}
+	}
+
 	foreach my $mr (</proc/mega*/*/raiddrives*>) {
 		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat $mr\n") if -d $mr;
 	}
@@ -1729,7 +1738,11 @@ check_arcconf if $arcconf;
 check_megarc if $megarc;
 check_cmdtool2 if $cmdtool2;
 check_cli64 if $cli64;
-check_sas2ircu if $sas2ircu;
+
+if ($sas2ircu) {
+	my $sas2ircu_adapters = detect_sas2ircu;
+	check_sas2ircu $sas2ircu_adapters;
+}
 
 if ($cciss_vol_status) {
 	my @cciss_devs = detect_cciss;
@@ -1737,6 +1750,7 @@ if ($cciss_vol_status) {
 } elsif ($hpacucli) {
     check_hpacucli;
 }
+
 # disabled: use hpacucli instead
 #check_hp_msa if sys_have_msa;
 
