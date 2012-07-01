@@ -64,6 +64,13 @@
 # - Added smartctl checks for cciss disks
 # Version 2.2:
 # - Project moved to github: https://github.com/glensc/nagios-plugin-check_raid
+# - SAS2IRCU support
+
+- Remove superfluous "Linux software RAID" line.
+- Add basic support for SAS2IRCU.
+
+patch from Christoph Anton Mitterer <calestyo#scientia.net>
+minor style fixes
 
 use strict;
 use Getopt::Long;
@@ -93,6 +100,7 @@ my $cciss_vol_status = which('cciss_vol_status');
 my $hpacucli = which('hpacucli');
 my $smartctl = which('smartctl');
 my $cli64 = which('cli64');
+my $sas2ircu = which('sas2ircu');
 
 #####################################################################
 sub print_usage () {
@@ -315,7 +323,6 @@ sub check_lsraid {
 	$message .= "lsraid:[".join(', ', @status)."]";
 }
 
-# Linux, software RAID
 # MegaRAID SAS 8xxx controllers
 # based on info from here:
 # http://www.bxtra.net/Articles/2008-09-16/Dell-Perc6i-RAID-Monitoring-Script-using-MegaCli-LSI-CentOS-52-64-bits
@@ -1503,6 +1510,65 @@ sub check_hp_msa {
 	$message .= "hp_msa:[".join(', ', @status)."]";
 }
 
+# LSI SAS-2 controllers using the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU)
+# Based on the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU) User Guide
+# http://www.lsi.com/downloads/Public/Host%20Bus%20Adapters/Host%20Bus%20Adapters%20Common%20Files/SAS_SATA_6G_P12/SAS2IRCU_User_Guide.pdf
+sub check_sas2ircu {
+	# determine the number of adapters
+	my $numberOfAdapters = 0;
+	my @CMD = ($sas2ircu, 'LIST');
+	unshift(@CMD, $sudo) if $> and $sudo;
+	open(my $fh , '-|', @CMD) or return;
+
+	while (<$fh>) {
+		# match adapter lines
+		if (/^\h*(\d+)\h+\H+\h+\H+\h+\H+\h+\H+\h+\H+\h+\H+\h*$/) {
+			$numberOfAdapters = $1 + 1;
+		}
+	}
+
+	unless (close $fh) {
+		$status = $ERRORS{CRITICAL};
+	}
+
+	my @status;
+
+	# determine the RAID states of each controller
+	for (my $i = 0; $i < $numberOfAdapters; $i++) {
+		my @CMD = ($sas2ircu, $i, 'STATUS');
+		unshift(@CMD, $sudo) if $> and $sudo;
+		open(my $fh , '-|', @CMD) or return;
+
+		my $state;
+		while (<$fh>) {
+			# match adapter lines
+			if (/^\h*Volume state\h*:\h*(\w+)\h*$/) {
+				$state = $1;
+				if ($state ne "Optimal") {
+					$status = $ERRORS{CRITICAL};
+					last;
+				}
+			}
+		}
+
+		unless (close $fh) {
+			$status = $ERRORS{CRITICAL};
+			$state = $!;
+		}
+
+		unless ($state) {
+			$state = "Unknown Error";
+		}
+
+		push(@status, "ctrl #$i: $state")
+	}
+
+	return unless @status;
+
+	$message .= '; ' if $message;
+	$message .= "sas2ircu:[".join(', ', @status)."]";
+}
+
 sub which {
 	my $prog = shift;
 
@@ -1543,6 +1609,8 @@ sub sudoers {
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $hpacucli controller * logicaldrive all show\n") if $hpacucli;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cli64 rsf info\n") if $cli64;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cli64 disk info\n") if $cli64;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu LIST\n") if $sas2ircu;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu [[\:digit\:]]* STATUS\n") if $sas2ircu;
 	foreach my $mr (</proc/mega*/*/raiddrives*>) {
 		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat $mr\n") if -d $mr;
 	}
@@ -1661,6 +1729,7 @@ check_arcconf if $arcconf;
 check_megarc if $megarc;
 check_cmdtool2 if $cmdtool2;
 check_cli64 if $cli64;
+check_sas2ircu if $sas2ircu;
 
 if ($cciss_vol_status) {
 	my @cciss_devs = detect_cciss;
