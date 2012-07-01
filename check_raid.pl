@@ -108,6 +108,8 @@ sub print_help () {
 	print "Copyright (c) 2004-2006 Steve Shipway, Copyright (c) 2009-2012, Elan Ruusamäe <glen\@pld-linux.org>
 
 This plugin reports the current server's RAID status
+https://github.com/glensc/nagios-plugin-check_raid
+
 ";
 	print_usage();
 }
@@ -1748,7 +1750,7 @@ if ($cciss_vol_status) {
 	my @cciss_devs = detect_cciss;
 	check_cciss @cciss_devs;
 } elsif ($hpacucli) {
-    check_hpacucli;
+	check_hpacucli;
 }
 
 # disabled: use hpacucli instead
