@@ -68,7 +68,7 @@
 
 use strict;
 use Getopt::Long;
-use vars qw($opt_v $opt_d $opt_h $opt_W $opt_S);
+my($opt_V, $opt_d, $opt_h, $opt_W, $opt_S);
 my(%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 my($VERSION) = "2.2";
 my($message, $status);
@@ -97,13 +97,23 @@ my $cli64 = which('cli64');
 my $sas2ircu = which('sas2ircu');
 
 #####################################################################
-sub print_usage () {
-	print "Usage: check_raid [list of devices to ignore]\n";
-	print "       check_raid -v\n";
-	print "       check_raid -h\n";
+sub print_usage() {
+	print join "\n",
+	"Usage: check_raid [-h] [-V] [-S] [list of devices to ignore]",
+	"",
+	"Options:",
+	" -h, --help",
+	"    Print help screen",
+	" -V, --version",
+	"    Print version information",
+	" -S, --sudoers",
+	"    Setup sudo rules",
+	" -W, --warnonly",
+	"    Treat CRITICAL errors as WARNING",
+	"";
 }
 
-sub print_help () {
+sub print_help() {
 	print "check_raid, v$VERSION\n";
 	print "Copyright (c) 2004-2006 Steve Shipway, Copyright (c) 2009-2012, Elan Ruusamäe <glen\@pld-linux.org>
 
@@ -1693,7 +1703,7 @@ $ENV{'BASH_ENV'}='';
 $ENV{'ENV'}='';
 
 Getopt::Long::Configure('bundling');
-GetOptions("v" => \$opt_v, "version" => \$opt_v,
+GetOptions("V" => \$opt_V, "version" => \$opt_V,
 	 "h" => \$opt_h, "help" => \$opt_h,
 	 "d" => \$opt_d, "debug" => \$opt_d,
 	 "S" => \$opt_S, "sudoers" => \$opt_S,
@@ -1707,7 +1717,7 @@ if ($opt_S) {
 
 @ignore = @ARGV if @ARGV;
 
-if ($opt_v) {
+if ($opt_V) {
 	print "check_raid Version $VERSION\n";
 	exit $ERRORS{'OK'};
 }
