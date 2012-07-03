@@ -1528,7 +1528,7 @@ sub check_hp_msa {
 # detect devices for sas2ircu
 # determines the number of adapters
 sub detect_sas2ircu {
-	my $numberOfAdapters = shift;
+	my $numberOfAdapters = 0;
 	my @CMD = ($sas2ircu, 'LIST');
 	unshift(@CMD, $sudo) if $> and $sudo;
 	open(my $fh , '-|', @CMD) or return;
