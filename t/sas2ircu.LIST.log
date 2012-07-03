@@ -1,0 +1,12 @@
+# /opt/lsi/sas2ircu/sas2ircu LIST
+*******************************************************************************************************************
+LSI Corporation SAS2 IR Configuration Utility.
+Version 13.00.00.00 (2012.02.17) 
+Copyright (c) 2009-2012 LSI Corporation. All rights reserved. 
+
+
+         Adapter      Vendor  Device                       SubSys  SubSys 
+ Index    Type          ID      ID    Pci Address          Ven ID  Dev ID 
+ -----  ------------  ------  ------  -----------------    ------  ------ 
+   0     SAS2008     1000h    72h   00h:03h:00h:00h      1028h   1f1eh 
+SAS2IRCU: Utility Completed Successfully.

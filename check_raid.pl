@@ -1525,47 +1525,55 @@ sub check_hp_msa {
 # Based on the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU) User Guide
 # http://www.lsi.com/downloads/Public/Host%20Bus%20Adapters/Host%20Bus%20Adapters%20Common%20Files/SAS_SATA_6G_P12/SAS2IRCU_User_Guide.pdf
 
-# detect devices for sas2ircu
-# determines the number of adapters
+# detect controllers for sas2ircu
 sub detect_sas2ircu {
-	my $numberOfAdapters = 0;
+	my @ctrls;
 	my @CMD = ($sas2ircu, 'LIST');
 	unshift(@CMD, $sudo) if $> and $sudo;
 	open(my $fh , '-|', @CMD) or return;
 
 	while (<$fh>) {
-		# match adapter lines
-		if (/^\s*(\d+)\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s*$/) {
-			$numberOfAdapters = $1 + 1;
+		chomp;
+		#		  Adapter     Vendor  Device                        SubSys  SubSys
+		# Index    Type          ID      ID    Pci Address          Ven ID  Dev ID
+		# -----  ------------  ------  ------  -----------------    ------  ------
+		#   0     SAS2008     1000h    72h     00h:03h:00h:00h      1028h   1f1eh
+		if (my($c) = /^\s*(\d+)\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s*$/) {
+			push(@ctrls, $c);
 		}
 	}
 
 	unless (close $fh) {
 		$status = $ERRORS{CRITICAL};
 	}
+	unless ($success) {
+		$status = $ERRORS{CRITICAL};
+	}
 
-	return $numberOfAdapters;
+	return wantarray ? @ctrls : \@ctrls;
 }
 
 sub check_sas2ircu {
-	my $numberOfAdapters = shift;
+	my @ctrls = @_;
 
 	my @status;
 	# determine the RAID states of each controller
-	for (my $i = 0; $i < $numberOfAdapters; $i++) {
-		my @CMD = ($sas2ircu, $i, 'STATUS');
+	foreach my $c (@ctrls) {
+		my @CMD = ($sas2ircu, $c, 'STATUS');
 		unshift(@CMD, $sudo) if $> and $sudo;
 		open(my $fh , '-|', @CMD) or return;
 
 		my $state;
 		while (<$fh>) {
+			chomp;
+
 			# match adapter lines
-			if (/^\s*Volume state\s*:\s*(\w+)\s*$/) {
-				$state = $1;
+			if (my($s) = /^\s*Volume state\s*:\s*(\w+)\s*$/) {
+				$state = $s;
 				if ($state ne "Optimal") {
 					$status = $ERRORS{CRITICAL};
-					last;
 				}
+				last;
 			}
 		}
 
@@ -1578,7 +1586,7 @@ sub check_sas2ircu {
 			$state = "Unknown Error";
 		}
 
-		push(@status, "ctrl #$i: $state")
+		push(@status, "ctrl #$c: $state")
 	}
 
 	return unless @status;
@@ -1629,11 +1637,10 @@ sub sudoers {
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cli64 disk info\n") if $cli64;
 
 	if ($sas2ircu) {
-		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu LIST\n") if $sas2ircu;
+		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu LIST\n");
 
-		my $sas2ircu_adapters = detect_sas2ircu;
-		for (my $i = 0; $i < $sas2ircu_adapters; $i++) {
-			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu $i STATUS\n");
+		for my $c (detect_sas2ircu) {
+			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu $c STATUS\n");
 		}
 	}
 
@@ -1757,8 +1764,8 @@ check_cmdtool2 if $cmdtool2;
 check_cli64 if $cli64;
 
 if ($sas2ircu) {
-	my $sas2ircu_adapters = detect_sas2ircu;
-	check_sas2ircu $sas2ircu_adapters;
+	my @sas2ircu_adapters = detect_sas2ircu;
+	check_sas2ircu @sas2ircu_adapters;
 }
 
 if ($cciss_vol_status) {
