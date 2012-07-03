@@ -44,7 +44,7 @@
 # - LSI MegaRaid via lsraid
 # - Serveraid IPS via ipssend
 # - Solaris software RAID via metastat
-# - Areca SATA RAID Support via cli64
+# - Areca SATA RAID Support via cli64/cli32
 #
 # Changes:
 # Version 1.1 : IPS; Solaris, AIX, Linux software RAID; megaide
@@ -93,7 +93,7 @@ my $cmdtool2 = which('CmdTool2');
 my $cciss_vol_status = which('cciss_vol_status');
 my $hpacucli = which('hpacucli');
 my $smartctl = which('smartctl');
-my $cli64 = which('cli64');
+my $areca = which('cli64') || which('cli32');
 my $sas2ircu = which('sas2ircu');
 
 #####################################################################
@@ -1351,8 +1351,9 @@ sub check_hpacucli {
 }
 
 ## Areca SATA RAID Support
-sub check_cli64 {
-	my @CMD = ($cli64);
+## requires cli64 or cli32 binaries
+sub check_areca {
+	my @CMD = ($areca);
 	unshift(@CMD, $sudo) if $> and $sudo;
 
 	## Check Array Status
@@ -1398,7 +1399,7 @@ sub check_cli64 {
 	push(@status, "(Disk ".join(', ', @drivestatus). ")");
 
 	$message .= '; ' if $message;
-	$message .= "cli64:[".join(', ', @status)."]";
+	$message .= "areca:[".join(', ', @status)."]";
 }
 
 # check from /sys if there are any MSA VOLUME's present.
@@ -1641,8 +1642,8 @@ sub sudoers {
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megacli -LdInfo -Lall -aALL -NoLog\n") if $megacli;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $hpacucli controller all show status\n") if $hpacucli;
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $hpacucli controller * logicaldrive all show\n") if $hpacucli;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cli64 rsf info\n") if $cli64;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cli64 disk info\n") if $cli64;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $areca rsf info\n") if $areca;
+	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $areca disk info\n") if $areca;
 
 	if ($sas2ircu) {
 		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu LIST\n");
@@ -1769,7 +1770,7 @@ check_tw_cli if $tw_cli;
 check_arcconf if $arcconf;
 check_megarc if $megarc;
 check_cmdtool2 if $cmdtool2;
-check_cli64 if $cli64;
+check_areca if $areca;
 
 if ($sas2ircu) {
 	my @sas2ircu_adapters = detect_sas2ircu;
