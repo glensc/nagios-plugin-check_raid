@@ -1532,6 +1532,7 @@ sub detect_sas2ircu {
 	unshift(@CMD, $sudo) if $> and $sudo;
 	open(my $fh , '-|', @CMD) or return;
 
+	my $success = 0;
 	while (<$fh>) {
 		chomp;
 		#		  Adapter     Vendor  Device                        SubSys  SubSys
@@ -1541,6 +1542,7 @@ sub detect_sas2ircu {
 		if (my($c) = /^\s*(\d+)\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s*$/) {
 			push(@ctrls, $c);
 		}
+		$success = 1 if /SAS2IRCU: Utility Completed Successfully/;
 	}
 
 	unless (close $fh) {
@@ -1564,6 +1566,7 @@ sub check_sas2ircu {
 		open(my $fh , '-|', @CMD) or return;
 
 		my $state;
+		my $success = 0;
 		while (<$fh>) {
 			chomp;
 
@@ -1573,13 +1576,18 @@ sub check_sas2ircu {
 				if ($state ne "Optimal") {
 					$status = $ERRORS{CRITICAL};
 				}
-				last;
 			}
+			$success = 1 if /SAS2IRCU: Utility Completed Successfully/;
 		}
 
 		unless (close $fh) {
 			$status = $ERRORS{CRITICAL};
 			$state = $!;
+		}
+
+		unless ($success) {
+			$status = $ERRORS{CRITICAL};
+			$state = "SAS2IRCU Unknown exit";
 		}
 
 		unless ($state) {
