@@ -274,7 +274,12 @@ sub check_mdstat {
 
 		next unless valid($md);
 
-		if ($md_status =~ /_/) {
+		# raid0 is just there or its not. raid0 can't degrade.
+		# same for linear, no $md_status available
+		if ($md_pers =~ /linear|raid0/) {
+			push(@status, "$md($md_pers):OK");
+
+		} elsif ($md_status =~ /_/) {
 			$status = $ERRORS{CRITICAL};
 			push(@status, "$md($md_pers):@failed_disks:$md_status");
 
