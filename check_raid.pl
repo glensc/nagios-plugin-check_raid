@@ -1535,7 +1535,7 @@ sub detect_sas2ircu {
 
 	while (<$fh>) {
 		# match adapter lines
-		if (/^\h*(\d+)\h+\H+\h+\H+\h+\H+\h+\H+\h+\H+\h+\H+\h*$/) {
+		if (/^\s*(\d+)\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s*$/) {
 			$numberOfAdapters = $1 + 1;
 		}
 	}
@@ -1560,7 +1560,7 @@ sub check_sas2ircu {
 		my $state;
 		while (<$fh>) {
 			# match adapter lines
-			if (/^\h*Volume state\h*:\h*(\w+)\h*$/) {
+			if (/^\s*Volume state\s*:\s*(\w+)\s*$/) {
 				$state = $1;
 				if ($state ne "Optimal") {
 					$status = $ERRORS{CRITICAL};
