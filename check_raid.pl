@@ -1360,12 +1360,15 @@ sub check_areca {
 	my @status;
 	open(my $fh, '-|', @CMD, 'rsf', 'info') or return;
 	while (<$fh>) {
-		my @arraystatus;
 		next unless (my($s) = /^\s\d\s+Raid\sSet\s#\s\d+\s+\d+\s\d+.\d+\w+\s+\d+.\d+\w+\s+\d+.\d+\w+\s+(\w+)\s+/);
-		push(@arraystatus, $s);
-		$status = $ERRORS{CRITICAL} unless $s = /Normal|(R|r)e(B|b)uild|Checking/;
-		$status = $ERRORS{WARNING} if $s = /(R|r)e(B|b)uild/;
-		push(@status, "Array Status - " .join(':', @arraystatus));
+
+		if ($s =~ /[Rr]e[Bb]uild/) {
+			$status = $ERRORS{WARNING} unless $status;
+		} elsif ($s !~ /[Nn]ormal|[Rr]e[Bb]uild|Checking/) {
+			$status = $ERRORS{CRITICAL};
+		}
+
+		push(@status, "Array Status: $s"):
 	}
 	close $fh;
 
@@ -1391,7 +1394,7 @@ sub check_areca {
 			if (/Raid\sSet\s#\s\d+/) {
 				s/Raid\sSet\s#\s\d+\s+/OK /;
 			}
-			$status = $ERRORS{CRITICAL} unless /OK |HotSpare|(R|r)e(B|b)uild/;
+			$status = $ERRORS{CRITICAL} unless /OK |HotSpare|[Rr]e[Bb]uild/;
 		}
 	}
 	close $fh;
