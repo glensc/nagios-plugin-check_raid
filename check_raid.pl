@@ -1368,7 +1368,7 @@ sub check_areca {
 			$status = $ERRORS{CRITICAL};
 		}
 
-		push(@status, "Array Status: $s"):
+		push(@status, "Array Status: $s");
 	}
 	close $fh;
 
@@ -1380,7 +1380,7 @@ sub check_areca {
 		# defaults exclude 25-29.
 		# This is necessary because fully excluding empty slots may cause the
 		# plugin to miss a failed drive.
-		next if (/^\s+\d+\s+\d+\s+SLOT\s2[5-9]/);
+		next if /^\s+\d+\s+\d+\s+SLOT\s2[5-9]/;
 
 		next unless (my($drive1, $stat1) = /^\s+\d+\s+\d+\s+SLOT\s(\d+)\s.+\s+\d+\.\d+\w+\s\s(.+)/) || (my($drive2, $stat2) = /^\s+\d+\s+(\d+)\s+\w+\s+\d+.\d\w+\s+(.+)/);
 
@@ -1390,14 +1390,15 @@ sub check_areca {
 			push(@drivestatus, "$drive2:$stat2");
 		}
 
-		foreach (@drivestatus) {
-			if (/Raid\sSet\s#\s\d+/) {
-				s/Raid\sSet\s#\s\d+\s+/OK /;
-			}
-			$status = $ERRORS{CRITICAL} unless /OK |HotSpare|[Rr]e[Bb]uild/;
-		}
 	}
 	close $fh;
+
+	foreach (@drivestatus) {
+		if (/Raid\sSet\s#\s\d+/) {
+			s/Raid\sSet\s#\s\d+\s+/OK /;
+		}
+		$status = $ERRORS{CRITICAL} unless /OK |HotSpare|[Rr]e[Bb]uild/;
+	}
 
 	push(@status, "(Disk ".join(', ', @drivestatus). ")");
 
