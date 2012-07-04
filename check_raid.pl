@@ -156,6 +156,28 @@ sub join_status {
 	return join ' ', @status;
 }
 
+use constant K => 1024;
+use constant M => K * 1024;
+use constant G => M * 1024;
+use constant T => G * 1024;
+
+sub format_bytes($) {
+	my ($bytes) = @_;
+	if ($bytes > T) {
+		return sprintf("%.2f TiB", $bytes / T);
+	}
+	if ($bytes > G) {
+		return sprintf("%.2f GiB", $bytes / G);
+	}
+	if ($bytes > M) {
+		return sprintf("%.2f MiB", $bytes / M);
+	}
+	if ($bytes > K) {
+		return sprintf("%.2f KiB", $bytes / K);
+	}
+	return "$bytes B";
+}
+
 # Solaris, software RAID
 sub check_metastat {
 	my($d,$sd);
@@ -227,21 +249,18 @@ sub check_megaide {
 }
 
 # Linux Multi-Device (md)
-# TODO: check linerar devices
 sub check_mdstat {
 	open my $fh, '<', '/proc/mdstat' or return;
 
-	my ($md, $md_pers, $md_status, $resync_status);
-	my (@status, @failed_disks);
-
+	my (@status, @md, %md);
 	while (<$fh>) {
 		chomp;
 
-		if (my($s, $p) = /^(\S+)\s+:\s*(?:\S+)\s+(\S+)/) {
-			$md = $s;
-			$md_pers = $p;
-			@failed_disks = $_ =~ m/(\S+)\[\d+\]\(F\)/g;
-			undef $resync_status;
+		# md1 : active raid1 sdb2[0] sda2[1]
+		if (my($d, $p) = /^(\S+)\s+:\s+(?:\S+)\s+(\S+)\s+/) {
+			# first line resets %md
+			%md = (dev => $d, personality => $p);
+			@{$md{failed_disks}} = $_ =~ m/(\S+)\[\d+\]\(F\)/g;
 			next;
 		}
 
@@ -251,52 +270,66 @@ sub check_mdstat {
 		# S => Sync - A sychronization failure occurred, mirror out-of-sync
 		# R => Read - A read failure occurred, mirror data unaffected
 		# U => for the rest
-		if (my($s) = /^\s+.*\[([U_]+)\]/) {
-			$md_status = $s;
+
+		#"      8008320 blocks [2/2] [UU]"
+		if (my($b, $s) = /^\s+(\d+)\sblocks.*\[([U_]+)\]/) {
+			$md{status} = $s;
+			$md{blocks} = $b;
 			next;
 		}
 
 		# linux-2.6.33/drivers/md/md.c, md_seq_show
 		if (my($action) = m{(resync=(?:PENDING|DELAYED))}) {
-			$resync_status = $action;
+			$md{resync_status} = $action;
 			next;
 		}
 		# linux-2.6.33/drivers/md/md.c, status_resync
 		# [==>..................]  resync = 13.0% (95900032/732515712) finish=175.4min speed=60459K/sec
 		# [=>...................]  check =  8.8% (34390144/390443648) finish=194.2min speed=30550K/sec
 		if (my($action, $perc, $eta, $speed) = m{(resync|recovery|check|reshape)\s+=\s+([\d.]+%) \(\d+/\d+\) finish=([\d.]+min) speed=(\d+K/sec)}) {
-			$resync_status = "$action:$perc $speed ETA: $eta";
+			$md{resync_status} = "$action:$perc $speed ETA: $eta";
 			next;
 		}
 
 		# we need empty line denoting end of one md
 		next unless /^\s*$/;
 
-		next unless valid($md);
+		next unless valid($md{dev});
+
+		push(@md, { %md } );
+	}
+	close $fh;
+
+	foreach (@md) {
+		my %md = %$_;
+
+		# common status
+		my $size = format_bytes($md{blocks} * 1024);
+		my $s = "$md{dev}($size $md{personality}):";
 
 		# raid0 is just there or its not. raid0 can't degrade.
 		# same for linear, no $md_status available
-		if ($md_pers =~ /linear|raid0/) {
-			push(@status, "$md($md_pers):OK");
+		if ($md{personality} =~ /linear|raid0/) {
+			$s .= "OK";
 
-		} elsif ($md_status =~ /_/) {
+		} elsif ($md{status} =~ /_/) {
 			$status = $ERRORS{CRITICAL};
-			push(@status, "$md($md_pers):@failed_disks:$md_status");
+			$s .= "F:". join(",", @{$md{failed_disks}}) .":$md{status}";
 
-		} elsif (scalar @failed_disks > 0) {
+		} elsif (@{$md{failed_disks}} > 0) {
+			# FIXME: this is same as above?
 			$status = $ERRORS{WARNING} unless $status;
-			push(@status, "$md($md_pers):hot-spare failure: @failed_disks:$md_status");
+			$s .= "hot-spare failure:". join(",", @{$md{failed_disks}}) .":$md{status}";
 
-		} elsif ($resync_status) {
+		} elsif ($md{resync_status}) {
 			$status = $ERRORS{WARNING} unless $status;
-			push(@status, "$md($md_pers):$md_status ($resync_status)");
-			undef $resync_status;
+			$s .= "$md{status} ($md{resync_status})";
 
 		} else {
-			push(@status, "$md($md_pers):$md_status");
+			$s .= "$md{status}";
 		}
+		push(@status, $s);
 	}
-	close $fh;
 
 	return unless @status;
 
