@@ -1363,7 +1363,7 @@ sub check_areca {
 		my @arraystatus;
 		next unless (my($s) = /^\s\d\s+Raid\sSet\s#\s\d+\s+\d+\s\d+.\d+\w+\s+\d+.\d+\w+\s+\d+.\d+\w+\s+(\w+)\s+/);
 		push(@arraystatus, $s);
-		$status = $ERRORS{CRITICAL} unless $s = /Normal|(R|r)e(B|b)uild/;
+		$status = $ERRORS{CRITICAL} unless $s = /Normal|(R|r)e(B|b)uild|Checking/;
 		$status = $ERRORS{WARNING} if $s = /(R|r)e(B|b)uild/;
 		push(@status, "Array Status - " .join(':', @arraystatus));
 	}
