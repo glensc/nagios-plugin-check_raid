@@ -93,7 +93,7 @@ my $cmdtool2 = which('CmdTool2');
 my $cciss_vol_status = which('cciss_vol_status');
 my $hpacucli = which('hpacucli');
 my $smartctl = which('smartctl');
-my $areca = which('areca-cli') || which('cli64') || which('cli32');
+my $areca = which('areca-cli') || which('areca_cli64') || which('areca_cli32') || which('cli64') || which('cli32');
 my $sas2ircu = which('sas2ircu');
 
 #####################################################################
