@@ -272,7 +272,8 @@ sub check_mdstat {
 		# U => for the rest
 
 		#"      8008320 blocks [2/2] [UU]"
-		if (my($b, $s) = /^\s+(\d+)\sblocks.*\[([U_]+)\]/) {
+		#"      58291648 blocks 64k rounding" - linear
+		if (my($b, $s) = /^\s+(\d+)\sblocks\s+.*?(?:\s+\[([ADSRU_]+)\])?$/) {
 			$md{status} = $s;
 			$md{blocks} = $b;
 			next;
