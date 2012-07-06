@@ -183,7 +183,7 @@ sub check_metastat {
 	my($d,$sd);
 
 	my @CMD = $metastat;
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	# status messages pushed here
 	my @status;
@@ -225,7 +225,7 @@ sub check_megaide {
 			open $fh, '<', $f or next;
 		} else {
 			my @CMD = ($cat, $f);
-			unshift(@CMD, $sudo) if $> and $sudo;
+			unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 			open($fh , '-|', @CMD) or next;
 		}
 		while (<$fh>) {
@@ -342,7 +342,7 @@ sub check_mdstat {
 # Linux, software RAID
 sub check_lsraid {
 	my @CMD = ($lsraid, '-A', '-p');
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	# status messages pushed here
 	my @status;
@@ -375,7 +375,7 @@ sub check_lsraid {
 # TODO: process several adapters
 sub check_megacli {
 	my @CMD = ($megacli, '-PDList', '-aALL', '-NoLog');
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	open(my $fh , '-|', @CMD) or return;
 	my (@status, @devs, @vols, %cur, %cur_vol);
@@ -404,7 +404,7 @@ sub check_megacli {
 	push(@devs, { %cur }) if %cur;
 
 	my @CMD_vol = ($megacli, '-LdInfo', '-Lall', '-aALL', '-NoLog');
-	unshift(@CMD_vol, $sudo) if $> and $sudo;
+	unshift(@CMD_vol, $sudo, '-u', 'root') if $> and $sudo;
 
 	open(my $fh_vol, '-|', @CMD_vol) or return;
 	while (<$fh_vol>) {
@@ -456,7 +456,7 @@ sub check_megacli {
 # AIX LVM
 sub check_lsvg {
 	my @CMD = $lsvg;
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	# status messages pushed here
 	my @status;
@@ -500,7 +500,7 @@ sub check_lsvg {
 # Serveraid IPS
 sub check_ipssend {
 	my @CMD = $ipssend;
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	# status messages pushed here
 	my @status;
@@ -539,7 +539,7 @@ sub check_aaccli {
 	}
 
 	my @CMD = $aaccli;
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	# status messages pushed here
 	my @status;
@@ -592,7 +592,7 @@ sub check_aaccli {
 # Adaptec AACRAID
 sub check_afacli {
 	my @CMD = $afacli;
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	# status messages pushed here
 	my @status;
@@ -642,7 +642,7 @@ sub check_mpt {
 	my @status;
 
 	my @CMD = $mpt_status;
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	open(my $fh, '-|', @CMD, '-s') or return;
 	while (<$fh>) {
@@ -688,7 +688,7 @@ sub check_megaraid {
 			open $fh, '<', $f or next;
 		} else {
 			my @CMD = ($cat, $f);
-			unshift(@CMD, $sudo) if $> and $sudo;
+			unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 			open($fh , '-|', @CMD) or next;
 		}
 		my ($n) = $f =~ m{/proc/megaraid/([^/]+)};
@@ -780,7 +780,7 @@ sub check_dpt_i2o {
 # Version 20070706
 sub check_tw_cli {
 	my @CMD = $tw_cli;
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	# status messages pushed here
 	my @status;
@@ -862,7 +862,7 @@ sub check_tw_cli {
 # Perl port (check_raid) by Elan Ruusamäe.
 sub check_arcconf {
 	my @CMD = $arcconf;
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	# status messages pushed here
 	my @status;
@@ -971,7 +971,7 @@ sub check_arcconf {
 # Perl port (check_raid) by Elan Ruusamäe.
 sub check_megarc {
 	my @CMD = $megarc;
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	# status messages pushed here
 	my @status;
@@ -1047,7 +1047,7 @@ sub check_megarc {
 
 sub check_cmdtool2 {
 	my @CMD = $cmdtool2;
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	# status messages pushed here
 	my @status;
@@ -1184,7 +1184,7 @@ sub check_cciss {
 	}
 
 	my @CMD = $cciss_vol_status;
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	# add all devs at once, cciss_vol_status can do that
 	push(@CMD, @devs);
@@ -1244,7 +1244,7 @@ sub check_smartctl {
 	}
 
 	my @CMD = $smartctl;
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	# status message for devs, latter just joined for shorter messages
 	my %status;
@@ -1285,7 +1285,7 @@ sub check_smartctl {
 
 sub check_hpacucli {
 	my @CMD = $hpacucli;
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	# status messages pushed here
 	my @status;
@@ -1388,13 +1388,14 @@ sub check_hpacucli {
 ## requires cli64 or cli32 binaries
 sub check_areca {
 	my @CMD = ($areca);
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, '-u', 'root') if $> and $sudo;
 
 	## Check Array Status
 	my @status;
 	open(my $fh, '-|', @CMD, 'rsf', 'info') or return;
 	while (<$fh>) {
-		next unless (my($s) = /^\s\d\s+Raid\sSet\s#\s\d+\s+\d+\s\d+.\d+\w+\s+\d+.\d+\w+\s+\d+.\d+\w+\s+(\w+)\s+/);
+		next unless (my($s) = /^\s*\d+\s+(.*)\s+\d+\s+\S+\s+\S+\s+\S+\s+(\S+)\s*$/);
+		$s=$2;
 
 		if ($s =~ /[Rr]e[Bb]uild/) {
 			$status = $ERRORS{WARNING} unless $status;
@@ -1568,7 +1569,7 @@ sub check_hp_msa {
 sub detect_sas2ircu {
 	my @ctrls;
 	my @CMD = ($sas2ircu, 'LIST');
-	unshift(@CMD, $sudo) if $> and $sudo;
+	unshift(@CMD, $sudo, "-g", "root") if $> and $sudo;
 	open(my $fh , '-|', @CMD) or return;
 
 	my $success = 0;
@@ -1601,7 +1602,7 @@ sub check_sas2ircu {
 	# determine the RAID states of each controller
 	foreach my $c (@ctrls) {
 		my @CMD = ($sas2ircu, $c, 'STATUS');
-		unshift(@CMD, $sudo) if $> and $sudo;
+		unshift(@CMD, $sudo, "-g", "root") if $> and $sudo;
 		open(my $fh , '-|', @CMD) or return;
 
 		my $state;
@@ -1684,10 +1685,10 @@ sub sudoers {
 	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $areca disk info\n") if $areca;
 
 	if ($sas2ircu) {
-		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu LIST\n");
+		push(@sudo, "CHECK_RAID ALL=(:root) NOPASSWD: $sas2ircu LIST\n");
 
 		for my $c (detect_sas2ircu) {
-			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu $c STATUS\n");
+			push(@sudo, "CHECK_RAID ALL=(:root) NOPASSWD: $sas2ircu $c STATUS\n");
 		}
 	}
 
