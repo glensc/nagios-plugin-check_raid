@@ -1394,7 +1394,8 @@ sub check_areca {
 	my @status;
 	open(my $fh, '-|', @CMD, 'rsf', 'info') or return;
 	while (<$fh>) {
-		next unless (my($s) = /^\s\d\s+Raid\sSet\s#\s\d+\s+\d+\s\d+.\d+\w+\s+\d+.\d+\w+\s+\d+.\d+\w+\s+(\w+)\s+/);
+		next unless (my($s) = /^\s*\d+\s+(.*)\s+\d+\s+\S+\s+\S+\s+\S+\s+(\S+)\s*$/);
+		$s=$2;
 
 		if ($s =~ /[Rr]e[Bb]uild/) {
 			$status = $ERRORS{WARNING} unless $status;
