@@ -1,0 +1,21 @@
+# /opt/areca/cli64 disk info
+  # Ch# ModelName                       Capacity  Usage
+===============================================================================
+  1  1  WDC WD7500AYYS-01RCA0            750.2GB  data            
+  2  2  WDC WD7500AYYS-01RCA0            750.2GB  data            
+  3  3  WDC WD7500AYYS-01RCA0            750.2GB  data            
+  4  4  WDC WD7500AYYS-01RCA0            750.2GB  data            
+  5  5  WDC WD7500AYYS-01RCA0            750.2GB  data            
+  6  6  WDC WD7500AYYS-01RCA0            750.2GB  data            
+  7  7  WDC WD7500AYYS-01RCA0            750.2GB  data            
+  8  8  WDC WD7500AYYS-01RCA0            750.2GB  data            
+  9  9  WDC WD7500AYYS-01RCA0            750.2GB  data            
+ 10 10  WDC WD7500AYYS-01RCA0            750.2GB  data            
+ 11 11  WDC WD7500AYYS-01RCA0            750.2GB  data            
+ 12 12  WDC WD7500AYYS-01RCA0            750.2GB  data            
+ 13 13  WDC WD7500AYYS-01RCA0            750.2GB  data            
+ 14 14  WDC WD7500AYYS-01RCA0            750.2GB  data            
+ 15 15  WDC WD7500AYYS-01RCA0            750.2GB  data            
+ 16 16  WDC WD7500AYYS-01RCA0            750.2GB  HotSpare[Global]
+===============================================================================
+GuiErrMsg<0x00>: Success.

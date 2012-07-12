@@ -1,0 +1,6 @@
+# /opt/areca/cli64 rsf info
+ #  Name             Disks TotalCap  FreeCap DiskChannels       State          
+===============================================================================
+ 1  data                15 11250.0GB    0.0GB 123456789ABCDEF    Normal
+===============================================================================
+GuiErrMsg<0x00>: Success.
