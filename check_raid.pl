@@ -1394,8 +1394,27 @@ sub check_areca {
 	my @status;
 	open(my $fh, '-|', @CMD, 'rsf', 'info') or return;
 	while (<$fh>) {
-		next unless (my($s) = /^\s*\d+\s+(.*)\s+\d+\s+\S+\s+\S+\s+\S+\s+(\S+)\s*$/);
-		$s=$2;
+=cut
+ #  Name             Disks TotalCap  FreeCap MinDiskCap         State
+ #  Name             Disks TotalCap  FreeCap DiskChannels       State
+===============================================================================
+ 1  Raid Set # 000      23 34500.0GB    0.0GB   1500.0GB         Normal
+ 1  Raid Set # 00       15 15000.0GB    0.0GB 123G567C9AB48EF    Normal
+ 1  data                15 11250.0GB    0.0GB 123456789ABCDEF    Normal
+===============================================================================
+=cut
+		next unless (my($n, $s) = m{^
+			\s*\d+      # Slot
+			\s+(.+)     # Name
+			\s+\d+      # Disks
+			\s+\S+      # TotalCap
+			\s+\S+      # FreeCap
+			\s+\S+      # MinDiskCap/DiskChannels
+			\s+(\S+)\s* # State
+		$}x);
+
+		# trim trailing spaces from name
+		$n =~ s/\s+$//;
 
 		if ($s =~ /[Rr]e[Bb]uild/) {
 			$status = $ERRORS{WARNING} unless $status;
@@ -1403,7 +1422,7 @@ sub check_areca {
 			$status = $ERRORS{CRITICAL};
 		}
 
-		push(@status, "Array Status: $s");
+		push(@status, "Array($n): $s");
 	}
 	close $fh;
 
@@ -1417,7 +1436,11 @@ sub check_areca {
 		# plugin to miss a failed drive.
 		next if /^\s+\d+\s+\d+\s+SLOT\s2[5-9]/;
 
-		next unless (my($drive1, $stat1) = /^\s+\d+\s+\d+\s+SLOT\s(\d+)\s.+\s+\d+\.\d+\w+\s\s(.+)/) || (my($drive2, $stat2) = /^\s+\d+\s+(\d+)\s+\w+\s+\d+.\d\w+\s+(.+)/);
+		next unless (my($drive1, $stat1) = m{
+				^\s+\d+\s+\d+\s+SLOT\s(\d+)\s.+\s+\d+\.\d+\w+\s\s(.+)
+			}x) || (my($drive2, $stat2) = m{
+				^\s+\d+\s+(\d+)\s+\w+\s+\d+.\d\w+\s+(.+)
+			}x);
 
 		if (defined($drive1)) {
 			push(@drivestatus, "$drive1:$stat1");
