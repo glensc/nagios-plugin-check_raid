@@ -1386,6 +1386,8 @@ sub check_hpacucli {
 
 ## Areca SATA RAID Support
 ## requires cli64 or cli32 binaries
+## For links to manuals and binaries, see this issue:
+## https://github.com/glensc/nagios-plugin-check_raid/issues/10
 sub check_areca {
 	my @CMD = ($areca);
 	unshift(@CMD, $sudo) if $> and $sudo;
