@@ -65,6 +65,7 @@
 # Version 2.2:
 # - Project moved to github: https://github.com/glensc/nagios-plugin-check_raid
 # - SAS2IRCU support
+# - Areca SATA RAID Support
 
 use strict;
 use Getopt::Long;
