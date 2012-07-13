@@ -1391,7 +1391,7 @@ sub check_areca {
 	unshift(@CMD, $sudo) if $> and $sudo;
 
 	## Check Array Status
-	my @status;
+	my (@status, %arrays);
 	open(my $fh, '-|', @CMD, 'rsf', 'info') or return;
 	while (<$fh>) {
 =cut
@@ -1403,8 +1403,8 @@ sub check_areca {
  1  data                15 11250.0GB    0.0GB 123456789ABCDEF    Normal
 ===============================================================================
 =cut
-		next unless (my($n, $s) = m{^
-			\s*\d+      # Slot
+		next unless (my($id, $n, $s) = m{^
+			\s*(\d+)    # Id
 			\s+(.+)     # Name
 			\s+\d+      # Disks
 			\s+\S+      # TotalCap
@@ -1422,7 +1422,9 @@ sub check_areca {
 			$status = $ERRORS{CRITICAL};
 		}
 
-		push(@status, "Array($n): $s");
+		push(@status, "Array#$id($n): $s");
+
+		$arrays{$n} = [ $id, $s ];
 	}
 	close $fh;
 
@@ -1430,33 +1432,63 @@ sub check_areca {
 	open($fh, '-|', @CMD, 'disk', 'info') or return;
 	my @drivestatus;
 	while (<$fh>) {
-		# Adjust the 2 numbers at the end of the next line to exclude slots,
-		# defaults exclude 25-29.
-		# This is necessary because fully excluding empty slots may cause the
-		# plugin to miss a failed drive.
-		next if /^\s+\d+\s+\d+\s+SLOT\s2[5-9]/;
+		chomp;
+=cut
+  # Enc# Slot#   ModelName                        Capacity  Usage
+===============================================================================
+  1  01  Slot#1  N.A.                                0.0GB  N.A.
+  8  01  Slot#8  N.A.                                0.0GB  N.A.
+  9  02  SLOT 01 ST31500341AS                     1500.3GB  Raid Set # 000
+ 11  02  SLOT 03 ST31500341AS                     1500.3GB  Raid Set # 000
 
-		next unless (my($drive1, $stat1) = m{
-				^\s+\d+\s+\d+\s+SLOT\s(\d+)\s.+\s+\d+\.\d+\w+\s\s(.+)
-			}x) || (my($drive2, $stat2) = m{
-				^\s+\d+\s+(\d+)\s+\w+\s+\d+.\d\w+\s+(.+)
-			}x);
+  # Ch# ModelName                       Capacity  Usage
+===============================================================================
+  1  1  ST31000340NS                    1000.2GB  Raid Set # 00
+  6  6  ST31000340NS                    1000.2GB  Raid Set # 00
+  3  3  WDC WD7500AYYS-01RCA0            750.2GB  data
+  4  4  WDC WD7500AYYS-01RCA0            750.2GB  data
+ 16 16  WDC WD7500AYYS-01RCA0            750.2GB  HotSpare[Global]
+=cut
+		next unless my($id, $model, $usage) = m{^
+			\s*(\d+)      # Id
+			\s+\d+        # Channel/Enclosure (not reliable, tests 1,2,12 differ)
+			\s+(.+)       # ModelName
+			\s+\d+.\d\S+  # Capacity
+			\s+(.+)       # Usage (Raid Name)
+		}x;
 
-		if (defined($drive1)) {
-			push(@drivestatus, "$drive1:$stat1");
+		# Asssume model N.A. means the slot not in use
+		# we could also check for Capacity being zero, but this seems more
+		# reliable.
+		next if $usage eq 'N.A.';
+
+		# trim trailing spaces from name
+		$usage =~ s/\s+$//;
+
+		# use array id in output: shorter
+		my $array_id = defined($arrays{$usage}) ?  ($arrays{$usage})->[0] : undef;
+		my $array_name = defined $array_id ? "Array#$array_id" : $usage;
+
+		# assume critical if Usage is not one of:
+		# - existing Array name
+		# - HotSpare
+		# - Rebuild
+		if (defined($arrays{$usage})) {
+			# Disk in Array named $usage
+			push(@drivestatus, "$id:$array_name");
+		} elsif ($usage =~ /[Rr]e[Bb]uild/) {
+			# rebuild marks warning
+			push(@drivestatus, "$id:$array_name");
+			$status = $ERRORS{WARNING} unless $status;
+		} elsif ($usage =~ /HotSpare/) {
+			# hotspare is OK
+			push(@drivestatus, "$id:$array_name");
 		} else {
-			push(@drivestatus, "$drive2:$stat2");
+			push(@drivestatus, "$id:ERROR:$usage");
+			$status = $ERRORS{CRITICAL};
 		}
-
 	}
 	close $fh;
-
-	foreach (@drivestatus) {
-		if (/Raid\sSet\s#\s\d+/) {
-			s/Raid\sSet\s#\s\d+\s+/OK /;
-		}
-		$status = $ERRORS{CRITICAL} unless /OK |HotSpare|[Rr]e[Bb]uild/;
-	}
 
 	push(@status, "(Disk ".join(', ', @drivestatus). ")");
 
