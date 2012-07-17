@@ -1404,6 +1404,7 @@ sub check_areca {
  1  Raid Set # 000      23 34500.0GB    0.0GB   1500.0GB         Normal
  1  Raid Set # 00       15 15000.0GB    0.0GB 123G567C9AB48EF    Normal
  1  data                15 11250.0GB    0.0GB 123456789ABCDEF    Normal
+ 1  data                15 11250.0GB    0.0GB 123456789ABCDEF    Initializing
 ===============================================================================
 =cut
 		next unless (my($id, $n, $s) = m{^
@@ -1421,7 +1422,7 @@ sub check_areca {
 
 		if ($s =~ /[Rr]e[Bb]uild/) {
 			$status = $ERRORS{WARNING} unless $status;
-		} elsif ($s !~ /[Nn]ormal|[Rr]e[Bb]uild|Checking/) {
+		} elsif ($s !~ /[Nn]ormal|[Rr]e[Bb]uild|Checking|Initializing/) {
 			$status = $ERRORS{CRITICAL};
 		}
 
