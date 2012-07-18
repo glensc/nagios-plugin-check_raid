@@ -1869,6 +1869,11 @@ use base 'plugin';
 # do not register, better use hpacucli
 #push(@utils::plugins, __PACKAGE__);
 
+sub new {
+	my $self = shift;
+	$self->SUPER::new(tty_device => "/dev/ttyS0", @_);
+}
+
 sub active {
 	my $this = shift;
 	return $this->detect;
@@ -1890,13 +1895,15 @@ sub detect {
 sub check {
 	my $this = shift;
 
-	# TODO: unhardcode out modem dev
-	my $ctldevice = "/dev/ttyS0";
+	my $ctldevice = $this->{tty_device};
 
 	# status messages pushed here
 	my @status;
 
-	my $modem = new SerialLine($ctldevice);
+	my %opts = ();
+	$opts{lockdir} = $this->{lockdir} if $this->{lockdir};
+
+	my $modem = SerialLine->new($ctldevice, %opts);
 	my $fh = $modem->open();
 	unless ($fh) {
 		$this->warning;
@@ -2646,6 +2653,9 @@ sub new {
 
 	my $this = {
 		lockdir => "/var/lock",
+
+		@_,
+
 		lockfile => undef,
 		device => $device,
 		fh => undef,
@@ -2676,7 +2686,7 @@ sub open {
 	$self->lock or return;
 
 	# open the device
-	open(my $fh, "+>$self->{device}") || croak "Couldn't open $self->{device}, $!\n";
+	open(my $fh, '+>', $self->{device}) || croak "Couldn't open $self->{device}, $!\n";
 
 	$self->{fh} = $fh;
 }
