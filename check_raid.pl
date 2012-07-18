@@ -70,10 +70,11 @@
 # - Rewritten to be more modular,
 #   this allows better code testing
 
-{
-package utils;
 use warnings;
 use strict;
+
+{
+package utils;
 
 my @EXPORT = qw(which $sudo);
 my @EXPORT_OK = @EXPORT;
@@ -100,10 +101,10 @@ sub which {
 }
 
 our $sudo = which('sudo');
+} # package utils
 
+{
 package plugin;
-use warnings;
-use strict;
 use Carp qw(croak);
 
 # Nagios standard error codes
@@ -320,10 +321,10 @@ sub cmd {
 	return $fh;
 }
 
+} # package plugin
+
 package metastat;
 # Solaris, software RAID
-use strict;
-use warnings;
 use base 'plugin';
 
 # Status: BROKEN: no test data
@@ -378,8 +379,6 @@ sub check {
 
 package megaide;
 # MegaIDE RAID controller
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -430,8 +429,6 @@ sub check {
 
 package mdstat;
 # Linux Multi-Device (md)
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -537,8 +534,6 @@ sub check {
 
 package lsraid;
 # Linux, software RAID
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -596,8 +591,6 @@ package megacli;
 # http://www.bxtra.net/Articles/2008-09-16/Dell-Perc6i-RAID-Monitoring-Script-using-MegaCli-LSI-CentOS-52-64-bits
 # TODO: http://www.techno-obscura.com/~delgado/code/check_megaraid_sas
 # TODO: process several adapters
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -710,8 +703,6 @@ sub check {
 
 package lsvg;
 # AIX LVM
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -786,8 +777,6 @@ package ips;
 # Serveraid IPS
 # Tested on IBM xSeries 346 servers with Adaptec ServeRAID 7k controllers.
 # The ipssend version was v7.12.14.
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -850,8 +839,6 @@ sub check {
 
 package aaccli;
 # Adaptec ServeRAID
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -928,8 +915,6 @@ sub check {
 
 package afacli;
 # Adaptec AACRAID
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -985,8 +970,6 @@ sub check {
 }
 
 package mpt;
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -1055,8 +1038,6 @@ sub check {
 
 package megaraid;
 # MegaRAID
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -1112,8 +1093,6 @@ package gdth;
 # Linux Gdth RAID
 # based on check_gdth by Petter Reinholdtsen
 # http://homepages.uni-paderborn.de/odenbach/projects/check_gdth/
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -1174,8 +1153,6 @@ sub check {
 }
 
 package dpt_i2o;
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -1230,8 +1207,6 @@ package tw_cli;
 # Sander Klein <sander [AT] pictura [dash] dp [DOT] nl>
 # http://www.pictura-dp.nl/
 # Version 20070706
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -1342,8 +1317,6 @@ package arcconf;
 # check designed from check-aacraid.py, Anchor System - <http://www.anchor.com.au>
 # Oliver Hookins, Paul De Audney, Barney Desmond.
 # Perl port (check_raid) by Elan Ruusamäe.
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -1482,8 +1455,6 @@ package megarc;
 # check designed from check_lsi_megaraid:
 # http://www.monitoringexchange.org/cgi-bin/page.cgi?g=Detailed/2416.html;d=1
 # Perl port (check_raid) by Elan Ruusamäe.
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -1591,8 +1562,6 @@ sub check {
 }
 
 package cmdtool2;
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -1672,8 +1641,6 @@ sub check {
 }
 
 package cciss;
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -1862,8 +1829,6 @@ sub check {
 }
 
 package hp_msa;
-use strict;
-use warnings;
 use base 'plugin';
 
 # do not register, better use hpacucli
@@ -2008,9 +1973,6 @@ package sas2ircu;
 # LSI SAS-2 controllers using the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU)
 # Based on the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU) User Guide
 # http://www.lsi.com/downloads/Public/Host%20Bus%20Adapters/Host%20Bus%20Adapters%20Common%20Files/SAS_SATA_6G_P12/SAS2IRCU_User_Guide.pdf
-
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -2120,8 +2082,6 @@ sub check {
 }
 
 package smartctl;
-use strict;
-use warnings;
 use base 'plugin';
 
 # no registering as standalone plugin
@@ -2200,8 +2160,6 @@ sub check {
 }
 
 package hpacucli;
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -2337,9 +2295,6 @@ package areca;
 ## requires cli64 or cli32 binaries
 ## For links to manuals and binaries, see this issue:
 ## https://github.com/glensc/nagios-plugin-check_raid/issues/10
-
-use strict;
-use warnings;
 use base 'plugin';
 
 # register
@@ -2483,8 +2438,7 @@ sub check {
 	$this->message(join(', ', @status));
 }
 
-} # end of plugins
-
+{
 package main;
 
 # do nothing in library mode
@@ -2498,7 +2452,6 @@ my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 my ($VERSION) = "2.3";
 my ($message, $status);
-my (@ignore);
 
 #####################################################################
 $ENV{'BASH_ENV'} = '';
@@ -2590,7 +2543,7 @@ if ($opt_S) {
 	exit 0;
 }
 
-@ignore = @ARGV if @ARGV;
+@utils::ignore = @ARGV if @ARGV;
 
 if ($opt_V) {
 	print "check_raid Version $VERSION\n";
@@ -2640,10 +2593,11 @@ if ($message) {
 	print "No RAID configuration found.\n";
 }
 exit $status;
+}
 
 package SerialLine;
 # Package dealing with connecting to serial line and handling UUCP style locks.
-use strict;
+
 use Carp;
 
 sub new {
