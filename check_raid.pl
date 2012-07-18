@@ -1446,6 +1446,9 @@ sub check {
 
 	return unless @status;
 
+	# set status to OK, if no higher status was set
+	$this->ok;
+
 	$this->message(join(', ', @status));
 }
 
