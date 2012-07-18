@@ -1,0 +1,259 @@
+Driver Parameters:
+ reserve_mode: 	1         	reserve_list:  	--
+ max_ids:      	127       	hdr_channel:   	0
+
+Disk Array Controller Information:
+ Number:       	0         	Name:          	SRCU42L
+ Driver Ver.:  	3.04      	Firmware Ver.: 	2.42.02-R07A
+ Serial No.:   	0x43C06AC0	Cache RAM size:	65536 KB
+
+Physical Devices:
+ Chn/ID/LUN:   	B/06/0    	Name:          	ESG-SHV SCA HSBP M16    0.05
+ Capacity [MB]:	0         	To Log. Drive: 	--
+
+ Chn/ID/LUN:   	B/00/0    	Name:          	SEAGATE ST373453LC      0006
+ Capacity [MB]:	69974     	To Log. Drive: 	0
+ Retries:      	6         	Reassigns:     	0
+ Grown Defects:	0
+
+ Chn/ID/LUN:   	B/01/0    	Name:          	SEAGATE ST373453LC      0006
+ Capacity [MB]:	69974     	To Log. Drive: 	1
+ Retries:      	7992      	Reassigns:     	0
+ Grown Defects:	3
+
+ Chn/ID/LUN:   	B/03/0    	Name:          	SEAGATE ST373453LC      0006
+ Capacity [MB]:	69974     	To Log. Drive: 	2
+ Retries:      	7         	Reassigns:     	0
+ Grown Defects:	0
+
+ Chn/ID/LUN:   	B/04/0    	Name:          	SEAGATE ST373453LC      0006
+ Capacity [MB]:	69974     	To Log. Drive: 	3
+ Retries:      	6         	Reassigns:     	0
+ Grown Defects:	0
+
+Logical Drives:
+ Number:       	0         	Status:        	ok
+ Capacity [MB]:	69974     	Type:          	Disk
+ To Array Drv.:	0
+
+ Number:       	1         	Status:        	ok
+ Capacity [MB]:	69974     	Type:          	Disk
+ To Array Drv.:	0
+
+ Number:       	2         	Status:        	ok
+ Capacity [MB]:	69974     	Type:          	Disk
+ To Array Drv.:	0
+
+ Number:       	3         	Status:        	ok
+ Capacity [MB]:	69974     	Type:          	Disk
+ To Array Drv.:	0
+
+Array Drives:
+ Number:       	0         	Status:        	ready
+ Capacity [MB]:	0         	Type:          	RAID-5
+
+Host Drives:
+ Number:       	0         	Arr/Log. Drive:	0
+ Capacity [MB]:	139941    	Start Sector:  	0
+
+Controller Events:
+ date- 33:42:17	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 33:42:16	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 33:42:07	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 33:42:06	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 33:41:56	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 33:41:56	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 33:41:46	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 33:41:46	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 33:41:36	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 33:41:35	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 33:41:25	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 33:41:25	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 33:41:15	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 33:41:15	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 33:41:06	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 33:41:05	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 33:40:56	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 33:40:55	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 33:40:45	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 33:40:45	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 33:40:35	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 33:40:35	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 33:40:25	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:39:29	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:39:19	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:39:19	Adapter 0: Array Drive 0: HotFix Drive 1 <SCSI-B, ID 1, LUN 0> failed
+
+ date- 10:39:19	Adapter 0: SCSI-B, ID 1: last status 0x15017004. Sense code: HARDWARE ERROR, MECHANICAL POSITIONING ERROR
+
+ date- 10:39:19	Adapter 0: SCSI-B, ID 1: Disk defect, replace unit.
+
+ date- 10:39:18	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:39:09	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:39:08	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:38:58	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:38:58	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:38:48	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:38:48	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:38:38	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:38:37	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:38:28	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:38:27	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:38:17	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:38:17	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:38:07	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:38:07	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:37:57	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:37:56	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:37:46	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:37:46	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:37:36	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:37:37	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:37:28	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:37:27	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:37:17	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:37:17	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:37:07	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:37:07	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:36:57	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:36:56	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:36:47	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:36:46	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:36:36	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:36:36	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:36:26	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:36:26	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:36:16	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:36:15	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:36:06	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:36:05	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:35:55	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:35:55	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:35:45	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:35:45	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:35:35	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:35:34	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:35:24	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:35:24	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:35:14	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:35:14	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:35:04	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:35:03	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:34:54	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:34:53	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:34:43	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:34:44	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:34:34	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:34:34	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:34:24	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:34:23	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:34:14	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:34:13	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:34:03	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:34:03	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:33:53	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:33:53	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:33:43	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:33:42	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:33:33	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:33:32	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:33:22	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
+ date- 10:33:22	Adapter 0: SCSI-B, ID 1: A media error was reported by the disk drive.
+
+ date- 10:33:12	Adapter 0: SCSI-B, ID 1: An IO failed due to an unrecoverable media error.
+
