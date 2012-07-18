@@ -2457,7 +2457,7 @@ use Getopt::Long;
 
 my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
-my ($VERSION) = "2.2";
+my ($VERSION) = "2.3";
 my ($message, $status);
 my (@ignore);
 
