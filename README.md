@@ -1,4 +1,4 @@
-Nagios plugin to check current server's RAID status
+# Nagios plugin to check current server's RAID status
 
 This plugin checks all RAID volumes (hardware and software) that can be
 identified.
@@ -7,11 +7,37 @@ This is supposed to be a general plugin to run via NRPE.
 It checks for the various RAID systems, and verifies they are working correctly.
 
 Some checks require root permission, that is acomplished using sudo.
+Neccessary sudo rules (detected for your system), can be installed when
+`check_raid` is invoked with -S argument. You need to be root user and it
+will add required lines to the sudoers file.
 
-Plugin can install neccessary sudo rules (detected for your system), when invoked with -S argument.
-You need to be root user and it will add required lines to the sudoers file.
+## Installing
 
-Currently supported:
+Download directly from github release (with wget or curl):
+
+    wget https://raw.github.com/glensc/nagios-plugin-check_raid/2.2.50/check_raid.pl -O check_raid.pl
+    curl https://raw.github.com/glensc/nagios-plugin-check_raid/2.2.50/check_raid.pl > check_raid.pl
+    chmod +x check_raid
+    
+or download whole release tarball:
+
+    wget https://github.com/glensc/nagios-plugin-check_raid/tarball/2.2.50/check_raid-2.2.50.tgz
+    tar xzf check_raid-2.2.50.tgz
+    cd glensc-nagios-plugin-check_raid-af3ea4d
+    
+setup `sudo`
+
+    ./check_raid.pl -S
+
+test run
+
+    ./check_raid.pl
+
+for some RAIds there's need to install extra tools, see [Supported RAIDs](#Supported RAIDs)
+
+## Supported RAIDs
+
+Supported RAIDs that can be checked:
 - Adaptec AAC RAID via aaccli or afacli or arcconf
 - AIX software RAID via lsvg
 - HP/Compaq Smart Array via cciss_vol_status (hpsa supported too)
@@ -42,6 +68,7 @@ You might need to install following tools depending on your raid:
 
 Project entry in Nagios Exchange: http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
 
+## Copyright
 License: GPL v2
 
 (c) 2004-2006 Steve Shipway, university of auckland,
