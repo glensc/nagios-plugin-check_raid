@@ -33,7 +33,7 @@ test run
 
     ./check_raid.pl
 
-for some RAIds there's need to install extra tools, see [Supported RAIDs](#Supported RAIDs)
+for some RAIds there's need to install extra tools, see [Supported RAIDs](#supported-raids)
 
 ## Supported RAIDs
 
