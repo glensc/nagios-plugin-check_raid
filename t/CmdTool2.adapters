@@ -1,0 +1,247 @@
+                                     
+Adapter #0
+
+==============================================================================
+                    Versions
+                ================
+Product Name    : Intel(R) RAID Controller SRCSAS144E
+Serial No       : P088652806
+FW Package Build: 7.0.1-0026
+
+                    Mfg. Data
+                ================
+Mfg. Date       : 07/27/06
+Rework Date     : 00/00/00
+Revision No     : (
+Battery FRU     : N/A
+
+                Image Versions in Flash:
+                ================
+Boot Block Version : R.2.3.12
+BIOS Version       : MT31
+MPT Version        : MPTFW-01.18.74.00-IT
+FW Version         : 1.12.00-0310
+WebBIOS Version    : 1.1-32-e_11-Rel
+Ctrl-R Version     : 1.04-019A
+Preboot CLI Version: 01.00-009ALPHA:#%00001
+
+                Pending Images in Flash
+                ================
+None
+
+                PCI Info
+                ================
+Vendor Id       : 1000
+Device Id       : 0411
+SubVendorId     : 8086
+SubDeviceId     : 1003
+
+Host Interface  : PCIE
+
+Number of Frontend Port: 0 
+Device Interface  : PCIE
+
+Number of Backend Port: 8 
+Port  :  Address
+0        0000000000000000 
+1        0000000000000000 
+2        0000000000000000 
+3        0000000000000000 
+4        500000e012703fe2 
+5        500000e0126e81a2 
+6        0000000000000000 
+7        0000000000000000 
+
+                HW Configuration
+                ================
+SAS Address     : 500605b00017d660
+BBU             : Present
+Alarm           : Present
+NVRAM           : Present
+Serial Debugger : Present
+Memory          : Present
+Flash           : Present
+Memory Size     : 128MB
+TPM             : Absent
+
+                Settings
+                ================
+Current Time                     : 9:37:43 7/18, 2012
+Predictive Fail Poll Interval    : 300sec
+Interrupt Throttle Active Count  : 16
+Interrupt Throttle Completion    : 50us
+Rebuild Rate                     : 30%
+PR Rate                          : 30%
+Resynch Rate                     : 30%
+Check Consistency Rate           : 30%
+Reconstruction Rate              : 30%
+Cache Flush Interval             : 4s
+Max Drives to Spinup at One Time : 2
+Delay Among Spinup Groups        : 6s
+Physical Drive Coercion Mode     : 1GB
+Cluster Mode                     : Disabled
+Alarm                            : Enabled
+Auto Rebuild                     : Enabled
+Battery Warning                  : Enabled
+Ecc Bucket Size                  : 15
+Ecc Bucket Leak Rate             : 1440 Minutes
+Restore HotSpare on Insertion    : Enabled
+Expose Enclosure Devices         : Enabled
+Maintain PD Fail History         : Enabled
+Host Request Reordering          : Enabled
+Auto Detect BackPlane Enabled    : SGPIO/i2c SEP
+Load Balance Mode                : Auto
+Use FDE Only                     : No
+Security Key Assigned            : No
+Security Key Failed              : No
+Security Key Not Backedup        : No
+
+Any Offline VD Cache Preserved   : No
+
+                Capabilities
+                ================
+RAID Level Supported             : RAID0, RAID1, RAID5, RAID10, RAID50, SRL 3 supported
+Supported Drives                 : SAS, SATA
+
+Allowed Mixing:
+
+Mix in Enclosure Allowed
+Mix of SAS/SATA of HDD type in VD Allowed
+
+                Status
+                ================
+ECC Bucket Count                 : 0
+
+                Limitations
+                ================
+Max Arms Per VD         : 32 
+Max Spans Per VD        : 8 
+Max Arrays              : 128 
+Max Number of VDs       : 64 
+Max Parallel Commands   : 1008 
+Max SGE Count           : 80 
+Max Data Transfer Size  : 8192 sectors 
+Max Strips PerIO        : 42 
+Min Stripe Size         : 8 KB
+Max Stripe Size         : 1.0 MB
+
+                Device Present
+                ================
+Virtual Drives    : 1 
+  Degraded        : 0 
+  Offline         : 0 
+Physical Devices  : 3 
+  Disks           : 2 
+  Critical Disks  : 0 
+  Failed Disks    : 0 
+
+                Supported Adapter Operations
+                ================
+Rebuild Rate                    : Yes
+CC Rate                         : Yes
+BGI Rate                        : Yes
+Reconstruct Rate                : Yes
+Patrol Read Rate                : Yes
+Alarm Control                   : Yes
+Cluster Support                 : No
+BBU                             : Yes
+Spanning                        : Yes
+Dedicated Hot Spare             : Yes
+Revertible Hot Spares           : No
+Foreign Config Import           : Yes
+Self Diagnostic                 : Yes
+Allow Mixed Redundancy on Array : No
+Global Hot Spares               : Yes
+Deny SCSI Passthrough           : No
+Deny SMP Passthrough            : No
+Deny STP Passthrough            : No
+Support Security                : No
+
+                Supported VD Operations
+                ================
+Read Policy          : Yes
+Write Policy         : Yes
+IO Policy            : Yes
+Access Policy        : Yes
+Disk Cache Policy    : Yes
+Reconstruction       : Yes
+Deny Locate          : No
+Deny CC              : No
+Allow Ctrl Encryption: No
+Enable LDBBM         : No
+
+                Supported PD Operations
+                ================
+Force Online                            : Yes
+Force Offline                           : Yes
+Force Rebuild                           : Yes
+Deny Force Failed                       : No
+Deny Force Good/Bad                     : No
+Deny Missing Replace                    : No
+Deny Clear                              : No
+Deny Locate                             : No
+Disable Copyback                        : No
+Enable Copyback on SMART                : No
+Enable Copyback to SSD on SMART Error   : No
+Enable SSD Patrol Read                  : No
+PR Correct Unconfigured Areas           : No
+
+                Error Counters
+                ================
+Memory Correctable Errors   : 0 
+Memory Uncorrectable Errors : 0 
+
+                Cluster Information
+                ================
+Cluster Permitted     : No
+Cluster Active        : No
+
+                Default Settings
+                ================
+Phy Polarity                     : 0 
+Phy PolaritySplit                : 15 
+Background Rate                  : 30 
+Stripe Size                      : 64kB
+Flush Time                       : 4 seconds
+Write Policy                     : WT
+Read Policy                      : None
+Cache When BBU Bad               : Disabled
+Cached IO                        : No
+SMART Mode                       : Mode 6
+Alarm Disable                    : Yes
+Coercion Mode                    : 1GB
+ZCR Config                       : Unknown
+Dirty LED Shows Drive Activity   : No
+BIOS Continue on Error           : No
+Spin Down Mode                   : None
+Allowed Device Type              : SAS/SATA Mix
+Allow Mix in Enclosure           : Yes
+Allow HDD SAS/SATA Mix in VD     : Yes
+Allow SSD SAS/SATA Mix in VD     : No
+Allow HDD/SSD Mix in VD          : No
+Allow SATA in Cluster            : No
+Max Chained Enclosures           : 3 
+Disable Ctrl-R                   : Yes
+Enable Web BIOS                  : Yes
+Direct PD Mapping                : No
+BIOS Enumerate VDs               : Yes
+Restore Hot Spare on Insertion   : Yes
+Expose Enclosure Devices         : Yes
+Maintain PD Fail History         : Yes
+Disable Puncturing               : No
+Zero Based Enclosure Enumeration : No
+PreBoot CLI Enabled              : Yes
+LED Show Drive Activity          : No
+Cluster Disable                  : Yes
+SAS Disable                      : No
+Auto Detect BackPlane Enable     : SGPIO/i2c SEP
+Use FDE Only                     : No
+Enable Led Header                : No
+Delay during POST                : 0 
+EnableCrashDump                  : No
+EnableLDBBM                      : No
+Un-Certified Hard Disk Drives    : Block
+Treat Single span R1E as R10     : No
+Max LD per array                 : 16
+
+Exit Code: 0x00

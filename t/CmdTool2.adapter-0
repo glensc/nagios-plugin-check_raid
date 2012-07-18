@@ -1,0 +1,92 @@
+                                     
+==============================================================================
+Adapter: 0
+Product Name: Intel(R) RAID Controller SRCSAS144E
+Memory: 128MB
+BBU: Present
+Serial No: P088652806
+==============================================================================
+Number of DISK GROUPS: 1
+
+DISK GROUPS: 0
+Number of Spans: 1
+SPAN: 0
+Span Reference: 0x00
+Number of PDs: 2
+Number of VDs: 1
+Number of dedicated Hotspares: 0
+Virtual Disk Information:
+Virtual Disk: 0 (Target Id: 0)
+Name:
+RAID Level: Primary-1, Secondary-0, RAID Level Qualifier-0
+Size:67.986 GB
+State: Optimal
+Stripe Size: 64 KB
+Number Of Drives:2
+Span Depth:1
+Default Cache Policy: WriteThrough, ReadAdaptive, Cached, No Write Cache if Bad BBU
+Current Cache Policy: WriteThrough, ReadAdaptive, Cached, No Write Cache if Bad BBU
+Access Policy: Read/Write
+Disk Cache Policy: Enabled
+Encryption Type: None
+Physical Disk Information:
+Physical Disk: 0
+Enclosure Device ID: 252
+Slot Number: 4
+Device Id: 16
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 68.492 GB [0x88fc1d0 Sectors]
+Non Coerced Size: 67.992 GB [0x87fc1d0 Sectors]
+Coerced Size: 67.986 GB [0x87f9000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x500000e012703fe2
+SAS Address(1): 0x0
+Connected Port Number: 4(path0) 
+Inquiry Data: FUJITSU MAX3073RC       0104DQA0P67008EM        
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Foreign State: None 
+Device Speed: Unknown 
+Link Speed: Unknown 
+Media Type: Hard Disk Device
+
+
+
+Physical Disk: 1
+Enclosure Device ID: 252
+Slot Number: 5
+Device Id: 17
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 68.492 GB [0x88fc1d0 Sectors]
+Non Coerced Size: 67.992 GB [0x87fc1d0 Sectors]
+Coerced Size: 67.986 GB [0x87f9000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x500000e0126e81a2
+SAS Address(1): 0x0
+Connected Port Number: 5(path0) 
+Inquiry Data: FUJITSU MAX3073RC       0104DQA0P67008D6        
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Foreign State: None 
+Device Speed: Unknown 
+Link Speed: Unknown 
+Media Type: Hard Disk Device
+
+
+
+
+Exit Code: 0x00
