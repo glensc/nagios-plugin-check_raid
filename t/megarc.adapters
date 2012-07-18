@@ -1,0 +1,13 @@
+
+
+	**********************************************************************
+	      MEGARC MegaRAID Configuration Utility(LINUX)-1.11(12-07-2004)     
+	      By LSI Logic Corp.,USA
+	**********************************************************************
+	  [Note: For SATA-2, 4 and 6 channel controllers, please specify
+	  Ch=0 Id=0..15 for specifying physical drive(Ch=channel, Id=Target)]
+
+	Type ? as command line arg for help
+
+	AdapterNo  FirmwareType  CardType
+	00	    40LD/8SPAN    Intel(R) RAID Controller SRCZCRX

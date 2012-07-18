@@ -1,0 +1,70 @@
+
+
+	**********************************************************************
+	      MEGARC MegaRAID Configuration Utility(LINUX)-1.11(12-07-2004)     
+	      By LSI Logic Corp.,USA
+	**********************************************************************
+	  [Note: For SATA-2, 4 and 6 channel controllers, please specify
+	  Ch=0 Id=0..15 for specifying physical drive(Ch=channel, Id=Target)]
+
+	Type ? as command line arg for help
+
+
+	Finding Devices On Each MegaRAID Adapter...
+	Scanning Ha 0, Chnl 0 Target 00  
+[A	Scanning Ha 0, Chnl 0 Target 01  
+[A	Scanning Ha 0, Chnl 0 Target 02  
+[A	Scanning Ha 0, Chnl 0 Target 03  
+[A	Scanning Ha 0, Chnl 0 Target 04  
+[A	Scanning Ha 0, Chnl 0 Target 05  
+[A	Scanning Ha 0, Chnl 0 Target 06  
+[A	Scanning Ha 0, Chnl 0 Target 07  
+[A	Scanning Ha 0, Chnl 0 Target 08  
+[A	Scanning Ha 0, Chnl 0 Target 09  
+[A	Scanning Ha 0, Chnl 0 Target 10  
+[A	Scanning Ha 0, Chnl 0 Target 11  
+[A	Scanning Ha 0, Chnl 0 Target 12  
+[A	Scanning Ha 0, Chnl 0 Target 13  
+[A	Scanning Ha 0, Chnl 0 Target 14  
+[A	Scanning Ha 0, Chnl 0 Target 15  
+[A	Scanning Ha 0, Chnl 1 Target 00  
+[A	Scanning Ha 0, Chnl 1 Target 01  
+[A	Scanning Ha 0, Chnl 1 Target 02  
+[A	Scanning Ha 0, Chnl 1 Target 03  
+[A	Scanning Ha 0, Chnl 1 Target 04  
+[A	Scanning Ha 0, Chnl 1 Target 05  
+[A	Scanning Ha 0, Chnl 1 Target 06  
+[A	Scanning Ha 0, Chnl 1 Target 07  
+[A	Scanning Ha 0, Chnl 1 Target 08  
+[A	Scanning Ha 0, Chnl 1 Target 09  
+[A	Scanning Ha 0, Chnl 1 Target 10  
+[A	Scanning Ha 0, Chnl 1 Target 11  
+[A	Scanning Ha 0, Chnl 1 Target 12  
+[A	Scanning Ha 0, Chnl 1 Target 13  
+[A	Scanning Ha 0, Chnl 1 Target 14  
+[A	Scanning Ha 0, Chnl 1 Target 15  
+[A
+
+
+	**********************************************************************
+	      Existing Logical Drive Information     
+	      By LSI Logic Corp.,USA
+	**********************************************************************
+	  [Note: For SATA-2, 4 and 6 channel controllers, please specify
+	  Ch=0 Id=0..15 for specifying physical drive(Ch=channel, Id=Target)]
+
+
+	  Logical Drive : 0( Adapter: 0 ):  Status: OPTIMAL
+	---------------------------------------------------
+	SpanDepth :01     RaidLevel: 5  RdAhead : Adaptive  Cache: CachedIo
+	StripSz   :064KB   Stripes  : 6  WrPolicy: WriteThru
+
+	Logical Drive 0 : SpanLevel_0 Disks
+	Chnl  Target  StartBlock   Blocks      Physical Target Status
+	----  ------  ----------   ------      ----------------------
+	0      00    0x00000000   0x0430e000   ONLINE
+	0      01    0x00000000   0x0430e000   ONLINE
+	0      02    0x00000000   0x0430e000   ONLINE
+	0      03    0x00000000   0x0430e000   ONLINE
+	0      04    0x00000000   0x0430e000   ONLINE
+	0      05    0x00000000   0x0430e000   ONLINE
