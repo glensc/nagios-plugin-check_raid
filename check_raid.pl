@@ -2136,7 +2136,6 @@ sub sudo {
 	# nothing, as not standalone plugin yet
 }
 
-
 # check for -H parameter for physical disks
 # this is currently called out from cciss plugin
 # @param device list
