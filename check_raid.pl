@@ -2306,10 +2306,8 @@ sub program_names {
 
 sub commands {
 	{
-#		'rsf info' => ['-|', '@CMD', 'rsf', 'info'],
-#		'disk info' => ['-|', '@CMD', 'disk', 'info'],
-		'rsf info' => ['<', 't/cli64.rsf.info-1'],
-		'disk info' => ['<', 't/cli64.disk.info-1'],
+		'rsf info' => ['-|', '@CMD', 'rsf', 'info'],
+		'disk info' => ['-|', '@CMD', 'disk', 'info'],
 	}
 }
 
