@@ -1,0 +1,21 @@
+
+MSA1500 CS in MY STORAGE
+
+   array A (Failed)
+
+      logicaldrive 1 (2.0 TB, RAID 6 (ADG), OK)
+      logicaldrive 2 (2.0 TB, RAID 6 (ADG), OK)
+      logicaldrive 3 (2.0 TB, RAID 6 (ADG), OK)
+      logicaldrive 4 (2.0 TB, RAID 6 (ADG), OK)
+      logicaldrive 5 (2.0 TB, RAID 6 (ADG), OK)
+      logicaldrive 6 (2.0 TB, RAID 6 (ADG), OK)
+      logicaldrive 7 (2.0 TB, RAID 6 (ADG), OK)
+      logicaldrive 8 (1.0 TB, RAID 6 (ADG), OK)
+
+   array B (Failed)
+
+      logicaldrive 9 (2.0 TB, RAID 5, OK)
+      logicaldrive 10 (2.0 TB, RAID 5, OK)
+      logicaldrive 11 (2.0 TB, RAID 5, OK)
+      logicaldrive 12 (1.5 TB, RAID 5, OK)
+
