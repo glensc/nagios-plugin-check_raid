@@ -1,0 +1,2 @@
+cciss_vol_status: /dev/sg0: Unknown SCSI device.
+/dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK. 
