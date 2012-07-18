@@ -1202,6 +1202,9 @@ sub check {
 
 	return unless @status;
 
+	# denote this plugin as ran ok
+	$this->ok;
+
 	$this->message(join(', ', @status));
 }
 
