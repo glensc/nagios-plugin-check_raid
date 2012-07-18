@@ -7,6 +7,9 @@ PLUGINCONF      := /etc/nagios/plugins
 
 all:
 
+test:
+	perl -MTest::Harness -e 'runtests @ARGV' t/*.t
+
 install:
 	install -d $(DESTDIR)$(PLUGINDIR)
 	install -p $(PLUGIN_SCRIPT) $(DESTDIR)$(PLUGINDIR)/$(PLUGIN)
