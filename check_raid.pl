@@ -969,6 +969,9 @@ sub check {
 
 	return unless @status;
 
+	# set status to OK, if no higher status was set
+	$this->ok;
+
 	$this->message(join(', ', @status));
 }
 
@@ -2070,7 +2073,7 @@ sub check {
 
 	return unless @status;
 
-	# set status to OK, if no other status was
+	# set status to OK, if no higher status was set
 	$this->ok;
 
 	$this->message(join(', ', @status));
@@ -2151,7 +2154,7 @@ sub check {
 
 	return unless %status;
 
-	# set status to OK, if no other status was
+	# set status to OK, if no higher status was set
 	$this->ok;
 
 	$this->message($this->join_status(\%status));
@@ -2284,7 +2287,7 @@ sub check {
 
 	return unless @status;
 
-	# set status to OK, if no other status was
+	# set status to OK, if no higher status was set
 	$this->ok;
 
 	$this->message(join(', ', @status));
@@ -2435,7 +2438,7 @@ sub check {
 	}
 	close $fh;
 
-	# set status to OK, if none other were set
+	# set status to OK, if no higher status was set
 	$this->ok;
 
 	$this->message(join(', ', @status));
