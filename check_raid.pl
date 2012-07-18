@@ -2061,8 +2061,6 @@ sub check {
 
 	my @ctrls = $this->detect;
 
-	warn "CTRLS!: @ctrls\n";
-
 	my @status;
 	# determine the RAID states of each controller
 	foreach my $c (@ctrls) {
