@@ -1,5 +1,5 @@
-#!/usr/bin/perl -w
-# vim:ts=4
+#!/usr/bin/perl
+# vim:ts=4:sw=4:noet
 # Nagios EPN Workaround:
 # nagios: -epn
 #
@@ -23,7 +23,7 @@
 # URL in Nagios Exchange: http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
 # Visit github page to report issues and send pull requests,
 # you can also mail them directly to Elan Ruusamäe <glen@pld-linux.org>,
-# but please send them unified format (diff -u) and attachment against latest version from github.
+# but please attach them in unified format (diff -u) against latest version in github.
 #
 # Supports:
 # - Adaptec AAC RAID via aaccli or afacli or arcconf
@@ -66,73 +66,145 @@
 # - Project moved to github: https://github.com/glensc/nagios-plugin-check_raid
 # - SAS2IRCU support
 # - Areca SATA RAID Support
+# Version 2.3:
+# - Rewritten to be more modular,
+#   this allows better code testing
 
+{
+package utils;
+use warnings;
 use strict;
-use Getopt::Long;
-my($opt_V, $opt_d, $opt_h, $opt_W, $opt_S);
-my(%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
-my($VERSION) = "2.2.50";
-my($message, $status);
-my(@ignore);
 
-my $sudo = which('sudo');
-my $cat = which('cat');
+my @EXPORT = qw(which $sudo);
+my @EXPORT_OK = @EXPORT;
 
-# Various RAID tools
-my $mpt_status = which('mpt-status');
-my $aaccli = which('aaccli');
-my $afacli = which('afacli');
-my $lsraid = which('lsraid');
-my $megacli = which('MegaCli64') || which('MegaCli') || which('megacli');
-my $metastat = which('metastat');
-my $lsvg = which('lsvg');
-my $ipssend = which('ipssend');
-my $tw_cli = which('tw_cli-9xxx') || which('tw_cli');
-my $arcconf = which('arcconf');
-my $megarc = which('megarc');
-my $cmdtool2 = which('CmdTool2');
-my $cciss_vol_status = which('cciss_vol_status');
-my $hpacucli = which('hpacucli');
-my $smartctl = which('smartctl');
-my $areca = which('areca-cli') || which('areca_cli64') || which('areca_cli32') || which('cli64') || which('cli32');
-my $sas2ircu = which('sas2ircu');
+# registered plugins
+our @plugins;
 
-#####################################################################
-sub print_usage() {
-	print join "\n",
-	"Usage: check_raid [-h] [-V] [-S] [list of devices to ignore]",
-	"",
-	"Options:",
-	" -h, --help",
-	"    Print help screen",
-	" -V, --version",
-	"    Print version information",
-	" -S, --sudoers",
-	"    Setup sudo rules",
-	" -W, --warnonly",
-	"    Treat CRITICAL errors as WARNING",
-	"";
-}
+# devices to ignore
+our @ignore;
 
-sub print_help() {
-	print "check_raid, v$VERSION\n";
-	print "Copyright (c) 2004-2006 Steve Shipway, Copyright (c) 2009-2012, Elan Ruusamäe <glen\@pld-linux.org>
+# paths for which()
+my @paths = split /:/, $ENV{'PATH'};
+unshift(@paths, qw(/usr/local/nrpe /usr/local/bin /sbin /usr/sbin /bin /usr/sbin));
 
-This plugin reports the current server's RAID status
-https://github.com/glensc/nagios-plugin-check_raid
-
-";
-	print_usage();
-}
-
-#####################################################################
-# return true if parameter is not in ignore list
-sub valid($) {
-	my($v) = lc $_[0];
-	foreach (@ignore) {
-		return 0 if lc $_ eq $v;
+# lookup program from list of possibele filenames
+# search is performed from $PATH plus additional hardcoded @paths
+sub which {
+	for my $prog (@_) {
+		for my $path (@paths) {
+			return "$path/$prog" if -x "$path/$prog";
+		}
 	}
-	return 1;
+	return undef;
+}
+
+our $sudo = which('sudo');
+
+package plugin;
+use warnings;
+use strict;
+use Carp qw(croak);
+
+# Nagios standard error codes
+my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
+
+# return list of programs this plugin needs
+# @internal
+sub program_names {
+}
+
+# return hash of canonical commands that plugin can use
+# @internal
+sub commands {
+	{}
+}
+
+# return sudo rules if program needs it
+# may be SCALAR or LIST of scalars
+# @internal
+sub sudo {
+	undef;
+}
+
+# constructor for plugins
+sub new {
+	my $class = shift;
+
+	croak 'Odd number of elements in argument hash' if @_ % 2;
+
+	my $self = {
+		program_names => [ $class->program_names ],
+		commands => $class->commands,
+		sudo => $class->sudo ? $utils::sudo : '',
+		@_,
+		name => $class,
+		status => undef,
+		message => undef,
+	};
+
+	# lookup program, if not defined by params
+	if (!$self->{program}) {
+		$self->{program} = utils::which(@{$self->{program_names}});
+	}
+
+	return bless $self, $class;
+}
+
+# see if plugin is active (disabled or no tools available)
+sub active {
+	my $this = shift;
+
+	# program not found
+	return 0 unless $this->{program};
+
+	# program not executable
+	-x $this->{program};
+}
+
+# set status code for plugin result
+# does not overwrite status with lower value
+# returns the current status code
+sub status {
+	my ($this, $status) = @_;
+
+	if (defined $status) {
+		$this->{status} = $status unless defined($this->{status}) and $status < $this->{status};
+	}
+	$this->{status};
+}
+
+# helper to set status to WARNING
+sub warning {
+	my ($this) = @_;
+	$this->status($ERRORS{WARNING});
+}
+
+# helper to set status to CRITICAL
+sub critical {
+	my ($this) = @_;
+	$this->status($ERRORS{CRITICAL});
+}
+
+# helper to set status to UNKNOWN
+sub unknown {
+	my ($this) = @_;
+	$this->status($ERRORS{UNKNOWN});
+}
+
+# helper to set status to OK
+sub ok {
+	my ($this) = @_;
+	$this->status($ERRORS{OK});
+}
+
+# setup status message text
+sub message {
+	my ($this, $message) = @_;
+	if (defined $message) {
+		$this->{message} = $message;
+	}
+	$this->{message};
 }
 
 # a helper to join similar statuses for items
@@ -143,6 +215,7 @@ sub valid($) {
 # takes as input list:
 #  { status => @items }
 sub join_status {
+	my $this = shift;
 	my %status = %{$_[0]};
 
 	my @status;
@@ -157,12 +230,25 @@ sub join_status {
 	return join ' ', @status;
 }
 
+# return true if parameter is not in ignore list
+sub valid($) {
+	my $this = shift;
+	my ($v) = lc $_[0];
+
+	foreach (@utils::ignore) {
+		return 0 if lc $_ eq $v;
+	}
+	return 1;
+}
+
 use constant K => 1024;
 use constant M => K * 1024;
 use constant G => M * 1024;
 use constant T => G * 1024;
 
 sub format_bytes($) {
+	my $this = shift;
+
 	my ($bytes) = @_;
 	if ($bytes > T) {
 		return sprintf("%.2f TiB", $bytes / T);
@@ -179,17 +265,94 @@ sub format_bytes($) {
 	return "$bytes B";
 }
 
-# Solaris, software RAID
-sub check_metastat {
-	my($d,$sd);
+# build up command for $command
+# returns open filehandle to process output
+# if command fails, program is exited (caller needs not to worry)
+sub cmd {
+	my ($this, $command, $cb) = @_;
 
-	my @CMD = $metastat;
-	unshift(@CMD, $sudo) if $> and $sudo;
+	# build up command
+	my @CMD = $this->{program};
+
+	# add sudo if program needs
+	unshift(@CMD, $this->{sudo}) if $> and $this->{sudo};
+
+	my $args = $this->{commands}{$command} or croak "command '$command' not defined";
+
+	# callback to replace args in command
+	my $cb_ = sub {
+		my $param = shift;
+		if ($cb) {
+			return $cb->{$param} if ref $cb eq 'HASH' and exists $cb->{$param};
+			return &$cb($param) if ref $cb eq 'CODE';
+		}
+
+		if ($param eq '@CMD') {
+			# command wanted, but not found
+			croak "Command for $this->{name} not found" unless defined $this->{program};
+			return @CMD;
+		}
+		return $param;
+	};
+
+	# add command arguments
+	for (@CMD = @$args) {
+		s/([@\$]\w+)/$cb_->($1)/ge;
+	}
+
+	my $op = shift @CMD;
+	my $fh;
+	if ($op eq '=' and ref $cb eq 'SCALAR') {
+		# Special: use open2
+		use IPC::Open2;
+		my $pid = open2($fh, $$cb, @CMD) or croak "open2 failed: @CMD: $!";
+
+	} else {
+		open($fh, $op, @CMD) or croak "open failed: @CMD: $!";
+	}
+
+	# for dir handles, reopen as opendir
+	if (-d $fh) {
+		undef($fh);
+		opendir($fh, $CMD[0]) || croak "opendir failed: @CMD: $!";
+	}
+
+	return $fh;
+}
+
+package metastat;
+# Solaris, software RAID
+use strict;
+use warnings;
+use base 'plugin';
+
+# Status: BROKEN: no test data
+#push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	__PACKAGE__;
+}
+
+sub commands {
+	{
+		'status' => ['-|', '@CMD'],
+	}
+}
+
+sub sudo {
+	my $cmd = shift->{program};
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd"
+}
+
+sub check {
+	my $this = shift;
+
+	my ($d, $sd);
 
 	# status messages pushed here
 	my @status;
 
-	open(my $fh , '-|', @CMD) or return;
+	my $fh = $this->cmd('status');
 	while (<$fh>) {
 		if (/^(\S+):/) { $d = $1; $sd = ''; next; }
 		if (/Submirror \d+:\s+(\S+)/) { $sd = $1; next; }
@@ -198,9 +361,9 @@ sub check_metastat {
 				if ($s =~ /Okay/i) {
 					# no worries...
 				} elsif ($s =~ /Resync/i) {
-					$status = $ERRORS{WARNING} unless $status;
+					$this->warning;
 				} else {
-					$status = $ERRORS{CRITICAL};
+					$this->critical;
 				}
 				push(@status, "$d:$sd:$s");
 			}
@@ -210,12 +373,27 @@ sub check_metastat {
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "metastat:[".join(' ', @status)."]";
+	$this->message(join(' ', @status));
 }
 
+package megaide;
 # MegaIDE RAID controller
-sub check_megaide {
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+# Status: BROKEN: no test data
+#push(@utils::plugins, __PACKAGE__);
+
+sub sudo {
+	my $cat = utils::which('cat');
+	"CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/0/status";
+
+}
+
+sub check {
+	my $this = shift;
 	my $fh;
 
 	# status messages pushed here
@@ -224,16 +402,18 @@ sub check_megaide {
 	foreach my $f (</proc/megaide/*/status>) { # / silly comment to fix vim syntax hilighting
 		if (-r $f) {
 			open $fh, '<', $f or next;
+=cut
 		} else {
 			my @CMD = ($cat, $f);
 			unshift(@CMD, $sudo) if $> and $sudo;
 			open($fh , '-|', @CMD) or next;
+=cut
 		}
 		while (<$fh>) {
 			next unless (my($s, $n) = /Status\s*:\s*(\S+).*Logical Drive.*:\s*(\d+)/i);
-			next unless valid($n);
+			next unless $this->valid($n);
 			if ($s ne 'ONLINE') {
-				$status = $ERRORS{CRITICAL};
+				$this->critical;
 				push(@status, "$n:$s");
 			} else {
 				push(@status, "$n:$s");
@@ -245,15 +425,29 @@ sub check_megaide {
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "megaide:[".join(' ', @status)."]";
+	$this->message(join(' ', @status));
 }
 
+package mdstat;
 # Linux Multi-Device (md)
-sub check_mdstat {
-	open my $fh, '<', '/proc/mdstat' or return;
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub commands {
+	{
+		'proc' => ['<', '/proc/mdstat'],
+	}
+}
+
+sub check {
+	my $this = shift;
 
 	my (@status, @md, %md);
+	my $fh = $this->cmd('proc');
 	while (<$fh>) {
 		chomp;
 
@@ -296,7 +490,7 @@ sub check_mdstat {
 		# we need empty line denoting end of one md
 		next unless /^\s*$/;
 
-		next unless valid($md{dev});
+		next unless $this->valid($md{dev});
 
 		push(@md, { %md } );
 	}
@@ -306,7 +500,7 @@ sub check_mdstat {
 		my %md = %$_;
 
 		# common status
-		my $size = format_bytes($md{blocks} * 1024);
+		my $size = $this->format_bytes($md{blocks} * 1024);
 		my $s = "$md{dev}($size $md{personality}):";
 
 		# raid0 is just there or its not. raid0 can't degrade.
@@ -315,16 +509,16 @@ sub check_mdstat {
 			$s .= "OK";
 
 		} elsif ($md{status} =~ /_/) {
-			$status = $ERRORS{CRITICAL};
+			$this->critical;
 			$s .= "F:". join(",", @{$md{failed_disks}}) .":$md{status}";
 
 		} elsif (@{$md{failed_disks}} > 0) {
 			# FIXME: this is same as above?
-			$status = $ERRORS{WARNING} unless $status;
+			$this->warning;
 			$s .= "hot-spare failure:". join(",", @{$md{failed_disks}}) .":$md{status}";
 
 		} elsif ($md{resync_status}) {
-			$status = $ERRORS{WARNING} unless $status;
+			$this->warning;
 			$s .= "$md{status} ($md{resync_status})";
 
 		} else {
@@ -335,29 +529,54 @@ sub check_mdstat {
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "md:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
 }
 
-
+package lsraid;
 # Linux, software RAID
-sub check_lsraid {
-	my @CMD = ($lsraid, '-A', '-p');
-	unshift(@CMD, $sudo) if $> and $sudo;
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+# Broken: missing test data
+#push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	__PACKAGE__;
+}
+
+sub commands {
+	{
+		'list' => ['-|', '@CMD', '-A', '-p'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -A -p"
+}
+
+sub check {
+	my $this = shift;
 
 	# status messages pushed here
 	my @status;
 
-	open(my $fh , '-|', @CMD) or return;
+	my $fh = $this->cmd('list');
 	while (<$fh>) {
 		next unless (my($n, $s) = m{/dev/(\S+) \S+ (\S+)});
-		next unless valid($n);
+		next unless $this->valid($n);
 		if ($s =~ /good|online/) {
 			# no worries
 		} elsif ($s =~ /sync/) {
-			$status = $ERRORS{WARNING} unless $status;
+			$this->warning;
 		} else {
-			$status = $ERRORS{CRITICAL};
+			$this->critical;
 		}
 		push(@status, "$n:$s");
 	}
@@ -365,20 +584,51 @@ sub check_lsraid {
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "lsraid:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
 }
 
+package megacli;
 # MegaRAID SAS 8xxx controllers
 # based on info from here:
 # http://www.bxtra.net/Articles/2008-09-16/Dell-Perc6i-RAID-Monitoring-Script-using-MegaCli-LSI-CentOS-52-64-bits
 # TODO: http://www.techno-obscura.com/~delgado/code/check_megaraid_sas
 # TODO: process several adapters
-sub check_megacli {
-	my @CMD = ($megacli, '-PDList', '-aALL', '-NoLog');
-	unshift(@CMD, $sudo) if $> and $sudo;
+use strict;
+use warnings;
+use base 'plugin';
 
-	open(my $fh , '-|', @CMD) or return;
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	qw(MegaCli64 MegaCli megacli);
+}
+
+sub commands {
+	{
+		'pdlist' => ['-|', '@CMD', '-PDList', '-aALL', '-NoLog'],
+		'ldinfo' => ['-|', '@CMD', '-LdInfo', '-Lall', '-aALL', '-NoLog'],
+	}
+}
+
+# TODO: process from COMMANDS
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+
+	(
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd -PDList -aALL -NoLog",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd -LdInfo -Lall -aALL -NoLog",
+	);
+}
+
+sub check {
+	my $this = shift;
+
+	my $fh = $this->cmd('pdlist');
 	my (@status, @devs, @vols, %cur, %cur_vol);
 	while (<$fh>) {
 		if (my($s) = /Device Id: (\S+)/) {
@@ -386,6 +636,7 @@ sub check_megacli {
 			%cur = ( dev => $s, state => undef, name => undef );
 			next;
 		}
+
 		if (my($s) = /Firmware state: (.+)/) {
 			# strip the extra state:
 			# 'Online, Spun Up'
@@ -394,6 +645,7 @@ sub check_megacli {
 			$cur{state} = $s;
 			next;
 		}
+
 		if (my($s) = /Inquiry Data: (.+)/) {
 			# trim some spaces
 			$s =~ s/\s+/ /g; $s =~ s/^\s+|\s+$//g;
@@ -404,11 +656,8 @@ sub check_megacli {
 	close $fh;
 	push(@devs, { %cur }) if %cur;
 
-	my @CMD_vol = ($megacli, '-LdInfo', '-Lall', '-aALL', '-NoLog');
-	unshift(@CMD_vol, $sudo) if $> and $sudo;
-
-	open(my $fh_vol, '-|', @CMD_vol) or return;
-	while (<$fh_vol>) {
+	$fh = $this->cmd('ldinfo');
+	while (<$fh>) {
 		if (my($s) = /Name\s*:\s*(\S+)/) {
 			push(@vols, { %cur_vol }) if %cur_vol;
 			%cur_vol = ( name => $s, state => undef );
@@ -419,7 +668,7 @@ sub check_megacli {
 			next;
 		}
 	}
-	close $fh_vol;
+	close $fh;
 	push(@vols, { %cur_vol }) if %cur_vol;
 
 	my @vstatus;
@@ -431,7 +680,7 @@ sub check_megacli {
 
 		push(@vstatus, sprintf "%s:%s", $vol->{name}, $vol->{state});
 		if ($vol->{state} ne 'Optimal') {
-			$status = $ERRORS{CRITICAL};
+			$this->critical;
 		}
 	}
 
@@ -440,30 +689,60 @@ sub check_megacli {
 		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare') {
 			push(@{$dstatus{$dev->{state}}}, sprintf "%02d", $dev->{dev});
 		} else {
-			$status = $ERRORS{CRITICAL};
+			$this->critical;
 			# TODO: process other statuses
 			push(@{$dstatus{$dev->{state}}}, sprintf "%02d (%s)", $dev->{dev}, $dev->{name});
 		}
 	}
 
-	push(@status, ($#vols + 1) . ' Vols: ' . join(',', @vstatus) . ', '. ($#devs + 1) . ' Devs: ' . join_status(\%dstatus));
+	push(@status, ($#vols + 1) . ' Vols: ' . join(',', @vstatus) . ', '. ($#devs + 1) . ' Devs: ' . $this->join_status(\%dstatus));
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "MegaCli:[".join(' ', @status)."] ";
+	$this->message(join(' ', @status));
 }
 
+package lsvg;
 # AIX LVM
-sub check_lsvg {
-	my @CMD = $lsvg;
-	unshift(@CMD, $sudo) if $> and $sudo;
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+# Status: broken (no test data)
+#push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	__PACKAGE__;
+}
+
+sub commands {
+	{
+		'lsvg' => ['-|', '@CMD'],
+		'lsvg list' => ['-|', '@CMD', '-l', '$vg'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	(
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd -l *",
+	)
+}
+
+sub check {
+	my $this = shift;
 
 	# status messages pushed here
 	my @status;
 
 	my @vg;
-	open(my $fh , '-|', @CMD) or return;
+	my $fh = $this->cmd('lsvg');
 	while (<$fh>) {
 		chomp;
 		push @vg, $_;
@@ -471,20 +750,20 @@ sub check_lsvg {
 	close $fh;
 
 	foreach my $vg (@vg) {
-		next unless valid($vg); # skip entire VG
+		next unless $this->valid($vg); # skip entire VG
 
-		open(my $fh , '-|', @CMD, '-l', $vg) or next;
+		my $fh = $this->cmd('lsvg list', { '$vg' => $vg });
 
 		while (<$fh>) {
 			my @f = split /\s/;
-			my ($n, $s) = ($f[0],$f[5]);
-			next if (!valid($n) or !$s);
+			my ($n, $s) = ($f[0], $f[5]);
+			next if (!$this->valid($n) or !$s);
 			next if ($f[3] eq $f[2]); # not a mirrored LV
 
-			if ($s =~ /open\/(\S+)/i) {
+			if ($s =~ m#open/(\S+)#i) {
 				$s = $1;
 				if ($s ne 'syncd') {
-					$status = $ERRORS{CRITICAL};
+					$this->critical;
 				}
 				push(@status, "lvm:$n:$s");
 			}
@@ -494,65 +773,112 @@ sub check_lsvg {
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "lsvg:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
 }
 
+package ips;
 # Serveraid IPS
-sub check_ipssend {
-	my @CMD = $ipssend;
-	unshift(@CMD, $sudo) if $> and $sudo;
+# Tested on IBM xSeries 346 servers with Adaptec ServeRAID 7k controllers.
+# The ipssend version was v7.12.14.
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	qw(ipssend);
+}
+
+sub commands {
+	{
+		'list logical drive' => ['-|', '@CMD', 'GETCONFIG', '1', 'LD'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd getconfig 1 LD"
+}
+
+sub check {
+	my $this = shift;
 
 	# status messages pushed here
 	my @status;
 
 	my $n;
-	open(my $fh , '-|', @CMD, 'GETCONFIG', '1', 'LD') or return;
+	my $fh = $this->cmd('list logical drive');
 	while (<$fh>) {
 		if (/drive number (\d+)/i){
-		    $n=$1;
+		    $n = $1;
 		    next;
 		}
-		next unless valid($n);
+
+		next unless $n;
+		next unless $this->valid($n);
 		next unless (my($s, $c) = /Status .*: (\S+)\s+(\S+)/);
 
 		if ($c =~ /SYN|RBL/i ) { # resynching
-			$status = $ERRORS{WARNING} unless $status;
+			$this->warning;
 		} elsif ($c !~ /OKY/i) { # not OK
-			$status = $ERRORS{CRITICAL};
+			$this->critical;
 		}
+
 		push(@status, "$n:$s");
 	}
 	close $fh;
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "ips:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
 }
 
+package aaccli;
 # Adaptec ServeRAID
-sub check_aaccli {
-	unless ($aaccli) {
-		$message .= "aac:aaccli program not found ";
-		$status = $ERRORS{CRITICAL};
-		return;
-	}
+use strict;
+use warnings;
+use base 'plugin';
 
-	my @CMD = $aaccli;
-	unshift(@CMD, $sudo) if $> and $sudo;
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	__PACKAGE__;
+}
+
+sub commands {
+	{
+		'container list' => ['=', '@CMD'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd container list /full"
+}
+
+sub check {
+	my $this = shift;
 
 	# status messages pushed here
 	my @status;
 
-	use IPC::Open2;
+	my $write = "";
+	$write .= "open aac0\n";
+	$write .= "container list /full\n";
+	$write .= "exit\n";
+	my $read = $this->cmd('container list', \$write);
 
-	my ($read, $write);
-	my $pid = open2($read, $write, @CMD) or return;
-	print $write "open aac0\n";
-	print $write "container list /full\n";
-	print $write "exit\n";
-	close $write;
 #File foo receiving all output.
 #
 #AAC0>
@@ -569,92 +895,127 @@ sub check_aaccli {
 #COMMAND: logfile end
 #Executing: logfile end
 	while (<$read>) {
-		if (my ($dsk, $stat) = /(\d:\d\d?:\d+)\s+\S+:\S+\s+(\S+)/) {
-			next unless valid($dsk);
-			$dsk =~ s/:/\//g;
-			next unless valid($dsk);
+		if (my($dsk, $stat) = /(\d:\d\d?:\d+)\s+\S+:\S+\s+(\S+)/) {
+			next unless $this->valid($dsk);
+			$dsk =~ s#:#/#g;
+			next unless $this->valid($dsk);
+
 			push(@status, "$dsk:$stat");
-			$status = $ERRORS{CRITICAL} if ($stat eq "Broken");
-			$status = $ERRORS{WARNING} if (!$status and $stat eq "Rebuild");
-			$status = $ERRORS{WARNING} if (!$status and $stat eq "Bld/Vfy");
-			$status = $ERRORS{CRITICAL} if ($stat eq "Missing");
-			$status = $ERRORS{WARNING} if (!$status and $stat eq "Verify");
-			$status = $ERRORS{WARNING} if (!$status and $stat eq "VfyRepl");
+
+			$this->critical if ($stat eq "Broken");
+			$this->warning if ($stat eq "Rebuild");
+			$this->warning if ($stat eq "Bld/Vfy");
+			$this->critical if ($stat eq "Missing");
+			$this->warning if ($stat eq "Verify");
+			$this->warning if ($stat eq "VfyRepl");
 		}
 	}
 	close $read;
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "aac:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
 }
 
+package afacli;
 # Adaptec AACRAID
-sub check_afacli {
-	my @CMD = $afacli;
-	unshift(@CMD, $sudo) if $> and $sudo;
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	__PACKAGE__;
+}
+
+sub commands {
+	{
+		'container list' => ['=', '@CMD'],
+	}
+}
+
+sub check {
+	my $this = shift;
 
 	# status messages pushed here
 	my @status;
 
-	use IPC::Open2;
+	my $write = "";
+	$write .= "open afa0\n";
+	$write .= "container list /full\n";
+	$write .= "exit\n";
 
-	my ($read, $write);
-	my $pid = open2($read, $write, @CMD) or return;
-	print $write "open afa0\n";
-	print $write "container list /full\n";
-	print $write "exit\n";
-	close $write;
-
+	my $read = $this->cmd('container list', \$write);
 	while (<$read>) {
  		# 0    Mirror  465GB            Valid   0:00:0 64.0KB: 465GB Normal                        0  032511 17:55:06
  		# /dev/sda             root             0:01:0 64.0KB: 465GB Normal                        1  032511 17:55:06
         if (my($dsk, $stat) = /(\d:\d\d?:\d+)\s+\S+:\s?\S+\s+(\S+)/) {
-			next unless valid($dsk);
-			$dsk =~ s/:/\//g;
-			next unless valid($dsk);
+			next unless $this->valid($dsk);
+			$dsk =~ s#:#/#g;
+			next unless $this->valid($dsk);
 			push(@status, "$dsk:$stat");
-			$status = $ERRORS{CRITICAL} if ($stat eq "Broken");
-			$status = $ERRORS{WARNING} if (!$status and $stat eq "Rebuild");
-			$status = $ERRORS{WARNING} if (!$status and $stat eq "Bld/Vfy");
-			$status = $ERRORS{CRITICAL} if ($stat eq "Missing");
-			$status = $ERRORS{WARNING} if (!$status and $stat eq "Verify");
-			$status = $ERRORS{WARNING} if (!$status and $stat eq "VfyRepl");
+
+			$this->critical if ($stat eq "Broken");
+			$this->warning if ($stat eq "Rebuild");
+			$this->warning if ($stat eq "Bld/Vfy");
+			$this->critical if ($stat eq "Missing");
+			$this->warning if ($stat eq "Verify");
+			$this->warning if ($stat eq "VfyRepl");
 		}
 	}
 	close $read;
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "aac:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
+}
+
+package mpt;
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	qw(mpt-status);
+}
+
+sub commands {
+	{
+		'status' => ['-|', '@CMD', '-s'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -s";
 }
 
 # LSILogic MPT ServeRAID
-sub check_mpt {
-	unless ($mpt_status) {
-		$message .= "mpt:mpt-status program not found ";
-		$status = $ERRORS{CRITICAL};
-		return;
-	}
+sub check {
+	my $this = shift;
 
 	# status messages pushed here
 	my @status;
 
-	my @CMD = $mpt_status;
-	unshift(@CMD, $sudo) if $> and $sudo;
-
-	open(my $fh, '-|', @CMD, '-s') or return;
+	my $fh = $this->cmd('status');
 	while (<$fh>) {
 		if (my($d, $s) = /^log_id\s*(\d+)\s+(\S+)/) {
-			next unless valid($d);
-			if (!$status and $s =~ /INITIAL|INACTIVE|RESYNC/) {
-				$status = $ERRORS{WARNING} unless $status;
+			next unless $this->valid($d);
+			if ($s =~ /INITIAL|INACTIVE|RESYNC/) {
+				$this->warning;
 			} elsif ($s =~ /DEGRADED|FAILED/) {
-				$status = $ERRORS{CRITICAL};
-			} elsif (!$status and $s !~ /ONLINE|OPTIMAL/) {
-				$status = $ERRORS{UNKNOWN} unless $status;
+				$this->critical;
+			} elsif ($s !~ /ONLINE|OPTIMAL/) {
+				$this->unknown;
 			}
 			push(@status, "Logical Volume $d:$s");
 			next;
@@ -664,7 +1025,7 @@ sub check_mpt {
 			next if ($s eq "ONLINE");
 
 			# TODO: process other statuses
-			$status = $ERRORS{CRITICAL};
+			$this->critical;
 
 			push(@status, "Physical Disk $d:$s");
 			next;
@@ -674,29 +1035,51 @@ sub check_mpt {
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "mpt:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
 }
 
+package megaraid;
 # MegaRAID
-sub check_megaraid {
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+# Status: BROKEN: no test data
+#push(@utils::plugins, __PACKAGE__);
+
+sub sudo {
+	my $cat = utils::which('cat');
+
+	my @sudo;
+	foreach my $mr (</proc/mega*/*/raiddrives*>) {
+		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat $mr") if -d $mr;
+	}
+
+	@sudo;
+}
+
+sub check {
+	my $this = shift;
 	# status messages pushed here
 	my @status;
 
-	foreach my $f (</proc/megaraid/*/raiddrives*>) {
+	foreach my $f (</proc/megaraid/*/raiddrives*>) { # vim/
 		my $fh;
 		if (-r $f) {
 			open $fh, '<', $f or next;
+=cut
 		} else {
 			my @CMD = ($cat, $f);
 			unshift(@CMD, $sudo) if $> and $sudo;
 			open($fh , '-|', @CMD) or next;
+=cut
 		}
 		my ($n) = $f =~ m{/proc/megaraid/([^/]+)};
 		while (<$fh>) {
 			if (my($s) = /logical drive\s*:\s*\d+.*, state\s*:\s*(\S+)/i) {
 				if ($s ne 'optimal') {
-					$status = $ERRORS{CRITICAL};
+					$this->critical;
 				}
 				push(@status, "$n: $s");
 				last;
@@ -707,14 +1090,30 @@ sub check_megaraid {
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "MegaRAID:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
 }
 
+package gdth;
 # Linux Gdth RAID
 # based on check_gdth by Petter Reinholdtsen
 # http://homepages.uni-paderborn.de/odenbach/projects/check_gdth/
-sub check_gdth {
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub commands {
+	{
+		'proc' => ['<', '/proc/scsi/gdth'],
+		'proc entry' => ['<', '/proc/scsi/gdth/$controller'],
+	}
+}
+
+sub check {
+	my $this = shift;
+
 # Looking for this text block:
 # Logical Drives:
 #  Number:        0               Status:         ok
@@ -725,9 +1124,17 @@ sub check_gdth {
 
 	# status messages pushed here
 	my @status;
-	for my $file (</proc/scsi/gdth/*>) {
-		open my $fh, '<', $file or return;
-		my ($controller) = $file =~ m{([^/]+$)};
+
+	my @c;
+	my $fh = $this->cmd('proc');
+	if (-d $fh) {
+		@c = grep { !/^\./ } readdir($fh);
+	}
+	close($fh);
+
+	# TODO: check for failed disks!
+	for my $c (@c) {
+		my $fh = $this->cmd('proc entry', { '$controller' => $c });
 		my @ld;
 		while (<$fh>) {
 			last if (/Array Drives:/); # Stop after the Logical Drive block
@@ -735,9 +1142,9 @@ sub check_gdth {
 			# Match items from Logical Drivers
 			if (my($num, $s) = m/^\s+Number:\s+(\d+)\s+Status:\s+(\S+)/) {
 				if ($s ne "ok") {
-					$status = $ERRORS{CRITICAL};
+					$this->critical;
 				}
-				push(@ld, "$controller,$num:$s");
+				push(@ld, "$c,$num:$s");
 			}
 		}
 		close($fh);
@@ -745,22 +1152,44 @@ sub check_gdth {
 	}
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "gdth:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
 }
 
-sub check_dpt_i2o {
+package dpt_i2o;
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub commands {
+	{
+		'proc' => ['<', '/proc/scsi/dpt_i2o'],
+		'proc entry' => ['<', '/proc/scsi/dpt_i2o/$controller'],
+	}
+}
+
+sub check {
+	my $this = shift;
 	# status messages pushed here
 	my @status;
 
-	for my $file (</proc/scsi/dpt_i2o/*>) {
-		open my $fh, '<', $file or return;
-		my ($controller) = $file =~ m{([^/]+$)};
+	my @c;
+	my $fh = $this->cmd('proc');
+	if (-d $fh) {
+		@c = grep { !/^\./ } readdir($fh);
+	}
+	close($fh);
+
+	# TODO: check for failed disks!
+	for my $c (@c) {
+		my $fh = $this->cmd('proc entry', { '$controller' => $c });
 
 		while (<$fh>) {
 			if (my ($c, $t, $l, $s) = m/TID=\d+,\s+\(Channel=(\d+),\s+Target=(\d+),\s+Lun=(\d+)\)\s+\((\S+)\)/) {
 				if ($s ne "online") {
-					$status = $ERRORS{CRITICAL};
+					$this->critical;
 				}
 				push(@status, "$c,$t,$l:$s");
 			}
@@ -770,25 +1199,53 @@ sub check_dpt_i2o {
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "dpt_i2o:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
 }
 
+package tw_cli;
+# TODO: rename to 3ware?
 # 3ware SATA RAID
 # check designed from check_3ware.sh by:
 # Sander Klein <sander [AT] pictura [dash] dp [DOT] nl>
 # http://www.pictura-dp.nl/
 # Version 20070706
-sub check_tw_cli {
-	my @CMD = $tw_cli;
-	unshift(@CMD, $sudo) if $> and $sudo;
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	qw(tw_cli-9xxx tw_cli);
+}
+
+sub commands {
+	{
+		'info' => ['-|', '@CMD', 'info'],
+		'unitstatus' => ['-|', '@CMD', 'info', '$controller', 'unitstatus'],
+		'drivestatus' => ['-|', '@CMD', 'info', '$controller', 'drivestatus'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd info*";
+}
+
+sub check {
+	my $this = shift;
 
 	# status messages pushed here
 	my @status;
 
-	my (@c, $fh);
+	my (@c);
 	# scan controllers
-	open($fh , '-|', @CMD, 'info') or return;
+	my $fh = $this->cmd('info');
 	while (<$fh>) {
 		if (my($c, $model) = /^(c\d+)\s+(\S+)/) {
 			push(@c, [$c, $model]);
@@ -797,15 +1254,15 @@ sub check_tw_cli {
 	close $fh;
 
 	unless (@c) {
-		$status = $ERRORS{WARNING} unless $status;
-		$message .= "3ware: No Adapters were found on this machine";
+		$this->warning;
+		$this->message("No Adapters were found on this machine");
 		return;
 	}
 
 	for my $i (@c) {
 		my ($c, $model) = @$i;
 		# check each unit on controllers
-		open($fh , '-|', @CMD, 'info', $c, 'unitstatus') or next;
+		$fh = $this->cmd('unitstatus', { '$controller' => $c });
 		my @cstatus;
 		while (<$fh>) {
 			next unless (my($u, $s, $p, $p2) = /^(u\d+)\s+\S+\s+(\S+)\s+(\S+)\s+(\S+)/);
@@ -814,36 +1271,36 @@ sub check_tw_cli {
 				push(@cstatus, "$u:$s");
 
 			} elsif ($s eq 'INITIALIZING|VERIFYING') {
-				$status = $ERRORS{WARNING} unless $status;
+				$this->warning;
 				push(@cstatus, "$u:$s $p2");
 
 			} elsif ($s eq 'MIGRATING') {
-				$status = $ERRORS{WARNING} unless $status;
+				$this->warning;
 				push(@cstatus, "$u:$s $p2");
 
 			} elsif ($s eq 'REBUILDING') {
-				$status = $ERRORS{WARNING} unless $status;
+				$this->warning;
 				push(@cstatus, "$u:$s $p% ");
 
 			} elsif ($s eq 'DEGRADED') {
+				$this->critical;
 				push(@cstatus, "$u:$s");
-				$status = $ERRORS{CRITICAL};
 			} else {
 				push(@cstatus, "$u:$_");
-				$status = $ERRORS{UNKNOWN} unless $status;
+				$this->unknown;
 			}
 			push(@status, "$c($model): ". join(',', @cstatus));
 		}
 		close $fh;
 
 		# check individual disk status
-		open($fh , '-|', @CMD, 'info', $c, 'drivestatus');
+		$fh = $this->cmd('drivestatus', { '$controller' => $c });
 		my (@p, @ds);
 		while (<$fh>) {
 			next unless (my($p, $s,) = /^(p\d+)\s+(\S+)\s+.+\s+.+\s+.+/);
 			push(@ds, "$p:$s");
 			foreach (@ds) {
-				$status = $ERRORS{CRITICAL} unless (/p\d+:(OK|NOT-PRESENT)/);
+				$this->critical unless (/p\d+:(OK|NOT-PRESENT)/);
 			}
 		}
 
@@ -853,17 +1310,43 @@ sub check_tw_cli {
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "3ware:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
 }
 
+package arcconf;
 # Adaptec AAC-RAID
 # check designed from check-aacraid.py, Anchor System - <http://www.anchor.com.au>
 # Oliver Hookins, Paul De Audney, Barney Desmond.
 # Perl port (check_raid) by Elan Ruusamäe.
-sub check_arcconf {
-	my @CMD = $arcconf;
-	unshift(@CMD, $sudo) if $> and $sudo;
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	__PACKAGE__;
+}
+
+sub commands {
+	{
+		'adapter list' => ['-|', '@CMD', 'GETCONFIG', '1', 'AL'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd GETCONFIG 1 AL";
+}
+
+# NB: side effect: changes current directory to /var/log
+sub check {
+	my $this = shift;
 
 	# status messages pushed here
 	my @status;
@@ -871,34 +1354,34 @@ sub check_arcconf {
 	# we chdir to /var/log, as tool is creating 'UcliEvt.log'
 	chdir('/var/log') || chdir('/');
 
-	my ($fh, $d);
-	open($fh , '-|', @CMD, 'GETCONFIG', '1', 'AL') or return;
+	my $fh = $this->cmd('adapter list');
 	while (<$fh>) {
 		last if /^Controller information/;
 	}
+
 	# Controller information
 	while (<$fh>) {
 		last if /^Logical device information/;
 
 		if (my($s) = /Controller Status\s*:\s*(.*)/) {
-			$status = $ERRORS{CRITICAL} if ($s ne 'Optimal');
+			$this->critical if ($s ne 'Optimal');
 			push(@status, "Controller:$s");
 			next;
 		}
 
 		if (my($s) = /Defunct disk drive count\s:\s*(\d+)/) {
-			$status = $ERRORS{CRITICAL};
+			$this->critical;
 			push(@status, "Defunct drives:$s");
 			next;
 		}
 
 		if (my($td, $fd, $dd) = m{Logical devices/Failed/Degraded\s*:\s*(\d+)/(\d+)/(\d+)}) {
 			if (int($fd) > 0) {
-				$status = $ERRORS{CRITICAL};
+				$this->critical;
 				push(@status, "Failed drives: $fd");
 			}
 			if (int($dd) > 0) {
-				$status = $ERRORS{CRITICAL};
+				$this->critical;
 				push(@status, "Degraded drives: $dd");
 			}
 			next;
@@ -912,7 +1395,7 @@ sub check_arcconf {
 
 		if (my($s) = /^\s*Over temperature\s*:\s*(.*)$/) {
 			if ($s ne "No") {
-				$status = $ERRORS{CRITICAL};
+				$this->critical;
 				push(@status, "Battery Overtemp: $s");
 			}
 			next;
@@ -921,10 +1404,10 @@ sub check_arcconf {
 		if (my($s) = /\s*Capacity remaining\s*:\s*(\d+)\s*percent.*$/) {
 			push(@status, "Battery Capacity: $s%");
 			if (int($s) < 50) {
-				$status = $ERRORS{WARNING} unless $status;
+				$this->critical;
 			}
 			if (int($s) < 25) {
-				$status = $ERRORS{CRITICAL};
+				$this->warning;
 			}
 			next;
 		}
@@ -932,10 +1415,10 @@ sub check_arcconf {
 		if (my($d, $h, $m) = /\s*Time remaining \(at current draw\)\s*:\s*(\d+) days, (\d+) hours, (\d+) minutes/) {
 			my $mins = int($d) * 1440 + int($h) * 60 + int($m);
 			if ($mins < 1440) {
-				$status = $ERRORS{WARNING} unless $status;
+				$this->warning;
 			}
 			if ($mins < 720) {
-				$status = $ERRORS{CRITICAL};
+				$this->critical;
 			}
 
 			if ($mins < 60) {
@@ -946,7 +1429,9 @@ sub check_arcconf {
 			next;
 		}
 	}
+
 	# Logical device information
+	my ($d);
 	while (<$fh>) {
 		last if /^Physical Device information/;
 		$d = $1, next if /^Logical device number (\d+)/;
@@ -958,10 +1443,10 @@ sub check_arcconf {
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "arcconf:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
 }
 
+package megarc;
 # LSI MegaRaid or Dell Perc arrays
 # Check the status of all arrays on all Lsi MegaRaid controllers on the local
 # machine. Uses the megarc program written by Lsi to get the status of all
@@ -970,23 +1455,53 @@ sub check_arcconf {
 # check designed from check_lsi_megaraid:
 # http://www.monitoringexchange.org/cgi-bin/page.cgi?g=Detailed/2416.html;d=1
 # Perl port (check_raid) by Elan Ruusamäe.
-sub check_megarc {
-	my @CMD = $megarc;
-	unshift(@CMD, $sudo) if $> and $sudo;
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	__PACKAGE__;
+}
+
+sub commands {
+	{
+		'controller list' => ['-|', '@CMD', '-AllAdpInfo', '-nolog'],
+		'controller config' => ['-|', '@CMD', '-dispCfg', '-a$controller', '-nolog'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	(
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd -AllAdpInfo -nolog",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd -dispCfg -a* -nolog",
+	);
+}
+
+sub check {
+	my $this = shift;
 
 	# status messages pushed here
 	my @status;
 
 	# get controllers
-	open(my $fh , '-|', @CMD, '-AllAdpInfo', '-nolog') or return;
+	my $fh = $this->cmd('controller list');
 	my @lines = <$fh>;
 	close $fh;
 
 	if ($lines[11] =~ /No Adapters Found/) {
-		$status = $ERRORS{WARNING} unless $status;
-		$message .= "megarc: No LSI adapters were found on this machine";
+		$this->warning;
+		$this->message("No LSI adapters were found on this machine");
 		return;
 	}
+
 	my @c;
 	foreach (@lines[12..$#lines]) {
 		if (my ($id) = /^\s*(\d+)/) {
@@ -994,13 +1509,13 @@ sub check_megarc {
 		}
 	}
 	unless (@c) {
-		$status = $ERRORS{WARNING} unless $status;
-		$message .= "megarc: No LSI adapters were found on this machine";
+		$this->warning;
+		$this->message("No LSI adapters were found on this machine");
 		return;
 	}
 
 	foreach my $c (@c) {
-		open($fh , '-|', @CMD, '-dispCfg', "-a$c", '-nolog') or return;
+		my $fh = $this->cmd('controller config', { '$controller' => $c });
 		my (%d, %s, $ld);
 		while (<$fh>) {
 			# Logical Drive : 0( Adapter: 0 ):  Status: OPTIMAL
@@ -1019,8 +1534,8 @@ sub check_megarc {
 
 		# now process the details
 		unless (keys %d) {
-			push(@status, "No arrays found on controller $c");
-			$status = $ERRORS{WARNING} unless $status;
+			$this->message("No arrays found on controller $c");
+			$this->warning;
 			return;
 		}
 
@@ -1032,7 +1547,7 @@ sub check_megarc {
 				# and from megamgr.bin where the array counting starts at
 				# 1 instead of 0
 				push(@status, "Array ".(int($d) + 1)." status is ".$s{$d}." (Raid-$s on adapter $c)");
-				$status = $ERRORS{CRITICAL};
+				$this->critical;
 				next;
 			}
 
@@ -1042,19 +1557,48 @@ sub check_megarc {
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "megarc:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
 }
 
-sub check_cmdtool2 {
-	my @CMD = $cmdtool2;
-	unshift(@CMD, $sudo) if $> and $sudo;
+package cmdtool2;
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	'CmdTool2';
+}
+
+sub commands {
+	{
+		'adapter list' => ['-|', '@CMD', , '-AdpAllInfo', '-aALL', '-nolog'],
+		'adapter config' => ['-|', '@CMD', '-CfgDsply', '-a$adapter', '-nolog'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	(
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd -AdpAllInfo -aALL -nolog",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd -CfgDsply -a* -nolog",
+	);
+}
+
+sub check {
+	my $this = shift;
 
 	# status messages pushed here
 	my @status;
 
 	# get adapters
-	open(my $fh , '-|', @CMD, '-AdpAllInfo', '-aALL', '-nolog') or return;
+	my $fh = $this->cmd('adapter list');
 	my @c;
 	while (<$fh>) {
 		if (my($c) = /^Adapter #(\d+)/) {
@@ -1064,13 +1608,13 @@ sub check_cmdtool2 {
 	close $fh;
 
 	unless (@c) {
-		$status = $ERRORS{WARNING} unless $status;
-		$message .= "CmdTool2: No LSI adapters were found on this machine";
+		$this->warning;
+		$this->message("No LSI adapters were found on this machine");
 		return;
 	}
 
 	foreach my $c (@c) {
-		open($fh , '-|', @CMD, '-CfgDsply', "-a$c", '-nolog') or return;
+		my $fh = $this->cmd('adapter config', { '$adapter' => $c });
 		my ($d);
 		while (<$fh>) {
 			# DISK GROUPS: 0
@@ -1082,7 +1626,7 @@ sub check_cmdtool2 {
 			# State: Optimal
 			if (my($s) = /^State: (\S+)$/) {
 				if ($s ne 'Optimal') {
-					$status = $ERRORS{CRITICAL};
+					$this->critical;
 				}
 				push(@status, "Logical Drive $c,$d: $s");
 			}
@@ -1091,36 +1635,95 @@ sub check_cmdtool2 {
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "CmdTool2:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
 }
 
-# detects if hpsa (formerly cciss) is present in system
-sub detect_cciss {
-	my @devs;
+package cciss;
+use strict;
+use warnings;
+use base 'plugin';
 
-	# skip if no program present
-	return () unless $cciss_vol_status;
+# register
+push(@utils::plugins, __PACKAGE__);
 
-	# check hpsa devs
-	if (-e "/sys/module/hpsa/refcnt") {
-		open my $fh, '<', "/sys/module/hpsa/refcnt";
-		my $refcnt = <$fh>;
-		close $fh;
-		if ($refcnt) {
-			# TODO: how to figure which sgX is actually in use?
-			# for now we collect all, and expect cciss_vol_status to ignore unknowns
-			foreach my $f (</sys/class/scsi_generic/sg*>) {
-				next unless (my($dev) = $f =~ m{/(sg\d+)$});
-				$dev = "/dev/$dev";
-				# filter via valid() so could exclude devs
-				push(@devs, $dev) if valid($dev);
-			}
+sub program_names {
+	'cciss_vol_status';
+}
+
+sub commands {
+	{
+		'detect hpsa' => ['<', '/sys/module/hpsa/refcnt'],
+		'controller status' => ['-|', '@CMD', '@devs'],
+
+		'detect cciss' => ['<', '/proc/driver/cciss'],
+		'cciss proc' => ['<', '/proc/scsi/cciss/$controller'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+
+	my @sudo;
+	my @cciss_devs = $this->detect;
+	if (@cciss_devs) {
+		my $c = join(' ', @cciss_devs);
+		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmd $c");
+	}
+
+	my @cciss_disks = $this->detect_disks(@cciss_devs);
+	if (@cciss_disks) {
+		my $smartctl = new smartctl;
+		my $cmd = $smartctl->{program};
+		foreach my $ref (@cciss_disks) {
+			my ($dev, $diskopt, $disk) = @$ref;
+			# escape comma for sudo
+			$diskopt =~ s/,/\\$&/g;
+			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmd -H $dev $diskopt$disk");
 		}
 	}
 
+	return @sudo;
+}
+
+# detects if hpsa (formerly cciss) is present in system
+sub detect {
+	my $this = shift;
+
+	my ($fh, @devs);
+
+	# check hpsa devs
+	eval { $fh = $this->cmd('detect hpsa'); };
+	if ($fh) {
+		my $refcnt = <$fh>;
+		close $fh;
+
+		if ($refcnt) {
+			# TODO: how to figure which sgX is actually in use?
+			# for now we collect all, and expect cciss_vol_status to ignore unknowns
+			# refcnt seems to match number of sg devs: /sys/class/scsi_generic/sg*
+			for (my $i = 0; $i < $refcnt; $i++) {
+				my $dev = "/dev/sg$i";
+				# filter via valid() so could exclude devs
+				push(@devs, $dev) if $this->valid($dev);
+			}
+		}
+	}
+	undef($fh);
+
 	# check legacy cciss devs
-	if (-d "/proc/driver/cciss" and valid("/proc/driver/cciss")) {
+	eval { $fh = $this->cmd('detect cciss'); };
+	if ($fh) {
+		my @c;
+		if (-d $fh) {
+			@c = grep { !/^\./ } readdir($fh);
+		}
+		close($fh);
+
 		# find controllers
 		#	cciss0: HP Smart Array P400i Controller
 		#	Board ID: 0x3235103c
@@ -1135,18 +1738,19 @@ sub detect_cciss {
 		#	Sequential access devices: 0
 		#
 		#	cciss/c0d0:      220.12GB       RAID 1(1+0)
-		foreach my $f (</proc/driver/cciss/*>) {
-			open my $fh, '<', $f or next;
+		for my $c (@c) {
+			my $fh = $this->cmd('cciss proc', { '$controller' => $c });
 			while (<$fh>) {
 				# check "c*d0" - iterate over each controller
 				next unless (my($dev) = m{^(cciss/c\d+d0):});
 				$dev = "/dev/$dev";
 				# filter via valid() so could exclude devs
-				push(@devs, $dev) if valid($dev);
+				push(@devs, $dev) if $this->valid($dev);
 			}
 			close $fh;
 		}
 	}
+	undef($fh);
 
 	return wantarray ? @devs : \@devs;
 }
@@ -1154,11 +1758,10 @@ sub detect_cciss {
 # build list of cciss disks
 # used by smartctl check
 # just return all disks (0..15) for each cciss dev found
-sub detect_cciss_disks {
+sub detect_disks {
+	my $this = shift;
+
 	my @devs;
-
-	return unless $smartctl;
-
 	# build devices list for smartctl
 	foreach my $scsi_dev (@_) {
 		foreach my $disk (0..15) {
@@ -1169,31 +1772,22 @@ sub detect_cciss_disks {
 }
 
 # @param devices for cciss_vol_status, i.e /dev/cciss/c*d0 /dev/sg*
-sub check_cciss {
-	my @devs = @_;
+sub check {
+	my $this = shift;
 
-	unless ($cciss_vol_status) {
-		$message .= "cciss: cciss_vol_status program not found";
-		$status = $ERRORS{CRITICAL};
-		return;
-	}
+	my @devs = $this->detect;
 
 	unless (@devs) {
-		$status = $ERRORS{WARNING} unless $status;
-		$message .= "cciss: No Smart Array Adapters were found on this machine";
+		$this->warning;
+		$this->message("No Smart Array Adapters were found on this machine");
 		return;
 	}
-
-	my @CMD = $cciss_vol_status;
-	unshift(@CMD, $sudo) if $> and $sudo;
-
-	# add all devs at once, cciss_vol_status can do that
-	push(@CMD, @devs);
 
 	# status messages pushed here
 	my @status;
 
-	open(my $fh , '-|', @CMD) or die $!;
+	# add all devs at once, cciss_vol_status can do that
+	my $fh = $this->cmd('controller status', { '@devs' => \@devs });
 	while (<$fh>) {
 		chomp;
 		# strip for better pattern matching
@@ -1203,7 +1797,7 @@ sub check_cciss {
 		# /dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK.
 		if (my($s) = /status: (.*?)$/) {
 			if ($s !~ '^OK') {
-				$status = $ERRORS{CRITICAL};
+				$this->critical;
 			}
 			push(@status, $_);
 		}
@@ -1212,40 +1806,320 @@ sub check_cciss {
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "cciss:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
+
+	# allow skip for testing
+	return if $this->{no_smartctl};
 
 	# check also individual disk health
-	my @cciss_disks = detect_cciss_disks(@devs);
-	if (@cciss_disks) {
-		check_smartctl(@cciss_disks);
+	my @disks = $this->detect_disks(@devs);
+	if (@disks) {
+		# inherit smartctl command from our commands (testing)
+		my %params = ();
+		$params{commands}{smartctl} = $this->{commands}{smartctl} if $this->{commands}{smartctl};
+
+		my $smartctl = smartctl->new(%params);
+		$smartctl->check(@disks);
 	}
 }
 
+package hp_msa;
+use strict;
+use warnings;
+use base 'plugin';
+
+# do not register, better use hpacucli
+#push(@utils::plugins, __PACKAGE__);
+
+sub active {
+	my $this = shift;
+	return $this->detect;
+}
+
+# check from /sys if there are any MSA VOLUME's present.
+sub detect {
+	my $this = shift;
+
+	for my $file (</sys/block/*/device/model>) {
+		open my $fh, '<', $file or next;
+		my $model = <$fh>;
+		close($fh);
+		return 1 if ($model =~ /^MSA.+VOLUME/);
+	}
+	return 0;
+}
+
+sub check {
+	my $this = shift;
+
+	# TODO: unhardcode out modem dev
+	my $ctldevice = "/dev/ttyS0";
+
+	# status messages pushed here
+	my @status;
+
+	my $modem = new SerialLine($ctldevice);
+	my $fh = $modem->open();
+	unless ($fh) {
+		$this->warning;
+		$this->message("Can't open $ctldevice");
+		return;
+	}
+
+	# check first controller
+	print $fh "\r";
+	print $fh "show globals\r";
+	print $fh "show this_controller\r";
+	print $fh "show other_controller\r";
+	# this will issue termination match, ie. invalid command
+	print $fh "exit\r";
+
+	my ($c, %c, %t);
+	while (<$fh>) {
+		chomp;
+		s/[\n\r]$//;
+		last if /Invalid CLI command/;
+
+		# Temperature:
+		# EMU: 23 Celsius,  73 Fahrenheit
+		# PS1: 22 Celsius,  71 Fahrenheit
+		# PS2: 22 Celsius,  71 Fahrenheit
+		if (my($s, $c) = /(\S+): (\d+) Celsius,\s+\d+ Fahrenheit/) {
+			$t{$s} = int($c);
+			next;
+		}
+
+		# Controller 1 (right controller):
+		if (my($s) = /^(Controller \d+)/) {
+			$c = $s;
+			$c{$c} = [];
+			next;
+		}
+		# Surface Scan:   Running, LUN 10 (68% Complete)
+		if (my($s, $m) = /Surface Scan:\s+(\S+)[,.]\s*(.*)/) {
+			if ($s eq 'Running') {
+				my ($l, $p) = $m =~ m{(LUN \d+) \((\d+)% Complete\)};
+				push(@{$c{$c}}, "Surface: $l ($p%)");
+				$this->warning;
+			} elsif ($s ne 'Complete') {
+				push(@{$c{$c}}, "Surface: $s, $m");
+				$this->warning;
+			}
+			next;
+		}
+		# Rebuild Status: Running, LUN 0 (67% Complete)
+		if (my($s, $m) = /Rebuild Status:\s+(\S+)[,.]\s*(.*)/) {
+			if ($s eq 'Running') {
+				my ($l, $p) = $m =~ m{(LUN \d+) \((\d+)% Complete\)};
+				push(@{$c{$c}}, "Rebuild: $l ($p%)");
+				$this->warning;
+			} elsif ($s ne 'Complete') {
+				push(@{$c{$c}}, "Rebuild: $s, $m");
+				$this->warning;
+			}
+			next;
+		}
+		# Expansion:      Complete.
+		if (my($s, $m) = /Expansion:\s+(\S+)[.,]\s*(.*)/) {
+			if ($s eq 'Running') {
+				my ($l, $p) = $m =~ m{(LUN \d+) \((\d+)% Complete\)};
+				push(@{$c{$c}}, "Expansion: $l ($p%)");
+				$this->warning;
+			} elsif ($s ne 'Complete') {
+				push(@{$c{$c}}, "Expansion: $s, $m");
+				$this->warning;
+			}
+			next;
+		}
+	}
+	$modem->close();
+
+	foreach $c (sort { $a cmp $b } keys %c) {
+		my $s = $c{$c};
+		$s = join(', ', @$s);
+		$s = 'OK' unless $s;
+		push(@status, "$c: $s");
+	}
+
+	# check that no temp is over the treshold
+	my $warn = 28;
+	my $crit = 33;
+	while (my($t, $c) = each %t) {
+		if ($c > $crit) {
+			push(@status, "$t: ${c}C");
+			$this->critical;
+		} elsif ($c > $warn) {
+			push(@status, "$t: ${c}C");
+			$this->warning;
+		}
+	}
+
+	return unless @status;
+
+	$this->message(join(', ', @status));
+}
+
+package sas2ircu;
+# LSI SAS-2 controllers using the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU)
+# Based on the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU) User Guide
+# http://www.lsi.com/downloads/Public/Host%20Bus%20Adapters/Host%20Bus%20Adapters%20Common%20Files/SAS_SATA_6G_P12/SAS2IRCU_User_Guide.pdf
+
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	__PACKAGE__;
+}
+
+sub commands {
+	{
+		'controller list' => ['-|', '@CMD', 'LIST'],
+		'controller status' => ['-|', '@CMD', '$controller', 'STATUS'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	(
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd LIST",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd * STATUS",
+	);
+}
+
+# detect controllers for sas2ircu
+sub detect {
+	my $this = shift;
+
+	my @ctrls;
+	my $fh = $this->cmd('controller list');
+
+	my $success = 0;
+	while (<$fh>) {
+		chomp;
+		#		  Adapter     Vendor  Device                        SubSys  SubSys
+		# Index    Type          ID      ID    Pci Address          Ven ID  Dev ID
+		# -----  ------------  ------  ------  -----------------    ------  ------
+		#   0     SAS2008     1000h    72h     00h:03h:00h:00h      1028h   1f1eh
+		if (my($c) = /^\s*(\d+)\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s*$/) {
+			push(@ctrls, $c);
+		}
+		$success = 1 if /SAS2IRCU: Utility Completed Successfully/;
+	}
+
+	unless (close $fh) {
+		$this->critical;
+	}
+	unless ($success) {
+		$this->critical;
+	}
+
+	return wantarray ? @ctrls : \@ctrls;
+}
+
+sub check {
+	my $this = shift;
+
+	my @ctrls = $this->detect;
+
+	warn "CTRLS!: @ctrls\n";
+
+	my @status;
+	# determine the RAID states of each controller
+	foreach my $c (@ctrls) {
+		my $fh = $this->cmd('controller status', {  '$controller' => $c });
+
+		my $state;
+		my $success = 0;
+		while (<$fh>) {
+			chomp;
+
+			# match adapter lines
+			if (my($s) = /^\s*Volume state\s*:\s*(\w+)\s*$/) {
+				$state = $s;
+				if ($state ne "Optimal") {
+					$this->critical;
+				}
+			}
+			$success = 1 if /SAS2IRCU: Utility Completed Successfully/;
+		}
+
+		unless (close $fh) {
+			$this->critical;
+			$state = $!;
+		}
+
+		unless ($success) {
+			$this->critical;
+			$state = "SAS2IRCU Unknown exit";
+		}
+
+		unless ($state) {
+			$state = "Unknown Error";
+		}
+
+		push(@status, "ctrl #$c: $state")
+	}
+
+	return unless @status;
+
+	# set status to OK, if no other status was
+	$this->ok;
+
+	$this->message(join(', ', @status));
+}
+
+package smartctl;
+use strict;
+use warnings;
+use base 'plugin';
+
+# no registering as standalone plugin
+#push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	__PACKAGE__;
+}
+
+sub commands {
+	{
+		'smartctl' => ['-|', '@CMD', '-H', '$dev', '$diskopt$disk'],
+	}
+}
+
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	# nothing, as not standalone plugin yet
+}
+
+
 # check for -H parameter for physical disks
-# this is currently called out from check_cciss code
+# this is currently called out from cciss plugin
 # @param device list
 # device list being an array of:
 # - device to check (/dev/cciss/c0d0)
 # - disk options (-dcciss)
 # - disk number (0..15)
-sub check_smartctl {
+sub check {
+	my $this = shift;
 	my @devs = @_;
 
-	unless ($smartctl) {
-		$message .= "smartctl program not found";
-		$status = $ERRORS{CRITICAL};
-		return;
-	}
-
 	unless (@devs) {
-		$status = $ERRORS{WARNING} unless $status;
-		$message .= "smartctl: No devices to check";
+		$this->warning;
+		$this->message("No devices to check");
 		return;
 	}
-
-	my @CMD = $smartctl;
-	unshift(@CMD, $sudo) if $> and $sudo;
 
 	# status message for devs, latter just joined for shorter messages
 	my %status;
@@ -1253,10 +2127,7 @@ sub check_smartctl {
 	foreach my $ref (@devs) {
 		my ($dev, $diskopt, $disk) = @$ref;
 
-		my @cmd = @CMD;
-		push(@cmd, '-H', $dev, $diskopt . $disk);
-
-		open(my $fh , '-|', @cmd) or die $!;
+		my $fh = $this->cmd('smartctl', { '$dev' => $dev, '$diskopt' => $diskopt => '$disk' => $disk });
 		while (<$fh>) {
 			chomp;
 
@@ -1268,9 +2139,9 @@ sub check_smartctl {
 				}
 
 				if ($s eq 'Predictive Failure') {
-					$status = $ERRORS{WARNING} unless $status;
+					$this->warning;
 				} elsif ($s !~ '^OK') {
-					$status = $ERRORS{CRITICAL};
+					$this->critical;
 				}
 				push(@{$status{$s}}, $dev.'#'.$disk);
 			}
@@ -1280,13 +2151,45 @@ sub check_smartctl {
 
 	return unless %status;
 
-	$message .= '; ' if $message;
-	$message .= "smartctl:[".join_status(\%status)."]";
+	# set status to OK, if no other status was
+	$this->ok;
+
+	$this->message($this->join_status(\%status));
 }
 
-sub check_hpacucli {
-	my @CMD = $hpacucli;
-	unshift(@CMD, $sudo) if $> and $sudo;
+package hpacucli;
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	__PACKAGE__;
+}
+
+sub commands {
+	{
+		'controller status' => ['-|', '@CMD', 'controller', 'all', 'show', 'status'],
+		'logicaldrive status' => ['-|', '@CMD', 'controller', '$target', 'logicaldrive', 'all', 'show'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	(
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd controller all show status",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd controller * logicaldrive all show",
+	);
+}
+
+sub check {
+	my $this = shift;
 
 	# status messages pushed here
 	my @status;
@@ -1301,8 +2204,8 @@ sub check_hpacucli {
 	#  [licensekey all|<key>]
 
 	# Scan controllers
-	my (%targets, $fh);
-	open($fh , '-|', @CMD, 'controller', 'all', 'show', 'status') or return;
+	my (%targets);
+	my $fh = $this->cmd('controller status');
 	while (<$fh>) {
 		# Numeric slot
 		if (my($model, $slot) = /^(\S.+) in Slot (\d+)/) {
@@ -1318,8 +2221,8 @@ sub check_hpacucli {
 	close $fh;
 
 	unless (%targets) {
-		$status = $ERRORS{WARNING} unless $status;
-		$message .= "hpacucli: No Controllers were found on this machine";
+		$this->warning;
+		$this->message("No Controllers were found on this machine");
 		return;
 	}
 
@@ -1327,7 +2230,7 @@ sub check_hpacucli {
 	# Scan logical drives
 	while (my($target, $model) = each %targets) {
 		# check each controllers
-		open($fh , '-|', @CMD, 'controller', $target, 'logicaldrive', 'all', 'show') or next;
+		my $fh = $this->cmd('logicaldrive status', { '$target' => $target });
 
 		my ($array, %array);
 		while (<$fh>) {
@@ -1368,9 +2271,9 @@ sub check_hpacucli {
 
 					if ($s eq 'OK' or $s eq 'Disabled') {
 					} elsif ($s eq 'Failed' or $s eq 'Interim Recovery Mode') {
-						$status = $ERRORS{CRITICAL};
+						$this->critical;
 					} elsif ($s eq 'Rebuild' or $s eq 'Recover') {
-						$status = $ERRORS{WARNING} unless $status;
+						$this->warning;
 					}
 				}
 				push(@cstatus, "Array $array($astatus)[". join(',', @astatus). "]");
@@ -1381,21 +2284,59 @@ sub check_hpacucli {
 
 	return unless @status;
 
-	$message .= '; ' if $message;
-	$message .= "hpacucli:[".join(', ', @status)."]";
+	# set status to OK, if no other status was
+	$this->ok;
+
+	$this->message(join(', ', @status));
 }
 
+package areca;
 ## Areca SATA RAID Support
 ## requires cli64 or cli32 binaries
 ## For links to manuals and binaries, see this issue:
 ## https://github.com/glensc/nagios-plugin-check_raid/issues/10
-sub check_areca {
-	my @CMD = ($areca);
-	unshift(@CMD, $sudo) if $> and $sudo;
+
+use strict;
+use warnings;
+use base 'plugin';
+
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	qw(areca-cli areca_cli64 areca_cli32 cli64 cli32);
+}
+
+sub commands {
+	{
+#		'rsf info' => ['-|', '@CMD', 'rsf', 'info'],
+#		'disk info' => ['-|', '@CMD', 'disk', 'info'],
+		'rsf info' => ['<', 't/cli64.rsf.info-1'],
+		'disk info' => ['<', 't/cli64.disk.info-1'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	(
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd rsf info",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd disk info",
+	);
+}
+
+# plugin check
+# can store its exit code in $this->status
+# can output its message in $this->message
+sub check {
+	my $this = shift;
 
 	## Check Array Status
 	my (@status, %arrays);
-	open(my $fh, '-|', @CMD, 'rsf', 'info') or return;
+	my $fh = $this->cmd('rsf info');
 	while (<$fh>) {
 =cut
  #  Name             Disks TotalCap  FreeCap MinDiskCap         State
@@ -1421,9 +2362,9 @@ sub check_areca {
 		$n =~ s/\s+$//;
 
 		if ($s =~ /[Rr]e[Bb]uild/) {
-			$status = $ERRORS{WARNING} unless $status;
+			$this->warning;
 		} elsif ($s !~ /[Nn]ormal|[Rr]e[Bb]uild|Checking|Initializing/) {
-			$status = $ERRORS{CRITICAL};
+			$this->critical;
 		}
 
 		push(@status, "Array#$id($n): $s");
@@ -1433,7 +2374,7 @@ sub check_areca {
 	close $fh;
 
 	## Check Drive Status
-	open($fh, '-|', @CMD, 'disk', 'info') or return;
+	$fh = $this->cmd('disk info');
 	my @drivestatus;
 	while (<$fh>) {
 		chomp;
@@ -1483,237 +2424,45 @@ sub check_areca {
 		} elsif ($usage =~ /[Rr]e[Bb]uild/) {
 			# rebuild marks warning
 			push(@drivestatus, "$id:$array_name");
-			$status = $ERRORS{WARNING} unless $status;
+			$this->warning;
 		} elsif ($usage =~ /HotSpare/) {
 			# hotspare is OK
 			push(@drivestatus, "$id:$array_name");
 		} else {
 			push(@drivestatus, "$id:ERROR:$usage");
-			$status = $ERRORS{CRITICAL};
+			$this->critical;
 		}
 	}
 	close $fh;
 
-	push(@status, "(Disk ".join(', ', @drivestatus). ")");
+	# set status to OK, if none other were set
+	$this->ok;
 
-	$message .= '; ' if $message;
-	$message .= "areca:[".join(', ', @status)."]";
+	$this->message(join(', ', @status));
 }
 
-# check from /sys if there are any MSA VOLUME's present.
-sub sys_have_msa {
-	for my $file (</sys/block/*/device/model>) {
-		open my $fh, '<', $file or next;
-		my $model = <$fh>;
-		close($fh);
-		return 1 if ($model =~ /^MSA.+VOLUME/);
-	}
-	return 0;
-}
+} # end of plugins
 
-sub check_hp_msa {
-	# TODO: unhardcode out modem dev
-	my $ctldevice = "/dev/ttyS0";
+package main;
 
-	# status messages pushed here
-	my @status;
+# do nothing in library mode
+return 1 if caller;
 
-	my $modem = new SerialLine($ctldevice);
-	my $fh = $modem->open();
-	unless ($fh) {
-		$status = $ERRORS{WARNING} unless $status;
-		$message .= "hp_msa: Can't open $ctldevice";
-		return;
-	}
+use strict;
+use warnings;
+use Getopt::Long;
 
-	# check first controller
-	print $fh "\r";
-	print $fh "show globals\r";
-	print $fh "show this_controller\r";
-	print $fh "show other_controller\r";
-	# this will issue termination match, ie. invalid command
-	print $fh "exit\r";
+my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S);
+my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
+my ($VERSION) = "2.2";
+my ($message, $status);
+my (@ignore);
 
-	my ($c, %c, %t);
-	while (<$fh>) {
-		chomp;
-		s/[\n\r]$//;
-		last if /Invalid CLI command/;
+#####################################################################
+$ENV{'BASH_ENV'} = '';
+$ENV{'ENV'} = '';
 
-		# Temperature:
-		# EMU: 23 Celsius,  73 Fahrenheit
-		# PS1: 22 Celsius,  71 Fahrenheit
-		# PS2: 22 Celsius,  71 Fahrenheit
-		if (my($s, $c) = /(\S+): (\d+) Celsius,\s+\d+ Fahrenheit/) {
-			$t{$s} = int($c);
-			next;
-		}
-
-		# Controller 1 (right controller):
-		if (my($s) = /^(Controller \d+)/) {
-			$c = $s;
-			$c{$c} = [];
-			next;
-		}
-		# Surface Scan:   Running, LUN 10 (68% Complete)
-		if (my($s, $m) = /Surface Scan:\s+(\S+)[,.]\s*(.*)/) {
-			if ($s eq 'Running') {
-				my ($l, $p) = $m =~ m{(LUN \d+) \((\d+)% Complete\)};
-				push(@{$c{$c}}, "Surface: $l ($p%)");
-				$status = $ERRORS{WARNING} unless $status;
-			} elsif ($s ne 'Complete') {
-				push(@{$c{$c}}, "Surface: $s, $m");
-				$status = $ERRORS{WARNING} unless $status;
-			}
-			next;
-		}
-		# Rebuild Status: Running, LUN 0 (67% Complete)
-		if (my($s, $m) = /Rebuild Status:\s+(\S+)[,.]\s*(.*)/) {
-			if ($s eq 'Running') {
-				my ($l, $p) = $m =~ m{(LUN \d+) \((\d+)% Complete\)};
-				push(@{$c{$c}}, "Rebuild: $l ($p%)");
-				$status = $ERRORS{WARNING} unless $status;
-			} elsif ($s ne 'Complete') {
-				push(@{$c{$c}}, "Rebuild: $s, $m");
-				$status = $ERRORS{WARNING} unless $status;
-			}
-			next;
-		}
-		# Expansion:      Complete.
-		if (my($s, $m) = /Expansion:\s+(\S+)[.,]\s*(.*)/) {
-			if ($s eq 'Running') {
-				my ($l, $p) = $m =~ m{(LUN \d+) \((\d+)% Complete\)};
-				push(@{$c{$c}}, "Expansion: $l ($p%)");
-				$status = $ERRORS{WARNING} unless $status;
-			} elsif ($s ne 'Complete') {
-				push(@{$c{$c}}, "Expansion: $s, $m");
-				$status = $ERRORS{WARNING} unless $status;
-			}
-			next;
-		}
-	}
-	$modem->close();
-
-	foreach $c (sort { $a cmp $b } keys %c) {
-		my $s = $c{$c};
-		$s = join(', ', @$s);
-		$s = 'OK' unless $s;
-		push(@status, "$c: $s");
-	}
-
-	# check that no temp is over the treshold
-	my $warn = 28;
-	my $crit = 33;
-	while (my($t, $c) = each %t) {
-		if ($c > $crit) {
-			push(@status, "$t: ${c}C");
-			$status = $ERRORS{CRITICAL};
-		} elsif ($c > $warn) {
-			push(@status, "$t: ${c}C");
-			$status = $ERRORS{WARNING} unless $status;
-		}
-	}
-
-	return unless @status;
-
-	$message .= '; ' if $message;
-	$message .= "hp_msa:[".join(', ', @status)."]";
-}
-
-# LSI SAS-2 controllers using the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU)
-# Based on the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU) User Guide
-# http://www.lsi.com/downloads/Public/Host%20Bus%20Adapters/Host%20Bus%20Adapters%20Common%20Files/SAS_SATA_6G_P12/SAS2IRCU_User_Guide.pdf
-
-# detect controllers for sas2ircu
-sub detect_sas2ircu {
-	my @ctrls;
-	my @CMD = ($sas2ircu, 'LIST');
-	unshift(@CMD, $sudo) if $> and $sudo;
-	open(my $fh , '-|', @CMD) or return;
-
-	my $success = 0;
-	while (<$fh>) {
-		chomp;
-		#		  Adapter     Vendor  Device                        SubSys  SubSys
-		# Index    Type          ID      ID    Pci Address          Ven ID  Dev ID
-		# -----  ------------  ------  ------  -----------------    ------  ------
-		#   0     SAS2008     1000h    72h     00h:03h:00h:00h      1028h   1f1eh
-		if (my($c) = /^\s*(\d+)\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s*$/) {
-			push(@ctrls, $c);
-		}
-		$success = 1 if /SAS2IRCU: Utility Completed Successfully/;
-	}
-
-	unless (close $fh) {
-		$status = $ERRORS{CRITICAL};
-	}
-	unless ($success) {
-		$status = $ERRORS{CRITICAL};
-	}
-
-	return wantarray ? @ctrls : \@ctrls;
-}
-
-sub check_sas2ircu {
-	my @ctrls = @_;
-
-	my @status;
-	# determine the RAID states of each controller
-	foreach my $c (@ctrls) {
-		my @CMD = ($sas2ircu, $c, 'STATUS');
-		unshift(@CMD, $sudo) if $> and $sudo;
-		open(my $fh , '-|', @CMD) or return;
-
-		my $state;
-		my $success = 0;
-		while (<$fh>) {
-			chomp;
-
-			# match adapter lines
-			if (my($s) = /^\s*Volume state\s*:\s*(\w+)\s*$/) {
-				$state = $s;
-				if ($state ne "Optimal") {
-					$status = $ERRORS{CRITICAL};
-				}
-			}
-			$success = 1 if /SAS2IRCU: Utility Completed Successfully/;
-		}
-
-		unless (close $fh) {
-			$status = $ERRORS{CRITICAL};
-			$state = $!;
-		}
-
-		unless ($success) {
-			$status = $ERRORS{CRITICAL};
-			$state = "SAS2IRCU Unknown exit";
-		}
-
-		unless ($state) {
-			$state = "Unknown Error";
-		}
-
-		push(@status, "ctrl #$c: $state")
-	}
-
-	return unless @status;
-
-	$message .= '; ' if $message;
-	$message .= "sas2ircu:[".join(', ', @status)."]";
-}
-
-sub which {
-	my $prog = shift;
-
-	my @paths = split /:/, $ENV{'PATH'};
-	unshift(@paths, qw(/usr/local/nrpe /usr/local/bin /sbin /usr/sbin /bin /usr/sbin));
-
-	for my $path (@paths) {
-		return "$path/$prog" if -x "$path/$prog";
-	}
-	return undef;
-}
-
+# find first existing file from list of file paths
 sub find_file {
 	for my $file (@_) {
 		return $file if -f $file;
@@ -1721,54 +2470,23 @@ sub find_file {
 	return undef;
 }
 
-###########################################################################
 sub sudoers {
 	# build values to be added
 	my @sudo;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $ipssend getconfig 1 LD\n") if $ipssend;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $aaccli container list /full\n") if $aaccli;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $tw_cli info*\n") if $tw_cli;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $mpt_status -s\n") if $mpt_status and -d "/proc/mpt";
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/0/status\n") if -d "/proc/megaide/0";
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/1/status\n") if -d "/proc/megaide/1";
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $arcconf GETCONFIG 1 AL\n") if $arcconf;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megarc -AllAdpInfo -nolog\n") if $megarc;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megarc -dispCfg -a* -nolog\n") if $megarc;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmdtool2 -AdpAllInfo -aALL -nolog\n") if $cmdtool2;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmdtool2 -CfgDsply -a* -nolog\n") if $cmdtool2;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megacli -PDList -aALL -NoLog\n") if $megacli;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $megacli -LdInfo -Lall -aALL -NoLog\n") if $megacli;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $hpacucli controller all show status\n") if $hpacucli;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $hpacucli controller * logicaldrive all show\n") if $hpacucli;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $areca rsf info\n") if $areca;
-	push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $areca disk info\n") if $areca;
 
-	if ($sas2ircu) {
-		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu LIST\n");
+	# go over all registered plugins
+	foreach my $pn (@utils::plugins) {
+		my $plugin = $pn->new;
 
-		for my $c (detect_sas2ircu) {
-			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $sas2ircu $c STATUS\n");
-		}
+		# skip inactive plugins (disabled or no tools available)
+		next unless $plugin->active;
+
+		# collect sudo rules
+		my $sudo = $plugin->sudo(1) or next;
+
+		push(@sudo, ref $sudo eq 'ARRAY' ? @$sudo : $sudo);
 	}
 
-	foreach my $mr (</proc/mega*/*/raiddrives*>) {
-		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cat $mr\n") if -d $mr;
-	}
-
-	if ($cciss_vol_status) {
-		my @cciss_devs = detect_cciss;
-		if (@cciss_devs) {
-			my $c = join(' ', @cciss_devs);
-			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cciss_vol_status $c\n");
-		}
-		my @cciss_disks = detect_cciss_disks(@cciss_devs);
-		foreach my $ref (@cciss_disks) {
-			my ($dev, $diskopt, $disk) = @$ref;
-			# escape comma for sudo
-			$diskopt =~ s/,/\\$&/g;
-			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $smartctl -H $dev $diskopt$disk\n");
-		}
-	}
 
 	unless (@sudo) {
 		print "Your configuration does not need to use sudo, sudoers not updated\n";
@@ -1776,12 +2494,11 @@ sub sudoers {
 	}
 
 	my $sudoers = find_file('/usr/local/etc/sudoers', '/etc/sudoers');
-	my $visudo = which('visudo');
+	my $visudo = utils::which('visudo');
 
 	die "Unable to find sudoers file.\n" unless -f $sudoers;
-	die "Unable to write to sudoers file.\n" unless -w $sudoers;
+	die "Unable to write to sudoers file '$sudoers'.\n" unless -w $sudoers;
 	die "visudo program not found\n" unless -x $visudo;
-	die "cat program not found\n" unless -x $cat;
 
 	print "Updating file $sudoers\n";
 
@@ -1804,7 +2521,8 @@ sub sudoers {
 	print $fh "\n";
 	print $fh "# Lines matching CHECK_RAID added by $0 -S on ", scalar localtime, "\n";
 	print $fh "User_Alias CHECK_RAID=nagios\n";
-	print $fh @sudo;
+	print $fh join("\n", @sudo);
+	print $fh "\n";
 
 	close $fh;
 
@@ -1816,10 +2534,6 @@ sub sudoers {
 
 	print "$sudoers file updated.\n";
 }
-
-#####################################################################
-$ENV{'BASH_ENV'}='';
-$ENV{'ENV'}='';
 
 Getopt::Long::Configure('bundling');
 GetOptions("V" => \$opt_V, "version" => \$opt_V,
@@ -1844,6 +2558,7 @@ if ($opt_h) {
 	print_help();
 	exit $ERRORS{'OK'};
 }
+
 if ($opt_W) {
 	$ERRORS{CRITICAL} = $ERRORS{WARNING};
 }
@@ -1851,39 +2566,21 @@ if ($opt_W) {
 $status = $ERRORS{OK};
 $message = '';
 
-check_gdth if -d "/proc/scsi/gdth" and valid("/proc/scsi/gdth");
-check_megaide if -d "/proc/megaide" and valid("/proc/megaide");
-check_mdstat if -f "/proc/mdstat" and valid("/proc/mdstat");
-check_mpt if -d "/proc/mpt" and valid("/proc/mpt");
-check_dpt_i2o if -d "/proc/scsi/dpt_i2o" and valid("/proc/scsi/dpt_i2o");
-check_megaraid if -d "/proc/megaraid" and valid("/proc/megaraidc");
-check_aaccli if -d "/proc/scsi/aacraid" and valid("/proc/scsi/aacraid");
-check_afacli if $afacli;
-check_lsraid if $lsraid;
-check_megacli if $megacli;
-check_metastat if $metastat;
-check_lsvg if $lsvg;
-check_ipssend if $ipssend;
-check_tw_cli if $tw_cli;
-check_arcconf if $arcconf;
-check_megarc if $megarc;
-check_cmdtool2 if $cmdtool2;
-check_areca if $areca;
+# go over all registered plugins
+foreach my $pn (@utils::plugins) {
+	my $plugin = $pn->new;
 
-if ($sas2ircu) {
-	my @sas2ircu_adapters = detect_sas2ircu;
-	check_sas2ircu @sas2ircu_adapters;
+	# skip inactive plugins (disabled or no tools available)
+	next unless $plugin->active;
+
+	# perform the check
+	$plugin->check;
+
+	# collect results
+	$status = $plugin->status unless $plugin->status > $status;
+	$message .= '; ' if $message;
+	$message .= "$pn:[".$plugin->message."]";
 }
-
-if ($cciss_vol_status) {
-	my @cciss_devs = detect_cciss;
-	check_cciss @cciss_devs;
-} elsif ($hpacucli) {
-	check_hpacucli;
-}
-
-# disabled: use hpacucli instead
-#check_hp_msa if sys_have_msa;
 
 if ($message) {
 	if ($status == $ERRORS{OK}) {
