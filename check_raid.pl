@@ -1810,23 +1810,28 @@ sub check {
 	}
 	close($fh);
 
-	return unless @status;
-
-	$this->message(join(', ', @status));
+	unless (@status) {
+		return;
+	}
 
 	# allow skip for testing
-	return if $this->{no_smartctl};
+	unless ($this->{no_smartctl}) {
+		# check also individual disk health
+		my @disks = $this->detect_disks(@devs);
+		if (@disks) {
+			# inherit smartctl command from our commands (testing)
+			my %params = ();
+			$params{commands}{smartctl} = $this->{commands}{smartctl} if $this->{commands}{smartctl};
 
-	# check also individual disk health
-	my @disks = $this->detect_disks(@devs);
-	if (@disks) {
-		# inherit smartctl command from our commands (testing)
-		my %params = ();
-		$params{commands}{smartctl} = $this->{commands}{smartctl} if $this->{commands}{smartctl};
-
-		my $smartctl = smartctl->new(%params);
-		$smartctl->check(@disks);
+			my $smartctl = smartctl->new(%params);
+			$smartctl->check(@disks);
+		}
 	}
+
+	# denote this plugin as ran ok
+	$this->ok;
+
+	$this->message(join(', ', @status));
 }
 
 package hp_msa;
