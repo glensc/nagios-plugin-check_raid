@@ -1,0 +1,18 @@
+Adaptec I2O RAID Driver Version: 2.4 Build 5go
+
+Vendor: Adaptec  Model: 2110S            FW:380E
+SCSI Host=scsi0  Control Node=/dev/dpti0  irq=27
+	post fifo size  = 255
+	reply fifo size = 255
+	sg table size   = 56
+
+Devices:
+	ADAPTEC RAID-10          Rev: 380EDPTM
+	TID=529, (Channel=0, Target=0, Lun=0)  (online)
+
+	ADAPTEC REDIRECT DRIVE   Rev: 380EDPTM
+	TID=524, (Channel=0, Target=5, Lun=0)  (online)
+
+	ESG-SHV SCA HSBP M15     Rev: 0.100000
+	TID=518, (Channel=0, Target=6, Lun=0)  (online)
+
