@@ -9,9 +9,10 @@ use warnings;
 use Test::More tests => 4;
 use test;
 
-my $plugin = afacli->new(
+my $plugin = areca->new(
 	commands => {
-		'container list' => ['<', TESTDIR . '/data/afacli'],
+		'rsf info' => ['<', TESTDIR . '/data/cli64.rsf.info-1'],
+		'disk info' => ['<', TESTDIR . '/data/cli64.disk.info-1'],
 	},
 );
 
@@ -19,4 +20,4 @@ ok($plugin, "plugin created");
 ok($plugin->check, "check ran");
 ok($plugin->status == OK, "status OK");
 print "[".$plugin->message."]\n";
-ok($plugin->message eq '0/00/0:Normal, 0/01/0:Normal', "expected message");
+ok($plugin->message eq 'Array#1(Raid Set # 000): Normal', "expected message");
