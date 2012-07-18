@@ -1,0 +1,96 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Channel description                      : SAS/SATA
+   Controller Model                         : IBM ServeRAID 8k    
+   Controller Serial Number                 : 4052697
+   Physical Slot                            : 0
+   Installed memory                         : 256 MB
+   Copyback                                 : Disabled
+   Background consistency check             : Enabled
+   Automatic Failover                       : Enabled
+   Defunct disk drive count                 : 0
+   Logical devices/Failed/Degraded          : 1/0/0
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 5.2-0 (15421)
+   Firmware                                 : 5.2-0 (15421)
+   Driver                                   : 1.1-4 (9999)
+   Boot Flash                               : 5.1-0 (15411)
+   --------------------------------------------------------
+   Controller Battery Information
+   --------------------------------------------------------
+   Status                                   : Optimal
+   Over temperature                         : No
+   Capacity remaining                       : 100 percent
+   Time remaining (at current draw)         : 3 days, 17 hours, 20 minutes
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical device number 0
+   Logical device name                      : 
+   RAID level                               : 1
+   Status of logical device                 : Optimal
+   Size                                     : 139889 MB
+   Read-cache mode                          : Enabled
+   Write-cache mode                         : Enabled (write-back)
+   Write-cache setting                      : Enabled (write-back) when protected by battery
+   Partitioned                              : Unknown
+   Protected by Hot-Spare                   : No
+   Bootable                                 : Yes
+   Failed stripes                           : No
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (0,0) 
+   Segment 1                                : Present (0,1) 
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 3.0 Gb/s
+         Reported Channel,Device            : 0,0
+         Vendor                             : IBM-ESXS
+         Model                              : ST3146855SS
+         Firmware                           : BA29
+         World-wide name                    : 5000C5000B426E88
+         Size                               : 140013 MB
+         Write Cache                        : Disabled (write-through)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+      Device #1
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 3.0 Gb/s
+         Reported Channel,Device            : 0,1
+         Vendor                             : IBM-ESXS
+         Model                              : MBA3147RC
+         Firmware                           : SA05
+         World-wide name                    : 500000E01BEFF141
+         Size                               : 140013 MB
+         Write Cache                        : Disabled (write-through)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+      Device #2
+         Device is an Enclosure services device
+         Reported Channel,Device            : 2,0
+         Enclosure ID                       : 0
+         Type                               : SES2
+         Vendor                             : IBM-ESXS
+         Model                              : VSC7160
+         Firmware                           : 1.07
+         Status of Enclosure services device
+            Temperature                     : Normal
+
+
+Command completed successfully.

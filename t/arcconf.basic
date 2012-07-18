@@ -1,0 +1,97 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Channel description                      : SAS/SATA
+   Controller Model                         : IBM ServeRAID 8k-l  
+   Controller Serial Number                 : 40212CC
+   Physical Slot                            : 0
+   Installed memory                         : 32 MB
+   Copyback                                 : Disabled
+   Background consistency check             : Enabled
+   Automatic Failover                       : Enabled
+   Defunct disk drive count                 : 0
+   Logical devices/Failed/Degraded          : 1/0/0
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 5.2-0 (15421)
+   Firmware                                 : 5.2-0 (15421)
+   Driver                                   : 1.1-5 (2455)
+   Boot Flash                               : 5.1-0 (15421)
+   --------------------------------------------------------
+   Controller Battery Information
+   --------------------------------------------------------
+   Status                                   : Not Installed
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical device number 0
+   Logical device name                      : Mirror
+   RAID level                               : 1
+   Status of logical device                 : Optimal
+   Size                                     : 69890 MB
+   Write-cache mode                         : Not supported
+   Partitioned                              : Unknown
+   Protected by Hot-Spare                   : No
+   Bootable                                 : Yes
+   Failed stripes                           : No
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (0,0) QF903TNM
+   Segment 1                                : Present (0,1) 3LQ1088L
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 3.0 Gb/s
+         Reported Channel,Device            : 0,0
+         Reported Location                  : Enclosure 0, Slot 0
+         Reported ESD                       : 2,0
+         Vendor                             : IBM-ESXS
+         Model                              : MAX3073RC
+         Firmware                           : T907
+         Serial number                      : QF903TNM
+         World-wide name                    : 500000E0163B8B11
+         Size                               : 70006 MB
+         Write Cache                        : Disabled (write-through)
+         FRU                                : 39R7348
+         S.M.A.R.T.                         : No
+      Device #1
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 3.0 Gb/s
+         Reported Channel,Device            : 0,1
+         Reported Location                  : Enclosure 0, Slot 1
+         Reported ESD                       : 2,0
+         Vendor                             : IBM-ESXS
+         Model                              : ST373455SS
+         Firmware                           : BA26
+         Serial number                      : 3LQ1088L
+         World-wide name                    : 5000C500049A4B84
+         Size                               : 70006 MB
+         Write Cache                        : Disabled (write-through)
+         FRU                                : 39R7360
+         S.M.A.R.T.                         : No
+      Device #2
+         Device is an Enclosure services device
+         Reported Channel,Device            : 2,0
+         Enclosure ID                       : 0
+         Type                               : SES2
+         Vendor                             : IBM-ESXS
+         Model                              : VSC7160
+         Firmware                           : 1.06
+         Status of Enclosure services device
+            Temperature                     : Normal
+
+
+Command completed successfully.
