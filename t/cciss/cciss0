@@ -1,0 +1,13 @@
+cciss0: HP Smart Array P400i Controller
+Board ID: 0x3235103c
+Firmware Version: 5.20
+IRQ: 64
+Logical drives: 1
+Current Q depth: 0
+Current # commands on controller: 0
+Max Q depth since init: 192
+Max # commands on controller since init: 192
+Max SG entries since init: 128
+Sequential access devices: 0
+
+cciss/c0d0:	 146.74GB	RAID ADG
