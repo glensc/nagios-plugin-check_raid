@@ -1,0 +1,6 @@
+
+Unit  UnitType  Status         %RCmpl  %V/I/M  Stripe  Size(GB)  Cache  AVrfy
+------------------------------------------------------------------------------
+u0    RAID-10   INITIALIZING   -       63%     64K     1863.02   W      -      
+u2    RAID-5    INITIALIZING   -       0%      64K     698.655   W      -      
+
