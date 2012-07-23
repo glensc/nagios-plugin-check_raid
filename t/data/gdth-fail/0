@@ -1,0 +1,93 @@
+Driver Parameters:
+ reserve_mode: 	1         	reserve_list:  	--
+ max_ids:      	127       	hdr_channel:   	0
+
+Disk Array Controller Information:
+ Number:       	0         	Name:          	SRCU42L
+ Driver Ver.:  	3.04      	Firmware Ver.: 	2.34.09-R05C
+ Serial No.:   	0x39C032D0	Cache RAM size:	65536 KB
+
+Physical Devices:
+ Chn/ID/LUN:   	B/06/0    	Name:          	ESG-SHV SCA HSBP M16    0.05
+ Capacity [MB]:	0         	To Log. Drive: 	--
+
+ Chn/ID/LUN:   	B/00/0    	Name:          	SEAGATE ST373207LC      0005
+ Capacity [MB]:	69974     	To Log. Drive: 	0
+ Retries:      	1         	Reassigns:     	0
+ Grown Defects:	0
+
+ Chn/ID/LUN:   	B/01/0    	Name:          	MAXTOR  ATLAS10K4_73SCA DFL0
+ Capacity [MB]:	70116     	To Log. Drive: 	1
+ Retries:      	7         	Reassigns:     	0
+ Grown Defects:	0
+
+ Chn/ID/LUN:   	B/02/0    	Name:          	MAXTOR  ATLAS10K5_73SCA JNZH
+ Capacity [MB]:	70116     	To Log. Drive: 	2
+ Retries:      	1         	Reassigns:     	0
+ Grown Defects:	0
+
+ Chn/ID/LUN:   	B/03/0    	Name:          	SEAGATE ST373207LC      0005
+ Capacity [MB]:	69974     	To Log. Drive: 	3
+ Retries:      	1         	Reassigns:     	0
+ Grown Defects:	0
+
+ Chn/ID/LUN:   	B/04/0    	Name:          	SEAGATE ST373207LC      0005
+ Capacity [MB]:	69974     	To Log. Drive: 	4
+ Retries:      	1         	Reassigns:     	0
+ Grown Defects:	0
+
+ Chn/ID/LUN:   	B/05/0    	Name:          	FUJITSU MAX3147NC       0104
+ Capacity [MB]:	140239    	To Log. Drive: 	5
+ Retries:      	1         	Reassigns:     	0
+ Grown Defects:	1
+
+Logical Drives:
+ Number:       	0         	Status:        	ok
+ Capacity [MB]:	69974     	Type:          	Disk
+ To Array Drv.:	0
+
+ Number:       	1         	Status:        	ok
+ Capacity [MB]:	69974     	Type:          	Disk
+ To Array Drv.:	0
+
+ Number:       	2         	Status:        	ok
+ Capacity [MB]:	69974     	Type:          	Disk
+ To Array Drv.:	0
+
+ Number:       	3         	Status:        	ok
+ Capacity [MB]:	69974     	Type:          	Disk
+ To Array Drv.:	0
+
+ Number:       	4         	Status:        	ok
+ Capacity [MB]:	69974     	Type:          	Disk
+ To Array Drv.:	0
+
+ Number:       	5         	Status:        	ok
+ Capacity [MB]:	69974     	Type:          	Disk
+ To Array Drv.:	0
+
+Array Drives:
+ Number:       	0         	Status:        	fail
+ Capacity [MB]:	349872    	Type:          	RAID-5
+
+Host Drives:
+ Number:       	0         	Arr/Log. Drive:	0
+ Capacity [MB]:	349860    	Start Sector:  	8192
+
+Controller Events:
+ date- 1262:02:58	Adapter 0: Bus B: The SCSI controller successfully recovered from a SCSI BUS issue.  The issue may still be present on the BUS.  Check cables, termination, termpower, LVDS operation, etc
+
+ date- 1262:02:58	Adapter 0: SCSI-B, ID 1: MPI returned 0x00000048
+
+ date- 481:50:49	Adapter 0: SCSI-B, ID 1: MPI returned 0x00000002
+
+ date- 481:50:46	Adapter 0: SCSI-B, ID 1: last status 0x29047006. Sense code: UNIT ATTENTION, DEVICE INTERNAL RESET
+
+ date- 481:50:46	Adapter 0: SCSI-B, ID 1: Check cables, termination, termpower, LVDS operation, etc.
+
+ date- 481:50:46	Adapter 0: Array Drive 0: Logical Drive 1 <SCSI-B, ID 1, LUN 0> failed
+
+ date- 481:50:47	Adapter 0: Array Drive 0: FAIL state entered
+
+ date- 481:50:47	Adapter 0: SCSI-B, ID 1: Auto Hot Plug started for slot 1
+
