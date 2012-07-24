@@ -1178,6 +1178,7 @@ sub parse {
 					$pd{$p{id}} = { %p };
 				} else {
 					warn "[$section] [$_]\n";
+					$this->unknown;
 				}
 
 			} elsif ($section eq 'Logical Drives') {
@@ -1199,6 +1200,7 @@ sub parse {
 					$ld{$l{number}} = { %l };
 				} else {
 					warn "[$section] [$_]\n";
+					$this->unknown;
 				}
 
 			} elsif ($section eq 'Array Drives') {
@@ -1214,6 +1216,7 @@ sub parse {
 					$ad{$a{number}} = { %a };
 				} else {
 					warn "[$section] [$_]\n";
+					$this->unknown;
 				}
 
 			} elsif ($section eq 'Host Drives') {
