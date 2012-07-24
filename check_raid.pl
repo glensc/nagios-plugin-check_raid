@@ -1252,10 +1252,22 @@ sub check {
 			push(@{$ld{$ld->{status}}}, $ld->{number});
 		}
 
-		# TODO: physical disks:
-			# TODO: check for Grown Defects
+		my @pd;
+		for my $n (sort {$a cmp $b} keys %{$c->{physical}}) {
+			my $pd = $c->{physical}->{$n};
 
-		push(@status, "Controller $c->{id}: Logical Drives: ".  $this->join_status(\%ld));
+			# TODO: make tresholds configurable
+			if ($pd->{defects} > 1000) {
+				$this->critical;
+				push(@pd, "Disk $pd->{id}($pd->{name}) grown defects critical: $pd->{defects}");
+			} elsif ($pd->{defects} > 100) {
+				$this->warning;
+				push(@pd, "Disk $pd->{id}($pd->{name}) grown defects warning: $pd->{defects}");
+			}
+		}
+
+		push(@status, "Controller $c->{id}: Logical Drives: ". $this->join_status(\%ld));
+		push(@status, @pd) if @pd;
 	}
 
 	return unless @status;
