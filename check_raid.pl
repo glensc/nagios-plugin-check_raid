@@ -1137,8 +1137,8 @@ sub parse {
 				next;
 			}
 
-			# skip empty lines and unknown sections
-			next if /^$/ or !/^\s/;
+			# skip unknown sections
+			next unless /^\s/ or /^$/;
 
 			# process each section
 			if ($section eq 'Driver Parameters') {
@@ -1161,7 +1161,7 @@ sub parse {
 					$p{reassigns} = int($ra);
 				} elsif (my($gd) = m/^\s+Grown Defects:\s+(\d+)/) {
 					$p{defects} = int($gd);
-
+				} elsif (/^$/) {
 					$pd{$p{id}} = { %p };
 				} else {
 					warn "[$section] [$_]\n";
@@ -1182,7 +1182,7 @@ sub parse {
 					$l{type} = $t;
 				} elsif (my($n) = m/^\s+To Array Drv\.:\s+(\d+|--)/) {
 					$l{array} = $n;
-
+				} elsif (/^$/) {
 					$ld{$l{number}} = { %l };
 				} else {
 					warn "[$section] [$_]\n";
@@ -1197,7 +1197,7 @@ sub parse {
 				} elsif (my($unit, $c, $t) = m/^\s+Capacity\s\[(.B)\]:\s+(\d+)\s+Type:\s+(\S+)/) {
 					$a{capacity} = "$c $unit";
 					$a{type} = $t;
-
+				} elsif (/^$/) {
 					$ad{$a{number}} = { %a };
 				} else {
 					warn "[$section] [$_]\n";

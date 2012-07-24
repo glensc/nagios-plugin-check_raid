@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 8;
 use test;
 
 if (1) {
