@@ -1112,14 +1112,15 @@ sub commands {
 	}
 }
 
+sub active {
+	-d '/proc/scsi/gdth';
+}
+
 sub parse {
 	my $this = shift;
 
-	my @c;
 	my $fh = $this->cmd('proc');
-	if (-d $fh) {
-		@c = grep { !/^\./ } readdir($fh);
-	}
+	my @c = grep { !/^\./ } readdir($fh);
 	close($fh);
 
 	my %c;
