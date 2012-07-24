@@ -297,25 +297,34 @@ sub cmd {
 	};
 
 	# add command arguments
-	for (@CMD = @$args) {
-		s/([@\$]\w+)/$cb_->($1)/ge;
+	my @cmd;
+	for my $arg (@$args) {
+		local $_ = $arg;
+		# can't do arrays with s///
+		# this limits that @arg must be single argument
+		if (/@/) {
+			push(@cmd, $cb_->($_));
+		} else {
+			s/([\$]\w+)/$cb_->($1)/ge;
+			push(@cmd, $_);
+		}
 	}
 
-	my $op = shift @CMD;
+	my $op = shift @cmd;
 	my $fh;
 	if ($op eq '=' and ref $cb eq 'SCALAR') {
 		# Special: use open2
 		use IPC::Open2;
-		my $pid = open2($fh, $$cb, @CMD) or croak "open2 failed: @CMD: $!";
+		my $pid = open2($fh, $$cb, @cmd) or croak "open2 failed: @CMD: $!";
 
 	} else {
-		open($fh, $op, @CMD) or croak "open failed: @CMD: $!";
+		open($fh, $op, @cmd) or croak "open failed: @CMD: $!";
 	}
 
 	# for dir handles, reopen as opendir
 	if (-d $fh) {
 		undef($fh);
-		opendir($fh, $CMD[0]) || croak "opendir failed: @CMD: $!";
+		opendir($fh, $cmd[0]) || croak "opendir failed: @CMD: $!";
 	}
 
 	return $fh;
