@@ -21,7 +21,7 @@ ok($plugin, "plugin created");
 ok($plugin->check, "check ran");
 ok($plugin->status == OK, "status OK");
 print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Controller 0: Logical Drives: 0,1,2,3: ok', "expected message");
+ok($plugin->message eq 'Controller 0: Array 0(RAID-5) ready, Logical Drives: 0,1,2,3: ok');
 }
 
 
@@ -37,5 +37,5 @@ ok($plugin, "plugin created");
 ok($plugin->check, "check ran");
 ok($plugin->status == CRITICAL, "status CRITICAL");
 print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Controller 0: Logical Drives: 0,1,2,3,4,5: ok', "expected message");
+ok($plugin->message eq 'Controller 0: Array 0(RAID-5) fail, Logical Drives: 0,1,2,3,4,5: ok');
 }

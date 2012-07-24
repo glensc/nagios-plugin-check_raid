@@ -1240,7 +1240,15 @@ sub check {
 
 	# process each controller separately
 	for my $c (values %$controllers) {
-		# TODO: array drives
+		# array status
+		my @ad;
+		for my $n (sort {$a cmp $b} keys %{$c->{array}}) {
+			my $ad = $c->{array}->{$n};
+			if ($ad->{status} ne "ready") {
+				$this->critical;
+			}
+			push(@ad, "Array $ad->{number}($ad->{type}) $ad->{status}");
+		}
 
 		# logical drive status
 		my %ld;
@@ -1252,6 +1260,7 @@ sub check {
 			push(@{$ld{$ld->{status}}}, $ld->{number});
 		}
 
+		# physical drive status
 		my @pd;
 		for my $n (sort {$a cmp $b} keys %{$c->{physical}}) {
 			my $pd = $c->{physical}->{$n};
@@ -1266,8 +1275,11 @@ sub check {
 			}
 		}
 
-		push(@status, "Controller $c->{id}: Logical Drives: ". $this->join_status(\%ld));
-		push(@status, @pd) if @pd;
+		my @cd;
+		push(@cd, @ad) if @ad;
+		push(@cd, "Logical Drives: ". $this->join_status(\%ld));
+		push(@cd, @pd) if @pd;
+		push(@status, "Controller $c->{id}: ". join(', ', @cd));
 	}
 
 	return unless @status;
@@ -1275,7 +1287,7 @@ sub check {
 	# denote this plugin as ran ok
 	$this->ok;
 
-	$this->message(join(', ', @status));
+	$this->message(join('; ', @status));
 }
 
 package dpt_i2o;
