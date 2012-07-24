@@ -2712,7 +2712,7 @@ foreach my $pn (@utils::plugins) {
 	$plugin->check;
 
 	# collect results
-	$status = $plugin->status unless $plugin->status > $status;
+	$status = $plugin->status if $plugin->status > $status;
 	$message .= '; ' if $message;
 	$message .= "$pn:[".$plugin->message."]";
 }
