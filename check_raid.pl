@@ -1150,11 +1150,15 @@ sub parse {
 				# Capacity [MB]:     140239          To Log. Drive:  5
 				# Retries:           1               Reassigns:      0
 				# Grown Defects:     1
-				if (my($id, $n) = m{^\s+Chn/ID/LUN:\s+(\S+)\s+Name:\s+(\S+)}) {
+
+				if (my($id, $n, $rv) = m{^\s+Chn/ID/LUN:\s+(\S+)\s+Name:\s+(.+)(.{4})$}) {
+					$n =~ s/\s+$//;
 					$p{id} = $id;
 					$p{name} = $n;
+					$p{revision} = $rv;
 				} elsif (my($unit, $c, $d) = m/^\s+Capacity\s\[(.B)\]:\s+(\d+)\s+To Log\. Drive:\s+(\d+|--)/) {
-					$p{capacity} = "$c $unit";
+					$p{capacity} = int($c);
+					$p{capacity_unit} = $unit;
 					$p{drive} = $d;
 				} elsif (my($r, $ra) = m/^\s+Retries:\s+(\d+)\s+Reassigns:\s+(\d+)/) {
 					$p{retries} = int($r);
@@ -1162,6 +1166,15 @@ sub parse {
 				} elsif (my($gd) = m/^\s+Grown Defects:\s+(\d+)/) {
 					$p{defects} = int($gd);
 				} elsif (/^$/) {
+					if ($p{capacity} == 0 and $p{name} =~ /SCA HSBP/) {
+						# HSBP is not a disk, so do not consider this an error
+						# http://support.gateway.com/s/Servers/COMPO/MOTHERBD/4000832/4000832si69.shtml
+						# Raid Hot Swap Backplane driver (recognized as "ESG-SHV SCA HSBP M16 SCSI Processor Device")
+						# Chn/ID/LUN:    B/06/0          Name:           ESG-SHV SCA HSBP M16    0.05
+						# Capacity [MB]: 0               To Log. Drive:  --
+						next;
+					}
+
 					$pd{$p{id}} = { %p };
 				} else {
 					warn "[$section] [$_]\n";
@@ -1241,7 +1254,6 @@ sub check {
 
 		# TODO: physical disks:
 			# TODO: check for Grown Defects
-			# TODO: handle Capacity=0 (broken disk?)
 
 		push(@status, "Controller $c->{id}: Logical Drives: ".  $this->join_status(\%ld));
 	}
