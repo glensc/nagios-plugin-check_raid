@@ -1114,19 +1114,8 @@ sub commands {
 	}
 }
 
-sub check {
+sub parse {
 	my $this = shift;
-
-# Looking for this text block:
-# Logical Drives:
-#  Number:        0               Status:         ok
-#  Capacity [MB]: 17333           Type:           RAID-1
-#  Slave Number:  15              Status:         ok
-#  Missing Drv.:  0               Invalid Drv.:   0
-#  To Array Drv.: --
-
-	# status messages pushed here
-	my @status;
 
 	my @c;
 	my $fh = $this->cmd('proc');
@@ -1135,24 +1124,130 @@ sub check {
 	}
 	close($fh);
 
-	# TODO: check for failed disks!
+	my %c;
 	for my $c (@c) {
-		my $fh = $this->cmd('proc entry', { '$controller' => $c });
-		my @ld;
-		while (<$fh>) {
-			last if (/Array Drives:/); # Stop after the Logical Drive block
+		my (%ld, %ad, %pd, %l, %a, %p, $section);
 
-			# Match items from Logical Drivers
-			if (my($num, $s) = m/^\s+Number:\s+(\d+)\s+Status:\s+(\S+)/) {
-				if ($s ne "ok") {
-					$this->critical;
+		my $fh = $this->cmd('proc entry', { '$controller' => $c });
+		while (<$fh>) {
+			chomp;
+
+			# new section start
+			if (my($s) = /^(\w.+):$/) {
+				$section = $s;
+				%a = %l = %p = ();
+				next;
+			}
+
+			# skip empty lines and unknown sections
+			next if /^$/ or !/^\s/;
+
+			# process each section
+			if ($section eq 'Driver Parameters') {
+				# nothing useful
+			} elsif ($section eq 'Disk Array Controller Information') {
+				# nothing useful
+			} elsif ($section eq 'Physical Devices') {
+				# Chn/ID/LUN:        B/05/0          Name:           FUJITSU MAX3147NC       0104
+				# Capacity [MB]:     140239          To Log. Drive:  5
+				# Retries:           1               Reassigns:      0
+				# Grown Defects:     1
+				if (my($id, $n) = m{^\s+Chn/ID/LUN:\s+(\S+)\s+Name:\s+(\S+)}) {
+					$p{id} = $id;
+					$p{name} = $n;
+				} elsif (my($unit, $c, $d) = m/^\s+Capacity\s\[(.B)\]:\s+(\d+)\s+To Log\. Drive:\s+(\d+|--)/) {
+					$p{capacity} = "$c $unit";
+					$p{drive} = $d;
+				} elsif (my($r, $ra) = m/^\s+Retries:\s+(\d+)\s+Reassigns:\s+(\d+)/) {
+					$p{retries} = int($r);
+					$p{reassigns} = int($ra);
+				} elsif (my($gd) = m/^\s+Grown Defects:\s+(\d+)/) {
+					$p{defects} = int($gd);
+
+					$pd{$p{id}} = { %p };
+				} else {
+					warn "[$section] [$_]\n";
 				}
-				push(@ld, "$c,$num:$s");
+
+			} elsif ($section eq 'Logical Drives') {
+				# Number:              3               Status:         ok
+				# Capacity [MB]:       69974           Type:           Disk
+				# To Array Drv.:       0]
+				# TODO (currently no sample for these):
+				#  Slave Number:  15              Status:         ok
+				#  Missing Drv.:  0               Invalid Drv.:   0
+				if (my($num, $s) = m/^\s+Number:\s+(\d+)\s+Status:\s+(\S+)/) {
+					$l{number} = int($num);
+					$l{status} = $s;
+				} elsif (my($unit, $c, $t) = m/^\s+Capacity\s\[(.B)\]:\s+(\d+)\s+Type:\s+(\S+)/) {
+					$l{capacity} = "$c $unit";
+					$l{type} = $t;
+				} elsif (my($n) = m/^\s+To Array Drv\.:\s+(\d+|--)/) {
+					$l{array} = $n;
+
+					$ld{$l{number}} = { %l };
+				} else {
+					warn "[$section] [$_]\n";
+				}
+
+			} elsif ($section eq 'Array Drives') {
+				# Number:        0               Status:         fail
+				# Capacity [MB]: 349872          Type:           RAID-5
+				if (my($num, $s) = m/^\s+Number:\s+(\d+)\s+Status:\s+(\S+)/) {
+					$a{number} = int($num);
+					$a{status} = $s;
+				} elsif (my($unit, $c, $t) = m/^\s+Capacity\s\[(.B)\]:\s+(\d+)\s+Type:\s+(\S+)/) {
+					$a{capacity} = "$c $unit";
+					$a{type} = $t;
+
+					$ad{$a{number}} = { %a };
+				} else {
+					warn "[$section] [$_]\n";
+				}
+
+			} elsif ($section eq 'Host Drives') {
+				# nothing useful
+			} elsif ($section eq 'Controller Events') {
+				# nothing useful
 			}
 		}
 		close($fh);
-		push(@status, "Logical Drive ".join(', ', @ld)) if @ld;
+
+		$c{$c} = { id => $c, array => { %ad }, logical => { %ld }, physical => { %pd } };
 	}
+
+	return \%c;
+}
+
+sub check {
+	my $this = shift;
+
+	# status messages pushed here
+	my @status;
+
+	my $controllers = $this->parse;
+
+	# process each controller separately
+	for my $c (values %$controllers) {
+		# TODO: array drives
+
+		# logical drive status
+		my %ld;
+		for my $n (sort {$a cmp $b} keys %{$c->{logical}}) {
+			my $ld = $c->{logical}->{$n};
+			if ($ld->{status} ne "ok") {
+				$this->critical;
+			}
+			push(@{$ld{$ld->{status}}}, $ld->{number});
+		}
+
+		# TODO: physical disks:
+			# TODO: check for Grown Defects
+			# TODO: handle Capacity=0 (broken disk?)
+
+		push(@status, "Controller $c->{id}: Logical Drives: ".  $this->join_status(\%ld));
+	}
+
 	return unless @status;
 
 	# denote this plugin as ran ok
