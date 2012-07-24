@@ -1099,9 +1099,7 @@ sub check {
 }
 
 package gdth;
-# Linux Gdth RAID
-# based on check_gdth by Petter Reinholdtsen
-# http://homepages.uni-paderborn.de/odenbach/projects/check_gdth/
+# Linux gdth RAID
 use base 'plugin';
 
 # register
