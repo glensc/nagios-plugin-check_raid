@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 5;
 use test;
 
 my $plugin = sas2ircu->new(
@@ -19,7 +19,9 @@ my $plugin = sas2ircu->new(
 
 
 ok($plugin, "plugin created");
-ok($plugin->check, "check ran");
+$plugin->check;
+ok(1, "check ran");
+ok(defined($plugin->status), "status code set");
 ok($plugin->status == OK, "status code");
 print "[".$plugin->message."]\n";
 ok($plugin->message eq 'ctrl #0: Optimal', "status message");

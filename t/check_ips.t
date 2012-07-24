@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 5;
 use test;
 
 my $plugin = ips->new(
@@ -16,7 +16,9 @@ my $plugin = ips->new(
 );
 
 ok($plugin, "plugin created");
-ok($plugin->check, "check ran");
+$plugin->check;
+ok(1, "check ran");
+ok(defined($plugin->status), "status code set");
 ok($plugin->status == CRITICAL, "status code");
 print "[".$plugin->message."]\n";
 ok($plugin->message eq '1:Okay, 2:Critical', "status message");

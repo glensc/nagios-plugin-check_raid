@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 5;
 use test;
 
 my $plugin = smartctl->new(
@@ -23,6 +23,7 @@ $plugin->check(
 	['/dev/cciss/c0d0', '-dcciss', 8],
 );
 ok(1, "check ran");
+ok(defined($plugin->status), "status code set");
 ok($plugin->status == OK, "status code");
 print "[".$plugin->message."]\n";
 ok($plugin->message eq '/dev/cciss/c0d0#0: OK', "status message");

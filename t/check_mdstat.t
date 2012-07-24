@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 20;
+use Test::More tests => 25;
 use test;
 
 my @tests = (
@@ -35,7 +35,9 @@ foreach my $test (@tests) {
 	);
 
 	ok($plugin, "plugin created");
-	ok($plugin->check, "check ran");
+	$plugin->check;
+	ok(1, "check ran");
+	ok(defined($plugin->status), "status code set");
 	ok($plugin->status == $test->{status}, "status code");
 	print "[".$plugin->message."]\n";
 	ok($plugin->message eq $test->{message}, "status message");

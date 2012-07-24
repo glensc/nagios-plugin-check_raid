@@ -2712,6 +2712,12 @@ foreach my $pn (@utils::plugins) {
 	$plugin->check;
 
 	# collect results
+	unless (defined $plugin->status) {
+		$status = $ERRORS{UNKNOWN} if $ERRORS{UNKNOWN} > $status;
+		$message .= '; ' if $message;
+		$message .= "$pn:[Plugin error]";
+		next;
+	}
 	$status = $plugin->status if $plugin->status > $status;
 	$message .= '; ' if $message;
 	$message .= "$pn:[".$plugin->message."]";

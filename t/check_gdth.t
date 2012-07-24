@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 8;
+use Test::More tests => 10;
 use test;
 
 if (1) {
@@ -18,7 +18,9 @@ my $plugin = gdth->new(
 );
 
 ok($plugin, "plugin created");
-ok($plugin->check, "check ran");
+$plugin->check;
+ok(1, "check ran");
+ok(defined($plugin->status), "status code set");
 ok($plugin->status == OK, "status OK");
 print "[".$plugin->message."]\n";
 ok($plugin->message eq 'Controller 0: Array 0(RAID-5) ready, Logical Drives: 0,1,2,3: ok');
@@ -34,7 +36,9 @@ my $plugin = gdth->new(
 );
 
 ok($plugin, "plugin created");
-ok($plugin->check, "check ran");
+$plugin->check;
+ok(1, "check ran");
+ok(defined($plugin->status), "status code set");
 ok($plugin->status == CRITICAL, "status CRITICAL");
 print "[".$plugin->message."]\n";
 ok($plugin->message eq 'Controller 0: Array 0(RAID-5) fail, Logical Drives: 0,1,2,3,4,5: ok');

@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 8;
+use Test::More tests => 10;
 use test;
 
 {
@@ -23,7 +23,9 @@ use test;
 	);
 
 	ok($plugin, "plugin created");
-	ok($plugin->check, "check ran");
+	$plugin->check;
+	ok(1, "check ran");
+	ok(defined($plugin->status), "status code set");
 	ok($plugin->status == OK, "status OK");
 	print "[".$plugin->message."]\n";
 	ok($plugin->message eq '/dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK');
@@ -42,7 +44,9 @@ use test;
 	);
 
 	ok($plugin, "plugin created");
-	ok($plugin->check, "check ran");
+	$plugin->check;
+	ok(1, "check ran");
+	ok(defined($plugin->status), "status code set");
 	ok($plugin->status == OK, "status OK");
 	print "[".$plugin->message."]\n";
 	ok($plugin->message eq '/dev/cciss/c0d0: (Smart Array P400i) RAID 6 Volume 0 status: OK');

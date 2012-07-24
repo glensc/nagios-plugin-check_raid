@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 5;
 use test;
 
 my $plugin = hp_msa->new(
@@ -19,6 +19,7 @@ my $plugin = hp_msa->new(
 ok($plugin, "plugin created");
 $plugin->check;
 ok(1, "check ran");
+ok(defined($plugin->status), "status code set");
 ok($plugin->status == WARNING, "status code");
 print "[".$plugin->message."]\n";
 ok($plugin->message eq "Can't open /dev/ttyNOTTY", "status message");

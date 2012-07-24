@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 5;
 use test;
 
 my $plugin = tw_cli->new(
@@ -18,7 +18,9 @@ my $plugin = tw_cli->new(
 );
 
 ok($plugin, "plugin created");
-ok($plugin->check, "check ran");
+$plugin->check;
+ok(1, "check ran");
+ok(defined($plugin->status), "status code set");
 ok($plugin->status == OK, "status code");
 print "[".$plugin->message."]\n";
 ok($plugin->message eq 'c0(9650SE-16ML): u0:OK, (disks: p0:OK p1:OK p2:OK p3:OK p4:OK p5:OK p6:OK p7:OK p8:OK p9:OK p10:OK p11:OK p12:OK p13:OK p14:OK p15:OK)', "status message");
