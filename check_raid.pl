@@ -449,6 +449,12 @@ sub commands {
 	}
 }
 
+# see if plugin is active (disabled or no tools available)
+sub active ($) {
+	my ($this) = @_;
+	return -e $this->{commands}{proc}[1];
+}
+
 sub check {
 	my $this = shift;
 
