@@ -1,0 +1,38 @@
+Driver Parameters:
+ reserve_mode: 	1         	reserve_list:  	--
+ max_ids:      	127       	hdr_channel:   	0
+
+Disk Array Controller Information:
+ Number:       	0         	Name:          	SRCZCR
+ Driver Ver.:  	3.04      	Firmware Ver.: 	2.34.09-R05C
+ Serial No.:   	0x5CC016BE	Cache RAM size:	32768 KB
+
+Physical Devices:
+ Chn/ID/LUN:   	B/06/0    	Name:          	ESG-SHV SCA HSBP M18    0.07
+ Capacity [MB]:	0         	To Log. Drive: 	--
+
+ Chn/ID/LUN:   	B/00/0    	Name:          	MAXTOR  ATLAS10K4_36SCA DFV0
+ Capacity [MB]:	35042     	To Log. Drive: 	0
+ Retries:      	0         	Reassigns:     	0
+ Grown Defects:	0
+
+ Chn/ID/LUN:   	B/01/0    	Name:          	MAXTOR  ATLAS10K4_36SCA DFV0
+ Capacity [MB]:	35042     	To Log. Drive: 	0
+ Retries:      	0         	Reassigns:     	0
+ Grown Defects:	0
+
+Logical Drives:
+ Number:       	0         	Status:        	ok
+ Capacity [MB]:	34942     	Type:          	RAID-1
+ Slave Number: 	11        	Status:        	ok
+ Missing Drv.: 	0         	Invalid Drv.:  	0
+ To Array Drv.:	--
+
+Array Drives:
+ --
+
+Host Drives:
+ Number:       	0         	Arr/Log. Drive:	0
+ Capacity [MB]:	34930     	Start Sector:  	8192
+
+Controller Events:
