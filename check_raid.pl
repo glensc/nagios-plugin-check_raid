@@ -1286,10 +1286,10 @@ sub check {
 			my $pd = $c->{physical}->{$n};
 
 			# TODO: make tresholds configurable
-			if ($pd->{defects} > 1000) {
+			if ($pd->{defects} > 300) {
 				$this->critical;
 				push(@pd, "Disk $pd->{id}($pd->{name}) grown defects critical: $pd->{defects}");
-			} elsif ($pd->{defects} > 100) {
+			} elsif ($pd->{defects} > 30) {
 				$this->warning;
 				push(@pd, "Disk $pd->{id}($pd->{name}) grown defects warning: $pd->{defects}");
 			}
