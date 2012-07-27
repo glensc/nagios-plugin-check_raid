@@ -1184,17 +1184,19 @@ sub parse {
 
 			} elsif ($section eq 'Logical Drives') {
 				# Number:              3               Status:         ok
+				# Slave Number:        15              Status:         ok (older kernels)
 				# Capacity [MB]:       69974           Type:           Disk
 				# To Array Drv.:       0]
-				# TODO (currently no sample for these):
-				#  Slave Number:  15              Status:         ok
-				#  Missing Drv.:  0               Invalid Drv.:   0
-				if (my($num, $s) = m/^\s+Number:\s+(\d+)\s+Status:\s+(\S+)/) {
+				if (my($num, $s) = m/^\s+(?:Slave )?Number:\s+(\d+)\s+Status:\s+(\S+)/) {
 					$l{number} = int($num);
 					$l{status} = $s;
+				#  Missing Drv.:  0               Invalid Drv.:   0
 				} elsif (my($unit, $c, $t) = m/^\s+Capacity\s\[(.B)\]:\s+(\d+)\s+Type:\s+(\S+)/) {
 					$l{capacity} = "$c $unit";
 					$l{type} = $t;
+				} elsif (my($md, $id) = m/^\s+Missing Drv\.:\s+(\d+)\s+Invalid Drv\.:\s+(\d+|--)/) {
+					$l{missing} = int($md);
+					$l{invalid} = int($id);
 				} elsif (my($n) = m/^\s+To Array Drv\.:\s+(\d+|--)/) {
 					$l{array} = $n;
 				} elsif (/^$/) {
@@ -1213,8 +1215,10 @@ sub parse {
 				} elsif (my($unit, $c, $t) = m/^\s+Capacity\s\[(.B)\]:\s+(\d+)\s+Type:\s+(\S+)/) {
 					$a{capacity} = "$c $unit";
 					$a{type} = $t;
-				} elsif (/^$/) {
-					$ad{$a{number}} = { %a };
+				} elsif (/^(?: --)?$/) {
+					if (%a) {
+						$ad{$a{number}} = { %a };
+					}
 				} else {
 					warn "[$section] [$_]\n";
 					$this->unknown;
@@ -1252,6 +1256,18 @@ sub check {
 				$this->critical;
 			}
 			push(@ad, "Array $ad->{number}($ad->{type}) $ad->{status}");
+		}
+
+		# older raids have no Array drives, Look into Logical Drives for type!=Disk
+		unless (@ad) {
+			for my $n (sort {$a cmp $b} keys %{$c->{logical}}) {
+				my $ld = $c->{logical}->{$n};
+				if ($ld->{type} eq "Disk") {
+					next;
+				}
+				# emulate Array Drive
+				push(@ad, "Array($ld->{type}) $ld->{status}");
+			}
 		}
 
 		# logical drive status
