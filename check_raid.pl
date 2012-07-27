@@ -1186,11 +1186,9 @@ sub parse {
 				# Number:              3               Status:         ok
 				# Slave Number:        15              Status:         ok (older kernels)
 				# Capacity [MB]:       69974           Type:           Disk
-				# To Array Drv.:       0]
 				if (my($num, $s) = m/^\s+(?:Slave )?Number:\s+(\d+)\s+Status:\s+(\S+)/) {
 					$l{number} = int($num);
 					$l{status} = $s;
-				#  Missing Drv.:  0               Invalid Drv.:   0
 				} elsif (my($unit, $c, $t) = m/^\s+Capacity\s\[(.B)\]:\s+(\d+)\s+Type:\s+(\S+)/) {
 					$l{capacity} = "$c $unit";
 					$l{type} = $t;
@@ -1265,8 +1263,16 @@ sub check {
 				if ($ld->{type} eq "Disk") {
 					next;
 				}
+
 				# emulate Array Drive
-				push(@ad, "Array($ld->{type}) $ld->{status}");
+				my $s = "Array($ld->{type}) $ld->{status}";
+				# check for missing drives
+				if ($ld->{missing} > 0) {
+					$this->warning;
+					$s .= " ($ld->{missing} missing drives)";
+				}
+
+				push(@ad, $s);
 			}
 		}
 

@@ -6,10 +6,10 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 15;
+use Test::More tests => 20;
 use test;
 
-if (1) {
+if (0) {
 my $plugin = gdth->new(
 	commands => {
 		'proc' => ['<', TESTDIR . '/data/gdth'],
@@ -27,7 +27,7 @@ ok($plugin->message eq 'Controller 0: Array 0(RAID-5) ready, Logical Drives: 0,1
 }
 
 
-if (1) {
+if (0) {
 my $plugin = gdth->new(
 	commands => {
 		'proc' => ['<', TESTDIR . '/data/gdth-fail'],
@@ -44,7 +44,7 @@ print "[".$plugin->message."]\n";
 ok($plugin->message eq 'Controller 0: Array 0(RAID-5) fail, Logical Drives: 0,1,2,3,4,5: ok');
 }
 
-if (1) {
+if (0) {
 my $plugin = gdth->new(
 	commands => {
 		'proc' => ['<', TESTDIR . '/data/gdth-mammoth'],
@@ -59,4 +59,21 @@ ok(defined($plugin->status), "status code set");
 ok($plugin->status == OK, "status OK");
 print "[".$plugin->message."]\n";
 ok($plugin->message eq 'Controller 0: Array(RAID-1) ok, Logical Drives: 11: ok');
+}
+
+if (1) {
+my $plugin = gdth->new(
+	commands => {
+		'proc' => ['<', TESTDIR . '/data/gdth-missingdrv'],
+		'proc entry' => ['<', TESTDIR . '/data/gdth-missingdrv/$controller'],
+	},
+);
+
+ok($plugin, "plugin created");
+$plugin->check;
+ok(1, "check ran");
+ok(defined($plugin->status), "status code set");
+ok($plugin->status == WARNING, "status WARNING");
+print "[".$plugin->message."]\n";
+ok($plugin->message eq 'Controller 0: Array(RAID-1) ok, Logical Drives: 0: ok, Disk B/00/0(MAXTOR  ATLAS10K4_73SCA) grown defects warning: 288');
 }
