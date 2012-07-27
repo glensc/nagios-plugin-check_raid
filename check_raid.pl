@@ -1291,13 +1291,23 @@ sub check {
 		for my $n (sort {$a cmp $b} keys %{$c->{physical}}) {
 			my $pd = $c->{physical}->{$n};
 
+			my @ds;
 			# TODO: make tresholds configurable
 			if ($pd->{defects} > 300) {
 				$this->critical;
-				push(@pd, "Disk $pd->{id}($pd->{name}) grown defects critical: $pd->{defects}");
+				push(@ds, "grown defects critical: $pd->{defects}");
 			} elsif ($pd->{defects} > 30) {
 				$this->warning;
-				push(@pd, "Disk $pd->{id}($pd->{name}) grown defects warning: $pd->{defects}");
+				push(@ds, "grown defects warning: $pd->{defects}");
+			}
+
+			# report disk being not assigned
+			if ($pd->{drive} eq '--') {
+				push(@ds, "not assigned");
+			}
+
+			if (@ds) {
+				push(@pd, "Disk $pd->{id}($pd->{name}) ". join(', ', @ds));
 			}
 		}
 
@@ -1305,7 +1315,7 @@ sub check {
 		push(@cd, @ad) if @ad;
 		push(@cd, "Logical Drives: ". $this->join_status(\%ld));
 		push(@cd, @pd) if @pd;
-		push(@status, "Controller $c->{id}: ". join(', ', @cd));
+		push(@status, "Controller $c->{id}: ". join('; ', @cd));
 	}
 
 	return unless @status;
