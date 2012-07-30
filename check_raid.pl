@@ -86,7 +86,7 @@ our @plugins;
 our @ignore;
 
 # paths for which()
-my @paths = split /:/, $ENV{'PATH'};
+our @paths = split /:/, $ENV{'PATH'};
 unshift(@paths, qw(/usr/local/nrpe /usr/local/bin /sbin /usr/sbin /bin /usr/sbin));
 
 # lookup program from list of possibele filenames
@@ -449,7 +449,6 @@ sub commands {
 	}
 }
 
-# see if plugin is active (disabled or no tools available)
 sub active ($) {
 	my ($this) = @_;
 	return -e $this->{commands}{proc}[1];
@@ -1118,8 +1117,9 @@ sub commands {
 	}
 }
 
-sub active {
-	-d '/proc/scsi/gdth';
+sub active ($) {
+	my ($this) = @_;
+	return -d $this->{commands}{proc}[1];
 }
 
 sub parse {
@@ -1343,6 +1343,11 @@ sub commands {
 		'proc' => ['<', '/proc/scsi/dpt_i2o'],
 		'proc entry' => ['<', '/proc/scsi/dpt_i2o/$controller'],
 	}
+}
+
+sub active ($) {
+	my ($this) = @_;
+	return -d $this->{commands}{proc}[1];
 }
 
 sub check {
