@@ -1448,7 +1448,7 @@ sub check {
 			if ($s eq 'OK') {
 				push(@cstatus, "$u:$s");
 
-			} elsif ($s eq 'INITIALIZING|VERIFYING') {
+			} elsif ($s =~ 'INITIALIZING|VERIFYING') {
 				$this->warning;
 				push(@cstatus, "$u:$s $p2");
 
