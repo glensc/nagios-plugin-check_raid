@@ -1344,11 +1344,8 @@ sub check {
 	# status messages pushed here
 	my @status;
 
-	my @c;
 	my $fh = $this->cmd('proc');
-	if (-d $fh) {
-		@c = grep { !/^\./ } readdir($fh);
-	}
+	my @c = grep { !/^\./ } readdir($fh);
 	close($fh);
 
 	# TODO: check for failed disks!
