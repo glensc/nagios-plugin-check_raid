@@ -18,7 +18,7 @@ ok(defined($cwd), "cwd set");
 {
 my $plugin = arcconf->new(
 	commands => {
-		'adapter list' => ['<', $cwd. '/data/arcconf/basic'],
+		'adapter list' => ['<', $cwd. '/data/arcconf/getconfig'],
 	},
 );
 
@@ -35,7 +35,7 @@ ok($plugin->message eq 'Controller:Optimal, Logical Device 0:Optimal', "expected
 {
 my $plugin = arcconf->new(
 	commands => {
-		'adapter list' => ['<', $cwd. '/data/arcconf/batteries'],
+		'adapter list' => ['<', $cwd. '/data/arcconf/getconfig.batteries'],
 	},
 );
 
