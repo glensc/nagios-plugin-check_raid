@@ -315,16 +315,16 @@ sub cmd {
 	if ($op eq '=' and ref $cb eq 'SCALAR') {
 		# Special: use open2
 		use IPC::Open2;
-		my $pid = open2($fh, $$cb, @cmd) or croak "open2 failed: @CMD: $!";
+		my $pid = open2($fh, $$cb, @cmd) or croak "open2 failed: @cmd: $!";
 
 	} else {
-		open($fh, $op, @cmd) or croak "open failed: @CMD: $!";
+		open($fh, $op, @cmd) or croak "open failed: @cmd: $!";
 	}
 
 	# for dir handles, reopen as opendir
 	if (-d $fh) {
 		undef($fh);
-		opendir($fh, $cmd[0]) || croak "opendir failed: @CMD: $!";
+		opendir($fh, $cmd[0]) or croak "opendir failed: @cmd: $!";
 	}
 
 	return $fh;

@@ -9,7 +9,7 @@ use warnings;
 use Test::More tests => 10;
 use test;
 
-{
+if (1) {
 	my $plugin = cciss->new(
 		commands => {
 			'detect hpsa' => [ '<', TESTDIR . '/data/hpsa.refcnt'],
@@ -31,7 +31,7 @@ use test;
 	ok($plugin->message eq '/dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK');
 }
 
-{
+if (1) {
 	my $plugin = cciss->new(
 		commands => {
 			'detect hpsa' => [ '<', 'no-such-file'],
