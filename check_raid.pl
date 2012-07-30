@@ -1889,10 +1889,7 @@ sub detect {
 	# check legacy cciss devs
 	eval { $fh = $this->cmd('detect cciss'); };
 	if ($fh) {
-		my @c;
-		if (-d $fh) {
-			@c = grep { !/^\./ } readdir($fh);
-		}
+		my @c = grep { !/^\./ } readdir($fh);
 		close($fh);
 
 		# find controllers
