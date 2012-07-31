@@ -176,27 +176,34 @@ sub status {
 }
 
 # helper to set status to WARNING
+# returns $this to allow fluent api
 sub warning {
 	my ($this) = @_;
 	$this->status($ERRORS{WARNING});
+	return $this;
 }
 
 # helper to set status to CRITICAL
+# returns $this to allow fluent api
 sub critical {
 	my ($this) = @_;
 	$this->status($ERRORS{CRITICAL});
+	return $this;
 }
 
 # helper to set status to UNKNOWN
+# returns $this to allow fluent api
 sub unknown {
 	my ($this) = @_;
 	$this->status($ERRORS{UNKNOWN});
+	return $this;
 }
 
 # helper to set status to OK
 sub ok {
 	my ($this) = @_;
 	$this->status($ERRORS{OK});
+	return $this;
 }
 
 # setup status message text
