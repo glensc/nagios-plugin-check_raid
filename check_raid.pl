@@ -1517,7 +1517,7 @@ sub program_names {
 
 sub commands {
 	{
-		'adapter list' => ['-|', '@CMD', 'GETCONFIG', '1', 'AL'],
+		'getconfig' => ['-|', '@CMD', 'GETCONFIG', '1', 'AL'],
 	}
 }
 
@@ -1530,104 +1530,186 @@ sub sudo {
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd GETCONFIG 1 AL";
 }
 
-# NB: side effect: changes current directory to /var/log
-sub check {
-	my $this = shift;
+sub parse_error {
+	my ($this, $message) = @_;
+	$this->unknown->message("Parse Error: $message");
+}
 
-	# status messages pushed here
-	my @status;
+# NB: side effect: changes current directory to /var/log
+sub parse {
+	my $this = shift;
 
 	# we chdir to /var/log, as tool is creating 'UcliEvt.log'
 	chdir('/var/log') || chdir('/');
 
-	my $fh = $this->cmd('adapter list');
+	my $fh = $this->cmd('getconfig');
+	my $count = 0;
+	my $ok = 0;
 	while (<$fh>) {
-		last if /^Controller information/;
-	}
-
-	# Controller information
-	while (<$fh>) {
-		last if /^Logical device information/;
-
-		if (my($s) = /Controller Status\s*:\s*(.*)/) {
-			$this->critical if ($s ne 'Optimal');
-			push(@status, "Controller:$s");
-			next;
+		if (my($c) = /^Controllers found: (\d+)/) {
+			$count = int($c);
+			last;
 		}
-
-		if (my($s) = /Defunct disk drive count\s:\s*(\d+)/) {
-			$this->critical;
-			push(@status, "Defunct drives:$s");
-			next;
-		}
-
-		if (my($td, $fd, $dd) = m{Logical devices/Failed/Degraded\s*:\s*(\d+)/(\d+)/(\d+)}) {
-			if (int($fd) > 0) {
-				$this->critical;
-				push(@status, "Failed drives: $fd");
-			}
-			if (int($dd) > 0) {
-				$this->critical;
-				push(@status, "Degraded drives: $dd");
-			}
-			next;
-		}
-
-		if (my($s) = /^\s*Status\s*:\s*(.*)$/) {
-			next if $s eq "Not Installed";
-			push(@status, "Battery Status: $s");
-			next;
-		}
-
-		if (my($s) = /^\s*Over temperature\s*:\s*(.*)$/) {
-			if ($s ne "No") {
-				$this->critical;
-				push(@status, "Battery Overtemp: $s");
-			}
-			next;
-		}
-
-		if (my($s) = /\s*Capacity remaining\s*:\s*(\d+)\s*percent.*$/) {
-			push(@status, "Battery Capacity: $s%");
-			if (int($s) < 50) {
-				$this->critical;
-			}
-			if (int($s) < 25) {
-				$this->warning;
-			}
-			next;
-		}
-
-		if (my($d, $h, $m) = /\s*Time remaining \(at current draw\)\s*:\s*(\d+) days, (\d+) hours, (\d+) minutes/) {
-			my $mins = int($d) * 1440 + int($h) * 60 + int($m);
-			if ($mins < 1440) {
-				$this->warning;
-			}
-			if ($mins < 720) {
-				$this->critical;
-			}
-
-			if ($mins < 60) {
-				push(@status, "Battery Time: ${m}m");
-			} else {
-				push(@status, "Battery Time: ${d}d${h}h${m}m");
-			}
-			next;
+		if (/^Command completed successfully$/) {
+			$ok = 1;
 		}
 	}
-
-	# Logical device information
-	my ($d);
-	while (<$fh>) {
-		last if /^Physical Device information/;
-		$d = $1, next if /^Logical device number (\d+)/;
-		next unless (my ($s) = /^\s*Status of logical device\s+:\s+(.+)/);
-		push(@status, "Logical Device $d:$s");
+	if ($count > 1) {
+		warn "> 1 controllers found, this is not yet supported";
 	}
-	# Physical Device information
+	if ($count == 0) {
+		close($fh);
+		# if command completed, but no controllers,
+		# assume no hardware present
+		if (!$ok) {
+			$this->unknown->message("No controllers found!");
+		}
+		return undef;
+	}
+
+	my @status;
+	my $section;
+	$ok = 0;
+	# Controller information, Logical device info
+	my (%c, @ld, $ld);
+	while (<$fh>) {
+		chomp;
+		# empty line
+		if (/^$/) {
+			next;
+		}
+
+		if (/^Command completed successfully$/) {
+			$ok = 1;
+		}
+
+		# section start
+		if (/^---+/) {
+			if (my($s) = <$fh> =~ /^(\w.+)$/) {
+				$section = $s;
+				unless (<$fh> =~ /^---+/) {
+					$this->parse_error($_);
+				}
+				next;
+				$ld = undef;
+			}
+			$this->parse_error($_);
+		}
+
+		if ($section eq 'Controller information') {
+			# TODO: battery stuff is under subsection "Controller Battery Information"
+			if (my($s) = /Controller Status\s*:\s*(.+)/) {
+				$c{status} = $s;
+			} elsif (my($df) = /Defunct disk drive count\s+:\s*(\d+)/) {
+				$c{defunct_count} = int($df);
+			} elsif (my($td, $fd, $dd) = m{Logical devices/Failed/Degraded\s*:\s*(\d+)/(\d+)/(\d+)}) {
+				$c{logical_count} = int($td);
+				$c{logical_failed} = int($fd);
+				$c{logical_degraded} = int($fd);
+			} elsif (my($bs) = /Status\s*:\s*(.*)$/) {
+				$c{battery_status} = $bs;
+			} elsif (my($bt) = /Over temperature\s*:\s*(.+)$/) {
+				$c{battery_overtemp} = $bt;
+			} elsif (my($bc) = /Capacity remaining\s*:\s*(\d+)\s*percent.*$/) {
+				$c{battery_capacity} = int($bc);
+			} elsif (my($d, $h, $m) = /Time remaining \(at current draw\)\s*:\s*(\d+) days, (\d+) hours, (\d+) minutes/) {
+				$c{battery_time} = int($d) * 1440 + int($h) * 60 + int($m);
+				$c{battery_time_full} = "${d}d${h}h${m}m";
+			}
+
+		} elsif ($section eq 'Physical Device information') {
+			# nothing useful
+
+		} elsif ($section =~ /Logical device information/) {
+			if (my($n) = /Logical device number (\d+)/) {
+				$ld = int($n);
+				$ld[$ld]{id} = $n;
+			} elsif (my($s) = /Status of logical device\s+:\s+(.+)/) {
+				$ld[$ld]{status} = $s;
+			} elsif (my($ln) = /Logical device name\s+:\s+(.+)/) {
+				$ld[$ld]{name} = $ln;
+			} elsif (my($rl) = /RAID level\s+:\s+(.+)/) {
+				$ld[$ld]{raid} = $rl;
+			} elsif (my($sz) = /Size\s+:\s+(.+)/) {
+				$ld[$ld]{size} = $sz;
+			} elsif (my($fs) = /Failed stripes\s+:\s+(.+)/) {
+				$ld[$ld]{failed_stripes} = $fs;
+			}
+		} else {
+			warn "[$section] [$_]\n";
+		}
+	}
+
 	close $fh;
 
-	return unless @status;
+	$this->unknown->message("Command did not succeed") unless $ok;
+
+	return { controller => \%c, logical => \@ld };
+}
+
+sub check {
+	my $this = shift;
+
+	my $ctrl = $this->parse;
+	$this->unknown,return unless $ctrl;
+
+	# status messages pushed here
+	my @status;
+
+	for my $c ($ctrl->{controller}) {
+		$this->critical if $c->{status} ne 'Optimal';
+		push(@status, "Controller:$c->{status}");
+
+		if ($c->{defunct_count} > 0) {
+			$this->critical;
+			push(@status, "Defunct drives:$c->{defunct_count}");
+		}
+
+		if ($c->{logical_failed} > 0) {
+			$this->critical;
+			push(@status, "Failed drives:$c->{logical_failed}");
+		}
+
+		if ($c->{logical_degraded} > 0) {
+			$this->critical;
+			push(@status, "Degraded drives:$c->{logical_degraded}");
+		}
+
+		if ($c->{battery_status} ne "Not Installed") {
+			push(@status, "Battery Status: $c->{battery_status}");
+
+			if ($c->{battery_overtemp} ne "No") {
+				$this->critical;
+				push(@status, "Battery Overtemp: $c->{battery_overtemp}");
+			}
+
+			push(@status, "Battery Capacity Remaining: $c->{battery_capacity}%");
+			if ($c->{battery_capacity} < 50) {
+				$this->critical;
+			}
+			if ($c->{battery_capacity} < 25) {
+				$this->warning;
+			}
+
+			if ($c->{battery_time} < 1440) {
+				$this->warning;
+			}
+			if ($c->{battery_time} < 720) {
+				$this->critical;
+			}
+
+			if ($c->{battery_time} < 60) {
+				push(@status, "Battery Time: $c->{battery_time}m");
+			} else {
+				push(@status, "Battery Time: $c->{battery_time_full}");
+			}
+		}
+	}
+
+	for my $ld (values @{$ctrl->{logical}}) {
+		push(@status, "Logical Device $ld->{id}:$ld->{status}");
+	}
+
 
 	# set status to OK, if no higher status was set
 	$this->ok;
