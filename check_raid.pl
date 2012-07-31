@@ -1709,6 +1709,10 @@ sub check {
 	for my $ld (values @{$ctrl->{logical}}) {
 		$this->critical if $ld->{status} ne 'Optimal';
 		push(@status, "Logical Device $ld->{id}:$ld->{status}");
+
+		if ($ld->{failed_stripes} ne 'No') {
+			push(@status, "Failed stripes: $ld->{failed_stripes}");
+		}
 	}
 
 
