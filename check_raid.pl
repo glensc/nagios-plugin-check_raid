@@ -852,10 +852,7 @@ sub check {
 
 	return unless @status;
 
-	# set status to OK, if no higher status was set
-	$this->ok;
-
-	$this->message(join(', ', @status));
+	$this->ok->message(join(', ', @status));
 }
 
 package aaccli;
@@ -984,10 +981,7 @@ sub check {
 
 	return unless @status;
 
-	# set status to OK, if no higher status was set
-	$this->ok;
-
-	$this->message(join(', ', @status));
+	$this->ok->message(join(', ', @status));
 }
 
 package mpt;
@@ -1051,10 +1045,7 @@ sub check {
 
 	return unless @status;
 
-	# set status to OK, if no higher status was set
-	$this->ok;
-
-	$this->message(join(', ', @status));
+	$this->ok->message(join(', ', @status));
 }
 
 package megaraid;
@@ -1495,10 +1486,7 @@ sub check {
 
 	return unless @status;
 
-	# set status to OK, if no higher status was set
-	$this->ok;
-
-	$this->message(join(', ', @status));
+	$this->ok->message(join(', ', @status));
 }
 
 package arcconf;
@@ -1719,11 +1707,7 @@ sub check {
 		}
 	}
 
-
-	# set status to OK, if no higher status was set
-	$this->ok;
-
-	$this->message(join(', ', @status));
+	$this->ok->message(join(', ', @status));
 }
 
 package megarc;
@@ -1835,10 +1819,7 @@ sub check {
 
 	return unless @status;
 
-	# set status to OK, if no higher status was set
-	$this->ok;
-
-	$this->message(join(', ', @status));
+	$this->ok->message(join(', ', @status));
 }
 
 package cmdtool2;
@@ -2352,10 +2333,7 @@ sub check {
 
 	return unless @status;
 
-	# set status to OK, if no higher status was set
-	$this->ok;
-
-	$this->message(join(', ', @status));
+	$this->ok->message(join(', ', @status));
 }
 
 package smartctl;
@@ -2430,10 +2408,7 @@ sub check {
 
 	return unless %status;
 
-	# set status to OK, if no higher status was set
-	$this->ok;
-
-	$this->message($this->join_status(\%status));
+	$this->ok->message($this->join_status(\%status));
 }
 
 package hpacucli;
@@ -2561,10 +2536,7 @@ sub check {
 
 	return unless @status;
 
-	# set status to OK, if no higher status was set
-	$this->ok;
-
-	$this->message(join(', ', @status));
+	$this->ok->message(join(', ', @status));
 }
 
 package areca;
@@ -2707,10 +2679,7 @@ sub check {
 	}
 	close $fh;
 
-	# set status to OK, if no higher status was set
-	$this->ok;
-
-	$this->message(join(', ', @status));
+	$this->ok->message(join(', ', @status));
 }
 
 {
