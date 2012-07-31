@@ -1,0 +1,6 @@
+
+
+Unit  UnitType  Status         %RCmpl  %V/I/M  Stripe  Size(GB)  Cache  AVrfy
+------------------------------------------------------------------------------
+u0    RAID-5    VERIFYING      -       50%     256K    5587.9    RiW    ON
+
