@@ -6,15 +6,15 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More tests => 10;
 use test;
 
 if (1) {
 my $plugin = tw_cli->new(
 	commands => {
-		'info' => ['<', TESTDIR . '/data/tw_cli.info'],
-		'unitstatus' => ['<', TESTDIR . '/data/tw_cli.c.unitstatus'],
-		'drivestatus' => ['<', TESTDIR . '/data/tw_cli.info.c.drivestatus'],
+		'info' => ['<', TESTDIR . '/data/tw_cli/1/info'],
+		'unitstatus' => ['<', TESTDIR . '/data/tw_cli/1/info.c.unitstatus'],
+		'drivestatus' => ['<', TESTDIR . '/data/tw_cli/1/info.c.drivestatus'],
 	},
 );
 
@@ -30,9 +30,9 @@ ok($plugin->message eq 'c0(9650SE-16ML): u0:OK, (disks: p0:OK p1:OK p2:OK p3:OK 
 if (1) {
 my $plugin = tw_cli->new(
 	commands => {
-		'info' => ['<', TESTDIR . '/data/tw_cli.info'], # FIXME: not original
-		'unitstatus' => ['<', TESTDIR . '/data/tw_cli,info,c4,unitstatus'], # verifying
-		'drivestatus' => ['<', TESTDIR . '/data/tw_cli.info.c.drivestatus'], # FIXME: not original
+		'info' => ['<', TESTDIR . '/data/tw_cli/1/info'], # FIXME: not original
+		'unitstatus' => ['<', TESTDIR . '/data/tw_cli/2/info.c4.unitstatus'],
+		'drivestatus' => ['<', TESTDIR . '/data/tw_cli/1/info.c.drivestatus'], # FIXME: not original
 	},
 );
 
