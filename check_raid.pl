@@ -1550,7 +1550,7 @@ sub parse {
 			$count = int($c);
 			last;
 		}
-		if (/^Command completed successfully$/) {
+		if (/^Command completed successfully/) {
 			$ok = 1;
 		}
 	}
@@ -1579,7 +1579,7 @@ sub parse {
 			next;
 		}
 
-		if (/^Command completed successfully$/) {
+		if (/^Command completed successfully/) {
 			$ok = 1;
 		}
 
