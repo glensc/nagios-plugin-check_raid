@@ -29,7 +29,7 @@ ok(1, "check ran");
 ok(defined($plugin->status), "status code set");
 ok($plugin->status == OK, "status OK");
 print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Controller:Optimal, Logical Device 0:Optimal', "expected message");
+ok($plugin->message eq 'Controller:Optimal, Logical Device 0(Mirror):Optimal');
 }
 
 {
