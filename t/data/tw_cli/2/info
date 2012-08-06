@@ -1,0 +1,5 @@
+# tw_cli info
+
+Ctl   Model        (V)Ports  Drives   Units   NotOpt  RRate   VRate  BBU
+------------------------------------------------------------------------
+c0    9750-4i      4         4        1       0       1       1      OK

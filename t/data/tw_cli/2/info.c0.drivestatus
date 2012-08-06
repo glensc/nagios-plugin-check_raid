@@ -1,0 +1,8 @@
+# tw_cli info c0 drivestatus
+
+VPort Status         Unit Size      Type  Phy Encl-Slot    Model
+------------------------------------------------------------------------------
+p0    OK             u0   1.82 TB   SAS   0   -            SEAGATE ST32000444SS
+p1    OK             u0   1.82 TB   SAS   1   -            SEAGATE ST32000444SS
+p2    OK             u0   1.82 TB   SAS   2   -            SEAGATE ST32000444SS
+p3    OK             u0   1.82 TB   SAS   3   -            SEAGATE ST32000444SS
