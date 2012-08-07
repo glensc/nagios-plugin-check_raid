@@ -1,0 +1,47 @@
+# tw_cli /c0 show all
+/c0 Driver Version = 3.26.00.028-2.6.32RH
+/c0 Model = 9750-4i
+/c0 Available Memory = 488MB
+/c0 Firmware Version = FH9X 5.12.00.007
+/c0 Bios Version = BE9X 5.11.00.006
+/c0 Boot Loader Version = BT9X 6.00.00.004
+/c0 Serial Number = SV12115702
+/c0 PCB Version = Rev 001
+/c0 PCHIP Version = B4
+/c0 ACHIP Version = 05000e00
+/c0 Controller Phys = 8
+/c0 Connections = 4 of 128
+/c0 Drives = 4 of 127
+/c0 Units = 1 of 127
+/c0 Active Drives = 4 of 127
+/c0 Active Units = 1 of 32
+/c0 Max Drives Per Unit = 32
+/c0 Total Optimal Units = 1
+/c0 Not Optimal Units = 0
+/c0 Disk Spinup Policy = 1
+/c0 Spinup Stagger Time Policy (sec) = 1
+/c0 Auto-Carving Policy = off
+/c0 Auto-Carving Size = 2048 GB
+/c0 Auto-Rebuild Policy = on
+/c0 Rebuild Mode = Adaptive
+/c0 Rebuild Rate = 1
+/c0 Verify Mode = Adaptive
+/c0 Verify Rate = 1
+/c0 Controller Bus Type = PCIe
+/c0 Controller Bus Width = 8 lanes
+/c0 Controller Bus Speed = 5.0 Gbps/lane
+
+Unit  UnitType  Status         %RCmpl  %V/I/M  Stripe  Size(GB)  Cache  AVrfy
+------------------------------------------------------------------------------
+u0    RAID-5    VERIFYING      -       16%     256K    5587.9    RiW    ON
+
+VPort Status         Unit Size      Type  Phy Encl-Slot    Model
+------------------------------------------------------------------------------
+p0    OK             u0   1.82 TB   SAS   0   -            SEAGATE ST32000444SS
+p1    OK             u0   1.82 TB   SAS   1   -            SEAGATE ST32000444SS
+p2    OK             u0   1.82 TB   SAS   2   -            SEAGATE ST32000444SS
+p3    OK             u0   1.82 TB   SAS   3   -            SEAGATE ST32000444SS
+
+Name  OnlineState  BBUReady  Status    Volt     Temp     Hours  LastCapTest
+---------------------------------------------------------------------------
+bbu   On           Yes       OK        OK       OK       118    09-Jul-2012
