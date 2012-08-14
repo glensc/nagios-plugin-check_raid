@@ -1694,7 +1694,7 @@ sub check {
 		}
 	}
 
-	for my $ld (values @{$ctrl->{logical}}) {
+	for my $ld (@{$ctrl->{logical}}) {
 		$this->critical if $ld->{status} ne 'Optimal';
 		my $id = $ld->{id};
 		if ($ld->{name}) {
