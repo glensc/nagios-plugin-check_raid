@@ -65,5 +65,5 @@ ok(1, "check ran");
 ok(defined($plugin->status), "status code set");
 ok($plugin->status == OK, "status OK");
 print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Controller:Optimal, ZMM Status: ZMM Optimal, Logical Device 0(Volume01):Optimal');
+ok($plugin->message eq 'Controller:Optimal, Logical device #0: Build/Verify: In Progress 11%, ZMM Status: ZMM Optimal, Logical Device 0(Volume01):Optimal');
 }

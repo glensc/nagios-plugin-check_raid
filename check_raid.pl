@@ -1559,6 +1559,12 @@ sub parse {
 			next;
 		}
 
+		# termination
+		if (/^(\S.+) Task:$/) {
+			$task{type} = $1;
+			next;
+		}
+
 		if (/^\s+Logical device\s+: (\d+)/) {
 			$task{device} = $1;
 		} elsif (/^\s+Task ID\s+: (\d+)/) {
@@ -1576,6 +1582,7 @@ sub parse {
 		}
 	}
 	close($fh);
+	$c{tasks} = { %task } if %task;
 
 	if ($count > 1) {
 		warn "> 1 controllers found, this is not yet supported";
@@ -1692,6 +1699,7 @@ sub check {
 	# status messages pushed here
 	my @status;
 
+	# check for controller status
 	for my $c ($ctrl->{controller}) {
 		$this->critical if $c->{status} ne 'Optimal';
 		push(@status, "Controller:$c->{status}");
@@ -1711,10 +1719,19 @@ sub check {
 			push(@status, "Degraded drives:$c->{logical_degraded}");
 		}
 
+		# current (logical device) tasks
+		if ($c->{tasks}->{operation} ne 'None') {
+			# just print it. no status change
+			my $task = $c->{tasks};
+			push(@status, "$task->{type} #$task->{device}: $task->{operation}: $task->{status} $task->{percent}%");
+		}
+
+		# ZMM (Zero-Maintenance Module) status
 		if (defined($c->{zmm_status})) {
 			push(@status, "ZMM Status: $c->{zmm_status}");
 		}
 
+		# Battery status
 		if (defined($c->{battery_status}) and $c->{battery_status} ne "Not Installed") {
 			push(@status, "Battery Status: $c->{battery_status}");
 
@@ -1746,6 +1763,7 @@ sub check {
 		}
 	}
 
+	# check for logical device
 	for my $ld (@{$ctrl->{logical}}) {
 		$this->critical if $ld->{status} ne 'Optimal';
 		my $id = $ld->{id};
