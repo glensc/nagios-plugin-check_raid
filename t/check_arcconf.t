@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 12;
+use Test::More tests => 17;
 use test;
 
 # NOTE: this plugin has side effect of changing dir
@@ -15,10 +15,11 @@ ok(chdir(TESTDIR), "dir changed");
 my $cwd = Cwd::cwd();
 ok(defined($cwd), "cwd set");
 
-{
+if (1) {
 my $plugin = arcconf->new(
 	commands => {
-		'getconfig' => ['<', $cwd. '/data/arcconf/getconfig'],
+		'getstatus' => ['<', $cwd. '/data/arcconf/1/getstatus'],
+		'getconfig' => ['<', $cwd. '/data/arcconf/1/getconfig'],
 	},
 );
 
@@ -29,13 +30,14 @@ ok(1, "check ran");
 ok(defined($plugin->status), "status code set");
 ok($plugin->status == OK, "status OK");
 print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Controller:Optimal, Logical Device 0(Mirror):Optimal');
+ok($plugin->message eq 'Controller:Optimal, Logical Device 0:Optimal');
 }
 
-{
+if (1) {
 my $plugin = arcconf->new(
 	commands => {
-		'getconfig' => ['<', $cwd. '/data/arcconf/getconfig.batteries'],
+		'getstatus' => ['<', $cwd. '/data/arcconf/1/getstatus'],
+		'getconfig' => ['<', $cwd. '/data/arcconf/2/getconfig'],
 	},
 );
 
@@ -45,5 +47,23 @@ ok(1, "check ran");
 ok(defined($plugin->status), "status code set");
 ok($plugin->status == OK, "status OK");
 print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Controller:Optimal, Battery Status: Optimal, Battery Capacity Remaining: 100%, Battery Time: 3d17h20m, Logical Device 0:Optimal');
+ok($plugin->message eq 'Controller:Optimal, Battery Status: Optimal, Battery Capacity Remaining: 100%, Battery Time: 3d16h0m, Logical Device 0:Optimal');
+}
+
+if (1) {
+my $plugin = arcconf->new(
+	commands => {
+		'getstatus' => ['<', $cwd. '/data/arcconf/3/getstatus'],
+		'getconfig' => ['<', $cwd. '/data/arcconf/3/getconfig'],
+	},
+);
+
+
+ok($plugin, "plugin created");
+$plugin->check;
+ok(1, "check ran");
+ok(defined($plugin->status), "status code set");
+ok($plugin->status == OK, "status OK");
+print "[".$plugin->message."]\n";
+ok($plugin->message eq 'Controller:Optimal, ZMM Status: ZMM Optimal, Logical Device 0(Volume01):Optimal');
 }

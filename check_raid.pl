@@ -210,6 +210,7 @@ sub ok {
 sub message {
 	my ($this, $message) = @_;
 	if (defined $message) {
+		# TODO: append if already something there
 		$this->{message} = $message;
 	}
 	$this->{message};
@@ -1505,6 +1506,7 @@ sub program_names {
 
 sub commands {
 	{
+		'getstatus' => ['-|', '@CMD', 'GETSTATUS', '1'],
 		'getconfig' => ['-|', '@CMD', 'GETCONFIG', '1', 'AL'],
 	}
 }
@@ -1515,7 +1517,10 @@ sub sudo {
 	return 1 unless $deep;
 
 	my $cmd = $this->{program};
-	"CHECK_RAID ALL=(root) NOPASSWD: $cmd GETCONFIG 1 AL";
+	(
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd GETSTATUS 1",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd GETCONFIG 1 AL",
+	);
 }
 
 sub parse_error {
@@ -1530,23 +1535,53 @@ sub parse {
 	# we chdir to /var/log, as tool is creating 'UcliEvt.log'
 	chdir('/var/log') || chdir('/');
 
-	my $fh = $this->cmd('getconfig');
+	# Controller information, Logical device info
+	my (%c, @ld, $ld);
+
 	my $count = 0;
 	my $ok = 0;
+	my $fh = $this->cmd('getstatus');
+	# controller task
+	my %task;
 	while (<$fh>) {
-		if (my($c) = /^Controllers found: (\d+)/) {
-			$count = int($c);
-			last;
-		}
+		chomp;
+		# empty line
+		next if /^$/;
+
+		# termination
 		if (/^Command completed successfully/) {
 			$ok = 1;
+			last;
+		}
+
+		if (my($c) = /^Controllers found: (\d+)/) {
+			$count = int($c);
+			next;
+		}
+
+		if (/^\s+Logical device\s+: (\d+)/) {
+			$task{device} = $1;
+		} elsif (/^\s+Task ID\s+: (\d+)/) {
+			$task{id} = $1;
+		} elsif (/^\s+Current operation\s+: (.+)/) {
+			$task{operation} = $1;
+		} elsif (/^\s+Status\s+: (.+)/) {
+			$task{status} = $1;
+		} elsif (/^\s+Priority\s+: (.+)/) {
+			$task{priority} = $1;
+		} elsif (/^\s+Percentage complete\s+: (\d+)/) {
+			$task{percent} = $1;
+		} else {
+			$this->unknown->message("Unknown line: [$_]");
 		}
 	}
+	close($fh);
+
 	if ($count > 1) {
 		warn "> 1 controllers found, this is not yet supported";
 	}
+
 	if ($count == 0) {
-		close($fh);
 		# if command completed, but no controllers,
 		# assume no hardware present
 		if (!$ok) {
@@ -1555,11 +1590,10 @@ sub parse {
 		return undef;
 	}
 
+	$fh = $this->cmd('getconfig');
 	my @status;
 	my $section;
 	$ok = 0;
-	# Controller information, Logical device info
-	my (%c, @ld, $ld);
 	while (<$fh>) {
 		chomp;
 		# empty line
@@ -1569,6 +1603,15 @@ sub parse {
 
 		if (/^Command completed successfully/) {
 			$ok = 1;
+			last;
+		}
+
+		if (my($c) = /^Controllers found: (\d+)/) {
+			if ($c != $count) {
+				# internal error?!
+				$this->unknown->message("Controller count mismatch");
+			}
+			next;
 		}
 
 		# section start
@@ -1595,7 +1638,12 @@ sub parse {
 				$c{logical_failed} = int($fd);
 				$c{logical_degraded} = int($fd);
 			} elsif (my($bs) = /Status\s*:\s*(.*)$/) {
-				$c{battery_status} = $bs;
+				# This could be ZMM status as well
+				if ($bs =~ /ZMM/) {
+					$c{zmm_status} = $bs;
+				} else {
+					$c{battery_status} = $bs;
+				}
 			} elsif (my($bt) = /Over temperature\s*:\s*(.+)$/) {
 				$c{battery_overtemp} = $bt;
 			} elsif (my($bc) = /Capacity remaining\s*:\s*(\d+)\s*percent.*$/) {
@@ -1663,7 +1711,11 @@ sub check {
 			push(@status, "Degraded drives:$c->{logical_degraded}");
 		}
 
-		if ($c->{battery_status} ne "Not Installed") {
+		if (defined($c->{zmm_status})) {
+			push(@status, "ZMM Status: $c->{zmm_status}");
+		}
+
+		if (defined($c->{battery_status}) and $c->{battery_status} ne "Not Installed") {
 			push(@status, "Battery Status: $c->{battery_status}");
 
 			if ($c->{battery_overtemp} ne "No") {
