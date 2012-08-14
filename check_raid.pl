@@ -66,9 +66,10 @@
 # - Project moved to github: https://github.com/glensc/nagios-plugin-check_raid
 # - SAS2IRCU support
 # - Areca SATA RAID Support
-# Version 2.3:
+# Version 3.0:
 # - Rewritten to be more modular,
 #   this allows better code testing
+# - Improvements to plugins: arcconf, tw_cli, gdth
 
 use warnings;
 use strict;
@@ -2764,7 +2765,7 @@ use Getopt::Long;
 
 my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
-my ($VERSION) = "2.3";
+my ($VERSION) = "3.0";
 my ($message, $status);
 
 #####################################################################
