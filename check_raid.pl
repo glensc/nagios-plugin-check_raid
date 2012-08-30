@@ -126,7 +126,7 @@ sub commands {
 # may be SCALAR or LIST of scalars
 # @internal
 sub sudo {
-	undef;
+	();
 }
 
 # constructor for plugins
@@ -2792,9 +2792,9 @@ sub sudoers {
 		next unless $plugin->active;
 
 		# collect sudo rules
-		my $sudo = $plugin->sudo(1) or next;
+		my @rules = $plugin->sudo(1) or next;
 
-		push(@sudo, ref $sudo eq 'ARRAY' ? @$sudo : $sudo);
+		push(@sudo, @rules);
 	}
 
 
