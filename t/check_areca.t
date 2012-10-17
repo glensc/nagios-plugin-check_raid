@@ -11,8 +11,8 @@ use test;
 
 my $plugin = areca->new(
 	commands => {
-		'rsf info' => ['<', TESTDIR . '/data/cli64.rsf.info-1'],
-		'disk info' => ['<', TESTDIR . '/data/cli64.disk.info-1'],
+		'rsf info' => ['<', TESTDIR . '/data/areca/cli64.rsf.info-1'],
+		'disk info' => ['<', TESTDIR . '/data/areca/cli64.disk.info-1'],
 	},
 );
 
