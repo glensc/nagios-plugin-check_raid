@@ -15,15 +15,15 @@ will add required lines to the sudoers file.
 
 Download directly from github release (with wget or curl):
 
-    wget https://raw.github.com/glensc/nagios-plugin-check_raid/2.2.50/check_raid.pl -O check_raid.pl
-    curl https://raw.github.com/glensc/nagios-plugin-check_raid/2.2.50/check_raid.pl > check_raid.pl
+    wget https://raw.github.com/glensc/nagios-plugin-check_raid/master/check_raid.pl -O check_raid.pl
+    curl https://raw.github.com/glensc/nagios-plugin-check_raid/master/check_raid.pl > check_raid.pl
     chmod +x check_raid
     
 or download whole release tarball:
 
-    wget https://github.com/glensc/nagios-plugin-check_raid/tarball/2.2.50/check_raid-2.2.50.tgz
-    tar xzf check_raid-2.2.50.tgz
-    cd glensc-nagios-plugin-check_raid-af3ea4d
+    wget https://github.com/glensc/nagios-plugin-check_raid/tarball/master/check_raid.tgz
+    tar xzf check_raid.tgz
+    cd glensc-nagios-plugin-check_raid-*
     
 setup `sudo`
 
