@@ -2690,7 +2690,7 @@ sub check {
 
 	## Check Drive Status
 	$fh = $this->cmd('disk info');
-	my @drivestatus;
+	my %drivestatus;
 	while (<$fh>) {
 		chomp;
 =cut
@@ -2735,20 +2735,22 @@ sub check {
 		# - Rebuild
 		if (defined($arrays{$usage})) {
 			# Disk in Array named $usage
-			push(@drivestatus, "$id:$array_name");
+			push(@{$drivestatus{$array_name}}, $id);
 		} elsif ($usage =~ /[Rr]e[Bb]uild/) {
 			# rebuild marks warning
-			push(@drivestatus, "$id:$array_name");
+			push(@{$drivestatus{$array_name}}, $id);
 			$this->warning;
 		} elsif ($usage =~ /HotSpare/) {
 			# hotspare is OK
-			push(@drivestatus, "$id:$array_name");
+			push(@{$drivestatus{$array_name}}, $id);
 		} else {
-			push(@drivestatus, "$id:ERROR:$usage");
+			push(@{$drivestatus{$array_name}}, $id);
 			$this->critical;
 		}
 	}
 	close $fh;
+
+	push(@status, "Drive Assignment: ".$this->join_status(\%drivestatus)) if %drivestatus;
 
 	$this->ok->message(join(', ', @status));
 }
