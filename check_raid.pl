@@ -1395,7 +1395,7 @@ use base 'plugin';
 push(@utils::plugins, __PACKAGE__);
 
 sub program_names {
-	qw(tw_cli-9xxx tw_cli);
+	qw(tw_cli-9xxx tw_cli tw-cli);
 }
 
 sub commands {
