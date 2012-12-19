@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 32;
+use Test::More tests => 34;
 use test;
 
 my @tests = (
@@ -31,6 +31,9 @@ my @tests = (
 		message => 'md0(54.81 MiB raid1):UU, md2(698.64 GiB raid1):UU (resync:11.2% 54928K/sec ETA: 197.2min), md1(698.58 GiB raid1):UU (resync:9.9% 51946K/sec ETA: 211.5min)',
 	},
 	{ input => 'mdstat-none',
+		active => 0,
+	},
+	{ input => 'mdstat-inexistent',
 		active => 0,
 	},
 );
