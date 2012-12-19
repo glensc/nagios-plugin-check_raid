@@ -463,10 +463,10 @@ sub active ($) {
 	return -e $this->{commands}{proc}[1];
 }
 
-sub check {
+sub parse {
 	my $this = shift;
 
-	my (@status, @md, %md);
+	my (@md, %md);
 	my $fh = $this->cmd('proc');
 	while (<$fh>) {
 		chomp;
@@ -515,6 +515,15 @@ sub check {
 		push(@md, { %md } );
 	}
 	close $fh;
+
+	return wantarray ? @md : \@md;
+}
+
+sub check {
+	my $this = shift;
+
+	my (@status);
+	my @md = $this->parse;
 
 	foreach (@md) {
 		my %md = %$_;
