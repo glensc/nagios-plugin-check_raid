@@ -460,7 +460,12 @@ sub commands {
 
 sub active ($) {
 	my ($this) = @_;
-	return -e $this->{commands}{proc}[1];
+	# easy way out. no /proc/mdstat
+	return 0 unless -e $this->{commands}{proc}[1];
+
+	# extra check if mdstat is empty
+	my @md = $this->parse;
+	return $#md >= 0;
 }
 
 sub parse {
