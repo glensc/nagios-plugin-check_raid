@@ -13,13 +13,13 @@ use test;
 unshift(@utils::paths, TESTDIR . '/data/bin');
 
 my $commands = {
-	proc => ['<', '.']
+	proc => ['<', '.'],
+	mdstat => ['<', TESTDIR . '/data/mdstat/mdstat-failed'],
 };
 
 my %params = (
 	commands => $commands,
 );
-
 
 # check that all plugins are enabled
 foreach my $pn (@utils::plugins) {

@@ -41,7 +41,7 @@ my @tests = (
 foreach my $test (@tests) {
 	my $plugin = mdstat->new(
 		commands => {
-			'proc' => ['<', TESTDIR . '/data/mdstat/' . $test->{input}],
+			'mdstat' => ['<', TESTDIR . '/data/mdstat/' . $test->{input}],
 		},
 	);
 

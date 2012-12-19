@@ -454,14 +454,14 @@ push(@utils::plugins, __PACKAGE__);
 
 sub commands {
 	{
-		'proc' => ['<', '/proc/mdstat'],
+		'mdstat' => ['<', '/proc/mdstat'],
 	}
 }
 
 sub active ($) {
 	my ($this) = @_;
 	# easy way out. no /proc/mdstat
-	return 0 unless -e $this->{commands}{proc}[1];
+	return 0 unless -e $this->{commands}{mdstat}[1];
 
 	# extra check if mdstat is empty
 	my @md = $this->parse;
@@ -472,7 +472,7 @@ sub parse {
 	my $this = shift;
 
 	my (@md, %md);
-	my $fh = $this->cmd('proc');
+	my $fh = $this->cmd('mdstat');
 	while (<$fh>) {
 		chomp;
 
@@ -517,7 +517,7 @@ sub parse {
 
 		next unless $this->valid($md{dev});
 
-		push(@md, { %md } );
+		push(@md, { %md } ) if %md;
 	}
 	close $fh;
 
