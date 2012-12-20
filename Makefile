@@ -1,7 +1,7 @@
 # Makefile for check_raid plugin
 PLUGIN          := check_raid
 PLUGIN_SCRIPT   := $(PLUGIN).pl
-PLUGIN_VERSION  := $(shell awk -F'"' '/VERSION/&&/=/{print $$2}' $(PLUGIN_SCRIPT))
+PLUGIN_VERSION  := $(shell test -e .git && git describe --tags || awk -F'"' '/VERSION/&&/=/{print $$2}' $(PLUGIN_SCRIPT))
 PLUGINDIR       := /usr/lib/nagios/plugins
 PLUGINCONF      := /etc/nagios/plugins
 
