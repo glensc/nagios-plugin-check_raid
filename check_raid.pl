@@ -2779,7 +2779,7 @@ use strict;
 use warnings;
 use Getopt::Long;
 
-my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S);
+my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p,$opt_l);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 my ($VERSION) = "3.0";
 my ($message, $status);
@@ -2861,12 +2861,31 @@ sub sudoers {
 	print "$sudoers file updated.\n";
 }
 
+# Print active plugins
+sub print_active_plugins {
+	
+	# go over all registered plugins
+	foreach my $pn (@utils::plugins) {
+		my $plugin = $pn->new;
+
+		# skip inactive plugins (disabled or no tools available)
+		next unless $plugin->active;
+
+		# print plugin name
+		print $plugin->{name}."\n";
+	}
+	
+}
+
 Getopt::Long::Configure('bundling');
 GetOptions("V" => \$opt_V, "version" => \$opt_V,
 	 "h" => \$opt_h, "help" => \$opt_h,
 	 "d" => \$opt_d, "debug" => \$opt_d,
 	 "S" => \$opt_S, "sudoers" => \$opt_S,
-	 "W" => \$opt_W, "warnonly" => \$opt_W
+	 "W" => \$opt_W, "warnonly" => \$opt_W,
+	 "p=s" => \$opt_p, "plugin=s" => \$opt_p,
+	 "l" => \$opt_l, "list-plugins" => \$opt_l
+	 
 );
 
 if ($opt_S) {
@@ -2889,16 +2908,27 @@ if ($opt_W) {
 	$ERRORS{CRITICAL} = $ERRORS{WARNING};
 }
 
+if ($opt_l) {
+	print_active_plugins;
+	exit $ERRORS{'OK'};
+}
+
 $status = $ERRORS{OK};
 $message = '';
 
 # go over all registered plugins
 foreach my $pn (@utils::plugins) {
+
+	if ($opt_p) {
+		if ($pn ne $opt_p) {
+			next;
+		}
+	}
+
 	my $plugin = $pn->new;
 
 	# skip inactive plugins (disabled or no tools available)
 	next unless $plugin->active;
-
 	# perform the check
 	$plugin->check;
 
@@ -2927,7 +2957,11 @@ if ($message) {
 	print "$message\n";
 } else {
 	$status = $ERRORS{UNKNOWN};
-	print "No RAID configuration found.\n";
+	if ($opt_p) {
+		print "Invalid controller '".$opt_p."'\n";
+	} else {
+		print "No RAID configuration found.\n";
+	}
 }
 exit $status;
 }
