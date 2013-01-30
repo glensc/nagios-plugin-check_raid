@@ -1099,8 +1099,8 @@ sub check {
 
 	# process logical units
 	while (my($d, $u) = each %{$status->{logical}}) {
-		my $s = $u->{status};
 		next unless $this->valid($d);
+		my $s = $u->{status};
 		if ($s =~ /INITIAL|INACTIVE|RESYNC/) {
 			$this->warning;
 		} elsif ($s =~ /DEGRADED|FAILED/) {
@@ -1108,7 +1108,10 @@ sub check {
 		} elsif ($s !~ /ONLINE|OPTIMAL/) {
 			$this->unknown;
 		}
-		push(@status, "Logical Volume $d:$s");
+		if (grep { /RESYNC_IN_PROGRESS/ } @{$u->{flags}}) {
+			$s .= ' RESYNCING';
+		}
+		push(@status, "Volume $d ($u->{raid_level}, $u->{phy_disks} disks, $u->{size} GiB): $s");
 	}
 
 	# process phsyical units
