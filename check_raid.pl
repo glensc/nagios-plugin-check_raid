@@ -1082,6 +1082,7 @@ sub parse {
 			$this->unknown;
 		}
 	}
+	close $fh;
 
 	return {
 		'logical' => { %ld },
