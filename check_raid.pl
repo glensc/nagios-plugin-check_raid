@@ -1014,7 +1014,7 @@ sub program_names {
 
 sub commands {
 	{
-		'status' => ['-|', '@CMD', '-s'],
+		'status' => ['-|', '@CMD'],
 	}
 }
 
@@ -1024,7 +1024,7 @@ sub sudo {
 	return 1 unless $deep;
 
 	my $cmd = $this->{program};
-	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -s";
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd";
 }
 
 sub parse {
@@ -1032,13 +1032,16 @@ sub parse {
 
 	my (%ld, %pd);
 	my $fh = $this->cmd('status');
+
 	while (<$fh>) {
-		if (my($d, $s) = /^log_id\s*(\d+)\s+(\S+)/) {
-			$ld{$d} = $s;
+		# ioc0 vol_id 0 type IM, 2 phy, 136 GB, state OPTIMAL, flags ENABLED
+		if (my($d, $s) = /^(?:\S+)\s+ vol_id\s(\d+)\s type\s(?:\S+),\s (?:\d+)\sphy,\s (?:\d+\s*.B),\s state\s(\S+),\s flags\s(\S+)/x) {
+			$ld{$d} = $s,
 			next;
 		}
 
-		if (my($d, $s) = /^phys_id\s*(\d+)\s+(\S+)/) {
+		# ioc0 phy 0 scsi_id 0 IBM-ESXS PYH146C3-ETS10FN RXQN, 136 GB, state ONLINE, flags NONE
+		if (my($d, $s) = /^(?:\S+)\s+ phy\s(\d+)\s scsi_id\s(?:\d+)\s (?:\S+\s\S+\s\S+),\s (?:\d+\s*.B),\s state\s(\S+),\s flags\s(\S+)/x) {
 			$pd{$d} = $s;
 			next;
 		}
