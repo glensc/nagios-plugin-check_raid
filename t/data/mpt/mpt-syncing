@@ -1,0 +1,3 @@
+ioc0 vol_id 0 type IM, 2 phy, 68 GB, state DEGRADED, flags ENABLED RESYNC_IN_PROGRESS
+ioc0 phy 0 scsi_id 0 MAXTOR   ATLAS10K5_73SCA  JNZH, 68 GB, state ONLINE, flags NONE
+ioc0 phy 1 scsi_id 1 MAXTOR   ATLAS10K4_73SCA  DFV0, 68 GB, state ONLINE, flags OUT_OF_SYNC

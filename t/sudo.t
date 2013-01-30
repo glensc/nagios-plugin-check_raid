@@ -39,7 +39,7 @@ my %sudo = (
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/aaccli container list /full",
 	],
 	mpt => [
-		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/mpt-status -s",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/mpt-status",
 	],
 	tw_cli => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/tw_cli info*",
