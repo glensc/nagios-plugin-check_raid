@@ -1003,6 +1003,8 @@ sub check {
 package mpt;
 use base 'plugin';
 
+# LSILogic MPT ServeRAID
+
 # register
 push(@utils::plugins, __PACKAGE__);
 
@@ -1025,39 +1027,57 @@ sub sudo {
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -s";
 }
 
-# LSILogic MPT ServeRAID
+sub parse {
+	my $this = shift;
+
+	my (%ld, %pd);
+	my $fh = $this->cmd('status');
+	while (<$fh>) {
+		if (my($d, $s) = /^log_id\s*(\d+)\s+(\S+)/) {
+			$ld{$d} = $s;
+			next;
+		}
+
+		if (my($d, $s) = /^phys_id\s*(\d+)\s+(\S+)/) {
+			$pd{$d} = $s;
+			next;
+		}
+	}
+
+	return {
+		'logical' => { %ld },
+		'physical' => { %pd },
+	};
+}
+
 sub check {
 	my $this = shift;
 
 	# status messages pushed here
 	my @status;
 
-	my $fh = $this->cmd('status');
-	while (<$fh>) {
-		if (my($d, $s) = /^log_id\s*(\d+)\s+(\S+)/) {
-			next unless $this->valid($d);
-			if ($s =~ /INITIAL|INACTIVE|RESYNC/) {
-				$this->warning;
-			} elsif ($s =~ /DEGRADED|FAILED/) {
-				$this->critical;
-			} elsif ($s !~ /ONLINE|OPTIMAL/) {
-				$this->unknown;
-			}
-			push(@status, "Logical Volume $d:$s");
-			next;
-		}
+	my $status = $this->parse;
 
-		if (my($d, $s) = /^phys_id\s*(\d+)\s+(\S+)/) {
-			next if ($s eq "ONLINE");
-
-			# TODO: process other statuses
+	# process logical units
+	while (my($d, $s) = each %{$status->{logical}}) {
+		next unless $this->valid($d);
+		if ($s =~ /INITIAL|INACTIVE|RESYNC/) {
+			$this->warning;
+		} elsif ($s =~ /DEGRADED|FAILED/) {
 			$this->critical;
-
-			push(@status, "Physical Disk $d:$s");
-			next;
+		} elsif ($s !~ /ONLINE|OPTIMAL/) {
+			$this->unknown;
 		}
+		push(@status, "Logical Volume $d:$s");
 	}
-	close $fh;
+
+	# process phsyical units
+	while (my($d, $s) = each %{$status->{physical}}) {
+		next if ($s eq "ONLINE");
+		# TODO: process other statuses
+		push(@status, "Physical Disk $d:$s");
+		$this->critical;
+	}
 
 	return unless @status;
 
