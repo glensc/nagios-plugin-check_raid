@@ -11,7 +11,7 @@ use test;
 
 my $plugin = mpt->new(
 	commands => {
-		'status' => ['<', TESTDIR . '/data/mpt/mpt-status'],
+		'status' => ['<', TESTDIR . '/data/mpt/mpt-status-s'],
 	},
 );
 
