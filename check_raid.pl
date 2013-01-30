@@ -1114,15 +1114,14 @@ sub check {
 		push(@status, "Volume $d ($u->{raid_level}, $u->{phy_disks} disks, $u->{size} GiB): $s");
 	}
 
-	# process phsyical units
+	# process physical units
 	while (my($d, $u) = each %{$status->{physical}}) {
 		my $s = $u->{status};
-
 		# remove uninteresting flags
 		my @flags = grep {!/NONE/} @{$u->{flags}};
-		next unless @flags;
 
-		# FIXME: check status too?
+		# skip print if nothing in flags and disk is ONLINE
+		next unless @flags and $s eq 'ONLINE';
 
 		$s .= ' ' . join(' ', @flags);
 		push(@status, "Disk $d ($u->{size} GiB):$s");
