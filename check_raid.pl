@@ -1025,7 +1025,10 @@ sub sudo {
 	return 1 unless $deep;
 
 	my $cmd = $this->{program};
-	"CHECK_RAID ALL=(root) NOPASSWD: $cmd";
+	(
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd",
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -n",
+	);
 }
 
 sub parse {

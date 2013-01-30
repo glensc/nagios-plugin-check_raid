@@ -40,6 +40,7 @@ my %sudo = (
 	],
 	mpt => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/mpt-status",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/mpt-status -n",
 	],
 	tw_cli => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/tw_cli info*",
