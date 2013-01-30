@@ -1052,9 +1052,9 @@ sub parse {
 				raid_level => $VolumeTypesHuman{$type},
 				phy_disks => int($disks),
 				size => int($vol_size),
-				# one of: OPTIMAL, DEGRADED, FAILED or UNKNOWN
+				# one of: OPTIMAL, DEGRADED, FAILED, UNKNOWN
 				status => $vol_state,
-				# array of: ENABLED, QUIESCED, RESYNC_IN_PROGRESS, VOLUME_INACTIVE, NONE
+				# array of: ENABLED, QUIESCED, RESYNC_IN_PROGRESS, VOLUME_INACTIVE or NONE
 				flags => [ split ' ', $vol_flags ],
 			};
 		}
@@ -1073,7 +1073,7 @@ sub parse {
 				size => int($size),
 				# one of: ONLINE, MISSING, NOT_COMPATIBLE, FAILED, INITIALIZING, OFFLINE_REQUESTED, FAILED_REQUESTED, OTHER_OFFLINE, UNKNOWN
 				status => $state,
-				# array of: OUT_OF_SYNC, QUIESCED, NONE
+				# array of: OUT_OF_SYNC, QUIESCED or NONE
 				flags => [ split ' ', $flags ],
 			};
 			next;
@@ -1117,9 +1117,15 @@ sub check {
 	# process phsyical units
 	while (my($d, $u) = each %{$status->{physical}}) {
 		my $s = $u->{status};
-		next if ($s eq "ONLINE");
-		# TODO: process other statuses
-		push(@status, "Physical Disk $d:$s");
+
+		# remove uninteresting flags
+		my @flags = grep {!/NONE/} @{$u->{flags}};
+		next unless @flags;
+
+		# FIXME: check status too?
+
+		$s .= ' ' . join(' ', @flags);
+		push(@status, "Disk $d ($u->{size} GiB):$s");
 		$this->critical;
 	}
 
