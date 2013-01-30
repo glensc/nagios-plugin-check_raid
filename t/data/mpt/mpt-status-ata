@@ -1,0 +1,3 @@
+ioc0 vol_id 0 type IM, 2 phy, 73 GB, state OPTIMAL, flags ENABLED
+ioc0 phy 1 scsi_id 32 ATA      ST3808110AS      J   , 74 GB, state ONLINE, flags NONE
+ioc0 phy 0 scsi_id 1 ATA      ST3808110AS      J   , 74 GB, state ONLINE, flags NONE

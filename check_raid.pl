@@ -1044,6 +1044,7 @@ sub parse {
 	);
 
 	while (<$fh>) {
+		chomp;
 		# mpt-status.c __print_volume_classic
 		# ioc0 vol_id 0 type IM, 2 phy, 136 GB, state OPTIMAL, flags ENABLED
 		if (my($vioc, $vol_id, $type, $disks, $vol_size, $vol_state, $vol_flags) =
@@ -1065,8 +1066,9 @@ sub parse {
 
 		# mpt-status.c __print_physdisk_classic
 		# ioc0 phy 0 scsi_id 0 IBM-ESXS PYH146C3-ETS10FN RXQN, 136 GB, state ONLINE, flags NONE
+		# ioc0 phy 0 scsi_id 1 ATA      ST3808110AS      J   , 74 GB, state ONLINE, flags NONE
 		elsif (my($pioc, $num, $phy_id, $vendor, $prod_id, $rev, $size, $state, $flags) =
-			/^ioc(\d+)\s+ phy\s(\d+)\s scsi_id\s(\d+)\s (\S+)\s+(\S+)\s+(\S+),\s (\d+)\sGB,\s state\s(\S+),\s flags\s(.+)/x) {
+			/^ioc(\d+)\s+ phy\s(\d+)\s scsi_id\s(\d+)\s (\S+)\s+(\S+)\s+(\S+)\s*,\s (\d+)\sGB,\s state\s(\S+),\s flags\s(.+)/x) {
 			$pd{$num} = {
 				ioc => int($pioc),
 				num => int($num),
@@ -1081,7 +1083,7 @@ sub parse {
 				flags => [ split ' ', $flags ],
 			};
 		} else {
-			warn "mpt: [$_]\n";
+			warn "mpt unparsed: [$_]\n";
 			$this->unknown;
 		}
 	}
