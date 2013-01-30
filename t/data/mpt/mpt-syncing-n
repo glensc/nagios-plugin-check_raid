@@ -1,0 +1,5 @@
+ioc:0 vol_id:0 type:IM raidlevel:RAID-1 num_disks:2 size(GB):68 state: DEGRADED flags: ENABLED RESYNC_IN_PROGRESS
+ioc:0 phys_id:0 scsi_id:0 vendor:MAXTOR   product_id:ATLAS10K5_73SCA  revision:JNZH size(GB):68 state: ONLINE flags: NONE sync_state: 70 ASC/ASCQ:0x00/0x00 SMART ASC/ASCQ:0x00/0x00
+ioc:0 phys_id:1 scsi_id:1 vendor:MAXTOR   product_id:ATLAS10K4_73SCA  revision:DFV0 size(GB):68 state: ONLINE flags: OUT_OF_SYNC sync_state: 70 ASC/ASCQ:0x11/0x00 SMART ASC/ASCQ:0x5d/0x02
+scsi_id:0 70%
+scsi_id:1 70%

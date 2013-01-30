@@ -1015,6 +1015,7 @@ sub program_names {
 sub commands {
 	{
 		'status' => ['-|', '@CMD'],
+		'sync status' => ['-|', '@CMD', '-n'],
 	}
 }
 
@@ -1076,13 +1077,33 @@ sub parse {
 				# array of: OUT_OF_SYNC, QUIESCED or NONE
 				flags => [ split ' ', $flags ],
 			};
-			next;
 		} else {
 			warn "mpt: [$_]\n";
 			$this->unknown;
 		}
 	}
 	close $fh;
+
+	# extra parse, if mpt-status has -n flag, can process also resync state
+	# TODO: if -n becames default can do this all in one run
+	my $resyncing = grep {/RESYNC_IN_PROGRESS/} map { @{$_->{flags}} } values %ld;
+	if ($resyncing) {
+		my $fh = $this->cmd('sync status');
+		while (<$fh>) {
+			if (/^ioc:\d+/) {
+				# ignore
+			}
+			# mpt-status.c GetResyncPercentage
+			# scsi_id:0 70%
+			elsif (my($scsi_id, $percent) = /^scsi_id:(\d)+ (\d+)%/) {
+				$pd{$scsi_id}{resync} = int($percent);
+			} else {
+				warn "mpt: [$_]\n";
+				$this->unknown;
+			}
+		}
+		close $fh;
+	}
 
 	return {
 		'logical' => { %ld },
@@ -1110,7 +1131,11 @@ sub check {
 			$this->unknown;
 		}
 		if (grep { /RESYNC_IN_PROGRESS/ } @{$u->{flags}}) {
-			$s .= ' RESYNCING';
+			# find matching disks
+			my @disks = grep {$_->{ioc} eq $u->{ioc} } values %{$status->{physical}};
+			# collect percent for each disk
+			my @percent = map { $_->{resync}.'%'} @disks;
+			$s .= ' RESYNCING: '.join('/', @percent);
 		}
 		push(@status, "Volume $d ($u->{raid_level}, $u->{phy_disks} disks, $u->{size} GiB): $s");
 	}
