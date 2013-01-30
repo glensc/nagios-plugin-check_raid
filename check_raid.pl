@@ -1033,17 +1033,53 @@ sub parse {
 	my (%ld, %pd);
 	my $fh = $this->cmd('status');
 
+	my %VolumeTypesHuman = (
+		IS => 'RAID-0',
+		IME => 'RAID-1E',
+		IM => 'RAID-1',
+	);
+
 	while (<$fh>) {
+		# mpt-status.c __print_volume_classic
 		# ioc0 vol_id 0 type IM, 2 phy, 136 GB, state OPTIMAL, flags ENABLED
-		if (my($d, $s) = /^(?:\S+)\s+ vol_id\s(\d+)\s type\s(?:\S+),\s (?:\d+)\sphy,\s (?:\d+\s*.B),\s state\s(\S+),\s flags\s(\S+)/x) {
-			$ld{$d} = $s,
-			next;
+		if (my($vioc, $vol_id, $type, $disks, $vol_size, $vol_state, $vol_flags) =
+			/^ioc(\d+)\s+ vol_id\s(\d+)\s type\s(\S+),\s (\d+)\sphy,\s (\d+)\sGB,\s state\s(\S+),\s flags\s(.+)/x) {
+			$ld{$vol_id} = {
+				ioc => int($vioc),
+				vol_id => int($vol_id),
+				# one of: IS, IME, IM
+				vol_type => $type,
+				raid_level => $VolumeTypesHuman{$type},
+				phy_disks => int($disks),
+				size => int($vol_size),
+				# one of: OPTIMAL, DEGRADED, FAILED or UNKNOWN
+				status => $vol_state,
+				# array of: ENABLED, QUIESCED, RESYNC_IN_PROGRESS, VOLUME_INACTIVE, NONE
+				flags => [ split ' ', $vol_flags ],
+			};
 		}
 
+		# mpt-status.c __print_physdisk_classic
 		# ioc0 phy 0 scsi_id 0 IBM-ESXS PYH146C3-ETS10FN RXQN, 136 GB, state ONLINE, flags NONE
-		if (my($d, $s) = /^(?:\S+)\s+ phy\s(\d+)\s scsi_id\s(?:\d+)\s (?:\S+\s\S+\s\S+),\s (?:\d+\s*.B),\s state\s(\S+),\s flags\s(\S+)/x) {
-			$pd{$d} = $s;
+		elsif (my($pioc, $num, $phy_id, $vendor, $prod_id, $rev, $size, $state, $flags) =
+			/^ioc(\d+)\s+ phy\s(\d+)\s scsi_id\s(\d+)\s (\S+)\s+(\S+)\s+(\S+),\s (\d+)\sGB,\s state\s(\S+),\s flags\s(.+)/x) {
+			$pd{$num} = {
+				ioc => int($pioc),
+				num => int($num),
+				phy_id => int($phy_id),
+				vendor => $vendor,
+				prod_id => $prod_id,
+				rev => $rev,
+				size => int($size),
+				# one of: ONLINE, MISSING, NOT_COMPATIBLE, FAILED, INITIALIZING, OFFLINE_REQUESTED, FAILED_REQUESTED, OTHER_OFFLINE, UNKNOWN
+				status => $state,
+				# array of: OUT_OF_SYNC, QUIESCED, NONE
+				flags => [ split ' ', $flags ],
+			};
 			next;
+		} else {
+			warn "mpt: [$_]\n";
+			$this->unknown;
 		}
 	}
 
@@ -1062,7 +1098,8 @@ sub check {
 	my $status = $this->parse;
 
 	# process logical units
-	while (my($d, $s) = each %{$status->{logical}}) {
+	while (my($d, $u) = each %{$status->{logical}}) {
+		my $s = $u->{status};
 		next unless $this->valid($d);
 		if ($s =~ /INITIAL|INACTIVE|RESYNC/) {
 			$this->warning;
@@ -1075,7 +1112,8 @@ sub check {
 	}
 
 	# process phsyical units
-	while (my($d, $s) = each %{$status->{physical}}) {
+	while (my($d, $u) = each %{$status->{physical}}) {
+		my $s = $u->{status};
 		next if ($s eq "ONLINE");
 		# TODO: process other statuses
 		push(@status, "Physical Disk $d:$s");
