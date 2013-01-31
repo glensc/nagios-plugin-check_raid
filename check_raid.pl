@@ -2974,7 +2974,6 @@ sub print_active_plugins {
 		# print plugin name
 		print $plugin->{name}."\n";
 	}
-
 }
 
 Getopt::Long::Configure('bundling');
@@ -2985,7 +2984,7 @@ GetOptions("V" => \$opt_V, "version" => \$opt_V,
 	 "W" => \$opt_W, "warnonly" => \$opt_W,
 	 "p=s" => \$opt_p, "plugin=s" => \$opt_p,
 	 "l" => \$opt_l, "list-plugins" => \$opt_l
-);
+) or exit($ERRORS{UNKNOWN});
 
 if ($opt_S) {
 	sudoers;
@@ -3015,14 +3014,9 @@ if ($opt_l) {
 $status = $ERRORS{OK};
 $message = '';
 
-# go over all registered plugins
-foreach my $pn (@utils::plugins) {
-	if ($opt_p) {
-		if ($pn ne $opt_p) {
-			next;
-		}
-	}
+my @plugins = $opt_p ? grep { my $p = $_; grep { /^$p$/ } split(/,/, $opt_p) } @utils::plugins : @utils::plugins;
 
+foreach my $pn (@plugins) {
 	my $plugin = $pn->new;
 
 	# skip inactive plugins (disabled or no tools available)
@@ -3055,14 +3049,11 @@ if ($message) {
 	print "$message\n";
 } else {
 	$status = $ERRORS{UNKNOWN};
-	if ($opt_p) {
-		print "Invalid controller '".$opt_p."'\n";
-	} else {
-		print "No RAID configuration found.\n";
-	}
+	print "No RAID configuration found (tried: ", join(', ', @plugins), ")\n";
 }
 exit $status;
-}
+
+} # package main
 
 package SerialLine;
 # Package dealing with connecting to serial line and handling UUCP style locks.

@@ -46,7 +46,7 @@ Command line arguments
 
 	-d  --debug             Show debug information
 	-l  --list-plugins      Lists active plugins
-	-p  --plugin <name>     Force the use of selected plugin
+	-p  --plugin <name(s)>  Force the use of selected plugins, comma separated
 	-S  --sudoers           Configure /etc/sudoers file
 	-w  --warnonly          Don't send CRITICAL status
 
