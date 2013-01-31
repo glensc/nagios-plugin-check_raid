@@ -2879,7 +2879,7 @@ use strict;
 use warnings;
 use Getopt::Long;
 
-my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p,$opt_l);
+my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 my ($VERSION) = "3.0";
 my ($message, $status);
@@ -2963,7 +2963,7 @@ sub sudoers {
 
 # Print active plugins
 sub print_active_plugins {
-	
+
 	# go over all registered plugins
 	foreach my $pn (@utils::plugins) {
 		my $plugin = $pn->new;
@@ -2974,7 +2974,7 @@ sub print_active_plugins {
 		# print plugin name
 		print $plugin->{name}."\n";
 	}
-	
+
 }
 
 Getopt::Long::Configure('bundling');
@@ -2985,7 +2985,6 @@ GetOptions("V" => \$opt_V, "version" => \$opt_V,
 	 "W" => \$opt_W, "warnonly" => \$opt_W,
 	 "p=s" => \$opt_p, "plugin=s" => \$opt_p,
 	 "l" => \$opt_l, "list-plugins" => \$opt_l
-	 
 );
 
 if ($opt_S) {
@@ -3018,7 +3017,6 @@ $message = '';
 
 # go over all registered plugins
 foreach my $pn (@utils::plugins) {
-
 	if ($opt_p) {
 		if ($pn ne $opt_p) {
 			next;
