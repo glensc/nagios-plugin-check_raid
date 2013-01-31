@@ -11,17 +11,6 @@ Neccessary sudo rules (detected for your system), can be installed when
 `check_raid` is invoked with -S argument. You need to be root user and it
 will add required lines to the sudoers file.
 
-## Relese Notes
-
-This project is a fork from https://github.com/glensc/nagios-plugin-check_raid
-
-This version supports force the use a defined plugin. The consequence is a 
-improvement of execution time because is not needed initialize all plugins
-to execute the check.
-This version also lists the active plugins.... Usefull information to install the plugin
-
-
-
 ## Installing
 
 Download directly from github release (with wget or curl):
@@ -29,13 +18,13 @@ Download directly from github release (with wget or curl):
     wget https://raw.github.com/glensc/nagios-plugin-check_raid/master/check_raid.pl -O check_raid.pl
     curl https://raw.github.com/glensc/nagios-plugin-check_raid/master/check_raid.pl > check_raid.pl
     chmod +x check_raid
-    
+
 or download whole release tarball:
 
     wget https://github.com/glensc/nagios-plugin-check_raid/tarball/master/check_raid.tgz
     tar xzf check_raid.tgz
     cd glensc-nagios-plugin-check_raid-*
-    
+
 setup `sudo`
 
     ./check_raid.pl -S
@@ -55,13 +44,12 @@ for some RAIDs there's need to install extra tools, see [Supported RAIDs](#suppo
 
 Command line arguments
 
-	-d	--debug				Show debug information
-	-l	--list-plugins		Lists active plugins 	
-	-p	--plugin <name>		Force the use of selected plugin
-	-S	--sudoers			Configure /etc/sudoers file
-	-w	--warnonly			Don't send CRITICAL status
+	-d  --debug             Show debug information
+	-l  --list-plugins      Lists active plugins
+	-p  --plugin <name>     Force the use of selected plugin
+	-S  --sudoers           Configure /etc/sudoers file
+	-w  --warnonly          Don't send CRITICAL status
 
-	
 ## Supported RAIDs
 
 Supported RAIDs that can be checked:
