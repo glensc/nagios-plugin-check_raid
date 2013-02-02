@@ -29,8 +29,8 @@ my %sudo = (
 	cciss => [],
 
 	megacli => [
-		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/megacli -PDList -aALL -NoLog",
-		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/megacli -LdInfo -Lall -aALL -NoLog",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/MegaCli -PDList -aALL -NoLog",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/MegaCli -LdInfo -Lall -aALL -NoLog",
 	],
 	ips => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/ipssend getconfig 1 LD",
