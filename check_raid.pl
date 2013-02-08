@@ -1572,7 +1572,7 @@ sub check {
 
 			} elsif ($s eq 'REBUILDING') {
 				$this->warning;
-				push(@cstatus, "$u:$s $p% ");
+				push(@cstatus, "$u:$s $p");
 
 			} elsif ($s eq 'DEGRADED') {
 				$this->critical;

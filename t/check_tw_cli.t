@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 10;
+use Test::More tests => 15;
 use test;
 
 if (1) {
@@ -43,4 +43,22 @@ ok(defined($plugin->status), "status code set");
 ok($plugin->status == WARNING, "status code");
 print "[".$plugin->message."]\n";
 ok($plugin->message eq 'c0(9750-4i): u0:VERIFYING 16%, (disks: p0:OK p1:OK p2:OK p3:OK)');
+}
+
+if (1) {
+my $plugin = tw_cli->new(
+	commands => {
+		'info' => ['<', TESTDIR . '/data/tw_cli/3/lumpy-info'],
+		'unitstatus' => ['<', TESTDIR . '/data/tw_cli/3/lumpy-unitstatus'],
+		'drivestatus' => ['<', TESTDIR . '/data/tw_cli/3/lumpy-drivestatus'],
+	},
+);
+
+ok($plugin, "plugin created");
+$plugin->check;
+ok(1, "check ran");
+ok(defined($plugin->status), "status code set");
+ok($plugin->status == CRITICAL, "status code");
+print "[".$plugin->message."]\n";
+ok($plugin->message eq 'c0(9650SE-2LP): u0:REBUILDING 98%, (disks: p0:DEGRADED p1:OK)', "status message");
 }
