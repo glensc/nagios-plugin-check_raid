@@ -2102,7 +2102,7 @@ sub commands {
 		'controller status' => ['-|', '@CMD', '@devs'],
 
 		'detect cciss' => ['<', '/proc/driver/cciss'],
-		'cciss proc' => ['<', '/proc/scsi/cciss/$controller'],
+		'cciss proc' => ['<', '/proc/driver/cciss/$controller'],
 	}
 }
 
@@ -2230,7 +2230,7 @@ sub check {
 	my @status;
 
 	# add all devs at once, cciss_vol_status can do that
-	my $fh = $this->cmd('controller status', { '@devs' => \@devs });
+	my $fh = $this->cmd('controller status', { '@devs' => join(' ', @devs) });
 	while (<$fh>) {
 		chomp;
 		# strip for better pattern matching
@@ -2251,6 +2251,11 @@ sub check {
 		return;
 	}
 
+	# denote this plugin as ran ok
+	$this->ok;
+
+	$this->message(join(', ', @status));
+
 	# allow skip for testing
 	unless ($this->{no_smartctl}) {
 		# check also individual disk health
@@ -2262,13 +2267,14 @@ sub check {
 
 			my $smartctl = smartctl->new(%params);
 			$smartctl->check(@disks);
+
+			$this->message($this->message . " " .$smartctl->message);
+			if ($smartctl->status > 0) {
+				$this->critical;
+			}
 		}
 	}
 
-	# denote this plugin as ran ok
-	$this->ok;
-
-	$this->message(join(', ', @status));
 }
 
 package hp_msa;
