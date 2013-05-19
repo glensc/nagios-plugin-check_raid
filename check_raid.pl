@@ -2266,15 +2266,18 @@ sub check {
 			$params{commands}{smartctl} = $this->{commands}{smartctl} if $this->{commands}{smartctl};
 
 			my $smartctl = smartctl->new(%params);
-			$smartctl->check(@disks);
+			# do not perform check if smartctl is missing
+			if ($smartctl->active) {
+				$smartctl->check(@disks);
 
-			$this->message($this->message . " " .$smartctl->message);
-			if ($smartctl->status > 0) {
-				$this->critical;
+				# XXX this is hack, as we have no proper subcommand check support
+				$this->message($this->message . " " .$smartctl->message);
+				if ($smartctl->status > 0) {
+					$this->critical;
+				}
 			}
 		}
 	}
-
 }
 
 package hp_msa;
