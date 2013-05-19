@@ -2896,6 +2896,33 @@ sub find_file {
 	return undef;
 }
 
+sub print_usage() {
+	print join "\n",
+	"Usage: check_raid [-h] [-V] [-S] [list of devices to ignore]",
+	"",
+	"Options:",
+	" -h, --help",
+	"    Print help screen",
+	" -V, --version",
+	"    Print version information",
+	" -S, --sudoers",
+	"    Setup sudo rules",
+	" -W, --warnonly",
+	"    Treat CRITICAL errors as WARNING",
+	"";
+}
+
+sub print_help() {
+	print "check_raid, v$VERSION\n";
+	print "Copyright (c) 2004-2006 Steve Shipway, Copyright (c) 2009-2013, Elan Ruusamäe <glen\@pld-linux.org>
+
+This plugin reports the current server's RAID status
+https://github.com/glensc/nagios-plugin-check_raid
+
+";
+	print_usage();
+}
+
 sub sudoers {
 	# build values to be added
 	my @sudo;
