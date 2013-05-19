@@ -2909,6 +2909,10 @@ sub print_usage() {
 	"    Setup sudo rules",
 	" -W, --warnonly",
 	"    Treat CRITICAL errors as WARNING",
+	" -p, --plugin <name(s)>",
+	"    Force the use of selected plugins, comma separated",
+	" -l, --list-plugins",
+	"    Lists active plugins",
 	"";
 }
 
@@ -3006,7 +3010,6 @@ sub print_active_plugins {
 Getopt::Long::Configure('bundling');
 GetOptions("V" => \$opt_V, "version" => \$opt_V,
 	 "h" => \$opt_h, "help" => \$opt_h,
-	 "d" => \$opt_d, "debug" => \$opt_d,
 	 "S" => \$opt_S, "sudoers" => \$opt_S,
 	 "W" => \$opt_W, "warnonly" => \$opt_W,
 	 "p=s" => \$opt_p, "plugin=s" => \$opt_p,

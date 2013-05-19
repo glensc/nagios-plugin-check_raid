@@ -38,13 +38,12 @@ for some RAIDs there's need to install extra tools, see [Supported RAIDs](#suppo
 
 ## Usage
 
-	./check_raid.pl [-p|--plugin <name>] [-d|--debug] [-w|--warnonly]
+	./check_raid.pl [-p|--plugin <name>] [-w|--warnonly]
 	./check_raid.pl -S
 	./check_raid.pl -l
 
 Command line arguments
 
-	-d  --debug             Show debug information
 	-l  --list-plugins      Lists active plugins
 	-p  --plugin <name(s)>  Force the use of selected plugins, comma separated
 	-S  --sudoers           Configure /etc/sudoers file
