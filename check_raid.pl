@@ -293,7 +293,9 @@ sub cmd {
 	my $cb_ = sub {
 		my $param = shift;
 		if ($cb) {
-			return $cb->{$param} if ref $cb eq 'HASH' and exists $cb->{$param};
+			if (ref $cb eq 'HASH' and exists $cb->{$param}) {
+				return wantarray ? @{$cb->{$param}} : $cb->{$param};
+			}
 			return &$cb($param) if ref $cb eq 'CODE';
 		}
 
@@ -2230,7 +2232,7 @@ sub check {
 	my @status;
 
 	# add all devs at once, cciss_vol_status can do that
-	my $fh = $this->cmd('controller status', { '@devs' => join(' ', @devs) });
+	my $fh = $this->cmd('controller status', { '@devs' => \@devs });
 	while (<$fh>) {
 		chomp;
 		# strip for better pattern matching
