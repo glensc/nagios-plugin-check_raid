@@ -2605,8 +2605,10 @@ sub check {
 package hpacucli;
 use base 'plugin';
 
-# register
-push(@utils::plugins, __PACKAGE__);
+# register if cciss_vol_status is not available
+if (! -x utils::which('cciss_vol_status')) {
+	push(@utils::plugins, __PACKAGE__);
+}
 
 sub program_names {
 	__PACKAGE__;
