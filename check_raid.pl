@@ -11,7 +11,7 @@
 # 2004-2006 Steve Shipway, university of auckland,
 # http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
 # Steve Shipway Thanks M Carmier for megaraid section.
-# 2009-2012 Elan Ruusamäe <glen@pld-linux.org>
+# 2009-2013 Elan Ruusamäe <glen@pld-linux.org>
 
 # Requires: Perl 5.8 for the open(my $fh , '-|', @CMD) syntax.
 # You can workaround for earlier Perl it as:
@@ -67,8 +67,7 @@
 # - SAS2IRCU support
 # - Areca SATA RAID Support
 # Version 3.0:
-# - Rewritten to be more modular,
-#   this allows better code testing
+# - Rewritten to be more modular, this allows better code testing
 # - Improvements to plugins: arcconf, tw_cli, gdth
 
 use warnings;
@@ -85,6 +84,9 @@ our @plugins;
 
 # devices to ignore
 our @ignore;
+
+# debug level
+our $debug = 0;
 
 # paths for which()
 our @paths = split /:/, $ENV{'PATH'};
@@ -326,15 +328,18 @@ sub cmd {
 	if ($op eq '=' and ref $cb eq 'SCALAR') {
 		# Special: use open2
 		use IPC::Open2;
+		warn "DEBUG EXEC: @cmd" if $utils::debug;
 		my $pid = open2($fh, $$cb, @cmd) or croak "open2 failed: @cmd: $!";
 
 	} else {
+		warn "DEBUG EXEC: @cmd" if $utils::debug;
 		open($fh, $op, @cmd) or croak "open failed: @cmd: $!";
 	}
 
 	# for dir handles, reopen as opendir
 	if (-d $fh) {
 		undef($fh);
+		warn "DEBUG OPENDIR: $cmd[0]" if $utils::debug;
 		opendir($fh, $cmd[0]) or croak "opendir failed: @cmd: $!";
 	}
 
@@ -3019,12 +3024,14 @@ sub print_active_plugins {
 }
 
 Getopt::Long::Configure('bundling');
-GetOptions("V" => \$opt_V, "version" => \$opt_V,
-	 "h" => \$opt_h, "help" => \$opt_h,
-	 "S" => \$opt_S, "sudoers" => \$opt_S,
-	 "W" => \$opt_W, "warnonly" => \$opt_W,
-	 "p=s" => \$opt_p, "plugin=s" => \$opt_p,
-	 "l" => \$opt_l, "list-plugins" => \$opt_l
+GetOptions(
+	'V' => \$opt_V, 'version' => \$opt_V,
+	'd' => \$opt_d,
+	'h' => \$opt_h, 'help' => \$opt_h,
+	'S' => \$opt_S, 'sudoers' => \$opt_S,
+	'W' => \$opt_W, 'warnonly' => \$opt_W,
+	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
+	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});
 
 if ($opt_S) {
@@ -3054,6 +3061,7 @@ if ($opt_l) {
 
 $status = $ERRORS{OK};
 $message = '';
+$utils::debug = $opt_d;
 
 my @plugins = $opt_p ? grep { my $p = $_; grep { /^$p$/ } split(/,/, $opt_p) } @utils::plugins : @utils::plugins;
 

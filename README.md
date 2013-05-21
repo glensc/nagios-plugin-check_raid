@@ -44,10 +44,12 @@ for some RAIDs there's need to install extra tools, see [Supported RAIDs](#suppo
 
 Command line arguments
 
-	-l  --list-plugins      Lists active plugins
-	-p  --plugin <name(s)>  Force the use of selected plugins, comma separated
+	-V  --version           Print check_raid version
+	-d                      Produce some debug output
 	-S  --sudoers           Configure /etc/sudoers file
-	-w  --warnonly          Don't send CRITICAL status
+	-W  --warnonly          Don't send CRITICAL status
+	-p  --plugin <name(s)>  Force the use of selected plugins, comma separated
+	-l  --list-plugins      Lists active plugins
 
 ## Supported RAIDs
 
