@@ -87,8 +87,9 @@ Project entry in Nagios Exchange: http://exchange.nagios.org/directory/Plugins/H
 ## Copyright
 License: GPL v2
 
-(c) 2004-2006 Steve Shipway, university of auckland,
+(c) 2004-2006 Steve Shipway (code up to version 2.1), university of auckland,
 http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
 Steve Shipway Thanks M Carmier for megaraid section.
 
-(c) 2009-2012 Elan Ruusamäe <glen@pld-linux.org>
+(c) 2009-2013 Elan Ruusamäe <glen@pld-linux.org> (maintainer from version 2.1 and upwards)
+
