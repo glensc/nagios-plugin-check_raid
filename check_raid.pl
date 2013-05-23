@@ -328,8 +328,13 @@ sub cmd {
 	if ($op eq '=' and ref $cb eq 'SCALAR') {
 		# Special: use open2
 		use IPC::Open2;
-		warn "DEBUG EXEC: @cmd" if $utils::debug;
+		warn "DEBUG EXEC: $op @cmd" if $utils::debug;
 		my $pid = open2($fh, $$cb, @cmd) or croak "open2 failed: @cmd: $!";
+	} elsif ($op eq '>&2') {
+		# Special: same as '|-' but reads both STDERR and STDOUT
+		use IPC::Open3;
+		warn "DEBUG EXEC: $op @cmd" if $utils::debug;
+		my $pid = open3(undef, $fh, $cb, @cmd);
 
 	} else {
 		warn "DEBUG EXEC: @cmd" if $utils::debug;
