@@ -6,30 +6,32 @@ identified.
 This is supposed to be a general plugin to run via NRPE.
 It checks for the various RAID systems, and verifies they are working correctly.
 
-Some checks require root permission, that is acomplished using sudo.
-Neccessary sudo rules (detected for your system), can be installed when
-`check_raid` is invoked with -S argument. You need to be root user and it
-will add required lines to the sudoers file.
+Some checks require root permission, that is acomplished using `sudo`.
+Neccessary `sudo` rules (detected for your system), can be installed when
+`check_raid` is invoked with `-S` argument. You need to be `root` user and it
+will add required lines to the `sudoers` file.
 
 ## Installing
 
-Download directly from github release (with wget or curl):
+Download directly from github master (with wget or curl):
 
     wget https://raw.github.com/glensc/nagios-plugin-check_raid/master/check_raid.pl -O check_raid.pl
     curl https://raw.github.com/glensc/nagios-plugin-check_raid/master/check_raid.pl > check_raid.pl
-    chmod +x check_raid
+    chmod +x check_raid.pl
 
-or download whole release tarball:
+or download in tar format master checkout:
 
     wget https://github.com/glensc/nagios-plugin-check_raid/tarball/master/check_raid.tgz
     tar xzf check_raid.tgz
     cd glensc-nagios-plugin-check_raid-*
 
-setup `sudo`
+you can grab older releases under [tags](https://github.com/glensc/nagios-plugin-check_raid/tags) button
+
+next, setup `sudo`
 
     ./check_raid.pl -S
 
-test run
+test run:
 
     ./check_raid.pl
 
