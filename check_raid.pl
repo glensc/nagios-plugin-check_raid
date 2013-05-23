@@ -69,6 +69,8 @@
 # Version 3.0:
 # - Rewritten to be more modular, this allows better code testing
 # - Improvements to plugins: arcconf, tw_cli, gdth, cciss
+# Version 3.0.1:
+# - Fixes to cciss plugin, improvements in mpt, areca, mdstat plugins
 
 use warnings;
 use strict;
@@ -2902,7 +2904,7 @@ use Getopt::Long;
 
 my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
-my ($VERSION) = "3.0";
+my ($VERSION) = "3.0.1";
 my ($message, $status);
 
 #####################################################################
