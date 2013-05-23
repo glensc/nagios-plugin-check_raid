@@ -47,9 +47,9 @@
 # - Areca SATA RAID Support via cli64/cli32
 #
 # Changes:
-# Version 1.1 : IPS; Solaris, AIX, Linux software RAID; megaide
-# Version 2.0 : Added megaraid, mpt (serveraid), aaccli (serveraid)
-# Version 2.1 :
+# Version 1.1: IPS; Solaris, AIX, Linux software RAID; megaide
+# Version 2.0: Added megaraid, mpt (serveraid), aaccli (serveraid)
+# Version 2.1:
 # - Made script more generic and secure
 # - Added gdth
 # - Added dpt_i2o
@@ -68,7 +68,7 @@
 # - Areca SATA RAID Support
 # Version 3.0:
 # - Rewritten to be more modular, this allows better code testing
-# - Improvements to plugins: arcconf, tw_cli, gdth
+# - Improvements to plugins: arcconf, tw_cli, gdth, cciss
 
 use warnings;
 use strict;
@@ -2135,7 +2135,7 @@ sub sudo {
 
 	my @cciss_disks = $this->detect_disks(@cciss_devs);
 	if (@cciss_disks) {
-		my $smartctl = new smartctl;
+		my $smartctl = smartctl->new();
 		my $cmd = $smartctl->{program};
 		foreach my $ref (@cciss_disks) {
 			my ($dev, $diskopt, $disk) = @$ref;
