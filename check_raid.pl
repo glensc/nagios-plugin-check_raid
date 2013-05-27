@@ -700,6 +700,9 @@ package megacli;
 # http://www.bxtra.net/Articles/2008-09-16/Dell-Perc6i-RAID-Monitoring-Script-using-MegaCli-LSI-CentOS-52-64-bits
 # TODO: http://www.techno-obscura.com/~delgado/code/check_megaraid_sas
 # TODO: process several adapters
+# TODO: process drive temperatures
+# TODO: check error counts
+# TODO: hostspare information
 use base 'plugin';
 
 # register
