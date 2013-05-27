@@ -432,9 +432,37 @@ sub commands {
 	}
 }
 
+# lists contoller devices, sg if present, otherwise first logical drive for
+# each host controller
+sub list_sg {
+	my $this = shift;
+
+	my @devs = $this->scan;
+
+	# try 1: see if we have any sg node present
+	my @sg = (); #map { $_->{sgnode} } grep { $_->{type} eq 'storage' && $_->{sgnode} } @devs;
+	return wantarray ? @sg : \@sg;
+}
+
+# list disk nodes one for each controller
+sub list_dd {
+	my $this = shift;
+
+	my @devs = $this->scan;
+	use Data::Dumper;
+	print Dumper \@devs;
+	my @sg = map { $_->{devnode} } grep { $_->{devnode} ne '-' && $_->{sgnode} } @devs;
+	print Dumper \@sg;
+die;
+	return wantarray ? @sg : \@sg;
+}
+
 # scan lsscsi output
 sub scan {
 	my $this = shift;
+
+	# cache inside single run
+	return wantarray ? @{$this->{sdevs}} : $this->{sdevs} if $this->{sdevs};
 
 	# Scan such output:
 	# [0:0:0:0]    disk    HP       LOGICAL VOLUME   3.00  /dev/sda   /dev/sg0
@@ -469,6 +497,7 @@ sub scan {
 	}
 	close $fh;
 
+	$this->{sdevs} = \@sdevs;
 	return wantarray ? @sdevs : \@sdevs;
 }
 
@@ -2819,6 +2848,7 @@ sub commands {
 	{
 		'detect hpsa' => ['<', '/sys/module/hpsa/refcnt'],
 		'controller status' => ['-|', '@CMD', '@devs'],
+		'cciss_vol_status version' => ['>&2', '@CMD', '-v'],
 
 		'detect cciss' => ['<', '/proc/driver/cciss'],
 		'cciss proc' => ['<', '/proc/driver/cciss/$controller'],
@@ -2863,6 +2893,18 @@ sub detect {
 	my $this = shift;
 
 	my ($fh, @devs);
+
+	# try lsscsi first
+	my $lsscsi = lsscsi->new();
+	if ($lsscsi->active) {
+		@devs = $lsscsi->list_sg;
+
+		# cciss_vol_status 1.10 can process disk nodes too if sg is not present
+		my $v1_10 = $this->cciss_vol_status_version >= 1.10;
+		@devs = $lsscsi->list_dd if not @devs && $v1_10;
+
+		return wantarray ? @devs : \@devs if @devs;
+	}
 
 	# check hpsa devs
 	eval { $fh = $this->cmd('detect hpsa'); };
@@ -2934,6 +2976,21 @@ sub detect_disks {
 		}
 	}
 	return wantarray ? @devs : \@devs;
+}
+
+# parse version out of "cciss_vol_status version 1.09"
+# NOTE: it prints the output to stderr, but may print to stdout in the future
+sub cciss_vol_status_version {
+	my $this = shift;
+	my $fh = $this->cmd('cciss_vol_status version');
+	my ($line) = <$fh>;
+	close $fh;
+	return 0 unless $line;
+
+	if (my($version) = $line =~ /^cciss_vol_status version ([\d.]+)$/) {
+		return 0 + $version;
+	}
+	return 0;
 }
 
 sub check {
