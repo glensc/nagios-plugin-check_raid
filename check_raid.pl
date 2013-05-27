@@ -373,11 +373,6 @@ sub commands {
 	}
 }
 
-sub sudo {
-	# does not need sudo
-	return 0;
-}
-
 # scan lsscsi output
 sub scan {
 	my $this = shift;
