@@ -45,6 +45,7 @@
 # - Serveraid IPS via ipssend
 # - Solaris software RAID via metastat
 # - Areca SATA RAID Support via cli64/cli32
+# - Detecting SCSI devices or hosts with lsscsi
 #
 # Changes:
 # Version 1.1: IPS; Solaris, AIX, Linux software RAID; megaide
@@ -71,6 +72,8 @@
 # - Improvements to plugins: arcconf, tw_cli, gdth, cciss
 # Version 3.0.1:
 # - Fixes to cciss plugin, improvements in mpt, areca, mdstat plugins
+# Version 3.0.x:
+# - Detecting SCSI devices or hosts with lsscsi
 
 use warnings;
 use strict;
@@ -354,6 +357,66 @@ sub cmd {
 }
 
 } # package plugin
+
+package lsscsi;
+use base 'plugin';
+
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	__PACKAGE__;
+}
+
+sub commands {
+	{
+		'lsscsi list' => ['-|', '@CMD', '-g'],
+	}
+}
+
+sub sudo {
+	# does not need sudo
+	return 0;
+}
+
+# scan lsscsi output
+sub scan {
+	my $this = shift;
+
+	# Scan such output:
+	# [0:0:0:0]    disk    HP       LOGICAL VOLUME   3.00  /dev/sda   /dev/sg0
+	# [0:3:0:0]    storage HP       P410i            3.00  -          /dev/sg1
+	# or without sg driver:
+	# [0:0:0:0]    disk    HP       LOGICAL VOLUME   3.00  /dev/sda   -
+	# [0:3:0:0]    storage HP       P410i            3.00  -          -
+
+	my $fh = $this->cmd('lsscsi list');
+	my @sdevs;
+	while (<$fh>) {
+		chop;
+		if (my($hctl, $type, $vendor, $model, $rev, $devnode, $sgnode) = m{^
+			\[([\d:]+)\] # SCSI Controller, SCSI bus, SCSI target, and SCSI LUN
+			\s+(\S+) # type
+			\s+(\S+) # vendor
+			\s+(.*?) # model, match everything as it may contain spaces
+			\s+(\S+) # revision
+			\s+((?:/dev/\S+|-)) # /dev node
+			\s+((?:/dev/\S+|-)) # /dev/sg node
+		}x) {
+			push(@sdevs, {
+				'hctl' => $hctl,
+				'type' => $type,
+				'vendor' => $vendor,
+				'model' => $model,
+				'rev' => $rev,
+				'devnode' => $devnode,
+				'sgnode' => $sgnode,
+			});
+		}
+	}
+	close $fh;
+
+	return wantarray ? @sdevs : \@sdevs;
+}
 
 package metastat;
 # Solaris, software RAID
@@ -2228,10 +2291,8 @@ sub detect_disks {
 	return wantarray ? @devs : \@devs;
 }
 
-# @param devices for cciss_vol_status, i.e /dev/cciss/c*d0 /dev/sg*
 sub check {
 	my $this = shift;
-
 	my @devs = $this->detect;
 
 	unless (@devs) {
@@ -3077,6 +3138,9 @@ foreach my $pn (@plugins) {
 
 	# skip inactive plugins (disabled or no tools available)
 	next unless $plugin->active;
+	# skip if no check method (not standalone checker)
+	next unless $plugin->can('check');
+
 	# perform the check
 	$plugin->check;
 
