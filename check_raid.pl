@@ -746,6 +746,8 @@ sub check {
 			# strip the extra state:
 			# 'Online, Spun Up'
 			# 'Hotspare, Spun down'
+			# 'Hotspare, Spun Up'
+			# 'Unconfigured(good), Spun down'
 			$s =~ s/,.+//;
 			$cur{state} = $s;
 			next;
@@ -793,6 +795,10 @@ sub check {
 	foreach my $dev (@devs) {
 		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare') {
 			push(@{$dstatus{$dev->{state}}}, sprintf "%02d", $dev->{dev});
+
+		} elsif ($dev->{state} =~ m/Unconfigured/) {
+			# just ignore?
+
 		} else {
 			$this->critical;
 			# TODO: process other statuses
@@ -800,7 +806,9 @@ sub check {
 		}
 	}
 
-	push(@status, ($#vols + 1) . ' Vols: ' . join(',', @vstatus) . ', '. ($#devs + 1) . ' Devs: ' . $this->join_status(\%dstatus));
+	push(@status,
+		'Volumes(' . ($#vols + 1) . '): ' . join(',', @vstatus) .
+		'; Devices('. ($#devs + 1) . '): ' . $this->join_status(\%dstatus));
 
 	return unless @status;
 
