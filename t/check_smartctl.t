@@ -26,4 +26,4 @@ ok(1, "check ran");
 ok(defined($plugin->status), "status code set");
 ok($plugin->status == OK, "status code");
 print "[".$plugin->message."]\n";
-ok($plugin->message eq '/dev/cciss/c0d0#0: OK', "status message");
+ok($plugin->message eq '/dev/cciss/c0d0#0=OK', "status message");

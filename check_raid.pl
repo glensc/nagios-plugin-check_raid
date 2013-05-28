@@ -241,7 +241,7 @@ sub join_status {
 		foreach my $disk (@$disks) {
 			push(@s, $disk);
 		}
-		push(@status, join(',', @s).': '.$status);
+		push(@status, join(',', @s).'='.$status);
 	}
 
 	return join ' ', @status;
