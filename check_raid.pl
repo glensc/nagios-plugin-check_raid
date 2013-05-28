@@ -747,9 +747,13 @@ sub check {
 
 		if (my($s) = /Firmware state: (.+)/) {
 			# strip the extra state:
-			# 'Online, Spun Up'
-			# 'Hotspare, Spun down'
 			# 'Hotspare, Spun Up'
+			# 'Hotspare, Spun down'
+			# 'Online, Spun Up'
+			# 'Online, Spun Up'
+			# 'Online, Spun down'
+			# 'Unconfigured(bad)'
+			# 'Unconfigured(good), Spun Up'
 			# 'Unconfigured(good), Spun down'
 			$s =~ s/,.+//;
 			$cur{state} = $s;
@@ -796,11 +800,8 @@ sub check {
 
 	my %dstatus;
 	foreach my $dev (@devs) {
-		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare') {
+		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare' || $dev->{state} eq 'Unconfigured(good)') {
 			push(@{$dstatus{$dev->{state}}}, sprintf "%02d", $dev->{dev});
-
-		} elsif ($dev->{state} =~ m/Unconfigured/) {
-			# just ignore?
 
 		} else {
 			$this->critical;
