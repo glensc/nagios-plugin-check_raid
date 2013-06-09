@@ -1833,6 +1833,8 @@ sub parse {
 			$this->parse_error($_);
 		}
 
+		next unless defined $section;
+
 		if ($section eq 'Controller information') {
 			# TODO: battery stuff is under subsection "Controller Battery Information"
 			if (my($s) = /Controller Status\s*:\s*(.+)/) {
@@ -1862,13 +1864,13 @@ sub parse {
 		} elsif ($section eq 'Physical Device information') {
 			# nothing useful
 
-		} elsif ($section =~ /Logical device information/) {
-			if (my($n) = /Logical device number (\d+)/) {
+		} elsif ($section =~ /Logical (device|drive) information/) {
+			if (my($n) = /Logical (?:device|drive) number (\d+)/) {
 				$ld = int($n);
 				$ld[$ld]{id} = $n;
-			} elsif (my($s) = /Status of logical device\s+:\s+(.+)/) {
+			} elsif (my($s) = /Status of logical (?:device|drive)\s+:\s+(.+)/) {
 				$ld[$ld]{status} = $s;
-			} elsif (my($ln) = /Logical device name\s+:\s+(.+)/) {
+			} elsif (my($ln) = /Logical (?:device|drive) name\s+:\s+(.+)/) {
 				$ld[$ld]{name} = $ln;
 			} elsif (my($rl) = /RAID level\s+:\s+(.+)/) {
 				$ld[$ld]{raid} = $rl;
@@ -1876,9 +1878,15 @@ sub parse {
 				$ld[$ld]{size} = $sz;
 			} elsif (my($fs) = /Failed stripes\s+:\s+(.+)/) {
 				$ld[$ld]{failed_stripes} = $fs;
+			} else {
+				#   Write-cache mode                         : Not supported]
+				#   Partitioned                              : Yes]
+				#   Number of segments                       : 2]
+				#   Drive(s) (Channel,Device)                : 0,0 0,1]
+				#   Defunct segments                         : No]
 			}
 		} else {
-			warn "[$section] [$_]\n";
+			warn "NOT PARSED: [$section] [$_]\n";
 		}
 	}
 
