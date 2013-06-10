@@ -71,8 +71,8 @@ ok($plugin->message eq 'Controller:Optimal, Logical device #0: Build/Verify: In 
 if (1) {
 my $plugin = arcconf->new(
 	commands => {
-		'getstatus' => ['<', $cwd. '/data/arcconf/1/getstatus'], # FIXME wrong data
-		'getconfig' => ['<', $cwd. '/data/arcconf/4/getconfig'],
+		'getstatus' => ['<', $cwd. '/data/arcconf/4/arcconf_getstatus_1.out'],
+		'getconfig' => ['<', $cwd. '/data/arcconf/4/arcconf_getconfig_1_al.out'],
 	},
 );
 
@@ -83,5 +83,5 @@ ok(1, "check ran");
 ok(defined($plugin->status), "status code set");
 ok($plugin->status == OK, "status OK");
 print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Controller:Okay, Logical Device :, Failed stripes: , Logical Device 1(MailMerak):Okay, Failed stripes: ');
+ok($plugin->message eq 'Controller:Okay, Logical Device 1(MailMerak):Okay');
 }

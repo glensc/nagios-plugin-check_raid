@@ -1,12 +1,10 @@
-# ARCCONF version 9.30
-# ./arcconf GETCONFIG 1 AL
 Controllers found: 1
 ----------------------------------------------------------------------
 Controller information
 ----------------------------------------------------------------------
    Controller Status                        : Okay
    Channel description                      : SAS/SATA
-   Controller Model                         : IBM ServeRAID 8k-l
+   Controller Model                         : IBM ServeRAID 8k-l  
    Controller Serial Number                 : 3838736
    Physical Slot                            : 0
    Installed memory                         : 32 MB
@@ -43,7 +41,7 @@ Logical drive number 1
    Write-cache mode                         : Not supported
    Partitioned                              : Yes
    Number of segments                       : 2
-   Drive(s) (Channel,Device)                : 0,0 0,1
+   Drive(s) (Channel,Device)                : 0,0 0,1 
    Defunct segments                         : No
 
 ----------------------------------------------------------------------

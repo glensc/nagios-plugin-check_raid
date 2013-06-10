@@ -74,6 +74,7 @@
 # - Fixes to cciss plugin, improvements in mpt, areca, mdstat plugins
 # Version 3.0.x:
 # - Detecting SCSI devices or hosts with lsscsi
+# - Updated to handle ARCCONF 9.30 output
 
 use warnings;
 use strict;
@@ -1845,6 +1846,11 @@ sub parse {
 				$c{logical_count} = int($td);
 				$c{logical_failed} = int($fd);
 				$c{logical_degraded} = int($fd);
+			} elsif (my($td2, $fd2, $dd2) = m{Logical drives/Offline/Critical\s*:\s*(\d+)/(\d+)/(\d+)}) {
+				# ARCCONF 9.30
+				$c{logical_count} = int($td2);
+				$c{logical_offline} = int($fd2);
+				$c{logical_critical} = int($fd2);
 			} elsif (my($bs) = /Status\s*:\s*(.*)$/) {
 				# This could be ZMM status as well
 				if ($bs =~ /ZMM/) {
@@ -1878,6 +1884,8 @@ sub parse {
 				$ld[$ld]{size} = $sz;
 			} elsif (my($fs) = /Failed stripes\s+:\s+(.+)/) {
 				$ld[$ld]{failed_stripes} = $fs;
+			} elsif (my($ds) = /Defunct segments\s+:\s+(.+)/) {
+				$ld[$ld]{defunct_segments} = $ds;
 			} else {
 				#   Write-cache mode                         : Not supported]
 				#   Partitioned                              : Yes]
@@ -1908,7 +1916,7 @@ sub check {
 
 	# check for controller status
 	for my $c ($ctrl->{controller}) {
-		$this->critical if $c->{status} ne 'Optimal';
+		$this->critical if $c->{status} !~ /Optimal|Okay/;
 		push(@status, "Controller:$c->{status}");
 
 		if ($c->{defunct_count} > 0) {
@@ -1916,12 +1924,27 @@ sub check {
 			push(@status, "Defunct drives:$c->{defunct_count}");
 		}
 
-		if ($c->{logical_failed} > 0) {
+		if (defined $c->{logical_failed} && $c->{logical_failed} > 0) {
 			$this->critical;
 			push(@status, "Failed drives:$c->{logical_failed}");
 		}
 
-		if ($c->{logical_degraded} > 0) {
+		if (defined $c->{logical_degraded} && $c->{logical_degraded} > 0) {
+			$this->critical;
+			push(@status, "Degraded drives:$c->{logical_degraded}");
+		}
+
+		if (defined $c->{logical_offline} && $c->{logical_offline} > 0) {
+			$this->critical;
+			push(@status, "Offline drives:$c->{logical_offline}");
+		}
+
+		if (defined $c->{logical_critical} && $c->{logical_critical} > 0) {
+			$this->critical;
+			push(@status, "Critical drives:$c->{logical_critical}");
+		}
+
+		if (defined $c->{logical_degraded} && $c->{logical_degraded} > 0) {
 			$this->critical;
 			push(@status, "Degraded drives:$c->{logical_degraded}");
 		}
@@ -1972,15 +1995,21 @@ sub check {
 
 	# check for logical device
 	for my $ld (@{$ctrl->{logical}}) {
-		$this->critical if $ld->{status} ne 'Optimal';
+		next unless $ld; # FIXME: fix that script assumes controllers start from '0'
+
+		$this->critical if $ld->{status} !~ /Optimal|Okay/;
+
 		my $id = $ld->{id};
 		if ($ld->{name}) {
 			$id = "$id($ld->{name})";
 		}
 		push(@status, "Logical Device $id:$ld->{status}");
 
-		if ($ld->{failed_stripes} ne 'No') {
+		if (defined $ld->{failed_stripes} && $ld->{failed_stripes} ne 'No') {
 			push(@status, "Failed stripes: $ld->{failed_stripes}");
+		}
+		if (defined $ld->{defunct_segments} && $ld->{defunct_segments} ne 'No') {
+			push(@status, "Defunct segments: $ld->{defunct_segments}");
 		}
 	}
 
