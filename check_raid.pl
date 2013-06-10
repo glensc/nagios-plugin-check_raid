@@ -19,10 +19,11 @@
 # http://perldoc.perl.org/perl58delta.html#PerlIO-is-Now-The-Default
 #
 # License: GPL v2
-# URL in VCS: https://github.com/glensc/nagios-plugin-check_raid
-# URL in Nagios Exchange: http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
-# Visit github page to report issues and send pull requests,
-# you can also mail them directly to Elan Ruusamäe <glen@pld-linux.org>,
+# Homepage: https://github.com/glensc/nagios-plugin-check_raid
+# Nagios Exchange Entry: http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
+# Reporting Bugs: https://github.com/glensc/nagios-plugin-check_raid#reporting-bugs
+#
+# You can also mail patches directly to Elan Ruusamäe <glen@pld-linux.org>,
 # but please attach them in unified format (diff -u) against latest version in github.
 #
 # Supports:
