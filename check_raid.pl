@@ -615,7 +615,11 @@ sub check {
 		# same for linear, no $md_status available
 		if ($md{personality} =~ /linear|raid0/) {
 			$s .= "OK";
-
+			
+		} elsif ($md{resync_status}) {
+			$this->warning;
+			$s .= "$md{status} ($md{resync_status})";
+			
 		} elsif ($md{status} =~ /_/) {
 			$this->critical;
 			$s .= "F:". join(",", @{$md{failed_disks}}) .":$md{status}";
@@ -624,10 +628,6 @@ sub check {
 			# FIXME: this is same as above?
 			$this->warning;
 			$s .= "hot-spare failure:". join(",", @{$md{failed_disks}}) .":$md{status}";
-
-		} elsif ($md{resync_status}) {
-			$this->warning;
-			$s .= "$md{status} ($md{resync_status})";
 
 		} else {
 			$s .= "$md{status}";
