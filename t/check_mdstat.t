@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 34;
+use Test::More tests => 58;
 use test;
 
 my @tests = (
@@ -35,6 +35,22 @@ my @tests = (
 	},
 	{ input => 'mdstat-inexistent',
 		active => 0,
+	},
+	{ input => 'pr24', status => WARNING,
+		active => 1,
+		message => 'md2(2.73 TiB raid1):UU, md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
+	},
+	{ input => 'pr28_0', status => CRITICAL,
+		active => 1,
+		message => 'md1(927.52 GiB raid1):F::_U, md0(203.81 MiB raid1):F::_U',
+	},
+	{ input => 'pr28_1', status => WARNING,
+		active => 1,
+		message => 'md1(927.52 GiB raid1):F::_U, md0(203.81 MiB raid1):F::_U',
+	},
+	{ input => 'pr28_2', status => WARNING,
+		active => 1,
+		message => 'md1(927.52 GiB raid1):UU, md0(203.81 MiB raid1):F::_U',
 	},
 );
 
