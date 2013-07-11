@@ -1150,12 +1150,20 @@ sub parse {
 			};
 		}
 
+		# ./include/lsi/mpi_cnfg.h
+		# typedef struct _RAID_PHYS_DISK_INQUIRY_DATA
+		# {
+		#   U8 VendorID[8];            /* 00h */
+		#   U8 ProductID[16];          /* 08h */
+		#   U8 ProductRevLevel[4];     /* 18h */
+		#   U8 Info[32];               /* 1Ch */
+		# }
 		# mpt-status.c __print_physdisk_classic
 		# ioc0 phy 0 scsi_id 0 IBM-ESXS PYH146C3-ETS10FN RXQN, 136 GB, state ONLINE, flags NONE
 		# ioc0 phy 0 scsi_id 1 ATA      ST3808110AS      J   , 74 GB, state ONLINE, flags NONE
 		# ioc0 phy 0 scsi_id 1 ATA      Hitachi HUA72101 AJ0A, 931 GB, state ONLINE, flags NONE
 		elsif (my($pioc, $num, $phy_id, $vendor, $prod_id, $rev, $size, $state, $flags) =
-			/^ioc(\d+)\s+ phy\s(\d+)\s scsi_id\s(\d+)\s (\S+)\s+(\S+).+(\S+)\s*,\s (\d+)\sGB,\s state\s(\S+),\s flags\s(.+)/x) {
+			/^ioc(\d+)\s+ phy\s(\d+)\s scsi_id\s(\d+)\s (.{8})\s+(.{16})\s+(.{4})\s*,\s (\d+)\sGB,\s state\s(\S+),\s flags\s(.+)/x) {
 			$pd{$num} = {
 				ioc => int($pioc),
 				num => int($num),
