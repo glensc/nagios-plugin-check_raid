@@ -11,7 +11,7 @@
 # 2004-2006 Steve Shipway, university of auckland,
 # http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
 # Steve Shipway Thanks M Carmier for megaraid section.
-# 2009-2012 Elan Ruusamäe <glen@pld-linux.org>
+# 2009-2013 Elan Ruusamäe <glen@pld-linux.org>
 
 # Requires: Perl 5.8 for the open(my $fh , '-|', @CMD) syntax.
 # You can workaround for earlier Perl it as:
@@ -19,10 +19,11 @@
 # http://perldoc.perl.org/perl58delta.html#PerlIO-is-Now-The-Default
 #
 # License: GPL v2
-# URL in VCS: https://github.com/glensc/nagios-plugin-check_raid
-# URL in Nagios Exchange: http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
-# Visit github page to report issues and send pull requests,
-# you can also mail them directly to Elan Ruusamäe <glen@pld-linux.org>,
+# Homepage: https://github.com/glensc/nagios-plugin-check_raid
+# Nagios Exchange Entry: http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
+# Reporting Bugs: https://github.com/glensc/nagios-plugin-check_raid#reporting-bugs
+#
+# You can also mail patches directly to Elan Ruusamäe <glen@pld-linux.org>,
 # but please attach them in unified format (diff -u) against latest version in github.
 #
 # Supports:
@@ -45,11 +46,12 @@
 # - Serveraid IPS via ipssend
 # - Solaris software RAID via metastat
 # - Areca SATA RAID Support via cli64/cli32
+# - Detecting SCSI devices or hosts with lsscsi
 #
 # Changes:
-# Version 1.1 : IPS; Solaris, AIX, Linux software RAID; megaide
-# Version 2.0 : Added megaraid, mpt (serveraid), aaccli (serveraid)
-# Version 2.1 :
+# Version 1.1: IPS; Solaris, AIX, Linux software RAID; megaide
+# Version 2.0: Added megaraid, mpt (serveraid), aaccli (serveraid)
+# Version 2.1:
 # - Made script more generic and secure
 # - Added gdth
 # - Added dpt_i2o
@@ -67,9 +69,13 @@
 # - SAS2IRCU support
 # - Areca SATA RAID Support
 # Version 3.0:
-# - Rewritten to be more modular,
-#   this allows better code testing
-# - Improvements to plugins: arcconf, tw_cli, gdth
+# - Rewritten to be more modular, this allows better code testing
+# - Improvements to plugins: arcconf, tw_cli, gdth, cciss
+# Version 3.0.1:
+# - Fixes to cciss plugin, improvements in mpt, areca, mdstat plugins
+# Version 3.0.x:
+# - Detecting SCSI devices or hosts with lsscsi
+# - Updated to handle ARCCONF 9.30 output
 
 use warnings;
 use strict;
@@ -85,6 +91,9 @@ our @plugins;
 
 # devices to ignore
 our @ignore;
+
+# debug level
+our $debug = 0;
 
 # paths for which()
 our @paths = split /:/, $ENV{'PATH'};
@@ -234,7 +243,7 @@ sub join_status {
 		foreach my $disk (@$disks) {
 			push(@s, $disk);
 		}
-		push(@status, join(',', @s).': '.$status);
+		push(@status, join(',', @s).'='.$status);
 	}
 
 	return join ' ', @status;
@@ -293,7 +302,9 @@ sub cmd {
 	my $cb_ = sub {
 		my $param = shift;
 		if ($cb) {
-			return $cb->{$param} if ref $cb eq 'HASH' and exists $cb->{$param};
+			if (ref $cb eq 'HASH' and exists $cb->{$param}) {
+				return wantarray ? @{$cb->{$param}} : $cb->{$param};
+			}
 			return &$cb($param) if ref $cb eq 'CODE';
 		}
 
@@ -324,15 +335,23 @@ sub cmd {
 	if ($op eq '=' and ref $cb eq 'SCALAR') {
 		# Special: use open2
 		use IPC::Open2;
+		warn "DEBUG EXEC: $op @cmd" if $utils::debug;
 		my $pid = open2($fh, $$cb, @cmd) or croak "open2 failed: @cmd: $!";
+	} elsif ($op eq '>&2') {
+		# Special: same as '|-' but reads both STDERR and STDOUT
+		use IPC::Open3;
+		warn "DEBUG EXEC: $op @cmd" if $utils::debug;
+		my $pid = open3(undef, $fh, $cb, @cmd);
 
 	} else {
+		warn "DEBUG EXEC: @cmd" if $utils::debug;
 		open($fh, $op, @cmd) or croak "open failed: @cmd: $!";
 	}
 
 	# for dir handles, reopen as opendir
 	if (-d $fh) {
 		undef($fh);
+		warn "DEBUG OPENDIR: $cmd[0]" if $utils::debug;
 		opendir($fh, $cmd[0]) or croak "opendir failed: @cmd: $!";
 	}
 
@@ -340,6 +359,61 @@ sub cmd {
 }
 
 } # package plugin
+
+package lsscsi;
+use base 'plugin';
+
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	__PACKAGE__;
+}
+
+sub commands {
+	{
+		'lsscsi list' => ['-|', '@CMD', '-g'],
+	}
+}
+
+# scan lsscsi output
+sub scan {
+	my $this = shift;
+
+	# Scan such output:
+	# [0:0:0:0]    disk    HP       LOGICAL VOLUME   3.00  /dev/sda   /dev/sg0
+	# [0:3:0:0]    storage HP       P410i            3.00  -          /dev/sg1
+	# or without sg driver:
+	# [0:0:0:0]    disk    HP       LOGICAL VOLUME   3.00  /dev/sda   -
+	# [0:3:0:0]    storage HP       P410i            3.00  -          -
+
+	my $fh = $this->cmd('lsscsi list');
+	my @sdevs;
+	while (<$fh>) {
+		chop;
+		if (my($hctl, $type, $vendor, $model, $rev, $devnode, $sgnode) = m{^
+			\[([\d:]+)\] # SCSI Controller, SCSI bus, SCSI target, and SCSI LUN
+			\s+(\S+) # type
+			\s+(\S+) # vendor
+			\s+(.*?) # model, match everything as it may contain spaces
+			\s+(\S+) # revision
+			\s+((?:/dev/\S+|-)) # /dev node
+			\s+((?:/dev/\S+|-)) # /dev/sg node
+		}x) {
+			push(@sdevs, {
+				'hctl' => $hctl,
+				'type' => $type,
+				'vendor' => $vendor,
+				'model' => $model,
+				'rev' => $rev,
+				'devnode' => $devnode,
+				'sgnode' => $sgnode,
+			});
+		}
+	}
+	close $fh;
+
+	return wantarray ? @sdevs : \@sdevs;
+}
 
 package metastat;
 # Solaris, software RAID
@@ -628,6 +702,9 @@ package megacli;
 # http://www.bxtra.net/Articles/2008-09-16/Dell-Perc6i-RAID-Monitoring-Script-using-MegaCli-LSI-CentOS-52-64-bits
 # TODO: http://www.techno-obscura.com/~delgado/code/check_megaraid_sas
 # TODO: process several adapters
+# TODO: process drive temperatures
+# TODO: check error counts
+# TODO: hostspare information
 use base 'plugin';
 
 # register
@@ -672,8 +749,14 @@ sub check {
 
 		if (my($s) = /Firmware state: (.+)/) {
 			# strip the extra state:
-			# 'Online, Spun Up'
+			# 'Hotspare, Spun Up'
 			# 'Hotspare, Spun down'
+			# 'Online, Spun Up'
+			# 'Online, Spun Up'
+			# 'Online, Spun down'
+			# 'Unconfigured(bad)'
+			# 'Unconfigured(good), Spun Up'
+			# 'Unconfigured(good), Spun down'
 			$s =~ s/,.+//;
 			$cur{state} = $s;
 			next;
@@ -719,8 +802,9 @@ sub check {
 
 	my %dstatus;
 	foreach my $dev (@devs) {
-		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare') {
+		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare' || $dev->{state} eq 'Unconfigured(good)') {
 			push(@{$dstatus{$dev->{state}}}, sprintf "%02d", $dev->{dev});
+
 		} else {
 			$this->critical;
 			# TODO: process other statuses
@@ -728,7 +812,9 @@ sub check {
 		}
 	}
 
-	push(@status, ($#vols + 1) . ' Vols: ' . join(',', @vstatus) . ', '. ($#devs + 1) . ' Devs: ' . $this->join_status(\%dstatus));
+	push(@status,
+		'Volumes(' . ($#vols + 1) . '): ' . join(',', @vstatus) .
+		'; Devices('. ($#devs + 1) . '): ' . $this->join_status(\%dstatus));
 
 	return unless @status;
 
@@ -1064,11 +1150,20 @@ sub parse {
 			};
 		}
 
+		# ./include/lsi/mpi_cnfg.h
+		# typedef struct _RAID_PHYS_DISK_INQUIRY_DATA
+		# {
+		#   U8 VendorID[8];            /* 00h */
+		#   U8 ProductID[16];          /* 08h */
+		#   U8 ProductRevLevel[4];     /* 18h */
+		#   U8 Info[32];               /* 1Ch */
+		# }
 		# mpt-status.c __print_physdisk_classic
 		# ioc0 phy 0 scsi_id 0 IBM-ESXS PYH146C3-ETS10FN RXQN, 136 GB, state ONLINE, flags NONE
 		# ioc0 phy 0 scsi_id 1 ATA      ST3808110AS      J   , 74 GB, state ONLINE, flags NONE
+		# ioc0 phy 0 scsi_id 1 ATA      Hitachi HUA72101 AJ0A, 931 GB, state ONLINE, flags NONE
 		elsif (my($pioc, $num, $phy_id, $vendor, $prod_id, $rev, $size, $state, $flags) =
-			/^ioc(\d+)\s+ phy\s(\d+)\s scsi_id\s(\d+)\s (\S+)\s+(\S+)\s+(\S+)\s*,\s (\d+)\sGB,\s state\s(\S+),\s flags\s(.+)/x) {
+			/^ioc(\d+)\s+ phy\s(\d+)\s scsi_id\s(\d+)\s (.{8})\s+(.{16})\s+(.{4})\s*,\s (\d+)\sGB,\s state\s(\S+),\s flags\s(.+)/x) {
 			$pd{$num} = {
 				ioc => int($pioc),
 				num => int($num),
@@ -1749,6 +1844,8 @@ sub parse {
 			$this->parse_error($_);
 		}
 
+		next unless defined $section;
+
 		if ($section eq 'Controller information') {
 			# TODO: battery stuff is under subsection "Controller Battery Information"
 			if (my($s) = /Controller Status\s*:\s*(.+)/) {
@@ -1759,6 +1856,11 @@ sub parse {
 				$c{logical_count} = int($td);
 				$c{logical_failed} = int($fd);
 				$c{logical_degraded} = int($fd);
+			} elsif (my($td2, $fd2, $dd2) = m{Logical drives/Offline/Critical\s*:\s*(\d+)/(\d+)/(\d+)}) {
+				# ARCCONF 9.30
+				$c{logical_count} = int($td2);
+				$c{logical_offline} = int($fd2);
+				$c{logical_critical} = int($fd2);
 			} elsif (my($bs) = /Status\s*:\s*(.*)$/) {
 				# This could be ZMM status as well
 				if ($bs =~ /ZMM/) {
@@ -1778,13 +1880,13 @@ sub parse {
 		} elsif ($section eq 'Physical Device information') {
 			# nothing useful
 
-		} elsif ($section =~ /Logical device information/) {
-			if (my($n) = /Logical device number (\d+)/) {
+		} elsif ($section =~ /Logical (device|drive) information/) {
+			if (my($n) = /Logical (?:device|drive) number (\d+)/) {
 				$ld = int($n);
 				$ld[$ld]{id} = $n;
-			} elsif (my($s) = /Status of logical device\s+:\s+(.+)/) {
+			} elsif (my($s) = /Status of logical (?:device|drive)\s+:\s+(.+)/) {
 				$ld[$ld]{status} = $s;
-			} elsif (my($ln) = /Logical device name\s+:\s+(.+)/) {
+			} elsif (my($ln) = /Logical (?:device|drive) name\s+:\s+(.+)/) {
 				$ld[$ld]{name} = $ln;
 			} elsif (my($rl) = /RAID level\s+:\s+(.+)/) {
 				$ld[$ld]{raid} = $rl;
@@ -1792,9 +1894,17 @@ sub parse {
 				$ld[$ld]{size} = $sz;
 			} elsif (my($fs) = /Failed stripes\s+:\s+(.+)/) {
 				$ld[$ld]{failed_stripes} = $fs;
+			} elsif (my($ds) = /Defunct segments\s+:\s+(.+)/) {
+				$ld[$ld]{defunct_segments} = $ds;
+			} else {
+				#   Write-cache mode                         : Not supported]
+				#   Partitioned                              : Yes]
+				#   Number of segments                       : 2]
+				#   Drive(s) (Channel,Device)                : 0,0 0,1]
+				#   Defunct segments                         : No]
 			}
 		} else {
-			warn "[$section] [$_]\n";
+			warn "NOT PARSED: [$section] [$_]\n";
 		}
 	}
 
@@ -1816,7 +1926,7 @@ sub check {
 
 	# check for controller status
 	for my $c ($ctrl->{controller}) {
-		$this->critical if $c->{status} ne 'Optimal';
+		$this->critical if $c->{status} !~ /Optimal|Okay/;
 		push(@status, "Controller:$c->{status}");
 
 		if ($c->{defunct_count} > 0) {
@@ -1824,12 +1934,27 @@ sub check {
 			push(@status, "Defunct drives:$c->{defunct_count}");
 		}
 
-		if ($c->{logical_failed} > 0) {
+		if (defined $c->{logical_failed} && $c->{logical_failed} > 0) {
 			$this->critical;
 			push(@status, "Failed drives:$c->{logical_failed}");
 		}
 
-		if ($c->{logical_degraded} > 0) {
+		if (defined $c->{logical_degraded} && $c->{logical_degraded} > 0) {
+			$this->critical;
+			push(@status, "Degraded drives:$c->{logical_degraded}");
+		}
+
+		if (defined $c->{logical_offline} && $c->{logical_offline} > 0) {
+			$this->critical;
+			push(@status, "Offline drives:$c->{logical_offline}");
+		}
+
+		if (defined $c->{logical_critical} && $c->{logical_critical} > 0) {
+			$this->critical;
+			push(@status, "Critical drives:$c->{logical_critical}");
+		}
+
+		if (defined $c->{logical_degraded} && $c->{logical_degraded} > 0) {
 			$this->critical;
 			push(@status, "Degraded drives:$c->{logical_degraded}");
 		}
@@ -1880,15 +2005,21 @@ sub check {
 
 	# check for logical device
 	for my $ld (@{$ctrl->{logical}}) {
-		$this->critical if $ld->{status} ne 'Optimal';
+		next unless $ld; # FIXME: fix that script assumes controllers start from '0'
+
+		$this->critical if $ld->{status} !~ /Optimal|Okay/;
+
 		my $id = $ld->{id};
 		if ($ld->{name}) {
 			$id = "$id($ld->{name})";
 		}
 		push(@status, "Logical Device $id:$ld->{status}");
 
-		if ($ld->{failed_stripes} ne 'No') {
+		if (defined $ld->{failed_stripes} && $ld->{failed_stripes} ne 'No') {
 			push(@status, "Failed stripes: $ld->{failed_stripes}");
+		}
+		if (defined $ld->{defunct_segments} && $ld->{defunct_segments} ne 'No') {
+			push(@status, "Defunct segments: $ld->{defunct_segments}");
 		}
 	}
 
@@ -2102,7 +2233,7 @@ sub commands {
 		'controller status' => ['-|', '@CMD', '@devs'],
 
 		'detect cciss' => ['<', '/proc/driver/cciss'],
-		'cciss proc' => ['<', '/proc/scsi/cciss/$controller'],
+		'cciss proc' => ['<', '/proc/driver/cciss/$controller'],
 	}
 }
 
@@ -2123,7 +2254,7 @@ sub sudo {
 
 	my @cciss_disks = $this->detect_disks(@cciss_devs);
 	if (@cciss_disks) {
-		my $smartctl = new smartctl;
+		my $smartctl = smartctl->new();
 		my $cmd = $smartctl->{program};
 		foreach my $ref (@cciss_disks) {
 			my ($dev, $diskopt, $disk) = @$ref;
@@ -2214,10 +2345,8 @@ sub detect_disks {
 	return wantarray ? @devs : \@devs;
 }
 
-# @param devices for cciss_vol_status, i.e /dev/cciss/c*d0 /dev/sg*
 sub check {
 	my $this = shift;
-
 	my @devs = $this->detect;
 
 	unless (@devs) {
@@ -2251,6 +2380,11 @@ sub check {
 		return;
 	}
 
+	# denote this plugin as ran ok
+	$this->ok;
+
+	$this->message(join(', ', @status));
+
 	# allow skip for testing
 	unless ($this->{no_smartctl}) {
 		# check also individual disk health
@@ -2261,14 +2395,18 @@ sub check {
 			$params{commands}{smartctl} = $this->{commands}{smartctl} if $this->{commands}{smartctl};
 
 			my $smartctl = smartctl->new(%params);
-			$smartctl->check(@disks);
+			# do not perform check if smartctl is missing
+			if ($smartctl->active) {
+				$smartctl->check(@disks);
+
+				# XXX this is hack, as we have no proper subcommand check support
+				$this->message($this->message . " " .$smartctl->message);
+				if ($smartctl->status > 0) {
+					$this->critical;
+				}
+			}
 		}
 	}
-
-	# denote this plugin as ran ok
-	$this->ok;
-
-	$this->message(join(', ', @status));
 }
 
 package hp_msa;
@@ -2881,7 +3019,7 @@ use Getopt::Long;
 
 my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
-my ($VERSION) = "3.0";
+my ($VERSION) = "3.0.1";
 my ($message, $status);
 
 #####################################################################
@@ -2894,6 +3032,37 @@ sub find_file {
 		return $file if -f $file;
 	}
 	return undef;
+}
+
+sub print_usage() {
+	print join "\n",
+	"Usage: check_raid [-h] [-V] [-S] [list of devices to ignore]",
+	"",
+	"Options:",
+	" -h, --help",
+	"    Print help screen",
+	" -V, --version",
+	"    Print version information",
+	" -S, --sudoers",
+	"    Setup sudo rules",
+	" -W, --warnonly",
+	"    Treat CRITICAL errors as WARNING",
+	" -p, --plugin <name(s)>",
+	"    Force the use of selected plugins, comma separated",
+	" -l, --list-plugins",
+	"    Lists active plugins",
+	"";
+}
+
+sub print_help() {
+	print "check_raid, v$VERSION\n";
+	print "Copyright (c) 2004-2006 Steve Shipway, Copyright (c) 2009-2013, Elan Ruusamäe <glen\@pld-linux.org>
+
+This plugin reports the current server's RAID status
+https://github.com/glensc/nagios-plugin-check_raid
+
+";
+	print_usage();
 }
 
 sub sudoers {
@@ -2977,13 +3146,14 @@ sub print_active_plugins {
 }
 
 Getopt::Long::Configure('bundling');
-GetOptions("V" => \$opt_V, "version" => \$opt_V,
-	 "h" => \$opt_h, "help" => \$opt_h,
-	 "d" => \$opt_d, "debug" => \$opt_d,
-	 "S" => \$opt_S, "sudoers" => \$opt_S,
-	 "W" => \$opt_W, "warnonly" => \$opt_W,
-	 "p=s" => \$opt_p, "plugin=s" => \$opt_p,
-	 "l" => \$opt_l, "list-plugins" => \$opt_l
+GetOptions(
+	'V' => \$opt_V, 'version' => \$opt_V,
+	'd' => \$opt_d,
+	'h' => \$opt_h, 'help' => \$opt_h,
+	'S' => \$opt_S, 'sudoers' => \$opt_S,
+	'W' => \$opt_W, 'warnonly' => \$opt_W,
+	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
+	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});
 
 if ($opt_S) {
@@ -3013,6 +3183,7 @@ if ($opt_l) {
 
 $status = $ERRORS{OK};
 $message = '';
+$utils::debug = $opt_d;
 
 my @plugins = $opt_p ? grep { my $p = $_; grep { /^$p$/ } split(/,/, $opt_p) } @utils::plugins : @utils::plugins;
 
@@ -3021,6 +3192,9 @@ foreach my $pn (@plugins) {
 
 	# skip inactive plugins (disabled or no tools available)
 	next unless $plugin->active;
+	# skip if no check method (not standalone checker)
+	next unless $plugin->can('check');
+
 	# perform the check
 	$plugin->check;
 
