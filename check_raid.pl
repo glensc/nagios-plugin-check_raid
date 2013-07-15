@@ -3008,7 +3008,7 @@ use strict;
 use warnings;
 use Getopt::Long;
 
-my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l);
+my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_C, $opt_S, $opt_p, $opt_l);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 my ($VERSION) = "3.0.1";
 my ($message, $status);
@@ -3038,6 +3038,8 @@ sub print_usage() {
 	"    Setup sudo rules",
 	" -W, --warnonly",
 	"    Treat CRITICAL errors as WARNING",
+	" -C, --nocritical",
+	"    Decrease CRITICAL to WARNING",
 	" -p, --plugin <name(s)>",
 	"    Force the use of selected plugins, comma separated",
 	" -l, --list-plugins",
@@ -3143,6 +3145,7 @@ GetOptions(
 	'h' => \$opt_h, 'help' => \$opt_h,
 	'S' => \$opt_S, 'sudoers' => \$opt_S,
 	'W' => \$opt_W, 'warnonly' => \$opt_W,
+	'C' => \$opt_C, 'nocritical' => \$opt_W,
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});
@@ -3200,6 +3203,13 @@ foreach my $pn (@plugins) {
 	$message .= '; ' if $message;
 	$message .= "$pn:[".$plugin->message."]";
 }
+
+# If --nocritical was set and the final statuslevel
+# is CRITICAL, the statuslevel will be set to WARNING
+if ($opt_C) {
+	if ($status == $ERRORS{CRITICAL}) {
+		status = $ERRORS{WARNING};
+	}
 
 if ($message) {
 	if ($status == $ERRORS{OK}) {
