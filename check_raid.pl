@@ -76,6 +76,7 @@
 # Version 3.0.x:
 # - Detecting SCSI devices or hosts with lsscsi
 # - Updated to handle ARCCONF 9.30 output
+# - Fixed -W option handling (#29)
 
 use warnings;
 use strict;
@@ -183,6 +184,10 @@ sub status {
 		$this->{status} = $status unless defined($this->{status}) and $status < $this->{status};
 	}
 	$this->{status};
+}
+
+sub set_critical_as_warning {
+	$ERRORS{CRITICAL} = $ERRORS{WARNING};
 }
 
 # helper to set status to WARNING
@@ -3174,7 +3179,7 @@ if ($opt_h) {
 }
 
 if ($opt_W) {
-	$ERRORS{CRITICAL} = $ERRORS{WARNING};
+	plugin->set_critical_as_warning;
 }
 
 if ($opt_l) {
