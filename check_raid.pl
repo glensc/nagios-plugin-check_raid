@@ -238,7 +238,8 @@ sub join_status {
 	my %status = %{$_[0]};
 
 	my @status;
-	while (my($status, $disks) = each %status) {
+	for my $status (sort {$a cmp $b} keys %status) {
+		my $disks = $status{$status};
 		my @s;
 		foreach my $disk (@$disks) {
 			push(@s, $disk);
