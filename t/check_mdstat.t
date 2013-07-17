@@ -38,7 +38,7 @@ my @tests = (
 	},
 	{ input => 'pr24', status => WARNING,
 		active => 1,
-		message => 'md2(2.73 TiB raid1):UU, md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
+		message => 'md2(2.73 TiB raid1):UU (check:98.3% 9854K/sec ETA: 81.7min), md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
 	},
 	{ input => 'pr28_0', status => WARNING,
 		active => 1, # When one md device is OK, and the other one is rebuilding:
