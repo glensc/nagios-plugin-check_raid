@@ -40,11 +40,11 @@ my @tests = (
 		active => 1,
 		message => 'md2(2.73 TiB raid1):UU, md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
 	},
-	{ input => 'pr28_0', status => CRITICAL,
+	{ input => 'pr28_0', status => WARNING,
 		active => 1, # When one md device is OK, and the other one is rebuilding:
 		message => 'md1(927.52 GiB raid1):UU, md0(203.81 MiB raid1):_U (recovery:0.4% 12K/sec ETA: 276.9min)',
 	},
-	{ input => 'pr28_1', status => WARNING,
+	{ input => 'pr28_1', status => CRITICAL,
 		active => 1, # When one md device is resyncing and the other is set faulty or removed:
 		message => 'md1(927.52 GiB raid1):F::_U, md0(203.81 MiB raid1):_U (recovery:3.6% 12K/sec ETA: 259.6min)',
 	},
