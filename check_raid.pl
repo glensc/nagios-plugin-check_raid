@@ -76,6 +76,7 @@
 # Version 3.0.x:
 # - Detecting SCSI devices or hosts with lsscsi
 # - Updated to handle ARCCONF 9.30 output
+# - Fixed -W option handling (#29)
 
 use warnings;
 use strict;
@@ -185,6 +186,10 @@ sub status {
 	$this->{status};
 }
 
+sub set_critical_as_warning {
+	$ERRORS{CRITICAL} = $ERRORS{WARNING};
+}
+
 # helper to set status to WARNING
 # returns $this to allow fluent api
 sub warning {
@@ -238,7 +243,8 @@ sub join_status {
 	my %status = %{$_[0]};
 
 	my @status;
-	while (my($status, $disks) = each %status) {
+	for my $status (sort {$a cmp $b} keys %status) {
+		my $disks = $status{$status};
 		my @s;
 		foreach my $disk (@$disks) {
 			push(@s, $disk);
@@ -615,7 +621,11 @@ sub check {
 		# same for linear, no $md_status available
 		if ($md{personality} =~ /linear|raid0/) {
 			$s .= "OK";
-
+			
+		} elsif ($md{resync_status}) {
+			$this->warning;
+			$s .= "$md{status} ($md{resync_status})";
+			
 		} elsif ($md{status} =~ /_/) {
 			$this->critical;
 			$s .= "F:". join(",", @{$md{failed_disks}}) .":$md{status}";
@@ -624,10 +634,6 @@ sub check {
 			# FIXME: this is same as above?
 			$this->warning;
 			$s .= "hot-spare failure:". join(",", @{$md{failed_disks}}) .":$md{status}";
-
-		} elsif ($md{resync_status}) {
-			$this->warning;
-			$s .= "$md{status} ($md{resync_status})";
 
 		} else {
 			$s .= "$md{status}";
@@ -3173,7 +3179,7 @@ if ($opt_h) {
 }
 
 if ($opt_W) {
-	$ERRORS{CRITICAL} = $ERRORS{WARNING};
+	plugin->set_critical_as_warning;
 }
 
 if ($opt_l) {
