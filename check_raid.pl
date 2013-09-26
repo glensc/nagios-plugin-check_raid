@@ -77,6 +77,8 @@
 # - Detecting SCSI devices or hosts with lsscsi
 # - Updated to handle ARCCONF 9.30 output
 # - Fixed -W option handling (#29)
+# Version 3.0.2:
+# - dmraid support
 
 use warnings;
 use strict;
@@ -3011,6 +3013,86 @@ sub check {
 	push(@status, "Drive Assignment: ".$this->join_status(\%drivestatus)) if %drivestatus;
 
 	$this->ok->message(join(', ', @status));
+}
+
+package dmraid;
+use base "plugin";
+
+# register
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	__PACKAGE__;
+}
+
+sub commands {
+	{
+		'-r' => ['-|', '@CMD', '-r'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -r";
+}
+
+# plugin check
+# can store its exit code in $this->status
+# can output its message in $this->message
+sub check {
+	my $this = shift;
+
+	## Check Array and Drive Status
+	my %arrays = ();
+	my $fh = $this->cmd('-r');
+=cut
+/dev/sda: jmicron, "jmicron_JRAID", mirror, ok, 781385728 sectors, data@ 0
+/dev/sdb: jmicron, "jmicron_JRAID", mirror, ok, 781385728 sectors, data@ 0
+=cut
+	while (<$fh>) {
+        next unless (my($device, $format, $name, $type, $status, $sectors) = m{^(.*?):\s([\w]+),\s"([a-zA-Z0-9_\-]+)",\s(mirror|stripe[d]?),\s(\w+),\s(\d+) sectors,.*$});
+        next unless $this->valid($device);
+
+		# trim trailing spaces from name
+		$name =~ s/\s+$//;
+
+		if ($status =~ m/[Ss]ync|[Rr]e[bB]uild/) {
+			$this->warning;
+		} elsif ($status !~ m/[Oo]k/) {
+			$this->critical;
+		}
+		
+		if( !exists($arrays{$name}) ) {
+			$arrays{$name} = ();
+		}
+
+        $arrays{$name}{$device}{'status'} = $status;
+        $arrays{$name}{$device}{'type'} = $type;
+	}
+	close $fh;
+    my $message = "";
+    while( my($raidName, $data) = each( %arrays ) ) {
+        if( $message ne "" ) {
+            $message .= ", ";
+        }
+        $message .= "$raidName";
+        while( my($device, $deviceData) = each( $data ) ) {
+            $message .= "( $device => ";
+            while( my($key, $value) = each($deviceData) ) {
+                if( $key eq 'status' ) {
+                    $message .= "$value [";
+                } elsif( $key eq 'type' ) {
+                    $message .= "$value]";
+                }
+            }
+            $message .= " )";
+        }
+    }
+	$this->ok->message($message);
 }
 
 {
