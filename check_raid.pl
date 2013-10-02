@@ -1106,7 +1106,8 @@ sub program_names {
 
 sub commands {
 	{
-		'status' => ['-|', '@CMD'],
+		'status' => ['-|', '@CMD', '-i $id'],
+		'get_controller_no' => ['-|', '@CMD', '-p'],
 		'sync status' => ['-|', '@CMD', '-n'],
 	}
 }
@@ -1118,8 +1119,9 @@ sub sudo {
 
 	my $cmd = $this->{program};
 	(
-	"CHECK_RAID ALL=(root) NOPASSWD: $cmd",
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -i [0123456789]",
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -n",
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -p",
 	);
 }
 
@@ -1127,7 +1129,18 @@ sub parse {
 	my $this = shift;
 
 	my (%ld, %pd);
-	my $fh = $this->cmd('status');
+	my $fh = $this->cmd('get_controller_no');
+   my $id;
+	while (<$fh>) {
+		chomp;
+		if ( /^Found.*id=(\d),.*/ ) {
+			$id = $1;
+			last;
+		}
+	}
+	close $fh;
+	
+	$fh = $this->cmd('status',{ '$id' => $id });
 
 	my %VolumeTypesHuman = (
 		IS => 'RAID-0',
