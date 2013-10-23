@@ -1660,10 +1660,10 @@ sub check {
 		while (<$fh>) {
 			next unless (my($u, $s, $p, $p2) = /^(u\d+)\s+\S+\s+(\S+)\s+(\S+)\s+(\S+)/);
 
-			if ($s eq 'OK') {
+			if ($s =~ m{ \A OK|VERIFYING \z }xms) {
 				push(@cstatus, "$u:$s");
 
-			} elsif ($s =~ 'INITIALIZING|VERIFYING') {
+			} elsif ($s =~ 'INITIALIZING') {
 				$this->warning;
 				push(@cstatus, "$u:$s $p2");
 
