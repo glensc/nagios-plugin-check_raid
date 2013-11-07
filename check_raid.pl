@@ -487,8 +487,8 @@ use base 'plugin';
 
 sub sudo {
 	my $cat = utils::which('cat');
-	"CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/0/status";
 
+	"CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/0/status";
 }
 
 sub check {
