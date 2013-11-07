@@ -3027,7 +3027,7 @@ sub program_names {
 
 sub commands {
 	{
-		'-r' => ['-|', '@CMD', '-r'],
+		'read' => ['-|', '@CMD', '-r'],
 	}
 }
 
@@ -3048,27 +3048,26 @@ sub check {
 
 	## Check Array and Drive Status
 	my %arrays = ();
-	my $fh = $this->cmd('-r');
-
-=cut
-
-/dev/sda: jmicron, "jmicron_JRAID", mirror, ok, 781385728 sectors, data@ 0
-/dev/sdb: jmicron, "jmicron_JRAID", mirror, ok, 781385728 sectors, data@ 0
-
-=cut
-
+	my $fh = $this->cmd('read');
 	while (<$fh>) {
-		next unless (my($device, $format, $name, $type, $status, $sectors) = m{
-			^(.*?):\s([\w]+),\s"([a-zA-Z0-9_\-]+)",\s(mirror|stripe[d]?),\s(\w+),\s(\d+) sectors,.*$
-		}x);
+		chomp;
+		next unless (my($device, $format, $name, $type, $status, $sectors) = m{^
+			# /dev/sda: jmicron, "jmicron_JRAID", mirror, ok, 781385728 sectors, data@ 0
+			(/dev/\S+):\s # device
+			(\S+),\s # format
+			"([^"]+)",\s # name
+			(mirror|stripe[d]?),\s # type
+			(\w+),\s # status
+			(\d+)\ssectors,.* # sectors
+		$}x);
 		next unless $this->valid($device);
 
 		# trim trailing spaces from name
 		$name =~ s/\s+$//;
 
-		if ($status =~ m/[Ss]ync|[Rr]e[bB]uild/) {
+		if ($status =~ m/sync|rebuild/i) {
 			$this->warning;
-		} elsif ($status !~ m/[Oo]k/) {
+		} elsif ($status !~ m/ok/i) {
 			$this->critical;
 		}
 		
