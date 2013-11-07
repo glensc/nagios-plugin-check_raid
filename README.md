@@ -73,48 +73,51 @@ Capture each command output to a file:
     /usr/local/bin/arcconf GETSTATUS 1 > arcconf-getstatus.out
     /usr/local/bin/arcconf GETCONFIG 1 AL > arcconf-getconfig.out
 
-In this particular example, the space between `1` and `>` is important, because `1>` means different thing 
-(tells shell to redirect fd no 1).
+In this particular example, the space between `1` and `>` is important, because `1>` means different thing (tells shell to redirect fd no 1).
 
 The redirection commands should provide no output, all should be directed to `.out` file.
 If they do, it means the command produced output to `stderr` stream as well.
 Depending on the output, it may make difference what that is,
 usually those messages are small and can be included with bugreport.
 
-The command output should be shared by some pastebin service, maybe even [gist](https://gists.github.com).
-because it may be important how the output is formatted, some invisible bytes may make the difference.
-Also it's annoying to format large output in github issue tracker.
+The command output should be shared by some pastebin service, maybe even [gist](https://gists.github.com) because it may be important how the output is formatted, some invisible bytes may make the difference. You may include the output in github reports if you enclose the block between triple backticks:
+
+    ```
+    some output here...
+    ```
 
 ## Supported RAIDs
 
 Supported RAIDs that can be checked:
-- Adaptec AAC RAID via aaccli or afacli or arcconf
-- AIX software RAID via lsvg
-- HP/Compaq Smart Array via cciss_vol_status (hpsa supported too)
-- HP Smart Array Controllers and MSA Controllers via hpacucli (see
+
+- Adaptec AAC RAID via `aaccli` or `afacli` or `arcconf`
+- AIX software RAID via `lsvg`
+- HP/Compaq Smart Array via `cciss_vol_status` (hpsa supported too)
+- HP Smart Array Controllers and MSA Controllers via `hpacucli` (see
   hapacucli readme)
 - HP Smart Array (MSA1500) via serial line
-- Linux 3ware SATA RAID via tw_cli
-- Linux DPT/I2O hardware RAID controllers via /proc/scsi/dpt_i2o
-- Linux GDTH hardware RAID controllers via /proc/scsi/gdth
+- Linux 3ware SATA RAID via `tw_cli`
+- Linux DPT/I2O hardware RAID controllers via `/proc/scsi/dpt_i2o`
+- Linux GDTH hardware RAID controllers via `/proc/scsi/gdth`
 - Linux LSI MegaRaid hardware RAID via CmdTool2
 - Linux LSI MegaRaid hardware RAID via megarc
-- Linux LSI MegaRaid hardware RAID via /proc/megaraid
-- Linux MegaIDE hardware RAID controllers via /proc/megaide
+- Linux LSI MegaRaid hardware RAID via `/proc/megaraid`
+- Linux MegaIDE hardware RAID controllers via `/proc/megaide`
 - Linux MPT hardware RAID via mpt-status
-- Linux software RAID (md) via /proc/mdstat
+- Linux software RAID (md) via `/proc/mdstat`
 - LSI Logic MegaRAID SAS series via MegaCli
 - LSI MegaRaid via lsraid
 - Serveraid IPS via ipssend
 - Solaris software RAID via metastat
 
 You might need to install following tools depending on your raid:
-- CmdTool2: CmdTool2 SAS RAID Management Utility
-- arcconf: Adaptec uniform command line interface
-- cciss_vol_status: http://cciss.sourceforge.net/
-- megarc-scsi: LSI Logic MegaRAID Linux MegaRC utility
-- mpt-status: LSI RAID controllers - http://www.red-bean.com/~mab/mpt-status.html
-- tw_cli-9xxx: 3ware SATA RAID controllers - http://www.3ware.com/
+
+- `CmdTool2`: CmdTool2 SAS RAID Management Utility
+- `arcconf`: Adaptec uniform command line interface
+- `cciss_vol_status`: http://cciss.sourceforge.net/
+- `megarc-scsi`: LSI Logic MegaRAID Linux MegaRC utility
+- `mpt-status`: LSI RAID controllers - http://www.red-bean.com/~mab/mpt-status.html
+- `tw_cli-9xxx`: 3ware SATA RAID controllers - http://www.3ware.com/
 
 Project entry in Nagios Exchange: http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
 
