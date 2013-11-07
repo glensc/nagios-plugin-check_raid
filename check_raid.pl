@@ -3040,15 +3040,13 @@ sub sudo {
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -r";
 }
 
-# plugin check
-# can store its exit code in $this->status
-# can output its message in $this->message
-sub check {
+# parse arrays, return data indexed by array name
+sub parse {
 	my $this = shift;
 
-	## Check Array and Drive Status
-	my %arrays = ();
+	my (%arrays);
 	my $fh = $this->cmd('read');
+	use Data::Dumper;
 	while (<$fh>) {
 		chomp;
 		next unless (my($device, $format, $name, $type, $status, $sectors) = m{^
@@ -3065,40 +3063,50 @@ sub check {
 		# trim trailing spaces from name
 		$name =~ s/\s+$//;
 
-		if ($status =~ m/sync|rebuild/i) {
-			$this->warning;
-		} elsif ($status !~ m/ok/i) {
-			$this->critical;
-		}
+		my $member = {
+			'device' => $device,
+			'format' => $format,
+			'type' => $type,
+			'status' => $status,
+			'size' => $sectors,
+		};
 
-		if (!exists($arrays{$name})) {
-			$arrays{$name} = ();
-		}
-
-		$arrays{$name}{$device}{'status'} = $status;
-		$arrays{$name}{$device}{'type'} = $type;
+		print Dumper $member;
+		push(@{$arrays{$name}}, $member);
 	}
 	close $fh;
 
-	my $message = "";
-	while (my($raidName, $data) = each(%arrays)) {
-		if ($message ne "") {
-			$message .= ", ";
-		}
-		$message .= "$raidName";
-		while (my($device, $deviceData) = each(%$data)) {
-			$message .= "( $device => ";
-			while (my($key, $value) = each(%$deviceData)) {
-				if ($key eq 'status') {
-					$message .= "$value [";
-				} elsif ($key eq 'type') {
-					$message .= "$value]";
-				}
+	return \%arrays;
+}
+
+
+# plugin check
+# can store its exit code in $this->status
+# can output its message in $this->message
+sub check {
+	my $this = shift;
+	my (@status);
+
+	## Check Array and Drive Status
+	my $arrays = $this->parse;
+	while (my($name, $array) = each(%$arrays)) {
+		my @s;
+		foreach my $dev (@$array) {
+			if ($dev->{status} =~ m/sync|rebuild/i) {
+				$this->warning;
+			} elsif ($dev->{status} !~ m/ok/i) {
+				$this->critical;
 			}
-			$message .= " )";
+			my $size = $this->format_bytes($dev->{size});
+			push(@s, "$dev->{device}($dev->{type}, $size): $dev->{status}");
 		}
+		push(@status, "$name: " . join(', ', @s));
 	}
-	$this->ok->message($message);
+
+	return unless @status;
+
+	# denote that this plugin as ran ok, not died unexpectedly
+	$this->ok->message(join(' ', @status));
 }
 
 {
