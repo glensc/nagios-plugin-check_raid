@@ -623,11 +623,11 @@ sub check {
 		# same for linear, no $md_status available
 		if ($md{personality} =~ /linear|raid0/) {
 			$s .= "OK";
-			
+
 		} elsif ($md{resync_status}) {
 			$this->warning;
 			$s .= "$md{status} ($md{resync_status})";
-			
+
 		} elsif ($md{status} =~ /_/) {
 			$this->critical;
 			$s .= "F:". join(",", @{$md{failed_disks}}) .":$md{status}";
@@ -3070,7 +3070,7 @@ sub check {
 		} elsif ($status !~ m/ok/i) {
 			$this->critical;
 		}
-		
+
 		if (!exists($arrays{$name})) {
 			$arrays{$name} = ();
 		}
