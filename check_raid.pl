@@ -3046,7 +3046,6 @@ sub parse {
 
 	my (%arrays);
 	my $fh = $this->cmd('read');
-	use Data::Dumper;
 	while (<$fh>) {
 		chomp;
 		next unless (my($device, $format, $name, $type, $status, $sectors) = m{^
@@ -3071,7 +3070,6 @@ sub parse {
 			'size' => $sectors,
 		};
 
-		print Dumper $member;
 		push(@{$arrays{$name}}, $member);
 	}
 	close $fh;
