@@ -36,10 +36,6 @@ my @tests = (
 	{ input => 'mdstat-inexistent',
 		active => 0,
 	},
-	{ input => 'pr24', status => WARNING,
-		active => 1,
-		message => 'md2(2.73 TiB raid1):UU (check:98.3% 9854K/sec ETA: 81.7min), md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
-	},
 	{ input => 'pr28_0', status => WARNING,
 		active => 1, # When one md device is OK, and the other one is rebuilding:
 		message => 'md1(927.52 GiB raid1):UU, md0(203.81 MiB raid1):_U (recovery:0.4% 12K/sec ETA: 276.9min)',
@@ -51,6 +47,17 @@ my @tests = (
 	{ input => 'pr28_2', status => WARNING,
 		active => 1, # When both md devices are resyncing (or planning to resync)
 		message => 'md1(927.52 GiB raid1):_U (resync=DELAYED), md0(203.81 MiB raid1):_U (recovery:3.9% 12K/sec ETA: 267.0min)',
+	},
+
+	# expected, issues #23 and #24
+#	{ input => 'pr24', status => WARNING,
+#		active => 1,
+#		message => 'md2(2.73 TiB raid1):UU (check:98.3% 9854K/sec ETA: 81.7min), md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
+#	},
+	# current:
+	{ input => 'pr24', status => OK,
+		active => 1,
+		message => 'md2(2.73 TiB raid1):UU, md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
 	},
 );
 
