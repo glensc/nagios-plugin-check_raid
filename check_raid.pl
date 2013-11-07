@@ -3049,13 +3049,19 @@ sub check {
 	## Check Array and Drive Status
 	my %arrays = ();
 	my $fh = $this->cmd('-r');
+
 =cut
+
 /dev/sda: jmicron, "jmicron_JRAID", mirror, ok, 781385728 sectors, data@ 0
 /dev/sdb: jmicron, "jmicron_JRAID", mirror, ok, 781385728 sectors, data@ 0
+
 =cut
+
 	while (<$fh>) {
-        next unless (my($device, $format, $name, $type, $status, $sectors) = m{^(.*?):\s([\w]+),\s"([a-zA-Z0-9_\-]+)",\s(mirror|stripe[d]?),\s(\w+),\s(\d+) sectors,.*$});
-        next unless $this->valid($device);
+		next unless (my($device, $format, $name, $type, $status, $sectors) = m{
+			^(.*?):\s([\w]+),\s"([a-zA-Z0-9_\-]+)",\s(mirror|stripe[d]?),\s(\w+),\s(\d+) sectors,.*$
+		}x);
+		next unless $this->valid($device);
 
 		# trim trailing spaces from name
 		$name =~ s/\s+$//;
@@ -3066,32 +3072,33 @@ sub check {
 			$this->critical;
 		}
 		
-		if( !exists($arrays{$name}) ) {
+		if (!exists($arrays{$name})) {
 			$arrays{$name} = ();
 		}
 
-        $arrays{$name}{$device}{'status'} = $status;
-        $arrays{$name}{$device}{'type'} = $type;
+		$arrays{$name}{$device}{'status'} = $status;
+		$arrays{$name}{$device}{'type'} = $type;
 	}
 	close $fh;
-    my $message = "";
-    while( my($raidName, $data) = each( %arrays ) ) {
-        if( $message ne "" ) {
-            $message .= ", ";
-        }
-        $message .= "$raidName";
-        while( my($device, $deviceData) = each( %$data ) ) {
-            $message .= "( $device => ";
-            while( my($key, $value) = each(%$deviceData) ) {
-                if( $key eq 'status' ) {
-                    $message .= "$value [";
-                } elsif( $key eq 'type' ) {
-                    $message .= "$value]";
-                }
-            }
-            $message .= " )";
-        }
-    }
+
+	my $message = "";
+	while (my($raidName, $data) = each(%arrays)) {
+		if ($message ne "") {
+			$message .= ", ";
+		}
+		$message .= "$raidName";
+		while (my($device, $deviceData) = each(%$data)) {
+			$message .= "( $device => ";
+			while (my($key, $value) = each(%$deviceData)) {
+				if ($key eq 'status') {
+					$message .= "$value [";
+				} elsif ($key eq 'type') {
+					$message .= "$value]";
+				}
+			}
+			$message .= " )";
+		}
+	}
 	$this->ok->message($message);
 }
 
