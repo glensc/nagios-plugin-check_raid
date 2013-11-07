@@ -3016,7 +3016,7 @@ sub check {
 }
 
 package dmraid;
-use base "plugin";
+use base 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -3080,9 +3080,9 @@ sub check {
             $message .= ", ";
         }
         $message .= "$raidName";
-        while( my($device, $deviceData) = each( $data ) ) {
+        while( my($device, $deviceData) = each( %$data ) ) {
             $message .= "( $device => ";
-            while( my($key, $value) = each($deviceData) ) {
+            while( my($key, $value) = each(%$deviceData) ) {
                 if( $key eq 'status' ) {
                     $message .= "$value [";
                 } elsif( $key eq 'type' ) {
