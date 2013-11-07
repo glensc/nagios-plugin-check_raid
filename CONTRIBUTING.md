@@ -5,10 +5,6 @@ Bugs should be reported to [github issue tracker](https://github.com/glensc/nagi
 Before opening new issue, check that your problem is not already reported,
 also before opening bugreport, check that the bug is not already fixed by testing with master branch.
 
-When submitting patches, pull requests, do not write changelog or attempt to update version,
-the changes may not be merged on codebase you created patch for
-and it will just create annoying merge conflicts later.
-
 As it's unlikely I have same hardware as you, not to mention same condition that is not handled,
 I ask you to provide output of the commands the plugin runs.
 What commands plugin runs, can be seen with `-d` option:
@@ -35,3 +31,22 @@ The command output should be shared by some pastebin service, maybe even [gist](
     ```
     some output here...
     ```
+
+When submitting patches, pull requests, do not write changelog or attempt to update version,
+the changes may not be merged on codebase you created patch for
+and it will just create annoying merge conflicts later.
+
+Verify that your changes do not break existing tests. To run all tests, invoke:
+
+    make test
+    
+You can run also individual test separately:
+
+```
+$ perl t/status.t 
+1..20
+ok 1 - default staus undef
+ok 2 - set ok
+...
+ok 20 - set unknown
+```
