@@ -77,7 +77,6 @@
 # - Detecting SCSI devices or hosts with lsscsi
 # - Updated to handle ARCCONF 9.30 output
 # - Fixed -W option handling (#29)
-# Version 3.0.2:
 # - dmraid support
 
 use warnings;
