@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 64;
+use Test::More tests => 70;
 use test;
 
 my @tests = (
@@ -61,6 +61,10 @@ my @tests = (
 	{ input => 'issue34', status => OK,
 		active => 1,
 		message => 'md127(931.51 GiB raid1):UU, md0(5.16 MiB):',
+	},
+	{ input => 'issue34_2', status => OK,
+		active => 1,
+		message => 'md126(931.51 GiB raid1):UU, md127(5.16 MiB):',
 	},
 );
 
