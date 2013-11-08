@@ -78,6 +78,7 @@
 # - Updated to handle ARCCONF 9.30 output
 # - Fixed -W option handling (#29)
 # - dmraid support
+# - mdstat plugin rewritten to handle external devices (#34)
 
 use warnings;
 use strict;
@@ -557,26 +558,85 @@ sub parse {
 	while (<$fh>) {
 		chomp;
 
+		# skip first line
+		next if (/^Personalities : /);
+
+		# kernel-3.0.101/drivers/md/md.c, md_seq_show
 		# md1 : active raid1 sdb2[0] sda2[1]
-		if (my($d, $p) = /^(\S+)\s+:\s+(?:\S+)\s+(\S+)\s+/) {
+		if (my($dev, $active, $ro, $rest) = m{^
+			(\S+)\s+:\s+ # mdname
+			(\S+)\s+     # active: "inactive", "active"
+			(\((?:auto-)?read-only\))? # readonly
+			(.+)         # personality name + disks
+		}x) {
+			my @parts = split /\s/, $rest;
+			my $re = qr{^
+				(\S+)           # devname
+				(?:\[(\d+)\])   # desc_nr
+				(?:\((.)\))?    # flags: (W|F|S) - WriteMostly, Faulty, Spare
+			$}x;
+			my @disks = ();
+			my $personality;
+			while (my($disk) = pop @parts) {
+				last if !$disk;
+				if ($disk !~ $re) {
+					$personality = $disk;
+					last;
+				}
+				my($dev, $number, $flags) = $disk =~ $re;
+				push(@disks, {
+					'dev' => $dev,
+					'number' => int($number),
+					'flags' => $flags || '',
+				});
+			}
+
+			die "Unexpected parse" if @parts;
+
 			# first line resets %md
-			%md = (dev => $d, personality => $p);
-			@{$md{failed_disks}} = $_ =~ m/(\S+)\[\d+\]\(F\)/g;
+			%md = (dev => $dev, personality => $personality, readonly => $ro, active => $active, disks => [ @disks ]);
+
 			next;
 		}
 
-		# linux-2.6.33/drivers/md/dm-raid1.c, device_status_char
-		# A => Alive - No failures
-		# D => Dead - A write failure occurred leaving mirror out-of-sync
-		# S => Sync - A sychronization failure occurred, mirror out-of-sync
-		# R => Read - A read failure occurred, mirror data unaffected
-		# U => for the rest
-
+		# variations:
 		#"      8008320 blocks [2/2] [UU]"
 		#"      58291648 blocks 64k rounding" - linear
-		if (my($b, $s) = /^\s+(\d+)\sblocks\s+.*?(?:\s+\[([ADSRU_]+)\])?$/) {
-			$md{status} = $s;
-			$md{blocks} = $b;
+		#"      5288 blocks super external:imsm"
+		#"      20969472 blocks super 1.2 512k chunks"
+		#
+		# Metadata version:
+		# This is one of
+		# - 'none' for arrays with no metadata (good luck...)
+		# - 'external' for arrays with externally managed metadata,
+		# - or N.M for internally known formats
+		#
+		if (my($b, $mdv, $status) = m{^
+			\s+(\d+)\sblocks\s+ # blocks
+			# metadata version
+			(super\s(?:
+				(?:\d+\.\d+) | # N.M
+				(?:external:\S+) |
+				(?:non-persistent)
+			))?\s*
+			(.+) # mddev->pers->status (raid specific)
+		$}x) {
+			# linux-2.6.33/drivers/md/dm-raid1.c, device_status_char
+			# A => Alive - No failures
+			# D => Dead - A write failure occurred leaving mirror out-of-sync
+			# S => Sync - A sychronization failure occurred, mirror out-of-sync
+			# R => Read - A read failure occurred, mirror data unaffected
+			# U => for the rest
+			my ($s) = $status =~ /\s+\[([ADSRU_]+)\]/;
+
+			$md{status} = $s || '';
+			$md{blocks} = int($b);
+			$md{md_version} = $mdv;
+
+			# if external try to parse dev
+			if ($mdv) {
+				($md{md_external}) = $mdv =~ m{external:(\S+)};
+			}
 			next;
 		}
 
@@ -616,11 +676,15 @@ sub check {
 
 		# common status
 		my $size = $this->format_bytes($md{blocks} * 1024);
-		my $s = "$md{dev}($size $md{personality}):";
+		my $personality = $md{personality} ? " $md{personality}" : "";
+		my $s = "$md{dev}($size$personality):";
+
+		# failed disks
+		my @fd = map { $_->{dev} } grep { $_->{flags} =~ /F/ } @{$md{disks}};
 
 		# raid0 is just there or its not. raid0 can't degrade.
 		# same for linear, no $md_status available
-		if ($md{personality} =~ /linear|raid0/) {
+		if ($personality =~ /linear|raid0/) {
 			$s .= "OK";
 
 		} elsif ($md{resync_status}) {
@@ -629,9 +693,10 @@ sub check {
 
 		} elsif ($md{status} =~ /_/) {
 			$this->critical;
-			$s .= "F:". join(",", @{$md{failed_disks}}) .":$md{status}";
+			my $fd = join(',', @fd);
+			$s .= "F:$fd:$md{status}";
 
-		} elsif (@{$md{failed_disks}} > 0) {
+		} elsif (@fd > 0) {
 			# FIXME: this is same as above?
 			$this->warning;
 			$s .= "hot-spare failure:". join(",", @{$md{failed_disks}}) .":$md{status}";

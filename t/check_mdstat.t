@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 58;
+use Test::More tests => 64;
 use test;
 
 my @tests = (
@@ -48,16 +48,19 @@ my @tests = (
 		active => 1, # When both md devices are resyncing (or planning to resync)
 		message => 'md1(927.52 GiB raid1):_U (resync=DELAYED), md0(203.81 MiB raid1):_U (recovery:3.9% 12K/sec ETA: 267.0min)',
 	},
-
-	# expected, issues #23 and #24
+# expected, issues #23 and #24
 #	{ input => 'pr24', status => WARNING,
 #		active => 1,
 #		message => 'md2(2.73 TiB raid1):UU (check:98.3% 9854K/sec ETA: 81.7min), md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
 #	},
-	# current:
+# current:
 	{ input => 'pr24', status => OK,
 		active => 1,
 		message => 'md2(2.73 TiB raid1):UU, md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
+	},
+	{ input => 'issue34', status => OK,
+		active => 1,
+		message => 'md127(931.51 GiB raid1):UU, md0(5.16 MiB):',
 	},
 );
 
