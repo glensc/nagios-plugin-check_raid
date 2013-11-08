@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 
-use Test::More tests => 17;
+use Test::More tests => 18;
 use test;
 
 unshift(@utils::paths, TESTDIR . '/data/bin');

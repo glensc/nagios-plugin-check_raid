@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 
-use Test::More tests => 17;
+use Test::More tests => 18;
 use test;
 
 my $bindir = TESTDIR . '/data/bin';
@@ -69,6 +69,9 @@ my %sudo = (
 	areca => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/cli64 rsf info",
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/cli64 disk info",
+	],
+	dmraid => [
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/dmraid -r",
 	],
 );
 
