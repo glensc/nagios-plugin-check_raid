@@ -79,6 +79,7 @@
 # - Fixed -W option handling (#29)
 # - dmraid support
 # - mdstat plugin rewritten to handle external devices (#34)
+# - added --recheck=OK|WARNING|CRITICAL|UNKNOWN option. defaults to OK
 
 use warnings;
 use strict;
@@ -122,6 +123,9 @@ use Carp qw(croak);
 
 # Nagios standard error codes
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
+
+# status to set when RAID is in resync state
+our $resync_status = $ERRORS{OK};
 
 # return list of programs this plugin needs
 # @internal
@@ -220,6 +224,14 @@ sub unknown {
 sub ok {
 	my ($this) = @_;
 	$this->status($ERRORS{OK});
+	return $this;
+}
+
+# helper to set status for resync
+# returns $this to allow fluent api
+sub resync {
+	my ($this) = @_;
+	$this->status($resync_status);
 	return $this;
 }
 
@@ -462,7 +474,7 @@ sub check {
 				if ($s =~ /Okay/i) {
 					# no worries...
 				} elsif ($s =~ /Resync/i) {
-					$this->warning;
+					$this->resync;
 				} else {
 					$this->critical;
 				}
@@ -688,7 +700,7 @@ sub check {
 			$s .= "OK";
 
 		} elsif ($md{resync_status}) {
-			$this->warning;
+			$this->resync;
 			$s .= "$md{status} ($md{resync_status})";
 
 		} elsif ($md{status} =~ /_/) {
@@ -1015,7 +1027,7 @@ sub check {
 		next unless (my($s, $c) = /Status .*: (\S+)\s+(\S+)/);
 
 		if ($c =~ /SYN|RBL/i ) { # resynching
-			$this->warning;
+			$this->resync;
 		} elsif ($c !~ /OKY/i) { # not OK
 			$this->critical;
 		}
@@ -1294,14 +1306,19 @@ sub check {
 	# process logical units
 	while (my($d, $u) = each %{$status->{logical}}) {
 		next unless $this->valid($d);
+
 		my $s = $u->{status};
-		if ($s =~ /INITIAL|INACTIVE|RESYNC/) {
+		if ($s =~ /INITIAL|INACTIVE/) {
 			$this->warning;
+		} elsif ($s =~ /RESYNC/) {
+			$this->resync;
 		} elsif ($s =~ /DEGRADED|FAILED/) {
 			$this->critical;
 		} elsif ($s !~ /ONLINE|OPTIMAL/) {
 			$this->unknown;
 		}
+
+		# FIXME: this resync_in_progress is separate state of same as value in status?
 		if (grep { /RESYNC_IN_PROGRESS/ } @{$u->{flags}}) {
 			# find matching disks
 			my @disks = grep {$_->{ioc} eq $u->{ioc} } values %{$status->{physical}};
@@ -3316,6 +3333,14 @@ GetOptions(
 	'h' => \$opt_h, 'help' => \$opt_h,
 	'S' => \$opt_S, 'sudoers' => \$opt_S,
 	'W' => \$opt_W, 'warnonly' => \$opt_W,
+	'resync=s' => sub {
+		my ($opt, $value) = @_;
+		unless (exists $ERRORS{$value}) {
+			print "Invalid value: $value for --$opt\n";
+			exit $ERRORS{UNKNOWN};
+		}
+		$plugin::resync_status = $ERRORS{$value};
+	},
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});
