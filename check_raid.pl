@@ -79,7 +79,7 @@
 # - Fixed -W option handling (#29)
 # - dmraid support
 # - mdstat plugin rewritten to handle external devices (#34)
-# - added --recheck=OK|WARNING|CRITICAL|UNKNOWN option. defaults to OK
+# - added --resync=OK|WARNING|CRITICAL|UNKNOWN option. defaults to OK
 
 use warnings;
 use strict;
