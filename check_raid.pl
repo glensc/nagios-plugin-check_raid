@@ -155,6 +155,8 @@ sub new {
 		name => $class,
 		status => undef,
 		message => undef,
+		perfdata => undef,
+		longoutput => undef,
 	};
 
 	# lookup program, if not defined by params
@@ -231,6 +233,26 @@ sub message {
 		$this->{message} = $message;
 	}
 	$this->{message};
+}
+
+# Set performance data output.
+sub perfdata {
+	my ($this, $perfdata) = @_;
+	if (defined $perfdata) {
+		# TODO: append if already something there
+		$this->{perfdata} = $perfdata;
+	}
+	$this->{perfdata};
+}
+
+# Set plugin long output.
+sub longoutput {
+	my ($this, $longoutput) = @_;
+	if (defined $longoutput) {
+		# TODO: append if already something there
+		$this->{longoutput} = $longoutput;
+	}
+	$this->{longoutput};
 }
 
 # a helper to join similar statuses for items
@@ -790,6 +812,7 @@ sub commands {
 	{
 		'pdlist' => ['-|', '@CMD', '-PDList', '-aALL', '-NoLog'],
 		'ldinfo' => ['-|', '@CMD', '-LdInfo', '-Lall', '-aALL', '-NoLog'],
+		'battery' => ['-|', '@CMD', '-AdpBbuCmd', '-GetBbuStatus', '-aALL', '-NoLog'],
 	}
 }
 
@@ -804,6 +827,7 @@ sub sudo {
 	(
 		"CHECK_RAID ALL=(root) NOPASSWD: $cmd -PDList -aALL -NoLog",
 		"CHECK_RAID ALL=(root) NOPASSWD: $cmd -LdInfo -Lall -aALL -NoLog",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd -AdpBbuCmd -GetBbuStatus -aALL -NoLog",
 	);
 }
 
@@ -811,7 +835,7 @@ sub check {
 	my $this = shift;
 
 	my $fh = $this->cmd('pdlist');
-	my (@status, @devs, @vols, %cur, %cur_vol);
+	my (@status, @pdata, @longout, @devs, @vols, @bats, %cur, %cur_vol, %cur_bat);
 	while (<$fh>) {
 		if (my($s) = /Device Id: (\S+)/) {
 			push(@devs, { %cur }) if %cur;
@@ -859,6 +883,57 @@ sub check {
 	close $fh;
 	push(@vols, { %cur_vol }) if %cur_vol;
 
+	# check battery
+	$fh = $this->cmd('battery');
+	while (<$fh>) {
+		if (my($s) = /BBU status for Adapter: (.+)/) {
+			push(@bats, { %cur_bat }) if %cur_bat;
+			%cur_bat = ( name => $s, state => undef, missing => undef, learn_requested => undef,
+				replacement_required => undef, pack_will_fail => undef, temperature => undef,
+				temperature_state => undef, voltage => undef, voltage_state => undef
+			);
+			next;
+		}
+		if (my($s) = /Battery State\s*: (.+)/) {
+			$cur_bat{state} = $s;
+			next;
+		}
+		if (my($s) = /Battery Pack Missing\s*: (\w*)/) {
+			$cur_bat{missing} = $s;
+			next;
+		}
+		if (my($s) = /Battery Replacement required\s*: (\w*)/) {
+			$cur_bat{replacement_required} = $s;
+			next;
+		}
+		if (my($s) = /Pack is about to fail & should be replaced\s*: (\w*)/) {
+			$cur_bat{pack_will_fail} = $s;
+			next;
+		}
+		# Temperature: 18 C
+		if (my($s) = /Temperature: (\d*) C/) {
+			$cur_bat{temperature} = $s;
+			next;
+		}
+		# Temperature : OK
+		if (my($s) = /  Temperature\s*: (\w*)/) {
+			$cur_bat{temperature_state} = $s;
+			next;
+		}
+		# Voltage: 4074 mV
+		if (my($s) = /Voltage: (\d*) mV/) {
+			$cur_bat{voltage} = $s;
+			next;
+		}
+		# Voltage : OK
+		if (my($s) = /Voltage\s*: (\w*)/) {
+			$cur_bat{voltage_state} = $s;
+			next;
+		}
+	}
+	close $fh;
+	push(@bats, { %cur_bat}) if %cur_bat;
+
 	my @vstatus;
 	foreach my $vol (@vols) {
 		# It's possible to create volumes without a name
@@ -884,16 +959,72 @@ sub check {
 		}
 	}
 
+	my (%bstatus, @bpdata, @blongout);
+	foreach my $bat (@bats) {
+		if ($bat->{state} ne 'Operational') {
+			$this->critical;
+		}
+		if ($bat->{missing} ne 'No') {
+			$this->critical;
+		}
+		if ($bat->{replacement_required} ne 'No') {
+			$this->critical;
+		}
+		if ($bat->{pack_will_fail} ne 'No') {
+			$this->critical;
+		}
+		if ($bat->{temperature_state} ne 'OK') {
+			$this->critical;
+		}
+		if ($bat->{voltage_state} ne 'OK') {
+			$this->critical;
+		}
+
+		# Short output.
+		#
+		# CRITICAL: megacli:[Volumes(1): NoName:Optimal; Devices(2): 06,07=Online; Batteries(1): 0=Non Operational]
+		push(@{$bstatus{$bat->{state}}}, sprintf "%d", $bat->{name});
+		# Performance data.
+		# Return current battery temparature & voltage.
+		#
+		# Battery0=18;4074
+		push(@bpdata, sprintf "Battery%s=%s;%s", $bat->{name}, $bat->{temperature}, $bat->{voltage});
+
+		# Long output.
+		# Detailed plugin output.
+		#
+		# Battery0:
+		#  - State: Non Operational
+		#  - Missing: No
+		#  - Replacement required: Yes
+		#  - About to fail: No
+		#  - Temperature: OK (18 °C)
+		#  - Voltage: OK (4015 mV)
+		push(@blongout, sprintf "Battery%s:\n - State: %s\n - Missing: %s\n - Replacement required: %s\n - About to fail: %s\n - Temperature: %s (%s °C)\n - Voltage: %s (%s mV)\n",
+			$bat->{name}, $bat->{state}, $bat->{missing}, $bat->{replacement_required}, $bat->{pack_will_fail},
+			$bat->{temperature_state}, $bat->{temperature}, $bat->{voltage_state}, $bat->{voltage}
+		);
+	}
+
 	push(@status,
 		'Volumes(' . ($#vols + 1) . '): ' . join(',', @vstatus) .
-		'; Devices('. ($#devs + 1) . '): ' . $this->join_status(\%dstatus));
-
+		'; Devices(' . ($#devs + 1) . '): ' . $this->join_status(\%dstatus) .
+		'; Batteries(' . ($#bats + 1) . '): ' . $this->join_status(\%bstatus)
+	);
+	push(@pdata,
+		join('\n', @bpdata)
+	);
+	push(@longout,
+		join('\n', @blongout)
+	);
 	return unless @status;
 
 	# denote this plugin as ran ok
 	$this->ok;
 
 	$this->message(join(' ', @status));
+	$this->perfdata(join(' ', @pdata));
+	$this->longoutput(join(' ', @longout));
 }
 
 package lsvg;
@@ -3181,10 +3312,10 @@ use strict;
 use warnings;
 use Getopt::Long;
 
-my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l);
+my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l, $opt_O);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 my ($VERSION) = "3.0.1";
-my ($message, $status);
+my ($message, $status, $perfdata, $longoutput);
 
 #####################################################################
 $ENV{'BASH_ENV'} = '';
@@ -3200,7 +3331,7 @@ sub find_file {
 
 sub print_usage() {
 	print join "\n",
-	"Usage: check_raid [-h] [-V] [-S] [list of devices to ignore]",
+	"Usage: check_raid [-h] [-V] [-S] [-O] [list of devices to ignore]",
 	"",
 	"Options:",
 	" -h, --help",
@@ -3215,6 +3346,8 @@ sub print_usage() {
 	"    Force the use of selected plugins, comma separated",
 	" -l, --list-plugins",
 	"    Lists active plugins",
+	" -O, --noraidok",
+	"    Return OK instead of UNKNOWN if no RAID controller is found.",
 	"";
 }
 
@@ -3316,6 +3449,7 @@ GetOptions(
 	'h' => \$opt_h, 'help' => \$opt_h,
 	'S' => \$opt_S, 'sudoers' => \$opt_S,
 	'W' => \$opt_W, 'warnonly' => \$opt_W,
+	'O' => \$opt_O, 'noraidok' => \$opt_O,
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});
@@ -3372,6 +3506,8 @@ foreach my $pn (@plugins) {
 	$status = $plugin->status if $plugin->status > $status;
 	$message .= '; ' if $message;
 	$message .= "$pn:[".$plugin->message."]";
+	$message .= ' | ' . $plugin->perfdata if $plugin->perfdata;
+	$message .= "\n" . $plugin->longoutput if $plugin->longoutput;
 }
 
 if ($message) {
@@ -3385,6 +3521,9 @@ if ($message) {
 		print "UNKNOWN: ";
 	}
 	print "$message\n";
+} elsif ($opt_O) {
+	$status = $ERRORS{OK};
+	print "No RAID configuration found\n";
 } else {
 	$status = $ERRORS{UNKNOWN};
 	print "No RAID configuration found (tried: ", join(', ', @plugins), ")\n";
