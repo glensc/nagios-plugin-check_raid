@@ -73,7 +73,7 @@
 # - Improvements to plugins: arcconf, tw_cli, gdth, cciss
 # Version 3.0.1:
 # - Fixes to cciss plugin, improvements in mpt, areca, mdstat plugins
-# Version 3.0.x:
+# Version 3.0.2 (2013-11-11):
 # - Detecting SCSI devices or hosts with lsscsi
 # - Updated to handle ARCCONF 9.30 output
 # - Fixed -W option handling (#29)
