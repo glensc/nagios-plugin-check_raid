@@ -40,7 +40,7 @@ ok($plugin, "plugin created");
 $plugin->check;
 ok(1, "check ran");
 ok(defined($plugin->status), "status code set");
-ok($plugin->status == WARNING, "status code");
+ok($plugin->status == RESYNC, "status code");
 print "[".$plugin->message."]\n";
 ok($plugin->message eq 'c0(9750-4i): u0:VERIFYING 16%, (disks: p0:OK p1:OK p2:OK p3:OK)');
 }

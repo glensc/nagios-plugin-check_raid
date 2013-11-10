@@ -1106,7 +1106,9 @@ sub check {
 			$this->warning if ($stat eq "Rebuild");
 			$this->warning if ($stat eq "Bld/Vfy");
 			$this->critical if ($stat eq "Missing");
-			$this->warning if ($stat eq "Verify");
+			if ($stat eq "Verify") {
+				$this->resync;
+			}
 			$this->warning if ($stat eq "VfyRepl");
 		}
 	}
@@ -1159,7 +1161,9 @@ sub check {
 			$this->warning if ($stat eq "Rebuild");
 			$this->warning if ($stat eq "Bld/Vfy");
 			$this->critical if ($stat eq "Missing");
-			$this->warning if ($stat eq "Verify");
+			if ($stat eq "Verify") {
+				$this->resync;
+			}
 			$this->warning if ($stat eq "VfyRepl");
 		}
 	}
@@ -1746,12 +1750,12 @@ sub check {
 			if ($s eq 'OK') {
 				push(@cstatus, "$u:$s");
 
-			} elsif ($s =~ 'INITIALIZING|VERIFYING') {
+			} elsif ($s =~ 'INITIALIZING|MIGRATING') {
 				$this->warning;
 				push(@cstatus, "$u:$s $p2");
 
-			} elsif ($s eq 'MIGRATING') {
-				$this->warning;
+			} elsif ($s eq 'VERIFYING') {
+				$this->resync;
 				push(@cstatus, "$u:$s $p2");
 
 			} elsif ($s eq 'REBUILDING') {
