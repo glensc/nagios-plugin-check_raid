@@ -10,6 +10,19 @@ all:
 test:
 	perl -MTest::Harness -e 'runtests @ARGV' t/*.t
 
+release:
+	@echo "Checking for tag"; \
+	V=`./$(PLUGIN_SCRIPT) -V | cut -d' ' -f3`; \
+	T=`git tag -l $$V`; \
+	if [ -n "$$T" ]; then \
+		echo >&2 "Tag $$T already exists"; \
+		exit 1; \
+	fi; \
+	R=`git rev-parse HEAD`; \
+	echo "RELEASE: create version $$V at $$R"; \
+	git tag -a "$$V" $$R; \
+	echo "Don't forget to push: git push origin refs/tags/$$V"
+
 install:
 	install -d $(DESTDIR)$(PLUGINDIR)
 	install -p $(PLUGIN_SCRIPT) $(DESTDIR)$(PLUGINDIR)/$(PLUGIN)
