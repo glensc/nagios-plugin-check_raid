@@ -39,11 +39,11 @@ and it will just create annoying merge conflicts later.
 Verify that your changes do not break existing tests. To run all tests, invoke:
 
     make test
-    
+
 You can run also individual test separately:
 
 ```
-$ perl t/status.t 
+$ perl t/status.t
 1..20
 ok 1 - default staus undef
 ok 2 - set ok

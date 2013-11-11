@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 70;
+use Test::More tests => 76;
 use test;
 
 my @tests = (
@@ -26,7 +26,7 @@ my @tests = (
 		active => 1,
 		message => 'md2(20.00 GiB raid0):OK',
 	},
-	{ input => 'mdstat-resync', status => WARNING,
+	{ input => 'mdstat-resync', status => RESYNC,
 		active => 1,
 		message => 'md0(54.81 MiB raid1):UU, md2(698.64 GiB raid1):UU (resync:11.2% 54928K/sec ETA: 197.2min), md1(698.58 GiB raid1):UU (resync:9.9% 51946K/sec ETA: 211.5min)',
 	},
@@ -36,7 +36,7 @@ my @tests = (
 	{ input => 'mdstat-inexistent',
 		active => 0,
 	},
-	{ input => 'pr28_0', status => WARNING,
+	{ input => 'pr28_0', status => RESYNC,
 		active => 1, # When one md device is OK, and the other one is rebuilding:
 		message => 'md1(927.52 GiB raid1):UU, md0(203.81 MiB raid1):_U (recovery:0.4% 12K/sec ETA: 276.9min)',
 	},
@@ -44,19 +44,18 @@ my @tests = (
 		active => 1, # When one md device is resyncing and the other is set faulty or removed:
 		message => 'md1(927.52 GiB raid1):F::_U, md0(203.81 MiB raid1):_U (recovery:3.6% 12K/sec ETA: 259.6min)',
 	},
-	{ input => 'pr28_2', status => WARNING,
+	{ input => 'pr28_2', status => RESYNC,
 		active => 1, # When both md devices are resyncing (or planning to resync)
 		message => 'md1(927.52 GiB raid1):_U (resync=DELAYED), md0(203.81 MiB raid1):_U (recovery:3.9% 12K/sec ETA: 267.0min)',
 	},
-# expected, issues #23 and #24
-#	{ input => 'pr24', status => WARNING,
-#		active => 1,
-#		message => 'md2(2.73 TiB raid1):UU (check:98.3% 9854K/sec ETA: 81.7min), md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
-#	},
-# current:
-	{ input => 'pr24', status => OK,
+	# issues #23 and #24
+	{ input => 'pr24', status => WARNING, resync_status => WARNING,
 		active => 1,
-		message => 'md2(2.73 TiB raid1):UU, md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
+		message => 'md2(2.73 TiB raid1):UU (check:98.3% 9854K/sec ETA: 81.7min), md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
+	},
+	{ input => 'pr24', status => OK, resync_status => OK,
+		active => 1,
+		message => 'md2(2.73 TiB raid1):UU (check:98.3% 9854K/sec ETA: 81.7min), md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
 	},
 	{ input => 'issue34', status => OK,
 		active => 1,
@@ -68,7 +67,15 @@ my @tests = (
 	},
 );
 
+# save default value
+my $saved_resync_status = $plugin::resync_status;
+
 foreach my $test (@tests) {
+	if ($test->{resync_status}) {
+		$plugin::resync_status = $test->{resync_status};
+	} else {
+		$plugin::resync_status = $saved_resync_status;
+	}
 	my $plugin = mdstat->new(
 		commands => {
 			'mdstat' => ['<', TESTDIR . '/data/mdstat/' . $test->{input}],
@@ -82,6 +89,7 @@ foreach my $test (@tests) {
 
 	# can't check if plugin not active
 	next unless $active;
+
 
 	$plugin->check;
 	ok(1, "check ran");

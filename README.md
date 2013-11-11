@@ -51,6 +51,7 @@ Command line arguments
 	-S  --sudoers           Configure /etc/sudoers file
 	-W  --warnonly          Don't send CRITICAL status
 	-p  --plugin <name(s)>  Force the use of selected plugins, comma separated
+	    --resync=STATE      Set status as STATE if RAID is in resync state. Defaults to `OK`, but can be: `OK`, `WARNING`, `CRITICAL`, `UNKNOWN`.
 	-l  --list-plugins      Lists active plugins
 
 ## Reporting bugs
