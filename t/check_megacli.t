@@ -40,5 +40,5 @@ if (1) {
 	ok(defined($plugin->status), "status code set");
 	ok($plugin->status == OK, "status code");
 	print "[".$plugin->message."]\n";
-	ok($plugin->message eq 'Volumes(1): NoName:Optimal; Devices(11): 16=Hotspare 11,12,13,14,15,17=Online 18,19,20,21=Unconfigured(good)');
+	ok($plugin->message eq 'Volumes(1): DISK0.0:Optimal; Devices(11): 16=Hotspare 11,12,13,14,15,17=Online 18,19,20,21=Unconfigured(good)');
 }
