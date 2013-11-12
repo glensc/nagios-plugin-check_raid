@@ -1,0 +1,20 @@
+  # Ch# ModelName                       Capacity  Usage
+===============================================================================
+  1  1  WDC WD5000YS-01MPB1              500.1GB  Raid Set # 00   
+  2  2  WDC WD5002ABYS-02B1B0            500.1GB  Raid Set # 00   
+  3  3  WDC WD5000YS-01MPB1              500.1GB  Raid Set # 00   
+  4  4  WDC WD5003ABYX-01WERA1           500.1GB  Raid Set # 00   
+  5  5  WDC WD5000ABYS-01TNA0            500.1GB  Raid Set # 00   
+  6  6  WDC WD5003ABYX-01WERA0           500.1GB  Raid Set # 00   
+  7  7  WDC WD5000YS-01MPB1              500.1GB  Raid Set # 00   
+  8  8  WDC WD5000YS-01MPB1              500.1GB  Raid Set # 00   
+  9  9  WDC WD5000YS-01MPB1              500.1GB  Raid Set # 00   
+ 10 10  N.A.                               0.0GB  N.A.      
+ 11 11  N.A.                               0.0GB  N.A.      
+ 12 12  N.A.                               0.0GB  N.A.      
+ 13 13  N.A.                               0.0GB  N.A.      
+ 14 14  N.A.                               0.0GB  N.A.      
+ 15 15  N.A.                               0.0GB  N.A.      
+ 16 16  N.A.                               0.0GB  N.A.      
+===============================================================================
+GuiErrMsg<0x00>: Success.

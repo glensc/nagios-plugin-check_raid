@@ -3062,13 +3062,13 @@ sub check {
 			\s+(.+)       # Usage (Raid Name)
 		}x;
 
+		# trim trailing spaces from name
+		$usage =~ s/\s+$//;
+
 		# Asssume model N.A. means the slot not in use
 		# we could also check for Capacity being zero, but this seems more
 		# reliable.
 		next if $usage eq 'N.A.';
-
-		# trim trailing spaces from name
-		$usage =~ s/\s+$//;
 
 		# use array id in output: shorter
 		my $array_id = defined($arrays{$usage}) ?  ($arrays{$usage})->[0] : undef;
