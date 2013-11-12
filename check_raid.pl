@@ -858,9 +858,18 @@ sub check {
 
 	$fh = $this->cmd('ldinfo');
 	while (<$fh>) {
-		if (my($s) = /Name\s*:\s*(\S+)/) {
+		if (/Virtual Drive\s*:\s*(\d+)\s*\(Target Id:\s*(\d+)\)/i) {
+			my $drive_id=$1;
+			my $target_id=$2;
 			push(@vols, { %cur_vol }) if %cur_vol;
-			%cur_vol = ( name => $s, state => undef );
+			# Default to DriveID:TragetID in case no Name is given ...
+			%cur_vol = ( name => "$drive_id:$target_id", state => undef );
+			next;
+		} 
+		if (/Name\s*:\s*(\S+)/) {
+			my $name=$1;
+			# Add a symbolic name, if given
+			$cur_vol{"name"}=$name;
 			next;
 		}
 		if (my($s) = /State\s*:\s*(\S+)/) {
