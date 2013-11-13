@@ -23,7 +23,7 @@ ok(1, "check ran");
 ok(defined($plugin->status), "status code set");
 ok($plugin->status == OK, "status OK");
 print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Controller 0: Array 0(RAID-5) ready; Logical Drives: 0,1,2,3: ok');
+ok($plugin->message eq 'Controller 0: Array 0(RAID-5) ready; Logical Drives: 0,1,2,3=ok');
 }
 
 
@@ -41,7 +41,7 @@ ok(1, "check ran");
 ok(defined($plugin->status), "status code set");
 ok($plugin->status == CRITICAL, "status CRITICAL");
 print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Controller 0: Array 0(RAID-5) fail; Logical Drives: 0,1,2,3,4,5: ok');
+ok($plugin->message eq 'Controller 0: Array 0(RAID-5) fail; Logical Drives: 0,1,2,3,4,5=ok');
 }
 
 if (1) {
@@ -58,7 +58,7 @@ ok(1, "check ran");
 ok(defined($plugin->status), "status code set");
 ok($plugin->status == OK, "status OK");
 print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Controller 0: Array(RAID-1) ok; Logical Drives: 11: ok');
+ok($plugin->message eq 'Controller 0: Array(RAID-1) ok; Logical Drives: 11=ok');
 }
 
 if (1) {
@@ -75,5 +75,5 @@ ok(1, "check ran");
 ok(defined($plugin->status), "status code set");
 ok($plugin->status == WARNING, "status WARNING");
 print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Controller 0: Array(RAID-1) ok (1 missing drives); Logical Drives: 0: ok; Disk B/00/0(MAXTOR  ATLAS10K4_73SCA) grown defects warning: 288, not assigned');
+ok($plugin->message eq 'Controller 0: Array(RAID-1) ok (1 missing drives); Logical Drives: 0=ok; Disk B/00/0(MAXTOR  ATLAS10K4_73SCA) grown defects warning: 288, not assigned');
 }

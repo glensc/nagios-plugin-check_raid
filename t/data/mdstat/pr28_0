@@ -1,0 +1,10 @@
+# cat /proc/mdstat 
+Personalities : [raid1] 
+md1 : active raid1 sda2[0] sdb2[1]
+      972574976 blocks [2/2] [UU]
+
+md0 : active raid1 sda1[2] sdb1[1]
+      208704 blocks [2/1] [_U]
+      [>....................]  recovery =  0.4% (1024/208704) finish=276.9min speed=12K/sec
+
+unused devices: <none>

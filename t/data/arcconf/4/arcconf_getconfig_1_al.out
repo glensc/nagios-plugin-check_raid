@@ -1,0 +1,94 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Okay
+   Channel description                      : SAS/SATA
+   Controller Model                         : IBM ServeRAID 8k-l  
+   Controller Serial Number                 : 3838736
+   Physical Slot                            : 0
+   Installed memory                         : 32 MB
+   Copyback                                 : Disabled
+   Data scrubbing                           : Enabled
+   Defunct disk drive count                 : 0
+   Logical drives/Offline/Critical          : 1/0/0
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 5.2-0 (15421)
+   Firmware                                 : 5.2-0 (15421)
+   Driver                                   : 1.2-0 (29801)
+   Boot Flash                               : 5.1-0 (15411)
+   --------------------------------------------------------
+   Controller Battery Information
+   --------------------------------------------------------
+   Status                                   : Not Installed
+   --------------------------------------------------------
+   Controller Vital Product Data
+   --------------------------------------------------------
+   VPD Assigned#                            : 25R8078
+   EC Version#                              : J85097A
+   Controller FRU#                          : 25R8079
+
+----------------------------------------------------------------------
+Logical drive information
+----------------------------------------------------------------------
+Logical drive number 1
+   Logical drive name                       : MailMerak
+   RAID level                               : 1
+   Status of logical drive                  : Okay
+   Size                                     : 953689 MB
+   Write-cache mode                         : Not supported
+   Partitioned                              : Yes
+   Number of segments                       : 2
+   Drive(s) (Channel,Device)                : 0,0 0,1 
+   Defunct segments                         : No
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 3.0 Gb/s
+         Reported Channel,Device            : 0,0
+         Reported Location                  : Enclosure 0, Slot 0
+         Reported ESD                       : 2,0
+         Vendor                             : ST310003
+         Model                              : 40NS
+         Firmware                           : BB12
+         Serial number                      : 9QJ2C6NX
+         Size                               : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         PFA                                : No
+      Device #1
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 3.0 Gb/s
+         Reported Channel,Device            : 0,1
+         Reported Location                  : Enclosure 0, Slot 1
+         Reported ESD                       : 2,0
+         Vendor                             : HUA72101
+         Model                              : 0KLA330
+         Firmware                           : GKAOAB4A
+         Serial number                      : GTA060PBGHX61F
+         Size                               : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         PFA                                : No
+      Device #2
+         Device is an Enclosure services device
+         Reported Channel,Device            : 2,0
+         Enclosure ID                       : 0
+         Type                               : SES2
+         Vendor                             : IBM
+         Model                              : SAS SES-2 DEVICE
+         Firmware                           : 1.10
+         Status of Enclosure services device
+            Temperature                     : Normal
+
+
+Command completed successfully.
