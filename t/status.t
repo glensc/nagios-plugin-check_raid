@@ -11,7 +11,7 @@ use test;
 
 my $plugin = plugin->new();
 
-ok(!defined($plugin->status), 'default staus undef');
+ok(!defined($plugin->status), 'default status undef');
 ok($plugin->status(OK) == OK, 'set ok');
 ok($plugin->status(WARNING) == WARNING, 'set warning');
 ok($plugin->status(CRITICAL) == CRITICAL, 'set critical');
