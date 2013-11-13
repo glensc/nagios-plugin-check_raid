@@ -73,12 +73,13 @@
 # - Improvements to plugins: arcconf, tw_cli, gdth, cciss
 # Version 3.0.1:
 # - Fixes to cciss plugin, improvements in mpt, areca, mdstat plugins
-# Version 3.0.x:
+# Version 3.0.2 (2013-11-11):
 # - Detecting SCSI devices or hosts with lsscsi
 # - Updated to handle ARCCONF 9.30 output
 # - Fixed -W option handling (#29)
-# Version 3.0.2:
 # - dmraid support
+# - mdstat plugin rewritten to handle external devices (#34)
+# - added --resync=OK|WARNING|CRITICAL|UNKNOWN option. defaults to OK (#23, #24, #28, #37)
 
 use warnings;
 use strict;
@@ -122,6 +123,9 @@ use Carp qw(croak);
 
 # Nagios standard error codes
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
+
+# status to set when RAID is in resync state
+our $resync_status = $ERRORS{OK};
 
 # return list of programs this plugin needs
 # @internal
@@ -220,6 +224,14 @@ sub unknown {
 sub ok {
 	my ($this) = @_;
 	$this->status($ERRORS{OK});
+	return $this;
+}
+
+# helper to set status for resync
+# returns $this to allow fluent api
+sub resync {
+	my ($this) = @_;
+	$this->status($resync_status);
 	return $this;
 }
 
@@ -491,7 +503,7 @@ sub check {
 				if ($s =~ /Okay/i) {
 					# no worries...
 				} elsif ($s =~ /Resync/i) {
-					$this->warning;
+					$this->resync;
 				} else {
 					$this->critical;
 				}
@@ -516,8 +528,8 @@ use base 'plugin';
 
 sub sudo {
 	my $cat = utils::which('cat');
-	"CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/0/status";
 
+	"CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/0/status";
 }
 
 sub check {
@@ -587,26 +599,85 @@ sub parse {
 	while (<$fh>) {
 		chomp;
 
+		# skip first line
+		next if (/^Personalities : /);
+
+		# kernel-3.0.101/drivers/md/md.c, md_seq_show
 		# md1 : active raid1 sdb2[0] sda2[1]
-		if (my($d, $p) = /^(\S+)\s+:\s+(?:\S+)\s+(\S+)\s+/) {
+		if (my($dev, $active, $ro, $rest) = m{^
+			(\S+)\s+:\s+ # mdname
+			(\S+)\s+     # active: "inactive", "active"
+			(\((?:auto-)?read-only\))? # readonly
+			(.+)         # personality name + disks
+		}x) {
+			my @parts = split /\s/, $rest;
+			my $re = qr{^
+				(\S+)           # devname
+				(?:\[(\d+)\])   # desc_nr
+				(?:\((.)\))?    # flags: (W|F|S) - WriteMostly, Faulty, Spare
+			$}x;
+			my @disks = ();
+			my $personality;
+			while (my($disk) = pop @parts) {
+				last if !$disk;
+				if ($disk !~ $re) {
+					$personality = $disk;
+					last;
+				}
+				my($dev, $number, $flags) = $disk =~ $re;
+				push(@disks, {
+					'dev' => $dev,
+					'number' => int($number),
+					'flags' => $flags || '',
+				});
+			}
+
+			die "Unexpected parse" if @parts;
+
 			# first line resets %md
-			%md = (dev => $d, personality => $p);
-			@{$md{failed_disks}} = $_ =~ m/(\S+)\[\d+\]\(F\)/g;
+			%md = (dev => $dev, personality => $personality, readonly => $ro, active => $active, disks => [ @disks ]);
+
 			next;
 		}
 
-		# linux-2.6.33/drivers/md/dm-raid1.c, device_status_char
-		# A => Alive - No failures
-		# D => Dead - A write failure occurred leaving mirror out-of-sync
-		# S => Sync - A sychronization failure occurred, mirror out-of-sync
-		# R => Read - A read failure occurred, mirror data unaffected
-		# U => for the rest
-
+		# variations:
 		#"      8008320 blocks [2/2] [UU]"
 		#"      58291648 blocks 64k rounding" - linear
-		if (my($b, $s) = /^\s+(\d+)\sblocks\s+.*?(?:\s+\[([ADSRU_]+)\])?$/) {
-			$md{status} = $s;
-			$md{blocks} = $b;
+		#"      5288 blocks super external:imsm"
+		#"      20969472 blocks super 1.2 512k chunks"
+		#
+		# Metadata version:
+		# This is one of
+		# - 'none' for arrays with no metadata (good luck...)
+		# - 'external' for arrays with externally managed metadata,
+		# - or N.M for internally known formats
+		#
+		if (my($b, $mdv, $status) = m{^
+			\s+(\d+)\sblocks\s+ # blocks
+			# metadata version
+			(super\s(?:
+				(?:\d+\.\d+) | # N.M
+				(?:external:\S+) |
+				(?:non-persistent)
+			))?\s*
+			(.+) # mddev->pers->status (raid specific)
+		$}x) {
+			# linux-2.6.33/drivers/md/dm-raid1.c, device_status_char
+			# A => Alive - No failures
+			# D => Dead - A write failure occurred leaving mirror out-of-sync
+			# S => Sync - A sychronization failure occurred, mirror out-of-sync
+			# R => Read - A read failure occurred, mirror data unaffected
+			# U => for the rest
+			my ($s) = $status =~ /\s+\[([ADSRU_]+)\]/;
+
+			$md{status} = $s || '';
+			$md{blocks} = int($b);
+			$md{md_version} = $mdv;
+
+			# if external try to parse dev
+			if ($mdv) {
+				($md{md_external}) = $mdv =~ m{external:(\S+)};
+			}
 			next;
 		}
 
@@ -618,7 +689,7 @@ sub parse {
 		# linux-2.6.33/drivers/md/md.c, status_resync
 		# [==>..................]  resync = 13.0% (95900032/732515712) finish=175.4min speed=60459K/sec
 		# [=>...................]  check =  8.8% (34390144/390443648) finish=194.2min speed=30550K/sec
-		if (my($action, $perc, $eta, $speed) = m{(resync|recovery|reshape)\s+=\s+([\d.]+%) \(\d+/\d+\) finish=([\d.]+min) speed=(\d+K/sec)}) {
+		if (my($action, $perc, $eta, $speed) = m{(resync|recovery|check|reshape)\s+=\s+([\d.]+%) \(\d+/\d+\) finish=([\d.]+min) speed=(\d+K/sec)}) {
 			$md{resync_status} = "$action:$perc $speed ETA: $eta";
 			next;
 		}
@@ -646,22 +717,27 @@ sub check {
 
 		# common status
 		my $size = $this->format_bytes($md{blocks} * 1024);
-		my $s = "$md{dev}($size $md{personality}):";
+		my $personality = $md{personality} ? " $md{personality}" : "";
+		my $s = "$md{dev}($size$personality):";
+
+		# failed disks
+		my @fd = map { $_->{dev} } grep { $_->{flags} =~ /F/ } @{$md{disks}};
 
 		# raid0 is just there or its not. raid0 can't degrade.
 		# same for linear, no $md_status available
-		if ($md{personality} =~ /linear|raid0/) {
+		if ($personality =~ /linear|raid0/) {
 			$s .= "OK";
-			
+
 		} elsif ($md{resync_status}) {
-			$this->warning;
+			$this->resync;
 			$s .= "$md{status} ($md{resync_status})";
-			
+
 		} elsif ($md{status} =~ /_/) {
 			$this->critical;
-			$s .= "F:". join(",", @{$md{failed_disks}}) .":$md{status}";
+			my $fd = join(',', @fd);
+			$s .= "F:$fd:$md{status}";
 
-		} elsif (@{$md{failed_disks}} > 0) {
+		} elsif (@fd > 0) {
 			# FIXME: this is same as above?
 			$this->warning;
 			$s .= "hot-spare failure:". join(",", @{$md{failed_disks}}) .":$md{status}";
@@ -980,7 +1056,7 @@ sub check {
 		next unless (my($s, $c) = /Status .*: (\S+)\s+(\S+)/);
 
 		if ($c =~ /SYN|RBL/i ) { # resynching
-			$this->warning;
+			$this->resync;
 		} elsif ($c !~ /OKY/i) { # not OK
 			$this->critical;
 		}
@@ -1059,7 +1135,9 @@ sub check {
 			$this->warning if ($stat eq "Rebuild");
 			$this->warning if ($stat eq "Bld/Vfy");
 			$this->critical if ($stat eq "Missing");
-			$this->warning if ($stat eq "Verify");
+			if ($stat eq "Verify") {
+				$this->resync;
+			}
 			$this->warning if ($stat eq "VfyRepl");
 		}
 	}
@@ -1112,7 +1190,9 @@ sub check {
 			$this->warning if ($stat eq "Rebuild");
 			$this->warning if ($stat eq "Bld/Vfy");
 			$this->critical if ($stat eq "Missing");
-			$this->warning if ($stat eq "Verify");
+			if ($stat eq "Verify") {
+				$this->resync;
+			}
 			$this->warning if ($stat eq "VfyRepl");
 		}
 	}
@@ -1259,14 +1339,19 @@ sub check {
 	# process logical units
 	while (my($d, $u) = each %{$status->{logical}}) {
 		next unless $this->valid($d);
+
 		my $s = $u->{status};
-		if ($s =~ /INITIAL|INACTIVE|RESYNC/) {
+		if ($s =~ /INITIAL|INACTIVE/) {
 			$this->warning;
+		} elsif ($s =~ /RESYNC/) {
+			$this->resync;
 		} elsif ($s =~ /DEGRADED|FAILED/) {
 			$this->critical;
 		} elsif ($s !~ /ONLINE|OPTIMAL/) {
 			$this->unknown;
 		}
+
+		# FIXME: this resync_in_progress is separate state of same as value in status?
 		if (grep { /RESYNC_IN_PROGRESS/ } @{$u->{flags}}) {
 			# find matching disks
 			my @disks = grep {$_->{ioc} eq $u->{ioc} } values %{$status->{physical}};
@@ -1694,12 +1779,12 @@ sub check {
 			if ($s eq 'OK') {
 				push(@cstatus, "$u:$s");
 
-			} elsif ($s =~ 'INITIALIZING|VERIFYING') {
+			} elsif ($s =~ 'INITIALIZING|MIGRATING') {
 				$this->warning;
 				push(@cstatus, "$u:$s $p2");
 
-			} elsif ($s eq 'MIGRATING') {
-				$this->warning;
+			} elsif ($s eq 'VERIFYING') {
+				$this->resync;
 				push(@cstatus, "$u:$s $p2");
 
 			} elsif ($s eq 'REBUILDING') {
@@ -3034,13 +3119,13 @@ sub check {
 			\s+(.+)       # Usage (Raid Name)
 		}x;
 
+		# trim trailing spaces from name
+		$usage =~ s/\s+$//;
+
 		# Asssume model N.A. means the slot not in use
 		# we could also check for Capacity being zero, but this seems more
 		# reliable.
 		next if $usage eq 'N.A.';
-
-		# trim trailing spaces from name
-		$usage =~ s/\s+$//;
 
 		# use array id in output: shorter
 		my $array_id = defined($arrays{$usage}) ?  ($arrays{$usage})->[0] : undef;
@@ -3073,7 +3158,7 @@ sub check {
 }
 
 package dmraid;
-use base "plugin";
+use base 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -3084,7 +3169,7 @@ sub program_names {
 
 sub commands {
 	{
-		'-r' => ['-|', '@CMD', '-r'],
+		'read' => ['-|', '@CMD', '-r'],
 	}
 }
 
@@ -3097,59 +3182,71 @@ sub sudo {
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -r";
 }
 
+# parse arrays, return data indexed by array name
+sub parse {
+	my $this = shift;
+
+	my (%arrays);
+	my $fh = $this->cmd('read');
+	while (<$fh>) {
+		chomp;
+		next unless (my($device, $format, $name, $type, $status, $sectors) = m{^
+			# /dev/sda: jmicron, "jmicron_JRAID", mirror, ok, 781385728 sectors, data@ 0
+			(/dev/\S+):\s # device
+			(\S+),\s # format
+			"([^"]+)",\s # name
+			(mirror|stripe[d]?),\s # type
+			(\w+),\s # status
+			(\d+)\ssectors,.* # sectors
+		$}x);
+		next unless $this->valid($device);
+
+		# trim trailing spaces from name
+		$name =~ s/\s+$//;
+
+		my $member = {
+			'device' => $device,
+			'format' => $format,
+			'type' => $type,
+			'status' => $status,
+			'size' => $sectors,
+		};
+
+		push(@{$arrays{$name}}, $member);
+	}
+	close $fh;
+
+	return \%arrays;
+}
+
+
 # plugin check
 # can store its exit code in $this->status
 # can output its message in $this->message
 sub check {
 	my $this = shift;
+	my (@status);
 
 	## Check Array and Drive Status
-	my %arrays = ();
-	my $fh = $this->cmd('-r');
-=cut
-/dev/sda: jmicron, "jmicron_JRAID", mirror, ok, 781385728 sectors, data@ 0
-/dev/sdb: jmicron, "jmicron_JRAID", mirror, ok, 781385728 sectors, data@ 0
-=cut
-	while (<$fh>) {
-        next unless (my($device, $format, $name, $type, $status, $sectors) = m{^(.*?):\s([\w]+),\s"([a-zA-Z0-9_\-]+)",\s(mirror|stripe[d]?),\s(\w+),\s(\d+) sectors,.*$});
-        next unless $this->valid($device);
-
-		# trim trailing spaces from name
-		$name =~ s/\s+$//;
-
-		if ($status =~ m/[Ss]ync|[Rr]e[bB]uild/) {
-			$this->warning;
-		} elsif ($status !~ m/[Oo]k/) {
-			$this->critical;
+	my $arrays = $this->parse;
+	while (my($name, $array) = each(%$arrays)) {
+		my @s;
+		foreach my $dev (@$array) {
+			if ($dev->{status} =~ m/sync|rebuild/i) {
+				$this->warning;
+			} elsif ($dev->{status} !~ m/ok/i) {
+				$this->critical;
+			}
+			my $size = $this->format_bytes($dev->{size});
+			push(@s, "$dev->{device}($dev->{type}, $size): $dev->{status}");
 		}
-		
-		if( !exists($arrays{$name}) ) {
-			$arrays{$name} = ();
-		}
-
-        $arrays{$name}{$device}{'status'} = $status;
-        $arrays{$name}{$device}{'type'} = $type;
+		push(@status, "$name: " . join(', ', @s));
 	}
-	close $fh;
-    my $message = "";
-    while( my($raidName, $data) = each( %arrays ) ) {
-        if( $message ne "" ) {
-            $message .= ", ";
-        }
-        $message .= "$raidName";
-        while( my($device, $deviceData) = each( $data ) ) {
-            $message .= "( $device => ";
-            while( my($key, $value) = each($deviceData) ) {
-                if( $key eq 'status' ) {
-                    $message .= "$value [";
-                } elsif( $key eq 'type' ) {
-                    $message .= "$value]";
-                }
-            }
-            $message .= " )";
-        }
-    }
-	$this->ok->message($message);
+
+	return unless @status;
+
+	# denote that this plugin as ran ok, not died unexpectedly
+	$this->ok->message(join(' ', @status));
 }
 
 {
@@ -3164,7 +3261,7 @@ use Getopt::Long;
 
 my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
-my ($VERSION) = "3.0.1";
+my ($VERSION) = "3.0.3";
 my ($message, $status);
 
 #####################################################################
@@ -3297,6 +3394,14 @@ GetOptions(
 	'h' => \$opt_h, 'help' => \$opt_h,
 	'S' => \$opt_S, 'sudoers' => \$opt_S,
 	'W' => \$opt_W, 'warnonly' => \$opt_W,
+	'resync=s' => sub {
+		my ($opt, $value) = @_;
+		unless (exists $ERRORS{$value}) {
+			print "Invalid value: $value for --$opt\n";
+			exit $ERRORS{UNKNOWN};
+		}
+		$plugin::resync_status = $ERRORS{$value};
+	},
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});
