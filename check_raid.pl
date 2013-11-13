@@ -33,6 +33,7 @@
 # - HP Smart Array Controllers and MSA Controllers via hpacucli (see hapacucli readme)
 # - HP Smart Array (MSA1500) via serial line
 # - Linux 3ware SATA RAID via tw_cli
+# - Linux Device Mapper RAID via dmraid
 # - Linux DPT/I2O hardware RAID controllers via /proc/scsi/dpt_i2o
 # - Linux GDTH hardware RAID controllers via /proc/scsi/gdth
 # - Linux LSI MegaRaid hardware RAID via CmdTool2
