@@ -69,6 +69,7 @@ Supported RAIDs that can be checked:
   hapacucli readme)
 - HP Smart Array (MSA1500) via serial line
 - Linux 3ware SATA RAID via `tw_cli`
+- Linux Device Mapper RAID via dmraid
 - Linux DPT/I2O hardware RAID controllers via `/proc/scsi/dpt_i2o`
 - Linux GDTH hardware RAID controllers via `/proc/scsi/gdth`
 - Linux LSI MegaRaid hardware RAID via CmdTool2
@@ -87,6 +88,7 @@ You might need to install following tools depending on your raid:
 - `CmdTool2`: CmdTool2 SAS RAID Management Utility
 - `arcconf`: Adaptec uniform command line interface
 - `cciss_vol_status`: http://cciss.sourceforge.net/
+- `dmraid`: Device Mapper RAID command line interface
 - `megarc-scsi`: LSI Logic MegaRAID Linux MegaRC utility
 - `mpt-status`: LSI RAID controllers - http://www.red-bean.com/~mab/mpt-status.html
 - `tw_cli-9xxx`: 3ware SATA RAID controllers - http://www.3ware.com/
