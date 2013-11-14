@@ -824,7 +824,7 @@ sub check {
 	my $this = shift;
 
 	my $fh = $this->cmd('pdlist');
-	my (@status, @devs, @vols, %cur, %cur_vol);
+	my (@status, @devs, @vols, %cur);
 	while (<$fh>) {
 		if (my($s) = /Device Id: (\S+)/) {
 			push(@devs, { %cur }) if %cur;
@@ -857,13 +857,22 @@ sub check {
 	close $fh;
 	push(@devs, { %cur }) if %cur;
 
+	my %cur_vol;
 	$fh = $this->cmd('ldinfo');
 	while (<$fh>) {
-		if (my($s) = /Name\s*:\s*(\S+)/) {
+		if (my($drive_id, $target_id) = /Virtual (?:Disk|Drive)\s*:\s*(\d+)\s*\(Target Id:\s*(\d+)\)/i) {
 			push(@vols, { %cur_vol }) if %cur_vol;
-			%cur_vol = ( name => $s, state => undef );
+			# Default to DriveID:TragetID in case no Name is given ...
+			%cur_vol = ( name => "DISK$drive_id.$target_id", state => undef );
 			next;
 		}
+
+		if (my($name) = /Name\s*:\s*(\S+)/) {
+			# Add a symbolic name, if given
+			$cur_vol{name} = $name;
+			next;
+		}
+
 		if (my($s) = /State\s*:\s*(\S+)/) {
 			$cur_vol{state} = $s;
 			next;
@@ -874,11 +883,6 @@ sub check {
 
 	my @vstatus;
 	foreach my $vol (@vols) {
-		# It's possible to create volumes without a name
-		if (!$vol->{name}) {
-			$vol->{name} = 'NoName';
-		}
-
 		push(@vstatus, sprintf "%s:%s", $vol->{name}, $vol->{state});
 		if ($vol->{state} ne 'Optimal') {
 			$this->critical;

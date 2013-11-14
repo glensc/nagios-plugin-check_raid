@@ -1,0 +1,184 @@
+Adapter #0
+
+Enclosure Device ID: 252
+Slot Number: 0
+Device Id: 11
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 136.731 GB [0x11176d60 Sectors]
+Non Coerced Size: 136.231 GB [0x11076d60 Sectors]
+Coerced Size: 135.972 GB [0x10ff2000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0xXXXXXXXXXXXX6ced2
+SAS Address(1): 0x0
+Connected Port Number: 3(path0)
+Inquiry Data: IBM-ESXSMBE2147RC       XXXXXXXXXXXXX17SC17SC17
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None
+Device Speed: 6.0Gb/s
+Link Speed: 6.0Gb/s
+Media Type: Hard Disk Device
+Drive:  Not Certified
+
+
+
+Enclosure Device ID: 252
+Slot Number: 1
+Device Id: 10
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 136.731 GB [0x11176d60 Sectors]
+Non Coerced Size: 136.231 GB [0x11076d60 Sectors]
+Coerced Size: 135.972 GB [0x10ff2000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0xXXXXXXXXXXXX72f12
+SAS Address(1): 0x0
+Connected Port Number: 2(path0)
+Inquiry Data: IBM-ESXSMBE2147RC       XXXXXXXXXXXXX17SC17SC17
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None
+Device Speed: 6.0Gb/s
+Link Speed: 6.0Gb/s
+Media Type: Hard Disk Device
+Drive:  Not Certified
+
+
+
+Enclosure Device ID: 252
+Slot Number: 2
+Device Id: 9
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 136.731 GB [0x11176d60 Sectors]
+Non Coerced Size: 136.231 GB [0x11076d60 Sectors]
+Coerced Size: 135.972 GB [0x10ff2000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0xXXXXXXXXXXXX6d242
+SAS Address(1): 0x0
+Connected Port Number: 1(path0)
+Inquiry Data: IBM-ESXSMBE2147RC       XXXXXXXXXXXXX17SC17SC17
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None
+Device Speed: 6.0Gb/s
+Link Speed: 6.0Gb/s
+Media Type: Hard Disk Device
+Drive:  Not Certified
+
+
+
+Enclosure Device ID: 252
+Slot Number: 3
+Device Id: 8
+Sequence Number: 9
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 136.731 GB [0x11176d60 Sectors]
+Non Coerced Size: 136.231 GB [0x11076d60 Sectors]
+Coerced Size: 135.972 GB [0x10ff2000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0xXXXXXXXXXXXX729f2
+SAS Address(1): 0x0
+Connected Port Number: 0(path0)
+Inquiry Data: IBM-ESXSMBE2147RC       XXXXXXXXXXXXX17SC17SC17
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None
+Device Speed: 6.0Gb/s
+Link Speed: 6.0Gb/s
+Media Type: Hard Disk Device
+Drive:  Not Certified
+
+
+
+Enclosure Device ID: 252
+Slot Number: 4
+Device Id: 12
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 136.731 GB [0x11176d60 Sectors]
+Non Coerced Size: 136.231 GB [0x11076d60 Sectors]
+Coerced Size: 135.972 GB [0x10ff2000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0xXXXXXXXXXXXX712c2
+SAS Address(1): 0x0
+Connected Port Number: 4(path0)
+Inquiry Data: IBM-ESXSMBE2147RC       XXXXXXXXXXXXX17SC17SC17
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None
+Device Speed: 6.0Gb/s
+Link Speed: 6.0Gb/s
+Media Type: Hard Disk Device
+Drive:  Not Certified
+
+
+
+Enclosure Device ID: 252
+Slot Number: 5
+Device Id: 13
+Sequence Number: 9
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 136.731 GB [0x11176d60 Sectors]
+Non Coerced Size: 136.231 GB [0x11076d60 Sectors]
+Coerced Size: 135.972 GB [0x10ff2000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0xXXXXXXXXXXXX6cd72
+SAS Address(1): 0x0
+Connected Port Number: 5(path0)
+Inquiry Data: IBM-ESXSMBE2147RC       XXXXXXXXXXXXX17SC17SC17
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None
+Device Speed: 6.0Gb/s
+Link Speed: 6.0Gb/s
+Media Type: Hard Disk Device
+Drive:  Not Certified
+
+
+
+
+Exit Code: 0x00
