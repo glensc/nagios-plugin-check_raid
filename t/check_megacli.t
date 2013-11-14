@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 15;
+use Test::More tests => 20;
 use test;
 
 my @tests = (
@@ -27,6 +27,12 @@ my @tests = (
 		pdlist => 'issue41/pdlist',
 		ldinfo => 'issue41/ldinfo',
 		message => 'Volumes(3): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal; Devices(6): 11,10,09,08,12,13=Online',
+	},
+	{
+		status => WARNING,
+		pdlist => 'megacli.pdlist.2',
+		ldinfo => 'empty',
+		message => 'Volumes(0): ; Devices(11): 16=Hotspare 11,12,13,14,15,17=Online 18,19,20,21=Unconfigured(good)',
 	},
 );
 
