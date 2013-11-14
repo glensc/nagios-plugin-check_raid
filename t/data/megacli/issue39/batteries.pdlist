@@ -1,0 +1,383 @@
+                                     
+Adapter #0
+
+Enclosure Device ID: 15
+Slot Number: 1
+Enclosure position: 0
+Device Id: 4
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 2.728 TB [0x15d50a3b0 Sectors]
+Non Coerced Size: 2.728 TB [0x15d40a3b0 Sectors]
+Coerced Size: 2.727 TB [0x15d3ef000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0x500019b9ff72cd00
+Connected Port Number: 0(path0) 
+Inquiry Data:       MK0311YHGXHPPAHitachi HDS723030ALA640                 MKAOA5C0
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :35C (95.00 F)
+
+
+
+Enclosure Device ID: 15
+Slot Number: 2
+Enclosure position: 0
+Device Id: 5
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 2.728 TB [0x15d50a3b0 Sectors]
+Non Coerced Size: 2.728 TB [0x15d40a3b0 Sectors]
+Coerced Size: 2.727 TB [0x15d3ef000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0x500019b9ff72cd01
+Connected Port Number: 0(path0) 
+Inquiry Data:       MK0311YHGXGTSAHitachi HDS723030ALA640                 MKAOA5C0
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :35C (95.00 F)
+
+
+
+Enclosure Device ID: 15
+Slot Number: 3
+Enclosure position: 0
+Device Id: 6
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 2.728 TB [0x15d50a3b0 Sectors]
+Non Coerced Size: 2.728 TB [0x15d40a3b0 Sectors]
+Coerced Size: 2.727 TB [0x15d3ef000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0x500019b9ff72cd02
+Connected Port Number: 0(path0) 
+Inquiry Data:       MK0311YHGX38DAHitachi HDS723030ALA640                 MKAOA5C0
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :36C (96.80 F)
+
+
+
+Enclosure Device ID: 15
+Slot Number: 4
+Enclosure position: 0
+Device Id: 7
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 2.728 TB [0x15d50a3b0 Sectors]
+Non Coerced Size: 2.728 TB [0x15d40a3b0 Sectors]
+Coerced Size: 2.727 TB [0x15d3ef000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0x500019b9ff72cd03
+Connected Port Number: 0(path0) 
+Inquiry Data:       MK0311YHG31V6AHitachi HDS723030ALA640                 MKAOA580
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :33C (91.40 F)
+
+
+
+Enclosure Device ID: 15
+Slot Number: 5
+Enclosure position: 0
+Device Id: 8
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 2.728 TB [0x15d50a3b0 Sectors]
+Non Coerced Size: 2.728 TB [0x15d40a3b0 Sectors]
+Coerced Size: 2.727 TB [0x15d3ef000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0x500019b9ff72cd04
+Connected Port Number: 0(path0) 
+Inquiry Data:       MK0311YHGVLH4AHitachi HDS723030ALA640                 MKAOA5C0
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :34C (93.20 F)
+
+
+
+Enclosure Device ID: 15
+Slot Number: 6
+Enclosure position: 0
+Device Id: 9
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 2.728 TB [0x15d50a3b0 Sectors]
+Non Coerced Size: 2.728 TB [0x15d40a3b0 Sectors]
+Coerced Size: 2.727 TB [0x15d3ef000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0x500019b9ff72cd05
+Connected Port Number: 0(path0) 
+Inquiry Data:       MK0311YHGBEBZAHitachi HDS723030ALA640                 MKAOA580
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :34C (93.20 F)
+
+
+
+Enclosure Device ID: 15
+Slot Number: 7
+Enclosure position: 0
+Device Id: 10
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 2.728 TB [0x15d50a3b0 Sectors]
+Non Coerced Size: 2.728 TB [0x15d40a3b0 Sectors]
+Coerced Size: 2.727 TB [0x15d3ef000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0x500019b9ff72cd06
+Connected Port Number: 0(path0) 
+Inquiry Data:       MK0311YHGBEAMAHitachi HDS723030ALA640                 MKAOA580
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :32C (89.60 F)
+
+
+
+Enclosure Device ID: 15
+Slot Number: 8
+Enclosure position: 0
+Device Id: 11
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 2.728 TB [0x15d50a3b0 Sectors]
+Non Coerced Size: 2.728 TB [0x15d40a3b0 Sectors]
+Coerced Size: 2.727 TB [0x15d3ef000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0x500019b9ff72cd07
+Connected Port Number: 0(path0) 
+Inquiry Data:       MK0311YHGX2TJAHitachi HDS723030ALA640                 MKAOA5C0
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :33C (91.40 F)
+
+
+
+Enclosure Device ID: 15
+Slot Number: 9
+Enclosure position: 0
+Device Id: 12
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 2.728 TB [0x15d50a3b0 Sectors]
+Non Coerced Size: 2.728 TB [0x15d40a3b0 Sectors]
+Coerced Size: 2.727 TB [0x15d3ef000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0x500019b9ff72cd08
+Connected Port Number: 0(path0) 
+Inquiry Data:       MK0311YHGXJUVAHitachi HDS723030ALA640                 MKAOA5C0
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :33C (91.40 F)
+
+
+
+Enclosure Device ID: 15
+Slot Number: 10
+Enclosure position: 0
+Device Id: 13
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 2.728 TB [0x15d50a3b0 Sectors]
+Non Coerced Size: 2.728 TB [0x15d40a3b0 Sectors]
+Coerced Size: 2.727 TB [0x15d3ef000 Sectors]
+Firmware state: Online, Spun Up
+SAS Address(0): 0x500019b9ff72cd09
+Connected Port Number: 0(path0) 
+Inquiry Data:       MK0311YHGWM50AHitachi HDS723030ALA640                 MKAOA5C0
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :32C (89.60 F)
+
+
+
+Enclosure Device ID: 15
+Slot Number: 11
+Enclosure position: 0
+Device Id: 14
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 2.728 TB [0x15d50a3b0 Sectors]
+Non Coerced Size: 2.728 TB [0x15d40a3b0 Sectors]
+Coerced Size: 2.727 TB [0x15d3ef000 Sectors]
+Firmware state: Hotspare, Spun down
+SAS Address(0): 0x500019b9ff72cd0a
+Connected Port Number: 0(path0) 
+Inquiry Data:       MK0311YHGXGURAHitachi HDS723030ALA640                 MKAOA5C0
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :33C (91.40 F)
+
+
+Hotspare Information: 
+Type: Global, is revertible
+
+
+Enclosure Device ID: 15
+Slot Number: 12
+Enclosure position: 0
+Device Id: 16
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 2.728 TB [0x15d50a3b0 Sectors]
+Non Coerced Size: 2.728 TB [0x15d40a3b0 Sectors]
+Coerced Size: 2.727 TB [0x15d3ef000 Sectors]
+Firmware state: Hotspare, Spun down
+SAS Address(0): 0x500019b9ff72cd0b
+Connected Port Number: 0(path0) 
+Inquiry Data:       MK0311YHGX5JZAHitachi HDS723030ALA640                 MKAOA5C0
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :33C (91.40 F)
+
+
+Hotspare Information: 
+Type: Global, is revertible
+
+
+
+Exit Code: 0x00
