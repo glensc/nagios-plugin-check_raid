@@ -46,7 +46,7 @@ if (1) {
 if (1) {
 	my $plugin = megacli->new(
 		commands => {
-			'pdlist' => ['<', TESTDIR . '/data/megacli/megacli.pdlist.1'],
+			'pdlist' => ['<', TESTDIR . '/data/megacli/issue41/pdlist'],
 			'ldinfo' => ['<', TESTDIR . '/data/megacli/issue41/ldinfo'],
 		},
 	);
@@ -57,5 +57,5 @@ if (1) {
 	ok(defined($plugin->status), "status code set");
 	ok($plugin->status == OK, "status code");
 	print "[".$plugin->message."]\n";
-	ok($plugin->message eq 'Volumes(3): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online');
+	ok($plugin->message eq 'Volumes(3): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal; Devices(6): 11,10,09,08,12,13=Online');
 }
