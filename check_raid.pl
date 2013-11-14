@@ -769,7 +769,7 @@ sub check {
 	my $this = shift;
 
 	my $fh = $this->cmd('pdlist');
-	my (@status, @pdata, @longout, @devs, @vols, @bats, %cur, %cur_vol, %cur_bat);
+	my (@status, @pdata, @longout, @devs, @vols, @bats, %cur, %cur_vol);
 	while (<$fh>) {
 		if (my($s) = /Device Id: (\S+)/) {
 			push(@devs, { %cur }) if %cur;
@@ -819,10 +819,12 @@ sub check {
 
 	# check battery
 	$fh = $this->cmd('battery');
+	my (%cur_bat);
 	while (<$fh>) {
 		if (my($s) = /BBU status for Adapter: (.+)/) {
 			push(@bats, { %cur_bat }) if %cur_bat;
-			%cur_bat = ( name => $s, state => undef, missing => undef, learn_requested => undef,
+			%cur_bat = (
+				name => $s, state => '???', missing => undef, learn_requested => undef,
 				replacement_required => undef, pack_will_fail => undef, temperature => undef,
 				temperature_state => undef, voltage => undef, voltage_state => undef
 			);
@@ -845,7 +847,7 @@ sub check {
 			next;
 		}
 		# Temperature: 18 C
-		if (my($s) = /Temperature: (\d*) C/) {
+		if (my($s) = /Temperature: (\d+) C/) {
 			$cur_bat{temperature} = $s;
 			next;
 		}
@@ -855,7 +857,7 @@ sub check {
 			next;
 		}
 		# Voltage: 4074 mV
-		if (my($s) = /Voltage: (\d*) mV/) {
+		if (my($s) = /Voltage: (\d+) mV/) {
 			$cur_bat{voltage} = $s;
 			next;
 		}
@@ -904,7 +906,7 @@ sub check {
 		if ($bat->{replacement_required} ne 'No') {
 			$this->critical;
 		}
-		if ($bat->{pack_will_fail} ne 'No') {
+		if (defined($bat->{pack_will_fail}) && $bat->{pack_will_fail} ne 'No') {
 			$this->critical;
 		}
 		if ($bat->{temperature_state} ne 'OK') {
@@ -934,10 +936,15 @@ sub check {
 		#  - About to fail: No
 		#  - Temperature: OK (18 °C)
 		#  - Voltage: OK (4015 mV)
-		push(@blongout, sprintf "Battery%s:\n - State: %s\n - Missing: %s\n - Replacement required: %s\n - About to fail: %s\n - Temperature: %s (%s °C)\n - Voltage: %s (%s mV)\n",
-			$bat->{name}, $bat->{state}, $bat->{missing}, $bat->{replacement_required}, $bat->{pack_will_fail},
-			$bat->{temperature_state}, $bat->{temperature}, $bat->{voltage_state}, $bat->{voltage}
-		);
+		push(@blongout, join("\n", grep {/./}
+			"Battery$bat->{name}:",
+			" - State: $bat->{state}",
+			" - Missing: $bat->{missing}",
+			" - Replacement required: $bat->{replacement_required}",
+			defined($bat->{pack_will_fail}) ?  " - About to fail: $bat->{pack_will_fail}" : "",
+			" - Temperature: $bat->{temperature_state} ($bat->{temperature} C)",
+			" - Voltage: $bat->{voltage_state} ($bat->{voltage} mV)",
+		));
 	}
 
 	push(@status,
