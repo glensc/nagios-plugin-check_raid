@@ -83,6 +83,8 @@
 # - added --resync=OK|WARNING|CRITICAL|UNKNOWN option. defaults to OK (#23, #24, #28, #37)
 # Version 3.0.3 (2013-11-11):
 # - resync fixes
+# Version 3.0.x
+# - added --noraid=OK|WARNING|CRITICAL|UNKNOWN option. defaults to UNKNOWN
 
 use warnings;
 use strict;
@@ -3361,10 +3363,11 @@ use strict;
 use warnings;
 use Getopt::Long;
 
-my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l, $opt_O);
+my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 my ($VERSION) = "3.0.3";
 my ($message, $status, $perfdata, $longoutput);
+my ($opt_O) = $ERRORS{UNKNOWN};
 
 #####################################################################
 $ENV{'BASH_ENV'} = '';
@@ -3395,8 +3398,10 @@ sub print_usage() {
 	"    Force the use of selected plugins, comma separated",
 	" -l, --list-plugins",
 	"    Lists active plugins",
-	" -O, --noraidok",
-	"    Return OK instead of UNKNOWN if no RAID controller is found.",
+	" --resync=STATE",
+	"    Set status as STATE if RAID is in resync state. Defaults to OK",
+	" --noraid=STATE",
+	"    Return STATE if no RAID controller is found. Defaults to UNKNOWN",
 	"";
 }
 
@@ -3491,6 +3496,15 @@ sub print_active_plugins {
 	}
 }
 
+sub setstate {
+	my ($key, $opt, $value) = @_;
+	unless (exists $ERRORS{$value}) {
+		print "Invalid value: '$value' for --$opt\n";
+		exit $ERRORS{UNKNOWN};
+	}
+	$$key = $ERRORS{$value};
+}
+
 Getopt::Long::Configure('bundling');
 GetOptions(
 	'V' => \$opt_V, 'version' => \$opt_V,
@@ -3498,15 +3512,8 @@ GetOptions(
 	'h' => \$opt_h, 'help' => \$opt_h,
 	'S' => \$opt_S, 'sudoers' => \$opt_S,
 	'W' => \$opt_W, 'warnonly' => \$opt_W,
-	'resync=s' => sub {
-		my ($opt, $value) = @_;
-		unless (exists $ERRORS{$value}) {
-			print "Invalid value: $value for --$opt\n";
-			exit $ERRORS{UNKNOWN};
-		}
-		$plugin::resync_status = $ERRORS{$value};
-	},
-	'O' => \$opt_O, 'noraidok' => \$opt_O,
+	'resync=s' => sub { setstate(\$plugin::resync_status, @_); },
+	'noraid=s' => sub { setstate(\$opt_O, @_); },
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});
