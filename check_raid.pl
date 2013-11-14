@@ -1033,7 +1033,7 @@ sub check {
 	push(@status,
 		'Volumes(' . ($#vols + 1) . '): ' . join(',', @vstatus) .
 		'; Devices(' . ($#devs + 1) . '): ' . $this->join_status(\%dstatus) .
-		'; Batteries(' . ($#bats + 1) . '): ' . $this->join_status(\%bstatus)
+		(@bats ?  '; Batteries(' . ($#bats + 1) . '): ' . $this->join_status(\%bstatus) : '')
 	);
 	push(@pdata,
 		join('\n', @bpdata)
