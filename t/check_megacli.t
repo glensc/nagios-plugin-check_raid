@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 20;
+use Test::More tests => 25;
 use test;
 
 my @tests = (
@@ -14,25 +14,36 @@ my @tests = (
 		status => OK,
 		pdlist => 'megacli.pdlist.1',
 		ldinfo => 'megacli.ldinfo.1',
+		battery => 'empty',
 		message => 'Volumes(2): OS:Optimal,DATA:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online',
 	},
 	{
 		status => OK,
 		pdlist => 'megacli.pdlist.2',
 		ldinfo => 'megacli.ldinfo.2',
+		battery => 'empty',
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(11): 16=Hotspare 11,12,13,14,15,17=Online 18,19,20,21=Unconfigured(good)',
 	},
 	{
 		status => OK,
 		pdlist => 'issue41/pdlist',
 		ldinfo => 'issue41/ldinfo',
+		battery => 'empty',
 		message => 'Volumes(3): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal; Devices(6): 11,10,09,08,12,13=Online',
 	},
 	{
 		status => WARNING,
 		pdlist => 'megacli.pdlist.2',
 		ldinfo => 'empty',
+		battery => 'empty',
 		message => 'Volumes(0): ; Devices(11): 16=Hotspare 11,12,13,14,15,17=Online 18,19,20,21=Unconfigured(good)',
+	},
+	{
+		status => CRITICAL,
+		pdlist => 'issue39/batteries.pdlist',
+		ldinfo => 'issue39/batteries.ldinfo',,
+		battery => 'issue39/batteries.bbustatus',
+		message => 'Volumes(1): DISK0.0:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online; Batteries(1): 0=???',
 	},
 );
 
@@ -41,6 +52,7 @@ foreach my $test (@tests) {
 		commands => {
 			'pdlist' => ['<', TESTDIR . '/data/megacli/' . $test->{pdlist}],
 			'ldinfo' => ['<', TESTDIR . '/data/megacli/' . $test->{ldinfo}],
+			'battery' => ['<', TESTDIR . '/data/megacli/' . $test->{battery}],
 		},
 	);
 
