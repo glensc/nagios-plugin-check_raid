@@ -9,53 +9,42 @@ use warnings;
 use Test::More tests => 15;
 use test;
 
-if (1) {
+my @tests = (
+	{
+		status => OK,
+		pdlist => 'megacli.pdlist.1',
+		ldinfo => 'megacli.ldinfo.1',
+		message => 'Volumes(2): OS:Optimal,DATA:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online',
+	},
+	{
+		status => OK,
+		pdlist => 'megacli.pdlist.2',
+		ldinfo => 'megacli.ldinfo.2',
+		message => 'Volumes(1): DISK0.0:Optimal; Devices(11): 16=Hotspare 11,12,13,14,15,17=Online 18,19,20,21=Unconfigured(good)',
+	},
+	{
+		status => OK,
+		pdlist => 'issue41/pdlist',
+		ldinfo => 'issue41/ldinfo',
+		message => 'Volumes(3): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal; Devices(6): 11,10,09,08,12,13=Online',
+	},
+);
+
+foreach my $test (@tests) {
 	my $plugin = megacli->new(
 		commands => {
-			'pdlist' => ['<', TESTDIR . '/data/megacli/megacli.pdlist.1'],
-			'ldinfo' => ['<', TESTDIR . '/data/megacli/megacli.ldinfo.1'],
+			'pdlist' => ['<', TESTDIR . '/data/megacli/' . $test->{pdlist}],
+			'ldinfo' => ['<', TESTDIR . '/data/megacli/' . $test->{ldinfo}],
 		},
 	);
 
 	ok($plugin, "plugin created");
+
 	$plugin->check;
 	ok(1, "check ran");
+
 	ok(defined($plugin->status), "status code set");
-	ok($plugin->status == OK, "status code");
+	ok($plugin->status == $test->{status}, "status code (got:".$plugin->status." exp:".$test->{status}.")");
 	print "[".$plugin->message."]\n";
-	ok($plugin->message eq 'Volumes(2): OS:Optimal,DATA:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online');
-}
-
-if (1) {
-	my $plugin = megacli->new(
-		commands => {
-			'pdlist' => ['<', TESTDIR . '/data/megacli/megacli.pdlist.2'],
-			'ldinfo' => ['<', TESTDIR . '/data/megacli/megacli.ldinfo.2'],
-		},
-	);
-
-	ok($plugin, "plugin created");
-	$plugin->check;
-	ok(1, "check ran");
-	ok(defined($plugin->status), "status code set");
-	ok($plugin->status == OK, "status code");
-	print "[".$plugin->message."]\n";
-	ok($plugin->message eq 'Volumes(1): DISK0.0:Optimal; Devices(11): 16=Hotspare 11,12,13,14,15,17=Online 18,19,20,21=Unconfigured(good)');
-}
-
-if (1) {
-	my $plugin = megacli->new(
-		commands => {
-			'pdlist' => ['<', TESTDIR . '/data/megacli/issue41/pdlist'],
-			'ldinfo' => ['<', TESTDIR . '/data/megacli/issue41/ldinfo'],
-		},
-	);
-
-	ok($plugin, "plugin created");
-	$plugin->check;
-	ok(1, "check ran");
-	ok(defined($plugin->status), "status code set");
-	ok($plugin->status == OK, "status code");
-	print "[".$plugin->message."]\n";
-	ok($plugin->message eq 'Volumes(3): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal; Devices(6): 11,10,09,08,12,13=Online');
+	ok($plugin->message eq $test->{message}, "status message");
 }
