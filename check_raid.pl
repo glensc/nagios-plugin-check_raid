@@ -81,6 +81,8 @@
 # - dmraid support
 # - mdstat plugin rewritten to handle external devices (#34)
 # - added --resync=OK|WARNING|CRITICAL|UNKNOWN option. defaults to OK (#23, #24, #28, #37)
+# Version 3.0.3 (2013-11-11):
+# - resync fixes
 
 use warnings;
 use strict;
