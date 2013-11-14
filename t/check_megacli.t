@@ -32,7 +32,7 @@ my @tests = (
 		message => 'Volumes(3): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal; Devices(6): 11,10,09,08,12,13=Online',
 	},
 	{
-		status => WARNING,
+		status => CRITICAL,
 		pdlist => 'megacli.pdlist.2',
 		ldinfo => 'empty',
 		battery => 'empty',

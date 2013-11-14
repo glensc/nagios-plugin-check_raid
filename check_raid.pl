@@ -848,7 +848,8 @@ sub check {
 	my $this = shift;
 
 	my $fh = $this->cmd('pdlist');
-	my (@status, @pdata, @longout, @devs, @vols, @bats, %cur);
+	my (@status, @pdata, @longout, @devs, @vols, @bats, %cur, $rc);
+	$rc = -1;
 	while (<$fh>) {
 		if (my($s) = /Device Id: (\S+)/) {
 			push(@devs, { %cur }) if %cur;
@@ -877,12 +878,19 @@ sub check {
 			$cur{name} = $s;
 			next;
 		}
+		if (my($s) = /Exit Code: (\d+x\d+)/) {
+			$rc = hex($s);
+		}
 	}
-	close $fh;
+	unless (close $fh) {
+		$this->critical;
+	}
+	$this->critical if $rc;
 	push(@devs, { %cur }) if %cur;
 
 	my %cur_vol;
 	$fh = $this->cmd('ldinfo');
+	$rc = -1;
 	while (<$fh>) {
 		if (my($drive_id, $target_id) = /Virtual (?:Disk|Drive)\s*:\s*(\d+)\s*\(Target Id:\s*(\d+)\)/i) {
 			push(@vols, { %cur_vol }) if %cur_vol;
@@ -901,8 +909,14 @@ sub check {
 			$cur_vol{state} = $s;
 			next;
 		}
+		if (my($s) = /Exit Code: (\d+x\d+)/) {
+			$rc = hex($s);
+		}
 	}
-	close $fh;
+	unless (close $fh) {
+		$this->critical;
+	}
+	$this->critical if $rc;
 	push(@vols, { %cur_vol }) if %cur_vol;
 
 	# check battery
