@@ -33,6 +33,7 @@
 # - HP Smart Array Controllers and MSA Controllers via hpacucli (see hapacucli readme)
 # - HP Smart Array (MSA1500) via serial line
 # - Linux 3ware SATA RAID via tw_cli
+# - Linux Device Mapper RAID via dmraid
 # - Linux DPT/I2O hardware RAID controllers via /proc/scsi/dpt_i2o
 # - Linux GDTH hardware RAID controllers via /proc/scsi/gdth
 # - Linux LSI MegaRaid hardware RAID via CmdTool2
@@ -80,6 +81,10 @@
 # - dmraid support
 # - mdstat plugin rewritten to handle external devices (#34)
 # - added --resync=OK|WARNING|CRITICAL|UNKNOWN option. defaults to OK (#23, #24, #28, #37)
+# Version 3.0.3 (2013-11-11):
+# - resync fixes
+# Version 3.0.x
+# - added --noraid=OK|WARNING|CRITICAL|UNKNOWN option. defaults to UNKNOWN
 
 use warnings;
 use strict;
@@ -159,6 +164,8 @@ sub new {
 		name => $class,
 		status => undef,
 		message => undef,
+		perfdata => undef,
+		longoutput => undef,
 	};
 
 	# lookup program, if not defined by params
@@ -243,6 +250,26 @@ sub message {
 		$this->{message} = $message;
 	}
 	$this->{message};
+}
+
+# Set performance data output.
+sub perfdata {
+	my ($this, $perfdata) = @_;
+	if (defined $perfdata) {
+		# TODO: append if already something there
+		$this->{perfdata} = $perfdata;
+	}
+	$this->{perfdata};
+}
+
+# Set plugin long output.
+sub longoutput {
+	my ($this, $longoutput) = @_;
+	if (defined $longoutput) {
+		# TODO: append if already something there
+		$this->{longoutput} = $longoutput;
+	}
+	$this->{longoutput};
 }
 
 # a helper to join similar statuses for items
@@ -802,6 +829,7 @@ sub commands {
 	{
 		'pdlist' => ['-|', '@CMD', '-PDList', '-aALL', '-NoLog'],
 		'ldinfo' => ['-|', '@CMD', '-LdInfo', '-Lall', '-aALL', '-NoLog'],
+		'battery' => ['-|', '@CMD', '-AdpBbuCmd', '-GetBbuStatus', '-aALL', '-NoLog'],
 	}
 }
 
@@ -816,6 +844,7 @@ sub sudo {
 	(
 		"CHECK_RAID ALL=(root) NOPASSWD: $cmd -PDList -aALL -NoLog",
 		"CHECK_RAID ALL=(root) NOPASSWD: $cmd -LdInfo -Lall -aALL -NoLog",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd -AdpBbuCmd -GetBbuStatus -aALL -NoLog",
 	);
 }
 
@@ -823,7 +852,8 @@ sub check {
 	my $this = shift;
 
 	my $fh = $this->cmd('pdlist');
-	my (@status, @devs, @vols, %cur, %cur_vol);
+	my (@status, @pdata, @longout, @devs, @vols, @bats, %cur, $rc);
+	$rc = -1;
 	while (<$fh>) {
 		if (my($s) = /Device Id: (\S+)/) {
 			push(@devs, { %cur }) if %cur;
@@ -852,32 +882,102 @@ sub check {
 			$cur{name} = $s;
 			next;
 		}
+		if (my($s) = /Exit Code: (\d+x\d+)/) {
+			$rc = hex($s);
+		}
 	}
-	close $fh;
+	unless (close $fh) {
+		$this->critical;
+	}
+	$this->critical if $rc;
 	push(@devs, { %cur }) if %cur;
 
+	my %cur_vol;
 	$fh = $this->cmd('ldinfo');
+	$rc = -1;
 	while (<$fh>) {
-		if (my($s) = /Name\s*:\s*(\S+)/) {
+		if (my($drive_id, $target_id) = /Virtual (?:Disk|Drive)\s*:\s*(\d+)\s*\(Target Id:\s*(\d+)\)/i) {
 			push(@vols, { %cur_vol }) if %cur_vol;
-			%cur_vol = ( name => $s, state => undef );
+			# Default to DriveID:TragetID in case no Name is given ...
+			%cur_vol = ( name => "DISK$drive_id.$target_id", state => undef );
 			next;
 		}
+
+		if (my($name) = /Name\s*:\s*(\S+)/) {
+			# Add a symbolic name, if given
+			$cur_vol{name} = $name;
+			next;
+		}
+
 		if (my($s) = /State\s*:\s*(\S+)/) {
 			$cur_vol{state} = $s;
 			next;
 		}
+		if (my($s) = /Exit Code: (\d+x\d+)/) {
+			$rc = hex($s);
+		}
+	}
+	unless (close $fh) {
+		$this->critical;
+	}
+	$this->critical if $rc;
+	push(@vols, { %cur_vol }) if %cur_vol;
+
+	# check battery
+	$fh = $this->cmd('battery');
+	my (%cur_bat);
+	while (<$fh>) {
+		if (my($s) = /BBU status for Adapter: (.+)/) {
+			push(@bats, { %cur_bat }) if %cur_bat;
+			%cur_bat = (
+				name => $s, state => '???', missing => undef, learn_requested => undef,
+				replacement_required => undef, pack_will_fail => undef, temperature => undef,
+				temperature_state => undef, voltage => undef, voltage_state => undef
+			);
+			next;
+		}
+		if (my($s) = /Battery State\s*: (.+)/) {
+			$cur_bat{state} = $s;
+			next;
+		}
+		if (my($s) = /Battery Pack Missing\s*: (\w*)/) {
+			$cur_bat{missing} = $s;
+			next;
+		}
+		if (my($s) = /Battery Replacement required\s*: (\w*)/) {
+			$cur_bat{replacement_required} = $s;
+			next;
+		}
+		if (my($s) = /Pack is about to fail & should be replaced\s*: (\w*)/) {
+			$cur_bat{pack_will_fail} = $s;
+			next;
+		}
+		# Temperature: 18 C
+		if (my($s) = /Temperature: (\d+) C/) {
+			$cur_bat{temperature} = $s;
+			next;
+		}
+		# Temperature : OK
+		if (my($s) = /  Temperature\s*: (\w*)/) {
+			$cur_bat{temperature_state} = $s;
+			next;
+		}
+		# Voltage: 4074 mV
+		if (my($s) = /Voltage: (\d+) mV/) {
+			$cur_bat{voltage} = $s;
+			next;
+		}
+		# Voltage : OK
+		if (my($s) = /Voltage\s*: (\w*)/) {
+			$cur_bat{voltage_state} = $s;
+			next;
+		}
 	}
 	close $fh;
-	push(@vols, { %cur_vol }) if %cur_vol;
+	push(@bats, { %cur_bat}) if %cur_bat;
 
 	my @vstatus;
 	foreach my $vol (@vols) {
-		# It's possible to create volumes without a name
-		if (!$vol->{name}) {
-			$vol->{name} = 'NoName';
-		}
-
 		push(@vstatus, sprintf "%s:%s", $vol->{name}, $vol->{state});
 		if ($vol->{state} ne 'Optimal') {
 			$this->critical;
@@ -896,16 +996,77 @@ sub check {
 		}
 	}
 
+	my (%bstatus, @bpdata, @blongout);
+	foreach my $bat (@bats) {
+		if ($bat->{state} ne 'Operational') {
+			$this->critical;
+		}
+		if ($bat->{missing} ne 'No') {
+			$this->critical;
+		}
+		if ($bat->{replacement_required} ne 'No') {
+			$this->critical;
+		}
+		if (defined($bat->{pack_will_fail}) && $bat->{pack_will_fail} ne 'No') {
+			$this->critical;
+		}
+		if ($bat->{temperature_state} ne 'OK') {
+			$this->critical;
+		}
+		if ($bat->{voltage_state} ne 'OK') {
+			$this->critical;
+		}
+
+		# Short output.
+		#
+		# CRITICAL: megacli:[Volumes(1): NoName:Optimal; Devices(2): 06,07=Online; Batteries(1): 0=Non Operational]
+		push(@{$bstatus{$bat->{state}}}, sprintf "%d", $bat->{name});
+		# Performance data.
+		# Return current battery temparature & voltage.
+		#
+		# Battery0=18;4074
+		push(@bpdata, sprintf "Battery%s=%s;%s", $bat->{name}, $bat->{temperature}, $bat->{voltage});
+
+		# Long output.
+		# Detailed plugin output.
+		#
+		# Battery0:
+		#  - State: Non Operational
+		#  - Missing: No
+		#  - Replacement required: Yes
+		#  - About to fail: No
+		#  - Temperature: OK (18 °C)
+		#  - Voltage: OK (4015 mV)
+		push(@blongout, join("\n", grep {/./}
+			"Battery$bat->{name}:",
+			" - State: $bat->{state}",
+			" - Missing: $bat->{missing}",
+			" - Replacement required: $bat->{replacement_required}",
+			defined($bat->{pack_will_fail}) ?  " - About to fail: $bat->{pack_will_fail}" : "",
+			" - Temperature: $bat->{temperature_state} ($bat->{temperature} C)",
+			" - Voltage: $bat->{voltage_state} ($bat->{voltage} mV)",
+		));
+	}
+
 	push(@status,
 		'Volumes(' . ($#vols + 1) . '): ' . join(',', @vstatus) .
-		'; Devices('. ($#devs + 1) . '): ' . $this->join_status(\%dstatus));
-
+		'; Devices(' . ($#devs + 1) . '): ' . $this->join_status(\%dstatus) .
+		(@bats ?  '; Batteries(' . ($#bats + 1) . '): ' . $this->join_status(\%bstatus) : '')
+	);
+	push(@pdata,
+		join('\n', @bpdata)
+	);
+	push(@longout,
+		join('\n', @blongout)
+	);
 	return unless @status;
 
 	# denote this plugin as ran ok
 	$this->ok;
 
 	$this->message(join(' ', @status));
+	$this->perfdata(join(' ', @pdata));
+	$this->longoutput(join(' ', @longout));
 }
 
 package lsvg;
@@ -3205,7 +3366,8 @@ use Getopt::Long;
 my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 my ($VERSION) = "3.0.3";
-my ($message, $status);
+my ($message, $status, $perfdata, $longoutput);
+my ($opt_O) = $ERRORS{UNKNOWN};
 
 #####################################################################
 $ENV{'BASH_ENV'} = '';
@@ -3221,7 +3383,7 @@ sub find_file {
 
 sub print_usage() {
 	print join "\n",
-	"Usage: check_raid [-h] [-V] [-S] [list of devices to ignore]",
+	"Usage: check_raid [-h] [-V] [-S] [-O] [list of devices to ignore]",
 	"",
 	"Options:",
 	" -h, --help",
@@ -3236,6 +3398,10 @@ sub print_usage() {
 	"    Force the use of selected plugins, comma separated",
 	" -l, --list-plugins",
 	"    Lists active plugins",
+	" --resync=STATE",
+	"    Set status as STATE if RAID is in resync state. Defaults to OK",
+	" --noraid=STATE",
+	"    Return STATE if no RAID controller is found. Defaults to UNKNOWN",
 	"";
 }
 
@@ -3330,6 +3496,15 @@ sub print_active_plugins {
 	}
 }
 
+sub setstate {
+	my ($key, $opt, $value) = @_;
+	unless (exists $ERRORS{$value}) {
+		print "Invalid value: '$value' for --$opt\n";
+		exit $ERRORS{UNKNOWN};
+	}
+	$$key = $ERRORS{$value};
+}
+
 Getopt::Long::Configure('bundling');
 GetOptions(
 	'V' => \$opt_V, 'version' => \$opt_V,
@@ -3337,14 +3512,8 @@ GetOptions(
 	'h' => \$opt_h, 'help' => \$opt_h,
 	'S' => \$opt_S, 'sudoers' => \$opt_S,
 	'W' => \$opt_W, 'warnonly' => \$opt_W,
-	'resync=s' => sub {
-		my ($opt, $value) = @_;
-		unless (exists $ERRORS{$value}) {
-			print "Invalid value: $value for --$opt\n";
-			exit $ERRORS{UNKNOWN};
-		}
-		$plugin::resync_status = $ERRORS{$value};
-	},
+	'resync=s' => sub { setstate(\$plugin::resync_status, @_); },
+	'noraid=s' => sub { setstate(\$opt_O, @_); },
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});
@@ -3401,6 +3570,8 @@ foreach my $pn (@plugins) {
 	$status = $plugin->status if $plugin->status > $status;
 	$message .= '; ' if $message;
 	$message .= "$pn:[".$plugin->message."]";
+	$message .= ' | ' . $plugin->perfdata if $plugin->perfdata;
+	$message .= "\n" . $plugin->longoutput if $plugin->longoutput;
 }
 
 if ($message) {
@@ -3414,6 +3585,9 @@ if ($message) {
 		print "UNKNOWN: ";
 	}
 	print "$message\n";
+} elsif ($opt_O) {
+	$status = $ERRORS{OK};
+	print "No RAID configuration found\n";
 } else {
 	$status = $ERRORS{UNKNOWN};
 	print "No RAID configuration found (tried: ", join(', ', @plugins), ")\n";
