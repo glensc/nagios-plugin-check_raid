@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 76;
+use Test::More tests => 88;
 use test;
 
 my @tests = (
@@ -64,6 +64,14 @@ my @tests = (
 	{ input => 'issue34_2', status => OK,
 		active => 1,
 		message => 'md126(931.51 GiB raid1):UU, md127(5.16 MiB):',
+	},
+	{ input => 'issue43/reshape', status => WARNING, resync_status => WARNING,
+		active => 1,
+		message => 'md0(5.46 TiB raid6):UUUU__ (reshape:48.4% 9898K/sec ETA: 1271.8min), md0(5.46 TiB raid6):UUUU__ (reshape:48.4% 9898K/sec ETA: 1271.8min)',
+	},
+	{ input => 'issue43/recovery', status => WARNING, resync_status => WARNING,
+		active => 1,
+		message => 'md0(5.46 TiB raid6):UUUU__ (recovery:19.6% 13810K/sec ETA: 1420.1min), md0(5.46 TiB raid6):UUUU__ (recovery:19.6% 13810K/sec ETA: 1420.1min)',
 	},
 );
 
