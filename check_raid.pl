@@ -20,6 +20,7 @@
 #
 # License: GPL v2
 # Homepage: https://github.com/glensc/nagios-plugin-check_raid
+# Changes: https://github.com/glensc/nagios-plugin-check_raid/blob/master/ChangeLog.md
 # Nagios Exchange Entry: http://exchange.nagios.org/directory/Plugins/Hardware/Storage-Systems/RAID-Controllers/check_raid/details
 # Reporting Bugs: https://github.com/glensc/nagios-plugin-check_raid#reporting-bugs
 #
@@ -48,43 +49,6 @@
 # - Solaris software RAID via metastat
 # - Areca SATA RAID Support via cli64/cli32
 # - Detecting SCSI devices or hosts with lsscsi
-#
-# Changes:
-# Version 1.1: IPS; Solaris, AIX, Linux software RAID; megaide
-# Version 2.0: Added megaraid, mpt (serveraid), aaccli (serveraid)
-# Version 2.1:
-# - Made script more generic and secure
-# - Added gdth
-# - Added dpt_i2o
-# - Added 3ware SATA RAID
-# - Added Adaptec AAC-RAID via arcconf
-# - Added LSI MegaRaid via megarc
-# - Added LSI MegaRaid via CmdTool2
-# - Added HP/Compaq Smart Array via cciss_vol_status
-# - Added HP MSA1500 check via serial line
-# - Added checks via HP hpacucli utility.
-# - Added hpsa module support for cciss_vol_status
-# - Added smartctl checks for cciss disks
-# Version 2.2:
-# - Project moved to github: https://github.com/glensc/nagios-plugin-check_raid
-# - SAS2IRCU support
-# - Areca SATA RAID Support
-# Version 3.0:
-# - Rewritten to be more modular, this allows better code testing
-# - Improvements to plugins: arcconf, tw_cli, gdth, cciss
-# Version 3.0.1:
-# - Fixes to cciss plugin, improvements in mpt, areca, mdstat plugins
-# Version 3.0.2 (2013-11-11):
-# - Detecting SCSI devices or hosts with lsscsi
-# - Updated to handle ARCCONF 9.30 output
-# - Fixed -W option handling (#29)
-# - dmraid support
-# - mdstat plugin rewritten to handle external devices (#34)
-# - added --resync=OK|WARNING|CRITICAL|UNKNOWN option. defaults to OK (#23, #24, #28, #37)
-# Version 3.0.3 (2013-11-11):
-# - resync fixes
-# Version 3.0.x
-# - added --noraid=OK|WARNING|CRITICAL|UNKNOWN option. defaults to UNKNOWN
 
 use warnings;
 use strict;
