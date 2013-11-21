@@ -962,9 +962,7 @@ sub check {
 
 	my (%bstatus, @bpdata, @blongout);
 	foreach my $bat (@bats) {
-		if ($bat->{state} ne 'Operational') {
-			$this->critical;
-		}
+                $this->critical if $bat->{state} !~ /Operational|Optimal/;
 		if ($bat->{missing} ne 'No') {
 			$this->critical;
 		}
