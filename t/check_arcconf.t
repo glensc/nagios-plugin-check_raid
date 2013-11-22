@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 17;
+use Test::More tests => 22;
 use test;
 
 # NOTE: this plugin has side effect of changing dir
@@ -33,6 +33,12 @@ my @tests = (
 		getstatus => '4/arcconf_getstatus_1.out',
 		getconfig => '4/arcconf_getconfig_1_al.out',
 		message => 'Controller:Okay, Logical Device 1(MailMerak):Okay',
+	},
+	{
+		status => OK,
+		getstatus => 'issue31/getstatus',
+		getconfig => 'issue31/getconfig',
+		message => 'Controller:Optimal, Logical Device 0(OS):Optimal, Logical Device 1(SSDSTORAGEPOOL):Optimal, Logical Device 2(HDDSTORAGEPOOL):Optimal',
 	},
 );
 

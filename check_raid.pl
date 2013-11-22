@@ -2006,6 +2006,8 @@ sub parse {
 		} elsif (/^\s+Percentage complete\s+: (\d+)/) {
 			$task{percent} = $1;
 		} else {
+			warn "Unknown line: [$_]";
+			# FIXME: ->message() gets overwritten later on
 			$this->unknown->message("Unknown line: [$_]");
 		}
 	}
@@ -2079,7 +2081,8 @@ sub parse {
 				$c{logical_count} = int($td2);
 				$c{logical_offline} = int($fd2);
 				$c{logical_critical} = int($fd2);
-			} elsif (my($bs) = /Status\s*:\s*(.*)$/) {
+			} elsif (my($bs) = /^\s+Status\s*:\s*(.*)$/) {
+				# XXX matching battery status is tricky, it's under way too generic field 'Status'
 				# This could be ZMM status as well
 				if ($bs =~ /ZMM/) {
 					$c{zmm_status} = $bs;
@@ -2097,6 +2100,7 @@ sub parse {
 
 		} elsif ($section eq 'Physical Device information') {
 			# nothing useful
+			# FIXME: at least check "State"
 
 		} elsif ($section =~ /Logical (device|drive) information/) {
 			if (my($n) = /Logical (?:device|drive) number (\d+)/) {
@@ -2121,6 +2125,8 @@ sub parse {
 				#   Drive(s) (Channel,Device)                : 0,0 0,1]
 				#   Defunct segments                         : No]
 			}
+		} elsif ($section =~ /MaxCache 3\.0 information/) {
+			# not parsed yet
 		} else {
 			warn "NOT PARSED: [$section] [$_]\n";
 		}
