@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 88;
+use Test::More tests => 100;
 use test;
 
 my @tests = (
@@ -72,6 +72,14 @@ my @tests = (
 	{ input => 'issue43/recovery', status => WARNING, resync_status => WARNING,
 		active => 1,
 		message => 'md0(5.46 TiB raid6):UUUU__ (recovery:19.6% 13810K/sec ETA: 1420.1min), md0(5.46 TiB raid6):UUUU__ (recovery:19.6% 13810K/sec ETA: 1420.1min)',
+	},
+	{ input => 'issue43/mdstat-rebuilt', status => CRITICAL, resync_status => WARNING,
+		active => 1,
+		message => 'md0(5.46 TiB raid6):F::U_UUUU',
+	},
+	{ input => 'issue43/mdstat-readd', status => WARNING, resync_status => WARNING,
+		active => 1,
+		message => 'md0(5.46 TiB raid6):U_UUUU (recovery:0.2% 14868K/sec ETA: 1638.2min)',
 	},
 );
 
