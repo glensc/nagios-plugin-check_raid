@@ -50,7 +50,7 @@ my @tests = (
 		pdlist => 'issue45/MegaCli64-list.out',
 		ldinfo => 'issue45/MegaCli64-ldinfo.out',
 		battery => 'issue45/MegaCli64-adpbbucmd.out',
-                message => 'Volumes(7): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal,DISK3.3:Optimal,DISK4.4:Optimal,DISK5.5:Optimal,DISK6.6:Optimal; Devices(8): 11,12,13,14,10,15,09,08=Online; Batteries(1): 0=Optimal',
+		message => 'Volumes(7): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal,DISK3.3:Optimal,DISK4.4:Optimal,DISK5.5:Optimal,DISK6.6:Optimal; Devices(8): 11,12,13,14,10,15,09,08=Online; Batteries(1): 0=Optimal',
 	},
 );
 
