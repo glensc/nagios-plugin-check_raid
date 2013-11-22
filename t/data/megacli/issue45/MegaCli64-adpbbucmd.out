@@ -1,0 +1,39 @@
+                                     
+BBU status for Adapter: 0
+
+BatteryType: iBBU08
+Voltage: 4073 mV
+Current: 0 mA
+Temperature: 34 C
+Battery State: Optimal
+Design Mode  : 48+ Hrs retention with a non-transparent learn cycle and balanced service life.
+
+BBU Firmware Status:
+
+  Charging Status              : None
+  Voltage                                 : OK
+  Temperature                             : OK
+  Learn Cycle Requested	                  : No
+  Learn Cycle Active                      : No
+  Learn Cycle Status                      : OK
+  Learn Cycle Timeout                     : No
+  I2c Errors Detected                     : No
+  Battery Pack Missing                    : No
+  Battery Replacement required            : No
+  Remaining Capacity Low                  : No
+  Periodic Learn Required                 : No
+  Transparent Learn                       : No
+  No space to cache offload               : No
+  Pack is about to fail & should be replaced : No
+  Cache Offload premium feature required  : No
+  Module microcode update required        : No
+
+BBU GasGauge Status: 0x0280 
+  Relative State of Charge: 98 %
+  Charger System State: 1
+  Charger System Ctrl: 0
+  Charging current: 0 mA
+  Absolute state of charge: 87 %
+  Max Error: 0 %
+
+Exit Code: 0x00

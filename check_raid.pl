@@ -962,7 +962,7 @@ sub check {
 
 	my (%bstatus, @bpdata, @blongout);
 	foreach my $bat (@bats) {
-		if ($bat->{state} ne 'Operational') {
+		if ($bat->{state} !~ /Operational|Optimal/) {
 			$this->critical;
 		}
 		if ($bat->{missing} ne 'No') {
@@ -1143,8 +1143,8 @@ sub check {
 	my $fh = $this->cmd('list logical drive');
 	while (<$fh>) {
 		if (/drive number (\d+)/i){
-		    $n = $1;
-		    next;
+			$n = $1;
+			next;
 		}
 
 		next unless $n;
@@ -1276,7 +1276,7 @@ sub check {
 	while (<$read>) {
  		# 0    Mirror  465GB            Valid   0:00:0 64.0KB: 465GB Normal                        0  032511 17:55:06
  		# /dev/sda             root             0:01:0 64.0KB: 465GB Normal                        1  032511 17:55:06
-        if (my($dsk, $stat) = /(\d:\d\d?:\d+)\s+\S+:\s?\S+\s+(\S+)/) {
+		if (my($dsk, $stat) = /(\d:\d\d?:\d+)\s+\S+:\s?\S+\s+(\S+)/) {
 			next unless $this->valid($dsk);
 			$dsk =~ s#:#/#g;
 			next unless $this->valid($dsk);
