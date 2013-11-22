@@ -1956,19 +1956,17 @@ sub parse_error {
 	$this->unknown->message("Parse Error: $message");
 }
 
-# NB: side effect: changes current directory to /var/log
-sub parse {
-	my $this = shift;
-
-	# we chdir to /var/log, as tool is creating 'UcliEvt.log'
-	chdir('/var/log') || chdir('/');
-
-	# Controller information, Logical device info
-	my (%c, @ld, $ld);
+# parse GETSTATUS command
+# parses
+# - number of controllers
+# - logical device tasks (if any running)
+sub parse_status {
+	my ($this) = @_;
 
 	my $count = 0;
 	my $ok = 0;
 	my $fh = $this->cmd('getstatus');
+	my %s;
 	# controller task
 	my %task;
 	while (<$fh>) {
@@ -2012,10 +2010,14 @@ sub parse {
 		}
 	}
 	close($fh);
-	$c{tasks} = { %task } if %task;
+
+	# Tasks seem to be Controller specific, but as we don't support over one controller, let it be global
+	$s{tasks} = { %task } if %task;
 
 	if ($count > 1) {
-		warn "> 1 controllers found, this is not yet supported";
+		# don't know how to handle this, so better just fail
+		$this->unknown->message("More than one Controller found, this is not yet supported due lack of input data.");
+		return undef;
 	}
 
 	if ($count == 0) {
@@ -2027,10 +2029,22 @@ sub parse {
 		return undef;
 	}
 
-	$fh = $this->cmd('getconfig');
-	my @status;
-	my $section;
-	$ok = 0;
+	$s{controllers} = $count;
+
+	return \%s;
+}
+
+# parse GETCONFIG command
+# parses
+# - ...
+sub parse_config {
+	my ($this, $status) = @_;
+
+	# Controller information, Logical device info
+	my (%c, @ld, $ld);
+
+	my $fh = $this->cmd('getconfig');
+	my ($section, $ok);
 	while (<$fh>) {
 		chomp;
 		# empty line
@@ -2044,7 +2058,7 @@ sub parse {
 		}
 
 		if (my($c) = /^Controllers found: (\d+)/) {
-			if ($c != $count) {
+			if ($c != $status->{controllers}) {
 				# internal error?!
 				$this->unknown->message("Controller count mismatch");
 			}
@@ -2131,25 +2145,38 @@ sub parse {
 			warn "NOT PARSED: [$section] [$_]\n";
 		}
 	}
-
 	close $fh;
 
-	$this->unknown->message("Command did not succeed") unless $ok;
+	$this->unknown->message("Command did not succeed") unless defined $ok;
 
 	return { controller => \%c, logical => \@ld };
+}
+
+# NB: side effect: ARCCONF changes current directory to /var/log
+sub parse {
+	my ($this) = @_;
+
+	# we chdir to /var/log, as tool is creating 'UcliEvt.log'
+	chdir('/var/log') || chdir('/');
+
+	my ($status, $config);
+	$status = $this->parse_status or return;
+	$config = $this->parse_config($status) or return;
+
+	return { %$status, %$config };
 }
 
 sub check {
 	my $this = shift;
 
-	my $ctrl = $this->parse;
-	$this->unknown,return unless $ctrl;
+	my $data = $this->parse;
+	$this->unknown,return unless $data;
 
 	# status messages pushed here
 	my @status;
 
 	# check for controller status
-	for my $c ($ctrl->{controller}) {
+	for my $c ($data->{controller}) {
 		$this->critical if $c->{status} !~ /Optimal|Okay/;
 		push(@status, "Controller:$c->{status}");
 
@@ -2184,9 +2211,9 @@ sub check {
 		}
 
 		# current (logical device) tasks
-		if ($c->{tasks}->{operation} ne 'None') {
+		if ($data->{tasks}->{operation} ne 'None') {
 			# just print it. no status change
-			my $task = $c->{tasks};
+			my $task = $data->{tasks};
 			push(@status, "$task->{type} #$task->{device}: $task->{operation}: $task->{status} $task->{percent}%");
 		}
 
@@ -2228,7 +2255,7 @@ sub check {
 	}
 
 	# check for logical device
-	for my $ld (@{$ctrl->{logical}}) {
+	for my $ld (@{$data->{logical}}) {
 		next unless $ld; # FIXME: fix that script assumes controllers start from '0'
 
 		$this->critical if $ld->{status} !~ /Optimal|Okay/;
