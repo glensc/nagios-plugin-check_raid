@@ -1,0 +1,421 @@
+                                     
+Adapter #0
+
+Enclosure Device ID: 252
+Slot Number: 0
+Drive's position: DiskGroup: 0, Span: 0, Arm: 0
+Enclosure position: N/A
+Device Id: 11
+WWN: 5000C5005AB3FC9C
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 838.362 GB [0x68cb9e30 Sectors]
+Non Coerced Size: 837.862 GB [0x68bb9e30 Sectors]
+Coerced Size: 837.258 GB [0x68a84800 Sectors]
+Sector Size:  0
+Logical Sector Size:  0
+Physical Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: B55C
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c5005ab3fc9d
+SAS Address(1): 0x0
+Connected Port Number: 4(path0) 
+Inquiry Data: IBM-ESXSST9900805SS     B55C6XS3H1JY0808B55C    
+IBM FRU/CRU: 81Y9651     
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :35C (95.00 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 252
+Slot Number: 1
+Drive's position: DiskGroup: 0, Span: 0, Arm: 1
+Enclosure position: N/A
+Device Id: 12
+WWN: 5000C5005AB44630
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 838.362 GB [0x68cb9e30 Sectors]
+Non Coerced Size: 837.862 GB [0x68bb9e30 Sectors]
+Coerced Size: 837.258 GB [0x68a84800 Sectors]
+Sector Size:  0
+Logical Sector Size:  0
+Physical Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: B55C
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c5005ab44631
+SAS Address(1): 0x0
+Connected Port Number: 5(path0) 
+Inquiry Data: IBM-ESXSST9900805SS     B55C6XS3H14A0808B55C    
+IBM FRU/CRU: 81Y9651     
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :37C (98.60 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 252
+Slot Number: 2
+Drive's position: DiskGroup: 1, Span: 0, Arm: 0
+Enclosure position: N/A
+Device Id: 13
+WWN: 5000C5005AB43B04
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 838.362 GB [0x68cb9e30 Sectors]
+Non Coerced Size: 837.862 GB [0x68bb9e30 Sectors]
+Coerced Size: 837.258 GB [0x68a84800 Sectors]
+Sector Size:  0
+Logical Sector Size:  0
+Physical Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: B55C
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c5005ab43b05
+SAS Address(1): 0x0
+Connected Port Number: 6(path0) 
+Inquiry Data: IBM-ESXSST9900805SS     B55C6XS3H1330808B55C    
+IBM FRU/CRU: 81Y9651     
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :36C (96.80 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 252
+Slot Number: 3
+Drive's position: DiskGroup: 2, Span: 0, Arm: 0
+Enclosure position: N/A
+Device Id: 14
+WWN: 5000C5005AB3FF30
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 838.362 GB [0x68cb9e30 Sectors]
+Non Coerced Size: 837.862 GB [0x68bb9e30 Sectors]
+Coerced Size: 837.258 GB [0x68a84800 Sectors]
+Sector Size:  0
+Logical Sector Size:  0
+Physical Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: B55C
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c5005ab3ff31
+SAS Address(1): 0x0
+Connected Port Number: 7(path0) 
+Inquiry Data: IBM-ESXSST9900805SS     B55C6XS3H1JB0808B55C    
+IBM FRU/CRU: 81Y9651     
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :37C (98.60 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 252
+Slot Number: 4
+Drive's position: DiskGroup: 3, Span: 0, Arm: 0
+Enclosure position: N/A
+Device Id: 10
+WWN: 5000C5005AB445DC
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 838.362 GB [0x68cb9e30 Sectors]
+Non Coerced Size: 837.862 GB [0x68bb9e30 Sectors]
+Coerced Size: 837.258 GB [0x68a84800 Sectors]
+Sector Size:  0
+Logical Sector Size:  0
+Physical Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: B55C
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c5005ab445dd
+SAS Address(1): 0x0
+Connected Port Number: 3(path0) 
+Inquiry Data: IBM-ESXSST9900805SS     B55C6XS3H11P0808B55C    
+IBM FRU/CRU: 81Y9651     
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :37C (98.60 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 252
+Slot Number: 5
+Drive's position: DiskGroup: 4, Span: 0, Arm: 0
+Enclosure position: N/A
+Device Id: 15
+WWN: 5000C5005AB3E7A4
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 838.362 GB [0x68cb9e30 Sectors]
+Non Coerced Size: 837.862 GB [0x68bb9e30 Sectors]
+Coerced Size: 837.258 GB [0x68a84800 Sectors]
+Sector Size:  0
+Logical Sector Size:  0
+Physical Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: B55C
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c5005ab3e7a5
+SAS Address(1): 0x0
+Connected Port Number: 2(path0) 
+Inquiry Data: IBM-ESXSST9900805SS     B55C6XS3H1NR0808B55C    
+IBM FRU/CRU: 81Y9651     
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :37C (98.60 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 252
+Slot Number: 6
+Drive's position: DiskGroup: 5, Span: 0, Arm: 0
+Enclosure position: N/A
+Device Id: 9
+WWN: 5000C5005AB3ECDC
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 838.362 GB [0x68cb9e30 Sectors]
+Non Coerced Size: 837.862 GB [0x68bb9e30 Sectors]
+Coerced Size: 837.258 GB [0x68a84800 Sectors]
+Sector Size:  0
+Logical Sector Size:  0
+Physical Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: B55C
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c5005ab3ecdd
+SAS Address(1): 0x0
+Connected Port Number: 1(path0) 
+Inquiry Data: IBM-ESXSST9900805SS     B55C6XS3H1LZ0808B55C    
+IBM FRU/CRU: 81Y9651     
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :36C (96.80 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 252
+Slot Number: 7
+Drive's position: DiskGroup: 6, Span: 0, Arm: 0
+Enclosure position: N/A
+Device Id: 8
+WWN: 5000C5005AB3ED2C
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 838.362 GB [0x68cb9e30 Sectors]
+Non Coerced Size: 837.862 GB [0x68bb9e30 Sectors]
+Coerced Size: 837.258 GB [0x68a84800 Sectors]
+Sector Size:  0
+Logical Sector Size:  0
+Physical Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: B55C
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c5005ab3ed2d
+SAS Address(1): 0x0
+Connected Port Number: 0(path0) 
+Inquiry Data: IBM-ESXSST9900805SS     B55C6XS3H1MG0808B55C    
+IBM FRU/CRU: 81Y9651     
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive:  Not Certified
+Drive Temperature :35C (95.00 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+
+Exit Code: 0x00
