@@ -1,5 +1,8 @@
 ## 3.0.x (unreleased)
 - added `--noraid=OK|WARNING|CRITICAL|UNKNOWN` option. defaults to `UNKNOWN`
+- setup sudo rules option (`-S`) supports debug (`-d`) and will only print the
+  rules. Output is sent to stdout, so you can save that output to file of
+  your liking.
 
 ## 3.0.3 (2013-11-12)
 - resync fixes

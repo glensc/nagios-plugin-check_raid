@@ -3414,10 +3414,11 @@ https://github.com/glensc/nagios-plugin-check_raid
 }
 
 sub sudoers {
-	# build values to be added
-	my @sudo;
+	my ($dry_run) = @_;
 
+	# build values to be added
 	# go over all registered plugins
+	my @sudo;
 	foreach my $pn (@utils::plugins) {
 		my $plugin = $pn->new;
 
@@ -3430,9 +3431,28 @@ sub sudoers {
 		push(@sudo, @rules);
 	}
 
-
 	unless (@sudo) {
-		print "Your configuration does not need to use sudo, sudoers not updated\n";
+		warn "Your configuration does not need to use sudo, sudoers not updated\n";
+		return;
+	}
+
+	my @rules = join "\n", (
+		"",
+		# setup alias, so we could easily remove these later by matching lines with 'CHECK_RAID'
+		# also this avoids installing ourselves twice.
+		"# Lines matching CHECK_RAID added by $0 -S on ". scalar localtime,
+		"User_Alias CHECK_RAID=nagios",
+
+		# actual rules from plugins
+		join("\n", @sudo),
+		"",
+	);
+
+	if ($dry_run) {
+		warn "Content to be inserted to sudo rules:\n";
+		warn "--- sudoers ---\n";
+		print @rules;
+		warn "--- sudoers ---\n";
 		return;
 	}
 
@@ -3443,7 +3463,7 @@ sub sudoers {
 	die "Unable to write to sudoers file '$sudoers'.\n" unless -w $sudoers;
 	die "visudo program not found\n" unless -x $visudo;
 
-	print "Updating file $sudoers\n";
+	warn "Updating file $sudoers\n";
 
 	# NOTE: secure as visudo itself: /etc is root owned
 	my $new = $sudoers.".new.".$$;
@@ -3459,14 +3479,8 @@ sub sudoers {
 	}
 	close $old or die $!;
 
-	# setup alias, so we could easily remove these later by matching lines with 'CHECK_RAID'
-	# also this avoids installing ourselves twice.
-	print $fh "\n";
-	print $fh "# Lines matching CHECK_RAID added by $0 -S on ", scalar localtime, "\n";
-	print $fh "User_Alias CHECK_RAID=nagios\n";
-	print $fh join("\n", @sudo);
-	print $fh "\n";
-
+	# insert new rules
+	print $fh @rules;
 	close $fh;
 
 	# validate sudoers
@@ -3475,7 +3489,7 @@ sub sudoers {
 	# use the new file
 	rename($new, $sudoers) or die $!;
 
-	print "$sudoers file updated.\n";
+	warn "$sudoers file updated.\n";
 }
 
 # Print active plugins
@@ -3516,7 +3530,7 @@ GetOptions(
 ) or exit($ERRORS{UNKNOWN});
 
 if ($opt_S) {
-	sudoers;
+	sudoers($opt_d);
 	exit 0;
 }
 
