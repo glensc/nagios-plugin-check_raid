@@ -20,31 +20,31 @@ my @tests = (
 		status => OK,
 		getstatus => '1/getstatus',
 		getconfig => '1/getconfig',
-		message => 'Controller:Optimal, Logical Device 0:Optimal',
+		message => 'Controller:Optimal, Logical Device 0:Optimal, Drives: 3LQ1WEH4,3LQ1WEWL=Online',
 	},
 	{
 		status => OK,
 		getstatus => '1/getstatus',
 		getconfig => '2/getconfig',
-		message => 'Controller:Optimal, Battery Status: Optimal, Battery Capacity Remaining: 100%, Battery Time: 3d16h0m, Logical Device 0:Optimal',
+		message => 'Controller:Optimal, Battery Status: Optimal, Battery Capacity Remaining: 100%, Battery Time: 3d16h0m, Logical Device 0:Optimal, Drives: 5000C5000B426E88,500000E01BEFF141=Online',
 	},
 	{
 		status => OK,
 		getstatus => '3/getstatus',
 		getconfig => '3/getconfig',
-		message => 'Controller:Optimal, Logical device #0: Build/Verify: In Progress 11%, ZMM Status: ZMM Optimal, Logical Device 0(Volume01):Optimal',
+		message => 'Controller:Optimal, Logical device #0: Build/Verify: In Progress 11%, ZMM Status: ZMM Optimal, Logical Device 0(Volume01):Optimal, Drives: *******,*******,*******,*******=Online',
 	},
 	{
 		status => OK,
 		getstatus => '4/arcconf_getstatus_1.out',
 		getconfig => '4/arcconf_getconfig_1_al.out',
-		message => 'Controller:Okay, Logical Device 1(MailMerak):Okay',
+		message => 'Controller:Okay, Logical Device 1(MailMerak):Okay, Drives: 9QJ2C6NX,GTA060PBGHX61F=Online',
 	},
 	{
 		status => OK,
 		getstatus => 'issue31/getstatus',
 		getconfig => 'issue31/getconfig',
-		message => 'Controller:Optimal, Logical Device 0(OS):Optimal, Logical Device 1(SSDSTORAGEPOOL):Optimal, Logical Device 2(HDDSTORAGEPOOL):Optimal',
+		message => 'Controller:Optimal, Logical Device 0(OS):Optimal, Logical Device 1(SSDSTORAGEPOOL):Optimal, Logical Device 2(HDDSTORAGEPOOL):Optimal, Drives: xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx=Online',
 	},
 );
 

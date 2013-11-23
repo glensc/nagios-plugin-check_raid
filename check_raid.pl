@@ -2160,8 +2160,10 @@ sub parse_config {
 		} elsif ($section eq 'Physical Device information') {
 			if (my($n) = /Device #(\d+)/) {
 				$pd = int($n);
-			} elsif (my($s) = /State\s+:\s+(.+)/) {
-				$pd[$pd]{status} = $s;
+			} elsif (my($ps) = /Power State\s+:\s+(.+)/) {
+				$pd[$pd]{power_state} = $ps;
+			} elsif (my($st) = /^\s+State\s+:\s+(.+)/) {
+				$pd[$pd]{status} = $st;
 			} elsif (my($su) = /Supported\s+:\s+(.+)/) {
 				$pd[$pd]{supported} = $su;
 			} elsif (my($vnd) = /Vendor\s+:\s*(.*)/) {
@@ -2192,15 +2194,15 @@ sub parse_config {
 			} elsif (my($e) = /Enclosure ID\s+:\s+(.+)/) {
 				$pd[$pd]{enclosure} = $e;
 			} elsif (my($t) = /Type\s+:\s+(.+)/) {
-				$pd[$pd]{type} = $e;
-			} elsif (my($smart) = /S\.M\.A\.R\.T\.(\s+warnings)?\s+:\s+(.+)/) {
+				$pd[$pd]{type} = $t;
+			} elsif (my($smart) = /S\.M\.A\.R\.T\.(?:\s+warnings)?\s+:\s+(.+)/) {
 				$pd[$pd]{smart} = $smart;
 			} elsif (my($speed) = /Transfer Speed\s+:\s+(.+)/) {
-				$pd[$pd]{speed} = $smart;
+				$pd[$pd]{speed} = $speed;
 			} elsif (my($l) = /Reported Location\s+:\s+(.+)/) {
 				$pd[$pd]{location} = $l;
-			} elsif (my($ps) = /Supported Power States\s+:\s+(.+)/) {
-				$pd[$pd]{power_states} = $l;
+			} elsif (my($sps) = /Supported Power States\s+:\s+(.+)/) {
+				$pd[$pd]{power_states} = $sps;
 			} elsif (my($cd) = /Reported Channel,Device(?:\(.+\))?\s+:\s+(.+)/) {
 				$pd[$pd]{cd} = $cd;
 			} elsif (my($type) = /Device is an?\s+(.+)/) {
@@ -2257,7 +2259,7 @@ sub parse_config {
 
 	$this->unknown->message("Command did not succeed") unless defined $ok;
 
-	return { controller => \%c, logical => \@ld };
+	return { controller => \%c, logical => \@ld, physical => \@pd };
 }
 
 # NB: side effect: ARCCONF changes current directory to /var/log
@@ -2362,7 +2364,7 @@ sub check {
 		}
 	}
 
-	# check for logical device
+	# check for logical devices
 	for my $ld (@{$data->{logical}}) {
 		next unless $ld; # FIXME: fix that script assumes controllers start from '0'
 
@@ -2381,6 +2383,20 @@ sub check {
 			push(@status, "Defunct segments: $ld->{defunct_segments}");
 		}
 	}
+
+	# check for physical devices
+	my %pd;
+	for my $pd (@{$data->{physical}}) {
+		# skip not disks
+		next if $pd->{devtype} =~ 'Enclosure services device';
+
+		$this->critical if $pd->{status} !~ /Online/;
+
+		my $id = $pd->{serial} || $pd->{wwn};
+		push(@{$pd{$pd->{status}}}, $id);
+	}
+
+	push(@status, "Drives: ".$this->join_status(\%pd)) if %pd;
 
 	$this->ok->message(join(', ', @status));
 }
