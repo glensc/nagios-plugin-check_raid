@@ -2044,7 +2044,7 @@ sub parse_config {
 	my (%c, @ld, $ld);
 
 	my $fh = $this->cmd('getconfig');
-	my ($section, $ok);
+	my ($section, $subsection, $ok);
 	while (<$fh>) {
 		chomp;
 		# empty line
@@ -2078,38 +2078,81 @@ sub parse_config {
 			$this->parse_error($_);
 		}
 
+		# sub section start
+		# there are also sections in subsections, but currently section names
+		# are unique enough
+		if (/^\s+---+/) {
+			if (my($s) = <$fh> =~ /^\s+(\S.+?)\s*?$/) {
+				$subsection = $s;
+				unless (<$fh> =~ /^\s+---+/) {
+					$this->parse_error($_);
+				}
+				next;
+			}
+			$this->parse_error($_);
+		}
+
 		next unless defined $section;
 
 		if ($section eq 'Controller information') {
-			# TODO: battery stuff is under subsection "Controller Battery Information"
-			if (my($s) = /Controller Status\s*:\s*(.+)/) {
-				$c{status} = $s;
-			} elsif (my($df) = /Defunct disk drive count\s+:\s*(\d+)/) {
-				$c{defunct_count} = int($df);
-			} elsif (my($td, $fd, $dd) = m{Logical devices/Failed/Degraded\s*:\s*(\d+)/(\d+)/(\d+)}) {
-				$c{logical_count} = int($td);
-				$c{logical_failed} = int($fd);
-				$c{logical_degraded} = int($fd);
-			} elsif (my($td2, $fd2, $dd2) = m{Logical drives/Offline/Critical\s*:\s*(\d+)/(\d+)/(\d+)}) {
-				# ARCCONF 9.30
-				$c{logical_count} = int($td2);
-				$c{logical_offline} = int($fd2);
-				$c{logical_critical} = int($fd2);
-			} elsif (my($bs) = /^\s+Status\s*:\s*(.*)$/) {
-				# XXX matching battery status is tricky, it's under way too generic field 'Status'
-				# This could be ZMM status as well
-				if ($bs =~ /ZMM/) {
+			if (not defined $subsection) {
+				# TODO: battery stuff is under subsection "Controller Battery Information"
+				if (my($s) = /Controller Status\s*:\s*(.+)/) {
+					$c{status} = $s;
+
+				} elsif (my($df) = /Defunct disk drive count\s+:\s*(\d+)/) {
+					$c{defunct_count} = int($df);
+
+				} elsif (my($td, $fd, $dd) = m{Logical devices/Failed/Degraded\s*:\s*(\d+)/(\d+)/(\d+)}) {
+					$c{logical_count} = int($td);
+					$c{logical_failed} = int($fd);
+					$c{logical_degraded} = int($fd);
+
+				} elsif (my($td2, $fd2, $dd2) = m{Logical drives/Offline/Critical\s*:\s*(\d+)/(\d+)/(\d+)}) {
+					# ARCCONF 9.30
+					$c{logical_count} = int($td2);
+					$c{logical_offline} = int($fd2);
+					$c{logical_critical} = int($fd2);
+				}
+
+			} elsif ($subsection eq 'Controller Battery Information') {
+				if (my($bs) = /^\s+Status\s*:\s*(.*)$/) {
+					$c{battery_status} = $bs;
+
+				} elsif (my($bt) = /Over temperature\s*:\s*(.+)$/) {
+					$c{battery_overtemp} = $bt;
+
+				} elsif (my($bc) = /Capacity remaining\s*:\s*(\d+)\s*percent.*$/) {
+					$c{battery_capacity} = int($bc);
+
+				} elsif (my($d, $h, $m) = /Time remaining \(at current draw\)\s*:\s*(\d+) days, (\d+) hours, (\d+) minutes/) {
+					$c{battery_time} = int($d) * 1440 + int($h) * 60 + int($m);
+					$c{battery_time_full} = "${d}d${h}h${m}m";
+
+				} else {
+					warn "Battery not parsed: [$_]\n";
+				}
+
+			} elsif ($subsection eq 'Controller ZMM Information') {
+				if (my($bs) = /^\s+Status\s*:\s*(.*)$/) {
 					$c{zmm_status} = $bs;
 				} else {
-					$c{battery_status} = $bs;
+					warn "ZMM not parsed: [$_]\n";
 				}
-			} elsif (my($bt) = /Over temperature\s*:\s*(.+)$/) {
-				$c{battery_overtemp} = $bt;
-			} elsif (my($bc) = /Capacity remaining\s*:\s*(\d+)\s*percent.*$/) {
-				$c{battery_capacity} = int($bc);
-			} elsif (my($d, $h, $m) = /Time remaining \(at current draw\)\s*:\s*(\d+) days, (\d+) hours, (\d+) minutes/) {
-				$c{battery_time} = int($d) * 1440 + int($h) * 60 + int($m);
-				$c{battery_time_full} = "${d}d${h}h${m}m";
+
+			} elsif ($subsection eq 'Controller Version Information') {
+				# not parsed yet
+			} elsif ($subsection eq 'Controller Vital Product Data') {
+				# not parsed yet
+			} elsif ($subsection eq 'Controller Cache Backup Unit Information') {
+				# not parsed yet
+			} elsif ($subsection eq 'Supercap Information') {
+				# this is actually sub section of cache backup unit
+				# not parsed yet
+			} elsif ($subsection eq 'Controller Vital Product Data') {
+				# not parsed yet
+			} else {
+				warn "SUBSECTION of [$section] NOT PARSED: [$subsection] [$_]\n";
 			}
 
 		} elsif ($section eq 'Physical Device information') {
@@ -2120,18 +2163,25 @@ sub parse_config {
 			if (my($n) = /Logical (?:device|drive) number (\d+)/) {
 				$ld = int($n);
 				$ld[$ld]{id} = $n;
+
 			} elsif (my($s) = /Status of logical (?:device|drive)\s+:\s+(.+)/) {
 				$ld[$ld]{status} = $s;
+
 			} elsif (my($ln) = /Logical (?:device|drive) name\s+:\s+(.+)/) {
 				$ld[$ld]{name} = $ln;
+
 			} elsif (my($rl) = /RAID level\s+:\s+(.+)/) {
 				$ld[$ld]{raid} = $rl;
+
 			} elsif (my($sz) = /Size\s+:\s+(.+)/) {
 				$ld[$ld]{size} = $sz;
+
 			} elsif (my($fs) = /Failed stripes\s+:\s+(.+)/) {
 				$ld[$ld]{failed_stripes} = $fs;
+
 			} elsif (my($ds) = /Defunct segments\s+:\s+(.+)/) {
 				$ld[$ld]{defunct_segments} = $ds;
+
 			} else {
 				#   Write-cache mode                         : Not supported]
 				#   Partitioned                              : Yes]
