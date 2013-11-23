@@ -3,6 +3,7 @@
 - setup sudo rules option (`-S`) supports debug (`-d`) and will only print the
   rules. Output is sent to stdout, so you can save that output to file of
   your liking.
+- sudo: add `-A` option to use askpass and fail sooner if no sudo rules present
 
 ## 3.0.3 (2013-11-12)
 - resync fixes

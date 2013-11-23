@@ -305,7 +305,7 @@ sub cmd {
 	my @CMD = $this->{program};
 
 	# add sudo if program needs
-	unshift(@CMD, $this->{sudo}) if $> and $this->{sudo};
+	unshift(@CMD, $this->{sudo}, '-A') if $> and $this->{sudo};
 
 	my $args = $this->{commands}{$command} or croak "command '$command' not defined";
 
