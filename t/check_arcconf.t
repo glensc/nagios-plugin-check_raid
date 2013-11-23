@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 22;
+use Test::More tests => 27;
 use test;
 
 # NOTE: this plugin has side effect of changing dir
@@ -27,6 +27,12 @@ my @tests = (
 		getstatus => '1/getstatus',
 		getconfig => '2/getconfig',
 		message => 'Controller:Optimal, Battery Status: Optimal, Battery Capacity Remaining: 100%, Battery Time: 3d16h0m, Logical Device 0:Optimal',
+	},
+	{
+		status => OK,
+		getstatus => '3/getstatus',
+		getconfig => '3/getconfig',
+		message => 'Controller:Optimal, Logical device #0: Build/Verify: In Progress 11%, ZMM Status: ZMM Optimal, Logical Device 0(Volume01):Optimal',
 	},
 	{
 		status => OK,
