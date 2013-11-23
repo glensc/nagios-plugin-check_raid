@@ -2040,8 +2040,8 @@ sub parse_status {
 sub parse_config {
 	my ($this, $status) = @_;
 
-	# Controller information, Logical device info
-	my (%c, @ld, $ld);
+	# Controller information, Logical/Physical device info
+	my (%c, @ld, $ld, @pd, $pd);
 
 	my $fh = $this->cmd('getconfig');
 	my ($section, $subsection, $ok);
@@ -2072,8 +2072,10 @@ sub parse_config {
 				unless (<$fh> =~ /^---+/) {
 					$this->parse_error($_);
 				}
+				undef($ld);
+				undef($pd);
+				undef($subsection);
 				next;
-				$ld = undef;
 			}
 			$this->parse_error($_);
 		}
@@ -2156,8 +2158,64 @@ sub parse_config {
 			}
 
 		} elsif ($section eq 'Physical Device information') {
-			# nothing useful
-			# FIXME: at least check "State"
+			if (my($n) = /Device #(\d+)/) {
+				$pd = int($n);
+			} elsif (my($s) = /State\s+:\s+(.+)/) {
+				$pd[$pd]{status} = $s;
+			} elsif (my($su) = /Supported\s+:\s+(.+)/) {
+				$pd[$pd]{supported} = $su;
+			} elsif (my($vnd) = /Vendor\s+:\s*(.*)/) {
+				# allow edits, i.e removed 'Vendor' value from test data
+				$pd[$pd]{vendor} = $vnd;
+			} elsif (my($mod) = /Model\s+:\s+(.+)/) {
+				$pd[$pd]{model} = $mod;
+			} elsif (my($fw) = /Firmware\s+:\s+(.+)/) {
+				$pd[$pd]{firmware} = $fw;
+			} elsif (my($sn) = /Serial number\s+:\s+(.+)/) {
+				$pd[$pd]{serial} = $sn;
+			} elsif (my($wwn) = /World-wide name\s+:\s+(.+)/) {
+				$pd[$pd]{wwn} = $wwn;
+			} elsif (my($sz) = /Size\s+:\s+(.+)/) {
+				$pd[$pd]{size} = $sz;
+			} elsif (my($wc) = /Write Cache\s+:\s+(.+)/) {
+				$pd[$pd]{write_cache} = $wc;
+			} elsif (my($ssd) = /SSD\s+:\s+(.+)/) {
+				$pd[$pd]{ssd} = $ssd;
+			} elsif (my($fru) = /FRU\s+:\s+(.+)/) {
+				$pd[$pd]{fru} = $fru;
+			} elsif (my($esd) = /Reported ESD(?:\(.+\))?\s+:\s+(.+)/) {
+				$pd[$pd]{esd} = $esd;
+			} elsif (my($ncq) = /NCQ status\s+:\s+(.+)/) {
+				$pd[$pd]{ncq} = $ncq;
+			} elsif (my($pfa) = /PFA\s+:\s+(.+)/) {
+				$pd[$pd]{pfa} = $pfa;
+			} elsif (my($e) = /Enclosure ID\s+:\s+(.+)/) {
+				$pd[$pd]{enclosure} = $e;
+			} elsif (my($t) = /Type\s+:\s+(.+)/) {
+				$pd[$pd]{type} = $e;
+			} elsif (my($smart) = /S\.M\.A\.R\.T\.(\s+warnings)?\s+:\s+(.+)/) {
+				$pd[$pd]{smart} = $smart;
+			} elsif (my($speed) = /Transfer Speed\s+:\s+(.+)/) {
+				$pd[$pd]{speed} = $smart;
+			} elsif (my($l) = /Reported Location\s+:\s+(.+)/) {
+				$pd[$pd]{location} = $l;
+			} elsif (my($ps) = /Supported Power States\s+:\s+(.+)/) {
+				$pd[$pd]{power_states} = $l;
+			} elsif (my($cd) = /Reported Channel,Device(?:\(.+\))?\s+:\s+(.+)/) {
+				$pd[$pd]{cd} = $cd;
+			} elsif (my($type) = /Device is an?\s+(.+)/) {
+				$pd[$pd]{devtype} = $type;
+			} elsif (/Status of Enclosure services device/) {
+				while (<$fh>) {
+					last if /^$/;
+					if (my($temp) = /Temperature\s+(.+)/) {
+						$pd[$pd]{enclosure_temp} = $temp;
+					}
+					# here's actually more to parse
+				}
+			} else {
+				warn "Unparsed Physical Device data: [$_]\n";
+			}
 
 		} elsif ($section =~ /Logical (device|drive) information/) {
 			if (my($n) = /Logical (?:device|drive) number (\d+)/) {
