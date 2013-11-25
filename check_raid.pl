@@ -94,7 +94,7 @@ use Carp qw(croak);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 
 # status to set when RAID is in resync state
-our $resync_status = $ERRORS{OK};
+our $resync_status = $ERRORS{WARNING};
 
 # return list of programs this plugin needs
 # @internal
@@ -3520,7 +3520,7 @@ sub print_usage() {
 	" -l, --list-plugins",
 	"    Lists active plugins",
 	" --resync=STATE",
-	"    Set status as STATE if RAID is in resync state. Defaults to OK",
+	"    Set status as STATE if RAID is in resync state. Defaults to WARNING",
 	" --noraid=STATE",
 	"    Return STATE if no RAID controller is found. Defaults to UNKNOWN",
 	"";
