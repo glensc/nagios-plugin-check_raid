@@ -87,7 +87,7 @@ my @tests = (
 my $saved_resync_status = $plugin::resync_status;
 
 foreach my $test (@tests) {
-	if ($test->{resync_status}) {
+	if (defined $test->{resync_status}) {
 		$plugin::resync_status = $test->{resync_status};
 	} else {
 		$plugin::resync_status = $saved_resync_status;
