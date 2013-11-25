@@ -1,0 +1,26 @@
+/dev/md126:
+        Version : 0.90
+  Creation Time : Thu Jan 15 16:38:03 2009
+     Raid Level : raid1
+     Array Size : 732515712 (698.58 GiB 750.10 GB)
+  Used Dev Size : 732515712 (698.58 GiB 750.10 GB)
+   Raid Devices : 2
+  Total Devices : 2
+Preferred Minor : 126
+    Persistence : Superblock is persistent
+
+    Update Time : Mon Nov 25 12:46:55 2013
+          State : clean, degraded, recovering
+ Active Devices : 1
+Working Devices : 2
+ Failed Devices : 0
+  Spare Devices : 1
+
+ Rebuild Status : 30% complete
+
+           UUID : efd17549:2c32fcf9:8f51c79c:001ace3c
+         Events : 0.16542390
+
+    Number   Major   Minor   RaidDevice State
+       2       8        2        0      spare rebuilding   /dev/sda2
+       1       8       18        1      active sync   /dev/sdb2
