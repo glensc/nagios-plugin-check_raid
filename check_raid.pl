@@ -305,7 +305,7 @@ sub cmd {
 	my @CMD = $this->{program};
 
 	# add sudo if program needs
-	unshift(@CMD, $this->{sudo}) if $> and $this->{sudo};
+	unshift(@CMD, $this->{sudo}, '-A') if $> and $this->{sudo};
 
 	my $args = $this->{commands}{$command} or croak "command '$command' not defined";
 
@@ -1956,19 +1956,17 @@ sub parse_error {
 	$this->unknown->message("Parse Error: $message");
 }
 
-# NB: side effect: changes current directory to /var/log
-sub parse {
-	my $this = shift;
-
-	# we chdir to /var/log, as tool is creating 'UcliEvt.log'
-	chdir('/var/log') || chdir('/');
-
-	# Controller information, Logical device info
-	my (%c, @ld, $ld);
+# parse GETSTATUS command
+# parses
+# - number of controllers
+# - logical device tasks (if any running)
+sub parse_status {
+	my ($this) = @_;
 
 	my $count = 0;
 	my $ok = 0;
 	my $fh = $this->cmd('getstatus');
+	my %s;
 	# controller task
 	my %task;
 	while (<$fh>) {
@@ -2006,14 +2004,20 @@ sub parse {
 		} elsif (/^\s+Percentage complete\s+: (\d+)/) {
 			$task{percent} = $1;
 		} else {
+			warn "Unknown line: [$_]";
+			# FIXME: ->message() gets overwritten later on
 			$this->unknown->message("Unknown line: [$_]");
 		}
 	}
 	close($fh);
-	$c{tasks} = { %task } if %task;
+
+	# Tasks seem to be Controller specific, but as we don't support over one controller, let it be global
+	$s{tasks} = { %task } if %task;
 
 	if ($count > 1) {
-		warn "> 1 controllers found, this is not yet supported";
+		# don't know how to handle this, so better just fail
+		$this->unknown->message("More than one Controller found, this is not yet supported due lack of input data.");
+		return undef;
 	}
 
 	if ($count == 0) {
@@ -2025,10 +2029,22 @@ sub parse {
 		return undef;
 	}
 
-	$fh = $this->cmd('getconfig');
-	my @status;
-	my $section;
-	$ok = 0;
+	$s{controllers} = $count;
+
+	return \%s;
+}
+
+# parse GETCONFIG command
+# parses
+# - ...
+sub parse_config {
+	my ($this, $status) = @_;
+
+	# Controller information, Logical/Physical device info
+	my (%c, @ld, $ld, @pd, $pd);
+
+	my $fh = $this->cmd('getconfig');
+	my ($section, $subsection, $ok);
 	while (<$fh>) {
 		chomp;
 		# empty line
@@ -2042,7 +2058,7 @@ sub parse {
 		}
 
 		if (my($c) = /^Controllers found: (\d+)/) {
-			if ($c != $count) {
+			if ($c != $status->{controllers}) {
 				# internal error?!
 				$this->unknown->message("Controller count mismatch");
 			}
@@ -2056,8 +2072,24 @@ sub parse {
 				unless (<$fh> =~ /^---+/) {
 					$this->parse_error($_);
 				}
+				undef($ld);
+				undef($pd);
+				undef($subsection);
 				next;
-				$ld = undef;
+			}
+			$this->parse_error($_);
+		}
+
+		# sub section start
+		# there are also sections in subsections, but currently section names
+		# are unique enough
+		if (/^\s+---+/) {
+			if (my($s) = <$fh> =~ /^\s+(\S.+?)\s*?$/) {
+				$subsection = $s;
+				unless (<$fh> =~ /^\s+---+/) {
+					$this->parse_error($_);
+				}
+				next;
 			}
 			$this->parse_error($_);
 		}
@@ -2065,55 +2097,151 @@ sub parse {
 		next unless defined $section;
 
 		if ($section eq 'Controller information') {
-			# TODO: battery stuff is under subsection "Controller Battery Information"
-			if (my($s) = /Controller Status\s*:\s*(.+)/) {
-				$c{status} = $s;
-			} elsif (my($df) = /Defunct disk drive count\s+:\s*(\d+)/) {
-				$c{defunct_count} = int($df);
-			} elsif (my($td, $fd, $dd) = m{Logical devices/Failed/Degraded\s*:\s*(\d+)/(\d+)/(\d+)}) {
-				$c{logical_count} = int($td);
-				$c{logical_failed} = int($fd);
-				$c{logical_degraded} = int($fd);
-			} elsif (my($td2, $fd2, $dd2) = m{Logical drives/Offline/Critical\s*:\s*(\d+)/(\d+)/(\d+)}) {
-				# ARCCONF 9.30
-				$c{logical_count} = int($td2);
-				$c{logical_offline} = int($fd2);
-				$c{logical_critical} = int($fd2);
-			} elsif (my($bs) = /Status\s*:\s*(.*)$/) {
-				# This could be ZMM status as well
-				if ($bs =~ /ZMM/) {
+			if (not defined $subsection) {
+				# TODO: battery stuff is under subsection "Controller Battery Information"
+				if (my($s) = /Controller Status\s*:\s*(.+)/) {
+					$c{status} = $s;
+
+				} elsif (my($df) = /Defunct disk drive count\s+:\s*(\d+)/) {
+					$c{defunct_count} = int($df);
+
+				} elsif (my($td, $fd, $dd) = m{Logical devices/Failed/Degraded\s*:\s*(\d+)/(\d+)/(\d+)}) {
+					$c{logical_count} = int($td);
+					$c{logical_failed} = int($fd);
+					$c{logical_degraded} = int($fd);
+
+				} elsif (my($td2, $fd2, $dd2) = m{Logical drives/Offline/Critical\s*:\s*(\d+)/(\d+)/(\d+)}) {
+					# ARCCONF 9.30
+					$c{logical_count} = int($td2);
+					$c{logical_offline} = int($fd2);
+					$c{logical_critical} = int($fd2);
+				}
+
+			} elsif ($subsection eq 'Controller Battery Information') {
+				if (my($bs) = /^\s+Status\s*:\s*(.*)$/) {
+					$c{battery_status} = $bs;
+
+				} elsif (my($bt) = /Over temperature\s*:\s*(.+)$/) {
+					$c{battery_overtemp} = $bt;
+
+				} elsif (my($bc) = /Capacity remaining\s*:\s*(\d+)\s*percent.*$/) {
+					$c{battery_capacity} = int($bc);
+
+				} elsif (my($d, $h, $m) = /Time remaining \(at current draw\)\s*:\s*(\d+) days, (\d+) hours, (\d+) minutes/) {
+					$c{battery_time} = int($d) * 1440 + int($h) * 60 + int($m);
+					$c{battery_time_full} = "${d}d${h}h${m}m";
+
+				} else {
+					warn "Battery not parsed: [$_]\n";
+				}
+
+			} elsif ($subsection eq 'Controller ZMM Information') {
+				if (my($bs) = /^\s+Status\s*:\s*(.*)$/) {
 					$c{zmm_status} = $bs;
 				} else {
-					$c{battery_status} = $bs;
+					warn "ZMM not parsed: [$_]\n";
 				}
-			} elsif (my($bt) = /Over temperature\s*:\s*(.+)$/) {
-				$c{battery_overtemp} = $bt;
-			} elsif (my($bc) = /Capacity remaining\s*:\s*(\d+)\s*percent.*$/) {
-				$c{battery_capacity} = int($bc);
-			} elsif (my($d, $h, $m) = /Time remaining \(at current draw\)\s*:\s*(\d+) days, (\d+) hours, (\d+) minutes/) {
-				$c{battery_time} = int($d) * 1440 + int($h) * 60 + int($m);
-				$c{battery_time_full} = "${d}d${h}h${m}m";
+
+			} elsif ($subsection eq 'Controller Version Information') {
+				# not parsed yet
+			} elsif ($subsection eq 'Controller Vital Product Data') {
+				# not parsed yet
+			} elsif ($subsection eq 'Controller Cache Backup Unit Information') {
+				# not parsed yet
+			} elsif ($subsection eq 'Supercap Information') {
+				# this is actually sub section of cache backup unit
+				# not parsed yet
+			} elsif ($subsection eq 'Controller Vital Product Data') {
+				# not parsed yet
+			} else {
+				warn "SUBSECTION of [$section] NOT PARSED: [$subsection] [$_]\n";
 			}
 
 		} elsif ($section eq 'Physical Device information') {
-			# nothing useful
+			if (my($n) = /Device #(\d+)/) {
+				$pd = int($n);
+			} elsif (my($ps) = /Power State\s+:\s+(.+)/) {
+				$pd[$pd]{power_state} = $ps;
+			} elsif (my($st) = /^\s+State\s+:\s+(.+)/) {
+				$pd[$pd]{status} = $st;
+			} elsif (my($su) = /Supported\s+:\s+(.+)/) {
+				$pd[$pd]{supported} = $su;
+			} elsif (my($vnd) = /Vendor\s+:\s*(.*)/) {
+				# allow edits, i.e removed 'Vendor' value from test data
+				$pd[$pd]{vendor} = $vnd;
+			} elsif (my($mod) = /Model\s+:\s+(.+)/) {
+				$pd[$pd]{model} = $mod;
+			} elsif (my($fw) = /Firmware\s+:\s+(.+)/) {
+				$pd[$pd]{firmware} = $fw;
+			} elsif (my($sn) = /Serial number\s+:\s+(.+)/) {
+				$pd[$pd]{serial} = $sn;
+			} elsif (my($wwn) = /World-wide name\s+:\s+(.+)/) {
+				$pd[$pd]{wwn} = $wwn;
+			} elsif (my($sz) = /Size\s+:\s+(.+)/) {
+				$pd[$pd]{size} = $sz;
+			} elsif (my($wc) = /Write Cache\s+:\s+(.+)/) {
+				$pd[$pd]{write_cache} = $wc;
+			} elsif (my($ssd) = /SSD\s+:\s+(.+)/) {
+				$pd[$pd]{ssd} = $ssd;
+			} elsif (my($fru) = /FRU\s+:\s+(.+)/) {
+				$pd[$pd]{fru} = $fru;
+			} elsif (my($esd) = /Reported ESD(?:\(.+\))?\s+:\s+(.+)/) {
+				$pd[$pd]{esd} = $esd;
+			} elsif (my($ncq) = /NCQ status\s+:\s+(.+)/) {
+				$pd[$pd]{ncq} = $ncq;
+			} elsif (my($pfa) = /PFA\s+:\s+(.+)/) {
+				$pd[$pd]{pfa} = $pfa;
+			} elsif (my($e) = /Enclosure ID\s+:\s+(.+)/) {
+				$pd[$pd]{enclosure} = $e;
+			} elsif (my($t) = /Type\s+:\s+(.+)/) {
+				$pd[$pd]{type} = $t;
+			} elsif (my($smart) = /S\.M\.A\.R\.T\.(?:\s+warnings)?\s+:\s+(.+)/) {
+				$pd[$pd]{smart} = $smart;
+			} elsif (my($speed) = /Transfer Speed\s+:\s+(.+)/) {
+				$pd[$pd]{speed} = $speed;
+			} elsif (my($l) = /Reported Location\s+:\s+(.+)/) {
+				$pd[$pd]{location} = $l;
+			} elsif (my($sps) = /Supported Power States\s+:\s+(.+)/) {
+				$pd[$pd]{power_states} = $sps;
+			} elsif (my($cd) = /Reported Channel,Device(?:\(.+\))?\s+:\s+(.+)/) {
+				$pd[$pd]{cd} = $cd;
+			} elsif (my($type) = /Device is an?\s+(.+)/) {
+				$pd[$pd]{devtype} = $type;
+			} elsif (/Status of Enclosure services device/) {
+				while (<$fh>) {
+					last if /^$/;
+					if (my($temp) = /Temperature\s+(.+)/) {
+						$pd[$pd]{enclosure_temp} = $temp;
+					}
+					# here's actually more to parse
+				}
+			} else {
+				warn "Unparsed Physical Device data: [$_]\n";
+			}
 
 		} elsif ($section =~ /Logical (device|drive) information/) {
 			if (my($n) = /Logical (?:device|drive) number (\d+)/) {
 				$ld = int($n);
 				$ld[$ld]{id} = $n;
+
 			} elsif (my($s) = /Status of logical (?:device|drive)\s+:\s+(.+)/) {
 				$ld[$ld]{status} = $s;
+
 			} elsif (my($ln) = /Logical (?:device|drive) name\s+:\s+(.+)/) {
 				$ld[$ld]{name} = $ln;
+
 			} elsif (my($rl) = /RAID level\s+:\s+(.+)/) {
 				$ld[$ld]{raid} = $rl;
+
 			} elsif (my($sz) = /Size\s+:\s+(.+)/) {
 				$ld[$ld]{size} = $sz;
+
 			} elsif (my($fs) = /Failed stripes\s+:\s+(.+)/) {
 				$ld[$ld]{failed_stripes} = $fs;
+
 			} elsif (my($ds) = /Defunct segments\s+:\s+(.+)/) {
 				$ld[$ld]{defunct_segments} = $ds;
+
 			} else {
 				#   Write-cache mode                         : Not supported]
 				#   Partitioned                              : Yes]
@@ -2121,29 +2249,44 @@ sub parse {
 				#   Drive(s) (Channel,Device)                : 0,0 0,1]
 				#   Defunct segments                         : No]
 			}
+		} elsif ($section =~ /MaxCache 3\.0 information/) {
+			# not parsed yet
 		} else {
 			warn "NOT PARSED: [$section] [$_]\n";
 		}
 	}
-
 	close $fh;
 
-	$this->unknown->message("Command did not succeed") unless $ok;
+	$this->unknown->message("Command did not succeed") unless defined $ok;
 
-	return { controller => \%c, logical => \@ld };
+	return { controller => \%c, logical => \@ld, physical => \@pd };
+}
+
+# NB: side effect: ARCCONF changes current directory to /var/log
+sub parse {
+	my ($this) = @_;
+
+	# we chdir to /var/log, as tool is creating 'UcliEvt.log'
+	chdir('/var/log') || chdir('/');
+
+	my ($status, $config);
+	$status = $this->parse_status or return;
+	$config = $this->parse_config($status) or return;
+
+	return { %$status, %$config };
 }
 
 sub check {
 	my $this = shift;
 
-	my $ctrl = $this->parse;
-	$this->unknown,return unless $ctrl;
+	my $data = $this->parse;
+	$this->unknown,return unless $data;
 
 	# status messages pushed here
 	my @status;
 
 	# check for controller status
-	for my $c ($ctrl->{controller}) {
+	for my $c ($data->{controller}) {
 		$this->critical if $c->{status} !~ /Optimal|Okay/;
 		push(@status, "Controller:$c->{status}");
 
@@ -2178,9 +2321,9 @@ sub check {
 		}
 
 		# current (logical device) tasks
-		if ($c->{tasks}->{operation} ne 'None') {
+		if ($data->{tasks}->{operation} ne 'None') {
 			# just print it. no status change
-			my $task = $c->{tasks};
+			my $task = $data->{tasks};
 			push(@status, "$task->{type} #$task->{device}: $task->{operation}: $task->{status} $task->{percent}%");
 		}
 
@@ -2221,8 +2364,8 @@ sub check {
 		}
 	}
 
-	# check for logical device
-	for my $ld (@{$ctrl->{logical}}) {
+	# check for logical devices
+	for my $ld (@{$data->{logical}}) {
 		next unless $ld; # FIXME: fix that script assumes controllers start from '0'
 
 		$this->critical if $ld->{status} !~ /Optimal|Okay/;
@@ -2240,6 +2383,20 @@ sub check {
 			push(@status, "Defunct segments: $ld->{defunct_segments}");
 		}
 	}
+
+	# check for physical devices
+	my %pd;
+	for my $pd (@{$data->{physical}}) {
+		# skip not disks
+		next if $pd->{devtype} =~ 'Enclosure services device';
+
+		$this->critical if $pd->{status} !~ /Online/;
+
+		my $id = $pd->{serial} || $pd->{wwn};
+		push(@{$pd{$pd->{status}}}, $id);
+	}
+
+	push(@status, "Drives: ".$this->join_status(\%pd)) if %pd;
 
 	$this->ok->message(join(', ', @status));
 }
@@ -3381,10 +3538,11 @@ https://github.com/glensc/nagios-plugin-check_raid
 }
 
 sub sudoers {
-	# build values to be added
-	my @sudo;
+	my ($dry_run) = @_;
 
+	# build values to be added
 	# go over all registered plugins
+	my @sudo;
 	foreach my $pn (@utils::plugins) {
 		my $plugin = $pn->new;
 
@@ -3397,9 +3555,28 @@ sub sudoers {
 		push(@sudo, @rules);
 	}
 
-
 	unless (@sudo) {
-		print "Your configuration does not need to use sudo, sudoers not updated\n";
+		warn "Your configuration does not need to use sudo, sudoers not updated\n";
+		return;
+	}
+
+	my @rules = join "\n", (
+		"",
+		# setup alias, so we could easily remove these later by matching lines with 'CHECK_RAID'
+		# also this avoids installing ourselves twice.
+		"# Lines matching CHECK_RAID added by $0 -S on ". scalar localtime,
+		"User_Alias CHECK_RAID=nagios",
+
+		# actual rules from plugins
+		join("\n", @sudo),
+		"",
+	);
+
+	if ($dry_run) {
+		warn "Content to be inserted to sudo rules:\n";
+		warn "--- sudoers ---\n";
+		print @rules;
+		warn "--- sudoers ---\n";
 		return;
 	}
 
@@ -3410,7 +3587,7 @@ sub sudoers {
 	die "Unable to write to sudoers file '$sudoers'.\n" unless -w $sudoers;
 	die "visudo program not found\n" unless -x $visudo;
 
-	print "Updating file $sudoers\n";
+	warn "Updating file $sudoers\n";
 
 	# NOTE: secure as visudo itself: /etc is root owned
 	my $new = $sudoers.".new.".$$;
@@ -3426,14 +3603,8 @@ sub sudoers {
 	}
 	close $old or die $!;
 
-	# setup alias, so we could easily remove these later by matching lines with 'CHECK_RAID'
-	# also this avoids installing ourselves twice.
-	print $fh "\n";
-	print $fh "# Lines matching CHECK_RAID added by $0 -S on ", scalar localtime, "\n";
-	print $fh "User_Alias CHECK_RAID=nagios\n";
-	print $fh join("\n", @sudo);
-	print $fh "\n";
-
+	# insert new rules
+	print $fh @rules;
 	close $fh;
 
 	# validate sudoers
@@ -3442,7 +3613,7 @@ sub sudoers {
 	# use the new file
 	rename($new, $sudoers) or die $!;
 
-	print "$sudoers file updated.\n";
+	warn "$sudoers file updated.\n";
 }
 
 # Print active plugins
@@ -3483,7 +3654,7 @@ GetOptions(
 ) or exit($ERRORS{UNKNOWN});
 
 if ($opt_S) {
-	sudoers;
+	sudoers($opt_d);
 	exit 0;
 }
 

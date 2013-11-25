@@ -1,0 +1,462 @@
+
+# arcconf GETCONFIG 1 AL
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Controller Mode                          : Default/RAID
+   Channel description                      : SAS/SATA
+   Controller Model                         : Adaptec ASR7805Q
+   Controller Serial Number                 : xxxx
+   Physical Slot                            : 3
+   Temperature                              : 69 C/ 156 F (Normal)
+   Installed memory                         : 1024 MB
+   Copyback                                 : Disabled
+   Background consistency check             : Disabled
+   Automatic Failover                       : Enabled
+   Global task priority                     : High
+   Performance Mode                         : Default/Dynamic
+   Host bus type                            : PCIe
+   Host bus speed                           : 8000 MHz
+   Hot bus link width                       : 8 bit(s)/link(s)
+   Stayawake period                         : Disabled
+   Spinup limit internal drives             : 0
+   Spinup limit external drives             : 0
+   Defunct disk drive count                 : 0
+   Logical devices/Failed/Degraded          : 3/0/0
+   MaxCache flush and fetch rate            : 100
+   MaxCache Read, Write Balance Factor      : 3,1
+   MaxCache Dirty Page Threshold            : 75
+   NCQ status                               : Enabled
+   Statistics data collection mode          : Disabled
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 7.2-0 (30260)
+   Firmware                                 : 7.2-0 (30260)
+   Driver                                   : 1.2-1 (30200)
+   Boot Flash                               : 7.2-0 (30260)
+
+   --------------------------------------------------------
+   Controller Cache Backup Unit Information
+   --------------------------------------------------------
+
+    Overall Backup Unit Status              : Ready
+
+         Backup Unit Type                   : AFM-700/700LP
+         Non-Volatile Storage Status        : Ready
+         Supercap Status                    : Ready
+
+         -----------------------------------
+         Supercap Information               
+         -----------------------------------
+         Current Temperature                : 26 deg C
+         Threshold Temperature              : 51 deg C
+         Life-time Temperature Recorded     
+         (Min/Max)                          : 24 deg C/ 42 deg C
+
+         Voltage(Present/Max)               : 4920 mV/ 5302 mV
+         Life-time Max Voltage Recorded     : 5428 mV
+
+         Current Drawn(Present/Max)         : 0 mA/ 560 mA
+         Health                             : 100 percent
+         Charge Level                       : 100 percent
+         Estimated Life-time                : 5 Years, 0 Month
+         Serial Number                      : xxxx
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical device number 0
+   Logical device name                      : OS
+   RAID level                               : 1
+   Status of logical device                 : Optimal
+   Size                                     : 114290 MB
+   Parity space                             : 114300 MB
+   Read-cache setting                       : Disabled
+   Read-cache status                        : Off
+   Write-cache setting                      : Disabled
+   Write-cache status                       : Off
+   MaxCache read cache setting              : Disabled
+   MaxCache read cache status               : Off
+   MaxCache write cache setting             : Disabled
+   MaxCache write cache status              : Off
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : No
+   Bootable                                 : Yes
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (Controller:1,Enclosure:0,Slot:22) S19HNSAD431909K
+   Segment 1                                : Present (Controller:1,Enclosure:0,Slot:23) S19HNSAD431789J
+
+Logical device number 1
+   Logical device name                      : SSDSTORAGEPOOL
+   RAID level                               : 5
+   Status of logical device                 : Optimal
+   Size                                     : 674838 MB
+   Parity space                             : 337424 MB
+   Stripe-unit size                         : 256 KB
+   Read-cache setting                       : Disabled
+   Read-cache status                        : Off
+   Write-cache setting                      : Disabled
+   Write-cache status                       : Off
+   MaxCache read cache setting              : Disabled
+   MaxCache read cache status               : Off
+   MaxCache write cache setting             : Disabled
+   MaxCache write cache status              : Off
+   Partitioned                              : No
+   Protected by Hot-Spare                   : No
+   Bootable                                 : No
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (Controller:1,Enclosure:0,Slot:0) xxxx
+   Segment 1                                : Present (Controller:1,Enclosure:0,Slot:1) xxxx
+   Segment 2                                : Present (Controller:1,Enclosure:0,Slot:2) xxxx
+
+Logical device number 2
+   Logical device name                      : HDDSTORAGEPOOL
+   RAID level                               : 5
+   Status of logical device                 : Optimal
+   MaxCache Status                          : Dirty
+   Size                                     : 4766710 MB
+   Parity space                             : 953344 MB
+   Stripe-unit size                         : 256 KB
+   Read-cache setting                       : Enabled
+   Read-cache status                        : On
+   Write-cache setting                      : Enabled
+   Write-cache status                       : On
+   MaxCache read cache setting              : Enabled
+   MaxCache read cache status               : On
+   MaxCache write cache setting             : Enabled
+   MaxCache write cache status              : On
+   MaxCache write cache policy              : Write Back
+   Partitioned                              : No
+   Protected by Hot-Spare                   : No
+   Bootable                                 : No
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (Controller:1,Enclosure:0,Slot:3) xxxx
+   Segment 1                                : Present (Controller:1,Enclosure:0,Slot:4) xxxx
+   Segment 2                                : Present (Controller:1,Enclosure:0,Slot:5) xxxx
+   Segment 3                                : Present (Controller:1,Enclosure:0,Slot:6) xxxx
+   Segment 4                                : Present (Controller:1,Enclosure:0,Slot:7) xxxx
+   Segment 5                                : Present (Controller:1,Enclosure:0,Slot:8) xxxx
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,8(8:0)
+         Reported Location                  : Enclosure 0, Slot 0
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : Samsung SSD 840
+         Firmware                           : DXM05B0Q
+         Serial number                      : xxxx
+         Reserved Size                      : 985368 KB
+         Used Size                          : 487424 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 488386 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : Yes
+         NCQ status                         : Enabled
+      Device #1
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,9(9:0)
+         Reported Location                  : Enclosure 0, Slot 1
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : Samsung SSD 840
+         Firmware                           : DXM05B0Q
+         Serial number                      : xxxx
+         Reserved Size                      : 985368 KB
+         Used Size                          : 487424 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 488386 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : Yes
+         NCQ status                         : Enabled
+      Device #2
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,10(10:0)
+         Reported Location                  : Enclosure 0, Slot 2
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : Samsung SSD 840
+         Firmware                           : DXM05B0Q
+         Serial number                      : xxxx
+         Reserved Size                      : 985368 KB
+         Used Size                          : 487424 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 488386 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : Yes
+         NCQ status                         : Enabled
+      Device #3
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,11(11:0)
+         Reported Location                  : Enclosure 0, Slot 3
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST91000640SS
+         Firmware                           : 0004
+         Serial number                      : xxxx
+         World-wide name                    : 5000C50056B3D3A4
+         Reserved Size                      : 538264 KB
+         Used Size                          : 953344 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+      Device #4
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,12(12:0)
+         Reported Location                  : Enclosure 0, Slot 4
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST91000640SS
+         Firmware                           : 0004
+         Serial number                      : xxxx
+         World-wide name                    : 5000C50056B3E2B8
+         Reserved Size                      : 538264 KB
+         Used Size                          : 953344 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+      Device #5
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,13(13:0)
+         Reported Location                  : Enclosure 0, Slot 5
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST91000640SS
+         Firmware                           : 0004
+         Serial number                      : xxxx
+         World-wide name                    : 5000C50056AE3C90
+         Reserved Size                      : 538264 KB
+         Used Size                          : 953344 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+      Device #6
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,14(14:0)
+         Reported Location                  : Enclosure 0, Slot 6
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST91000640SS
+         Firmware                           : 0004
+         Serial number                      : xxxx
+         World-wide name                    : 5000C50056AE4034
+         Reserved Size                      : 538264 KB
+         Used Size                          : 953344 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+      Device #7
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,15(15:0)
+         Reported Location                  : Enclosure 0, Slot 7
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST91000640SS
+         Firmware                           : 0004
+         Serial number                      : xxxx
+         World-wide name                    : 5000C50056B3D450
+         Reserved Size                      : 538264 KB
+         Used Size                          : 953344 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+      Device #8
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,16(16:0)
+         Reported Location                  : Enclosure 0, Slot 8
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST91000640SS
+         Firmware                           : 0004
+         Serial number                      : xxxx
+         World-wide name                    : 5000C50056B3D87C
+         Reserved Size                      : 538264 KB
+         Used Size                          : 953344 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+      Device #9
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,30(30:0)
+         Reported Location                  : Enclosure 0, Slot 22
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : Samsung SSD 840
+         Firmware                           : DXT08B0Q
+         Serial number                      : xxxx
+         Reserved Size                      : 177560 KB
+         Used Size                          : 114300 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 114473 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : Yes
+         NCQ status                         : Enabled
+      Device #10
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,31(31:0)
+         Reported Location                  : Enclosure 0, Slot 23
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : Samsung SSD 840
+         Firmware                           : DXT08B0Q
+         Serial number                      : xxxx
+         Reserved Size                      : 177560 KB
+         Used Size                          : 114300 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 114473 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : Yes
+         NCQ status                         : Enabled
+      Device #11
+         Device is an Enclosure services device
+         Reported Channel,Device(T:L)       : 2,0(0:0)
+         Enclosure ID                       : 0
+         Type                               : SES2
+         Vendor                             : LSI
+         Model                              : SAS2X36
+         Firmware                           : 0e0b
+         Status of Enclosure services device
+            Fan 1 status                    : 0 rpm (Not available)
+            Fan 2 status                    : 0 rpm (Not available)
+            Fan 3 status                    : 0 rpm (Not available)
+            Temperature Sensor Status 1     : 21 C/ 69 F (Normal)
+            Speaker status                  : Not available
+
+----------------------------------------------------------------------
+MaxCache 3.0 information
+----------------------------------------------------------------------
+Maxcache device number 100
+   Maxcache device name                     : Maxcache 0
+   MaxCache Dirty Status                    : Dirty
+   RAID level                               : 5
+   Background Coherency Check               : Inactive
+   Status of MaxCache                       : Optimal
+   Size                                     : 299990 MB
+   Stripe-unit size                         : 1024 KB
+   MaxCache write cache status              : On
+   Protected by Hot-Spare                   : No
+   Failed stripes                           : No
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (Controller:1,Enclosure:0,Slot:0) xxxx
+   Segment 1                                : Present (Controller:1,Enclosure:0,Slot:1) xxxx
+   Segment 2                                : Present (Controller:1,Enclosure:0,Slot:2) xxxx
+
+
+
+Command completed successfully.
+
