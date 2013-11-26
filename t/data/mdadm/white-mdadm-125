@@ -1,0 +1,24 @@
+/dev/md125:
+        Version : 0.90
+  Creation Time : Thu Jan 15 16:37:46 2009
+     Raid Level : raid1
+     Array Size : 56128 (54.82 MiB 57.48 MB)
+  Used Dev Size : 56128 (54.82 MiB 57.48 MB)
+   Raid Devices : 2
+  Total Devices : 2
+Preferred Minor : 125
+    Persistence : Superblock is persistent
+
+    Update Time : Mon Nov 25 12:46:27 2013
+          State : clean
+ Active Devices : 2
+Working Devices : 2
+ Failed Devices : 0
+  Spare Devices : 0
+
+           UUID : 57219006:b1527c59:de32536d:bb88a27f
+         Events : 0.1182
+
+    Number   Major   Minor   RaidDevice State
+       0       8        1        0      active sync   /dev/sda1
+       1       8       17        1      active sync   /dev/sdb1

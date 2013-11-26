@@ -11,8 +11,8 @@ use constant OK => 0;
 use constant WARNING => 1;
 use constant CRITICAL => 2;
 use constant UNKNOWN => 3;
-# default is OK
-use constant RESYNC => OK;
+# default is WARNING
+use constant RESYNC => WARNING;
 
 our @EXPORT = qw(OK WARNING CRITICAL UNKNOWN TESTDIR);
 
