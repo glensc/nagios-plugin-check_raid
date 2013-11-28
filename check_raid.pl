@@ -2171,7 +2171,7 @@ sub parse_config {
 				$pd[$pd]{vendor} = $vnd;
 			} elsif (my($mod) = /Model\s+:\s+(.+)/) {
 				$pd[$pd]{model} = $mod;
-			} elsif (my($fw) = /Firmware\s+:\s+(.+)/) {
+			} elsif (my($fw) = /Firmware\s+:\s*(.*)/) {
 				$pd[$pd]{firmware} = $fw;
 			} elsif (my($sn) = /Serial number\s+:\s+(.+)/) {
 				$pd[$pd]{serial} = $sn;
