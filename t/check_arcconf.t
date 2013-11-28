@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 27;
+use Test::More tests => 32;
 use test;
 
 # NOTE: this plugin has side effect of changing dir
@@ -45,6 +45,12 @@ my @tests = (
 		getstatus => 'issue31/getstatus',
 		getconfig => 'issue31/getconfig',
 		message => 'Controller:Optimal, Logical Device 0(OS):Optimal, Logical Device 1(SSDSTORAGEPOOL):Optimal, Logical Device 2(HDDSTORAGEPOOL):Optimal, Drives: xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx=Online',
+	},
+	{
+		status => OK,
+		getstatus => 'issue47/getstatus',
+		getconfig => 'issue47/getconfig',
+		message => 'Controller:Optimal, ZMM Status: ZMM not installed, Logical Device 0(data):Optimal, Drives: WD-WCAW36362892,WD-WCAW36407613,WD-WCAW36385723,WD-WCAW36405341=Online',
 	},
 );
 
