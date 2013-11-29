@@ -2010,6 +2010,8 @@ sub parse_status {
 			$task{priority} = $1;
 		} elsif (/^\s+Percentage complete\s+: (\d+)/) {
 			$task{percent} = $1;
+		} elsif (/^Invalid controller number/) {
+			;
 		} else {
 			warn "Unknown line: [$_]";
 			# FIXME: ->message() gets overwritten later on
