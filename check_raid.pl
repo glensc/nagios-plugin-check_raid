@@ -2171,7 +2171,7 @@ sub parse_config {
 				$pd[$pd]{vendor} = $vnd;
 			} elsif (my($mod) = /Model\s+:\s+(.+)/) {
 				$pd[$pd]{model} = $mod;
-			} elsif (my($fw) = /Firmware\s+:\s+(.+)/) {
+			} elsif (my($fw) = /Firmware\s+:\s*(.*)/) {
 				$pd[$pd]{firmware} = $fw;
 			} elsif (my($sn) = /Serial number\s+:\s+(.+)/) {
 				$pd[$pd]{serial} = $sn;
@@ -3486,7 +3486,7 @@ use Getopt::Long;
 
 my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
-my ($VERSION) = "3.0.3";
+my ($VERSION) = "3.0.6";
 my ($message, $status, $perfdata, $longoutput);
 my ($opt_O) = $ERRORS{UNKNOWN};
 

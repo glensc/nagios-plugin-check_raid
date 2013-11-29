@@ -1,3 +1,9 @@
+## 3.0.6 (not released)
+
+## 3.0.5 (2013-11-27)
+
+- fixed program version
+
 ## 3.0.4 (2013-11-25)
 - added `--noraid=OK|WARNING|CRITICAL|UNKNOWN` option. defaults to `UNKNOWN`
 - setup sudo rules option (`-S`) supports debug (`-d`) and will only print the
