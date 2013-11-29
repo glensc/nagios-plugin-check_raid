@@ -907,7 +907,7 @@ sub check {
 			next;
 		}
 		if (my($s) = /Battery State\s*: (.*)/) {
-			if ( undef($s) ) { $s = 'Faulty'; };
+			if ( !defined($s) ) { $s = 'Faulty'; };
 			$cur_bat{state} = $s;
 			next;
 		}
