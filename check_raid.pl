@@ -821,7 +821,7 @@ sub check {
 	while (<$fh>) {
 		if (my($s) = /Device Id: (\S+)/) {
 			push(@devs, { %cur }) if %cur;
-			%cur = ( dev => $s, state => undef, name => undef );
+			%cur = ( dev => $s, state => undef, name => undef, predictive => undef );
 			next;
 		}
 
@@ -837,6 +837,12 @@ sub check {
 			# 'Unconfigured(good), Spun down'
 			$s =~ s/,.+//;
 			$cur{state} = $s;
+			if ( defined( $cur{predictive} ) ) { $cur{state} = $cur{predictive}; };
+			next;
+		}
+
+		if (my($s) = /Predictive Failure Count: (\d+)/) {
+			if ( $s > 0 ) { $cur{predictive} = 'Predictive'; };
 			next;
 		}
 
@@ -862,7 +868,7 @@ sub check {
 	while (<$fh>) {
 		if (my($drive_id, $target_id) = /Virtual (?:Disk|Drive)\s*:\s*(\d+)\s*\(Target Id:\s*(\d+)\)/i) {
 			push(@vols, { %cur_vol }) if %cur_vol;
-			# Default to DriveID:TragetID in case no Name is given ...
+			# Default to DriveID:TargetID in case no Name is given ...
 			%cur_vol = ( name => "DISK$drive_id.$target_id", state => undef );
 			next;
 		}
