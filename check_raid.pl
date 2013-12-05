@@ -1320,8 +1320,7 @@ sub program_names {
 
 sub commands {
 	{
-		'probe' => ['-|', '@CMD', '-p'],
-		'status' => ['-|', '@CMD', '-i', '0' ],
+		'status' => ['-|', '@CMD'],
 		'sync status' => ['-|', '@CMD', '-n'],
 	}
 }
@@ -1342,6 +1341,7 @@ sub parse {
 	my $this = shift;
 
 	my (%ld, %pd);
+	my $fh = $this->cmd('status');
 
 	my %VolumeTypesHuman = (
 		IS => 'RAID-0',
@@ -1349,15 +1349,6 @@ sub parse {
 		IM => 'RAID-1',
 	);
 
-	# Probe for scsi-id (useful when not 0 but won't work for id > 15)
-	my $fh = $this->cmd('probe');
-	while(<$fh>) {
-		chomp;
-		if ( /^Found SCSI id=(\d+)/ ) { $this->{commands}{'status'}[3] = $1; }
-	}
-	close $fh;
-
-	$fh = $this->cmd('status');
 	while (<$fh>) {
 		chomp;
 		# mpt-status.c __print_volume_classic
