@@ -2215,6 +2215,12 @@ sub parse_config {
 					}
 					# here's actually more to parse
 				}
+			} elsif (/Expander ID\s+:/) {
+				# not parsed yet
+			} elsif (/Enclosure Logical Identifier\s+:/) {
+				# not parsed yet
+			} elsif (/Expander SAS Address\s+:/) {
+				# not parsed yet
 			} else {
 				warn "Unparsed Physical Device data: [$_]\n";
 			}
