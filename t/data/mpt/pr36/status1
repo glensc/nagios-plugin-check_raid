@@ -1,0 +1,3 @@
+ioc0 vol_id 1 type IM, 2 phy, 135 GB, state OPTIMAL, flags ENABLED
+ioc0 phy 1 scsi_id 3 IBM-ESXS MBD2147RC        SB1A, 136 GB, state ONLINE, flags NONE
+ioc0 phy 0 scsi_id 2 IBM-ESXS MBD2147RC        SB1A, 136 GB, state ONLINE, flags NONE
