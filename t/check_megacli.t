@@ -54,6 +54,18 @@ my @tests = (
 	},
 );
 
+=cut
+	{
+		status => OK,
+		pdlist => 'issue49/pdlist',
+		ldinfo => '', # MISSING
+		battery => 'issue49/battery',
+		message => 'Volumes(7): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal,DISK3.3:Optimal,DISK4.4:Optimal,DISK5.5:Optimal,DISK6.6:Optimal; Devices(1): 10 ()=; Batteries(1): 0=Faulty',
+	},
+
+=cut
+
+
 foreach my $test (@tests) {
 	my $plugin = megacli->new(
 		commands => {
