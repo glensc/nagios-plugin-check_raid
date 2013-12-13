@@ -2398,7 +2398,7 @@ sub check {
 		# skip not disks
 		next if $pd->{devtype} =~ 'Enclosure services device';
 
-		if ($pd->{status} = 'Rebuilding') {
+		if ($pd->{status} eq 'Rebuilding') {
 			$this->resync;
 		} elsif ($pd->{status} ne 'Online') {
 			$this->critical;
