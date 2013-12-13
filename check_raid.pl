@@ -2394,12 +2394,14 @@ sub check {
 
 	# check for physical devices
 	my %pd;
+	my $pd_resync = 0;
 	for my $pd (@{$data->{physical}}) {
 		# skip not disks
 		next if $pd->{devtype} =~ 'Enclosure services device';
 
 		if ($pd->{status} = 'Rebuilding') {
 			$this->resync;
+			$pd_resync++;
 		} elsif ($pd->{status} ne 'Online') {
 			$this->critical;
 		}
@@ -2412,7 +2414,11 @@ sub check {
 	for my $ld (@{$data->{logical}}) {
 		next unless $ld; # FIXME: fix that script assumes controllers start from '0'
 
-		$this->critical if $ld->{status} !~ /Optimal|Okay/;
+		if ($ld->{status} eq 'Degraded' && $pd_resync) {
+			$this->warning;
+		} elsif ($ld->{status} !~ /Optimal|Okay/) {
+			$this->critical;
+		}
 
 		my $id = $ld->{id};
 		if ($ld->{name}) {
