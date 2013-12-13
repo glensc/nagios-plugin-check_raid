@@ -9,67 +9,45 @@ use warnings;
 use Test::More tests => 20;
 use test;
 
-if (1) {
-my $plugin = mpt->new(
-	commands => {
-		'status' => ['<', TESTDIR . '/data/mpt/mpt-status'],
+my @tests = (
+	{
+		status => OK,
+		input => 'mpt-status',
+		message => 'Volume 0 (RAID-1, 2 disks, 136 GiB): OPTIMAL',
+	},
+	{
+		status => CRITICAL,
+		input => 'mpt-syncing',
+		sync_status => 'mpt-syncing-n',
+		message => 'Volume 0 (RAID-1, 2 disks, 68 GiB): DEGRADED RESYNCING: 70%/70%, Disk 1 (68 GiB):ONLINE OUT_OF_SYNC',
+	},
+	{
+		status => OK,
+		input => 'mpt-status-ata',
+		message => 'Volume 0 (RAID-1, 2 disks, 73 GiB): OPTIMAL',
+	},
+	{
+		status => OK,
+		input => 'mpt-status-pr27',
+		message => 'Volume 0 (RAID-1, 2 disks, 73 GiB): OPTIMAL',
 	},
 );
 
-ok($plugin, "plugin created");
-$plugin->check;
-ok(1, "check ran");
-ok(defined($plugin->status), "status code set");
-ok($plugin->status == OK, "status code");
-print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Volume 0 (RAID-1, 2 disks, 136 GiB): OPTIMAL');
-}
+foreach my $test (@tests) {
+	my $plugin = mpt->new(
+		commands => {
+			'status' => ['<', TESTDIR . '/data/mpt/' . $test->{input}],
+			'sync status' => $test->{sync_status} ? ['<', TESTDIR . '/data/mpt/' . $test->{sync_status}] : undef,
+		},
+	);
 
-if (1) {
-my $plugin = mpt->new(
-	commands => {
-		'status' => ['<', TESTDIR . '/data/mpt/mpt-syncing'],
-		'sync status' => ['<', TESTDIR . '/data/mpt/mpt-syncing-n'],
-	},
-);
+	ok($plugin, "plugin created");
 
-ok($plugin, "plugin created");
-$plugin->check;
-ok(1, "check ran");
-ok(defined($plugin->status), "status code set");
-ok($plugin->status == CRITICAL, "status code");
-print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Volume 0 (RAID-1, 2 disks, 68 GiB): DEGRADED RESYNCING: 70%/70%, Disk 1 (68 GiB):ONLINE OUT_OF_SYNC');
-}
+	$plugin->check;
+	ok(1, "check ran");
 
-if (1) {
-my $plugin = mpt->new(
-	commands => {
-		'status' => ['<', TESTDIR . '/data/mpt/mpt-status-ata'],
-	},
-);
-
-ok($plugin, "plugin created");
-$plugin->check;
-ok(1, "check ran");
-ok(defined($plugin->status), "status code set");
-ok($plugin->status == OK, "status code");
-print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Volume 0 (RAID-1, 2 disks, 73 GiB): OPTIMAL');
-}
-
-if (1) {
-my $plugin = mpt->new(
-	commands => {
-		'status' => ['<', TESTDIR . '/data/mpt/mpt-status-pr27'],
-	},
-);
-
-ok($plugin, "plugin created");
-$plugin->check;
-ok(1, "check ran");
-ok(defined($plugin->status), "status code set");
-ok($plugin->status == OK, "status code");
-print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Volume 0 (RAID-1, 2 disks, 73 GiB): OPTIMAL');
+	ok(defined($plugin->status), "status code set");
+	ok($plugin->status == $test->{status}, "status code (got:".$plugin->status." exp:".$test->{status}.")");
+	print "[".$plugin->message."]\n";
+	ok($plugin->message eq $test->{message}, "status message");
 }
