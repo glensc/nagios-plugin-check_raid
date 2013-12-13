@@ -2392,6 +2392,22 @@ sub check {
 		}
 	}
 
+	# check for physical devices
+	my %pd;
+	for my $pd (@{$data->{physical}}) {
+		# skip not disks
+		next if $pd->{devtype} =~ 'Enclosure services device';
+
+		if ($pd->{status} = 'Rebuilding') {
+			$this->resync;
+		} elsif ($pd->{status} ne 'Online') {
+			$this->critical;
+		}
+
+		my $id = $pd->{serial} || $pd->{wwn};
+		push(@{$pd{$pd->{status}}}, $id);
+	}
+
 	# check for logical devices
 	for my $ld (@{$data->{logical}}) {
 		next unless $ld; # FIXME: fix that script assumes controllers start from '0'
@@ -2410,22 +2426,6 @@ sub check {
 		if (defined $ld->{defunct_segments} && $ld->{defunct_segments} ne 'No') {
 			push(@status, "Defunct segments: $ld->{defunct_segments}");
 		}
-	}
-
-	# check for physical devices
-	my %pd;
-	for my $pd (@{$data->{physical}}) {
-		# skip not disks
-		next if $pd->{devtype} =~ 'Enclosure services device';
-
-		if ($pd->{status} = 'Rebuilding') {
-			$this->resync;
-		} elsif ($pd->{status} ne 'Online') {
-			$this->critical;
-		}
-
-		my $id = $pd->{serial} || $pd->{wwn};
-		push(@{$pd{$pd->{status}}}, $id);
 	}
 
 	push(@status, "Drives: ".$this->join_status(\%pd)) if %pd;
