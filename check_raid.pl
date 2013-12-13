@@ -1353,7 +1353,7 @@ sub parse {
 		}
 	}
 	close $fh;
-	
+
 	$fh = $this->cmd('status',{ '$id' => $id });
 
 	my %VolumeTypesHuman = (
@@ -2418,7 +2418,11 @@ sub check {
 		# skip not disks
 		next if $pd->{devtype} =~ 'Enclosure services device';
 
-		$this->critical if $pd->{status} !~ /Online/;
+		if ($pd->{status} = 'Rebuilding') {
+			$this->resync;
+		} elsif ($pd->{status} ne 'Online') {
+			$this->critical;
+		}
 
 		my $id = $pd->{serial} || $pd->{wwn};
 		push(@{$pd{$pd->{status}}}, $id);
