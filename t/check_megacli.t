@@ -43,7 +43,7 @@ my @tests = (
 		pdlist => 'issue39/batteries.pdlist',
 		ldinfo => 'issue39/batteries.ldinfo',,
 		battery => 'issue39/batteries.bbustatus',
-		message => 'Volumes(1): DISK0.0:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online; Batteries(1): 0=???',
+		message => 'Volumes(1): DISK0.0:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online; Batteries(1): 0=Faulty',
 	},
 	{
 		status => OK,
@@ -53,6 +53,18 @@ my @tests = (
 		message => 'Volumes(7): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal,DISK3.3:Optimal,DISK4.4:Optimal,DISK5.5:Optimal,DISK6.6:Optimal; Devices(8): 11,12,13,14,10,15,09,08=Online; Batteries(1): 0=Optimal',
 	},
 );
+
+=cut
+	{
+		status => OK,
+		pdlist => 'issue49/pdlist',
+		ldinfo => '', # MISSING
+		battery => 'issue49/battery',
+		message => 'Volumes(7): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal,DISK3.3:Optimal,DISK4.4:Optimal,DISK5.5:Optimal,DISK6.6:Optimal; Devices(1): 10 ()=; Batteries(1): 0=Faulty',
+	},
+
+=cut
+
 
 foreach my $test (@tests) {
 	my $plugin = megacli->new(

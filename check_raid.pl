@@ -821,7 +821,7 @@ sub check {
 	while (<$fh>) {
 		if (my($s) = /Device Id: (\S+)/) {
 			push(@devs, { %cur }) if %cur;
-			%cur = ( dev => $s, state => undef, name => undef );
+			%cur = ( dev => $s, state => undef, name => undef, predictive => undef );
 			next;
 		}
 
@@ -837,6 +837,12 @@ sub check {
 			# 'Unconfigured(good), Spun down'
 			$s =~ s/,.+//;
 			$cur{state} = $s;
+			if ( defined( $cur{predictive} ) ) { $cur{state} = $cur{predictive}; };
+			next;
+		}
+
+		if (my($s) = /Predictive Failure Count: (\d+)/) {
+			if ( $s > 0 ) { $cur{predictive} = 'Predictive'; };
 			next;
 		}
 
@@ -862,7 +868,7 @@ sub check {
 	while (<$fh>) {
 		if (my($drive_id, $target_id) = /Virtual (?:Disk|Drive)\s*:\s*(\d+)\s*\(Target Id:\s*(\d+)\)/i) {
 			push(@vols, { %cur_vol }) if %cur_vol;
-			# Default to DriveID:TragetID in case no Name is given ...
+			# Default to DriveID:TargetID in case no Name is given ...
 			%cur_vol = ( name => "DISK$drive_id.$target_id", state => undef );
 			next;
 		}
@@ -900,7 +906,8 @@ sub check {
 			);
 			next;
 		}
-		if (my($s) = /Battery State\s*: (.+)/) {
+		if (my($s) = /Battery State\s*: ?(.*)/i) {
+			if ( !$s ) { $s = 'Faulty'; };
 			$cur_bat{state} = $s;
 			next;
 		}
@@ -1313,7 +1320,8 @@ sub program_names {
 
 sub commands {
 	{
-		'status' => ['-|', '@CMD'],
+		'status' => ['-|', '@CMD', '-i $id'],
+		'get_controller_no' => ['-|', '@CMD', '-p'],
 		'sync status' => ['-|', '@CMD', '-n'],
 	}
 }
@@ -1325,8 +1333,9 @@ sub sudo {
 
 	my $cmd = $this->{program};
 	(
-	"CHECK_RAID ALL=(root) NOPASSWD: $cmd",
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -i [0123456789]",
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -n",
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -p",
 	);
 }
 
@@ -1334,7 +1343,18 @@ sub parse {
 	my $this = shift;
 
 	my (%ld, %pd);
-	my $fh = $this->cmd('status');
+	my $fh = $this->cmd('get_controller_no');
+   my $id;
+	while (<$fh>) {
+		chomp;
+		if ( /^Found.*id=(\d),.*/ ) {
+			$id = $1;
+			last;
+		}
+	}
+	close $fh;
+
+	$fh = $this->cmd('status',{ '$id' => $id });
 
 	my %VolumeTypesHuman = (
 		IS => 'RAID-0',
@@ -2003,6 +2023,8 @@ sub parse_status {
 			$task{priority} = $1;
 		} elsif (/^\s+Percentage complete\s+: (\d+)/) {
 			$task{percent} = $1;
+		} elsif (/^Invalid controller number/) {
+			;
 		} else {
 			warn "Unknown line: [$_]";
 			# FIXME: ->message() gets overwritten later on
@@ -2215,6 +2237,12 @@ sub parse_config {
 					}
 					# here's actually more to parse
 				}
+			} elsif (/Expander ID\s+:/) {
+				# not parsed yet
+			} elsif (/Enclosure Logical Identifier\s+:/) {
+				# not parsed yet
+			} elsif (/Expander SAS Address\s+:/) {
+				# not parsed yet
 			} else {
 				warn "Unparsed Physical Device data: [$_]\n";
 			}
@@ -2364,6 +2392,22 @@ sub check {
 		}
 	}
 
+	# check for physical devices
+	my %pd;
+	for my $pd (@{$data->{physical}}) {
+		# skip not disks
+		next if $pd->{devtype} =~ 'Enclosure services device';
+
+		if ($pd->{status} eq 'Rebuilding') {
+			$this->resync;
+		} elsif ($pd->{status} ne 'Online') {
+			$this->critical;
+		}
+
+		my $id = $pd->{serial} || $pd->{wwn};
+		push(@{$pd{$pd->{status}}}, $id);
+	}
+
 	# check for logical devices
 	for my $ld (@{$data->{logical}}) {
 		next unless $ld; # FIXME: fix that script assumes controllers start from '0'
@@ -2382,18 +2426,6 @@ sub check {
 		if (defined $ld->{defunct_segments} && $ld->{defunct_segments} ne 'No') {
 			push(@status, "Defunct segments: $ld->{defunct_segments}");
 		}
-	}
-
-	# check for physical devices
-	my %pd;
-	for my $pd (@{$data->{physical}}) {
-		# skip not disks
-		next if $pd->{devtype} =~ 'Enclosure services device';
-
-		$this->critical if $pd->{status} !~ /Online/;
-
-		my $id = $pd->{serial} || $pd->{wwn};
-		push(@{$pd{$pd->{status}}}, $id);
 	}
 
 	push(@status, "Drives: ".$this->join_status(\%pd)) if %pd;

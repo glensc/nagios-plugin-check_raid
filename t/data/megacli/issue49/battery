@@ -1,0 +1,45 @@
+                                     
+BBU status for Adapter: 0
+
+BatteryType: iBBU
+Voltage: 4049 mV
+Current: 0 mA
+Temperature: 36 C
+
+BBU Firmware Status:
+
+  Charging Status              : None
+  Voltage                      : OK
+  Temperature                  : OK
+  Learn Cycle Requested	       : No
+  Learn Cycle Active           : No
+  Learn Cycle Status           : OK
+  Learn Cycle Timeout          : No
+  I2c Errors Detected          : No
+  Battery Pack Missing         : No
+  Battery Replacement required : Yes
+  Remaining Capacity Low       : Yes
+  Periodic Learn Required      : No
+
+Battery state: 
+
+GasGuageStatus:
+  Fully Discharged        : No
+  Fully Charged           : Yes
+  Discharging             : Yes
+  Initialized             : Yes
+  Remaining Time Alarm    : No
+  Remaining Capacity Alarm: No
+  Discharge Terminated    : No
+  Over Temperature        : No
+  Charging Terminated     : No
+  Over Charged            : No
+
+Relative State of Charge: 96 %
+Charger System State: 49168
+Charger System Ctrl: 0
+Charging current: 0 mA
+Absolute state of charge: 5158 %
+Max Error: 29 %
+
+Exit Code: 0x00
