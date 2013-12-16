@@ -3598,6 +3598,7 @@ sub sudoers {
 		# also this avoids installing ourselves twice.
 		"# Lines matching CHECK_RAID added by $0 -S on ". scalar localtime,
 		"User_Alias CHECK_RAID=nagios",
+		"Defaults:CHECK_RAID !requiretty",
 
 		# actual rules from plugins
 		join("\n", @sudo),
