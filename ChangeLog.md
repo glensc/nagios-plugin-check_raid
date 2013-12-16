@@ -1,4 +1,8 @@
 ## 3.0.6 (not released)
+- sudoers: disable requiretty (enabled in CentOS 6.5) #52
+- megacli fixes #50
+- arcconf fixes #47, #51
+- mpt-status fixes #36
 
 ## 3.0.5 (2013-11-27)
 
