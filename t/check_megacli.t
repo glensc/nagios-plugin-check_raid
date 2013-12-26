@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 30;
+use Test::More tests => 63;
 use test;
 
 my @tests = (
@@ -16,6 +16,8 @@ my @tests = (
 		ldinfo => 'megacli.ldinfo.1',
 		battery => 'empty',
 		message => 'Volumes(2): OS:Optimal,DATA:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online',
+		perfdata => '',
+		longoutput => '',
 	},
 	{
 		status => OK,
@@ -23,6 +25,8 @@ my @tests = (
 		ldinfo => 'megacli.ldinfo.2',
 		battery => 'empty',
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(11): 16=Hotspare 11,12,13,14,15,17=Online 18,19,20,21=Unconfigured(good)',
+		perfdata => '',
+		longoutput => '',
 	},
 	{
 		status => OK,
@@ -30,6 +34,8 @@ my @tests = (
 		ldinfo => 'issue41/ldinfo',
 		battery => 'empty',
 		message => 'Volumes(3): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal; Devices(6): 11,10,09,08,12,13=Online',
+		perfdata => '',
+		longoutput => '',
 	},
 	{
 		status => CRITICAL,
@@ -37,6 +43,8 @@ my @tests = (
 		ldinfo => 'empty',
 		battery => 'empty',
 		message => 'Volumes(0): ; Devices(11): 16=Hotspare 11,12,13,14,15,17=Online 18,19,20,21=Unconfigured(good)',
+		perfdata => '',
+		longoutput => '',
 	},
 	{
 		status => CRITICAL,
@@ -44,6 +52,35 @@ my @tests = (
 		ldinfo => 'issue39/batteries.ldinfo',,
 		battery => 'issue39/batteries.bbustatus',
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online; Batteries(1): 0=Faulty',
+		perfdata => 'Battery0=30;4026',
+		longoutput => "Battery0:\n - State: Faulty\n - Missing: No\n - Replacement required: Yes\n - Temperature: OK (30 C)\n - Voltage: OK (4026 mV)",
+	},
+	{
+		status => OK,
+		pdlist => 'issue39/batteries.pdlist.1',
+		ldinfo => 'issue39/batteries.ldinfo.1',,
+		battery => 'issue39/batteries.bbustatus.1',
+		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 08,07=Online; Batteries(1): 0=Operational',
+		perfdata => 'Battery0=18;3923',
+		longoutput => "Battery0:\n - State: Operational\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (18 C)\n - Voltage: OK (3923 mV)",
+	},
+	{
+		status => CRITICAL,
+		pdlist => 'issue39/batteries.pdlist.2',
+		ldinfo => 'issue39/batteries.ldinfo.2',,
+		battery => 'issue39/batteries.bbustatus.2',
+		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 04,05=Online; Batteries(1): 0=Operational',
+		perfdata => 'Battery0=26;4053',
+		longoutput => "Battery0:\n - State: Operational\n - Missing: No\n - Replacement required: Yes\n - About to fail: No\n - Temperature: OK (26 C)\n - Voltage: OK (4053 mV)",
+	},
+	{
+		status => CRITICAL,
+		pdlist => 'issue39/batteries.pdlist.3',
+		ldinfo => 'issue39/batteries.ldinfo.3',,
+		battery => 'issue39/batteries.bbustatus.3',
+		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 04,05=Online; Batteries(1): 0=Non Operational',
+		perfdata => 'Battery0=22;4090',
+		longoutput => "Battery0:\n - State: Non Operational\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (22 C)\n - Voltage: OK (4090 mV)",
 	},
 	{
 		status => OK,
@@ -51,6 +88,8 @@ my @tests = (
 		ldinfo => 'issue45/MegaCli64-ldinfo.out',
 		battery => 'issue45/MegaCli64-adpbbucmd.out',
 		message => 'Volumes(7): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal,DISK3.3:Optimal,DISK4.4:Optimal,DISK5.5:Optimal,DISK6.6:Optimal; Devices(8): 11,12,13,14,10,15,09,08=Online; Batteries(1): 0=Optimal',
+		perfdata => 'Battery0=34;4073',
+		longoutput => "Battery0:\n - State: Optimal\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (34 C)\n - Voltage: OK (4073 mV)",
 	},
 );
 
@@ -61,6 +100,8 @@ my @tests = (
 		ldinfo => '', # MISSING
 		battery => 'issue49/battery',
 		message => 'Volumes(7): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal,DISK3.3:Optimal,DISK4.4:Optimal,DISK5.5:Optimal,DISK6.6:Optimal; Devices(1): 10 ()=; Batteries(1): 0=Faulty',
+		perfdata => '',
+		longoutput => '',
 	},
 
 =cut
@@ -84,4 +125,14 @@ foreach my $test (@tests) {
 	ok($plugin->status == $test->{status}, "status code (got:".$plugin->status." exp:".$test->{status}.")");
 	print "[".$plugin->message."]\n";
 	ok($plugin->message eq $test->{message}, "status message");
+
+	if ($test->{perfdata} ne '' || $plugin->perfdata ne '') {
+		print "[".$plugin->perfdata."]\n";
+	}
+	ok($plugin->perfdata eq $test->{perfdata}, "performance data");
+
+	if ($test->{longoutput} ne '' || $plugin->longoutput ne '') {
+		print "[".$plugin->longoutput."]\n";
+	}
+	ok($plugin->longoutput eq $test->{longoutput}, "long output");
 }
