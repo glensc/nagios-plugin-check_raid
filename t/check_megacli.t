@@ -55,7 +55,7 @@ my @tests = (
 		perfdata => 'Battery0=30;4026',
 		longoutput => "Battery0:\n - State: Faulty\n - Missing: No\n - Replacement required: Yes\n - Temperature: OK (30 C)\n - Voltage: OK (4026 mV)",
 	},
-    {
+	{
 		status => OK,
 		pdlist => 'issue39/batteries.pdlist.1',
 		ldinfo => 'issue39/batteries.ldinfo.1',,
@@ -64,7 +64,7 @@ my @tests = (
 		perfdata => 'Battery0=18;3923',
 		longoutput => "Battery0:\n - State: Operational\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (18 C)\n - Voltage: OK (3923 mV)",
 	},
-    {
+	{
 		status => CRITICAL,
 		pdlist => 'issue39/batteries.pdlist.2',
 		ldinfo => 'issue39/batteries.ldinfo.2',,
@@ -127,12 +127,12 @@ foreach my $test (@tests) {
 	ok($plugin->message eq $test->{message}, "status message");
 
 	if ($test->{perfdata} ne '' || $plugin->perfdata ne '') {
-        print "[".$plugin->perfdata."]\n";
-    }
+		print "[".$plugin->perfdata."]\n";
+	}
 	ok($plugin->perfdata eq $test->{perfdata}, "performance data");
 
 	if ($test->{longoutput} ne '' || $plugin->longoutput ne '') {
-	    print "[".$plugin->longoutput."]\n";
-    }
+		print "[".$plugin->longoutput."]\n";
+	}
 	ok($plugin->longoutput eq $test->{longoutput}, "long output");
 }
