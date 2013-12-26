@@ -18,7 +18,6 @@ my @tests = (
 		message => 'Volumes(2): OS:Optimal,DATA:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online',
 		perfdata => '',
 		longoutput => '',
-		
 	},
 	{
 		status => OK,
@@ -127,12 +126,12 @@ foreach my $test (@tests) {
 	print "[".$plugin->message."]\n";
 	ok($plugin->message eq $test->{message}, "status message");
 
-	if (!$test->{perfdata} eq '' || !$plugin->perfdata eq '') {
+	if ($test->{perfdata} ne '' || $plugin->perfdata ne '') {
         print "[".$plugin->perfdata."]\n";
     }
 	ok($plugin->perfdata eq $test->{perfdata}, "performance data");
 
-	if (!$test->{longoutput} eq '' || !$plugin->longoutput eq '') {
+	if ($test->{longoutput} ne '' || $plugin->longoutput ne '') {
 	    print "[".$plugin->longoutput."]\n";
     }
 	ok($plugin->longoutput eq $test->{longoutput}, "long output");
