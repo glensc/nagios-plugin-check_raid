@@ -969,7 +969,7 @@ sub check {
 
 	my (%bstatus, @bpdata, @blongout);
 	foreach my $bat (@bats) {
-		if ($bat->{state} !~ /Operational|Optimal/) {
+		if ($bat->{state} !~ /^(Operational|Optimal)$/) {
 			$this->critical;
 		}
 		if ($bat->{missing} ne 'No') {
@@ -1013,7 +1013,7 @@ sub check {
 			" - State: $bat->{state}",
 			" - Missing: $bat->{missing}",
 			" - Replacement required: $bat->{replacement_required}",
-			defined($bat->{pack_will_fail}) ?  " - About to fail: $bat->{pack_will_fail}" : "",
+			defined($bat->{pack_will_fail}) ? " - About to fail: $bat->{pack_will_fail}" : "",
 			" - Temperature: $bat->{temperature_state} ($bat->{temperature} C)",
 			" - Voltage: $bat->{voltage_state} ($bat->{voltage} mV)",
 		));
@@ -1022,7 +1022,7 @@ sub check {
 	push(@status,
 		'Volumes(' . ($#vols + 1) . '): ' . join(',', @vstatus) .
 		'; Devices(' . ($#devs + 1) . '): ' . $this->join_status(\%dstatus) .
-		(@bats ?  '; Batteries(' . ($#bats + 1) . '): ' . $this->join_status(\%bstatus) : '')
+		(@bats ? '; Batteries(' . ($#bats + 1) . '): ' . $this->join_status(\%bstatus) : '')
 	);
 	push(@pdata,
 		join('\n', @bpdata)
@@ -1344,7 +1344,7 @@ sub parse {
 
 	my (%ld, %pd);
 	my $fh = $this->cmd('get_controller_no');
-   my $id;
+	my $id;
 	while (<$fh>) {
 		chomp;
 		if ( /^Found.*id=(\d),.*/ ) {
@@ -3027,7 +3027,7 @@ sub check {
 	my @status;
 	# determine the RAID states of each controller
 	foreach my $c (@ctrls) {
-		my $fh = $this->cmd('controller status', {  '$controller' => $c });
+		my $fh = $this->cmd('controller status', { '$controller' => $c });
 
 		my $state;
 		my $success = 0;
@@ -3385,7 +3385,7 @@ sub check {
 		next if $usage eq 'N.A.';
 
 		# use array id in output: shorter
-		my $array_id = defined($arrays{$usage}) ?  ($arrays{$usage})->[0] : undef;
+		my $array_id = defined($arrays{$usage}) ? ($arrays{$usage})->[0] : undef;
 		my $array_name = defined $array_id ? "Array#$array_id" : $usage;
 
 		# assume critical if Usage is not one of:
