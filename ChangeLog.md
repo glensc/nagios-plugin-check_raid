@@ -3,6 +3,7 @@
 - megacli fixes #50, #53
 - arcconf fixes #47, #51
 - mpt-status fixes #36
+- add `/opt/bin` to `$PATH` #54
 
 ## 3.0.5 (2013-11-27)
 
