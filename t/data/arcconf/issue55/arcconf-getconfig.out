@@ -1,0 +1,161 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Channel description                      : SAS/SATA
+   Controller Model                         : Adaptec 5405
+   Controller Serial Number                 : 1D091194E9A
+   Physical Slot                            : 55
+   Temperature                              : 74 C/ 165 F (Normal)
+   Installed memory                         : 256 MB
+   Copyback                                 : Disabled
+   Background consistency check             : Enabled
+   Automatic Failover                       : Enabled
+   Global task priority                     : High
+   Performance Mode                         : Default/Dynamic
+   Stayawake period                         : Disabled
+   Spinup limit internal drives             : 0
+   Spinup limit external drives             : 0
+   Defunct disk drive count                 : 0
+   Logical devices/Failed/Degraded          : 1/0/0
+   SSDs assigned to MaxCache pool           : 0
+   Maximum SSDs allowed in MaxCache pool    : 8
+   MaxCache Read Cache Pool Size            : 0.000 GB
+   MaxCache flush and fetch rate            : 0
+   MaxCache Read, Write Balance Factor      : 3,1
+   NCQ status                               : Enabled
+   Statistics data collection mode          : Enabled
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 5.2-0 (18948)
+   Firmware                                 : 5.2-0 (18948)
+   Driver                                   : 1.1-7 (28000)
+   Boot Flash                               : 5.2-0 (18948)
+   --------------------------------------------------------
+   Controller Battery Information
+   --------------------------------------------------------
+   Status                                   : Not Installed
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical device number 0
+   Logical device name                      : plop
+   RAID level                               : 5
+   Status of logical device                 : Optimal
+   Size                                     : 3809270 MB
+   Stripe-unit size                         : 256 KB
+   Read-cache mode                          : Enabled
+   MaxCache preferred read cache setting    : Disabled
+   MaxCache read cache setting              : Disabled
+   Write-cache mode                         : Disabled (write-through)
+   Write-cache setting                      : Disabled (write-through)
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : No
+   Bootable                                 : Yes
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (Controller:1,Connector:0,Device:0)            Y2O483PAS
+   Segment 1                                : Present (Controller:1,Connector:0,Device:1)            Y2O3MYTGS
+   Segment 2                                : Present (Controller:1,Connector:0,Device:2)            Y2O3M8RGS
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,0(0:0)
+         Reported Location                  : Connector 0, Device 0
+         Vendor                             : 
+         Model                              : TOSHIBA DT01ACA2
+         Firmware                           : MX4OABB0
+         Serial number                      : Y2O483PAS
+         Size                               : 1907729 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         MaxCache Capable                   : No
+         MaxCache Assigned                  : No
+         NCQ status                         : Enabled
+      Device #1
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,1(1:0)
+         Reported Location                  : Connector 0, Device 1
+         Vendor                             : 
+         Model                              : TOSHIBA DT01ACA2
+         Firmware                           : MX4OABB0
+         Serial number                      : Y2O3MYTGS
+         Size                               : 1907729 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         MaxCache Capable                   : No
+         MaxCache Assigned                  : No
+         NCQ status                         : Enabled
+      Device #2
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,2(2:0)
+         Reported Location                  : Connector 0, Device 2
+         Vendor                             : 
+         Model                              : TOSHIBA DT01ACA2
+         Firmware                           : MX4OABB0
+         Serial number                      : Y2O3M8RGS
+         Size                               : 1907729 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         MaxCache Capable                   : No
+         MaxCache Assigned                  : No
+         NCQ status                         : Enabled
+      Device #3
+         Device is a Hard drive
+         State                              : Online (JBOD)
+         Supported                          : Yes
+         Transfer Speed                     : SATA 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,3(3:0)
+         Reported Location                  : Connector 0, Device 3
+         Vendor                             : 
+         Model                              : ST3000DM001-9YN1
+         Firmware                           : CC4H
+         Serial number                      : S1F02BSH
+         Size                               : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         MaxCache Capable                   : No
+         MaxCache Assigned                  : No
+         NCQ status                         : Enabled
+
+
+Command completed successfully.
