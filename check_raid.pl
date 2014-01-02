@@ -2243,6 +2243,8 @@ sub parse_config {
 				# not parsed yet
 			} elsif (/Expander SAS Address\s+:/) {
 				# not parsed yet
+			} elsif (/MaxCache (Capable|Assigned)\s+:\s+(.+)/) {
+				# not parsed yet
 			} else {
 				warn "Unparsed Physical Device data: [$_]\n";
 			}
@@ -2400,7 +2402,7 @@ sub check {
 
 		if ($pd->{status} eq 'Rebuilding') {
 			$this->resync;
-		} elsif ($pd->{status} ne 'Online') {
+		} elsif ($pd->{status} !~ '^Online') {
 			$this->critical;
 		}
 
