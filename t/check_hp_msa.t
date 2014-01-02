@@ -2,6 +2,12 @@
 BEGIN {
 	(my $srcdir = $0) =~ s,/[^/]+$,/,;
 	unshift @INC, $srcdir;
+
+	if ($ENV{TRAVIS}) {
+		use Test::More;
+		plan skip_all => "Skipping test as can't open /dev in travis";
+		exit 0;
+	}
 }
 
 use strict;

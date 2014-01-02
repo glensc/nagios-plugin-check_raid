@@ -70,7 +70,7 @@ our $debug = 0;
 
 # paths for which()
 our @paths = split /:/, $ENV{'PATH'};
-unshift(@paths, qw(/usr/local/nrpe /usr/local/bin /sbin /usr/sbin /bin /usr/sbin));
+unshift(@paths, qw(/usr/local/nrpe /usr/local/bin /sbin /usr/sbin /bin /usr/sbin /opt/bin));
 
 # lookup program from list of possibele filenames
 # search is performed from $PATH plus additional hardcoded @paths
