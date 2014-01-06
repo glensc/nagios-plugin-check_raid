@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 37;
+use Test::More tests => 42;
 use test;
 
 # NOTE: this plugin has side effect of changing dir
@@ -57,6 +57,12 @@ my @tests = (
 		getstatus => 'issue47/getstatus2',
 		getconfig => 'issue47/getconfig2',
 		message => 'Controller:Optimal, Logical device #0: Rebuild: In Progress 1%, ZMM Status: ZMM not installed, Logical Device 0(data):Degraded, Drives: WD-*******,WD-*******,WD-*******=Online WD-*******=Rebuilding',
+	},
+	{
+		status => OK,
+		getstatus => 'issue55/arcconf-getstatus.out',
+		getconfig => 'issue55/arcconf-getconfig.out',
+		message => 'Controller:Optimal, Logical Device 0(plop):Optimal, Drives: Y2O483PAS,Y2O3MYTGS,Y2O3M8RGS=Online S1F02BSH=Online (JBOD)',
 	},
 );
 
