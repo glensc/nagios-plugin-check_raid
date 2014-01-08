@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 63;
+use Test::More tests => 70;
 use test;
 
 my @tests = (
@@ -53,7 +53,7 @@ my @tests = (
 		battery => 'issue39/batteries.bbustatus',
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online; Batteries(1): 0=Faulty',
 		perfdata => 'Battery0=30;4026',
-		longoutput => "Battery0:\n - State: Faulty\n - Missing: No\n - Replacement required: Yes\n - Temperature: OK (30 C)\n - Voltage: OK (4026 mV)",
+		longoutput => "Battery0:\n - State: Faulty\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: Yes\n - Temperature: OK (30 C)\n - Voltage: OK (4026 mV)",
 	},
 	{
 		status => OK,
@@ -62,7 +62,7 @@ my @tests = (
 		battery => 'issue39/batteries.bbustatus.1',
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 08,07=Online; Batteries(1): 0=Operational',
 		perfdata => 'Battery0=18;3923',
-		longoutput => "Battery0:\n - State: Operational\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (18 C)\n - Voltage: OK (3923 mV)",
+		longoutput => "Battery0:\n - State: Operational\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (18 C)\n - Voltage: OK (3923 mV)",
 	},
 	{
 		status => CRITICAL,
@@ -71,16 +71,26 @@ my @tests = (
 		battery => 'issue39/batteries.bbustatus.2',
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 04,05=Online; Batteries(1): 0=Operational',
 		perfdata => 'Battery0=26;4053',
-		longoutput => "Battery0:\n - State: Operational\n - Missing: No\n - Replacement required: Yes\n - About to fail: No\n - Temperature: OK (26 C)\n - Voltage: OK (4053 mV)",
+		longoutput => "Battery0:\n - State: Operational\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: Yes\n - About to fail: No\n - Temperature: OK (26 C)\n - Voltage: OK (4053 mV)",
 	},
 	{
-		status => CRITICAL,
+		status => WARNING,
 		pdlist => 'issue39/batteries.pdlist.3',
 		ldinfo => 'issue39/batteries.ldinfo.3',,
 		battery => 'issue39/batteries.bbustatus.3',
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 04,05=Online; Batteries(1): 0=Non Operational',
 		perfdata => 'Battery0=22;4090',
-		longoutput => "Battery0:\n - State: Non Operational\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (22 C)\n - Voltage: OK (4090 mV)",
+		longoutput => "Battery0:\n - State: Non Operational\n - Charging status: Charging\n - Learn cycle requested: Yes\n - Learn cycle active: Yes\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (22 C)\n - Voltage: OK (4090 mV)",
+	},
+	{
+		status => CRITICAL,
+		bbulearn_status => CRITICAL,
+		pdlist => 'issue39/batteries.pdlist.3',
+		ldinfo => 'issue39/batteries.ldinfo.3',,
+		battery => 'issue39/batteries.bbustatus.3',
+		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 04,05=Online; Batteries(1): 0=Non Operational',
+		perfdata => 'Battery0=22;4090',
+		longoutput => "Battery0:\n - State: Non Operational\n - Charging status: Charging\n - Learn cycle requested: Yes\n - Learn cycle active: Yes\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (22 C)\n - Voltage: OK (4090 mV)",
 	},
 	{
 		status => OK,
@@ -89,7 +99,7 @@ my @tests = (
 		battery => 'issue45/MegaCli64-adpbbucmd.out',
 		message => 'Volumes(7): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal,DISK3.3:Optimal,DISK4.4:Optimal,DISK5.5:Optimal,DISK6.6:Optimal; Devices(8): 11,12,13,14,10,15,09,08=Online; Batteries(1): 0=Optimal',
 		perfdata => 'Battery0=34;4073',
-		longoutput => "Battery0:\n - State: Optimal\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (34 C)\n - Voltage: OK (4073 mV)",
+		longoutput => "Battery0:\n - State: Optimal\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (34 C)\n - Voltage: OK (4073 mV)",
 	},
 );
 
@@ -106,6 +116,8 @@ my @tests = (
 
 =cut
 
+# save default value
+my $saved_bbulearn_status = $plugin::bbulearn_status;
 
 foreach my $test (@tests) {
 	my $plugin = megacli->new(
@@ -117,6 +129,12 @@ foreach my $test (@tests) {
 	);
 
 	ok($plugin, "plugin created");
+
+	if (defined($test->{bbulearn_status})) {
+    	$plugin::bbulearn_status = $test->{bbulearn_status};
+	} else {
+	    $plugin::bbulearn_status = $saved_bbulearn_status;
+	}
 
 	$plugin->check;
 	ok(1, "check ran");
