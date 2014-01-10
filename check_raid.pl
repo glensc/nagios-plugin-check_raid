@@ -96,6 +96,9 @@ my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 # status to set when RAID is in resync state
 our $resync_status = $ERRORS{WARNING};
 
+# status to set when BBU is in learning cycle.
+our $bbulearn_status = $ERRORS{WARNING};
+
 # return list of programs this plugin needs
 # @internal
 sub program_names {
@@ -203,6 +206,14 @@ sub ok {
 sub resync {
 	my ($this) = @_;
 	$this->status($resync_status);
+	return $this;
+}
+
+# helper to set status for BBU learning cycle
+# returns $this to allow fluent api
+sub bbulearn {
+	my ($this) = @_;
+	$this->status($bbulearn_status);
 	return $this;
 }
 
@@ -900,9 +911,11 @@ sub check {
 		if (my($s) = /BBU status for Adapter: (.+)/) {
 			push(@bats, { %cur_bat }) if %cur_bat;
 			%cur_bat = (
-				name => $s, state => '???', missing => undef, learn_requested => undef,
-				replacement_required => undef, pack_will_fail => undef, temperature => undef,
-				temperature_state => undef, voltage => undef, voltage_state => undef
+				name => $s, state => '???', charging_status => undef, missing => undef,
+				learn_requested => undef, replacement_required => undef,
+				learn_cycle_requested => undef, learn_cycle_active => undef,
+				pack_will_fail => undef, temperature => undef, temperature_state => undef,
+				voltage => undef, voltage_state => undef
 			);
 			next;
 		}
@@ -911,12 +924,24 @@ sub check {
 			$cur_bat{state} = $s;
 			next;
 		}
+		if (my($s) = /Charging Status\s*: (\w*)/) {
+			$cur_bat{charging_status} = $s;
+			next;
+		}
 		if (my($s) = /Battery Pack Missing\s*: (\w*)/) {
 			$cur_bat{missing} = $s;
 			next;
 		}
 		if (my($s) = /Battery Replacement required\s*: (\w*)/) {
 			$cur_bat{replacement_required} = $s;
+			next;
+		}
+		if (my($s) = /Learn Cycle Requested\s*: (\w*)/) {
+			$cur_bat{learn_cycle_requested} = $s;
+			next;
+		}
+		if (my($s) = /Learn Cycle Active\s*: (\w*)/) {
+			$cur_bat{learn_cycle_active} = $s;
 			next;
 		}
 		if (my($s) = /Pack is about to fail & should be replaced\s*: (\w*)/) {
@@ -970,7 +995,12 @@ sub check {
 	my (%bstatus, @bpdata, @blongout);
 	foreach my $bat (@bats) {
 		if ($bat->{state} !~ /^(Operational|Optimal)$/) {
-			$this->critical;
+		    # BBU learn cycle in progress.
+		    if ($bat->{charging_status} =~ /^(Charging|Discharging)$/ && $bat->{learn_cycle_active} eq 'Yes') {
+		        $this->bbulearn;
+		    } else {
+		        $this->critical;
+		    }
 		}
 		if ($bat->{missing} ne 'No') {
 			$this->critical;
@@ -1011,6 +1041,9 @@ sub check {
 		push(@blongout, join("\n", grep {/./}
 			"Battery$bat->{name}:",
 			" - State: $bat->{state}",
+			" - Charging status: $bat->{charging_status}",
+			" - Learn cycle requested: $bat->{learn_cycle_requested}",
+			" - Learn cycle active: $bat->{learn_cycle_active}",
 			" - Missing: $bat->{missing}",
 			" - Replacement required: $bat->{replacement_required}",
 			defined($bat->{pack_will_fail}) ? " - About to fail: $bat->{pack_will_fail}" : "",
@@ -3554,9 +3587,11 @@ sub print_usage() {
 	" -l, --list-plugins",
 	"    Lists active plugins",
 	" --resync=STATE",
-	"    Set status as STATE if RAID is in resync state. Defaults to WARNING",
+	"    Return STATE if RAID is in resync state. Defaults to WARNING",
 	" --noraid=STATE",
 	"    Return STATE if no RAID controller is found. Defaults to UNKNOWN",
+	" --bbulearn=STATE",
+	"    Return STATE if Backup Battery Unit (BBU) learning cycle is in progress. Defaults to WARNING",
 	"";
 }
 
@@ -3684,6 +3719,7 @@ GetOptions(
 	'W' => \$opt_W, 'warnonly' => \$opt_W,
 	'resync=s' => sub { setstate(\$plugin::resync_status, @_); },
 	'noraid=s' => sub { setstate(\$opt_O, @_); },
+	'bbulearn=s' => sub { setstate(\$plugin::bbulearn_status, @_); },
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});
