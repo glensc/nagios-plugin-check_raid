@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 25;
+use Test::More tests => 30;
 use test;
 
 my @tests = (
@@ -40,6 +40,12 @@ my @tests = (
 		get_controller_no => 'pr36/getctrlno1',
 		input => 'pr36/status1',
 		message => 'Volume 1 (RAID-1, 2 disks, 135 GiB): OPTIMAL',
+	},
+	{
+		status => OK,
+		get_controller_no => 'pr57/getctrlno13',
+		input => 'pr57/status13',
+		message => 'Volume 13 (RAID-1, 2 disks, 135 GiB): OPTIMAL',
 	},
 );
 
