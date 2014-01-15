@@ -1366,7 +1366,8 @@ sub sudo {
 
 	my $cmd = $this->{program};
 	(
-	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -i [0123456789]",
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -i [0-9]",
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -i [1-9][0-9]",
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -n",
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd -p",
 	);
@@ -1380,7 +1381,7 @@ sub parse {
 	my $id;
 	while (<$fh>) {
 		chomp;
-		if ( /^Found.*id=(\d),.*/ ) {
+		if ( /^Found.*id=(\d{1,2}),.*/ ) {
 			$id = $1;
 			last;
 		}
