@@ -4,6 +4,10 @@
 - arcconf fixes [#47][], [#51][], [#55][]
 - mpt-status fixes [#36][], [#57][]
 - add `/opt/bin` to `$PATH` [#54][]
+- add travis integration
+
+NOTES:
+`mpt-status` users need to update their `sudo` rules
 
 ## 3.0.5 (2013-11-27)
 
