@@ -2,8 +2,12 @@
 - sudoers: disable requiretty (enabled in CentOS 6.5) [#52][]
 - megacli fixes [#50][], [#53][], [#56][]
 - arcconf fixes [#47][], [#51][], [#55][]
-- mpt-status fixes [#36][]
+- mpt-status fixes [#36][], [#57][]
 - add `/opt/bin` to `$PATH` [#54][]
+- add travis integration
+
+NOTES:
+`mpt-status` users need to update their `sudo` rules
 
 ## 3.0.5 (2013-11-27)
 
@@ -83,3 +87,4 @@
 [#54]: https://github.com/glensc/nagios-plugin-check_raid/issues/54
 [#55]: https://github.com/glensc/nagios-plugin-check_raid/issues/55
 [#56]: https://github.com/glensc/nagios-plugin-check_raid/issues/56
+[#57]: https://github.com/glensc/nagios-plugin-check_raid/pull/57
