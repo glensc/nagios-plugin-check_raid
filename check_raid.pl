@@ -100,7 +100,7 @@ our $resync_status = $ERRORS{WARNING};
 our $bbulearn_status = $ERRORS{WARNING};
 
 # disable the monitoring of bbu 
-our $diable_bbu_monitoring = 0;
+our $disable_bbu_monitoring = 0;
 
 # return list of programs this plugin needs
 # @internal
@@ -220,10 +220,10 @@ sub bbulearn {
 	return $this;
 }
 
-# helper to get the content of diable_bbu_monitoring
-sub diable_bbu_monitoring {
+# helper to get the content of disable_bbu_monitoring
+sub disable_bbu_monitoring {
 	my ($this) = @_;
-	return $diable_bbu_monitoring;
+	return $disable_bbu_monitoring;
 }
 
 # setup status message text
@@ -914,7 +914,7 @@ sub check {
 	push(@vols, { %cur_vol }) if %cur_vol;
 
 	my (%cur_bat);
-	if ($this->diable_bbu_monitoring) {
+	if ($this->disable_bbu_monitoring) {
 
 	} else {		
 		# check battery
@@ -3736,7 +3736,7 @@ GetOptions(
 	'resync=s' => sub { setstate(\$plugin::resync_status, @_); },
 	'noraid=s' => sub { setstate(\$opt_O, @_); },
 	'bbulearn=s' => sub { setstate(\$plugin::bbulearn_status, @_); },
-	'disable-bbu-monitoring' => \$plugin::diable_bbu_monitoring,
+	'disable-bbu-monitoring' => \$plugin::disable_bbu_monitoring,
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});
