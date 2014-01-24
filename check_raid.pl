@@ -99,6 +99,9 @@ our $resync_status = $ERRORS{WARNING};
 # status to set when BBU is in learning cycle.
 our $bbulearn_status = $ERRORS{WARNING};
 
+# disable the monitoring of bbu 
+our $disable_bbu_monitoring = 0;
+
 # return list of programs this plugin needs
 # @internal
 sub program_names {
@@ -215,6 +218,12 @@ sub bbulearn {
 	my ($this) = @_;
 	$this->status($bbulearn_status);
 	return $this;
+}
+
+# helper to get the content of disable_bbu_monitoring
+sub disable_bbu_monitoring {
+	my ($this) = @_;
+	return $disable_bbu_monitoring;
 }
 
 # setup status message text
@@ -904,69 +913,73 @@ sub check {
 	$this->critical if $rc;
 	push(@vols, { %cur_vol }) if %cur_vol;
 
-	# check battery
-	$fh = $this->cmd('battery');
 	my (%cur_bat);
-	while (<$fh>) {
-		if (my($s) = /BBU status for Adapter: (.+)/) {
-			push(@bats, { %cur_bat }) if %cur_bat;
-			%cur_bat = (
-				name => $s, state => '???', charging_status => undef, missing => undef,
-				learn_requested => undef, replacement_required => undef,
-				learn_cycle_requested => undef, learn_cycle_active => undef,
-				pack_will_fail => undef, temperature => undef, temperature_state => undef,
-				voltage => undef, voltage_state => undef
-			);
-			next;
-		}
-		if (my($s) = /Battery State\s*: ?(.*)/i) {
-			if ( !$s ) { $s = 'Faulty'; };
-			$cur_bat{state} = $s;
-			next;
-		}
-		if (my($s) = /Charging Status\s*: (\w*)/) {
-			$cur_bat{charging_status} = $s;
-			next;
-		}
-		if (my($s) = /Battery Pack Missing\s*: (\w*)/) {
-			$cur_bat{missing} = $s;
-			next;
-		}
-		if (my($s) = /Battery Replacement required\s*: (\w*)/) {
-			$cur_bat{replacement_required} = $s;
-			next;
-		}
-		if (my($s) = /Learn Cycle Requested\s*: (\w*)/) {
-			$cur_bat{learn_cycle_requested} = $s;
-			next;
-		}
-		if (my($s) = /Learn Cycle Active\s*: (\w*)/) {
-			$cur_bat{learn_cycle_active} = $s;
-			next;
-		}
-		if (my($s) = /Pack is about to fail & should be replaced\s*: (\w*)/) {
-			$cur_bat{pack_will_fail} = $s;
-			next;
-		}
-		# Temperature: 18 C
-		if (my($s) = /Temperature: (\d+) C/) {
-			$cur_bat{temperature} = $s;
-			next;
-		}
-		# Temperature : OK
-		if (my($s) = /  Temperature\s*: (\w*)/) {
-			$cur_bat{temperature_state} = $s;
-			next;
-		}
-		# Voltage: 4074 mV
-		if (my($s) = /Voltage: (\d+) mV/) {
-			$cur_bat{voltage} = $s;
-			next;
-		}
-		# Voltage : OK
-		if (my($s) = /Voltage\s*: (\w*)/) {
-			$cur_bat{voltage_state} = $s;
-			next;
+	if ($this->disable_bbu_monitoring) {
+
+	} else {		
+		# check battery
+		$fh = $this->cmd('battery');
+		while (<$fh>) {
+			if (my($s) = /BBU status for Adapter: (.+)/) {
+				push(@bats, { %cur_bat }) if %cur_bat;
+				%cur_bat = (
+					name => $s, state => '???', charging_status => undef, missing => undef,
+					learn_requested => undef, replacement_required => undef,
+					learn_cycle_requested => undef, learn_cycle_active => undef,
+					pack_will_fail => undef, temperature => undef, temperature_state => undef,
+					voltage => undef, voltage_state => undef
+				);
+				next;
+			}
+			if (my($s) = /Battery State\s*: ?(.*)/i) {
+				if ( !$s ) { $s = 'Faulty'; };
+				$cur_bat{state} = $s;
+				next;
+			}
+			if (my($s) = /Charging Status\s*: (\w*)/) {
+				$cur_bat{charging_status} = $s;
+				next;
+			}
+			if (my($s) = /Battery Pack Missing\s*: (\w*)/) {
+				$cur_bat{missing} = $s;
+				next;
+			}
+			if (my($s) = /Battery Replacement required\s*: (\w*)/) {
+				$cur_bat{replacement_required} = $s;
+				next;
+			}
+			if (my($s) = /Learn Cycle Requested\s*: (\w*)/) {
+				$cur_bat{learn_cycle_requested} = $s;
+				next;
+			}
+			if (my($s) = /Learn Cycle Active\s*: (\w*)/) {
+				$cur_bat{learn_cycle_active} = $s;
+				next;
+			}
+			if (my($s) = /Pack is about to fail & should be replaced\s*: (\w*)/) {
+				$cur_bat{pack_will_fail} = $s;
+				next;
+			}
+			# Temperature: 18 C
+			if (my($s) = /Temperature: (\d+) C/) {
+				$cur_bat{temperature} = $s;
+				next;
+			}
+			# Temperature : OK
+			if (my($s) = /  Temperature\s*: (\w*)/) {
+				$cur_bat{temperature_state} = $s;
+				next;
+			}
+			# Voltage: 4074 mV
+			if (my($s) = /Voltage: (\d+) mV/) {
+				$cur_bat{voltage} = $s;
+				next;
+			}
+			# Voltage : OK
+			if (my($s) = /Voltage\s*: (\w*)/) {
+				$cur_bat{voltage_state} = $s;
+				next;
+			}
 		}
 	}
 	close $fh;
@@ -3593,6 +3606,8 @@ sub print_usage() {
 	"    Return STATE if no RAID controller is found. Defaults to UNKNOWN",
 	" --bbulearn=STATE",
 	"    Return STATE if Backup Battery Unit (BBU) learning cycle is in progress. Defaults to WARNING",
+	" --disable-bbu-monitoring",
+	"    Disable the monitoring of the BBU status, as it may not be reliable",
 	"";
 }
 
@@ -3721,6 +3736,7 @@ GetOptions(
 	'resync=s' => sub { setstate(\$plugin::resync_status, @_); },
 	'noraid=s' => sub { setstate(\$opt_O, @_); },
 	'bbulearn=s' => sub { setstate(\$plugin::bbulearn_status, @_); },
+	'disable-bbu-monitoring' => \$plugin::disable_bbu_monitoring,
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});
