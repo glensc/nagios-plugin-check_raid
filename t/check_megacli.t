@@ -133,9 +133,9 @@ foreach my $test (@tests) {
 	ok($plugin, "plugin created");
 
 	if (defined($test->{bbulearn_status})) {
-    	$plugin::bbulearn_status = $test->{bbulearn_status};
+		$plugin::bbulearn_status = $test->{bbulearn_status};
 	} else {
-	    $plugin::bbulearn_status = $saved_bbulearn_status;
+		$plugin::bbulearn_status = $saved_bbulearn_status;
 	}
 
 	$plugin->check;
