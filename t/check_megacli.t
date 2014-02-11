@@ -119,6 +119,8 @@ my @tests = (
 # save default value
 my $saved_bbulearn_status = $plugin::bbulearn_status;
 
+$plugin::bbu_monitoring = 1;
+
 foreach my $test (@tests) {
 	my $plugin = megacli->new(
 		commands => {

@@ -11,7 +11,7 @@
 # 2004-2006 Steve Shipway, university of auckland,
 # http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
 # Steve Shipway Thanks M Carmier for megaraid section.
-# 2009-2013 Elan Ruusamäe <glen@pld-linux.org>
+# 2009-2014 Elan Ruusamäe <glen@pld-linux.org>
 
 # Requires: Perl 5.8 for the open(my $fh , '-|', @CMD) syntax.
 # You can workaround for earlier Perl it as:
@@ -99,8 +99,8 @@ our $resync_status = $ERRORS{WARNING};
 # status to set when BBU is in learning cycle.
 our $bbulearn_status = $ERRORS{WARNING};
 
-# disable the monitoring of bbu 
-our $disable_bbu_monitoring = 0;
+# check status of BBU
+our $bbu_monitoring = 0;
 
 # return list of programs this plugin needs
 # @internal
@@ -220,10 +220,14 @@ sub bbulearn {
 	return $this;
 }
 
-# helper to get the content of disable_bbu_monitoring
-sub disable_bbu_monitoring {
-	my ($this) = @_;
-	return $disable_bbu_monitoring;
+# helper to get/set bbu monitoring
+sub bbu_monitoring {
+	my ($this, $val) = @_;
+
+	if (defined $val) {
+		$bbu_monitoring = $val;
+	}
+	$bbu_monitoring;
 }
 
 # setup status message text
@@ -914,9 +918,7 @@ sub check {
 	push(@vols, { %cur_vol }) if %cur_vol;
 
 	my (%cur_bat);
-	if ($this->disable_bbu_monitoring) {
-
-	} else {		
+	if ($this->bbu_monitoring) {
 		# check battery
 		$fh = $this->cmd('battery');
 		while (<$fh>) {
@@ -981,8 +983,8 @@ sub check {
 				next;
 			}
 		}
+		close $fh;
 	}
-	close $fh;
 	push(@bats, { %cur_bat}) if %cur_bat;
 
 	my @vstatus;
@@ -3606,14 +3608,14 @@ sub print_usage() {
 	"    Return STATE if no RAID controller is found. Defaults to UNKNOWN",
 	" --bbulearn=STATE",
 	"    Return STATE if Backup Battery Unit (BBU) learning cycle is in progress. Defaults to WARNING",
-	" --disable-bbu-monitoring",
-	"    Disable the monitoring of the BBU status, as it may not be reliable",
+	" --bbu-monitoring",
+	"    Enable experimental monitoring of the BBU status",
 	"";
 }
 
 sub print_help() {
 	print "check_raid, v$VERSION\n";
-	print "Copyright (c) 2004-2006 Steve Shipway, Copyright (c) 2009-2013, Elan Ruusamäe <glen\@pld-linux.org>
+	print "Copyright (c) 2004-2006 Steve Shipway, Copyright (c) 2009-2014, Elan Ruusamäe <glen\@pld-linux.org>
 
 This plugin reports the current server's RAID status
 https://github.com/glensc/nagios-plugin-check_raid
@@ -3736,7 +3738,7 @@ GetOptions(
 	'resync=s' => sub { setstate(\$plugin::resync_status, @_); },
 	'noraid=s' => sub { setstate(\$opt_O, @_); },
 	'bbulearn=s' => sub { setstate(\$plugin::bbulearn_status, @_); },
-	'disable-bbu-monitoring' => \$plugin::disable_bbu_monitoring,
+	'bbu-monitoring' => \$plugin::bbu_monitoring,
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});
