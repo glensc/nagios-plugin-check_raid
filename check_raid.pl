@@ -3318,7 +3318,7 @@ sub check {
 
 			# logicaldrive 1 (68.3 GB, RAID 1, OK)
 			# capture only status
-			if (my($drive, $s) = /^\s+logicaldrive (\d+) \([\d.]+ .B, [^,]+, (\S+)\)$/) {
+			if (my($drive, $s) = /^\s+logicaldrive (\d+) \([\d.]+ .B, [^,]+, ([^\)]+)\)$/) {
 				# Offset 1 is each logical drive status
 				$array{$array}[1]{$drive} = $s;
 			}
