@@ -9,53 +9,43 @@ use warnings;
 use Test::More tests => 15;
 use test;
 
-if (1) {
-my $plugin = areca->new(
-	commands => {
-		'rsf info' => ['<', TESTDIR . '/data/areca/cli64.rsf.info-1'],
-		'disk info' => ['<', TESTDIR . '/data/areca/cli64.disk.info-1'],
+my @tests = (
+	{
+		status => OK,
+		rsf => 'cli64.rsf.info-1',
+		disk => 'cli64.disk.info-1',
+		message => 'Array#1(Raid Set # 000): Normal, Drive Assignment: 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,31,32=Array#1 30=HotSpare',
+	},
+	{
+		status => CRITICAL,
+		rsf => 'cli64.rsf.info-16',
+		disk => 'cli64.disk.info-16',
+		message => 'Array#1(data): Rebuilding, Drive Assignment: 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15=Array#1 16=Failed',
+	},
+	{
+		status => OK,
+		rsf => 'ticket40/areca-rsf-info.txt',
+		disk => 'ticket40/areca-disk-info.txt',
+		message => 'Array#1(Raid Set # 00): Normal, Drive Assignment: 1,2,3,4,5,6,7,8,9=Array#1',
 	},
 );
 
-ok($plugin, "plugin created");
-$plugin->check;
-ok(1, "check ran");
-ok(defined($plugin->status), "status code set");
-ok($plugin->status == OK, "status OK");
-print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Array#1(Raid Set # 000): Normal, Drive Assignment: 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,31,32=Array#1 30=HotSpare');
-}
+foreach my $test (@tests) {
+	my $plugin = areca->new(
+		commands => {
+			'rsf info' => ['<', TESTDIR . '/data/areca/' . $test->{rsf} ],
+			'disk info' => ['<', TESTDIR . '/data/areca/' . $test->{disk} ],
+		},
+	);
 
-if (1) {
-my $plugin = areca->new(
-	commands => {
-		'rsf info' => ['<', TESTDIR . '/data/areca/cli64.rsf.info-16'],
-		'disk info' => ['<', TESTDIR . '/data/areca/cli64.disk.info-16'],
-	},
-);
+	ok($plugin, "plugin created");
 
-ok($plugin, "plugin created");
-$plugin->check;
-ok(1, "check ran");
-ok(defined($plugin->status), "status code set");
-ok($plugin->status == CRITICAL, "status CRITICAL");
-print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Array#1(data): Rebuilding, Drive Assignment: 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15=Array#1 16=Failed');
-}
+	$plugin->check;
+	ok(1, "check ran");
 
-if (2) {
-my $plugin = areca->new(
-	commands => {
-		'rsf info' => ['<', TESTDIR . '/data/areca/ticket40/areca-rsf-info.txt'],
-		'disk info' => ['<', TESTDIR . '/data/areca/ticket40/areca-disk-info.txt'],
-	},
-);
+	ok(defined($plugin->status), "status code set");
+	ok($plugin->status == $test->{status}, "status code (got:".$plugin->status." exp:".$test->{status}.")");
 
-ok($plugin, "plugin created");
-$plugin->check;
-ok(1, "check ran");
-ok(defined($plugin->status), "status code set");
-ok($plugin->status == OK, "status OK");
-print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Array#1(Raid Set # 00): Normal, Drive Assignment: 1,2,3,4,5,6,7,8,9=Array#1');
+	print "[".$plugin->message."]\n";
+	ok($plugin->message eq $test->{message}, "status message");
 }
