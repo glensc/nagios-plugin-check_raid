@@ -3318,7 +3318,7 @@ sub check {
 
 			# logicaldrive 1 (68.3 GB, RAID 1, OK)
 			# capture only status
-			if (my($drive, $s) = /^\s+logicaldrive (\d+) \([\d.]+ .B, [^,]+, (\S+)\)$/) {
+			if (my($drive, $s) = /^\s+logicaldrive (\d+) \([\d.]+ .B, [^,]+, ([^\)]+)\)$/) {
 				# Offset 1 is each logical drive status
 				$array{$array}[1]{$drive} = $s;
 			}
@@ -3329,24 +3329,20 @@ sub check {
 		while (my($array, $d) = each %array) {
 			my ($astatus, $ld) = @$d;
 
-			if ($astatus eq 'OK') {
-				push(@cstatus, "Array $array($astatus)");
-			} else {
-				my @astatus;
-				# extra details for non-normal arrays
-				foreach my $lun (sort { $a cmp $b } keys %$ld) {
-					my $s = $ld->{$lun};
-					push(@astatus, "LUN$lun:$s");
+			my @astatus;
+			# extra details for non-normal arrays
+			foreach my $lun (sort { $a cmp $b } keys %$ld) {
+				my $s = $ld->{$lun};
+				push(@astatus, "LUN$lun:$s");
 
-					if ($s eq 'OK' or $s eq 'Disabled') {
-					} elsif ($s eq 'Failed' or $s eq 'Interim Recovery Mode') {
-						$this->critical;
-					} elsif ($s eq 'Rebuild' or $s eq 'Recover') {
-						$this->warning;
-					}
+				if ($s eq 'OK' or $s eq 'Disabled') {
+				} elsif ($s eq 'Failed' or $s eq 'Interim Recovery Mode') {
+					$this->critical;
+				} elsif ($s eq 'Rebuild' or $s eq 'Recover') {
+					$this->warning;
 				}
-				push(@cstatus, "Array $array($astatus)[". join(',', @astatus). "]");
 			}
+			push(@cstatus, "Array $array($astatus)[". join(',', @astatus). "]");
 		}
 		push(@status, "$model: ".join(', ', @cstatus));
 	}
