@@ -24,4 +24,4 @@ ok(1, "check ran");
 ok(defined($plugin->status), "status code set");
 ok($plugin->status == OK, "status OK");
 print "[".$plugin->message."]\n";
-ok($plugin->message eq 'MY STORAGE: Array A(OK), Smart Array P400i: Array A(OK)[LUN1:OK]', "expected message");
+ok($plugin->message eq 'MY STORAGE: Array A(OK)[LUN1:OK], Smart Array P400i: Array A(OK)[LUN1:OK]', "expected message");
