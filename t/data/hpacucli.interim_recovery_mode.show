@@ -1,4 +1,3 @@
-
 FIRMWARE UPGRADE REQUIRED: A firmware update is recommended for this controller
                            to prevent rare potential data write errors on a
                            RAID 1 or RAID 1+0 volume in a scenario of
