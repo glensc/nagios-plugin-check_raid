@@ -9,17 +9,30 @@ use warnings;
 use Test::More tests => 5;
 use test;
 
-my $plugin = cmdtool2->new(
-	commands => {
-		'adapter list' => ['<', TESTDIR . '/data/CmdTool2.adapters'],
-		'adapter config' => ['<', TESTDIR . '/data/CmdTool2.adapter-0'],
+my @tests = (
+	{
+		status => OK,
+		list => 'CmdTool2.adapters',
+		config => 'CmdTool2.adapter-0',
+		message => 'Logical Drive 0,0: Optimal',
 	},
 );
 
-ok($plugin, "plugin created");
-$plugin->check;
-ok(1, "check ran");
-ok(defined($plugin->status), "status code set");
-ok($plugin->status == OK, "status OK");
-print "[".$plugin->message."]\n";
-ok($plugin->message eq 'Logical Drive 0,0: Optimal', "expected message");
+foreach my $test (@tests) {
+	my $plugin = cmdtool2->new(
+		commands => {
+			'adapter list' => ['<', TESTDIR . '/data/cmdtool2/' . $test->{list} ],
+			'adapter config' => ['<', TESTDIR . '/data/cmdtool2/' . $test->{config} ],
+		},
+	);
+	ok($plugin, "plugin created");
+
+	$plugin->check;
+	ok(1, "check ran");
+
+	ok(defined($plugin->status), "status code set");
+	ok($plugin->status == $test->{status}, "status code (got:".$plugin->status." exp:".$test->{status}.")");
+
+	print "[".$plugin->message."]\n";
+	ok($plugin->message eq $test->{message}, "status message");
+}
