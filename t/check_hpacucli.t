@@ -9,35 +9,38 @@ use warnings;
 use Test::More tests => 10;
 use test;
 
-my $plugin = hpacucli->new(
-	program => '/bin/true',
-	commands => {
-		'controller status' => ['<', TESTDIR . '/data/hpacucli.controller.all.show.status'],
-		'logicaldrive status' => ['<', TESTDIR . '/data/hpacucli.slot=0.logicaldrive.all.show'],
+my @tests = (
+	{
+		status => OK,
+		controller => 'hpacucli.controller.all.show.status',
+		logical => 'hpacucli.slot=0.logicaldrive.all.show',
+		message => 'MY STORAGE: Array A(OK)[LUN1:OK], Smart Array P400i: Array A(OK)[LUN1:OK]',
+	},
+	{
+		status => CRITICAL,
+		controller => 'hpacucli.controller.all.show.status',
+		logical => 'hpacucli.interim_recovery_mode.show',
+		message => 'MY STORAGE: Array A(OK)[LUN1:Interim Recovery Mode], Smart Array P400i: Array A(OK)[LUN1:Interim Recovery Mode]',
 	},
 );
 
+foreach my $test (@tests) {
+	my $plugin = hpacucli->new(
+		program => '/bin/true',
+		commands => {
+			'controller status' => ['<', TESTDIR . '/data/hpacucli/' . $test->{controller} ],
+			'logicaldrive status' => ['<', TESTDIR . '/data/hpacucli/' .$test->{logical} ],
+		},
+	);
 
-ok($plugin, "plugin created");
-$plugin->check;
-ok(1, "check ran");
-ok(defined($plugin->status), "status code set");
-ok($plugin->status == OK, "status OK");
-print "[".$plugin->message."]\n";
-ok($plugin->message eq 'MY STORAGE: Array A(OK)[LUN1:OK], Smart Array P400i: Array A(OK)[LUN1:OK]', "expected message");
+	ok($plugin, "plugin created");
 
-$plugin = hpacucli->new(
-	program => '/bin/true',
-	commands => {
-		'controller status' => ['<', TESTDIR . '/data/hpacucli.controller.all.show.status'],
-		'logicaldrive status' => ['<', TESTDIR . '/data/hpacucli.interim_recovery_mode.show'],
-	},
-);
+	$plugin->check;
+	ok(1, "check ran");
 
-ok($plugin, "plugin created");
-$plugin->check;
-ok(1, "check ran");
-ok(defined($plugin->status), "status code set");
-ok($plugin->status == CRITICAL, "status CRITICAL");
-print "[".$plugin->message."]\n";
-ok($plugin->message eq 'MY STORAGE: Array A(OK)[LUN1:Interim Recovery Mode], Smart Array P400i: Array A(OK)[LUN1:Interim Recovery Mode]', "expected message");
+	ok(defined($plugin->status), "status code set");
+	ok($plugin->status == $test->{status}, "status code (got:".$plugin->status." exp:".$test->{status}.")");
+
+	print "[".$plugin->message."]\n";
+	ok($plugin->message eq $test->{message}, "status message");
+}
