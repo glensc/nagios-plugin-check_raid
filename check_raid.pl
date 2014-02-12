@@ -3329,24 +3329,20 @@ sub check {
 		while (my($array, $d) = each %array) {
 			my ($astatus, $ld) = @$d;
 
-			if ($astatus eq 'OK') {
-				push(@cstatus, "Array $array($astatus)");
-			} else {
-				my @astatus;
-				# extra details for non-normal arrays
-				foreach my $lun (sort { $a cmp $b } keys %$ld) {
-					my $s = $ld->{$lun};
-					push(@astatus, "LUN$lun:$s");
+			my @astatus;
+			# extra details for non-normal arrays
+			foreach my $lun (sort { $a cmp $b } keys %$ld) {
+				my $s = $ld->{$lun};
+				push(@astatus, "LUN$lun:$s");
 
-					if ($s eq 'OK' or $s eq 'Disabled') {
-					} elsif ($s eq 'Failed' or $s eq 'Interim Recovery Mode') {
-						$this->critical;
-					} elsif ($s eq 'Rebuild' or $s eq 'Recover') {
-						$this->warning;
-					}
+				if ($s eq 'OK' or $s eq 'Disabled') {
+				} elsif ($s eq 'Failed' or $s eq 'Interim Recovery Mode') {
+					$this->critical;
+				} elsif ($s eq 'Rebuild' or $s eq 'Recover') {
+					$this->warning;
 				}
-				push(@cstatus, "Array $array($astatus)[". join(',', @astatus). "]");
 			}
+			push(@cstatus, "Array $array($astatus)[". join(',', @astatus). "]");
 		}
 		push(@status, "$model: ".join(', ', @cstatus));
 	}
