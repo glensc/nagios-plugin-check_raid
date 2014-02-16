@@ -11,7 +11,7 @@
 # 2004-2006 Steve Shipway, university of auckland,
 # http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
 # Steve Shipway Thanks M Carmier for megaraid section.
-# 2009-2013 Elan Ruusamäe <glen@pld-linux.org>
+# 2009-2014 Elan Ruusamäe <glen@pld-linux.org>
 
 # Requires: Perl 5.8 for the open(my $fh , '-|', @CMD) syntax.
 # You can workaround for earlier Perl it as:
@@ -99,8 +99,8 @@ our $resync_status = $ERRORS{WARNING};
 # status to set when BBU is in learning cycle.
 our $bbulearn_status = $ERRORS{WARNING};
 
-# disable the monitoring of bbu 
-our $disable_bbu_monitoring = 0;
+# check status of BBU
+our $bbu_monitoring = 0;
 
 # return list of programs this plugin needs
 # @internal
@@ -220,10 +220,14 @@ sub bbulearn {
 	return $this;
 }
 
-# helper to get the content of disable_bbu_monitoring
-sub disable_bbu_monitoring {
-	my ($this) = @_;
-	return $disable_bbu_monitoring;
+# helper to get/set bbu monitoring
+sub bbu_monitoring {
+	my ($this, $val) = @_;
+
+	if (defined $val) {
+		$bbu_monitoring = $val;
+	}
+	$bbu_monitoring;
 }
 
 # setup status message text
@@ -832,16 +836,17 @@ sub sudo {
 	);
 }
 
-sub check {
+# parse physical devices
+sub parse_pd {
 	my $this = shift;
 
+	my (@pd, %pd);
+	my $rc = -1;
 	my $fh = $this->cmd('pdlist');
-	my (@status, @pdata, @longout, @devs, @vols, @bats, %cur, $rc);
-	$rc = -1;
 	while (<$fh>) {
 		if (my($s) = /Device Id: (\S+)/) {
-			push(@devs, { %cur }) if %cur;
-			%cur = ( dev => $s, state => undef, name => undef, predictive => undef );
+			push(@pd, { %pd }) if %pd;
+			%pd = ( dev => $s, state => undef, name => undef, predictive => undef );
 			next;
 		}
 
@@ -856,134 +861,163 @@ sub check {
 			# 'Unconfigured(good), Spun Up'
 			# 'Unconfigured(good), Spun down'
 			$s =~ s/,.+//;
-			$cur{state} = $s;
-			if ( defined( $cur{predictive} ) ) { $cur{state} = $cur{predictive}; };
+			$pd{state} = $s;
+
+			if (defined($pd{predictive})) {
+				$pd{state} = $pd{predictive};
+			}
 			next;
 		}
 
 		if (my($s) = /Predictive Failure Count: (\d+)/) {
-			if ( $s > 0 ) { $cur{predictive} = 'Predictive'; };
+			if ($s > 0) {
+				$pd{predictive} = 'Predictive';
+			}
 			next;
 		}
 
 		if (my($s) = /Inquiry Data: (.+)/) {
 			# trim some spaces
 			$s =~ s/\s+/ /g; $s =~ s/^\s+|\s+$//g;
-			$cur{name} = $s;
+			$pd{name} = $s;
 			next;
 		}
+
 		if (my($s) = /Exit Code: (\d+x\d+)/) {
 			$rc = hex($s);
 		}
 	}
-	unless (close $fh) {
-		$this->critical;
-	}
-	$this->critical if $rc;
-	push(@devs, { %cur }) if %cur;
+	push(@pd, { %pd }) if %pd;
 
-	my %cur_vol;
-	$fh = $this->cmd('ldinfo');
-	$rc = -1;
+	$this->critical unless close $fh;
+	$this->critical if $rc;
+
+	return \@pd;
+}
+
+sub parse_ld {
+	my $this = shift;
+
+	my (@ld, %ld);
+	my $rc = -1;
+	my $fh = $this->cmd('ldinfo');
 	while (<$fh>) {
 		if (my($drive_id, $target_id) = /Virtual (?:Disk|Drive)\s*:\s*(\d+)\s*\(Target Id:\s*(\d+)\)/i) {
-			push(@vols, { %cur_vol }) if %cur_vol;
+			push(@ld, { %ld }) if %ld;
 			# Default to DriveID:TargetID in case no Name is given ...
-			%cur_vol = ( name => "DISK$drive_id.$target_id", state => undef );
+			%ld = ( name => "DISK$drive_id.$target_id", state => undef );
 			next;
 		}
 
 		if (my($name) = /Name\s*:\s*(\S+)/) {
 			# Add a symbolic name, if given
-			$cur_vol{name} = $name;
+			$ld{name} = $name;
 			next;
 		}
 
 		if (my($s) = /State\s*:\s*(\S+)/) {
-			$cur_vol{state} = $s;
+			$ld{state} = $s;
 			next;
 		}
 		if (my($s) = /Exit Code: (\d+x\d+)/) {
 			$rc = hex($s);
 		}
 	}
-	unless (close $fh) {
-		$this->critical;
-	}
+	push(@ld, { %ld }) if %ld;
+
+	$this->critical unless close $fh;
 	$this->critical if $rc;
-	push(@vols, { %cur_vol }) if %cur_vol;
 
-	my (%cur_bat);
-	if ($this->disable_bbu_monitoring) {
+	return \@ld;
+}
 
-	} else {		
-		# check battery
-		$fh = $this->cmd('battery');
-		while (<$fh>) {
-			if (my($s) = /BBU status for Adapter: (.+)/) {
-				push(@bats, { %cur_bat }) if %cur_bat;
-				%cur_bat = (
-					name => $s, state => '???', charging_status => undef, missing => undef,
-					learn_requested => undef, replacement_required => undef,
-					learn_cycle_requested => undef, learn_cycle_active => undef,
-					pack_will_fail => undef, temperature => undef, temperature_state => undef,
-					voltage => undef, voltage_state => undef
-				);
-				next;
-			}
-			if (my($s) = /Battery State\s*: ?(.*)/i) {
-				if ( !$s ) { $s = 'Faulty'; };
-				$cur_bat{state} = $s;
-				next;
-			}
-			if (my($s) = /Charging Status\s*: (\w*)/) {
-				$cur_bat{charging_status} = $s;
-				next;
-			}
-			if (my($s) = /Battery Pack Missing\s*: (\w*)/) {
-				$cur_bat{missing} = $s;
-				next;
-			}
-			if (my($s) = /Battery Replacement required\s*: (\w*)/) {
-				$cur_bat{replacement_required} = $s;
-				next;
-			}
-			if (my($s) = /Learn Cycle Requested\s*: (\w*)/) {
-				$cur_bat{learn_cycle_requested} = $s;
-				next;
-			}
-			if (my($s) = /Learn Cycle Active\s*: (\w*)/) {
-				$cur_bat{learn_cycle_active} = $s;
-				next;
-			}
-			if (my($s) = /Pack is about to fail & should be replaced\s*: (\w*)/) {
-				$cur_bat{pack_will_fail} = $s;
-				next;
-			}
-			# Temperature: 18 C
-			if (my($s) = /Temperature: (\d+) C/) {
-				$cur_bat{temperature} = $s;
-				next;
-			}
-			# Temperature : OK
-			if (my($s) = /  Temperature\s*: (\w*)/) {
-				$cur_bat{temperature_state} = $s;
-				next;
-			}
-			# Voltage: 4074 mV
-			if (my($s) = /Voltage: (\d+) mV/) {
-				$cur_bat{voltage} = $s;
-				next;
-			}
-			# Voltage : OK
-			if (my($s) = /Voltage\s*: (\w*)/) {
-				$cur_bat{voltage_state} = $s;
-				next;
-			}
+# check battery
+sub parse_bbu {
+	my $this = shift;
+
+	return undef unless $this->bbu_monitoring;
+
+	my (@bbu, %bbu);
+	my $fh = $this->cmd('battery');
+	while (<$fh>) {
+		if (my($s) = /BBU status for Adapter: (.+)/) {
+			push(@bbu, { %bbu }) if %bbu;
+			%bbu = (
+				name => $s, state => '???', charging_status => undef, missing => undef,
+				learn_requested => undef, replacement_required => undef,
+				learn_cycle_requested => undef, learn_cycle_active => undef,
+				pack_will_fail => undef, temperature => undef, temperature_state => undef,
+				voltage => undef, voltage_state => undef
+			);
+			next;
+		}
+		if (my($s) = /Battery State\s*: ?(.*)/i) {
+			if ( !$s ) { $s = 'Faulty'; };
+			$bbu{state} = $s;
+			next;
+		}
+		if (my($s) = /Charging Status\s*: (\w*)/) {
+			$bbu{charging_status} = $s;
+			next;
+		}
+		if (my($s) = /Battery Pack Missing\s*: (\w*)/) {
+			$bbu{missing} = $s;
+			next;
+		}
+		if (my($s) = /Battery Replacement required\s*: (\w*)/) {
+			$bbu{replacement_required} = $s;
+			next;
+		}
+		if (my($s) = /Learn Cycle Requested\s*: (\w*)/) {
+			$bbu{learn_cycle_requested} = $s;
+			next;
+		}
+		if (my($s) = /Learn Cycle Active\s*: (\w*)/) {
+			$bbu{learn_cycle_active} = $s;
+			next;
+		}
+		if (my($s) = /Pack is about to fail & should be replaced\s*: (\w*)/) {
+			$bbu{pack_will_fail} = $s;
+			next;
+		}
+		# Temperature: 18 C
+		if (my($s) = /Temperature: (\d+) C/) {
+			$bbu{temperature} = $s;
+			next;
+		}
+		# Temperature : OK
+		if (my($s) = /  Temperature\s*: (\w*)/) {
+			$bbu{temperature_state} = $s;
+			next;
+		}
+		# Voltage: 4074 mV
+		if (my($s) = /Voltage: (\d+) mV/) {
+			$bbu{voltage} = $s;
+			next;
+		}
+		# Voltage : OK
+		if (my($s) = /Voltage\s*: (\w*)/) {
+			$bbu{voltage_state} = $s;
+			next;
 		}
 	}
-	close $fh;
-	push(@bats, { %cur_bat}) if %cur_bat;
+	push(@bbu, { %bbu }) if %bbu;
+
+	$this->critical unless close $fh;
+
+	return \@bbu;
+}
+
+sub check {
+	my $this = shift;
+
+	my $pd = $this->parse_pd;
+	my $ld = $this->parse_ld;
+	my $bbu = $this->parse_bbu;
+
+	my @devs = @$pd if $pd;
+	my @vols = @$ld if $ld;
+	my @bats = @$bbu if $bbu;
 
 	my @vstatus;
 	foreach my $vol (@vols) {
@@ -1008,12 +1042,12 @@ sub check {
 	my (%bstatus, @bpdata, @blongout);
 	foreach my $bat (@bats) {
 		if ($bat->{state} !~ /^(Operational|Optimal)$/) {
-		    # BBU learn cycle in progress.
-		    if ($bat->{charging_status} =~ /^(Charging|Discharging)$/ && $bat->{learn_cycle_active} eq 'Yes') {
-		        $this->bbulearn;
-		    } else {
-		        $this->critical;
-		    }
+			# BBU learn cycle in progress.
+			if ($bat->{charging_status} =~ /^(Charging|Discharging)$/ && $bat->{learn_cycle_active} eq 'Yes') {
+				$this->bbulearn;
+			} else {
+				$this->critical;
+			}
 		}
 		if ($bat->{missing} ne 'No') {
 			$this->critical;
@@ -1065,14 +1099,18 @@ sub check {
 		));
 	}
 
+	my @status;
 	push(@status,
 		'Volumes(' . ($#vols + 1) . '): ' . join(',', @vstatus) .
 		'; Devices(' . ($#devs + 1) . '): ' . $this->join_status(\%dstatus) .
 		(@bats ? '; Batteries(' . ($#bats + 1) . '): ' . $this->join_status(\%bstatus) : '')
 	);
+
+	my @pdata;
 	push(@pdata,
 		join('\n', @bpdata)
 	);
+	my @longout;
 	push(@longout,
 		join('\n', @blongout)
 	);
@@ -3280,7 +3318,7 @@ sub check {
 
 			# logicaldrive 1 (68.3 GB, RAID 1, OK)
 			# capture only status
-			if (my($drive, $s) = /^\s+logicaldrive (\d+) \([\d.]+ .B, [^,]+, (\S+)\)$/) {
+			if (my($drive, $s) = /^\s+logicaldrive (\d+) \([\d.]+ .B, [^,]+, ([^\)]+)\)$/) {
 				# Offset 1 is each logical drive status
 				$array{$array}[1]{$drive} = $s;
 			}
@@ -3291,24 +3329,20 @@ sub check {
 		while (my($array, $d) = each %array) {
 			my ($astatus, $ld) = @$d;
 
-			if ($astatus eq 'OK') {
-				push(@cstatus, "Array $array($astatus)");
-			} else {
-				my @astatus;
-				# extra details for non-normal arrays
-				foreach my $lun (sort { $a cmp $b } keys %$ld) {
-					my $s = $ld->{$lun};
-					push(@astatus, "LUN$lun:$s");
+			my @astatus;
+			# extra details for non-normal arrays
+			foreach my $lun (sort { $a cmp $b } keys %$ld) {
+				my $s = $ld->{$lun};
+				push(@astatus, "LUN$lun:$s");
 
-					if ($s eq 'OK' or $s eq 'Disabled') {
-					} elsif ($s eq 'Failed' or $s eq 'Interim Recovery Mode') {
-						$this->critical;
-					} elsif ($s eq 'Rebuild' or $s eq 'Recover') {
-						$this->warning;
-					}
+				if ($s eq 'OK' or $s eq 'Disabled') {
+				} elsif ($s eq 'Failed' or $s eq 'Interim Recovery Mode') {
+					$this->critical;
+				} elsif ($s eq 'Rebuild' or $s eq 'Recover') {
+					$this->warning;
 				}
-				push(@cstatus, "Array $array($astatus)[". join(',', @astatus). "]");
 			}
+			push(@cstatus, "Array $array($astatus)[". join(',', @astatus). "]");
 		}
 		push(@status, "$model: ".join(', ', @cstatus));
 	}
@@ -3606,14 +3640,14 @@ sub print_usage() {
 	"    Return STATE if no RAID controller is found. Defaults to UNKNOWN",
 	" --bbulearn=STATE",
 	"    Return STATE if Backup Battery Unit (BBU) learning cycle is in progress. Defaults to WARNING",
-	" --disable-bbu-monitoring",
-	"    Disable the monitoring of the BBU status, as it may not be reliable",
+	" --bbu-monitoring",
+	"    Enable experimental monitoring of the BBU status",
 	"";
 }
 
 sub print_help() {
 	print "check_raid, v$VERSION\n";
-	print "Copyright (c) 2004-2006 Steve Shipway, Copyright (c) 2009-2013, Elan Ruusamäe <glen\@pld-linux.org>
+	print "Copyright (c) 2004-2006 Steve Shipway, Copyright (c) 2009-2014, Elan Ruusamäe <glen\@pld-linux.org>
 
 This plugin reports the current server's RAID status
 https://github.com/glensc/nagios-plugin-check_raid
@@ -3736,7 +3770,7 @@ GetOptions(
 	'resync=s' => sub { setstate(\$plugin::resync_status, @_); },
 	'noraid=s' => sub { setstate(\$opt_O, @_); },
 	'bbulearn=s' => sub { setstate(\$plugin::bbulearn_status, @_); },
-	'disable-bbu-monitoring' => \$plugin::disable_bbu_monitoring,
+	'bbu-monitoring' => \$plugin::bbu_monitoring,
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});

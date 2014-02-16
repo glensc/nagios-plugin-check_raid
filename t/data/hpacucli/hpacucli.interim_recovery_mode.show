@@ -1,0 +1,15 @@
+FIRMWARE UPGRADE REQUIRED: A firmware update is recommended for this controller
+                           to prevent rare potential data write errors on a
+                           RAID 1 or RAID 1+0 volume in a scenario of
+                           concurrent background surface analysis and I/O write
+                           operations.  Please refer to Customer Advisory
+                           c01587778 which can be found at hp.com.
+
+
+Smart Array E200i in Slot 0 (Embedded)
+
+   array A
+
+      logicaldrive 1 (136.7 GB, RAID 5, Interim Recovery Mode)
+
+
