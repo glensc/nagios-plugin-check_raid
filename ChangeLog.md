@@ -6,6 +6,7 @@
 - add `/opt/bin` to `$PATH` [#54][]
 - add travis integration
 - hpacucli fixes [#62][]
+- mdstat auto-readonly raid fix [#64][]
 
 NOTES:
 `mpt-status` users need to update their `sudo` rules
@@ -88,4 +89,5 @@ NOTES:
 [#56]: https://github.com/glensc/nagios-plugin-check_raid/issues/56
 [#57]: https://github.com/glensc/nagios-plugin-check_raid/pull/57
 [#62]: https://github.com/glensc/nagios-plugin-check_raid/pull/62
+[#64]: https://github.com/glensc/nagios-plugin-check_raid/issue/64
 
