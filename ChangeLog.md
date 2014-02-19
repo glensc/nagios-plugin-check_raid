@@ -89,5 +89,5 @@ NOTES:
 [#56]: https://github.com/glensc/nagios-plugin-check_raid/issues/56
 [#57]: https://github.com/glensc/nagios-plugin-check_raid/pull/57
 [#62]: https://github.com/glensc/nagios-plugin-check_raid/pull/62
-[#64]: https://github.com/glensc/nagios-plugin-check_raid/issue/64
+[#64]: https://github.com/glensc/nagios-plugin-check_raid/issues/64
 
