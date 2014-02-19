@@ -593,7 +593,7 @@ sub parse {
 		if (my($dev, $active, $ro, $rest) = m{^
 			(\S+)\s+:\s+ # mdname
 			(\S+)\s+     # active: "inactive", "active"
-			(\((?:auto-)?read-only\))? # readonly
+			(\((?:auto-)?read-only\)\s+)? # readonly
 			(.+)         # personality name + disks
 		}x) {
 			my @parts = split /\s/, $rest;
