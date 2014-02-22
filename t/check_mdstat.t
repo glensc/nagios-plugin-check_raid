@@ -6,7 +6,9 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 100;
+use constant INACTIVE_TESTS => 2;
+use constant ACTIVE_TESTS => 17;
+use Test::More tests => ACTIVE_TESTS * 6 + INACTIVE_TESTS * 2;
 use test;
 
 my @tests = (
@@ -81,6 +83,10 @@ my @tests = (
 		active => 1,
 		message => 'md0(5.46 TiB raid6):U_UUUU (recovery:0.2% 14868K/sec ETA: 1638.2min)',
 	},
+	{ input => 'issue64', status => OK,
+		active => 1,
+		message => 'md2(1.64 TiB raid1):UU, md1(186.26 GiB raid1):UU, md0(486.99 MiB raid1):UU',
+	},
 );
 
 # save default value
@@ -105,7 +111,6 @@ foreach my $test (@tests) {
 
 	# can't check if plugin not active
 	next unless $active;
-
 
 	$plugin->check;
 	ok(1, "check ran");

@@ -593,7 +593,7 @@ sub parse {
 		if (my($dev, $active, $ro, $rest) = m{^
 			(\S+)\s+:\s+ # mdname
 			(\S+)\s+     # active: "inactive", "active"
-			(\((?:auto-)?read-only\))? # readonly
+			(\((?:auto-)?read-only\)\s+)? # readonly
 			(.+)         # personality name + disks
 		}x) {
 			my @parts = split /\s/, $rest;
@@ -1073,7 +1073,7 @@ sub check {
 		# Return current battery temparature & voltage.
 		#
 		# Battery0=18;4074
-		push(@bpdata, sprintf "Battery%s=%s;%s", $bat->{name}, $bat->{temperature}, $bat->{voltage});
+		push(@bpdata, sprintf "Battery%s_T=%s;;;; Battery%s_V=%s;;;;", $bat->{name}, $bat->{temperature}, $bat->{name}, $bat->{voltage});
 
 		# Long output.
 		# Detailed plugin output.
