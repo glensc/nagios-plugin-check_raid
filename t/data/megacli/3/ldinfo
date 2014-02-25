@@ -1,0 +1,25 @@
+                                     
+
+Adapter 0 -- Virtual Drive Information:
+Virtual Drive: 0 (Target Id: 0)
+Name                :
+RAID Level          : Primary-5, Secondary-0, RAID Level Qualifier-3
+Size                : 24.555 TB
+State               : Optimal
+Strip Size          : 256 KB
+Number Of Drives    : 10
+Span Depth          : 1
+Default Cache Policy: WriteBack, ReadAhead, Direct, No Write Cache if Bad BBU
+Current Cache Policy: WriteBack, ReadAhead, Direct, No Write Cache if Bad BBU
+Access Policy       : Read/Write
+Disk Cache Policy   : Disk's Default
+Encryption Type     : None
+Default Power Savings Policy: Controller Defined
+Current Power Savings Policy: None
+Can spin up in 1 minute: Yes
+LD has drives that support T10 power conditions: No
+LD's IO profile supports MAX power savings with cached writes: Yes
+
+
+
+Exit Code: 0x00
