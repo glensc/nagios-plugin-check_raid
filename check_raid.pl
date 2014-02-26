@@ -951,11 +951,14 @@ sub parse_bbu {
 			);
 			next;
 		}
+#=cut
+# according to current sample data, Battery State never has value
 		if (my($s) = /Battery State\s*: ?(.*)/i) {
-			if ( !$s ) { $s = 'Faulty'; };
+			if (!$s) { $s = 'Faulty'; };
 			$bbu{state} = $s;
 			next;
 		}
+#=cut
 		if (my($s) = /Charging Status\s*: (\w*)/) {
 			$bbu{charging_status} = $s;
 			next;

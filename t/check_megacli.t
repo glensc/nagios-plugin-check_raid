@@ -6,7 +6,8 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 70;
+use constant TESTS => 11;
+use Test::More tests => TESTS*7;
 use test;
 
 my @tests = (
@@ -101,6 +102,15 @@ my @tests = (
 		message => 'Volumes(7): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal,DISK3.3:Optimal,DISK4.4:Optimal,DISK5.5:Optimal,DISK6.6:Optimal; Devices(8): 11,12,13,14,10,15,09,08=Online; Batteries(1): 0=Optimal',
 		perfdata => 'Battery0_T=34;;;; Battery0_V=4073;;;;',
 		longoutput => "Battery0:\n - State: Optimal\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (34 C)\n - Voltage: OK (4073 mV)",
+	},
+	{
+		status => CRITICAL,
+		pdlist => '3/pdlist',
+		ldinfo => '3/ldinfo',
+		battery => '3/bucmd',
+		message => 'Volumes(1): DISK0.0:Optimal; Devices(12): 14=Hotspare 04,05,06,07,08,09,10,11,12,16=Online 13 (W1F3ZE1TST3000DM001-1CH166 CC27)=Unconfigured(bad); Batteries(1): 0=Faulty',
+		perfdata => 'Battery0_T=29;;;; Battery0_V=4069;;;;',
+		longoutput => "Battery0:\n - State: Faulty\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: No\n - Temperature: OK (29 C)\n - Voltage: OK (4069 mV)",
 	},
 );
 
