@@ -1,0 +1,104 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Channel description                      : SCSI
+   Controller Model                         : Adaptec 2020ZCR
+   Controller Serial Number                 : BAD0
+   Physical Slot                            : 2
+   Installed memory                         : 64 MB
+   Copyback                                 : Disabled
+   Background consistency check             : Disabled
+   Automatic Failover                       : Enabled
+   Stayawake period                         : Disabled
+   Spinup limit internal drives             : 0
+   Spinup limit external drives             : 0
+   Defunct disk drive count                 : 0
+   Logical devices/Failed/Degraded          : 1/0/0
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 4.2-1 (7373)
+   Firmware                                 : 4.2-1 (7373)
+   Driver                                   : 1.1-7 (28000)
+   Boot Flash                               : 0.0-0 (0)
+   --------------------------------------------------------
+   Controller Battery Information
+   --------------------------------------------------------
+   Status                                   : Not Installed
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical device number 0
+   Logical device name                      : RAID
+   RAID level                               : 1
+   Status of logical device                 : Optimal
+   Size                                     : 139981 MB
+   Read-cache mode                          : Disabled
+   Write-cache mode                         : Disabled (write-through)
+   Write-cache setting                      : Disabled (write-through)
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : No
+   Bootable                                 : Yes
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (0,0) 3KS5ABTV0000970648ZZ
+   Segment 1                                : Present (0,1) 3KS5SD1P00009718B64U
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+   Channel #0:
+      Transfer Speed                        : Ultra320
+      Initiator at SCSI ID 7
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : Ultra320
+         Reported Channel,Device(T:L)       : 0,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3146707LC
+         Firmware                           : 0005
+         Serial number                      : 3KS5ABTV0000970648ZZ
+         Size                               : 140014 MB
+         Write Cache                        : Unknown
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+      Device #1
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : Ultra320
+         Reported Channel,Device(T:L)       : 0,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3146707LC
+         Firmware                           : 0005
+         Serial number                      : 3KS5SD1P00009718B64U
+         Size                               : 140014 MB
+         Write Cache                        : Unknown
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+      Device #6
+         Device is an Enclosure
+         Type                               : SAF-TE
+         Vendor                             : SUPER
+         Model                              : GEM318
+         Firmware                           : 0
+         Status of Enclosure
+            Temperature status              : Normal
+   Channel #1:
+      Transfer Speed                        : Ultra320
+      Initiator at SCSI ID 7
+      No physical drives attached
+
+
+Command completed successfully.

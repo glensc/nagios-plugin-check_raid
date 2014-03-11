@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 42;
+use Test::More tests => 47;
 use test;
 
 # NOTE: this plugin has side effect of changing dir
@@ -63,6 +63,12 @@ my @tests = (
 		getstatus => 'issue55/arcconf-getstatus.out',
 		getconfig => 'issue55/arcconf-getconfig.out',
 		message => 'Controller:Optimal, Logical Device 0(plop):Optimal, Drives: Y2O483PAS,Y2O3MYTGS,Y2O3M8RGS=Online S1F02BSH=Online (JBOD)',
+	},
+	{
+		status => OK,
+		getstatus => 'issue67/getstatus',
+		getconfig => 'issue67/getconfig',
+		message => 'Controller:Optimal, Logical Device 0(RAID):Optimal, Drives: 3KS5ABTV0000970648ZZ,3KS5SD1P00009718B64U=Online',
 	},
 );
 
