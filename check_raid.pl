@@ -3149,11 +3149,27 @@ sub check {
 				}
 			}
 			$success = 1 if /SAS2IRCU: Utility Completed Successfully/;
+
+			##handle the case where there are no volumes configured
+			# 
+			# SAS2IRCU: there are no IR volumes on the controller!
+			# SAS2IRCU: Error executing command STATUS.
+			#
+
+			if ( /SAS2IRCU: there are no IR volumes on the controller!/ ) { 
+				#even though this isn't the last line, go ahead and set success.
+				$success = 1; 
+				$state = "None"; 
+			}
+
 		}
 
 		unless (close $fh) {
-			$this->critical;
-			$state = $!;
+			#sas2ircu exits 256 if we have no volumes, so handle that, too
+			if ( $? != 256 && $state == "None" ) {
+				$this->critical;
+				$state = $!;
+			}
 		}
 
 		unless ($success) {
