@@ -3081,6 +3081,7 @@ sub commands {
 	{
 		'controller list' => ['-|', '@CMD', 'LIST'],
 		'controller status' => ['-|', '@CMD', '$controller', 'STATUS'],
+		'device status' => ['-|', '@CMD', '$controller', 'DISPLAY'],
 	}
 }
 
@@ -3093,6 +3094,7 @@ sub sudo {
 	(
 		"CHECK_RAID ALL=(root) NOPASSWD: $cmd LIST",
 		"CHECK_RAID ALL=(root) NOPASSWD: $cmd * STATUS",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd * DISPLAY",
 	);
 }
 
@@ -3126,16 +3128,22 @@ sub detect {
 	return wantarray ? @ctrls : \@ctrls;
 }
 
+sub  trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
+sub ltrim { my $s = shift; $s =~ s/^\s+//;       return $s };
+sub rtrim { my $s = shift; $s =~ s/\s+$//;       return $s };
+
 sub check {
 	my $this = shift;
 
 	my @ctrls = $this->detect;
 
 	my @status;
+	my $numvols=0;
 	# determine the RAID states of each controller
 	foreach my $c (@ctrls) {
 		my $fh = $this->cmd('controller status', { '$controller' => $c });
 
+		my $novolsstate="No Volumes";
 		my $state;
 		my $success = 0;
 		while (<$fh>) {
@@ -3144,6 +3152,7 @@ sub check {
 			# match adapter lines
 			if (my($s) = /^\s*Volume state\s*:\s*(\w+)\s*$/) {
 				$state = $s;
+				$numvols++;
 				if ($state ne "Optimal") {
 					$this->critical;
 				}
@@ -3159,14 +3168,14 @@ sub check {
 			if ( /SAS2IRCU: there are no IR volumes on the controller!/ ) { 
 				#even though this isn't the last line, go ahead and set success.
 				$success = 1; 
-				$state = "None"; 
+				$state = $novolsstate; 
 			}
 
 		}
 
 		unless (close $fh) {
-			#sas2ircu exits 256 if we have no volumes, so handle that, too
-			if ( $? != 256 && $state == "None" ) {
+			#sas2ircu exits 256 when we close fh if we have no volumes, so handle that, too
+			if ( $? != 256 && $state eq $novolsstate ) {
 				$this->critical;
 				$state = $!;
 			}
@@ -3181,8 +3190,120 @@ sub check {
 			$state = "Unknown Error";
 		}
 
-		push(@status, "ctrl #$c: $state")
+		my $finalvolstate=$state;
+		#push(@status, "ctrl #$c: $numvols Vols: $state");
+
+
+		#####  now look at the devices.
+		# Device is a Hard disk
+		#   Enclosure #                             : 2
+		#   Slot #                                  : 0
+		#   SAS Address                             : 500065b-3-6789-abe0
+		#   State                                   : Ready (RDY)
+		#   Size (in MB)/(in sectors)               : 3815447/7814037167
+		#   Manufacturer                            : ATA
+		#   Model Number                            : ST4000DM000-1F21
+		#   Firmware Revision                       : CC52
+		#   Serial No                               : S30086G4
+		#   GUID                                    : 5000c5006d27b344
+		#   Protocol                                : SATA
+		#   Drive Type                              : SATA_HDD
+
+		my $fh = $this->cmd('device status', { '$controller' => $c });
+
+		my $state="";
+		my $success = 0;
+		my $enc="";
+		my $slot="";
+		my @data;
+		my $device="";
+		my $numslots=0;
+		my $finalstate;
+		my $finalerrors="";
+		
+		while ( my $line = <$fh> ) {
+			chomp $line;
+			# 	Device is a Hard disk
+			# 	Device is a Hard disk
+			# 	Device is a Enclosure services device
+			#
+			#lets make sure we're only checking disks.  we dont support other devices right now
+			if ( "$line" eq 'Device is a Hard disk' ) {
+				$device='disk';
+			} elsif ( $line =~ /^Device/ )  {
+				$device='other';					
+			}					
+
+			if ( "$device" eq 'disk' ) {
+				if ( $line =~ /Enclosure #|Slot #|State / ) {
+					#find our enclosure #
+					if ( $line =~ /^  Enclosure # / ) {
+						@data = split /:/, $line;			
+						$enc=trim($data[1]);
+						#every time we hit a new enclosure line, reset our state and slot
+						undef $state;
+						undef $slot;
+					}
+					#find our slot #
+					if ( $line =~ /^  Slot # / ) {
+						@data = split /:/, $line;			
+						$slot=trim($data[1]);
+						$numslots++
+					}
+					#find our state
+					if ( $line =~ /^  State / ) {
+						@data = split /:/, $line;			
+						$state=ltrim($data[1]);
+
+						if ($numslots == 10 ) { $state='FREDFISH';}
+ 
+						#when we get a state, test on it and report it..
+						if ( $state =~ /Ready/ ) {	
+							#do nothing at the moment.
+						} else {
+							$this->critical;
+							$finalstate=$state;
+							$finalerrors="$finalerrors ERROR:Ctrl$c:Enc$enc:Slot$slot:$state";
+						}
+					}				
+				}			
+			}
+
+			if ( $line =~ /SAS2IRCU: Utility Completed Successfully/) {
+				$success = 1;				
+			}
+
+		} #end while
+
+
+		unless (close $fh) {
+			$this->critical;
+			$state = $!;
+		}
+
+		unless ($success) {
+			$this->critical;
+			$state = "SAS2IRCU Unknown exit";
+		}
+
+		unless ($state) {
+			$state = "Unknown Error";
+		}
+
+		unless($finalstate) {
+			$finalstate=$state;
+		}
+		
+
+
+		#per controller overall report
+		#push(@status, ":$numslots Drives:$finalstate:$finalerrors");
+		push(@status, "ctrl #$c: $numvols Vols: $finalvolstate: $numslots Drives: $finalstate:$finalerrors:");
+
+
+
 	}
+
 
 	return unless @status;
 
