@@ -3209,10 +3209,9 @@ sub check {
 		#   Protocol                                : SATA
 		#   Drive Type                              : SATA_HDD
 
-		my $fh = $this->cmd('device status', { '$controller' => $c });
-
-		my $state="";
-		my $success = 0;
+		$fh = $this->cmd('device status', { '$controller' => $c });
+		$state="";
+		$success = 0;
 		my $enc="";
 		my $slot="";
 		my @data;
@@ -3255,7 +3254,8 @@ sub check {
 						@data = split /:/, $line;			
 						$state=ltrim($data[1]);
 
-						if ($numslots == 10 ) { $state='FREDFISH';}
+						#for test
+						#if ($numslots == 10 ) { $state='FREDFISH';}
  
 						#when we get a state, test on it and report it..
 						if ( $state =~ /Ready/ ) {	
