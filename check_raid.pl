@@ -3106,8 +3106,11 @@ sub detect {
 	my $fh = $this->cmd('controller list');
 
 	my $success = 0;
+	my $state="";
+	my $noctrlstate="No Controllers";
 	while (<$fh>) {
 		chomp;
+
 		#		  Adapter     Vendor  Device                        SubSys  SubSys
 		# Index    Type          ID      ID    Pci Address          Ven ID  Dev ID
 		# -----  ------------  ------  ------  -----------------    ------  ------
@@ -3116,10 +3119,30 @@ sub detect {
 			push(@ctrls, $c);
 		}
 		$success = 1 if /SAS2IRCU: Utility Completed Successfully/;
+
+		# handle the case where there's no hardware present.
+		# when there is no controller, we get
+		# root@i41:/tmp$ /usr/sbin/sas2ircudsr LIST
+		# LSI Corporation SAS2 IR Configuration Utility.
+		# Version 18.00.00.00 (2013.11.18)
+		# Copyright (c) 2009-2013 LSI Corporation. All rights reserved.
+
+		# SAS2IRCU: MPTLib2 Error 1
+		# root@i41:/tmp$ echo $?
+		# 1
+
+		if ( /SAS2IRCU: MPTLib2 Error 1/ ) {
+			$state = $noctrlstate;
+			$success = 1 ;
+		}
+
 	}
 
 	unless (close $fh) {
-		$this->critical;
+		#sas2ircu exits 1 (but close exits 256) when we close fh if we have no controller, so handle that, too
+		if ( $? != 256 && $state eq $noctrlstate ) {
+			$this->critical;
+		}
 	}
 	unless ($success) {
 		$this->critical;
@@ -3294,16 +3317,16 @@ sub check {
 			$finalstate=$state;
 		}
 		
-
-
 		#per controller overall report
 		#push(@status, ":$numslots Drives:$finalstate:$finalerrors");
 		push(@status, "ctrl #$c: $numvols Vols: $finalvolstate: $numslots Drives: $finalstate:$finalerrors:");
 
-
-
 	}
 
+	##if we didn't get a status out of the controllers and an empty ctrls array, we must not have any.
+	unless (@status && @ctrls) {
+		push(@status, "No Controllers");
+	}
 
 	return unless @status;
 
