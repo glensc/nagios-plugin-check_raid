@@ -18,12 +18,13 @@ Alternatively post outputs to some pastebin service, or [gist](https://gists.git
 
 ## Pull requests
 
-1. Fork it.
-2. Create your feature branch (`git checkout -b fixing-blah`).
-3. [Test](#testing) your changes to the best of your ability.
-4. Commit your changes (`git commit -am 'Fixed blah'`).
-5. Push to the branch (`git push origin fixing-blah`).
-6. Create a new pull request.
+- Fork it.
+- Create your feature branch (`git checkout -b fixing-blah`), please avoid working directly on the `master` branch.
+- [Test](#testing) your changes to the best of your ability.
+- Check for unnecessary whitespace with `git diff --check` before committing.
+- Commit your changes (`git commit -am 'Fixed blah'`).
+- Push to the branch (`git push origin fixing-blah`).
+- Create a new pull request.
 
 Do not update changelog or attempt to change version, the changes may not be merged on codebase you created patch for and it will just create annoying merge conflicts later.
 
