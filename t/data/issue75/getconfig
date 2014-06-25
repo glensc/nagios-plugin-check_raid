@@ -1,0 +1,605 @@
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Channel description                      : SAS/SATA
+   Controller Model                         : Adaptec 6405
+   Controller Serial Number                 : 2B0911E9466
+   Controller World Wide Name               : 50000D110511C100
+   Physical Slot                            : 0
+   Temperature                              : 55 C/ 131 F (Normal)
+   Installed memory                         : 512 MB
+   Copyback                                 : Enabled
+   Background consistency check             : Disabled
+   Background consistency check period      : 30
+   Automatic Failover                       : Enabled
+   Global task priority                     : High
+   Performance Mode                         : Default/Dynamic
+   Host bus type                            : PCIe
+   Host bus speed                           : 5000 MHz
+   Host bus link width                      : 8 bit(s)/link(s)
+   Stayawake period                         : Disabled
+   Spinup limit internal drives             : 0
+   Spinup limit external drives             : 0
+   Defunct disk drive count                 : 0
+   Logical devices/Failed/Degraded          : 3/0/0
+   NCQ status                               : Enabled
+   Statistics data collection mode          : Enabled
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 5.2-0 (18668)
+   Firmware                                 : 5.2-0 (18668)
+   Driver                                   : 1.2-0 (30200)
+   Boot Flash                               : 5.2-0 (18668)
+   --------------------------------------------------------
+   Controller ZMM Information
+   --------------------------------------------------------
+   Status                                   : ZMM Optimal
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical device number 0
+   Logical device name                      : OS
+   Block Size of member drives              : 512 Bytes
+   RAID level                               : 1
+   Unique Identifier                        : 924426A9
+   Status of logical device                 : Optimal
+   Size                                     : 571382 MB
+   Parity space                             : 571392 MB
+   Read-cache setting                       : Disabled
+   Read-cache status                        : Off
+   Write-cache setting                      : On when protected by battery/ZMM
+   Write-cache status                       : On
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : Yes
+   Global Hot-Spare                         : 0,25
+   Global Hot-Spare                         : 0,24
+   Bootable                                 : Yes
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (Controller:1,Enclosure:0,Slot:0) 6SL3PXM90000N237HSAJ
+   Segment 1                                : Present (Controller:1,Enclosure:0,Slot:1) 6SL3PAAP0000N236HPPM
+
+Logical device number 1
+   Logical device name                      : VM-LIVE
+   Block Size of member drives              : 512 Bytes
+   RAID level                               : 6 Reed-Solomon
+   Unique Identifier                        : D2C066A9
+   Status of logical device                 : Optimal
+   Size                                     : 2856950 MB
+   Parity space                             : 1142784 MB
+   Stripe-unit size                         : 256 KB
+   Read-cache setting                       : Enabled
+   Read-cache status                        : On
+   Write-cache setting                      : On when protected by battery/ZMM
+   Write-cache status                       : On
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : Yes
+   Global Hot-Spare                         : 0,25
+   Global Hot-Spare                         : 0,24
+   Bootable                                 : No
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (Controller:1,Enclosure:0,Slot:2) 6SL3MPC80000N237NEB0
+   Segment 1                                : Present (Controller:1,Enclosure:0,Slot:3) 6SL3M8310000N238057Y
+   Segment 2                                : Present (Controller:1,Enclosure:0,Slot:4) 6SL3PVMD0000N238021B
+   Segment 3                                : Present (Controller:1,Enclosure:0,Slot:5) 6SL3GE0F0000N236DGCN
+   Segment 4                                : Present (Controller:1,Enclosure:0,Slot:6) 6SL3P03R0000N237CY7E
+   Segment 5                                : Present (Controller:1,Enclosure:0,Slot:7) 6SL3PZ3V0000N23765UB
+   Segment 6                                : Present (Controller:1,Enclosure:0,Slot:8) 6SL3PRWK0000N237KQLS
+
+Logical device number 2
+   Logical device name                      : VM-BACKUP
+   Block Size of member drives              : 512 Bytes
+   RAID level                               : 6 Reed-Solomon
+   Unique Identifier                        : 699476A9
+   Status of logical device                 : Optimal
+   Size                                     : 2856950 MB
+   Parity space                             : 1142784 MB
+   Stripe-unit size                         : 256 KB
+   Read-cache setting                       : Enabled
+   Read-cache status                        : On
+   Write-cache setting                      : On when protected by battery/ZMM
+   Write-cache status                       : On
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : Yes
+   Global Hot-Spare                         : 0,25
+   Global Hot-Spare                         : 0,24
+   Bootable                                 : No
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (Controller:1,Enclosure:0,Slot:9) 6SL3PRHV0000N238063T
+   Segment 1                                : Present (Controller:1,Enclosure:0,Slot:10) 6SL3PR3Y0000N237NF0G
+   Segment 2                                : Present (Controller:1,Enclosure:0,Slot:11) 6SL3PQN20000N23806DU
+   Segment 3                                : Present (Controller:1,Enclosure:0,Slot:12) 6SL3PQSX0000N236DE4Z
+   Segment 4                                : Present (Controller:1,Enclosure:0,Slot:13) 6SL3PR7E0000N237EJW3
+   Segment 5                                : Present (Controller:1,Enclosure:0,Slot:14) 6SL3PR7H0000N237EMSY
+   Segment 6                                : Present (Controller:1,Enclosure:0,Slot:15) 6SL3PQJN0000N23805EQ
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,8(8:0)
+         Reported Location                  : Enclosure 0, Slot 0
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3PXM90000N237HSAJ
+         World-wide name                    : 5000C5004C1CA9AC
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #1
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,9(9:0)
+         Reported Location                  : Enclosure 0, Slot 1
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3PAAP0000N236HPPM
+         World-wide name                    : 5000C5004C1BD888
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #2
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,10(10:0)
+         Reported Location                  : Enclosure 0, Slot 2
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3MPC80000N237NEB0
+         World-wide name                    : 5000C5004C1C9C24
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #3
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,11(11:0)
+         Reported Location                  : Enclosure 0, Slot 3
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3M8310000N238057Y
+         World-wide name                    : 5000C5004C1BE8A4
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #4
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,12(12:0)
+         Reported Location                  : Enclosure 0, Slot 4
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3PVMD0000N238021B
+         World-wide name                    : 5000C5004C1C71E4
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #5
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,13(13:0)
+         Reported Location                  : Enclosure 0, Slot 5
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3GE0F0000N236DGCN
+         World-wide name                    : 5000C5004C072938
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #6
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,14(14:0)
+         Reported Location                  : Enclosure 0, Slot 6
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3P03R0000N237CY7E
+         World-wide name                    : 5000C5004C1BD458
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #7
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,15(15:0)
+         Reported Location                  : Enclosure 0, Slot 7
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3PZ3V0000N23765UB
+         World-wide name                    : 5000C5004C1C916C
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #8
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,16(16:0)
+         Reported Location                  : Enclosure 0, Slot 8
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3PRWK0000N237KQLS
+         World-wide name                    : 5000C5004C1BB814
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #9
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,17(17:0)
+         Reported Location                  : Enclosure 0, Slot 9
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3PRHV0000N238063T
+         World-wide name                    : 5000C5004C1BC384
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #10
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,18(18:0)
+         Reported Location                  : Enclosure 0, Slot 10
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3PR3Y0000N237NF0G
+         World-wide name                    : 5000C5004C1C16A8
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #11
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,19(19:0)
+         Reported Location                  : Enclosure 0, Slot 11
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3PQN20000N23806DU
+         World-wide name                    : 5000C5004C1BC360
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #12
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,20(20:0)
+         Reported Location                  : Enclosure 0, Slot 12
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3PQSX0000N236DE4Z
+         World-wide name                    : 5000C5004C1BDA98
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #13
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,21(21:0)
+         Reported Location                  : Enclosure 0, Slot 13
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3PR7E0000N237EJW3
+         World-wide name                    : 5000C5004C1C21F8
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #14
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,22(22:0)
+         Reported Location                  : Enclosure 0, Slot 14
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3PR7H0000N237EMSY
+         World-wide name                    : 5000C5004C1C2208
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #15
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,23(23:0)
+         Reported Location                  : Enclosure 0, Slot 15
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3PQJN0000N23805EQ
+         World-wide name                    : 5000C5004C1BBB64
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #16
+         Device is a Hard drive
+         State                              : Global Hot-Spare
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,24(24:0)
+         Reported Location                  : Enclosure 0, Slot 16
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3PS7P0000N2341WV7
+         World-wide name                    : 5000C5004C1BA264
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #17
+         Device is a Hard drive
+         State                              : Global Hot-Spare
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,25(25:0)
+         Reported Location                  : Enclosure 0, Slot 17
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3600057SS
+         Firmware                           : 0008
+         Serial number                      : 6SL3PYTF0000N237NF8S
+         World-wide name                    : 5000C5004C1BE76C
+         Reserved Size                      : 956312 KB
+         Used Size                          : 571392 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 572325 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #18
+         Device is an Enclosure services device
+         Reported Channel,Device(T:L)       : 2,0(0:0)
+         Enclosure ID                       : 0
+         Expander ID                        : 0
+         Enclosure Logical Identifier       : 500304800189537F
+         Type                               : SES2
+         Vendor                             : LSI CORP
+         Model                              : SAS2X36
+         Firmware                           : 0717
+         Status of Enclosure services device
+            Fan 1 status                    : 0 rpm (Not Installed)
+            Fan 2 status                    : 0 rpm (Not Installed)
+            Fan 3 status                    : 0 rpm (Not Installed)
+            Fan 4 status                    : 0 rpm (Unknown)
+            Fan 5 status                    : 0 rpm (Unknown)
+            Power supply 1 status           : Not Installed
+            Power supply 2 status           : Not Installed
+            Temperature Sensor Status 1     : 46 C/ 114 F (Abnormal)
+            Speaker status                  : On
+
+
