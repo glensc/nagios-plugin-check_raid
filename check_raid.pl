@@ -96,6 +96,9 @@ my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 # status to set when RAID is in resync state
 our $resync_status = $ERRORS{WARNING};
 
+# status to set when RAID is in check state
+our $check_status = $ERRORS{OK};
+
 # status to set when BBU is in learning cycle.
 our $bbulearn_status = $ERRORS{WARNING};
 
@@ -209,6 +212,14 @@ sub ok {
 sub resync {
 	my ($this) = @_;
 	$this->status($resync_status);
+	return $this;
+}
+
+# helper to set status for check
+# returns $this to allow fluent api
+sub check_status {
+	my ($this) = @_;
+	$this->status($check_status);
 	return $this;
 }
 
@@ -582,6 +593,7 @@ sub parse {
 
 	my (@md, %md);
 	my $fh = $this->cmd('mdstat');
+	my $arr_checking = 0;
 	while (<$fh>) {
 		chomp;
 
@@ -675,8 +687,12 @@ sub parse {
 		# linux-2.6.33/drivers/md/md.c, status_resync
 		# [==>..................]  resync = 13.0% (95900032/732515712) finish=175.4min speed=60459K/sec
 		# [=>...................]  check =  8.8% (34390144/390443648) finish=194.2min speed=30550K/sec
-		if (my($action, $perc, $eta, $speed) = m{(resync|recovery|check|reshape)\s+=\s+([\d.]+%) \(\d+/\d+\) finish=([\d.]+min) speed=(\d+K/sec)}) {
+		if (my($action, $perc, $eta, $speed) = m{(resync|recovery|reshape)\s+=\s+([\d.]+%) \(\d+/\d+\) finish=([\d.]+min) speed=(\d+K/sec)}) {
 			$md{resync_status} = "$action:$perc $speed ETA: $eta";
+			next;
+		} elsif (($perc, $eta, $speed) = m{check\s+=\s+([\d.]+%) \(\d+/\d+\) finish=([\d.]+min) speed=(\d+K/sec)}) {
+			$md{check_status} = "check:$perc $speed ETA: $eta";
+			$arr_checking = 1;
 			next;
 		}
 
@@ -686,6 +702,19 @@ sub parse {
 		next unless $this->valid($md{dev});
 
 		push(@md, { %md } ) if %md;
+	}
+
+	# One of the arrays is in checking state, which could be because there is a scheduled sync of all MD arrays
+	# In such a case, all of the arrays are scheduled to by checked, but only one of them is actually running the check
+	# while the others are in "resync=DELAYED" state.
+	# We don't want to receive notifications in such case, so we check for this particular case here
+	if ($arr_checking && scalar(@md) >= 2) {
+		foreach my $dev (@md) {
+			if ( $dev->{resync_status} && $dev->{resync_status} eq "resync=DELAYED") {
+				delete $dev->{resync_status};
+				$dev->{check_status} = "check=DELAYED";
+			}
+		}
 	}
 	close $fh;
 
@@ -717,6 +746,10 @@ sub check {
 		} elsif ($md{resync_status}) {
 			$this->resync;
 			$s .= "$md{status} ($md{resync_status})";
+
+		} elsif ($md{check_status}) {
+			$this->check_status;
+			$s .= "$md{status} ($md{check_status})";
 
 		} elsif ($md{status} =~ /_/) {
 			$this->critical;
@@ -3656,6 +3689,8 @@ sub print_usage() {
 	"    Lists active plugins",
 	" --resync=STATE",
 	"    Return STATE if RAID is in resync state. Defaults to WARNING",
+	" --check=STATE",
+	"    Return STATE if RAID is in check state. Defaults to OK",
 	" --noraid=STATE",
 	"    Return STATE if no RAID controller is found. Defaults to UNKNOWN",
 	" --bbulearn=STATE",
@@ -3788,6 +3823,7 @@ GetOptions(
 	'S' => \$opt_S, 'sudoers' => \$opt_S,
 	'W' => \$opt_W, 'warnonly' => \$opt_W,
 	'resync=s' => sub { setstate(\$plugin::resync_status, @_); },
+	'check=s' => sub { setstate(\$plugin::check_status, @_); },
 	'noraid=s' => sub { setstate(\$opt_O, @_); },
 	'bbulearn=s' => sub { setstate(\$plugin::bbulearn_status, @_); },
 	'bbu-monitoring' => \$plugin::bbu_monitoring,
