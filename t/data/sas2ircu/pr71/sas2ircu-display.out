@@ -1,0 +1,223 @@
+LSI Corporation SAS2 IR Configuration Utility.
+Version 18.00.00.00 (2013.11.18) 
+Copyright (c) 2009-2013 LSI Corporation. All rights reserved. 
+
+Read configuration has been initiated for controller 0
+------------------------------------------------------------------------
+Controller information
+------------------------------------------------------------------------
+  Controller type                         : SAS2008
+  BIOS version                            : 7.07.00.00
+  Firmware version                        : 6.00.00.00
+  Channel description                     : 1 Serial Attached SCSI
+  Initiator ID                            : 0
+  Maximum physical devices                : 125
+  Concurrent commands supported           : 2607
+  Slot                                    : 7
+  Segment                                 : 0
+  Bus                                     : 1
+  Device                                  : 0
+  Function                                : 0
+  RAID Support                            : Yes
+------------------------------------------------------------------------
+IR Volume information
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+Physical device information
+------------------------------------------------------------------------
+Initiator at ID #0
+
+Device is a Hard disk
+  Enclosure #                             : 2
+  Slot #                                  : 0
+  SAS Address                             : 500065b-3-6789-abe0
+  State                                   : Ready (RDY)
+  Size (in MB)/(in sectors)               : 3815447/7814037167
+  Manufacturer                            : ATA     
+  Model Number                            : ST4000DM000-1F21
+  Firmware Revision                       : CC52
+  Serial No                               : S3007ZKX
+  GUID                                    : 5000c5006d1f661f
+  Protocol                                : SATA
+  Drive Type                              : SATA_HDD
+
+Device is a Hard disk
+  Enclosure #                             : 2
+  Slot #                                  : 1
+  SAS Address                             : 500065b-3-6789-abe1
+  State                                   : Ready (RDY)
+  Size (in MB)/(in sectors)               : 3815447/7814037167
+  Manufacturer                            : ATA     
+  Model Number                            : ST4000DM000-1F21
+  Firmware Revision                       : CC52
+  Serial No                               : S30072DD
+  GUID                                    : 5000c5006d177c60
+  Protocol                                : SATA
+  Drive Type                              : SATA_HDD
+
+Device is a Hard disk
+  Enclosure #                             : 2
+  Slot #                                  : 2
+  SAS Address                             : 500065b-3-6789-abe2
+  State                                   : Ready (RDY)
+  Size (in MB)/(in sectors)               : 3815447/7814037167
+  Manufacturer                            : ATA     
+  Model Number                            : ST4000DM000-1F21
+  Firmware Revision                       : CC52
+  Serial No                               : S30081V4
+  GUID                                    : 5000c5006d28dd13
+  Protocol                                : SATA
+  Drive Type                              : SATA_HDD
+
+Device is a Hard disk
+  Enclosure #                             : 2
+  Slot #                                  : 3
+  SAS Address                             : 500065b-3-6789-abe3
+  State                                   : Ready (RDY)
+  Size (in MB)/(in sectors)               : 3815447/7814037167
+  Manufacturer                            : ATA     
+  Model Number                            : ST4000DM000-1F21
+  Firmware Revision                       : CC52
+  Serial No                               : S30081T4
+  GUID                                    : 5000c5006d28dc59
+  Protocol                                : SATA
+  Drive Type                              : SATA_HDD
+
+Device is a Hard disk
+  Enclosure #                             : 2
+  Slot #                                  : 4
+  SAS Address                             : 500065b-3-6789-abe4
+  State                                   : Ready (RDY)
+  Size (in MB)/(in sectors)               : 3815447/7814037167
+  Manufacturer                            : ATA     
+  Model Number                            : ST4000DM000-1F21
+  Firmware Revision                       : CC52
+  Serial No                               : S30075G5
+  GUID                                    : 5000c5006d168b27
+  Protocol                                : SATA
+  Drive Type                              : SATA_HDD
+
+Device is a Hard disk
+  Enclosure #                             : 2
+  Slot #                                  : 5
+  SAS Address                             : 500065b-3-6789-abe5
+  State                                   : Ready (RDY)
+  Size (in MB)/(in sectors)               : 3815447/7814037167
+  Manufacturer                            : ATA     
+  Model Number                            : ST4000DM000-1F21
+  Firmware Revision                       : CC52
+  Serial No                               : S3007ZM8
+  GUID                                    : 5000c5006d1f64f2
+  Protocol                                : SATA
+  Drive Type                              : SATA_HDD
+
+Device is a Hard disk
+  Enclosure #                             : 2
+  Slot #                                  : 6
+  SAS Address                             : 500065b-3-6789-abe6
+  State                                   : Ready (RDY)
+  Size (in MB)/(in sectors)               : 3815447/7814037167
+  Manufacturer                            : ATA     
+  Model Number                            : ST4000DM000-1F21
+  Firmware Revision                       : CC52
+  Serial No                               : S30081VE
+  GUID                                    : 5000c5006d28d544
+  Protocol                                : SATA
+  Drive Type                              : SATA_HDD
+
+Device is a Hard disk
+  Enclosure #                             : 2
+  Slot #                                  : 7
+  SAS Address                             : 500065b-3-6789-abe7
+  State                                   : Ready (RDY)
+  Size (in MB)/(in sectors)               : 3815447/7814037167
+  Manufacturer                            : ATA     
+  Model Number                            : ST4000DM000-1F21
+  Firmware Revision                       : CC52
+  Serial No                               : S30081V1
+  GUID                                    : 5000c5006d28d54e
+  Protocol                                : SATA
+  Drive Type                              : SATA_HDD
+
+Device is a Hard disk
+  Enclosure #                             : 2
+  Slot #                                  : 8
+  SAS Address                             : 500065b-3-6789-abe8
+  State                                   : Ready (RDY)
+  Size (in MB)/(in sectors)               : 3815447/7814037167
+  Manufacturer                            : ATA     
+  Model Number                            : ST4000DM000-1F21
+  Firmware Revision                       : CC52
+  Serial No                               : S3006MVS
+  GUID                                    : 5000c5006d16d45c
+  Protocol                                : SATA
+  Drive Type                              : SATA_HDD
+
+Device is a Hard disk
+  Enclosure #                             : 2
+  Slot #                                  : 9
+  SAS Address                             : 500065b-3-6789-abe9
+  State                                   : Ready (RDY)
+  Size (in MB)/(in sectors)               : 3815447/7814037167
+  Manufacturer                            : ATA     
+  Model Number                            : ST4000DM000-1F21
+  Firmware Revision                       : CC52
+  Serial No                               : S3005S95
+  GUID                                    : 5000c5006d046478
+  Protocol                                : SATA
+  Drive Type                              : SATA_HDD
+
+Device is a Hard disk
+  Enclosure #                             : 2
+  Slot #                                  : 10
+  SAS Address                             : 500065b-3-6789-abea
+  State                                   : Ready (RDY)
+  Size (in MB)/(in sectors)               : 3815447/7814037167
+  Manufacturer                            : ATA     
+  Model Number                            : ST4000DM000-1F21
+  Firmware Revision                       : CC52
+  Serial No                               : S30081V2
+  GUID                                    : 5000c5006d28d657
+  Protocol                                : SATA
+  Drive Type                              : SATA_HDD
+
+Device is a Hard disk
+  Enclosure #                             : 2
+  Slot #                                  : 11
+  SAS Address                             : 500065b-3-6789-abeb
+  State                                   : Ready (RDY)
+  Size (in MB)/(in sectors)               : 3815447/7814037167
+  Manufacturer                            : ATA     
+  Model Number                            : ST4000DM000-1F21
+  Firmware Revision                       : CC52
+  Serial No                               : S30081T3
+  GUID                                    : 5000c5006d28d746
+  Protocol                                : SATA
+  Drive Type                              : SATA_HDD
+
+Device is a Enclosure services device
+  Enclosure #                             : 2
+  Slot #                                  : 255
+  SAS Address                             : 500065b-3-6789-abfd
+  State                                   : Standby (SBY)
+  Manufacturer                            : LSI CORP
+  Model Number                            : Bobcat          
+  Firmware Revision                       : 6A07
+  Serial No                               : x3654654855
+  GUID                                    : N/A
+  Protocol                                : SAS
+  Device Type                             : Enclosure services device
+------------------------------------------------------------------------
+Enclosure information
+------------------------------------------------------------------------
+  Enclosure#                              : 1
+  Logical ID                              : 099152d0:007fbcaa
+  Numslots                                : 8
+  StartSlot                               : 0
+  Enclosure#                              : 2
+  Logical ID                              : 500065b3:6789abff
+  Numslots                                : 12
+  StartSlot                               : 0
+------------------------------------------------------------------------
+SAS2IRCU: Command DISPLAY Completed Successfully.
+SAS2IRCU: Utility Completed Successfully.
