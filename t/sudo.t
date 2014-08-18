@@ -64,6 +64,7 @@ my %sudo = (
 	sas2ircu => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/sas2ircu LIST",
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/sas2ircu * STATUS",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/sas2ircu * DISPLAY",
 	],
 	hpacucli => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpacucli controller all show status",
