@@ -886,6 +886,9 @@ sub parse_pd {
 		if (my($s) = /Exit Code: (\d+x\d+)/) {
 			$rc = hex($s);
 		}
+		else {
+			$rc = 0;
+		}
 	}
 	push(@pd, { %pd }) if %pd;
 
@@ -921,6 +924,9 @@ sub parse_ld {
 		}
 		if (my($s) = /Exit Code: (\d+x\d+)/) {
 			$rc = hex($s);
+		}
+		else {
+			$rc = 0;
 		}
 	}
 	push(@ld, { %ld }) if %ld;
