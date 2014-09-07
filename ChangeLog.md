@@ -8,6 +8,7 @@
 - hpacucli fixes [#62][]
 - mdstat auto-readonly raid fix [#64][]
 - areca fixes [#72][]
+- dmraid detect fixes [#60][]
 
 NOTES:
 `mpt-status` users need to update their `sudo` rules
@@ -96,3 +97,4 @@ NOTES:
 [#68]: https://github.com/glensc/nagios-plugin-check_raid/pull/68
 [#74]: https://github.com/glensc/nagios-plugin-check_raid/pull/74
 [#72]: https://github.com/glensc/nagios-plugin-check_raid/pull/72
+[#60]: https://github.com/glensc/nagios-plugin-check_raid/pull/60
