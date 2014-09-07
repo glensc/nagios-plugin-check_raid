@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 47;
+use Test::More tests => 52;
 use test;
 
 # NOTE: this plugin has side effect of changing dir
@@ -69,6 +69,12 @@ my @tests = (
 		getstatus => 'issue67/getstatus',
 		getconfig => 'issue67/getconfig',
 		message => 'Controller:Optimal, Logical Device 0(RAID):Optimal, Drives: 3KS5ABTV0000970648ZZ,3KS5SD1P00009718B64U=Online',
+	},
+	{
+		status => UNKNOWN, # FIXME
+		getstatus => 'issue67/getstatus',
+		getconfig => '../issue75/getconfig', # FIXME
+		message => 'Controller:Optimal, ZMM Status: ZMM Optimal, Logical Device 0(OS):Optimal, Logical Device 1(VM-LIVE):Optimal, Logical Device 2(VM-BACKUP):Optimal, Drives: 6SL3PS7P0000N2341WV7,6SL3PYTF0000N237NF8S=Global Hot-Spare 6SL3PXM90000N237HSAJ,6SL3PAAP0000N236HPPM,6SL3MPC80000N237NEB0,6SL3M8310000N238057Y,6SL3PVMD0000N238021B,6SL3GE0F0000N236DGCN,6SL3P03R0000N237CY7E,6SL3PZ3V0000N23765UB,6SL3PRWK0000N237KQLS,6SL3PRHV0000N238063T,6SL3PR3Y0000N237NF0G,6SL3PQN20000N23806DU,6SL3PQSX0000N236DE4Z,6SL3PR7E0000N237EJW3,6SL3PR7H0000N237EMSY,6SL3PQJN0000N23805EQ=Online',
 	},
 );
 
