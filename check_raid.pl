@@ -99,6 +99,9 @@ our $resync_status = $ERRORS{WARNING};
 # status to set when RAID is in check state
 our $check_status = $ERRORS{OK};
 
+# status to set when PD is spare
+our $spare_status = $ERRORS{OK};
+
 # status to set when BBU is in learning cycle.
 our $bbulearn_status = $ERRORS{WARNING};
 
@@ -220,6 +223,14 @@ sub resync {
 sub check_status {
 	my ($this) = @_;
 	$this->status($check_status);
+	return $this;
+}
+
+# helper to set status for spare
+# returns $this to allow fluent api
+sub spare {
+	my ($this) = @_;
+	$this->status($spare_status);
 	return $this;
 }
 
@@ -2330,6 +2341,8 @@ sub parse_config {
 					$pd[$ch][$pd]{status} = $st;
 				} elsif (my($su) = /Supported\s+:\s+(.+)/) {
 					$pd[$ch][$pd]{supported} = $su;
+				} elsif (my($sf) = /Dedicated Spare for\s+:\s+(.+)/) {
+					$pd[$ch][$pd]{spare} = $sf;
 				} elsif (my($vnd) = /Vendor\s+:\s*(.*)/) {
 					# allow edits, i.e removed 'Vendor' value from test data
 					$pd[$ch][$pd]{vendor} = $vnd;
@@ -2545,6 +2558,11 @@ sub check {
 
 			if ($pd->{status} eq 'Rebuilding') {
 				$this->resync;
+
+			} elsif ($pd->{status} eq 'Dedicated Hot-Spare') {
+				$this->spare;
+				$pd->{status} = "$pd->{status} for $pd->{spare}";
+
 			} elsif ($pd->{status} !~ '^Online') {
 				$this->critical;
 			}
