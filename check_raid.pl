@@ -3511,6 +3511,9 @@ sub check {
 		} elsif ($usage =~ /HotSpare/) {
 			# hotspare is OK
 			push(@{$drivestatus{$array_name}}, $id);
+		} elsif ($usage =~ /Pass Through/) {
+			# Pass Through is OK
+			push(@{$drivestatus{$array_name}}, $id);
 		} else {
 			push(@{$drivestatus{$array_name}}, $id);
 			$this->critical;

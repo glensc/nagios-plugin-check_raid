@@ -7,6 +7,7 @@
 - add travis integration
 - hpacucli fixes [#62][]
 - mdstat auto-readonly raid fix [#64][]
+- areca fixes [#72][]
 
 NOTES:
 `mpt-status` users need to update their `sudo` rules
@@ -94,3 +95,4 @@ NOTES:
 [#67]: https://github.com/glensc/nagios-plugin-check_raid/issues/67
 [#68]: https://github.com/glensc/nagios-plugin-check_raid/pull/68
 [#74]: https://github.com/glensc/nagios-plugin-check_raid/pull/74
+[#72]: https://github.com/glensc/nagios-plugin-check_raid/pull/72

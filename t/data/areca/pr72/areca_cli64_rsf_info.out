@@ -1,0 +1,9 @@
+myhost02:~/nagios-plugin-check_raid# cat areca_cli64_rsf_info.out 
+ #  Name             Disks TotalCap  FreeCap MinDiskCap         State          
+===============================================================================
+ 1  Raid Set # 000       6 12000.0GB    0.0GB   2000.0GB         Normal
+ 2  data2                6 18000.0GB    0.0GB   3000.0GB         Normal
+ 3  PassThroughDisk      1  750.2GB    0.0GB    750.2GB         Normal
+===============================================================================
+GuiErrMsg<0x00>: Success.
+
