@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 use constant INACTIVE_TESTS => 2;
-use constant ACTIVE_TESTS => 17;
+use constant ACTIVE_TESTS => 18;
 use Test::More tests => ACTIVE_TESTS * 6 + INACTIVE_TESTS * 2;
 use test;
 
@@ -51,13 +51,17 @@ my @tests = (
 		message => 'md1(927.52 GiB raid1):_U (resync=DELAYED), md0(203.81 MiB raid1):_U (recovery:3.9% 12K/sec ETA: 267.0min)',
 	},
 	# issues #23 and #24
-	{ input => 'pr24', status => WARNING, resync_status => WARNING,
+	{ input => 'pr24', status => WARNING, check_status => WARNING,
 		active => 1,
 		message => 'md2(2.73 TiB raid1):UU (check:98.3% 9854K/sec ETA: 81.7min), md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
 	},
-	{ input => 'pr24', status => OK, resync_status => OK,
+	{ input => 'pr24', status => OK, check_status => OK,
 		active => 1,
 		message => 'md2(2.73 TiB raid1):UU (check:98.3% 9854K/sec ETA: 81.7min), md1(511.99 MiB raid1):UU, md0(2.00 GiB raid1):UU',
+	},
+	{ input => 'pr77', status => OK, check_status => OK,
+		active => 1,
+		message => 'md1(445.64 GiB raid1):UU (check=DELAYED), md0(20.00 GiB raid1):UU (check:6.4% 97293K/sec ETA: 3.3min)',
 	},
 	{ input => 'issue34', status => OK,
 		active => 1,
@@ -91,12 +95,18 @@ my @tests = (
 
 # save default value
 my $saved_resync_status = $plugin::resync_status;
+my $saved_check_status = $plugin::check_status;
 
 foreach my $test (@tests) {
 	if (defined $test->{resync_status}) {
 		$plugin::resync_status = $test->{resync_status};
 	} else {
 		$plugin::resync_status = $saved_resync_status;
+	}
+	if (defined $test->{check_status}) {
+		$plugin::check_status = $test->{check_status};
+	} else {
+		$plugin::check_status = $saved_check_status;
 	}
 	my $plugin = mdstat->new(
 		commands => {

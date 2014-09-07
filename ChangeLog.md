@@ -9,6 +9,7 @@
 - mdstat auto-readonly raid fix [#64][]
 - areca fixes [#72][]
 - dmraid detect fixes [#60][]
+- mdstat: do not trigger WARN when checking (even multiple) arrays by default [#77][]
 
 NOTES:
 `mpt-status` users need to update their `sudo` rules
@@ -98,3 +99,4 @@ NOTES:
 [#74]: https://github.com/glensc/nagios-plugin-check_raid/pull/74
 [#72]: https://github.com/glensc/nagios-plugin-check_raid/pull/72
 [#60]: https://github.com/glensc/nagios-plugin-check_raid/pull/60
+[#77]: https://github.com/glensc/nagios-plugin-check_raid/pull/77
