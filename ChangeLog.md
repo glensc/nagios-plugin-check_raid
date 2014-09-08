@@ -1,4 +1,6 @@
-## 3.1.0 (not released)
+## 3.1.1 (not released)
+
+## 3.1.0 (2014-09-08)
 - sudoers: disable requiretty (enabled in CentOS 6.5) [#52][]
 - megacli fixes [#50][], [#53][], [#56][], [#63][], [#74][], [#32][]
 - arcconf fixes [#47][], [#51][], [#55][], [#67][], [#68][], [#66][]
