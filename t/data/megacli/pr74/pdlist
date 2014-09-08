@@ -1,0 +1,98 @@
+Adapter #0
+
+Enclosure Device ID: 32
+Slot Number: 0
+Device Id: 0
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 556475
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+Raw Size: 476940MB [0x3a386030 Sectors]
+Non Coerced Size: 476428MB [0x3a286030 Sectors]
+Coerced Size: 476416MB [0x3a280000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x1221000000000000
+Connected Port Number: 0(path0) 
+Inquiry Data: ATA     ST9500620NS     FTA1            9XF1KAGA
+
+Enclosure Device ID: 32
+Slot Number: 1
+Device Id: 1
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 556475
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+Raw Size: 476940MB [0x3a386030 Sectors]
+Non Coerced Size: 476428MB [0x3a286030 Sectors]
+Coerced Size: 476416MB [0x3a280000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x1221000001000000
+Connected Port Number: 1(path0) 
+Inquiry Data: ATA     ST9500620NS     FTA1            9XF1L4SC
+
+Enclosure Device ID: 32
+Slot Number: 2
+Device Id: 2
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 556475
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+Raw Size: 476940MB [0x3a386030 Sectors]
+Non Coerced Size: 476428MB [0x3a286030 Sectors]
+Coerced Size: 476416MB [0x3a280000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x1221000002000000
+Connected Port Number: 2(path0) 
+Inquiry Data: ATA     ST9500620NS     BE25            9XF1Y8KY
+
+Enclosure Device ID: 32
+Slot Number: 3
+Device Id: 3
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 556475
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+Raw Size: 476940MB [0x3a386030 Sectors]
+Non Coerced Size: 476428MB [0x3a286030 Sectors]
+Coerced Size: 476416MB [0x3a280000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x1221000003000000
+Connected Port Number: 3(path0) 
+Inquiry Data: ATA     ST9500620NS     FTA1            9XF1L4SK
+
+Enclosure Device ID: 32
+Slot Number: 4
+Device Id: 4
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 556475
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+Raw Size: 476940MB [0x3a386030 Sectors]
+Non Coerced Size: 476428MB [0x3a286030 Sectors]
+Coerced Size: 476416MB [0x3a280000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x1221000004000000
+Connected Port Number: 4(path0) 
+Inquiry Data: ATA     ST9500620NS     BE25            9XF1Y7S7
+
+Enclosure Device ID: 32
+Slot Number: 5
+Device Id: 5
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 556475
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+Raw Size: 476940MB [0x3a386030 Sectors]
+Non Coerced Size: 476428MB [0x3a286030 Sectors]
+Coerced Size: 476416MB [0x3a280000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x1221000005000000
+Connected Port Number: 5(path0) 
+Inquiry Data: ATA     ST9500620NS     BE25            9XF1Y7CQ
+

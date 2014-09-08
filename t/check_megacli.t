@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 11;
+use constant TESTS => 12;
 use Test::More tests => TESTS*7;
 use test;
 
@@ -111,6 +111,15 @@ my @tests = (
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(12): 14=Hotspare 04,05,06,07,08,09,10,11,12,16=Online 13 (W1F3ZE1TST3000DM001-1CH166 CC27)=Unconfigured(bad); Batteries(1): 0=Faulty',
 		perfdata => 'Battery0_T=29;;;; Battery0_V=4069;;;;',
 		longoutput => "Battery0:\n - State: Faulty\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: No\n - Temperature: OK (29 C)\n - Voltage: OK (4069 mV)",
+	},
+	{
+		status => OK,
+		pdlist => 'pr74/pdlist',
+		ldinfo => 'pr74/ldinfo',
+		battery => 'empty',
+		message => 'Volumes(1): raid10:Optimal; Devices(6): 00,01,02,03,04,05=Online',
+		perfdata => '',
+		longoutput => '',
 	},
 );
 

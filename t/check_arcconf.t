@@ -6,7 +6,8 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 47;
+use constant TESTS => 10;
+use Test::More tests => 2 + TESTS * 5;
 use test;
 
 # NOTE: this plugin has side effect of changing dir
@@ -69,6 +70,12 @@ my @tests = (
 		getstatus => 'issue67/getstatus',
 		getconfig => 'issue67/getconfig',
 		message => 'Controller:Optimal, Logical Device 0(RAID):Optimal, Drives: 3KS5ABTV0000970648ZZ,3KS5SD1P00009718B64U=Online',
+	},
+	{
+		status => OK,
+		getstatus => 'pr66/arcconf-getstatus.out',
+		getconfig => 'pr66/arcconf-getconfig.out',
+		message => 'Controller:Optimal, Logical Device 0(OS):Optimal, Logical Device 1(SSDSTORAGEPOOL):Optimal, Logical Device 2(HDDSTORAGEPOOL):Optimal, Drives: S1AXNEAD602232X=Dedicated Hot-Spare for logical device 1 S16LNYAF302137=Dedicated Hot-Spare for logical device 100 S1AXNEAD901256E,S1AXNEAD603771B,9XG4LJ8A00009347BBNG,9XG4JJ2900009346AYKE,9XG4KBA800009347W1Q5,9XG4LBM600009347BBQ0,9XG4LHYX00009347W20M,9XG4LHZG00009347W1RL,S16LNYAF302008,S16LNYAF302181,S19HNEAD592704T,S19HNEAD586378L=Online',
 	},
 );
 

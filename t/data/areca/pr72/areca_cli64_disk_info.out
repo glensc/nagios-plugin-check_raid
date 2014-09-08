@@ -1,0 +1,38 @@
+myhost02:~/nagios-plugin-check_raid# cat areca_cli64_disk_info.out 
+  # Enc# Slot#   ModelName                        Capacity  Usage
+===============================================================================
+  1  01  Slot#1  N.A.                                0.0GB  N.A.      
+  2  01  Slot#2  N.A.                                0.0GB  N.A.      
+  3  01  Slot#3  N.A.                                0.0GB  N.A.      
+  4  01  Slot#4  N.A.                                0.0GB  N.A.      
+  5  01  Slot#5  N.A.                                0.0GB  N.A.      
+  6  01  Slot#6  N.A.                                0.0GB  N.A.      
+  7  01  Slot#7  N.A.                                0.0GB  N.A.      
+  8  01  Slot#8  N.A.                                0.0GB  N.A.      
+  9  02  Slot 01 TOSHIBA MK2001TRKB               2000.4GB  Raid Set # 000  
+ 10  02  Slot 02 TOSHIBA MK2001TRKB               2000.4GB  Raid Set # 000  
+ 11  02  Slot 03 SEAGATE ST2000NM0001             2000.4GB  Raid Set # 000  
+ 12  02  Slot 04 TOSHIBA MK2001TRKB               2000.4GB  Raid Set # 000  
+ 13  02  Slot 05 TOSHIBA MK2001TRKB               2000.4GB  Raid Set # 000  
+ 14  02  Slot 06 TOSHIBA MG03SCA200               2000.4GB  Raid Set # 000  
+ 15  02  Slot 07 HGST HDN724030ALE640             3000.6GB  data2           
+ 16  02  Slot 08 HGST HDN724030ALE640             3000.6GB  data2           
+ 17  02  Slot 09 HGST HDN724030ALE640             3000.6GB  data2           
+ 18  02  Slot 10 HGST HDN724030ALE640             3000.6GB  data2           
+ 19  02  Slot 11 HGST HDN724030ALE640             3000.6GB  data2           
+ 20  02  Slot 12 HGST HDN724030ALE640             3000.6GB  data2           
+ 21  02  Slot 13 ST3750640NS                       750.2GB  Pass Through
+ 22  02  Slot 14 N.A.                                0.0GB  N.A.      
+ 23  02  Slot 15 N.A.                                0.0GB  N.A.      
+ 24  02  Slot 16 N.A.                                0.0GB  N.A.      
+ 25  02  Slot 17 N.A.                                0.0GB  N.A.      
+ 26  02  Slot 18 N.A.                                0.0GB  N.A.      
+ 27  02  Slot 19 N.A.                                0.0GB  N.A.      
+ 28  02  Slot 20 N.A.                                0.0GB  N.A.      
+ 29  02  Slot 21 N.A.                                0.0GB  N.A.      
+ 30  02  Slot 22 N.A.                                0.0GB  N.A.      
+ 31  02  Slot 23 N.A.                                0.0GB  N.A.      
+ 32  02  Slot 24 N.A.                                0.0GB  N.A.      
+===============================================================================
+GuiErrMsg<0x00>: Success.
+

@@ -1,0 +1,13 @@
+Adapter 0 -- Virtual Drive Information:
+Virtual Disk: 0 (target id: 0)
+Name:raid10
+RAID Level: Primary-1, Secondary-3, RAID Level Qualifier-0
+Size:1429248MB
+State: Optimal
+Stripe Size: 64kB
+Number Of Drives:2
+Span Depth:3
+Default Cache Policy: WriteBack, ReadAheadNone, Direct, No Write Cache if Bad BBU
+Current Cache Policy: WriteBack, ReadAheadNone, Direct, No Write Cache if Bad BBU
+Access Policy: Read/Write
+Disk Cache Policy: Disk's Default
