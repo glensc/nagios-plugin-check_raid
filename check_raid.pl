@@ -2042,7 +2042,7 @@ sub check {
 			if ($s eq 'OK') {
 				push(@cstatus, "$u:$s");
 
-			} elsif ($s =~ 'INITIALIZING|MIGRATING') {
+			} elsif ($s =~ /INITIALIZING|MIGRATING/) {
 				$this->warning;
 				push(@cstatus, "$u:$s $p2");
 
