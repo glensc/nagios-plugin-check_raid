@@ -23,10 +23,8 @@ my @tests = (
 		status => OK,
 		list => 'test1/LIST.log',
 		cstatus => 'test1/0-STATUS.log',
-## this file is just a mockup based on the above test since I dont have original output for this case
 		cdisplay => 'test1/sas2ircu-display.out',
-#and similarly mocked up
-	 	message => 'ctrl #0: 1 Vols: Optimal: 3 Drives: Ready (RDY)::',
+		message => 'ctrl #0: 1 Vols: Optimal: 2 Drives: Optimal (OPT)::',
 	},
 );
 
