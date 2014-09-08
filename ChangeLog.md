@@ -11,9 +11,10 @@
 - dmraid detect fixes [#60][]
 - mdstat: do not trigger WARN when checking (even multiple) arrays by default [#77][]
 - fixed behaviour of `--noraid` option [#70][]
+- sas2ircu: add disks check, handle no RAID volumes [#71][]
 
 NOTES:
-`mpt-status` users need to update their `sudo` rules
+`mpt-status` and `sas2ircu` users need to update their `sudo` rules
 
 ## 3.0.5 (2013-11-27)
 
@@ -103,3 +104,4 @@ NOTES:
 [#77]: https://github.com/glensc/nagios-plugin-check_raid/pull/77
 [#66]: https://github.com/glensc/nagios-plugin-check_raid/pull/66
 [#70]: https://github.com/glensc/nagios-plugin-check_raid/pull/70
+[#71]: https://github.com/glensc/nagios-plugin-check_raid/pull/71
