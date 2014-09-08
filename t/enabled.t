@@ -15,7 +15,7 @@ unshift(@utils::paths, TESTDIR . '/data/bin');
 my $commands = {
 	proc => ['<', '.'],
 	mdstat => ['<', TESTDIR . '/data/mdstat/mdstat-failed'],
-	read => ['<', TESTDIR . '/data/dmraid/pr35'],
+	dmraid => ['<', TESTDIR . '/data/dmraid/pr35'],
 };
 
 my %params = (

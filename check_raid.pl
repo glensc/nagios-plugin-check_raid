@@ -3764,15 +3764,15 @@ sub program_names {
 
 sub commands {
 	{
-		'read' => ['-|', '@CMD', '-r'],
+		'dmraid' => ['-|', '@CMD', '-r'],
 	}
 }
 
 sub active ($) {
 	my ($this) = @_;
 
-	# program not found
-	return 0 unless $this->{program};
+	# easy way out. no executable
+	return 0 unless -e $this->{commands}{dmraid}[1];
 
 	# check if dmraid is empty
 	return keys %{$this->parse} > 0;
@@ -3792,7 +3792,7 @@ sub parse {
 	my $this = shift;
 
 	my (%arrays);
-	my $fh = $this->cmd('read');
+	my $fh = $this->cmd('dmraid');
 	while (<$fh>) {
 		chomp;
 		next unless (my($device, $format, $name, $type, $status, $sectors) = m{^
