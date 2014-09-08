@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 13;
+use constant TESTS => 15;
 use Test::More tests => TESTS*7;
 use test;
 
@@ -129,6 +129,24 @@ my @tests = (
 		message => 'Volumes(0): ; Devices(6): 10,09,13,08,11=Online 14 (IBM-ESXSST9300603SS F B53B3SE0WJ1Y0825B53B)=Predictive; Batteries(1): 0=Faulty',
 		perfdata => 'Battery0_T=36;;;; Battery0_V=4049;;;;',
 		longoutput => "Battery0:\n - State: Faulty\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: Yes\n - Temperature: OK (36 C)\n - Voltage: OK (4049 mV)"
+	},
+	{
+		status => CRITICAL,
+		pdlist => 'empty', # faked
+		ldinfo => 'empty', # faked, as original is MISSING, see #32
+		battery => 'issue32/bbustatus.MegaCli-8.01.06-1',
+		message => 'Volumes(0): ; Devices(0): ',
+		perfdata => '',
+		longoutput => '',
+	},
+	{
+		status => CRITICAL,
+		pdlist => 'empty', # faked
+		ldinfo => 'empty', # faked, as original is MISSING, see #32
+		battery => 'issue32/bbustatus.MegaCli-8.07.10-1',
+		message => 'Volumes(0): ; Devices(0): ',
+		perfdata => '',
+		longoutput => '',
 	},
 );
 

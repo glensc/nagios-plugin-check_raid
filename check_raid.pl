@@ -987,18 +987,26 @@ sub parse_bbu {
 
 	return undef unless $this->bbu_monitoring;
 
+	my %default_bbu = (
+		name => undef, state => '???', charging_status => '???', missing => undef,
+		learn_requested => undef, replacement_required => undef,
+		learn_cycle_requested => undef, learn_cycle_active => '???',
+		pack_will_fail => undef, temperature => undef, temperature_state => undef,
+		voltage => undef, voltage_state => undef
+	);
+
 	my (@bbu, %bbu);
 	my $fh = $this->cmd('battery');
 	while (<$fh>) {
+		# handle when bbu status get gives an error. see issue #32
+		if (my($s) = /Get BBU Status Failed/) {
+			last;
+		}
+
 		if (my($s) = /BBU status for Adapter: (.+)/) {
 			push(@bbu, { %bbu }) if %bbu;
-			%bbu = (
-				name => $s, state => '???', charging_status => undef, missing => undef,
-				learn_requested => undef, replacement_required => undef,
-				learn_cycle_requested => undef, learn_cycle_active => undef,
-				pack_will_fail => undef, temperature => undef, temperature_state => undef,
-				voltage => undef, voltage_state => undef
-			);
+			%bbu = %default_bbu;
+			$bbu{name} = $s;
 			next;
 		}
 #=cut
@@ -1053,10 +1061,11 @@ sub parse_bbu {
 			$bbu{voltage_state} = $s;
 			next;
 		}
-	}
-	push(@bbu, { %bbu }) if %bbu;
 
+	}
 	$this->critical unless close $fh;
+
+	push(@bbu, { %bbu }) if %bbu;
 
 	return \@bbu;
 }
