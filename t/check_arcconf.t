@@ -54,7 +54,7 @@ my @tests = (
 		message => 'Controller:Optimal, ZMM Status: ZMM not installed, Logical Device 0(data):Optimal, Drives: WD-WCAW36362892,WD-WCAW36407613,WD-WCAW36385723,WD-WCAW36405341=Online',
 	},
 	{
-		status => CRITICAL,
+		status => WARNING,
 		getstatus => 'issue47/getstatus2',
 		getconfig => 'issue47/getconfig2',
 		message => 'Controller:Optimal, Logical device #0: Rebuild: In Progress 1%, ZMM Status: ZMM not installed, Logical Device 0(data):Degraded, Drives: WD-*******,WD-*******,WD-*******=Online WD-*******=Rebuilding',
