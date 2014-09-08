@@ -3725,8 +3725,8 @@ sub check {
 			# rebuild marks warning
 			push(@{$drivestatus{$array_name}}, $id);
 			$this->warning;
-		} elsif ($usage =~ /HotSpare/) {
-			# hotspare is OK
+		} elsif ($usage =~ /(HotSpare|Pass Through)/) {
+			# hotspare and Pass Through are OK
 			push(@{$drivestatus{$array_name}}, $id);
 		} elsif ($usage =~ /Pass Through/) {
 			# Pass Through is OK
