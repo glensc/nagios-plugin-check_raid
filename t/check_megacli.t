@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 12;
+use constant TESTS => 13;
 use Test::More tests => TESTS*7;
 use test;
 
@@ -121,20 +121,16 @@ my @tests = (
 		perfdata => '',
 		longoutput => '',
 	},
-);
-
-=cut
 	{
-		status => OK,
+		status => CRITICAL,
 		pdlist => 'issue49/pdlist',
-		ldinfo => '', # MISSING
+		ldinfo => 'empty', # faked, as original is MISSING, see #49
 		battery => 'issue49/battery',
-		message => 'Volumes(7): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal,DISK3.3:Optimal,DISK4.4:Optimal,DISK5.5:Optimal,DISK6.6:Optimal; Devices(1): 10 ()=; Batteries(1): 0=Faulty',
-		perfdata => '',
-		longoutput => '',
+		message => 'Volumes(0): ; Devices(6): 10,09,13,08,11=Online 14 (IBM-ESXSST9300603SS F B53B3SE0WJ1Y0825B53B)=Predictive; Batteries(1): 0=Faulty',
+		perfdata => 'Battery0_T=36;;;; Battery0_V=4049;;;;',
+		longoutput => "Battery0:\n - State: Faulty\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: Yes\n - Temperature: OK (36 C)\n - Voltage: OK (4049 mV)"
 	},
-
-=cut
+);
 
 # save default value
 my $saved_bbulearn_status = $plugin::bbulearn_status;
