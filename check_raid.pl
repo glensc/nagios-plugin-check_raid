@@ -2550,6 +2550,7 @@ sub check {
 
 	# check for physical devices
 	my %pd;
+	my $pd_resync = 0;
 	for my $ch (@{$data->{physical}}) {
 		for my $pd (@{$ch}) {
 			# skip not disks
@@ -2558,6 +2559,7 @@ sub check {
 
 			if ($pd->{status} eq 'Rebuilding') {
 				$this->resync;
+				$pd_resync++;
 
 			} elsif ($pd->{status} eq 'Dedicated Hot-Spare') {
 				$this->spare;
@@ -2576,7 +2578,11 @@ sub check {
 	for my $ld (@{$data->{logical}}) {
 		next unless $ld; # FIXME: fix that script assumes controllers start from '0'
 
-		$this->critical if $ld->{status} !~ /Optimal|Okay/;
+		if ($ld->{status} eq 'Degraded' && $pd_resync) {
+			$this->warning;
+		} elsif ($ld->{status} !~ /Optimal|Okay/) {
+			$this->critical;
+		}
 
 		my $id = $ld->{id};
 		if ($ld->{name}) {
