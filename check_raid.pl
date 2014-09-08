@@ -3868,7 +3868,7 @@ my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 my ($VERSION) = "3.1.1";
 my ($message, $status, $perfdata, $longoutput);
-my ($opt_O) = $ERRORS{UNKNOWN};
+my ($noraid_state) = $ERRORS{UNKNOWN};
 
 #####################################################################
 $ENV{'BASH_ENV'} = '';
@@ -3884,7 +3884,7 @@ sub find_file {
 
 sub print_usage() {
 	print join "\n",
-	"Usage: check_raid [-h] [-V] [-S] [-O] [list of devices to ignore]",
+	"Usage: check_raid [-h] [-V] [-S] [list of devices to ignore]",
 	"",
 	"Options:",
 	" -h, --help",
@@ -4036,7 +4036,7 @@ GetOptions(
 	'W' => \$opt_W, 'warnonly' => \$opt_W,
 	'resync=s' => sub { setstate(\$plugin::resync_status, @_); },
 	'check=s' => sub { setstate(\$plugin::check_status, @_); },
-	'noraid=s' => sub { setstate(\$opt_O, @_); },
+	'noraid=s' => sub { setstate(\$noraid_state, @_); },
 	'bbulearn=s' => sub { setstate(\$plugin::bbulearn_status, @_); },
 	'bbu-monitoring' => \$plugin::bbu_monitoring,
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
@@ -4092,10 +4092,10 @@ foreach my $pn (@plugins) {
 		$message .= "$pn:[Plugin error]";
 		next;
 	}
-	if ($plugin->message or $opt_O == $ERRORS{UNKNOWN}) {
+	if ($plugin->message or $noraid_state == $ERRORS{UNKNOWN}) {
 		$status = $plugin->status if $plugin->status > $status;
 	} else {
-		$status = $opt_O if $opt_O > $status;
+		$status = $noraid_state if $noraid_state > $status;
 	}
 	$message .= '; ' if $message;
 	$message .= "$pn:[".$plugin->message."]";
@@ -4114,8 +4114,8 @@ if ($message) {
 		print "UNKNOWN: ";
 	}
 	print "$message\n";
-} elsif ($opt_O != $ERRORS{UNKNOWN}) {
-	$status = $opt_O;
+} elsif ($noraid_state != $ERRORS{UNKNOWN}) {
+	$status = $noraid_state;
 	print "No RAID configuration found\n";
 } else {
 	$status = $ERRORS{UNKNOWN};
