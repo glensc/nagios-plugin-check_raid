@@ -1,6 +1,6 @@
 ## 3.1.0 (not released)
 - sudoers: disable requiretty (enabled in CentOS 6.5) [#52][]
-- megacli fixes [#50][], [#53][], [#56][], [#63][], [#74][]
+- megacli fixes [#50][], [#53][], [#56][], [#63][], [#74][], [#32][]
 - arcconf fixes [#47][], [#51][], [#55][], [#67][], [#68][], [#66][]
 - mpt-status fixes [#36][], [#57][]
 - add `/opt/bin` to `$PATH` [#54][]
@@ -105,3 +105,4 @@ NOTES:
 [#66]: https://github.com/glensc/nagios-plugin-check_raid/pull/66
 [#70]: https://github.com/glensc/nagios-plugin-check_raid/pull/70
 [#71]: https://github.com/glensc/nagios-plugin-check_raid/pull/71
+[#32]: https://github.com/glensc/nagios-plugin-check_raid/issues/32
