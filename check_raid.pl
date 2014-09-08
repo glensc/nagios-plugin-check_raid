@@ -2574,7 +2574,7 @@ sub check {
 				$this->spare;
 				$pd->{status} = "$pd->{status} for $pd->{spare}";
 
-			} elsif ($pd->{status} !~ '^Online') {
+			} elsif ($pd->{status} !~ '^Online|Hot[- ]Spare') {
 				$this->critical;
 			}
 
