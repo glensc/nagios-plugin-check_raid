@@ -10,6 +10,7 @@
 - areca fixes [#72][]
 - dmraid detect fixes [#60][]
 - mdstat: do not trigger WARN when checking (even multiple) arrays by default [#77][]
+- fixed behaviour of `--noraid` option [#70][]
 
 NOTES:
 `mpt-status` users need to update their `sudo` rules
@@ -101,3 +102,4 @@ NOTES:
 [#60]: https://github.com/glensc/nagios-plugin-check_raid/pull/60
 [#77]: https://github.com/glensc/nagios-plugin-check_raid/pull/77
 [#66]: https://github.com/glensc/nagios-plugin-check_raid/pull/66
+[#70]: https://github.com/glensc/nagios-plugin-check_raid/pull/70

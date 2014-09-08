@@ -3913,7 +3913,11 @@ foreach my $pn (@plugins) {
 		$message .= "$pn:[Plugin error]";
 		next;
 	}
-	$status = $plugin->status if $plugin->status > $status;
+	if ($plugin->message or $opt_O == $ERRORS{UNKNOWN}) {
+		$status = $plugin->status if $plugin->status > $status;
+	} else {
+		$status = $opt_O if $opt_O > $status;
+	}
 	$message .= '; ' if $message;
 	$message .= "$pn:[".$plugin->message."]";
 	$message .= ' | ' . $plugin->perfdata if $plugin->perfdata;
@@ -3931,8 +3935,8 @@ if ($message) {
 		print "UNKNOWN: ";
 	}
 	print "$message\n";
-} elsif ($opt_O) {
-	$status = $ERRORS{OK};
+} elsif ($opt_O != $ERRORS{UNKNOWN}) {
+	$status = $opt_O;
 	print "No RAID configuration found\n";
 } else {
 	$status = $ERRORS{UNKNOWN};
