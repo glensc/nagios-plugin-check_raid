@@ -3761,6 +3761,10 @@ sub commands {
 
 sub active ($) {
 	my ($this) = @_;
+
+	# program not found
+	return 0 unless $this->{program};
+
 	# check if dmraid is empty
 	return keys %{$this->parse} > 0;
 }
