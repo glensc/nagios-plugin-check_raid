@@ -1466,7 +1466,7 @@ sub program_names {
 
 sub commands {
 	{
-		'status' => ['-|', '@CMD', '-i $id'],
+		'status' => ['-|', '@CMD', '-i', '$id'],
 		'get_controller_no' => ['-|', '@CMD', '-p'],
 		'sync status' => ['-|', '@CMD', '-n'],
 	}
@@ -1575,10 +1575,10 @@ sub parse {
 			}
 			# mpt-status.c GetResyncPercentage
 			# scsi_id:0 70%
-			elsif (my($scsi_id, $percent) = /^scsi_id:(\d)+ (\d+)%/) {
+			elsif (my($scsi_id, $percent) = /^scsi_id:(\d+) (\d+)%/) {
 				$pd{$scsi_id}{resync} = int($percent);
 			} else {
-				warn "mpt: [$_]\n";
+				warn "mpt unparsed: [$_]";
 				$this->unknown;
 			}
 		}
@@ -1778,7 +1778,7 @@ sub parse {
 
 					$pd{$p{id}} = { %p };
 				} else {
-					warn "[$section] [$_]\n";
+					warn "[$section] [$_]";
 					$this->unknown;
 				}
 
@@ -1800,7 +1800,7 @@ sub parse {
 				} elsif (/^$/) {
 					$ld{$l{number}} = { %l };
 				} else {
-					warn "[$section] [$_]\n";
+					warn "[$section] [$_]";
 					$this->unknown;
 				}
 
@@ -1818,7 +1818,7 @@ sub parse {
 						$ad{$a{number}} = { %a };
 					}
 				} else {
-					warn "[$section] [$_]\n";
+					warn "[$section] [$_]";
 					$this->unknown;
 				}
 
@@ -2302,14 +2302,14 @@ sub parse_config {
 					$c{battery_time_full} = "${d}d${h}h${m}m";
 
 				} else {
-					warn "Battery not parsed: [$_]\n";
+					warn "Battery not parsed: [$_]";
 				}
 
 			} elsif ($subsection eq 'Controller ZMM Information') {
 				if (my($bs) = /^\s+Status\s*:\s*(.*)$/) {
 					$c{zmm_status} = $bs;
 				} else {
-					warn "ZMM not parsed: [$_]\n";
+					warn "ZMM not parsed: [$_]";
 				}
 
 			} elsif ($subsection eq 'Controller Version Information') {
@@ -2324,7 +2324,7 @@ sub parse_config {
 			} elsif ($subsection eq 'Controller Vital Product Data') {
 				# not parsed yet
 			} else {
-				warn "SUBSECTION of [$section] NOT PARSED: [$subsection] [$_]\n";
+				warn "SUBSECTION of [$section] NOT PARSED: [$subsection] [$_]";
 			}
 
 		} elsif ($section eq 'Physical Device information') {
@@ -2447,7 +2447,7 @@ sub parse_config {
 		} elsif ($section =~ /MaxCache 3\.0 information/) {
 			# not parsed yet
 		} else {
-			warn "NOT PARSED: [$section] [$_]\n";
+			warn "NOT PARSED: [$section] [$_]";
 		}
 	}
 	close $fh;
