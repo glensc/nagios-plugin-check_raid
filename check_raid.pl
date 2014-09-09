@@ -1558,7 +1558,7 @@ sub parse {
 				flags => [ split ' ', $flags ],
 			};
 		} else {
-			warn "mpt unparsed: [$_]\n";
+			warn "mpt unparsed: [$_]";
 			$this->unknown;
 		}
 	}
@@ -2341,7 +2341,7 @@ sub parse_config {
 				} elsif (/No physical drives attached/) {
 					# ignored
 				} else {
-					warn "Unparsed Physical Device data: [$_]\n";
+					warn "Unparsed Physical Device data: [$_]";
 				}
 			} else {
 				if (my($ps) = /Power State\s+:\s+(.+)/) {
@@ -2407,8 +2407,10 @@ sub parse_config {
 					# not parsed yet
 				} elsif (/MaxCache (Capable|Assigned)\s+:\s+(.+)/) {
 					# not parsed yet
+				} elsif (/Power supply \d+ status/) {
+					# not parsed yet
 				} else {
-					warn "Unparsed Physical Device data: [$_]\n";
+					warn "Unparsed Physical Device data: [$_]";
 				}
 			}
 
