@@ -3547,9 +3547,9 @@ sub check {
 		return;
 	}
 
-
 	# Scan logical drives
-	while (my($target, $model) = each %targets) {
+	for my $target (sort {$a cmp $b} keys %targets) {
+		my $model = $targets{$target};
 		# check each controllers
 		my $fh = $this->cmd('logicaldrive status', { '$target' => $target });
 
