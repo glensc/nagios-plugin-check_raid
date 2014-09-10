@@ -3265,7 +3265,7 @@ sub check {
 			if ( /SAS2IRCU: there are no IR volumes on the controller!/ ) { 
 				#even though this isn't the last line, go ahead and set success.
 				$success = 1; 
-				$state = $novolsstate; 
+				$state = $novolsstate;
 			}
 
 		}
@@ -3925,6 +3925,56 @@ https://github.com/glensc/nagios-plugin-check_raid
 	print_usage();
 }
 
+# return first "#includedir" directive from $sudoers file
+sub parse_sudoers_includedir {
+	my ($sudoers) = @_;
+
+	open my $fh, '<', $sudoers or die "Can't open: $sudoers: $!";
+	while (<$fh>) {
+		if (my ($dir) = /^#includedir\s+(.+)$/) {
+			return $dir;
+		}
+	}
+	close $fh or die $!;
+
+	return undef;
+}
+
+# return size of file
+# does not check for errors
+sub filesize {
+	my ($file) = @_;
+	return (stat($file))[7];
+}
+
+# get contents of a file
+sub cat {
+	my ($file) = @_;
+	open(my $fh, '<', $file) or die "Can't open $file: $!";
+	local $/ = undef;
+	local $_ = <$fh>;
+	close($fh) or die $!;
+
+	return $_;
+}
+
+# return TRUE if files are identical
+# returns FALSE if any of the files is missing
+sub filediff {
+	my ($file1, $file2) = @_;
+
+	return unless -f $file1;
+	return unless -f $file2;
+
+	return unless filesize($file1) != filesize($file2);
+
+	return cat($file1) eq cat($file2);
+}
+
+# update sudoers file
+#
+# if sudoers config has "#includedir" directive, add file to that dir
+# otherwise update main sudoers file
 sub sudoers {
 	my ($dry_run) = @_;
 
@@ -3976,6 +4026,15 @@ sub sudoers {
 	die "Unable to write to sudoers file '$sudoers'.\n" unless -w $sudoers;
 	die "visudo program not found\n" unless -x $visudo;
 
+	# parse sudoers file for "#includedir" directive
+	my $sudodir = parse_sudoers_includedir($sudoers);
+	if ($sudodir) {
+		# sudo will read each file in /etc/sudoers.d, skipping file names that
+		# end in ~ or contain a . character to avoid causing problems with
+		# package manager or editor temporary/backup files
+		$sudoers = "$sudodir/check_raid";
+	}
+
 	warn "Updating file $sudoers\n";
 
 	# NOTE: secure as visudo itself: /etc is root owned
@@ -3984,25 +4043,33 @@ sub sudoers {
 	# setup to have sane perm for new sudoers file
 	umask(0227);
 
-	# insert old sudoers
-	open my $old, '<', $sudoers or die $!;
 	open my $fh, '>', $new or die $!;
-	while (<$old>) {
-		print $fh $_;
-	}
-	close $old or die $!;
 
-	# insert new rules
+	# insert old sudoers
+	if (!$sudodir) {
+		open my $old, '<', $sudoers or die $!;
+		while (<$old>) {
+			print $fh $_;
+		}
+		close $old or die $!;
+	}
+
+	# insert the rules
 	print $fh @rules;
 	close $fh;
 
 	# validate sudoers
 	system($visudo, '-c', '-f', $new) == 0 or unlink($new),exit $? >> 8;
 
-	# use the new file
-	rename($new, $sudoers) or die $!;
-
-	warn "$sudoers file updated.\n";
+	# check if they differ
+	if (filediff($sudoers, $new)) {
+		# use the new file
+		rename($new, $sudoers) or die $!;
+		warn "$sudoers file updated.\n";
+	} else {
+		warn "$sudoers file not changed.\n";
+		unlink($new);
+	}
 }
 
 # Print active plugins

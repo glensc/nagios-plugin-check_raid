@@ -1,4 +1,5 @@
 ## 3.1.1 (not released)
+- sudoers: support #includedir if enabled in config
 
 ## 3.1.0 (2014-09-08)
 - sudoers: disable requiretty (enabled in CentOS 6.5) [#52][]
