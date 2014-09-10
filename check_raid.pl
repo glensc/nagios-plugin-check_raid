@@ -1427,8 +1427,8 @@ sub check {
 
 	my $read = $this->cmd('container list', \$write);
 	while (<$read>) {
- 		# 0    Mirror  465GB            Valid   0:00:0 64.0KB: 465GB Normal                        0  032511 17:55:06
- 		# /dev/sda             root             0:01:0 64.0KB: 465GB Normal                        1  032511 17:55:06
+		# 0    Mirror  465GB            Valid   0:00:0 64.0KB: 465GB Normal                        0  032511 17:55:06
+		# /dev/sda             root             0:01:0 64.0KB: 465GB Normal                        1  032511 17:55:06
 		if (my($dsk, $stat) = /(\d:\d\d?:\d+)\s+\S+:\s?\S+\s+(\S+)/) {
 			next unless $this->valid($dsk);
 			$dsk =~ s#:#/#g;
@@ -3185,7 +3185,7 @@ sub detect {
 	while (<$fh>) {
 		chomp;
 
-		#		  Adapter     Vendor  Device                        SubSys  SubSys
+		#         Adapter     Vendor  Device                        SubSys  SubSys
 		# Index    Type          ID      ID    Pci Address          Ven ID  Dev ID
 		# -----  ------------  ------  ------  -----------------    ------  ------
 		#   0     SAS2008     1000h    72h     00h:03h:00h:00h      1028h   1f1eh
@@ -3257,14 +3257,14 @@ sub check {
 			$success = 1 if /SAS2IRCU: Utility Completed Successfully/;
 
 			##handle the case where there are no volumes configured
-			# 
+			#
 			# SAS2IRCU: there are no IR volumes on the controller!
 			# SAS2IRCU: Error executing command STATUS.
 			#
 
-			if ( /SAS2IRCU: there are no IR volumes on the controller!/ ) { 
+			if ( /SAS2IRCU: there are no IR volumes on the controller!/ ) {
 				#even though this isn't the last line, go ahead and set success.
-				$success = 1; 
+				$success = 1;
 				$state = $novolsstate;
 			}
 
@@ -3316,25 +3316,25 @@ sub check {
 		my $numslots=0;
 		my $finalstate;
 		my $finalerrors="";
-		
+
 		while ( my $line = <$fh> ) {
 			chomp $line;
-			# 	Device is a Hard disk
-			# 	Device is a Hard disk
-			# 	Device is a Enclosure services device
+			# Device is a Hard disk
+			# Device is a Hard disk
+			# Device is a Enclosure services device
 			#
 			#lets make sure we're only checking disks.  we dont support other devices right now
 			if ( "$line" eq 'Device is a Hard disk' ) {
 				$device='disk';
 			} elsif ( $line =~ /^Device/ )  {
-				$device='other';					
-			}					
+				$device='other';
+			}
 
 			if ( "$device" eq 'disk' ) {
 				if ( $line =~ /Enclosure #|Slot #|State / ) {
 					#find our enclosure #
 					if ( $line =~ /^  Enclosure # / ) {
-						@data = split /:/, $line;			
+						@data = split /:/, $line;
 						$enc=trim($data[1]);
 						#every time we hit a new enclosure line, reset our state and slot
 						undef $state;
@@ -3342,32 +3342,32 @@ sub check {
 					}
 					#find our slot #
 					if ( $line =~ /^  Slot # / ) {
-						@data = split /:/, $line;			
+						@data = split /:/, $line;
 						$slot=trim($data[1]);
 						$numslots++
 					}
 					#find our state
 					if ( $line =~ /^  State / ) {
-						@data = split /:/, $line;			
+						@data = split /:/, $line;
 						$state=ltrim($data[1]);
 
 						#for test
 						#if ($numslots == 10 ) { $state='FREDFISH';}
- 
+
 						#when we get a state, test on it and report it..
-						if ( $state =~ /Optimal|Ready/ ) {	
+						if ( $state =~ /Optimal|Ready/ ) {
 							#do nothing at the moment.
 						} else {
 							$this->critical;
 							$finalstate=$state;
 							$finalerrors="$finalerrors ERROR:Ctrl$c:Enc$enc:Slot$slot:$state";
 						}
-					}				
-				}			
+					}
+				}
 			}
 
 			if ( $line =~ /SAS2IRCU: Utility Completed Successfully/) {
-				$success = 1;				
+				$success = 1;
 			}
 
 		} #end while
@@ -3390,7 +3390,7 @@ sub check {
 		unless($finalstate) {
 			$finalstate=$state;
 		}
-		
+
 		#per controller overall report
 		#push(@status, ":$numslots Drives:$finalstate:$finalerrors");
 		push(@status, "ctrl #$c: $numvols Vols: $finalvolstate: $numslots Drives: $finalstate:$finalerrors:");
