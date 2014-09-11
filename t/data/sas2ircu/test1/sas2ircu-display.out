@@ -1,0 +1,89 @@
+# /opt/lsi/sas2ircu/sas2ircu 0 DISPLAY
+LSI Corporation SAS2 IR Configuration Utility.
+Version 13.00.00.00 (2012.02.17) 
+Copyright (c) 2009-2012 LSI Corporation. All rights reserved. 
+
+Read configuration has been initiated for controller 0
+------------------------------------------------------------------------
+Controller information
+------------------------------------------------------------------------
+  Controller type                         : SAS2008
+  BIOS version                            : 7.11.01.00
+  Firmware version                        : 7.15.04.00
+  Channel description                     : 1 Serial Attached SCSI
+  Initiator ID                            : 0
+  Maximum physical devices                : 39
+  Concurrent commands supported           : 2607
+  Slot                                    : 0
+  Segment                                 : 0
+  Bus                                     : 3
+  Device                                  : 0
+  Function                                : 0
+  RAID Support                            : Yes
+------------------------------------------------------------------------
+IR Volume information
+------------------------------------------------------------------------
+IR volume 1
+  Volume ID                               : 79
+  Status of volume                        : Okay (OKY)
+  Volume wwid                             : 093ab0fc60e1a03e
+  RAID level                              : RAID1
+  Size (in MB)                            : 152064
+  Physical hard disks                     :
+  PHY[0] Enclosure#/Slot#                 : 1:0
+  PHY[1] Enclosure#/Slot#                 : 1:1
+------------------------------------------------------------------------
+Physical device information
+------------------------------------------------------------------------
+Initiator at ID #0
+
+Device is a Hard disk
+  Enclosure #                             : 1
+  Slot #                                  : 0
+  SAS Address                             : 4433221-1-0700-0000
+  State                                   : Optimal (OPT)
+  Size (in MB)/(in sectors)               : 152627/312581807
+  Manufacturer                            : ATA     
+  Model Number                            : TOSHIBA MK1661GS
+  Firmware Revision                       : ME0D
+  Serial No                               : 41BHT0JHT
+  GUID                                    : 50000393318037de
+  Protocol                                : SATA
+  Drive Type                              : SATA_HDD
+
+Device is a Hard disk
+  Enclosure #                             : 1
+  Slot #                                  : 1
+  SAS Address                             : 4433221-1-0600-0000
+  State                                   : Optimal (OPT)
+  Size (in MB)/(in sectors)               : 152627/312581807
+  Manufacturer                            : ATA     
+  Model Number                            : TOSHIBA MK1661GS
+  Firmware Revision                       : ME0D
+  Serial No                               : 41BHT0JIT
+  GUID                                    : 50000393318037df
+  Protocol                                : SATA
+  Drive Type                              : SATA_HDD
+
+Device is a Enclosure services device
+  Enclosure #                             : 1
+  Slot #                                  : 9
+  SAS Address                             : 5882b0b-0-684e-ce00
+  State                                   : Standby (SBY)
+  Manufacturer                            : DP      
+  Model Number                            : BACKPLANE       
+  Firmware Revision                       : 1.07
+  Serial No                               : 18U03F4
+  GUID                                    : N/A
+  Protocol                                : SAS
+  Drive Type                              : SAS_HDD
+------------------------------------------------------------------------
+Enclosure information
+------------------------------------------------------------------------
+  Enclosure#                              : 1
+  Logical ID                              : 5782bcb0:684ece00
+  Numslots                                : 9
+  StartSlot                               : 0
+------------------------------------------------------------------------
+SAS2IRCU: Command DISPLAY Completed Successfully.
+SAS2IRCU: Utility Completed Successfully.

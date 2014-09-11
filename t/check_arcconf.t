@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 10;
+use constant TESTS => 11;
 use Test::More tests => 2 + TESTS * 5;
 use test;
 
@@ -54,7 +54,7 @@ my @tests = (
 		message => 'Controller:Optimal, ZMM Status: ZMM not installed, Logical Device 0(data):Optimal, Drives: WD-WCAW36362892,WD-WCAW36407613,WD-WCAW36385723,WD-WCAW36405341=Online',
 	},
 	{
-		status => CRITICAL,
+		status => WARNING,
 		getstatus => 'issue47/getstatus2',
 		getconfig => 'issue47/getconfig2',
 		message => 'Controller:Optimal, Logical device #0: Rebuild: In Progress 1%, ZMM Status: ZMM not installed, Logical Device 0(data):Degraded, Drives: WD-*******,WD-*******,WD-*******=Online WD-*******=Rebuilding',
@@ -76,6 +76,12 @@ my @tests = (
 		getstatus => 'pr66/arcconf-getstatus.out',
 		getconfig => 'pr66/arcconf-getconfig.out',
 		message => 'Controller:Optimal, Logical Device 0(OS):Optimal, Logical Device 1(SSDSTORAGEPOOL):Optimal, Logical Device 2(HDDSTORAGEPOOL):Optimal, Drives: S1AXNEAD602232X=Dedicated Hot-Spare for logical device 1 S16LNYAF302137=Dedicated Hot-Spare for logical device 100 S1AXNEAD901256E,S1AXNEAD603771B,9XG4LJ8A00009347BBNG,9XG4JJ2900009346AYKE,9XG4KBA800009347W1Q5,9XG4LBM600009347BBQ0,9XG4LHYX00009347W20M,9XG4LHZG00009347W1RL,S16LNYAF302008,S16LNYAF302181,S19HNEAD592704T,S19HNEAD586378L=Online',
+	},
+	{
+		status => UNKNOWN, # FIXME
+		getstatus => 'issue67/getstatus',
+		getconfig => '../issue75/getconfig', # FIXME
+		message => 'Controller:Optimal, ZMM Status: ZMM Optimal, Logical Device 0(OS):Optimal, Logical Device 1(VM-LIVE):Optimal, Logical Device 2(VM-BACKUP):Optimal, Drives: 6SL3PS7P0000N2341WV7,6SL3PYTF0000N237NF8S=Global Hot-Spare 6SL3PXM90000N237HSAJ,6SL3PAAP0000N236HPPM,6SL3MPC80000N237NEB0,6SL3M8310000N238057Y,6SL3PVMD0000N238021B,6SL3GE0F0000N236DGCN,6SL3P03R0000N237CY7E,6SL3PZ3V0000N23765UB,6SL3PRWK0000N237KQLS,6SL3PRHV0000N238063T,6SL3PR3Y0000N237NF0G,6SL3PQN20000N23806DU,6SL3PQSX0000N236DE4Z,6SL3PR7E0000N237EJW3,6SL3PR7H0000N237EMSY,6SL3PQJN0000N23805EQ=Online',
 	},
 );
 

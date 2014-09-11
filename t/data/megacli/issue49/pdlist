@@ -1,1 +1,161 @@
-Adapter #0Enclosure Device ID: 252Slot Number: 0Device Id: 10Sequence Number: 2Media Error Count: 0Other Error Count: 0Predictive Failure Count: 0Last Predictive Failure Event Seq Number: 0PD Type: SASRaw Size: 136.731 GB [0x11176d60 Sectors]Non Coerced Size: 136.231 GB [0x11076d60 Sectors]Coerced Size: 135.972 GB [0x10ff2000 Sectors]Firmware state: OnlineSAS Address(0): 0x5000c5002c500491SAS Address(1): 0x0Connected Port Number: 4(path0) Inquiry Data: IBM-ESXSST9146803SS     B53C6SD1LQ9C0324B53C    FDE Capable: Not CapableFDE Enable: DisableSecured: UnsecuredLocked: UnlockedForeign State: None Device Speed: Unknown Link Speed: Unknown Media Type: Hard Disk DeviceEnclosure Device ID: 252Slot Number: 1Device Id: 9Sequence Number: 2Media Error Count: 0Other Error Count: 0Predictive Failure Count: 0Last Predictive Failure Event Seq Number: 0PD Type: SASRaw Size: 136.731 GB [0x11176d60 Sectors]Non Coerced Size: 136.231 GB [0x11076d60 Sectors]Coerced Size: 135.972 GB [0x10ff2000 Sectors]Firmware state: OnlineSAS Address(0): 0x5000c5002c52c721SAS Address(1): 0x0Connected Port Number: 3(path0) Inquiry Data: IBM-ESXSST9146803SS     B53C6SD1P71V0324B53C    FDE Capable: Not CapableFDE Enable: DisableSecured: UnsecuredLocked: UnlockedForeign State: None Device Speed: Unknown Link Speed: Unknown Media Type: Hard Disk DeviceEnclosure Device ID: 252Slot Number: 2Device Id: 13Sequence Number: 2Media Error Count: 8Other Error Count: 0Predictive Failure Count: 0Last Predictive Failure Event Seq Number: 0PD Type: SASRaw Size: 279.396 GB [0x22ecb25c Sectors]Non Coerced Size: 278.896 GB [0x22dcb25c Sectors]Coerced Size: 278.464 GB [0x22cee000 Sectors]Firmware state: OnlineSAS Address(0): 0x5000cca0151921f5SAS Address(1): 0x0Connected Port Number: 2(path0) Inquiry Data: IBM-ESXSCBRCA300C3ETS0 NC610PFVEUH0ECCXSA610    FDE Capable: Not CapableFDE Enable: DisableSecured: UnsecuredLocked: UnlockedForeign State: None Device Speed: Unknown Link Speed: Unknown Media Type: Hard Disk DeviceEnclosure Device ID: 252Slot Number: 3Device Id: 8Sequence Number: 2Media Error Count: 0Other Error Count: 0Predictive Failure Count: 0Last Predictive Failure Event Seq Number: 0PD Type: SASRaw Size: 279.396 GB [0x22ecb25c Sectors]Non Coerced Size: 278.896 GB [0x22dcb25c Sectors]Coerced Size: 278.464 GB [0x22cee000 Sectors]Firmware state: OnlineSAS Address(0): 0x5000cca0151a19f5SAS Address(1): 0x0Connected Port Number: 0(path0) Inquiry Data: IBM-ESXSCBRCA300C3ETS0 NC610PFVGB00ECCXSA610    FDE Capable: Not CapableFDE Enable: DisableSecured: UnsecuredLocked: UnlockedForeign State: None Device Speed: Unknown Link Speed: Unknown Media Type: Hard Disk DeviceEnclosure Device ID: 252Slot Number: 4Device Id: 11Sequence Number: 2Media Error Count: 0Other Error Count: 0Predictive Failure Count: 0Last Predictive Failure Event Seq Number: 0PD Type: SASRaw Size: 279.396 GB [0x22ecb25c Sectors]Non Coerced Size: 278.896 GB [0x22dcb25c Sectors]Coerced Size: 278.464 GB [0x22cee000 Sectors]Firmware state: OnlineSAS Address(0): 0x5000cca0151a36ddSAS Address(1): 0x0Connected Port Number: 1(path0) Inquiry Data: IBM-ESXSCBRCA300C3ETS0 NC610PFVGDXPECCXSA610    FDE Capable: Not CapableFDE Enable: DisableSecured: UnsecuredLocked: UnlockedForeign State: None Device Speed: Unknown Link Speed: Unknown Media Type: Hard Disk DeviceEnclosure Device ID: 252Slot Number: 5Device Id: 14Sequence Number: 4Media Error Count: 94Other Error Count: 12Predictive Failure Count: 4Last Predictive Failure Event Seq Number: 28730PD Type: SASRaw Size: 279.396 GB [0x22ecb25c Sectors]Non Coerced Size: 278.896 GB [0x22dcb25c Sectors]Coerced Size: 278.464 GB [0x22cee000 Sectors]Firmware state: OnlineSAS Address(0): 0x5000c50016c859cdSAS Address(1): 0x0Connected Port Number: 5(path0) Inquiry Data: IBM-ESXSST9300603SS   F B53B3SE0WJ1Y0825B53B    FDE Capable: Not CapableFDE Enable: DisableSecured: UnsecuredLocked: UnlockedForeign State: None Device Speed: Unknown Link Speed: Unknown Media Type: Hard Disk DeviceExit Code: 0x00
+
+Adapter #0
+
+Enclosure Device ID: 252
+Slot Number: 0
+Device Id: 10
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 136.731 GB [0x11176d60 Sectors]
+Non Coerced Size: 136.231 GB [0x11076d60 Sectors]
+Coerced Size: 135.972 GB [0x10ff2000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x5000c5002c500491
+SAS Address(1): 0x0
+Connected Port Number: 4(path0) 
+Inquiry Data: IBM-ESXSST9146803SS     B53C6SD1LQ9C0324B53C    
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Foreign State: None 
+Device Speed: Unknown 
+Link Speed: Unknown 
+Media Type: Hard Disk Device
+
+Enclosure Device ID: 252
+Slot Number: 1
+Device Id: 9
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 136.731 GB [0x11176d60 Sectors]
+Non Coerced Size: 136.231 GB [0x11076d60 Sectors]
+Coerced Size: 135.972 GB [0x10ff2000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x5000c5002c52c721
+SAS Address(1): 0x0
+Connected Port Number: 3(path0) 
+Inquiry Data: IBM-ESXSST9146803SS     B53C6SD1P71V0324B53C    
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Foreign State: None 
+Device Speed: Unknown 
+Link Speed: Unknown 
+Media Type: Hard Disk Device
+
+Enclosure Device ID: 252
+Slot Number: 2
+Device Id: 13
+Sequence Number: 2
+Media Error Count: 8
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 279.396 GB [0x22ecb25c Sectors]
+Non Coerced Size: 278.896 GB [0x22dcb25c Sectors]
+Coerced Size: 278.464 GB [0x22cee000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x5000cca0151921f5
+SAS Address(1): 0x0
+Connected Port Number: 2(path0) 
+Inquiry Data: IBM-ESXSCBRCA300C3ETS0 NC610PFVEUH0ECCXSA610    
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Foreign State: None 
+Device Speed: Unknown 
+Link Speed: Unknown 
+Media Type: Hard Disk Device
+
+Enclosure Device ID: 252
+Slot Number: 3
+Device Id: 8
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 279.396 GB [0x22ecb25c Sectors]
+Non Coerced Size: 278.896 GB [0x22dcb25c Sectors]
+Coerced Size: 278.464 GB [0x22cee000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x5000cca0151a19f5
+SAS Address(1): 0x0
+Connected Port Number: 0(path0) 
+Inquiry Data: IBM-ESXSCBRCA300C3ETS0 NC610PFVGB00ECCXSA610    
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Foreign State: None 
+Device Speed: Unknown 
+Link Speed: Unknown 
+Media Type: Hard Disk Device
+
+Enclosure Device ID: 252
+Slot Number: 4
+Device Id: 11
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 279.396 GB [0x22ecb25c Sectors]
+Non Coerced Size: 278.896 GB [0x22dcb25c Sectors]
+Coerced Size: 278.464 GB [0x22cee000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x5000cca0151a36dd
+SAS Address(1): 0x0
+Connected Port Number: 1(path0) 
+Inquiry Data: IBM-ESXSCBRCA300C3ETS0 NC610PFVGDXPECCXSA610    
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Foreign State: None 
+Device Speed: Unknown 
+Link Speed: Unknown 
+Media Type: Hard Disk Device
+
+Enclosure Device ID: 252
+Slot Number: 5
+Device Id: 14
+Sequence Number: 4
+Media Error Count: 94
+Other Error Count: 12
+Predictive Failure Count: 4
+Last Predictive Failure Event Seq Number: 28730
+PD Type: SAS
+Raw Size: 279.396 GB [0x22ecb25c Sectors]
+Non Coerced Size: 278.896 GB [0x22dcb25c Sectors]
+Coerced Size: 278.464 GB [0x22cee000 Sectors]
+Firmware state: Online
+SAS Address(0): 0x5000c50016c859cd
+SAS Address(1): 0x0
+Connected Port Number: 5(path0) 
+Inquiry Data: IBM-ESXSST9300603SS   F B53B3SE0WJ1Y0825B53B    
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Foreign State: None 
+Device Speed: Unknown 
+Link Speed: Unknown 
+Media Type: Hard Disk Device
+
+
+Exit Code: 0x00

@@ -1,6 +1,9 @@
-## 3.0.6 (not released)
+## 3.1.1 (not released)
+- sudoers: support #includedir if enabled in config
+
+## 3.1.0 (2014-09-08)
 - sudoers: disable requiretty (enabled in CentOS 6.5) [#52][]
-- megacli fixes [#50][], [#53][], [#56][], [#63][], [#74][]
+- megacli fixes [#50][], [#53][], [#56][], [#63][], [#74][], [#32][]
 - arcconf fixes [#47][], [#51][], [#55][], [#67][], [#68][], [#66][]
 - mpt-status fixes [#36][], [#57][]
 - add `/opt/bin` to `$PATH` [#54][]
@@ -10,9 +13,11 @@
 - areca fixes [#72][]
 - dmraid detect fixes [#60][]
 - mdstat: do not trigger WARN when checking (even multiple) arrays by default [#77][]
+- fixed behaviour of `--noraid` option [#70][]
+- sas2ircu: add disks check, handle no RAID volumes [#71][]
 
 NOTES:
-`mpt-status` users need to update their `sudo` rules
+`mpt-status` and `sas2ircu` users need to update their `sudo` rules
 
 ## 3.0.5 (2013-11-27)
 
@@ -101,3 +106,6 @@ NOTES:
 [#60]: https://github.com/glensc/nagios-plugin-check_raid/pull/60
 [#77]: https://github.com/glensc/nagios-plugin-check_raid/pull/77
 [#66]: https://github.com/glensc/nagios-plugin-check_raid/pull/66
+[#70]: https://github.com/glensc/nagios-plugin-check_raid/pull/70
+[#71]: https://github.com/glensc/nagios-plugin-check_raid/pull/71
+[#32]: https://github.com/glensc/nagios-plugin-check_raid/issues/32
