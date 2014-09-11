@@ -43,8 +43,6 @@ foreach my $test (@tests) {
 	ok(1, "check ran");
 
 	ok(defined($plugin->status), "status code set");
-	ok($plugin->status == $test->{status}, "status code (got:".$plugin->status." exp:".$test->{status}.")");
-
-	print "[".$plugin->message."]\n";
-	ok($plugin->message eq $test->{message}, "status message");
+	is($plugin->status, $test->{status}, "status code matches");
+	is($plugin->message, $test->{message}, "status message");
 }

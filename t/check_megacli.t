@@ -176,17 +176,8 @@ foreach my $test (@tests) {
 	ok(1, "check ran");
 
 	ok(defined($plugin->status), "status code set");
-	ok($plugin->status == $test->{status}, "status code (got:".$plugin->status." exp:".$test->{status}.")");
-	print "[".$plugin->message."]\n";
-	ok($plugin->message eq $test->{message}, "status message");
-
-	if ($test->{perfdata} ne '' || $plugin->perfdata ne '') {
-		print "[".$plugin->perfdata."]\n";
-	}
-	ok($plugin->perfdata eq $test->{perfdata}, "performance data");
-
-	if ($test->{longoutput} ne '' || $plugin->longoutput ne '') {
-		print "[".$plugin->longoutput."]\n";
-	}
-	ok($plugin->longoutput eq $test->{longoutput}, "long output");
+	is($plugin->status, $test->{status}, "status code matches");
+	is($plugin->message, $test->{message}, "status message");
+	is($plugin->perfdata, $test->{perfdata}, "performance data");
+	is($plugin->longoutput, $test->{longoutput}, "long output");
 }

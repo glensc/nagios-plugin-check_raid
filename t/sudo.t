@@ -86,6 +86,5 @@ foreach my $pn (@utils::plugins) {
 
 	my $exp = join "\n", @{$sudo{$pn}};
 	my $rules = join "\n", @rules;
-	printf("%s => '%s' ne '%s'\n", $pn, $exp, $rules) if $exp ne $rules;
-	ok($exp eq $rules, "$pn sudo ok");
+	is($rules, $exp, "$pn sudo ok");
 }
