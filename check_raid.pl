@@ -3958,17 +3958,25 @@ sub cat {
 	return $_;
 }
 
-# return TRUE if files are identical
-# returns FALSE if any of the files is missing
+# return FALSE if files are identical
+# return TRUE if files are different
+# return TRUE if any of the files is missing
 sub filediff {
 	my ($file1, $file2) = @_;
 
-	return unless -f $file1;
-	return unless -f $file2;
+	# return TRUE if neither of them exist
+	return 1 unless -f $file1;
+	return 1 unless -f $file2;
 
-	return unless filesize($file1) != filesize($file2);
+	my $f1 = cat($file1);
+	my $f2 = cat($file2);
 
-	return cat($file1) eq cat($file2);
+	# wipe comments
+	$f1 =~ s/^#.+$//m;
+	$f2 =~ s/^#.+$//m;
+
+	# return TRUE if they differ
+	return $f1 ne $f2;
 }
 
 # update sudoers file
