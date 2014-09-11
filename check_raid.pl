@@ -432,28 +432,25 @@ sub commands {
 	}
 }
 
-# lists contoller devices, sg if present, otherwise first logical drive for
-# each host controller
+# lists contoller devices (type=storage)
+# this will fail (return empty list) if sg module is not present
+# return /dev/sgX nodes
 sub list_sg {
 	my $this = shift;
 
 	my @devs = $this->scan;
 
-	# try 1: see if we have any sg node present
-	my @sg = (); #map { $_->{sgnode} } grep { $_->{type} eq 'storage' && $_->{sgnode} } @devs;
+	my @sg = map { $_->{sgnode} } grep { $_->{type} eq 'storage' && $_->{sgnode} ne '-' } @devs;
 	return wantarray ? @sg : \@sg;
 }
 
 # list disk nodes one for each controller
+# return /dev/sdX nodes
 sub list_dd {
 	my $this = shift;
 
 	my @devs = $this->scan;
-	use Data::Dumper;
-	print Dumper \@devs;
 	my @sg = map { $_->{devnode} } grep { $_->{devnode} ne '-' && $_->{sgnode} } @devs;
-	print Dumper \@sg;
-die;
 	return wantarray ? @sg : \@sg;
 }
 
