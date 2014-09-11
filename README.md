@@ -15,25 +15,29 @@ will add required lines to the `sudoers` file.
 
 ## Installing
 
-Download directly from github master (with wget or curl):
+Download latest release under [releases](https://github.com/glensc/nagios-plugin-check_raid/releases) page
+
+To download latest development version from github master (with wget or curl):
 
     wget https://raw.github.com/glensc/nagios-plugin-check_raid/master/check_raid.pl -O check_raid.pl
     curl https://raw.github.com/glensc/nagios-plugin-check_raid/master/check_raid.pl > check_raid.pl
     chmod +x check_raid.pl
 
-or download in tar format master checkout:
+or tar format:
 
-    wget https://github.com/glensc/nagios-plugin-check_raid/tarball/master/check_raid.tgz
-    tar xzf check_raid.tgz
-    cd glensc-nagios-plugin-check_raid-*
+    wget https://github.com/glensc/nagios-plugin-check_raid/archive/master/check_raid.tar.gz
+    tar xzf check_raid.tar.gz
+    cd nagios-plugin-check_raid-*
 
-you can grab older releases under [tags](https://github.com/glensc/nagios-plugin-check_raid/tags) button
 
-next, setup `sudo`
+next step would be to, setup system `sudo` rules:
 
     ./check_raid.pl -S
 
-test run:
+you can preview what the rules are if you run the above command with `-d` option.
+
+
+Plugin should be ready to be ran:
 
     ./check_raid.pl
 
