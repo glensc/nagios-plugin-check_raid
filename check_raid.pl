@@ -2843,12 +2843,15 @@ sub sudo {
 	my @cciss_disks = $this->detect_disks(@cciss_devs);
 	if (@cciss_disks) {
 		my $smartctl = smartctl->new();
-		my $cmd = $smartctl->{program};
-		foreach my $ref (@cciss_disks) {
-			my ($dev, $diskopt, $disk) = @$ref;
-			# escape comma for sudo
-			$diskopt =~ s/,/\\$&/g;
-			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmd -H $dev $diskopt$disk");
+
+		if ($smartctl->active) {
+			my $cmd = $smartctl->{program};
+			foreach my $ref (@cciss_disks) {
+				my ($dev, $diskopt, $disk) = @$ref;
+				# escape comma for sudo
+				$diskopt =~ s/,/\\$&/g;
+				push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmd -H $dev $diskopt$disk");
+			}
 		}
 	}
 
