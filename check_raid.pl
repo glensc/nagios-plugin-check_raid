@@ -2894,11 +2894,20 @@ sub detect {
 	# try lsscsi first
 	my $lsscsi = lsscsi->new();
 	if ($lsscsi->active) {
+		# for cciss_vol_status < 1.10 we need /dev/sgX nodes, columns which are type storage
 		@devs = $lsscsi->list_sg;
 
-		# cciss_vol_status 1.10 can process disk nodes too if sg is not present
+		# cciss_vol_status 1.10 can process disk nodes too even if sg is not present
 		my $v1_10 = $this->cciss_vol_status_version >= 1.10;
-		@devs = $lsscsi->list_dd if not @devs && $v1_10;
+		if (!@devs && $v1_10) {
+			@devs = $lsscsi->list_dd;
+		}
+
+		# warn, but continue
+		if (!@devs && !$v1_10) {
+			$this->unknown;
+			$this->message("No devices found, modprobe sg or upgrade cciss_vol_status >= 1.10");
+		}
 
 		return wantarray ? @devs : \@devs if @devs;
 	}
