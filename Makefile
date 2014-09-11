@@ -10,6 +10,9 @@ all:
 test:
 	perl -MTest::Harness -e 'runtests @ARGV' t/*.t
 
+perltidy:
+	perltidy $(PLUGIN_SCRIPT)
+
 release:
 	@echo "Checking for tag"; \
 	V=`./$(PLUGIN_SCRIPT) -V | cut -d' ' -f3`; \
