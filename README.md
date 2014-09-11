@@ -15,7 +15,7 @@ will add required lines to the `sudoers` file.
 
 ## Installing
 
-Download latest release under [releases](https://github.com/glensc/nagios-plugin-check_raid/releases) page
+Download latest release from [releases](https://github.com/glensc/nagios-plugin-check_raid/releases) page
 
 To download latest development version from github master (with wget or curl):
 
@@ -37,7 +37,7 @@ next step would be to, setup system `sudo` rules:
 you can preview what the rules are if you run the above command with `-d` option.
 
 
-Plugin should be ready to be ran:
+Plugin should be ready to be run:
 
     ./check_raid.pl
 
