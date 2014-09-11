@@ -52,6 +52,8 @@ usually those messages are small and can be included into bug report.
 
 ## Testing ##
 
+When contributing changes back, the existing tests must pass, before and after your changes. Please note that new test data is not detected automatically, it must be registered in test files.
+
 To run all tests, invoke:
 
     make test
