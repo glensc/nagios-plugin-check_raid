@@ -9,7 +9,7 @@ It checks for the various RAID systems, and verifies they are working correctly.
 Some checks require root permission, that is acomplished using `sudo`.
 Neccessary `sudo` rules (detected for your system), can be installed when
 `check_raid` is invoked with `-S` argument. You need to be `root` user and it
-will add required lines to the `sudoers` file.
+will add required lines to the sudo config file.
 
 [![Build Status](https://travis-ci.org/glensc/nagios-plugin-check_raid.png?branch=master)](https://travis-ci.org/glensc/nagios-plugin-check_raid)
 
