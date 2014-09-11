@@ -770,7 +770,7 @@ sub check {
 		} elsif (@fd > 0) {
 			# FIXME: this is same as above?
 			$this->warning;
-			$s .= "hot-spare failure:". join(",", @{$md{failed_disks}}) .":$md{status}";
+			$s .= "hot-spare failure:". (defined($md{failed_disks}) ? join(",", @{$md{failed_disks}}) : '') .":$md{status}";
 
 		} else {
 			$s .= "$md{status}";
