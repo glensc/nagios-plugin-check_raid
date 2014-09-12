@@ -1979,10 +1979,6 @@ sub check {
 package tw_cli;
 # TODO: rename to 3ware?
 # 3ware SATA RAID
-# check designed from check_3ware.sh by:
-# Sander Klein <sander [AT] pictura [dash] dp [DOT] nl>
-# http://www.pictura-dp.nl/
-# Version 20070706
 use base 'plugin';
 
 # register
@@ -2009,35 +2005,63 @@ sub sudo {
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd info*";
 }
 
+sub parse {
+	my $this = shift;
+
+	my (%c);
+	# scan controllers
+	my $fh = $this->cmd('info');
+	while (<$fh>) {
+		if (my($c, $model) = /^(c\d+)\s+(\S+)/) {
+			$c{$c} = {
+				model => $model,
+			};
+		}
+	}
+	close $fh;
+
+	# no controllers? skip early
+	return unless %c;
+
+	for my $c (keys %c) {
+		# check each unit on controllers
+		$fh = $this->cmd('unitstatus', { '$controller' => $c });
+		while (<$fh>) {
+			next unless (my($u, $s, $p, $p2) = /^(u\d+)\s+\S+\s+(\S+)\s+(\S+)\s+(\S+)/);
+			$c{$c}{units}{$u} = [$s, $p, $p2, $_];
+		}
+		close $fh;
+
+		# check individual disk status
+		$fh = $this->cmd('drivestatus', { '$controller' => $c });
+		while (<$fh>) {
+			next unless (my($p, $s) = /^(p\d+)\s+(\S+)\s+.+\s+.+\s+.+/);
+			$c{$c}{drives}{$p} = $s;
+		}
+		close $fh;
+	}
+
+	return \%c;
+}
+
 sub check {
 	my $this = shift;
 
 	# status messages pushed here
 	my @status;
 
-	my (@c);
-	# scan controllers
-	my $fh = $this->cmd('info');
-	while (<$fh>) {
-		if (my($c, $model) = /^(c\d+)\s+(\S+)/) {
-			push(@c, [$c, $model]);
-		}
-	}
-	close $fh;
-
-	unless (@c) {
-		$this->warning;
+	my $c = $this->parse;
+	if (!$c) {
+		$this->unknown;
 		$this->message("No Adapters were found on this machine");
-		return;
 	}
 
-	for my $i (@c) {
-		my ($c, $model) = @$i;
-		# check each unit on controllers
-		$fh = $this->cmd('unitstatus', { '$controller' => $c });
+	# process each controller
+	while (my($cid, $c) = each %$c) {
 		my @cstatus;
-		while (<$fh>) {
-			next unless (my($u, $s, $p, $p2) = /^(u\d+)\s+\S+\s+(\S+)\s+(\S+)\s+(\S+)/);
+
+		while (my($u, $ud) = each %{$c->{units}}) {
+			my ($s, $p, $p2, $l) = @$ud;
 
 			if ($s eq 'OK') {
 				push(@cstatus, "$u:$s");
@@ -2057,27 +2081,23 @@ sub check {
 			} elsif ($s eq 'DEGRADED') {
 				$this->critical;
 				push(@cstatus, "$u:$s");
+
 			} else {
-				push(@cstatus, "$u:$_");
 				$this->unknown;
+				push(@cstatus, "$u:$l");
 			}
-			push(@status, "$c($model): ". join(',', @cstatus));
+
+			push(@status, "$cid($c->{model}): ". join(',', @cstatus));
 		}
-		close $fh;
 
 		# check individual disk status
-		$fh = $this->cmd('drivestatus', { '$controller' => $c });
-		my (@p, @ds);
-		while (<$fh>) {
-			next unless (my($p, $s,) = /^(p\d+)\s+(\S+)\s+.+\s+.+\s+.+/);
-			push(@ds, "$p:$s");
-			foreach (@ds) {
-				$this->critical unless (/p\d+:(OK|NOT-PRESENT)/);
-			}
+		my %ds;
+		foreach my $d (sort { $a cmp $b } keys %{$c->{drives}}) {
+			my $ds = $c->{drives}->{$d};
+			$this->critical unless $ds =~ /(OK|NOT-PRESENT)/;
+			push(@{$ds{$ds}}, $d);
 		}
-
-		push(@status, "(disks: ".join(' ', @ds). ")");
-		close $fh;
+		push(@status, "Drives: ".$this->join_status(\%ds)) if %ds;
 	}
 
 	return unless @status;
