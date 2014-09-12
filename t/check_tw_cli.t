@@ -6,7 +6,8 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 15;
+use constant TESTS => 4;
+use Test::More tests => TESTS * 5;
 use test;
 
 my @tests = (
@@ -30,6 +31,13 @@ my @tests = (
 		unitstatus => '3/lumpy-unitstatus',
 		drivestatus => '3/lumpy-drivestatus',
 		message => 'c0(9650SE-2LP): u0:REBUILDING 98%, Drives: p0=DEGRADED p1=OK',
+	},
+	{
+		status => OK,
+		info => 'ichy/info',
+		unitstatus => 'ichy/info.c0.unitstatus',
+		drivestatus => 'ichy/info.c0.drivestatus',
+		message => 'c0(9650SE-12ML): u0:OK, Drives: p10,p11,p6,p7,p8,p9=NOT-PRESENT p0,p1,p2,p3,p4,p5=OK',
 	},
 );
 
