@@ -341,6 +341,26 @@ sub format_bytes($) {
 	return "$bytes B";
 }
 
+# disable sudo temporarily
+sub nosudo_cmd {
+	my ($this, $command, $cb) = @_;
+
+	my ($res, @res);
+
+	my $sudo = $this->{sudo};
+	$this->{sudo} = 0;
+
+	if (wantarray) {
+		@res = $this->cmd($command, $cb);
+	} else {
+		$res = $this->cmd($command, $cb);
+	}
+
+	$this->{sudo} = $sudo;
+
+	return wantarray ? @res : $res;
+}
+
 # build up command for $command
 # returns open filehandle to process output
 # if command fails, program is exited (caller needs not to worry)
@@ -2988,7 +3008,7 @@ sub cciss_vol_status_version {
 	return $this->{cciss_vol_status_version} if defined $this->{cciss_vol_status_version};
 
 	my $version = sub {
-		my $fh = $this->cmd('cciss_vol_status version');
+		my $fh = $this->nosudo_cmd('cciss_vol_status version');
 		my ($line) = <$fh>;
 		close $fh;
 		return 0 unless $line;
