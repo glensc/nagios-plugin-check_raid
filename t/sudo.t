@@ -14,7 +14,8 @@ my $bindir = TESTDIR . '/data/bin';
 unshift(@utils::paths, $bindir);
 
 my $commands = {
-	proc => ['<', '.']
+	proc => ['<', '.'],
+	'cciss_vol_status version' => ['<', TESTDIR . '/data/cciss/cciss-1.09' ],
 };
 
 my %params = (
