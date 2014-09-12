@@ -2012,9 +2012,26 @@ sub parse {
 	# scan controllers
 	my $fh = $this->cmd('info');
 	while (<$fh>) {
-		if (my($c, $model) = /^(c\d+)\s+(\S+)/) {
-			$c{$c} = {
+		if (my($ctl, $model, $ports, $drives, $units, $notopt, $rrate, $vrate, $bbu) = m{^
+			(c\d+)\s+ # Ctl
+			(\S+)\s+  # Model
+			(\d+)\s+  # (V)Ports
+			(\d+)\s+  # Drives
+			(\d+)\s+  # Units
+			(\d+)\s+  # NotOpt
+			(\d+)\s+  # RRate
+			(\d+)\s+  # VRate
+			(\S+)     # BBU
+		}x) {
+			$c{$ctl} = {
 				model => $model,
+				ports => int($ports),
+				drives => int($drives),
+				units => int($units),
+				notopt => int($notopt),
+				rrate => int($rrate),
+				vrate => int($vrate),
+				bbu => $bbu,
 			};
 		}
 	}
@@ -2027,16 +2044,61 @@ sub parse {
 		# check each unit on controllers
 		$fh = $this->cmd('unitstatus', { '$controller' => $c });
 		while (<$fh>) {
-			next unless (my($u, $s, $p, $p2) = /^(u\d+)\s+\S+\s+(\S+)\s+(\S+)\s+(\S+)/);
-			$c{$c}{units}{$u} = [$s, $p, $p2, $_];
+			if (my($u, $type, $status, $rcmpl, $vim, $strip, $size, $cache, $avrify) = m{^
+				(u\d+)\s+ # Unit
+				(\S+)\s+  # UnitType
+				(\S+)\s+  # Status
+				(\S+)\s+  # %RCmpl
+				(\S+)\s+  # %V/I/M
+				(\S+)\s+  # Strip
+				(\S+)\s+  # Size(GB)
+				(\S+)\s+  # Cache
+				(\S+)     # AVrify
+			}x) {
+				$c{$c}{unitstatus}{$u} = {
+					type => $type,
+					status => $status,
+					rcmpl => $rcmpl,
+					vim => $vim,
+					strip => $strip,
+					size => $size,
+					cache => $cache,
+					avrify => $avrify,
+				};
+				next;
+			}
+
+			if (m{^u\d+}) {
+				$this->unknown;
+				warn "unparsed: [$_]";
+			}
 		}
 		close $fh;
 
 		# check individual disk status
 		$fh = $this->cmd('drivestatus', { '$controller' => $c });
 		while (<$fh>) {
-			next unless (my($p, $s) = /^(p\d+)\s+(\S+)\s+.+\s+.+\s+.+/);
-			$c{$c}{drives}{$p} = $s;
+			if (my($port, $status, $unit, $size) = m{^
+				(p\d+)\s+       # Port
+				(\S+)\s+        # Status
+				(\S+)\s+        # Unit
+				([\d.]+\s[TG]B|-)\s+ # Size
+				# Different output, so do not parse further
+				# variant1: Blocks Serial
+				# variant2: Type Phy Encl-Slot Model
+			}x) {
+				$c{$c}{drivestatus}{$port} = {
+					status => $status,
+					unit => $unit,
+					size => $size,
+				};
+				next;
+			}
+
+			if (m{^p\d+}) {
+				$this->unknown;
+				warn "unparsed: [$_]";
+			}
 		}
 		close $fh;
 	}
@@ -2060,8 +2122,10 @@ sub check {
 	while (my($cid, $c) = each %$c) {
 		my @cstatus;
 
-		while (my($u, $ud) = each %{$c->{units}}) {
-			my ($s, $p, $p2, $l) = @$ud;
+		while (my($u, $ud) = each %{$c->{unitstatus}}) {
+			my $s = $ud->{status};
+			my $p = $ud->{rcmpl};
+			my $p2 = $ud->{vim};
 
 			if ($s eq 'OK') {
 				push(@cstatus, "$u:$s");
@@ -2081,10 +2145,6 @@ sub check {
 			} elsif ($s eq 'DEGRADED') {
 				$this->critical;
 				push(@cstatus, "$u:$s");
-
-			} else {
-				$this->unknown;
-				push(@cstatus, "$u:$l");
 			}
 
 			push(@status, "$cid($c->{model}): ". join(',', @cstatus));
@@ -2092,8 +2152,8 @@ sub check {
 
 		# check individual disk status
 		my %ds;
-		foreach my $d (sort { $a cmp $b } keys %{$c->{drives}}) {
-			my $ds = $c->{drives}->{$d};
+		foreach my $d (sort { $a cmp $b } keys %{$c->{drivestatus}}) {
+			my $ds = $c->{drivestatus}->{$d}{status};
 			$this->critical unless $ds =~ /(OK|NOT-PRESENT)/;
 
 			# do not report disks not present
@@ -2101,7 +2161,7 @@ sub check {
 
 			push(@{$ds{$ds}}, $d);
 		}
-		push(@status, "Drives: ".$this->join_status(\%ds)) if %ds;
+		push(@status, "Drives($c->{drives}): ".$this->join_status(\%ds)) if %ds;
 	}
 
 	return unless @status;
