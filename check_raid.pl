@@ -2843,10 +2843,10 @@ sub program_names {
 
 sub commands {
 	{
-		'detect hpsa' => ['<', '/sys/module/hpsa/refcnt'],
 		'controller status' => ['-|', '@CMD', '@devs'],
 		'cciss_vol_status version' => ['>&2', '@CMD', '-v'],
 
+		'detect hpsa' => ['<', '/sys/module/hpsa/refcnt'],
 		'detect cciss' => ['<', '/proc/driver/cciss'],
 		'cciss proc' => ['<', '/proc/driver/cciss/$controller'],
 	}
@@ -2999,6 +2999,33 @@ sub cciss_vol_status_version {
 	return 0;
 }
 
+sub parse {
+	my $this = shift;
+	my @devs = @_;
+	my %c;
+
+	# add all devs at once to commandline, cciss_vol_status can do that
+	my $fh = $this->cmd('controller status', { '@devs' => \@devs });
+	while (<$fh>) {
+		chomp;
+		# strip for better pattern matching
+		s/\.\s*$//;
+
+		# /dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK
+		# /dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK.
+		if (my($dev, $controller, $volume, $status) = m{(/dev/\S+): \((.+)\) (.+) status: (.*?)$}) {
+			$c{$dev} = {
+				controller => $controller,
+				volume => $volume,
+				status => $status
+			};
+		}
+	}
+	close($fh);
+
+	return \%c;
+}
+
 sub check {
 	my $this = shift;
 	my @devs = $this->detect;
@@ -3012,23 +3039,13 @@ sub check {
 	# status messages pushed here
 	my @status;
 
-	# add all devs at once, cciss_vol_status can do that
-	my $fh = $this->cmd('controller status', { '@devs' => \@devs });
-	while (<$fh>) {
-		chomp;
-		# strip for better pattern matching
-		s/\.\s*$//;
-
-		# /dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK
-		# /dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK.
-		if (my($s) = /status: (.*?)$/) {
-			if ($s !~ '^OK') {
-				$this->critical;
-			}
-			push(@status, $_);
+	my $res = $this->parse(@devs);
+	while (my($dev, $c) = each %$res) {
+		if ($c->{status} !~ '^OK') {
+			$this->critical;
 		}
+		push(@status, "$dev: ($c->{controller}) $c->{volume}: $c->{status}");
 	}
-	close($fh);
 
 	unless (@status) {
 		return;

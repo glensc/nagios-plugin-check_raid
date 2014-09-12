@@ -17,7 +17,7 @@ my @tests = (
 		controller => 'cciss_vol_status.zen',
 		cciss_proc => '',
 		smartctl => 'smartctl.cciss.$disk',
-		message => '/dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK',
+		message => '/dev/sda: (Smart Array P410i) RAID 1 Volume 0: OK',
 	},
 	{
 		status => OK,
@@ -26,7 +26,7 @@ my @tests = (
 		controller => 'cciss_vol_status.argos',
 		cciss_proc => 'cciss/$controller',
 		smartctl => 'smartctl.cciss.$disk',
-		message => '/dev/cciss/c0d0: (Smart Array P400i) RAID 6 Volume 0 status: OK',
+		message => '/dev/cciss/c0d0: (Smart Array P400i) RAID 6 Volume 0: OK',
 	},
 );
 
