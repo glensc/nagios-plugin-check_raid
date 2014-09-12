@@ -3004,6 +3004,21 @@ sub cciss_vol_status_version {
 
 sub trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
 
+# we process until we find end of sentence (dot at the end of the line)
+sub consume_diagnostic {
+	my ($this, $fh, $s) = @_;
+
+	my $diagnostic = '';
+	while (1) {
+		my $s = <$fh>;
+		last unless $s;
+		chomp;
+		$diagnostic .= ' '. trim($s);
+		last if $s =~ /\.$/;
+	}
+	return trim($diagnostic);
+}
+
 sub parse {
 	my $this = shift;
 	my @devs = @_;
@@ -3090,13 +3105,21 @@ sub parse {
 				write_cache_memory => qr/Write cache memory: (.+)/,
 				write_cache_enabled => qr/Write cache enabled: (.+)/,
 				flash_cache => qr/Flash backed cache present/,
+				disabled_temporarily => qr/Write cache temporarily disabled/,
+				disabled_permanently => qr/Write Cache permanently disabled/,
 			);
 			my $got;
 			while (my($k, $r) = each %map) {
 				next unless (my($v) = $_ =~ $r);
 				$cache->{$k} = $v;
 				$got = 1;
+
+				# consume extended diagnostic
+				if ($k =~ /disabled_(temporari|permanentl)ly/) {
+					$cache->{"$k diagnostic"} = $this->consume_diagnostic($fh);
+				}
 			}
+
 			next if $got;
 		}
 
@@ -3145,7 +3168,16 @@ sub check {
 		if ($c->{cache} && $c->{cache}->{configured} eq 'Yes') {
 			my $cache = $c->{cache};
 			my @cstatus = 'Cache:';
-			push(@cstatus, "WriteCache") if $cache->{write_cache_enabled} eq 'Yes';
+
+			if ($cache->{write_cache_enabled} eq 'Yes') {
+				push(@cstatus, "WriteCache");
+
+			} elsif ($cache->{disabled_temporarily} || $cache->{disabled_permanently}) {
+				# disabled diagnostic is available, but it's too long to print here
+				push(@cstatus, "WriteCache:DISABLED");
+				$this->critical;
+			}
+
 			push(@cstatus, "FlashCache") if $cache->{flash_cache};
 			push(@cstatus, "ReadMem:$cache->{read_cache_memory}") if $cache->{read_cache_memory};
 			push(@cstatus, "WriteMem:$cache->{write_cache_memory}") if $cache->{write_cache_memory};
