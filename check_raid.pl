@@ -3142,11 +3142,11 @@ sub check {
 		}
 
 		# check cache
-		if ($c->{'cache'}) {
-			my $cache = $c->{'cache'};
-			my @cstatus = "Configured: $cache->{configured}";
-			push(@cstatus, "Write Cache: $cache->{write_cache_enabled}") if $cache->{write_cache_enabled};
-			push(@cstatus, "FlashCache:Yes") if $cache->{flash_cache};
+		if ($c->{cache} && $c->{cache}->{configured} eq 'Yes') {
+			my $cache = $c->{cache};
+			my @cstatus = 'Cache:';
+			push(@cstatus, "WriteCache") if $cache->{write_cache_enabled} eq 'Yes';
+			push(@cstatus, "FlashCache") if $cache->{flash_cache};
 			push(@cstatus, "ReadMem:$cache->{read_cache_memory}") if $cache->{read_cache_memory};
 			push(@cstatus, "WriteMem:$cache->{write_cache_memory}") if $cache->{write_cache_memory};
 
