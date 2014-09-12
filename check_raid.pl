@@ -3047,6 +3047,7 @@ sub parse {
 			next;
 		}
 
+		# check_physical_drives(file, fd);
 		# cciss_vol_status.c format_phys_drive_location()
 		if (my ($phys_connector1, $phys_connector2, $phys_box_on_bus, $phys_bay_in_box,
 				$model, $serial_no, $fw_rev, $status) =
@@ -3065,6 +3066,38 @@ sub parse {
 			};
 			next;
 		}
+
+		# TODO
+		# check_fan_power_temp(file, ctlrtype, fd, num_controllers);
+
+		# check_nonvolatile_cache_status(file, ctlrtype, fd, num_controllers);
+		# /dev/cciss/c0d0(Smart Array P400i:0): Non-Volatile Cache status:
+		if (my($file, $board_name, $instance) = m{^(/dev/[^(]+)\((.+):(\d+)\): Non-Volatile Cache status}) {
+			$c{$file}{cache} = {
+				'board' => $board_name,
+				'instance' => int($instance),
+			};
+			next;
+		}
+
+		if (defined($c{$cdev}{cache})) {
+			my $cache = $c{$cdev}{cache};
+			my %map = (
+				configured => qr/Cache configured: (.+)/,
+				read_cache_memory => qr/Read cache memory: (.+)/,
+				write_cache_memory => qr/Write cache memory: (.+)/,
+				write_cache_enabled => qr/Write cache enabled: (.+)/,
+			);
+			my $got;
+			while (my($k, $r) = each %map) {
+				next unless (my($v) = $_ =~ $r);
+				$cache->{$k} = $v;
+				$got = 1;
+			}
+			next if $got;
+		}
+
+		warn "Unparsed[$_]";
 	}
 	close($fh);
 
@@ -3103,6 +3136,17 @@ sub check {
 				push(@{$pd{$pd->{status}}}, $pd->{serial});
 			}
 			push(@status, "Drives: ". $this->join_status(\%pd));
+		}
+
+		# check cache
+		if ($c->{'cache'}) {
+			my $cache = $c->{'cache'};
+			my @cstatus = "Configured: $cache->{configured}";
+			push(@cstatus, "Write Cache: $cache->{write_cache_enabled}") if $cache->{write_cache_enabled};
+			push(@cstatus, "ReadMem:$cache->{read_cache_memory}") if $cache->{read_cache_memory};
+			push(@cstatus, "WriteMem:$cache->{write_cache_memory}") if $cache->{write_cache_memory};
+
+			push(@status, join(' ', @cstatus));
 		}
 	}
 
