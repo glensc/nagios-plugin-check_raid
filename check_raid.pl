@@ -2904,12 +2904,6 @@ sub detect {
 			@devs = $lsscsi->list_dd;
 		}
 
-		# warn, but continue
-		if (!@devs && !$v1_10) {
-			$this->unknown;
-			$this->message("No devices found, modprobe sg or upgrade cciss_vol_status >= 1.10");
-		}
-
 		return wantarray ? @devs : \@devs if @devs;
 	}
 
