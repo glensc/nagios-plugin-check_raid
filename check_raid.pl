@@ -2844,6 +2844,7 @@ sub program_names {
 sub commands {
 	{
 		'controller status' => ['-|', '@CMD', '@devs'],
+		'controller status verbose' => ['-|', '@CMD', '-V', '@devs'],
 		'cciss_vol_status version' => ['>&2', '@CMD', '-v'],
 
 		'detect hpsa' => ['<', '/sys/module/hpsa/refcnt'],
@@ -3007,26 +3008,68 @@ sub cciss_vol_status_version {
 	return $this->{cciss_vol_status_version} = &$version();
 }
 
+sub trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
+
 sub parse {
 	my $this = shift;
 	my @devs = @_;
-	my %c;
+
+	my (%c, $cdev, $pdev);
+
+	# cciss_vol_status 1.10 has -V option to print more info about controller and disks.
+	my $v1_10 = $this->cciss_vol_status_version >= 1.10;
 
 	# add all devs at once to commandline, cciss_vol_status can do that
-	my $fh = $this->cmd('controller status', { '@devs' => \@devs });
+	my $fh = $this->cmd($v1_10 ? 'controller status verbose' : 'controller status', { '@devs' => \@devs });
 	while (<$fh>) {
 		chomp;
 		# strip for better pattern matching
 		s/\.\s*$//;
 
+		if (/Controller:/) {
+			# this is first item when new controller is found
+			# reset previous state
+			undef $cdev;
+			undef $pdev;
+			next;
+		}
+
 		# /dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK
 		# /dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK.
-		if (my($dev, $controller, $volume, $status) = m{(/dev/\S+): \((.+)\) (.+) status: (.*?)$}) {
-			$c{$dev} = {
+		if (my($dev, $controller, $volume, $status) = m{^(/dev/\S+): \((.+)\) (.+) status: (.*?)$}) {
+			$cdev = $dev;
+			$c{$cdev} = {
 				controller => $controller,
 				volume => $volume,
 				status => $status
 			};
+			next;
+		}
+
+		next unless $cdev;
+
+		if (my ($count) = /Physical drives: (\d+)/) {
+			$c{$cdev}{'pd count'} = $count;
+			next;
+		}
+
+		# cciss_vol_status.c format_phys_drive_location()
+		if (my ($phys_connector1, $phys_connector2, $phys_box_on_bus, $phys_bay_in_box,
+				$model, $serial_no, $fw_rev, $status) =
+				m{ connector (.)(.) box (\d+) bay (\d+) (.{40}) (.{40}) (.{8}) (.+)$}) {
+
+			$pdev++;
+			$c{$cdev}{'pd '.$pdev} = {
+				'conn1' => $phys_connector1,
+				'conn2' => $phys_connector2,
+				'box' => int($phys_box_on_bus),
+				'bay' => int($phys_bay_in_box),
+				'model' => trim($model),
+				'serial' => trim($serial_no),
+				'fw' => trim($fw_rev),
+				'status' => $status,
+			};
+			next;
 		}
 	}
 	close($fh);
@@ -3049,10 +3092,24 @@ sub check {
 
 	my $res = $this->parse(@devs);
 	while (my($dev, $c) = each %$res) {
+		# check controllers
 		if ($c->{status} !~ '^OK') {
 			$this->critical;
 		}
 		push(@status, "$dev: ($c->{controller}) $c->{volume}: $c->{status}");
+
+		# check physical devices
+		if ($c->{'pd count'}) {
+			my %pd;
+			for (my $i = 1; $i <= $c->{'pd count'}; $i++ ){
+				my $pd = $c->{"pd $i"};
+				if ($pd->{status} !~ '^OK') {
+					$this->critical;
+				}
+				push(@{$pd{$pd->{status}}}, $pd->{serial});
+			}
+			push(@status, "Drives: ". $this->join_status(\%pd));
+		}
 	}
 
 	unless (@status) {
