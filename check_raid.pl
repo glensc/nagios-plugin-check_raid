@@ -2885,7 +2885,12 @@ sub sudo {
 	my @cciss_devs = $this->detect;
 	if (@cciss_devs) {
 		my $c = join(' ', @cciss_devs);
-		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmd $c");
+		my $v1_10 = $this->cciss_vol_status_version >= 1.10;
+		if ($v1_10) {
+			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmd -V $c");
+		} else {
+			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmd $c");
+		}
 	}
 
 	my @cciss_disks = $this->detect_disks(@cciss_devs);
