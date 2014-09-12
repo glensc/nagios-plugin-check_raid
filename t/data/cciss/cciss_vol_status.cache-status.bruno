@@ -1,0 +1,15 @@
+Controller: Smart Array P410i
+  Board ID: 0x3245103c
+  Logical drives: 1
+  Running firmware: 5.14
+  ROM firmware: 5.14
+/dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK. 
+  Physical drives: 2
+         connector 1I box 1 bay 1                 HP      EH0300FBQDD                          6XN06HGP0000B147NV0K     HPD1 OK
+         connector 1I box 1 bay 2                 HP      EH0300FBQDD                          6XN07A4L0000S147YQP7     HPD1 OK
+/dev/sg0(Smart Array P410i:0): Non-Volatile Cache status:
+                   Cache configured: Yes
+                  Read cache memory: 100 MiB
+                 Write cache memory: 300 MiB
+                Write cache enabled: Yes
+   Flash backed cache present

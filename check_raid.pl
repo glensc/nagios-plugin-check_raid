@@ -3073,7 +3073,9 @@ sub parse {
 		# check_nonvolatile_cache_status(file, ctlrtype, fd, num_controllers);
 		# /dev/cciss/c0d0(Smart Array P400i:0): Non-Volatile Cache status:
 		if (my($file, $board_name, $instance) = m{^(/dev/[^(]+)\((.+):(\d+)\): Non-Volatile Cache status}) {
-			$c{$file}{cache} = {
+			# $file and $dev may differ, so store it
+			$c{$cdev}{cache} = {
+				'file' => $file,
 				'board' => $board_name,
 				'instance' => int($instance),
 			};
@@ -3087,6 +3089,7 @@ sub parse {
 				read_cache_memory => qr/Read cache memory: (.+)/,
 				write_cache_memory => qr/Write cache memory: (.+)/,
 				write_cache_enabled => qr/Write cache enabled: (.+)/,
+				flash_cache => qr/Flash backed cache present/,
 			);
 			my $got;
 			while (my($k, $r) = each %map) {
@@ -3143,6 +3146,7 @@ sub check {
 			my $cache = $c->{'cache'};
 			my @cstatus = "Configured: $cache->{configured}";
 			push(@cstatus, "Write Cache: $cache->{write_cache_enabled}") if $cache->{write_cache_enabled};
+			push(@cstatus, "FlashCache:Yes") if $cache->{flash_cache};
 			push(@cstatus, "ReadMem:$cache->{read_cache_memory}") if $cache->{read_cache_memory};
 			push(@cstatus, "WriteMem:$cache->{write_cache_memory}") if $cache->{write_cache_memory};
 
