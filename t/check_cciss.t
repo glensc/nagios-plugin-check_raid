@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 3;
+use constant TESTS => 4;
 use Test::More tests =>  TESTS * 5;
 use test;
 
@@ -40,6 +40,16 @@ my @tests = (
 		cciss_proc => 'cciss/$controller',
 		smartctl => '',
 		message => '/dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0: OK, Drives: 3NP3K2JG00009921RS5B,3NP3K40K00009920MTFH=OK, Cache: WriteCache ReadMem:104 MiB WriteMem:104 MiB',
+	},
+	{
+		status => OK,
+		detect_hpsa => 'no-such-file',
+		detect_cciss => 'cciss',
+		version => 'cciss-1.11',
+		controller => 'cciss/cciss_vol_status.cache-status.bruno',
+		cciss_proc => 'cciss/$controller',
+		smartctl => '',
+		message => '/dev/sda: (Smart Array P410i) RAID 1 Volume 0: OK, Drives: 6XN06HGP0000B147NV0K,6XN07A4L0000S147YQP7=OK, Cache: WriteCache FlashCache ReadMem:100 MiB WriteMem:300 MiB',
 	},
 );
 
