@@ -2988,15 +2988,23 @@ sub detect_disks {
 # NOTE: it prints the output to stderr, but may print to stdout in the future
 sub cciss_vol_status_version {
 	my $this = shift;
-	my $fh = $this->cmd('cciss_vol_status version');
-	my ($line) = <$fh>;
-	close $fh;
-	return 0 unless $line;
 
-	if (my($version) = $line =~ /^cciss_vol_status version ([\d.]+)$/) {
-		return 0 + $version;
-	}
-	return 0;
+	# cache inside single run
+	return $this->{cciss_vol_status_version} if defined $this->{cciss_vol_status_version};
+
+	my $version = sub {
+		my $fh = $this->cmd('cciss_vol_status version');
+		my ($line) = <$fh>;
+		close $fh;
+		return 0 unless $line;
+
+		if (my($v) = $line =~ /^cciss_vol_status version ([\d.]+)$/) {
+			return 0 + $v;
+		}
+		return 0;
+	};
+
+	return $this->{cciss_vol_status_version} = &$version();
 }
 
 sub parse {
