@@ -438,10 +438,10 @@ sub commands {
 sub list_sg {
 	my $this = shift;
 
-	my @devs = $this->scan;
+	my @scan = $this->scan;
 
-	my @sg = map { $_->{sgnode} } grep { $_->{type} eq 'storage' && $_->{sgnode} ne '-' } @devs;
-	return wantarray ? @sg : \@sg;
+	my @devs = map { $_->{sgnode} } grep { $_->{type} eq 'storage' && $_->{sgnode} ne '-' } @scan;
+	return wantarray ? @devs : \@devs;
 }
 
 # list disk nodes one for each controller
@@ -449,9 +449,9 @@ sub list_sg {
 sub list_dd {
 	my $this = shift;
 
-	my @devs = $this->scan;
-	my @sg = map { $_->{devnode} } grep { $_->{devnode} ne '-' && $_->{sgnode} } @devs;
-	return wantarray ? @sg : \@sg;
+	my @scan = $this->scan;
+	my @devs = map { $_->{devnode} } grep { $_->{type} eq 'disk' && $_->{devnode} ne '-' && $_->{sgnode} } @scan;
+	return wantarray ? @devs : \@devs;
 }
 
 # scan lsscsi output
