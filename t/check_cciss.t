@@ -39,7 +39,7 @@ my @tests = (
 		controller => 'cciss/cciss_vol_status.cache-status',
 		cciss_proc => 'cciss/$controller',
 		smartctl => '',
-		message => '/dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0: OK, Drives: 3NP3K2JG00009921RS5B,3NP3K40K00009920MTFH=OK',
+		message => '/dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0: OK, Drives: 3NP3K2JG00009921RS5B,3NP3K40K00009920MTFH=OK, Cache: WriteCache ReadMem:104 MiB WriteMem:104 MiB',
 	},
 );
 
