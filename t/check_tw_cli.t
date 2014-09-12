@@ -37,7 +37,7 @@ my @tests = (
 		info => 'ichy/info',
 		unitstatus => 'ichy/info.c0.unitstatus',
 		drivestatus => 'ichy/info.c0.drivestatus',
-		message => 'c0(9650SE-12ML): u0:OK, Drives: p10,p11,p6,p7,p8,p9=NOT-PRESENT p0,p1,p2,p3,p4,p5=OK',
+		message => 'c0(9650SE-12ML): u0:OK, Drives: p0,p1,p2,p3,p4,p5=OK',
 	},
 );
 

@@ -2095,6 +2095,10 @@ sub check {
 		foreach my $d (sort { $a cmp $b } keys %{$c->{drives}}) {
 			my $ds = $c->{drives}->{$d};
 			$this->critical unless $ds =~ /(OK|NOT-PRESENT)/;
+
+			# do not report disks not present
+			next if $ds eq 'NOT-PRESENT';
+
 			push(@{$ds{$ds}}, $d);
 		}
 		push(@status, "Drives: ".$this->join_status(\%ds)) if %ds;
