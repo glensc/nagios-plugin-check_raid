@@ -6,7 +6,8 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 10;
+use constant TESTS => 3;
+use Test::More tests =>  TESTS * 5;
 use test;
 
 my @tests = (
@@ -30,6 +31,16 @@ my @tests = (
 		smartctl => 'smartctl.cciss.$disk',
 		message => '/dev/cciss/c0d0: (Smart Array P400i) RAID 6 Volume 0: OK',
 	},
+	{
+		status => OK,
+		detect_hpsa => 'no-such-file',
+		detect_cciss => 'cciss',
+		version => 'cciss-1.11',
+		controller => 'cciss/cciss_vol_status.cache-status',
+		cciss_proc => 'cciss/$controller',
+		smartctl => '',
+		message => '/dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0: OK, Drives: 3NP3K2JG00009921RS5B,3NP3K40K00009920MTFH=OK',
+	},
 );
 
 foreach my $test (@tests) {
@@ -38,6 +49,7 @@ foreach my $test (@tests) {
 			'detect hpsa' => ['<', TESTDIR . '/data/' .$test->{detect_hpsa} ],
 			'detect cciss' => ['<', TESTDIR . '/data/' .$test->{detect_cciss} ],
 			'controller status' => ['<', TESTDIR . '/data/' .$test->{controller} ],
+			'controller status verbose' => ['<', TESTDIR . '/data/' .$test->{controller} ],
 			'cciss_vol_status version' => ['<', TESTDIR . '/data/cciss/' .$test->{version} ],
 			'cciss proc' => ['<', TESTDIR . '/data/' .$test->{cciss_proc} ],
 			'smartctl' => ['<', TESTDIR . '/data/' .$test->{smartctl} ],
