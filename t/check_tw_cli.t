@@ -27,9 +27,9 @@ my @tests = (
 	},
 	{
 		status => CRITICAL,
-		info => '3/lumpy-info',
-		unitstatus => '3/lumpy-unitstatus',
-		drivestatus => '3/lumpy-drivestatus',
+		info => 'lumpy/info',
+		unitstatus => 'lumpy/unitstatus',
+		drivestatus => 'lumpy/drivestatus',
 		message => 'c0(9650SE-2LP): u0:REBUILDING 98%, Drives: p0=DEGRADED p1=OK',
 	},
 	{
