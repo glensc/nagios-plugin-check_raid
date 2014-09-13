@@ -2130,30 +2130,28 @@ sub check {
 
 		while (my($u, $ud) = each %{$c->{unitstatus}}) {
 			my $s = $ud->{status};
-			my $p = $ud->{rcmpl};
-			my $p2 = $ud->{vim};
 
-			if ($s eq 'OK') {
-				push(@cstatus, "$u:$s");
-
-			} elsif ($s =~ /INITIALIZING|MIGRATING/) {
+			if ($s =~ /INITIALIZING|MIGRATING/) {
 				$this->warning;
-				push(@cstatus, "$u:$s $p2");
+				$s .= " $ud->{vim}";
 
 			} elsif ($s eq 'VERIFYING') {
 				$this->resync;
-				push(@cstatus, "$u:$s $p2");
+				$s .= " $ud->{vim}";
 
 			} elsif ($s eq 'REBUILDING') {
 				$this->warning;
-				push(@cstatus, "$u:$s $p");
+				$s .= " $ud->{rcmpl}";
 
 			} elsif ($s eq 'DEGRADED') {
 				$this->critical;
-				push(@cstatus, "$u:$s");
+
+			} elsif ($s ne 'OK') {
+				$this->critical;
+
 			}
 
-			push(@status, "$cid($c->{model}): ". join(',', @cstatus));
+			push(@status, "$cid($c->{model}): $u($ud->{type}): $s");
 		}
 
 		# check individual disk status
