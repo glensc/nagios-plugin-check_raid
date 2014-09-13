@@ -57,7 +57,7 @@ my @tests = (
 		controller => 'cciss_vol_status.cache-status',
 		cciss_proc => 'cciss/$controller',
 		smartctl => '',
-		message => '/dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0: OK, Drives: 3NP3K2JG00009921RS5B,3NP3K40K00009920MTFH=OK, Cache: WriteCache ReadMem:104 MiB WriteMem:104 MiB',
+		message => '/dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0: OK, Drives: 1I-1-1,1I-1-2=OK, Cache: WriteCache ReadMem:104 MiB WriteMem:104 MiB',
 		c => {
 			'/dev/cciss/c0d0' => {
 				'board_name' => 'Smart Array P400i',
@@ -69,6 +69,7 @@ my @tests = (
 
 			'drives' => {
 				'1I-1-1' => {
+					'slot' => '1I-1-1',
 					'bay' => 1,
 					'phys1' => '1',
 					'phys2' => 'I',
@@ -80,6 +81,7 @@ my @tests = (
 				},
 
 				'1I-1-2' => {
+					'slot' => '1I-1-2',
 					'bay' => 2,
 					'phys1' => '1',
 					'phys2' => 'I',
@@ -111,7 +113,7 @@ my @tests = (
 		controller => 'cciss_vol_status.cache-status.bruno',
 		cciss_proc => 'cciss/$controller',
 		smartctl => '',
-		message => '/dev/sda: (Smart Array P410i) RAID 1 Volume 0: OK, Drives: 6XN06HGP0000B147NV0K,6XN07A4L0000S147YQP7=OK, Cache: WriteCache FlashCache ReadMem:100 MiB WriteMem:300 MiB',
+		message => '/dev/sda: (Smart Array P410i) RAID 1 Volume 0: OK, Drives: 1I-1-1,1I-1-2=OK, Cache: WriteCache FlashCache ReadMem:100 MiB WriteMem:300 MiB',
 		c => {
 			'/dev/sda' => {
 				'board_name' => 'Smart Array P410i',
@@ -123,6 +125,7 @@ my @tests = (
 
 			'drives' => {
 				'1I-1-1' => {
+					'slot' => '1I-1-1',
 					'bay' => 1,
 					'phys1' => '1',
 					'phys2' => 'I',
@@ -134,6 +137,7 @@ my @tests = (
 				},
 
 				'1I-1-2' => {
+					'slot' => '1I-1-2',
 					'bay' => 2,
 					'phys1' => '1',
 					'phys2' => 'I',
@@ -166,7 +170,7 @@ my @tests = (
 		controller => 'cciss_vol_status.argos2',
 		cciss_proc => 'cciss/$controller',
 		smartctl => 'smartctl.cciss.$disk',
-		message => '/dev/cciss/c0d0: (Smart Array P400i) RAID 6 Volume 0: OK, Drives: 3NP3BQ2700009910VW93,3NP3FVRE00009917SQV1,3NP3BQFM00009910VVWG,3NP3FVL400009917THQT=OK, Cache: WriteCache:DISABLED ReadMem:104 MiB WriteMem:104 MiB',
+		message => '/dev/cciss/c0d0: (Smart Array P400i) RAID 6 Volume 0: OK, Drives: 1I-1-1,1I-1-3,1I-1-2,1I-1-4=OK, Cache: WriteCache:DISABLED ReadMem:104 MiB WriteMem:104 MiB',
 
 		c => {
 			'/dev/cciss/c0d0' => {
@@ -179,6 +183,7 @@ my @tests = (
 
 			'drives' => {
 				'1I-1-1' => {
+					'slot' => '1I-1-1',
 					'bay' => 1,
 					'phys1' => '1',
 					'phys2' => 'I',
@@ -189,6 +194,7 @@ my @tests = (
 					'box' => 1,
 				},
 				'1I-1-2' => {
+					'slot' => '1I-1-2',
 					'bay' => 2,
 					'phys1' => '1',
 					'phys2' => 'I',
@@ -199,6 +205,7 @@ my @tests = (
 					'box' => 1,
 				},
 				'1I-1-3' => {
+					'slot' => '1I-1-3',
 					'bay' => 3,
 					'phys1' => '1',
 					'phys2' => 'I',
@@ -209,6 +216,7 @@ my @tests = (
 					'box' => 1,
 				},
 				'1I-1-4' => {
+					'slot' => '1I-1-4',
 					'bay' => 4,
 					'phys1' => '1',
 					'phys2' => 'I',
@@ -290,7 +298,7 @@ my @tests = (
 		controller => 'cciss_vol_status.cetus',
 		cciss_proc => 'cciss/$controller',
 		smartctl => 'smartctl.cciss.$disk',
-		message => '/dev/cciss/c0d0: (Smart Array P400) RAID 1 Volume 0: OK, Drives: 3LB1667000009717XQ6Q,3LB16JEV0000971881Q9=OK, Cache: WriteCache ReadMem:52 MiB WriteMem:156 MiB, /dev/cciss/c1d0: (Smart Array P800) RAID 1 Volume 0: OK, Drives: B365P710D7F30704,B365P710D6YB0704,3LB1DDBP00009725HP9H,3LB1DCNV000097240T05,3LB1D5TM00009724ZFM6,3LB1D5HH00009724HCBF,B365P720EDCL0706,B365P720EBRF0706,B365P710CMLE0703,B365P710D71N0704,B365P710CJ5Y0703,B365P710CMLH0703,3NP3NJBW00009936L3AW,B365P6C09UP00649,B365P6C09MPW0649,B365P720ED0H0706,B365P720EC500706,3LB1D0VA00009725KECN,3LB1D9JF00009725KFQU,B365P720EE980706,3LB1DC2Z00009725357U,B365P710D6RR0704,B365P710CJ8M0703,3LB1D6JL000097251ZNL,3LB1D48800009724Y7AZ,B365P720EE9K0706,B365P720EAF70706,B365P710CHH70703,3LB1DDW70000972532K1,B365P710CMTU0703,3LB1D4AW000097251ZP4,3LB1D9Z4000097252BF5,B365P720EDTJ0706,B365P720EE8K0706,B365P710CJ8R0703,B365P720EDJG0706,B365P720EE4R0706,3LB1DDQ6000097240TNM,B365P6C09U0H0649,B365P720EE060706,B365P710D71K0704,B365P720EDTU0706,B365P720EE5R0706,B365P710CHGE0703,B365P6C09UND0649,3LB1D0BZ00009724GNHB,6SD10M9A0000B1063CMB,B365P720EE8W0706,B365P6C09WVM0649,B365P720EE510706=OK, Enclosures: MSA70(SGA6510007): OK, MSA70(SGA651004J): OK, Cache: WriteCache ReadMem:114 MiB WriteMem:342 MiB',
+		message => '/dev/cciss/c0d0: (Smart Array P400) RAID 1 Volume 0: OK, Drives: 2I-1-1,2I-1-2=OK, Cache: WriteCache ReadMem:52 MiB WriteMem:156 MiB, /dev/cciss/c1d0: (Smart Array P800) RAID 1 Volume 0: OK, Drives: 1E-1-20,1E-1-16,1E-1-10,1E-1-4,1E-2-25,1E-2-4,1E-1-11,1E-2-7,1E-1-19,1E-1-21,1E-1-17,1E-1-9,1E-1-14,1E-2-22,1E-1-25,1E-1-5,1E-2-11,1E-2-17,1E-2-5,1E-2-18,1E-2-12,1E-2-1,1E-1-23,1E-1-18,1E-2-3,1E-1-3,1E-1-2,1E-2-8,1E-2-15,1E-2-6,1E-2-21,1E-2-13,1E-2-14,1E-2-9,1E-1-22,1E-2-2,1E-1-8,1E-2-19,1E-2-24,1E-1-7,1E-1-12,1E-1-6,1E-1-15,1E-1-24,1E-2-16,1E-2-20,1E-1-13,1E-1-1,1E-2-23,1E-2-10=OK, Enclosures: MSA70(SGA6510007): OK, MSA70(SGA651004J): OK, Cache: WriteCache ReadMem:114 MiB WriteMem:342 MiB',
 		c => {
 			'/dev/cciss/c0d0' => {
 				'board_name' => 'Smart Array P400',
@@ -302,6 +310,7 @@ my @tests = (
 
 			'drives' => {
 				'2I-1-2' => {
+					'slot' => '2I-1-2',
 					'bay' => 2,
 					'phys1' => '2',
 					'phys2' => 'I',
@@ -313,6 +322,7 @@ my @tests = (
 				},
 
 				'2I-1-1' => {
+					'slot' => '2I-1-1',
 					'bay' => 1,
 					'phys1' => '2',
 					'phys2' => 'I',
@@ -345,6 +355,7 @@ my @tests = (
 
 				'drives' => {
 					'1E-1-20' => {
+						'slot' => '1E-1-20',
 						'bay' => 20,
 						'status' => 'OK',
 						'serial' => 'B365P710D7F30704',
@@ -355,6 +366,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-16' => {
+						'slot' => '1E-1-16',
 						'bay' => 16,
 						'status' => 'OK',
 						'serial' => 'B365P710D6YB0704',
@@ -365,6 +377,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-10' => {
+						'slot' => '1E-1-10',
 						'bay' => 10,
 						'status' => 'OK',
 						'serial' => '3LB1DDBP00009725HP9H',
@@ -375,6 +388,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-4' => {
+						'slot' => '1E-1-4',
 						'bay' => 4,
 						'status' => 'OK',
 						'serial' => '3LB1DCNV000097240T05',
@@ -385,6 +399,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-2-25' => {
+						'slot' => '1E-2-25',
 						'bay' => 25,
 						'status' => 'OK',
 						'serial' => '3LB1D5TM00009724ZFM6',
@@ -395,6 +410,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-4' => {
+						'slot' => '1E-2-4',
 						'bay' => 4,
 						'status' => 'OK',
 						'serial' => '3LB1D5HH00009724HCBF',
@@ -405,6 +421,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-1-11' => {
+						'slot' => '1E-1-11',
 						'bay' => 11,
 						'status' => 'OK',
 						'serial' => 'B365P720EDCL0706',
@@ -415,6 +432,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-2-7' => {
+						'slot' => '1E-2-7',
 						'bay' => 7,
 						'status' => 'OK',
 						'serial' => 'B365P720EBRF0706',
@@ -425,6 +443,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-1-19' => {
+						'slot' => '1E-1-19',
 						'bay' => 19,
 						'status' => 'OK',
 						'serial' => 'B365P710CMLE0703',
@@ -435,6 +454,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-21' => {
+						'slot' => '1E-1-21',
 						'bay' => 21,
 						'status' => 'OK',
 						'serial' => 'B365P710D71N0704',
@@ -445,6 +465,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-17' => {
+						'slot' => '1E-1-17',
 						'bay' => 17,
 						'status' => 'OK',
 						'serial' => 'B365P710CJ5Y0703',
@@ -455,6 +476,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-9' => {
+						'slot' => '1E-1-9',
 						'bay' => 9,
 						'status' => 'OK',
 						'serial' => 'B365P710CMLH0703',
@@ -465,6 +487,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-14' => {
+						'slot' => '1E-1-14',
 						'bay' => 14,
 						'status' => 'OK',
 						'serial' => '3NP3NJBW00009936L3AW',
@@ -475,6 +498,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-2-22' => {
+						'slot' => '1E-2-22',
 						'bay' => 22,
 						'status' => 'OK',
 						'serial' => 'B365P6C09UP00649',
@@ -485,6 +509,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-1-25' => {
+						'slot' => '1E-1-25',
 						'bay' => 25,
 						'status' => 'OK',
 						'serial' => 'B365P6C09MPW0649',
@@ -495,6 +520,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-5' => {
+						'slot' => '1E-1-5',
 						'bay' => 5,
 						'status' => 'OK',
 						'serial' => 'B365P720ED0H0706',
@@ -505,6 +531,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-2-11' => {
+						'slot' => '1E-2-11',
 						'bay' => 11,
 						'status' => 'OK',
 						'serial' => 'B365P720EC500706',
@@ -515,6 +542,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-17' => {
+						'slot' => '1E-2-17',
 						'bay' => 17,
 						'status' => 'OK',
 						'serial' => '3LB1D0VA00009725KECN',
@@ -525,6 +553,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-5' => {
+						'slot' => '1E-2-5',
 						'bay' => 5,
 						'status' => 'OK',
 						'serial' => '3LB1D9JF00009725KFQU',
@@ -535,6 +564,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-18' => {
+						'slot' => '1E-2-18',
 						'bay' => 18,
 						'status' => 'OK',
 						'serial' => 'B365P720EE980706',
@@ -545,6 +575,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-12' => {
+						'slot' => '1E-2-12',
 						'bay' => 12,
 						'status' => 'OK',
 						'serial' => '3LB1DC2Z00009725357U',
@@ -555,6 +586,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-1' => {
+						'slot' => '1E-2-1',
 						'bay' => 1,
 						'status' => 'OK',
 						'serial' => 'B365P710D6RR0704',
@@ -562,9 +594,10 @@ my @tests = (
 						'model' => 'HP      DG072A9BB7',
 						'phys2' => 'E',
 						'fw' => 'HPD0',
-					'box' => 2
+						'box' => 2,
 					},
 					'1E-1-23' => {
+						'slot' => '1E-1-23',
 						'bay' => 23,
 						'status' => 'OK',
 						'serial' => 'B365P710CJ8M0703',
@@ -575,6 +608,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-18' => {
+						'slot' => '1E-1-18',
 						'bay' => 18,
 						'status' => 'OK',
 						'serial' => '3LB1D6JL000097251ZNL',
@@ -585,6 +619,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-2-3' => {
+						'slot' => '1E-2-3',
 						'bay' => 3,
 						'status' => 'OK',
 						'serial' => '3LB1D48800009724Y7AZ',
@@ -595,6 +630,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-1-3' => {
+						'slot' => '1E-1-3',
 						'bay' => 3,
 						'status' => 'OK',
 						'serial' => 'B365P720EE9K0706',
@@ -605,6 +641,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-2' => {
+						'slot' => '1E-1-2',
 						'bay' => 2,
 						'status' => 'OK',
 						'serial' => 'B365P720EAF70706',
@@ -615,6 +652,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-2-8' => {
+						'slot' => '1E-2-8',
 						'bay' => 8,
 						'status' => 'OK',
 						'serial' => 'B365P710CHH70703',
@@ -625,6 +663,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-15' => {
+						'slot' => '1E-2-15',
 						'bay' => 15,
 						'status' => 'OK',
 						'serial' => '3LB1DDW70000972532K1',
@@ -635,6 +674,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-6' => {
+						'slot' => '1E-2-6',
 						'bay' => 6,
 						'status' => 'OK',
 						'serial' => 'B365P710CMTU0703',
@@ -645,6 +685,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-21' => {
+						'slot' => '1E-2-21',
 						'bay' => 21,
 						'status' => 'OK',
 						'serial' => '3LB1D4AW000097251ZP4',
@@ -655,6 +696,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-13' => {
+						'slot' => '1E-2-13',
 						'bay' => 13,
 						'status' => 'OK',
 						'serial' => '3LB1D9Z4000097252BF5',
@@ -665,6 +707,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-14' => {
+						'slot' => '1E-2-14',
 						'bay' => 14,
 						'status' => 'OK',
 						'serial' => 'B365P720EDTJ0706',
@@ -675,6 +718,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-9' => {
+						'slot' => '1E-2-9',
 						'bay' => 9,
 						'status' => 'OK',
 						'serial' => 'B365P720EE8K0706',
@@ -685,6 +729,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-1-22' => {
+						'slot' => '1E-1-22',
 						'bay' => 22,
 						'status' => 'OK',
 						'serial' => 'B365P710CJ8R0703',
@@ -695,6 +740,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-2-2' => {
+						'slot' => '1E-2-2',
 						'bay' => 2,
 						'status' => 'OK',
 						'serial' => 'B365P720EDJG0706',
@@ -705,6 +751,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-1-8' => {
+						'slot' => '1E-1-8',
 						'bay' => 8,
 						'status' => 'OK',
 						'serial' => 'B365P720EE4R0706',
@@ -715,6 +762,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-2-19' => {
+						'slot' => '1E-2-19',
 						'bay' => 19,
 						'status' => 'OK',
 						'serial' => '3LB1DDQ6000097240TNM',
@@ -725,6 +773,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-24' => {
+						'slot' => '1E-2-24',
 						'bay' => 24,
 						'status' => 'OK',
 						'serial' => 'B365P6C09U0H0649',
@@ -735,6 +784,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-1-7' => {
+						'slot' => '1E-1-7',
 						'bay' => 7,
 						'status' => 'OK',
 						'serial' => 'B365P720EE060706',
@@ -745,6 +795,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-12' => {
+						'slot' => '1E-1-12',
 						'bay' => 12,
 						'status' => 'OK',
 						'serial' => 'B365P710D71K0704',
@@ -755,6 +806,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-6' => {
+						'slot' => '1E-1-6',
 						'bay' => 6,
 						'status' => 'OK',
 						'serial' => 'B365P720EDTU0706',
@@ -765,6 +817,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-15' => {
+						'slot' => '1E-1-15',
 						'bay' => 15,
 						'status' => 'OK',
 						'serial' => 'B365P720EE5R0706',
@@ -775,6 +828,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-24' => {
+						'slot' => '1E-1-24',
 						'bay' => 24,
 						'status' => 'OK',
 						'serial' => 'B365P710CHGE0703',
@@ -785,6 +839,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-2-16' => {
+						'slot' => '1E-2-16',
 						'bay' => 16,
 						'status' => 'OK',
 						'serial' => 'B365P6C09UND0649',
@@ -795,6 +850,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-20' => {
+						'slot' => '1E-2-20',
 						'bay' => 20,
 						'status' => 'OK',
 						'serial' => '3LB1D0BZ00009724GNHB',
@@ -802,9 +858,10 @@ my @tests = (
 						'model' => 'HP      DG072A8B54',
 						'phys2' => 'E',
 						'fw' => 'HPD7',
-					'box' => 2
+						'box' => 2,
 					},
 					'1E-1-13' => {
+						'slot' => '1E-1-13',
 						'bay' => 13,
 						'status' => 'OK',
 						'serial' => '6SD10M9A0000B1063CMB',
@@ -815,6 +872,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-1-1' => {
+						'slot' => '1E-1-1',
 						'bay' => 1,
 						'status' => 'OK',
 						'serial' => 'B365P720EE8W0706',
@@ -825,6 +883,7 @@ my @tests = (
 						'box' => 1
 					},
 					'1E-2-23' => {
+						'slot' => '1E-2-23',
 						'bay' => 23,
 						'status' => 'OK',
 						'serial' => 'B365P6C09WVM0649',
@@ -835,6 +894,7 @@ my @tests = (
 						'box' => 2
 					},
 					'1E-2-10' => {
+						'slot' => '1E-2-10',
 						'bay' => 10,
 						'status' => 'OK',
 						'serial' => 'B365P720EE510706',

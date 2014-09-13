@@ -3132,6 +3132,7 @@ sub parse {
 		$}x) {
 			my $slot = "$phys1$phys2-$box-$bay";
 			$c{$cdev}{drives}{$slot} = {
+				'slot' => $slot,
 				'phys1' => $phys1,
 				'phys2' => $phys2,
 				'box' => int($box),
@@ -3218,10 +3219,12 @@ sub check {
 		if ($c->{'pd count'}) {
 			my %pd;
 			for my $pd (values %{$c->{drives}}) {
+				my $ps = $pd->{slot};
 				if ($pd->{status} !~ '^OK') {
 					$this->critical;
+					$ps .= "($pd->{serial})";
 				}
-				push(@{$pd{$pd->{status}}}, $pd->{serial});
+				push(@{$pd{$pd->{status}}}, $ps);
 			}
 			push(@status, "Drives: ". $this->join_status(\%pd));
 		}
