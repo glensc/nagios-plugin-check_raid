@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 6;
+use constant TESTS => 7;
 use Test::More tests =>  TESTS * 6;
 use test;
 
@@ -237,6 +237,72 @@ my @tests = (
 				'volume' => 'on Bus 3, Physical Port 1E',
 				'status' => 'Temperature problem',
 			},
+		},
+	},
+	{
+		status => OK,
+		detect_hpsa => 'no-such-file',
+		detect_cciss => 'cciss',
+		version => 'cciss-1.11',
+		controller => 'cciss_vol_status.cetus',
+		cciss_proc => 'cciss/$controller',
+		smartctl => 'smartctl.cciss.$disk',
+		message => '/dev/cciss/c0d0: (Smart Array P400) RAID 1 Volume 0: OK, Drives: 3LB16JEV0000971881Q9,3LB1667000009717XQ6Q=OK, Cache: WriteCache ReadMem:52 MiB WriteMem:156 MiB, /dev/cciss/c1d0: (Smart Array P800) Enclosure MSA70 (S/N: SGA6510007) on Bus 3, Physical Port 1E: OK, Cache: WriteCache ReadMem:114 MiB WriteMem:342 MiB',
+		c => {
+			'/dev/cciss/c0d0' => {
+				'controller' => 'Smart Array P400',
+				'volume' => 'RAID 1 Volume 0',
+				'status' => 'OK',
+				'pd count' => 2,
+
+				'pd 1' => {
+					'bay' => 2,
+					'conn2' => 'I',
+					'status' => 'OK',
+					'serial' => '3LB16JEV0000971881Q9',
+					'model' => 'HP      DG072A8B54',
+					'fw' => 'HPD7',
+					'conn1' => '2',
+					'box' => 1,
+				},
+
+				'pd 2' => {
+					'bay' => 1,
+					'conn2' => 'I',
+					'status' => 'OK',
+					'serial' => '3LB1667000009717XQ6Q',
+					'model' => 'HP      DG072A8B54',
+					'fw' => 'HPD7',
+					'conn1' => '2',
+					'box' => 1,
+				},
+
+				'cache' => {
+					'configured' => 'Yes',
+					'file' => '/dev/cciss/c0d0',
+					'write_cache_enabled' => 'Yes',
+					'write_cache_memory' => '156 MiB',
+					'board' => 'Smart Array P400',
+					'read_cache_memory' => '52 MiB',
+					'instance' => 0,
+				}
+			},
+
+			'/dev/cciss/c1d0' => {
+				'controller' => 'Smart Array P800) Enclosure MSA70 (S/N: SGA6510007',
+				'volume' => 'on Bus 3, Physical Port 1E',
+				'status' => 'OK',
+
+				'cache' => {
+					'configured' => 'Yes',
+					'file' => '/dev/cciss/c1d0',
+					'write_cache_enabled' => 'Yes',
+					'write_cache_memory' => '342 MiB',
+					'board' => 'Smart Array P800',
+					'read_cache_memory' => '114 MiB',
+					'instance' => 0,
+				}
+			}
 		},
 	},
 );
