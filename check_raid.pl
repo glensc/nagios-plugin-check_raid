@@ -2008,6 +2008,8 @@ sub sudo {
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd info*";
 }
 
+sub trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
+
 sub to_i {
 	my $i = shift;
 	return $i if $i !~ /^\d+$/;
@@ -2134,7 +2136,7 @@ sub parse {
 					my ($blocks, $serial) = @rest;
 					%p = (
 						blocks => to_i($blocks),
-						serial => $serial,
+						serial => trim($serial),
 					);
 				} else {
 					my ($type, $phy, $encl, $model) = @rest;
