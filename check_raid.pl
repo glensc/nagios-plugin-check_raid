@@ -3048,7 +3048,7 @@ sub parse {
 	my $this = shift;
 	my @devs = @_;
 
-	my (%c, $cdev, $pdev);
+	my (%c, $cdev);
 
 	# cciss_vol_status 1.10 has -V option to print more info about controller and disks.
 	my $v1_10 = $this->cciss_vol_status_version >= 1.10;
@@ -3057,25 +3057,56 @@ sub parse {
 	my $fh = $this->cmd($v1_10 ? 'controller status verbose' : 'controller status', { '@devs' => \@devs });
 	while (<$fh>) {
 		chomp;
-		# strip for better pattern matching
-		s/\.\s*$//;
 
 		if (/Controller:/) {
 			# this is first item when new controller is found
 			# reset previous state
 			undef $cdev;
-			undef $pdev;
 			next;
 		}
 
+		# catch enclosures, print_bus_status()
+		# /dev/cciss/c1d0: (Smart Array P800) Enclosure MSA70 (S/N: SGA651004J) on Bus 2, Physical Port 1E status: OK.
+		if (my($file, $board_name, $name, $sn, $bus, $port1, $port2, $status) = m{
+			^(/dev/[^:]+):\s        # File
+			\(([^)]+)\)\s           # Board Name
+			Enclosure\s(\S+)\s      # Enclosure Name
+			\(S/N:\s(\S+)\)\s        # Enclosure SN
+			on\sBus\s(\d+),\s       # Bus Number
+			Physical\sPort\s(.)     # physical_port1
+			(.)\s                   # physical_port2
+			status:\s(.*?)\.        # status (without a dot)
+		}x) {
+			$c{$file}{enclosures}{$bus} = {
+				board_name => $board_name,
+				name => $name,
+				sn => $sn,
+				bus => int($bus),
+				phys1 => $port1,
+				phys2 => $port2,
+				status => $status,
+			};
+			next;
+		}
+
+		# volume status, print_volume_status()
 		# /dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK
 		# /dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK.
-		if (my($dev, $controller, $volume, $status) = m{^(/dev/\S+): \((.+)\) (.+) status: (.*?)$}) {
-			$cdev = $dev;
+		if (my($file, $board_name, $raid_level, $volume_number, $certain, $status) = m{
+			^(/dev/[^:]+):\s        # File
+			\(([^)]+)\)\s           # Board Name
+			(RAID\s\d+|\([^)]+\))\s # RAID level
+			Volume\s(\d+)           # Volume number
+			(\(\?\))?\s             # certain?
+			status:\s(.*?)\.        # status (without a dot)
+		}x) {
+			$cdev = $file;
 			$c{$cdev} = {
-				controller => $controller,
-				volume => $volume,
-				status => $status
+				board_name => $board_name,
+				raid_level => $raid_level,
+				volume_number => $volume_number,
+				certain => int(not defined $certain),
+				status => $status,
 			};
 			next;
 		}
@@ -3083,22 +3114,29 @@ sub parse {
 		next unless $cdev;
 
 		if (my ($count) = /Physical drives: (\d+)/) {
-			$c{$cdev}{'pd count'} = int($count);
+			$c{$cdev}{'pd count'} = $count;
 			next;
 		}
 
 		# check_physical_drives(file, fd);
+		# NOTE: check for physical drives is enabled with -V or -s option (-V enables -s)
 		# cciss_vol_status.c format_phys_drive_location()
-		if (my ($phys_connector1, $phys_connector2, $phys_box_on_bus, $phys_bay_in_box,
-				$model, $serial_no, $fw_rev, $status) =
-				m{ connector (.)(.) box (\d+) bay (\d+) (.{40}) (.{40}) (.{8}) (.+)$}) {
+		if (my ($phys1, $phys2, $box, $bay, $model, $serial_no, $fw_rev, $status) = m{
+			\sconnector\s(.)(.)\s # Phys connector 1&2
+			box\s(\d+)\s          # phys_box_on_bus
+			bay\s(\d+)\s          # phys_bay_in_box
+			(.{40})\s             # model
+			(.{40})\s             # serial no
+			(.{8})\s              # fw rev
+			(.+)                  # status
+		$}x) {
+			my $slot = "$phys1$phys2-$box-$bay";
+			$c{$cdev}{drives}{$slot} = {
+				'phys1' => $phys1,
+				'phys2' => $phys2,
+				'box' => int($box),
+				'bay' => int($bay),
 
-			$pdev++;
-			$c{$cdev}{'pd '.$pdev} = {
-				'conn1' => $phys_connector1,
-				'conn2' => $phys_connector2,
-				'box' => int($phys_box_on_bus),
-				'bay' => int($phys_bay_in_box),
 				'model' => trim($model),
 				'serial' => trim($serial_no),
 				'fw' => trim($fw_rev),
@@ -3174,13 +3212,12 @@ sub check {
 		if ($c->{status} !~ '^OK') {
 			$this->critical;
 		}
-		push(@status, "$dev: ($c->{controller}) $c->{volume}: $c->{status}");
+		push(@status, "$dev: ($c->{board_name}) $c->{raid_level} Volume $c->{volume_number}: $c->{status}");
 
 		# check physical devices
 		if ($c->{'pd count'}) {
 			my %pd;
-			for (my $i = 1; $i <= $c->{'pd count'}; $i++ ){
-				my $pd = $c->{"pd $i"};
+			for my $pd (values %{$c->{drives}}) {
 				if ($pd->{status} !~ '^OK') {
 					$this->critical;
 				}
