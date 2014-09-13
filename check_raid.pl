@@ -2005,6 +2005,12 @@ sub sudo {
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd info*";
 }
 
+sub to_i {
+	my $i = shift;
+	return $i if $i !~ /^\d+$/;
+	return int($i);
+}
+
 sub parse {
 	my $this = shift;
 
@@ -2020,8 +2026,8 @@ sub parse {
 			(\d+)\s+  # Units
 			(\d+)\s+  # NotOpt
 			(\d+)\s+  # RRate
-			(\d+)\s+  # VRate
-			(\S+)     # BBU
+			(\d+|-)\s+  # VRate
+			(\S+|-)     # BBU
 		}x) {
 			$c{$ctl} = {
 				model => $model,
@@ -2030,7 +2036,7 @@ sub parse {
 				units => int($units),
 				notopt => int($notopt),
 				rrate => int($rrate),
-				vrate => int($vrate),
+				vrate => to_i($vrate),
 				bbu => $bbu,
 			};
 		}

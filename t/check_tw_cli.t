@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 4;
+use constant TESTS => 5;
 use Test::More tests => TESTS * 5;
 use test;
 
@@ -38,6 +38,13 @@ my @tests = (
 		unitstatus => 'ichy/info.c0.unitstatus',
 		drivestatus => 'ichy/info.c0.drivestatus',
 		message => 'c0(9650SE-12ML): u0:OK, Drives(6): p0,p1,p2,p3,p4,p5=OK',
+	},
+	{
+		status => OK,
+		info => 'black/info',
+		unitstatus => 'black/unitstatus',
+		drivestatus => 'black/drivestatus',
+		message => 'c0(8006-2LP): u0:OK, Drives(2): p0,p1=OK',
 	},
 );
 
