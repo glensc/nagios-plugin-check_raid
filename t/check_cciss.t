@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 5;
+use constant TESTS => 6;
 use Test::More tests =>  TESTS * 5;
 use test;
 
@@ -60,6 +60,16 @@ my @tests = (
 		cciss_proc => 'cciss/$controller',
 		smartctl => 'smartctl.cciss.$disk',
 		message => '/dev/cciss/c0d0: (Smart Array P400i) RAID 6 Volume 0: OK, Drives: 3NP3BQ2700009910VW93,3NP3BQFM00009910VVWG,3NP3FVRE00009917SQV1,3NP3FVL400009917THQT=OK, Cache: WriteCache:DISABLED ReadMem:104 MiB WriteMem:104 MiB',
+	},
+	{
+		status => CRITICAL,
+		detect_hpsa => 'no-such-file',
+		detect_cciss => 'cciss',
+		version => 'cciss-1.09',
+		controller => 'cciss_vol_status.c1',
+		cciss_proc => 'cciss/$controller',
+		smartctl => '',
+		message => '/dev/cciss/c0d0: (Smart Array P400) RAID 1 Volume 0: OK, /dev/cciss/c1d0: (Smart Array P800) Enclosure MSA70 (S/N: SGA6510007) on Bus 3, Physical Port 1E: Temperature problem',
 	},
 );
 
