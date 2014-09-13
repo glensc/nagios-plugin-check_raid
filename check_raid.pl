@@ -3083,7 +3083,7 @@ sub parse {
 		next unless $cdev;
 
 		if (my ($count) = /Physical drives: (\d+)/) {
-			$c{$cdev}{'pd count'} = $count;
+			$c{$cdev}{'pd count'} = int($count);
 			next;
 		}
 
