@@ -1979,6 +1979,7 @@ sub check {
 package tw_cli;
 # tw_cli(8) is a Command Line Interface Storage Management Software for
 # AMCC/3ware ATA RAID Controller(s).
+# Owned by LSI currently: https://en.wikipedia.org/wiki/3ware
 #
 # http://www.cyberciti.biz/files/tw_cli.8.html
 use base 'plugin';
@@ -2040,7 +2041,7 @@ sub parse {
 				ports => int($ports),
 				drives => int($drives),
 				units => int($units),
-				notopt => int($notopt),
+				optimal => int(!$notopt),
 				rrate => int($rrate),
 				vrate => to_i($vrate),
 				bbu => $bbu,
@@ -2053,7 +2054,7 @@ sub parse {
 	return unless %c;
 
 	for my $c (keys %c) {
-		# check each unit on controllers
+		# get each unit on controllers
 		$fh = $this->cmd('unitstatus', { '$controller' => $c });
 		while (<$fh>) {
 			if (my($u, $type, $status, $p_rebuild, $p_vim, $strip, $size, $cache, $avrify) = m{^
@@ -2090,27 +2091,68 @@ sub parse {
 		}
 		close $fh;
 
-		# check individual disk status
+		# get individual disk status
 		$fh = $this->cmd('drivestatus', { '$controller' => $c });
+		# common regexp
+		my $r = qr{^
+			(p\d+)\s+       # Port
+			(\S+)\s+        # Status
+			(\S+)\s+        # Unit
+			([\d.]+\s[TG]B|-)\s+ # Size
+		}x;
+
 		while (<$fh>) {
-			if (my($port, $status, $unit, $size) = m{^
-				(p\d+)\s+       # Port
-				(\S+)\s+        # Status
-				(\S+)\s+        # Unit
-				([\d.]+\s[TG]B|-)\s+ # Size
-				# Different output, so do not parse further
-				# variant1: Blocks Serial
-				# variant2: Type Phy Encl-Slot Model
-			}x) {
+			# skip empty line
+			next if /^$/;
+
+			# Detect version
+			if (/^Port/) {
+				# <=9.5.1: Blocks Serial
+				$r .= qr{
+					(\S+)\s+  # Blocks
+					(.+)      # Serial
+				}x;
+				next;
+			} elsif (/^VPort/) {
+				# >=9.5.2: Type Phy Encl-Slot Model
+				$r .= qr{
+					(\S+)\s+ # Type
+					(\S+)\s+ # Phy
+					(\S+)\s+ # Encl-Slot
+					(.+)     # Model
+				}x;
+				next;
+			}
+
+			if (my($port, $status, $unit, $size, @rest) = ($_ =~ $r)) {
 				# do not report disks not present
 				# tw_cli 9.5.2 and above do not list these at all
 				next if $status eq 'NOT-PRESENT';
+				my %p;
+
+				if (@rest <= 2) {
+					my ($blocks, $serial) = @rest;
+					%p = (
+						blocks => to_i($blocks),
+						serial => $serial,
+					);
+				} else {
+					my ($type, $phy, $encl, $model) = @rest;
+					%p = (
+						type => $type,
+						phy => to_i($phy),
+						encl => $encl,
+						model => $model,
+					);
+				}
 
 				$c{$c}{drivestatus}{$port} = {
 					status => $status,
 					unit => $unit,
 					size => $size,
+					%p,
 				};
+
 				next;
 			}
 
