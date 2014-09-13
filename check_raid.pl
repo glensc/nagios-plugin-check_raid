@@ -1977,8 +1977,10 @@ sub check {
 }
 
 package tw_cli;
-# TODO: rename to 3ware?
-# 3ware SATA RAID
+# tw_cli(8) is a Command Line Interface Storage Management Software for
+# AMCC/3ware ATA RAID Controller(s).
+#
+# http://www.cyberciti.biz/files/tw_cli.8.html
 use base 'plugin';
 
 # register
@@ -2019,14 +2021,18 @@ sub parse {
 	my $fh = $this->cmd('info');
 	while (<$fh>) {
 		if (my($ctl, $model, $ports, $drives, $units, $notopt, $rrate, $vrate, $bbu) = m{^
-			(c\d+)\s+ # Ctl
-			(\S+)\s+  # Model
-			(\d+)\s+  # (V)Ports
-			(\d+)\s+  # Drives
-			(\d+)\s+  # Units
-			(\d+)\s+  # NotOpt
-			(\d+)\s+  # RRate
-			(\d+|-)\s+  # VRate
+			(c\d+)\s+   # Controller
+			(\S+)\s+    # Model
+			(\d+)\s+    # (V)Ports
+			(\d+)\s+    # Drives
+			(\d+)\s+    # Units
+			(\d+)\s+    # NotOpt: Not Optional
+			            # Not Optimal refers to any state except OK and VERIFYING.
+						# Other states include INITIALIZING, INIT-PAUSED,
+						# REBUILDING, REBUILD-PAUSED, DEGRADED, MIGRATING,
+						# MIGRATE-PAUSED, RECOVERY, INOPERABLE, and UNKNOWN.
+			(\d+)\s+    # RRate: Rebuild Rate
+			(\d+|-)\s+  # VRate: Verify Rate
 			(\S+|-)     # BBU
 		}x) {
 			$c{$ctl} = {
@@ -2050,12 +2056,15 @@ sub parse {
 		# check each unit on controllers
 		$fh = $this->cmd('unitstatus', { '$controller' => $c });
 		while (<$fh>) {
-			if (my($u, $type, $status, $rcmpl, $vim, $strip, $size, $cache, $avrify) = m{^
+			if (my($u, $type, $status, $p_rebuild, $p_vim, $strip, $size, $cache, $avrify) = m{^
 				(u\d+)\s+ # Unit
 				(\S+)\s+  # UnitType
 				(\S+)\s+  # Status
-				(\S+)\s+  # %RCmpl
-				(\S+)\s+  # %V/I/M
+				(\S+)\s+  # %RCmpl: The %RCompl reports the percent completion
+				          # of the unit's Rebuild, if this task is in progress.
+				(\S+)\s+  # %V/I/M: The %V/I/M reports the percent completion
+				          # of the unit's Verify, Initialize, or Migrate,
+						  # if one of these are in progress.
 				(\S+)\s+  # Strip
 				(\S+)\s+  # Size(GB)
 				(\S+)\s+  # Cache
@@ -2064,8 +2073,8 @@ sub parse {
 				$c{$c}{unitstatus}{$u} = {
 					type => $type,
 					status => $status,
-					rcmpl => $rcmpl,
-					vim => $vim,
+					rebuild_percent => $p_rebuild,
+					vim_percent => $p_vim,
 					strip => $strip,
 					size => $size,
 					cache => $cache,
@@ -2133,15 +2142,15 @@ sub check {
 
 			if ($s =~ /INITIALIZING|MIGRATING/) {
 				$this->warning;
-				$s .= " $ud->{vim}";
+				$s .= " $ud->{vim_percent}";
 
 			} elsif ($s eq 'VERIFYING') {
 				$this->resync;
-				$s .= " $ud->{vim}";
+				$s .= " $ud->{vim_percent}";
 
 			} elsif ($s eq 'REBUILDING') {
 				$this->warning;
-				$s .= " $ud->{rcmpl}";
+				$s .= " $ud->{rebuild_percent}";
 
 			} elsif ($s eq 'DEGRADED') {
 				$this->critical;
