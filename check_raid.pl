@@ -3226,6 +3226,19 @@ sub check {
 			push(@status, "Drives: ". $this->join_status(\%pd));
 		}
 
+		# check enclosures
+		if ($c->{enclosures}) {
+			my @e;
+			for my $e (values %{$c->{enclosures}}) {
+				my $s = "$e->{name}($e->{sn}): $e->{status}";
+				if ($e->{status} !~ '^OK') {
+					$this->critical;
+				}
+				push(@e, $s);
+			}
+			push(@status, "Enclosures: ". join(', ', @e));
+		}
+
 		# check cache
 		if ($c->{cache} && $c->{cache}->{configured} eq 'Yes') {
 			my $cache = $c->{cache};
