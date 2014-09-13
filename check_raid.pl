@@ -3226,7 +3226,7 @@ sub check {
 				}
 				push(@{$pd{$pd->{status}}}, $ps);
 			}
-			push(@status, "Drives: ". $this->join_status(\%pd));
+			push(@status, "Drives($c->{'pd count'}): ". $this->join_status(\%pd));
 		}
 
 		# check enclosures
