@@ -2034,7 +2034,7 @@ sub parse {
 						# MIGRATE-PAUSED, RECOVERY, INOPERABLE, and UNKNOWN.
 			(\d+)\s+    # RRate: Rebuild Rate
 			(\d+|-)\s+  # VRate: Verify Rate
-			(\S+|-)     # BBU
+			(\S+|-)?    # BBU
 		}x) {
 			$c{$ctl} = {
 				model => $model,

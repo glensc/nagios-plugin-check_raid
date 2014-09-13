@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 5;
+use constant TESTS => 6;
 use Test::More tests => TESTS * 5;
 use test;
 
@@ -45,6 +45,13 @@ my @tests = (
 		unitstatus => 'black/unitstatus',
 		drivestatus => 'black/drivestatus',
 		message => 'c0(8006-2LP): u0(RAID-1): OK, Drives(2): p0,p1=OK',
+	},
+	{
+		status => OK,
+		info => 'rover/info',
+		unitstatus => 'rover/unitstatus',
+		drivestatus => 'rover/drivestatus',
+		message => 'c0(9500S-8): u0(RAID-5): OK, Drives(6): p0,p1,p2,p3,p4,p5=OK',
 	},
 );
 
