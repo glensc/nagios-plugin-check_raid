@@ -2185,20 +2185,20 @@ sub check {
 	while (my($cid, $c) = each %$c) {
 		my @cstatus;
 
-		while (my($u, $ud) = each %{$c->{unitstatus}}) {
-			my $s = $ud->{status};
+		while (my($uid, $u) = each %{$c->{unitstatus}}) {
+			my $s = $u->{status};
 
 			if ($s =~ /INITIALIZING|MIGRATING/) {
 				$this->warning;
-				$s .= " $ud->{vim_percent}";
+				$s .= " $u->{vim_percent}";
 
 			} elsif ($s eq 'VERIFYING') {
 				$this->resync;
-				$s .= " $ud->{vim_percent}";
+				$s .= " $u->{vim_percent}";
 
 			} elsif ($s eq 'REBUILDING') {
 				$this->warning;
-				$s .= " $ud->{rebuild_percent}";
+				$s .= " $u->{rebuild_percent}";
 
 			} elsif ($s eq 'DEGRADED') {
 				$this->critical;
@@ -2208,7 +2208,14 @@ sub check {
 
 			}
 
-			push(@status, "$cid($c->{model}): $u($ud->{type}): $s");
+			my @ustatus = $s;
+
+			# report cache, no checking
+			if ($u->{cache} && $u->{cache} ne '-')  {
+				push(@ustatus, "Cache:$u->{cache}");
+			}
+
+			push(@status, "$cid($c->{model}): $uid($u->{type}): ".join(', ', @ustatus));
 		}
 
 		# check individual disk status
