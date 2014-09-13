@@ -2213,11 +2213,16 @@ sub check {
 
 		# check individual disk status
 		my %ds;
-		foreach my $d (sort { $a cmp $b } keys %{$c->{drivestatus}}) {
-			my $ds = $c->{drivestatus}->{$d}{status};
+		foreach my $p (sort { $a cmp $b } keys %{$c->{drivestatus}}) {
+			my $d = $c->{drivestatus}->{$p};
+			my $ds = $d->{status};
 			$this->critical unless $ds eq 'OK';
 
-			push(@{$ds{$ds}}, $d);
+			if ($d->{unit} eq '-') {
+				$ds = 'SPARE';
+			}
+
+			push(@{$ds{$ds}}, $p);
 		}
 		push(@status, "Drives($c->{drives}): ".$this->join_status(\%ds)) if %ds;
 	}

@@ -16,7 +16,7 @@ my @tests = (
 		info => '1/info',
 		unitstatus => '1/info.c.unitstatus',
 		drivestatus => '1/info.c.drivestatus',
-		message => 'c0(9650SE-16ML): u0(RAID-6): OK, Drives(16): p0,p1,p10,p11,p12,p13,p14,p15,p2,p3,p4,p5,p6,p7,p8,p9=OK',
+		message => 'c0(9650SE-16ML): u0(RAID-6): OK, Drives(16): p0,p1,p10,p11,p13,p14,p15,p2,p3,p4,p5,p6,p7,p8,p9=OK p12=SPARE',
 		c => {
 			'c0' => {
 				'model' => '9650SE-16ML',
