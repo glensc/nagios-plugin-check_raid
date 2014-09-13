@@ -16,7 +16,7 @@ my @tests = (
 		info => '1/info',
 		unitstatus => '1/info.c.unitstatus',
 		drivestatus => '1/info.c.drivestatus',
-		message => 'c0(9650SE-16ML): u0(RAID-6): OK, Drives(16): p0,p1,p10,p11,p13,p14,p15,p2,p3,p4,p5,p6,p7,p8,p9=OK p12=SPARE',
+		message => 'c0(9650SE-16ML): u0(RAID-6): OK, Drives(16): p0,p1,p10,p11,p13,p14,p15,p2,p3,p4,p5,p6,p7,p8,p9=OK p12=SPARE, BBU: OK',
 		c => {
 			'c0' => {
 				'model' => '9650SE-16ML',
@@ -163,7 +163,7 @@ my @tests = (
 		info => '2/info',
 		unitstatus => '2/info.c0.unitstatus',
 		drivestatus => '2/info.c0.drivestatus',
-		message => 'c0(9750-4i): u0(RAID-5): VERIFYING 16%, Drives(4): p0,p1,p2,p3=OK',
+		message => 'c0(9750-4i): u0(RAID-5): VERIFYING 16%, Drives(4): p0,p1,p2,p3=OK, BBU: OK',
 		c => {
 			'c0' => {
 				'model' => '9750-4i',
@@ -282,7 +282,7 @@ my @tests = (
 		info => 'ichy/info',
 		unitstatus => 'ichy/info.c0.unitstatus',
 		drivestatus => 'ichy/info.c0.drivestatus',
-		message => 'c0(9650SE-12ML): u0(RAID-5): OK, Drives(6): p0,p1,p2,p3,p4,p5=OK',
+		message => 'c0(9650SE-12ML): u0(RAID-5): OK, Drives(6): p0,p1,p2,p3,p4,p5=OK, BBU: OK',
 		c => {
 			'c0' => {
 				'model' => '9650SE-12ML',

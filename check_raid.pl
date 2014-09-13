@@ -2225,6 +2225,12 @@ sub check {
 			push(@{$ds{$ds}}, $p);
 		}
 		push(@status, "Drives($c->{drives}): ".$this->join_status(\%ds)) if %ds;
+
+		# check BBU
+		if ($c->{bbu} && $c->{bbu} ne '-')  {
+			$this->critical if $c->{bbu} ne 'OK';
+			push(@status, "BBU: $c->{bbu}");
+		}
 	}
 
 	return unless @status;
