@@ -2102,6 +2102,10 @@ sub parse {
 				# variant1: Blocks Serial
 				# variant2: Type Phy Encl-Slot Model
 			}x) {
+				# do not report disks not present
+				# tw_cli 9.5.2 and above do not list these at all
+				next if $status eq 'NOT-PRESENT';
+
 				$c{$c}{drivestatus}{$port} = {
 					status => $status,
 					unit => $unit,
@@ -2167,10 +2171,7 @@ sub check {
 		my %ds;
 		foreach my $d (sort { $a cmp $b } keys %{$c->{drivestatus}}) {
 			my $ds = $c->{drivestatus}->{$d}{status};
-			$this->critical unless $ds =~ /(OK|NOT-PRESENT)/;
-
-			# do not report disks not present
-			next if $ds eq 'NOT-PRESENT';
+			$this->critical unless $ds eq 'OK';
 
 			push(@{$ds{$ds}}, $d);
 		}
