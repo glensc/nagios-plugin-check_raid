@@ -170,7 +170,7 @@ my @tests = (
 		controller => 'cciss_vol_status.argos2',
 		cciss_proc => 'cciss/$controller',
 		smartctl => 'smartctl.cciss.$disk',
-		message => '/dev/cciss/c0d0: (Smart Array P400i) RAID 6 Volume 0: OK, Drives(4): 1I-1-1,1I-1-3,1I-1-2,1I-1-4=OK, Cache: WriteCache:DISABLED ReadMem:104 MiB WriteMem:104 MiB',
+		message => '/dev/cciss/c0d0: (Smart Array P400i) RAID 6 Volume 0: OK, Drives(4): 1I-1-1,1I-1-2,1I-1-3,1I-1-4=OK, Cache: WriteCache:DISABLED ReadMem:104 MiB WriteMem:104 MiB',
 
 		c => {
 			'/dev/cciss/c0d0' => {
@@ -250,7 +250,7 @@ my @tests = (
 		controller => 'cciss_vol_status.c1',
 		cciss_proc => 'cciss/$controller',
 		smartctl => '',
-		message => '/dev/cciss/c0d0: (Smart Array P400) RAID 1 Volume 0: OK, /dev/cciss/c1d0: (Smart Array P800) RAID 1 Volume 0: OK, Enclosures: MSA70(SGA6510007): Temperature problem, MSA70(SGA651004J): OK',
+		message => '/dev/cciss/c0d0: (Smart Array P400) RAID 1 Volume 0: OK, /dev/cciss/c1d0: (Smart Array P800) RAID 1 Volume 0: OK, Enclosures: MSA70(SGA651004J): OK, MSA70(SGA6510007): Temperature problem',
 		c => {
 			'/dev/cciss/c0d0' => {
 				'board_name' => 'Smart Array P400',
@@ -298,7 +298,7 @@ my @tests = (
 		controller => 'cciss_vol_status.cetus',
 		cciss_proc => 'cciss/$controller',
 		smartctl => 'smartctl.cciss.$disk',
-		message => '/dev/cciss/c0d0: (Smart Array P400) RAID 1 Volume 0: OK, Drives(2): 2I-1-1,2I-1-2=OK, Cache: WriteCache ReadMem:52 MiB WriteMem:156 MiB, /dev/cciss/c1d0: (Smart Array P800) RAID 1 Volume 0: OK, Drives(50): 1E-1-20,1E-1-16,1E-1-10,1E-1-4,1E-2-25,1E-2-4,1E-1-11,1E-2-7,1E-1-19,1E-1-21,1E-1-17,1E-1-9,1E-1-14,1E-2-22,1E-1-25,1E-1-5,1E-2-11,1E-2-17,1E-2-5,1E-2-18,1E-2-12,1E-2-1,1E-1-23,1E-1-18,1E-2-3,1E-1-3,1E-1-2,1E-2-8,1E-2-15,1E-2-6,1E-2-21,1E-2-13,1E-2-14,1E-2-9,1E-1-22,1E-2-2,1E-1-8,1E-2-19,1E-2-24,1E-1-7,1E-1-12,1E-1-6,1E-1-15,1E-1-24,1E-2-16,1E-2-20,1E-1-13,1E-1-1,1E-2-23,1E-2-10=OK, Enclosures: MSA70(SGA6510007): OK, MSA70(SGA651004J): OK, Cache: WriteCache ReadMem:114 MiB WriteMem:342 MiB',
+		message => '/dev/cciss/c0d0: (Smart Array P400) RAID 1 Volume 0: OK, Drives(2): 2I-1-1,2I-1-2=OK, Cache: WriteCache ReadMem:52 MiB WriteMem:156 MiB, /dev/cciss/c1d0: (Smart Array P800) RAID 1 Volume 0: OK, Drives(50): 1E-1-1,1E-1-10,1E-1-11,1E-1-12,1E-1-13,1E-1-14,1E-1-15,1E-1-16,1E-1-17,1E-1-18,1E-1-19,1E-1-2,1E-1-20,1E-1-21,1E-1-22,1E-1-23,1E-1-24,1E-1-25,1E-1-3,1E-1-4,1E-1-5,1E-1-6,1E-1-7,1E-1-8,1E-1-9,1E-2-1,1E-2-10,1E-2-11,1E-2-12,1E-2-13,1E-2-14,1E-2-15,1E-2-16,1E-2-17,1E-2-18,1E-2-19,1E-2-2,1E-2-20,1E-2-21,1E-2-22,1E-2-23,1E-2-24,1E-2-25,1E-2-3,1E-2-4,1E-2-5,1E-2-6,1E-2-7,1E-2-8,1E-2-9=OK, Enclosures: MSA70(SGA651004J): OK, MSA70(SGA6510007): OK, Cache: WriteCache ReadMem:114 MiB WriteMem:342 MiB',
 		c => {
 			'/dev/cciss/c0d0' => {
 				'board_name' => 'Smart Array P400',

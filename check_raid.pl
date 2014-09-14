@@ -3208,7 +3208,8 @@ sub check {
 	my @status;
 
 	my $res = $this->parse(@devs);
-	while (my($dev, $c) = each %$res) {
+	for my $dev (sort {$a cmp $b} keys %$res) {
+		my $c = $res->{$dev};
 		# check controllers
 		if ($c->{status} !~ '^OK') {
 			$this->critical;
@@ -3218,8 +3219,8 @@ sub check {
 		# check physical devices
 		if ($c->{'pd count'}) {
 			my %pd;
-			for my $pd (values %{$c->{drives}}) {
-				my $ps = $pd->{slot};
+			for my $ps (sort {$a cmp $b} keys %{$c->{drives}}) {
+				my $pd = $c->{drives}{$ps};
 				if ($pd->{status} !~ '^OK') {
 					$this->critical;
 					$ps .= "($pd->{serial})";
@@ -3232,7 +3233,9 @@ sub check {
 		# check enclosures
 		if ($c->{enclosures}) {
 			my @e;
-			for my $e (values %{$c->{enclosures}}) {
+			for my $i (sort {$a cmp $b} keys %{$c->{enclosures}}) {
+				my $e = $c->{enclosures}{$i};
+
 				my $s = "$e->{name}($e->{sn}): $e->{status}";
 				if ($e->{status} !~ '^OK') {
 					$this->critical;
