@@ -6,7 +6,8 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 10;
+use constant TESTS => 3;
+use Test::More tests => TESTS * 5;
 use test;
 
 my @tests = (
@@ -21,6 +22,12 @@ my @tests = (
 		controller => 'hpacucli.controller.all.show.status',
 		logical => 'hpacucli.interim_recovery_mode.show',
 		message => 'MY STORAGE: Array A(OK)[LUN1:Interim Recovery Mode], Smart Array P400i: Array A(OK)[LUN1:Interim Recovery Mode]',
+	},
+	{
+		status => UNKNOWN,
+		controller => 'heracles/controller.all.show.status',
+		logical => 'heracles/logicaldrive.all.show',
+		message => 'Smart Array P400: ',
 	},
 );
 

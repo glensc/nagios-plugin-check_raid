@@ -3694,8 +3694,10 @@ sub check {
 	my $fh = $this->cmd('controller status');
 	while (<$fh>) {
 		# Numeric slot
-		if (my($model, $slot) = /^(\S.+) in Slot (\d+)/) {
+		if (my($model, $slot) = /^(\S.+) in Slot (.+)/) {
+			$slot =~ s/ \(Embedded\)//;
 			$targets{"slot=$slot"} = $model;
+			$this->unknown if $slot !~ /^\d+$/;
 			next;
 		}
 		# Named Entry
@@ -3738,9 +3740,15 @@ sub check {
 			if (my($drive, $s) = /^\s+logicaldrive (\d+) \([\d.]+ .B, [^,]+, ([^\)]+)\)$/) {
 				# Offset 1 is each logical drive status
 				$array{$array}[1]{$drive} = $s;
+				next;
+			}
+
+			# Error: The controller identified by "slot=attr_value_slot_unknown" was not detected.
+			if (/Error:/) {
+				$this->unknown;
 			}
 		}
-		close $fh;
+		$this->unknown unless close $fh;
 
 		my @cstatus;
 		while (my($array, $d) = each %array) {
