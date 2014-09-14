@@ -2881,11 +2881,12 @@ sub sudo {
 
 	my $cmd = $this->{program};
 
+	my $v1_10 = $this->cciss_vol_status_version >= 1.10;
+
 	my @sudo;
 	my @cciss_devs = $this->detect;
 	if (@cciss_devs) {
 		my $c = join(' ', @cciss_devs);
-		my $v1_10 = $this->cciss_vol_status_version >= 1.10;
 		if ($v1_10) {
 			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmd -V $c");
 		} else {
@@ -2894,7 +2895,7 @@ sub sudo {
 	}
 
 	my @cciss_disks = $this->detect_disks(@cciss_devs);
-	if (@cciss_disks) {
+	if (!$v1_10 && @cciss_disks) {
 		my $smartctl = smartctl->new();
 
 		if ($smartctl->active) {
@@ -3276,8 +3277,11 @@ sub check {
 
 	$this->message(join(', ', @status));
 
-	# allow skip for testing
-	unless ($this->{no_smartctl}) {
+	# cciss_vol_status 1.10 with -V (or -s) checks individual disk health anyway
+	my $v1_10 = $this->cciss_vol_status_version >= 1.10;
+
+	# no_smartctl: allow skip from tests
+	if (!$v1_10 && !$this->{no_smartctl}) {
 		# check also individual disk health
 		my @disks = $this->detect_disks(@devs);
 		if (@disks) {
