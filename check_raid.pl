@@ -3102,13 +3102,15 @@ sub parse {
 			status:\s(.*?)\.        # status (without a dot)
 		}x) {
 			$cdev = $file;
-			$c{$cdev} = {
+			$c{$file}{volumes}{$volume_number} = {
 				board_name => $board_name,
 				raid_level => $raid_level,
 				volume_number => $volume_number,
 				certain => int(not defined $certain),
 				status => $status,
 			};
+
+			$c{$file}{board_name} = $board_name;
 			next;
 		}
 
@@ -3211,11 +3213,19 @@ sub check {
 	my $res = $this->parse(@devs);
 	for my $dev (sort {$a cmp $b} keys %$res) {
 		my $c = $res->{$dev};
-		# check controllers
-		if ($c->{status} !~ '^OK') {
-			$this->critical;
+		my @bstatus;
+
+		# check volumes
+		my @vstatus;
+		for my $vn (sort {$a cmp $b} keys %{$c->{volumes}}) {
+			my $v = $c->{volumes}->{$vn};
+			if ($v->{status} !~ '^OK') {
+				$this->critical;
+			}
+			push(@vstatus, "Volume $v->{volume_number} ($v->{raid_level}): $v->{status}");
 		}
-		push(@status, "$dev: ($c->{board_name}) $c->{raid_level} Volume $c->{volume_number}: $c->{status}");
+
+		push(@bstatus, @vstatus) if @vstatus;
 
 		# check physical devices
 		if ($c->{'pd count'}) {
@@ -3228,7 +3238,7 @@ sub check {
 				}
 				push(@{$pd{$pd->{status}}}, $ps);
 			}
-			push(@status, "Drives($c->{'pd count'}): ". $this->join_status(\%pd));
+			push(@bstatus, "Drives($c->{'pd count'}): ". $this->join_status(\%pd));
 		}
 
 		# check enclosures
@@ -3243,7 +3253,7 @@ sub check {
 				}
 				push(@e, $s);
 			}
-			push(@status, "Enclosures: ". join(', ', @e));
+			push(@bstatus, "Enclosures: ". join(', ', @e));
 		}
 
 		# check cache
@@ -3264,8 +3274,10 @@ sub check {
 			push(@cstatus, "ReadMem:$cache->{read_cache_memory}") if $cache->{read_cache_memory};
 			push(@cstatus, "WriteMem:$cache->{write_cache_memory}") if $cache->{write_cache_memory};
 
-			push(@status, join(' ', @cstatus));
+			push(@bstatus, join(' ', @cstatus));
 		}
+
+		push(@status, "$dev($c->{board_name}): ". join(', ', @bstatus));
 	}
 
 	unless (@status) {
