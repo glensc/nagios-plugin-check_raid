@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 7;
+use constant TESTS => 8;
 use Test::More tests =>  TESTS * 6;
 use test;
 
@@ -937,6 +937,163 @@ my @tests = (
 					'instance' => 0,
 				}
 			}
+		},
+	},
+	{
+		status => CRITICAL,
+		detect_hpsa => 'no-such-file',
+		detect_cciss => 'cciss',
+		version => 'cciss-1.11',
+		controller => 'cciss_vol_status.lupus',
+		cciss_proc => 'cciss/$controller',
+		smartctl => '',
+		message => '/dev/cciss/c0d0: (Smart Array P800) RAID 6 Volume 1: OK, Drives(10): 1E-1-1,1E-1-2,1E-1-3,1E-1-4,1E-1-5,1E-1-6,1E-1-7,1E-1-8,4I-1-1,4I-1-2=OK, Enclosures: MSA60(SGA710004E): OK, Cache: WriteCache:DISABLED ReadMem:114 MiB WriteMem:342 MiB',
+		c => {
+			'/dev/cciss/c0d0' => {
+				'volume_number' => '1',
+				'status' => 'OK',
+				'raid_level' => 'RAID 6',
+				'pd count' => '10',
+				'certain' => 1,
+				'board_name' => 'Smart Array P800',
+
+				'drives' => {
+					'1E-1-5' => {
+						'bay' => 5,
+						'status' => 'OK',
+						'serial' => '9QG7F0BW',
+						'phys1' => '1',
+						'model' => 'ATA     GB0500C4413',
+						'phys2' => 'E',
+						'fw' => 'HPG3',
+						'slot' => '1E-1-5',
+						'box' => 1,
+					},
+					'4I-1-1' => {
+						'bay' => 1,
+						'status' => 'OK',
+						'serial' => '3LC0LVW900009737JU31',
+						'phys1' => '4',
+						'model' => 'HP      DG036A8B53',
+						'phys2' => 'I',
+						'fw' => 'HPD7',
+						'slot' => '4I-1-1',
+						'box' => 1,
+					},
+					'1E-1-4' => {
+						'bay' => 4,
+						'status' => 'OK',
+						'serial' => '9QG7G0H3',
+						'phys1' => '1',
+						'model' => 'ATA     GB0500C4413',
+						'phys2' => 'E',
+						'fw' => 'HPG3',
+						'slot' => '1E-1-4',
+						'box' => 1,
+					},
+					'1E-1-8' => {
+						'bay' => 8,
+						'status' => 'OK',
+						'serial' => '9QG7EX6Z',
+						'phys1' => '1',
+						'model' => 'ATA     GB0500C4413',
+						'phys2' => 'E',
+						'fw' => 'HPG3',
+						'slot' => '1E-1-8',
+						'box' => 1,
+					},
+					'1E-1-1' => {
+						'bay' => 1,
+						'status' => 'OK',
+						'serial' => '9QG7FZQ0',
+						'phys1' => '1',
+						'model' => 'ATA     GB0500C4413',
+						'phys2' => 'E',
+						'fw' => 'HPG3',
+						'slot' => '1E-1-1',
+						'box' => 1,
+					},
+					'1E-1-7' => {
+						'bay' => 7,
+						'status' => 'OK',
+						'serial' => '9QG7G0GB',
+						'phys1' => '1',
+						'model' => 'ATA     GB0500C4413',
+						'phys2' => 'E',
+						'fw' => 'HPG3',
+						'slot' => '1E-1-7',
+						'box' => 1,
+					},
+					'4I-1-2' => {
+						'bay' => 2,
+						'status' => 'OK',
+						'serial' => '3LC0LQ8Q00009736HFFH',
+						'phys1' => '4',
+						'model' => 'HP      DG036A8B53',
+						'phys2' => 'I',
+						'fw' => 'HPD7',
+						'slot' => '4I-1-2',
+						'box' => 1,
+					},
+					'1E-1-2' => {
+						'bay' => 2,
+						'status' => 'OK',
+						'serial' => '9QG7EXGY',
+						'phys1' => '1',
+						'model' => 'ATA     GB0500C4413',
+						'phys2' => 'E',
+						'fw' => 'HPG3',
+						'slot' => '1E-1-2',
+						'box' => 1,
+					},
+					'1E-1-3' => {
+						'bay' => 3,
+						'status' => 'OK',
+						'serial' => '9QG7EWL1',
+						'phys1' => '1',
+						'model' => 'ATA     GB0500C4413',
+						'phys2' => 'E',
+						'fw' => 'HPG3',
+						'slot' => '1E-1-3',
+						'box' => 1,
+					},
+					'1E-1-6' => {
+						'bay' => 6,
+						'status' => 'OK',
+						'serial' => '9QG7EWK8',
+						'phys1' => '1',
+						'model' => 'ATA     GB0500C4413',
+						'phys2' => 'E',
+						'fw' => 'HPG3',
+						'slot' => '1E-1-6',
+						'box' => 1,
+					}
+				},
+
+				'enclosures' => {
+					'2' => {
+						'bus' => 2,
+						'status' => 'OK',
+						'phys1' => '1',
+						'sn' => 'SGA710004E',
+						'name' => 'MSA60',
+						'phys2' => 'E',
+						'board_name' => 'Smart Array P800',
+					},
+				},
+
+				'cache' => {
+					'disabled_temporarily' => 1,
+					'disabled_temporarily diagnostic' => 'Temporary disable condition. Posted write operations have been disabled due to the fact that less than 75% of the battery packs are at the sufficient voltage level.',
+					'configured' => 'Yes',
+					'file' => '/dev/cciss/c0d0',
+					'write_cache_enabled' => 'No',
+					'write_cache_memory' => '342 MiB',
+					'board' => 'Smart Array P800',
+					'read_cache_memory' => '114 MiB',
+					'instance' => 0,
+				},
+			},
 		},
 	},
 );
