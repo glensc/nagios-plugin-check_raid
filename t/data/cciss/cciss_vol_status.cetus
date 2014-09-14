@@ -1,0 +1,78 @@
+Controller: Smart Array P800
+  Board ID: 0x3223103c
+  Logical drives: 0
+  Running firmware: 2.08
+  ROM firmware: 2.08
+/dev/cciss/c1d0: (Smart Array P800) RAID 1 Volume 0 status: OK. 
+  Physical drives: 50
+         connector 1E box 1 bay 1                 HP      DG072A9BB7                               B365P720EE8W0706     HPD0 OK
+         connector 1E box 1 bay 2                 HP      DG072A9BB7                               B365P720EAF70706     HPD0 OK
+         connector 1E box 1 bay 3                 HP      DG072A9BB7                               B365P720EE9K0706     HPD0 OK
+         connector 1E box 1 bay 4                 HP      DG072A8B54                           3LB1DCNV000097240T05     HPD7 OK
+         connector 1E box 1 bay 5                 HP      DG072A9BB7                               B365P720ED0H0706     HPD0 OK
+         connector 1E box 1 bay 6                 HP      DG072A9BB7                               B365P720EDTU0706     HPD0 OK
+         connector 1E box 1 bay 7                 HP      DG072A9BB7                               B365P720EE060706     HPD0 OK
+         connector 1E box 1 bay 8                 HP      DG072A9BB7                               B365P720EE4R0706     HPD0 OK
+         connector 1E box 1 bay 9                 HP      DG072A9BB7                               B365P710CMLH0703     HPD0 OK
+         connector 1E box 1 bay 10                 HP      DG072A8B54                           3LB1DDBP00009725HP9H     HPD7 OK
+         connector 1E box 1 bay 11                 HP      DG072A9BB7                               B365P720EDCL0706     HPD0 OK
+         connector 1E box 1 bay 12                 HP      DG072A9BB7                               B365P710D71K0704     HPD0 OK
+         connector 1E box 1 bay 13                 HP      EG0146FAWHU                          6SD10M9A0000B1063CMB     HPDE OK
+         connector 1E box 1 bay 14                 HP      DG072BB975                           3NP3NJBW00009936L3AW     HPDE OK
+         connector 1E box 1 bay 15                 HP      DG072A9BB7                               B365P720EE5R0706     HPD0 OK
+         connector 1E box 1 bay 16                 HP      DG072A9BB7                               B365P710D6YB0704     HPD0 OK
+         connector 1E box 1 bay 17                 HP      DG072A9BB7                               B365P710CJ5Y0703     HPD0 OK
+         connector 1E box 1 bay 18                 HP      DG072A8B54                           3LB1D6JL000097251ZNL     HPD7 OK
+         connector 1E box 1 bay 19                 HP      DG072A9BB7                               B365P710CMLE0703     HPD0 OK
+         connector 1E box 1 bay 20                 HP      DG072A9BB7                               B365P710D7F30704     HPD0 OK
+         connector 1E box 1 bay 21                 HP      DG072A9BB7                               B365P710D71N0704     HPD0 OK
+         connector 1E box 1 bay 22                 HP      DG072A9BB7                               B365P710CJ8R0703     HPD0 OK
+         connector 1E box 1 bay 23                 HP      DG072A9BB7                               B365P710CJ8M0703     HPD0 OK
+         connector 1E box 1 bay 24                 HP      DG072A9BB7                               B365P710CHGE0703     HPD0 OK
+         connector 1E box 1 bay 25                 HP      DG072A9BB7                               B365P6C09MPW0649     HPD0 OK
+         connector 1E box 2 bay 1                 HP      DG072A9BB7                               B365P710D6RR0704     HPD0 OK
+         connector 1E box 2 bay 2                 HP      DG072A9BB7                               B365P720EDJG0706     HPD0 OK
+         connector 1E box 2 bay 3                 HP      DG072A8B54                           3LB1D48800009724Y7AZ     HPD7 OK
+         connector 1E box 2 bay 4                 HP      DG072A8B54                           3LB1D5HH00009724HCBF     HPD7 OK
+         connector 1E box 2 bay 5                 HP      DG072A8B54                           3LB1D9JF00009725KFQU     HPD7 OK
+         connector 1E box 2 bay 6                 HP      DG072A9BB7                               B365P710CMTU0703     HPD0 OK
+         connector 1E box 2 bay 7                 HP      DG072A9BB7                               B365P720EBRF0706     HPD0 OK
+         connector 1E box 2 bay 8                 HP      DG072A9BB7                               B365P710CHH70703     HPD0 OK
+         connector 1E box 2 bay 9                 HP      DG072A9BB7                               B365P720EE8K0706     HPD0 OK
+         connector 1E box 2 bay 10                 HP      DG072A9BB7                               B365P720EE510706     HPD0 OK
+         connector 1E box 2 bay 11                 HP      DG072A9BB7                               B365P720EC500706     HPD0 OK
+         connector 1E box 2 bay 12                 HP      DG072A8B54                           3LB1DC2Z00009725357U     HPD7 OK
+         connector 1E box 2 bay 13                 HP      DG072A8B54                           3LB1D9Z4000097252BF5     HPD7 OK
+         connector 1E box 2 bay 14                 HP      DG072A9BB7                               B365P720EDTJ0706     HPD0 OK
+         connector 1E box 2 bay 15                 HP      DG072A8B54                           3LB1DDW70000972532K1     HPD7 OK
+         connector 1E box 2 bay 16                 HP      DG072A9BB7                               B365P6C09UND0649     HPD0 OK
+         connector 1E box 2 bay 17                 HP      DG072A8B54                           3LB1D0VA00009725KECN     HPD7 OK
+         connector 1E box 2 bay 18                 HP      DG072A9BB7                               B365P720EE980706     HPD0 OK
+         connector 1E box 2 bay 19                 HP      DG072A8B54                           3LB1DDQ6000097240TNM     HPD7 OK
+         connector 1E box 2 bay 20                 HP      DG072A8B54                           3LB1D0BZ00009724GNHB     HPD7 OK
+         connector 1E box 2 bay 21                 HP      DG072A8B54                           3LB1D4AW000097251ZP4     HPD7 OK
+         connector 1E box 2 bay 22                 HP      DG072A9BB7                               B365P6C09UP00649     HPD0 OK
+         connector 1E box 2 bay 23                 HP      DG072A9BB7                               B365P6C09WVM0649     HPD0 OK
+         connector 1E box 2 bay 24                 HP      DG072A9BB7                               B365P6C09U0H0649     HPD0 OK
+         connector 1E box 2 bay 25                 HP      DG072A8B54                           3LB1D5TM00009724ZFM6     HPD7 OK
+/dev/cciss/c1d0: (Smart Array P800) Enclosure MSA70 (S/N: SGA651004J) on Bus 2, Physical Port 1E status: OK.
+/dev/cciss/c1d0: (Smart Array P800) Enclosure MSA70 (S/N: SGA6510007) on Bus 3, Physical Port 1E status: OK.
+/dev/cciss/c1d0(Smart Array P800:0): Non-Volatile Cache status:
+                   Cache configured: Yes
+                  Read cache memory: 114 MiB
+                 Write cache memory: 342 MiB
+                Write cache enabled: Yes
+Controller: Smart Array P400
+  Board ID: 0x3234103c
+  Logical drives: 0
+  Running firmware: 2.08
+  ROM firmware: 2.08
+/dev/cciss/c0d0: (Smart Array P400) RAID 1 Volume 0 status: OK. 
+  Physical drives: 2
+         connector 2I box 1 bay 2                 HP      DG072A8B54                           3LB16JEV0000971881Q9     HPD7 OK
+         connector 2I box 1 bay 1                 HP      DG072A8B54                           3LB1667000009717XQ6Q     HPD7 OK
+/dev/cciss/c0d0(Smart Array P400:0): Non-Volatile Cache status:
+                   Cache configured: Yes
+                  Read cache memory: 52 MiB
+                 Write cache memory: 156 MiB
+                Write cache enabled: Yes
