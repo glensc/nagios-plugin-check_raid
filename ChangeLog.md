@@ -1,7 +1,7 @@
 ## 3.1.1 (not released)
 - sudoers: support #includedir if enabled in config
 - tw_cli: rewritten with full data parsing
-- cciss: rewritten with full data parsing
+- cciss: rewritten with full data parsing, optionally use lsscsi to find controller devs
 
 ## 3.1.0 (2014-09-08)
 - sudoers: disable requiretty (enabled in CentOS 6.5) [#52][]
