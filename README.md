@@ -1,4 +1,4 @@
-# Nagios plugin to check current server's RAID status
+# Nagios/Icinga plugin to check current server's RAID status
 
 This plugin checks all RAID volumes (hardware and software) that can be
 identified.
