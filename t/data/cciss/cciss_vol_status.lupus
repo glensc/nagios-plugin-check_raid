@@ -1,0 +1,28 @@
+Controller: Smart Array P800
+  Board ID: 0x3223103c
+  Logical drives: 0
+  Running firmware: 2.08
+  ROM firmware: 2.08
+/dev/cciss/c0d0: (Smart Array P800) RAID 1 Volume 0 status: OK. 
+/dev/cciss/c0d0: (Smart Array P800) RAID 6 Volume 1 status: OK. 
+  Physical drives: 10
+         connector 4I box 1 bay 1                 HP      DG036A8B53                           3LC0LVW900009737JU31     HPD7 OK
+         connector 4I box 1 bay 2                 HP      DG036A8B53                           3LC0LQ8Q00009736HFFH     HPD7 OK
+         connector 1E box 1 bay 1                 ATA     GB0500C4413                          9QG7FZQ0                 HPG3 OK
+         connector 1E box 1 bay 2                 ATA     GB0500C4413                          9QG7EXGY                 HPG3 OK
+         connector 1E box 1 bay 3                 ATA     GB0500C4413                          9QG7EWL1                 HPG3 OK
+         connector 1E box 1 bay 4                 ATA     GB0500C4413                          9QG7G0H3                 HPG3 OK
+         connector 1E box 1 bay 5                 ATA     GB0500C4413                          9QG7F0BW                 HPG3 OK
+         connector 1E box 1 bay 6                 ATA     GB0500C4413                          9QG7EWK8                 HPG3 OK
+         connector 1E box 1 bay 7                 ATA     GB0500C4413                          9QG7G0GB                 HPG3 OK
+         connector 1E box 1 bay 8                 ATA     GB0500C4413                          9QG7EX6Z                 HPG3 OK
+/dev/cciss/c0d0: (Smart Array P800) Enclosure MSA60 (S/N: SGA710004E) on Bus 2, Physical Port 1E status: OK.
+/dev/cciss/c0d0(Smart Array P800:0): Non-Volatile Cache status:
+                   Cache configured: Yes
+                  Read cache memory: 114 MiB
+                 Write cache memory: 342 MiB
+                Write cache enabled: No
+   Write cache temporarily disabled
+           Temporary disable condition. Posted write operations have
+been disabled due to the fact that less than 75% of the
+battery packs are at the sufficient voltage level.

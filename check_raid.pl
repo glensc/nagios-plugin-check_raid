@@ -341,6 +341,26 @@ sub format_bytes($) {
 	return "$bytes B";
 }
 
+# disable sudo temporarily
+sub nosudo_cmd {
+	my ($this, $command, $cb) = @_;
+
+	my ($res, @res);
+
+	my $sudo = $this->{sudo};
+	$this->{sudo} = 0;
+
+	if (wantarray) {
+		@res = $this->cmd($command, $cb);
+	} else {
+		$res = $this->cmd($command, $cb);
+	}
+
+	$this->{sudo} = $sudo;
+
+	return wantarray ? @res : $res;
+}
+
 # build up command for $command
 # returns open filehandle to process output
 # if command fails, program is exited (caller needs not to worry)
@@ -432,9 +452,34 @@ sub commands {
 	}
 }
 
+# lists contoller devices (type=storage)
+# this will fail (return empty list) if sg module is not present
+# return /dev/sgX nodes
+sub list_sg {
+	my $this = shift;
+
+	my @scan = $this->scan;
+
+	my @devs = map { $_->{sgnode} } grep { $_->{type} eq 'storage' && $_->{sgnode} ne '-' } @scan;
+	return wantarray ? @devs : \@devs;
+}
+
+# list disk nodes one for each controller
+# return /dev/sdX nodes
+sub list_dd {
+	my $this = shift;
+
+	my @scan = $this->scan;
+	my @devs = map { $_->{devnode} } grep { $_->{type} eq 'disk' && $_->{devnode} ne '-' && $_->{sgnode} } @scan;
+	return wantarray ? @devs : \@devs;
+}
+
 # scan lsscsi output
 sub scan {
 	my $this = shift;
+
+	# cache inside single run
+	return wantarray ? @{$this->{sdevs}} : $this->{sdevs} if $this->{sdevs};
 
 	# Scan such output:
 	# [0:0:0:0]    disk    HP       LOGICAL VOLUME   3.00  /dev/sda   /dev/sg0
@@ -469,6 +514,7 @@ sub scan {
 	}
 	close $fh;
 
+	$this->{sdevs} = \@sdevs;
 	return wantarray ? @sdevs : \@sdevs;
 }
 
@@ -2977,9 +3023,11 @@ sub program_names {
 
 sub commands {
 	{
-		'detect hpsa' => ['<', '/sys/module/hpsa/refcnt'],
 		'controller status' => ['-|', '@CMD', '@devs'],
+		'controller status verbose' => ['-|', '@CMD', '-V', '@devs'],
+		'cciss_vol_status version' => ['>&2', '@CMD', '-v'],
 
+		'detect hpsa' => ['<', '/sys/module/hpsa/refcnt'],
 		'detect cciss' => ['<', '/proc/driver/cciss'],
 		'cciss proc' => ['<', '/proc/driver/cciss/$controller'],
 	}
@@ -2993,15 +3041,21 @@ sub sudo {
 
 	my $cmd = $this->{program};
 
+	my $v1_10 = $this->cciss_vol_status_version >= 1.10;
+
 	my @sudo;
 	my @cciss_devs = $this->detect;
 	if (@cciss_devs) {
 		my $c = join(' ', @cciss_devs);
-		push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmd $c");
+		if ($v1_10) {
+			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmd -V $c");
+		} else {
+			push(@sudo, "CHECK_RAID ALL=(root) NOPASSWD: $cmd $c");
+		}
 	}
 
 	my @cciss_disks = $this->detect_disks(@cciss_devs);
-	if (@cciss_disks) {
+	if (!$v1_10 && @cciss_disks) {
 		my $smartctl = smartctl->new();
 
 		if ($smartctl->active) {
@@ -3023,6 +3077,21 @@ sub detect {
 	my $this = shift;
 
 	my ($fh, @devs);
+
+	# try lsscsi first
+	my $lsscsi = lsscsi->new();
+	if ($lsscsi->active) {
+		# for cciss_vol_status < 1.10 we need /dev/sgX nodes, columns which are type storage
+		@devs = $lsscsi->list_sg;
+
+		# cciss_vol_status 1.10 can process disk nodes too even if sg is not present
+		my $v1_10 = $this->cciss_vol_status_version >= 1.10;
+		if (!@devs && $v1_10) {
+			@devs = $lsscsi->list_dd;
+		}
+
+		return wantarray ? @devs : \@devs if @devs;
+	}
 
 	# check hpsa devs
 	eval { $fh = $this->cmd('detect hpsa'); };
@@ -3096,6 +3165,198 @@ sub detect_disks {
 	return wantarray ? @devs : \@devs;
 }
 
+# parse version out of "cciss_vol_status version 1.09"
+# NOTE: it prints the output to stderr, but may print to stdout in the future
+sub cciss_vol_status_version {
+	my $this = shift;
+
+	# cache inside single run
+	return $this->{cciss_vol_status_version} if defined $this->{cciss_vol_status_version};
+
+	my $version = sub {
+		my $fh = $this->nosudo_cmd('cciss_vol_status version');
+		my ($line) = <$fh>;
+		close $fh;
+		return 0 unless $line;
+
+		if (my($v) = $line =~ /^cciss_vol_status version ([\d.]+)$/) {
+			return 0 + $v;
+		}
+		return 0;
+	};
+
+	return $this->{cciss_vol_status_version} = &$version();
+}
+
+sub trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
+
+# we process until we find end of sentence (dot at the end of the line)
+sub consume_diagnostic {
+	my ($this, $fh, $s) = @_;
+
+	my $diagnostic = '';
+	while (1) {
+		my $s = <$fh>;
+		last unless $s;
+		chomp;
+		$diagnostic .= ' '. trim($s);
+		last if $s =~ /\.$/;
+	}
+	return trim($diagnostic);
+}
+
+sub parse {
+	my $this = shift;
+	my @devs = @_;
+
+	my (%c, $cdev);
+
+	# cciss_vol_status 1.10 has -V option to print more info about controller and disks.
+	my $v1_10 = $this->cciss_vol_status_version >= 1.10;
+
+	# add all devs at once to commandline, cciss_vol_status can do that
+	my $fh = $this->cmd($v1_10 ? 'controller status verbose' : 'controller status', { '@devs' => \@devs });
+	while (<$fh>) {
+		chomp;
+
+		if (/Controller:/) {
+			# this is first item when new controller is found
+			# reset previous state
+			undef $cdev;
+			next;
+		}
+
+		# catch enclosures, print_bus_status()
+		# /dev/cciss/c1d0: (Smart Array P800) Enclosure MSA70 (S/N: SGA651004J) on Bus 2, Physical Port 1E status: OK.
+		if (my($file, $board_name, $name, $sn, $bus, $port1, $port2, $status) = m{
+			^(/dev/[^:]+):\s        # File
+			\(([^)]+)\)\s           # Board Name
+			Enclosure\s(\S+)\s      # Enclosure Name
+			\(S/N:\s(\S+)\)\s        # Enclosure SN
+			on\sBus\s(\d+),\s       # Bus Number
+			Physical\sPort\s(.)     # physical_port1
+			(.)\s                   # physical_port2
+			status:\s(.*?)\.        # status (without a dot)
+		}x) {
+			$c{$file}{enclosures}{$bus} = {
+				board_name => $board_name,
+				name => $name,
+				sn => $sn,
+				bus => int($bus),
+				phys1 => $port1,
+				phys2 => $port2,
+				status => $status,
+			};
+			next;
+		}
+
+		# volume status, print_volume_status()
+		# /dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK
+		# /dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK.
+		if (my($file, $board_name, $raid_level, $volume_number, $certain, $status) = m{
+			^(/dev/[^:]+):\s        # File
+			\(([^)]+)\)\s           # Board Name
+			(RAID\s\d+|\([^)]+\))\s # RAID level
+			Volume\s(\d+)           # Volume number
+			(\(\?\))?\s             # certain?
+			status:\s(.*?)\.        # status (without a dot)
+		}x) {
+			$cdev = $file;
+			$c{$file}{volumes}{$volume_number} = {
+				board_name => $board_name,
+				raid_level => $raid_level,
+				volume_number => $volume_number,
+				certain => int(not defined $certain),
+				status => $status,
+			};
+
+			$c{$file}{board_name} = $board_name;
+			next;
+		}
+
+		next unless $cdev;
+
+		if (my ($count) = /Physical drives: (\d+)/) {
+			$c{$cdev}{'pd count'} = $count;
+			next;
+		}
+
+		# check_physical_drives(file, fd);
+		# NOTE: check for physical drives is enabled with -V or -s option (-V enables -s)
+		# cciss_vol_status.c format_phys_drive_location()
+		if (my ($phys1, $phys2, $box, $bay, $model, $serial_no, $fw_rev, $status) = m{
+			\sconnector\s(.)(.)\s # Phys connector 1&2
+			box\s(\d+)\s          # phys_box_on_bus
+			bay\s(\d+)\s          # phys_bay_in_box
+			(.{40})\s             # model
+			(.{40})\s             # serial no
+			(.{8})\s              # fw rev
+			(.+)                  # status
+		$}x) {
+			my $slot = "$phys1$phys2-$box-$bay";
+			$c{$cdev}{drives}{$slot} = {
+				'slot' => $slot,
+				'phys1' => $phys1,
+				'phys2' => $phys2,
+				'box' => int($box),
+				'bay' => int($bay),
+
+				'model' => trim($model),
+				'serial' => trim($serial_no),
+				'fw' => trim($fw_rev),
+				'status' => $status,
+			};
+			next;
+		}
+
+		# TODO
+		# check_fan_power_temp(file, ctlrtype, fd, num_controllers);
+
+		# check_nonvolatile_cache_status(file, ctlrtype, fd, num_controllers);
+		# /dev/cciss/c0d0(Smart Array P400i:0): Non-Volatile Cache status:
+		if (my($file, $board_name, $instance) = m{^(/dev/[^(]+)\((.+):(\d+)\): Non-Volatile Cache status}) {
+			# $file and $dev may differ, so store it
+			$c{$cdev}{cache} = {
+				'file' => $file,
+				'board' => $board_name,
+				'instance' => int($instance),
+			};
+			next;
+		}
+
+		if (defined($c{$cdev}{cache})) {
+			my $cache = $c{$cdev}{cache};
+			my %map = (
+				configured => qr/Cache configured: (.+)/,
+				read_cache_memory => qr/Read cache memory: (.+)/,
+				write_cache_memory => qr/Write cache memory: (.+)/,
+				write_cache_enabled => qr/Write cache enabled: (.+)/,
+				flash_cache => qr/Flash backed cache present/,
+				disabled_temporarily => qr/Write cache temporarily disabled/,
+				disabled_permanently => qr/Write Cache permanently disabled/,
+			);
+			my $got;
+			while (my($k, $r) = each %map) {
+				next unless (my($v) = $_ =~ $r);
+				$cache->{$k} = $v;
+				$got = 1;
+
+				# consume extended diagnostic
+				if ($k =~ /disabled_(temporari|permanentl)ly/) {
+					$cache->{"$k diagnostic"} = $this->consume_diagnostic($fh);
+				}
+			}
+
+			next if $got;
+		}
+
+		warn "Unparsed[$_]";
+	}
+	close($fh);
+
+	return \%c;
+}
+
 sub check {
 	my $this = shift;
 	my @devs = $this->detect;
@@ -3109,23 +3370,75 @@ sub check {
 	# status messages pushed here
 	my @status;
 
-	# add all devs at once, cciss_vol_status can do that
-	my $fh = $this->cmd('controller status', { '@devs' => \@devs });
-	while (<$fh>) {
-		chomp;
-		# strip for better pattern matching
-		s/\.\s*$//;
+	my $res = $this->parse(@devs);
+	for my $dev (sort {$a cmp $b} keys %$res) {
+		my $c = $res->{$dev};
+		my @bstatus;
 
-		# /dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK
-		# /dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK.
-		if (my($s) = /status: (.*?)$/) {
-			if ($s !~ '^OK') {
+		# check volumes
+		my @vstatus;
+		for my $vn (sort {$a cmp $b} keys %{$c->{volumes}}) {
+			my $v = $c->{volumes}->{$vn};
+			if ($v->{status} !~ '^OK') {
 				$this->critical;
 			}
-			push(@status, $_);
+			push(@vstatus, "Volume $v->{volume_number} ($v->{raid_level}): $v->{status}");
 		}
+
+		push(@bstatus, @vstatus) if @vstatus;
+
+		# check physical devices
+		if ($c->{'pd count'}) {
+			my %pd;
+			for my $ps (sort {$a cmp $b} keys %{$c->{drives}}) {
+				my $pd = $c->{drives}{$ps};
+				if ($pd->{status} !~ '^OK') {
+					$this->critical;
+					$ps .= "($pd->{serial})";
+				}
+				push(@{$pd{$pd->{status}}}, $ps);
+			}
+			push(@bstatus, "Drives($c->{'pd count'}): ". $this->join_status(\%pd));
+		}
+
+		# check enclosures
+		if ($c->{enclosures}) {
+			my @e;
+			for my $i (sort {$a cmp $b} keys %{$c->{enclosures}}) {
+				my $e = $c->{enclosures}{$i};
+
+				my $s = "$e->{name}($e->{sn}): $e->{status}";
+				if ($e->{status} !~ '^OK') {
+					$this->critical;
+				}
+				push(@e, $s);
+			}
+			push(@bstatus, "Enclosures: ". join(', ', @e));
+		}
+
+		# check cache
+		if ($c->{cache} && $c->{cache}->{configured} eq 'Yes') {
+			my $cache = $c->{cache};
+			my @cstatus = 'Cache:';
+
+			if ($cache->{write_cache_enabled} eq 'Yes') {
+				push(@cstatus, "WriteCache");
+
+			} elsif ($cache->{disabled_temporarily} || $cache->{disabled_permanently}) {
+				# disabled diagnostic is available, but it's too long to print here
+				push(@cstatus, "WriteCache:DISABLED");
+				$this->critical;
+			}
+
+			push(@cstatus, "FlashCache") if $cache->{flash_cache};
+			push(@cstatus, "ReadMem:$cache->{read_cache_memory}") if $cache->{read_cache_memory};
+			push(@cstatus, "WriteMem:$cache->{write_cache_memory}") if $cache->{write_cache_memory};
+
+			push(@bstatus, join(' ', @cstatus));
+		}
+
+		push(@status, "$dev($c->{board_name}): ". join(', ', @bstatus));
 	}
-	close($fh);
 
 	unless (@status) {
 		return;
@@ -3136,8 +3449,11 @@ sub check {
 
 	$this->message(join(', ', @status));
 
-	# allow skip for testing
-	unless ($this->{no_smartctl}) {
+	# cciss_vol_status 1.10 with -V (or -s) checks individual disk health anyway
+	my $v1_10 = $this->cciss_vol_status_version >= 1.10;
+
+	# no_smartctl: allow skip from tests
+	if (!$v1_10 && !$this->{no_smartctl}) {
 		# check also individual disk health
 		my @disks = $this->detect_disks(@devs);
 		if (@disks) {
