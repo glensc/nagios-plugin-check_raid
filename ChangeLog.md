@@ -1,7 +1,9 @@
 ## 3.1.1 (not released)
 - sudoers: support #includedir if enabled in config
 - tw_cli: rewritten with full data parsing
-- cciss: rewritten with full data parsing, optionally use lsscsi to find controller devs
+- cciss: rewritten with full data parsing, optionally use lsscsi to find controller devices
+
+NOTE: when using `cciss` plugin with `hpsa` kernel driver, install `lsscsi` program and `cciss_vol_status` 1.10+ to get best results. `cciss_vol_status` v1.10 enables check of individual disks and their S.M.A.R.T status.
 
 ## 3.1.0 (2014-09-08)
 - sudoers: disable requiretty (enabled in CentOS 6.5) [#52][]
