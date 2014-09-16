@@ -191,7 +191,7 @@ my @tests = (
 		},
 	},
 	{
-		status => CRITICAL,
+		status => WARNING,
 		detect_hpsa => 'no-such-file',
 		detect_cciss => 'cciss',
 		version => 'cciss-1.11',
@@ -1000,7 +1000,7 @@ my @tests = (
 		},
 	},
 	{
-		status => CRITICAL,
+		status => WARNING,
 		detect_hpsa => 'no-such-file',
 		detect_cciss => 'cciss',
 		version => 'cciss-1.11',
