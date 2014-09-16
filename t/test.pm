@@ -16,4 +16,13 @@ use constant RESYNC => WARNING;
 
 our @EXPORT = qw(OK WARNING CRITICAL UNKNOWN TESTDIR);
 
+sub read_dump {
+	my $file = shift;
+	our $VAR1;
+
+	do $file;
+
+	return $VAR1;
+}
+
 1;

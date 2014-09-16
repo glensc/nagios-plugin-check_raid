@@ -1,0 +1,70 @@
+$VAR1 = {
+	'c0' => {
+		'model' => '9650SE-12ML',
+		'ports' => 12,
+		'drives' => 6,
+		'units' => 1,
+		'optimal' => 1,
+		'rrate' => 3,
+		'vrate' => 3,
+		'bbu' => 'OK',
+
+		'unitstatus' => {
+			'u0' => {
+				'status' => 'OK',
+				'size' => '4656.56',
+				'rebuild_percent' => '-',
+				'strip' => '64K',
+				'type' => 'RAID-5',
+				'vim_percent' => '-',
+				'avrify' => 'OFF',
+				'cache' => 'ON',
+			},
+		},
+
+		'drivestatus' => {
+			'p0' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => '9QJ1X1YY',
+				'status' => 'OK',
+				'size' => '931.51 GB',
+			},
+			'p1' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => '9QJ1WZ52',
+				'status' => 'OK',
+				'size' => '931.51 GB',
+			},
+			'p2' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => '9QJ28HP8',
+				'status' => 'OK',
+				'size' => '931.51 GB',
+			},
+			'p3' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => '9QJ285DT',
+				'status' => 'OK',
+				'size' => '931.51 GB',
+			},
+			'p4' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => '9QJ2F26M',
+				'status' => 'OK',
+				'size' => '931.51 GB',
+			},
+			'p5' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => '9QJ2A0TF',
+				'status' => 'OK',
+				'size' => '931.51 GB',
+			},
+		},
+	},
+};

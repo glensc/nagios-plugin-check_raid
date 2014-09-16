@@ -1,0 +1,64 @@
+$VAR1 = {
+	'c0' => {
+		'model' => '9750-4i',
+		'ports' => 4,
+		'drives' => 4,
+		'units' => 1,
+		'optimal' => 1,
+		'rrate' => 1,
+		'vrate' => 1,
+		'bbu' => 'OK',
+
+		'unitstatus' => {
+			'u0' => {
+				'status' => 'VERIFYING',
+				'size' => '5587.9',
+				'rebuild_percent' => '-',
+				'strip' => '256K',
+				'type' => 'RAID-5',
+				'vim_percent' => '16%',
+				'avrify' => 'ON',
+				'cache' => 'RiW'
+			}
+		},
+
+		'drivestatus' => {
+			'p0' => {
+				'unit' => 'u0',
+				'phy' => 0,
+				'status' => 'OK',
+				'encl' => '-',
+				'model' => 'SEAGATE ST32000444SS',
+				'type' => 'SAS',
+				'size' => '1.82 TB',
+			},
+			'p1' => {
+				'unit' => 'u0',
+				'phy' => 1,
+				'status' => 'OK',
+				'encl' => '-',
+				'model' => 'SEAGATE ST32000444SS',
+				'type' => 'SAS',
+				'size' => '1.82 TB',
+			},
+			'p2' => {
+				'unit' => 'u0',
+				'phy' => 2,
+				'status' => 'OK',
+				'encl' => '-',
+				'model' => 'SEAGATE ST32000444SS',
+				'type' => 'SAS',
+				'size' => '1.82 TB',
+			},
+			'p3' => {
+				'unit' => 'u0',
+				'phy' => 3,
+				'status' => 'OK',
+				'encl' => '-',
+				'model' => 'SEAGATE ST32000444SS',
+				'type' => 'SAS',
+				'size' => '1.82 TB',
+			},
+		},
+	},
+};

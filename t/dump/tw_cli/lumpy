@@ -1,0 +1,42 @@
+$VAR1 = {
+	'c0' => {
+		'model' => '9650SE-2LP',
+		'ports' => 2,
+		'drives' => 2,
+		'units' => 1,
+		'optimal' => 0,
+		'rrate' => 1,
+		'vrate' => 1,
+		'bbu' => '-',
+
+		'unitstatus' => {
+			'u0' => {
+				'status' => 'REBUILDING',
+				'size' => '465.651',
+				'rebuild_percent' => '98%',
+				'strip' => '-',
+				'type' => 'RAID-1',
+				'vim_percent' => '-',
+				'avrify' => 'OFF',
+				'cache' => 'OFF',
+			},
+		},
+
+		'drivestatus' => {
+			'p1' => {
+				'unit' => 'u0',
+				'blocks' => 976773168,
+				'serial' => '9QM1TQFZ',
+				'status' => 'OK',
+				'size' => '465.76 GB',
+			},
+			'p0' => {
+				'unit' => 'u0',
+				'blocks' => 976773168,
+				'serial' => '9QM1SHZY',
+				'status' => 'DEGRADED',
+				'size' => '465.76 GB',
+			},
+		},
+	},
+};
