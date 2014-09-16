@@ -105,6 +105,9 @@ our $spare_status = $ERRORS{OK};
 # status to set when BBU is in learning cycle.
 our $bbulearn_status = $ERRORS{WARNING};
 
+# status to set when Write Cache has failed.
+our $cache_fail_status = $ERRORS{WARNING};
+
 # check status of BBU
 our $bbu_monitoring = 0;
 
@@ -239,6 +242,14 @@ sub spare {
 sub bbulearn {
 	my ($this) = @_;
 	$this->status($bbulearn_status);
+	return $this;
+}
+
+# helper to set status when Write Cache fails
+# returns $this to allow fluent api
+sub cache_fail {
+	my ($this) = @_;
+	$this->status($cache_fail_status);
 	return $this;
 }
 
@@ -3427,7 +3438,7 @@ sub check {
 			} elsif ($cache->{disabled_temporarily} || $cache->{disabled_permanently}) {
 				# disabled diagnostic is available, but it's too long to print here
 				push(@cstatus, "WriteCache:DISABLED");
-				$this->critical;
+				$this->cache_fail;
 			}
 
 			push(@cstatus, "FlashCache") if $cache->{flash_cache};
@@ -4602,6 +4613,7 @@ GetOptions(
 	'check=s' => sub { setstate(\$plugin::check_status, @_); },
 	'noraid=s' => sub { setstate(\$noraid_state, @_); },
 	'bbulearn=s' => sub { setstate(\$plugin::bbulearn_status, @_); },
+	'cache-fail=s' => sub { setstate(\$plugin::cache_fail_status, @_); },
 	'bbu-monitoring' => \$plugin::bbu_monitoring,
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
