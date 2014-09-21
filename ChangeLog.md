@@ -1,4 +1,4 @@
-## 3.1.1 (not released)
+## 3.2.0 (2014-09-21)
 - sudoers: support #includedir if enabled in config
 - tw_cli: rewritten with full data parsing
 - cciss: rewritten with full data parsing, optionally use lsscsi to find controller devices
