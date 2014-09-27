@@ -6,7 +6,7 @@ Bugs should be reported to [issue tracker](https://github.com/glensc/nagios-plug
 
 Before opening [new issue](https://github.com/glensc/nagios-plugin-check_raid/issues/new), first check that the bug is not already fixed by testing with master branch, then check that your problem is not already reported, by looking at [open issues](https://github.com/glensc/nagios-plugin-check_raid/issues?state=open).
 
-In addition to problem description and perhaps proposed fix, please provide [debug output](#capture-debug-output-from-commands) from commands, so that fixes and further development of the plugin will not cause configurations to fail.
+In addition to problem description and perhaps proposed fix, please provide [debug output](#capture-debug-output-from-commands) from commands (include all command outputs, even if you think it is not neccessary), so that fixes and further development of the plugin will not cause configurations to fail.
 
 To include the output to github ticket, enclose the block between triple backticks:
 
