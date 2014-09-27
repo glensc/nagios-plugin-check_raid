@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 15;
+use constant TESTS => 16;
 use Test::More tests => TESTS*7;
 use test;
 
@@ -145,6 +145,15 @@ my @tests = (
 		ldinfo => 'empty', # faked, as original is MISSING, see #32
 		battery => 'issue32/bbustatus.MegaCli-8.07.10-1',
 		message => 'Volumes(0): ; Devices(0): ',
+		perfdata => '',
+		longoutput => '',
+	},
+	{
+		status => CRITICAL,
+		pdlist => 'empty', # faked
+		ldinfo => 'issue65/ldinfo',
+		battery => 'empty',
+		message => 'Volumes(1): DISK0.0:Optimal; Devices(0): ',
 		perfdata => '',
 		longoutput => '',
 	},
