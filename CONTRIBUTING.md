@@ -28,6 +28,8 @@ Alternatively post outputs to some pastebin service, or [gist](https://gists.git
 
 Do not update changelog or attempt to change version, the changes may not be merged on codebase you created patch for and it will just create annoying merge conflicts later.
 
+Also do consider adding [debug output](#capture-debug-output-from-commands) as part of the commit, including registering new test to get the changes tested.
+
 ## Capture debug output from commands
 
 As it's unlikely I have same hardware as you, not to mention same condition that is not handled, I ask you to provide output of the commands the plugin runs.
