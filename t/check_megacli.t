@@ -149,11 +149,11 @@ my @tests = (
 		longoutput => '',
 	},
 	{
-		status => CRITICAL,
-		pdlist => 'empty', # faked
-		ldinfo => 'issue65/ldinfo',
+		status => OK,
+		pdlist => 'issue65/pdlist',
+		ldinfo => 'issue65/ldinfo2',
 		battery => 'empty',
-		message => 'Volumes(1): DISK0.0:Optimal; Devices(0): ',
+		message => 'Volumes(1): DISK0.0:Optimal; Devices(6): 00,01,02,03,04,05=Online',
 		perfdata => '',
 		longoutput => '',
 	},

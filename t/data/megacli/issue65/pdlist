@@ -1,0 +1,280 @@
+Adapter #0
+
+Enclosure Device ID: 32
+Slot Number: 0
+Drive's postion: DiskGroup: 0, Span: 0, Arm: 0
+Enclosure position: 0
+Device Id: 0
+WWN: 5000C500288CAEC4
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 419.186 GB [0x3465f870 Sectors]
+Non Coerced Size: 418.686 GB [0x3455f870 Sectors]
+Coerced Size: 418.625 GB [0x34540000 Sectors]
+Firmware state: Online, Spun Up
+Device Firmware Level: ES64
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c500288caec5
+SAS Address(1): 0x0
+Connected Port Number: 0(path0)
+Inquiry Data: SEAGATE ST3450857SS     ES643SK1NLYN
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None
+Device Speed: Unknown
+Link Speed: Unknown
+Media Type: Hard Disk Device
+Drive Temperature :35C (95.00 F)
+PI Eligibility:  No
+Drive is formatted for PI information:  No
+PI: No PI
+Drive's write cache : Disabled
+Port-0 :
+Port status: Active
+Port's Linkspeed: Unknown
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 1
+Drive's postion: DiskGroup: 0, Span: 0, Arm: 1
+Enclosure position: 0
+Device Id: 1
+WWN: 5000C500288C96F4
+Sequence Number: 2
+Media Error Count: 3
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 419.186 GB [0x3465f870 Sectors]
+Non Coerced Size: 418.686 GB [0x3455f870 Sectors]
+Coerced Size: 418.625 GB [0x34540000 Sectors]
+Firmware state: Online, Spun Up
+Device Firmware Level: ES64
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c500288c96f5
+SAS Address(1): 0x0
+Connected Port Number: 1(path0)
+Inquiry Data: SEAGATE ST3450857SS     ES643SK1MYJN
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None
+Device Speed: Unknown
+Link Speed: Unknown
+Media Type: Hard Disk Device
+Drive Temperature :33C (91.40 F)
+PI Eligibility:  No
+Drive is formatted for PI information:  No
+PI: No PI
+Drive's write cache : Disabled
+Port-0 :
+Port status: Active
+Port's Linkspeed: Unknown
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 2
+Drive's postion: DiskGroup: 0, Span: 1, Arm: 0
+Enclosure position: 0
+Device Id: 2
+WWN: 5000C50047C4BD24
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 419.186 GB [0x3465f870 Sectors]
+Non Coerced Size: 418.686 GB [0x3455f870 Sectors]
+Coerced Size: 418.625 GB [0x34540000 Sectors]
+Firmware state: Online, Spun Up
+Device Firmware Level: ES65
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c50047c4bd25
+SAS Address(1): 0x0
+Connected Port Number: 2(path0)
+Inquiry Data: SEAGATE ST3450857SS     ES656SK1ACPY
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None
+Device Speed: Unknown
+Link Speed: Unknown
+Media Type: Hard Disk Device
+Drive Temperature :36C (96.80 F)
+PI Eligibility:  No
+Drive is formatted for PI information:  No
+PI: No PI
+Drive's write cache : Disabled
+Port-0 :
+Port status: Active
+Port's Linkspeed: Unknown
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 3
+Drive's postion: DiskGroup: 0, Span: 1, Arm: 1
+Enclosure position: 0
+Device Id: 3
+WWN: 5000C50047C530F0
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 419.186 GB [0x3465f870 Sectors]
+Non Coerced Size: 418.686 GB [0x3455f870 Sectors]
+Coerced Size: 418.625 GB [0x34540000 Sectors]
+Firmware state: Online, Spun Up
+Device Firmware Level: ES65
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c50047c530f1
+SAS Address(1): 0x0
+Connected Port Number: 3(path0)
+Inquiry Data: SEAGATE ST3450857SS     ES656SK1BPCJ
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None
+Device Speed: Unknown
+Link Speed: Unknown
+Media Type: Hard Disk Device
+Drive Temperature :35C (95.00 F)
+PI Eligibility:  No
+Drive is formatted for PI information:  No
+PI: No PI
+Drive's write cache : Disabled
+Port-0 :
+Port status: Active
+Port's Linkspeed: Unknown
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 4
+Drive's postion: DiskGroup: 0, Span: 2, Arm: 0
+Enclosure position: 0
+Device Id: 4
+WWN: 5000C50047C401A0
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 419.186 GB [0x3465f870 Sectors]
+Non Coerced Size: 418.686 GB [0x3455f870 Sectors]
+Coerced Size: 418.625 GB [0x34540000 Sectors]
+Firmware state: Online, Spun Up
+Device Firmware Level: ES65
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c50047c401a1
+SAS Address(1): 0x0
+Connected Port Number: 4(path0)
+Inquiry Data: SEAGATE ST3450857SS     ES656SK1CK90
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None
+Device Speed: Unknown
+Link Speed: Unknown
+Media Type: Hard Disk Device
+Drive Temperature :36C (96.80 F)
+PI Eligibility:  No
+Drive is formatted for PI information:  No
+PI: No PI
+Drive's write cache : Disabled
+Port-0 :
+Port status: Active
+Port's Linkspeed: Unknown
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 5
+Drive's postion: DiskGroup: 0, Span: 2, Arm: 1
+Enclosure position: 0
+Device Id: 5
+WWN: 5000C50043AC7D6C
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+Raw Size: 419.186 GB [0x3465f870 Sectors]
+Non Coerced Size: 418.686 GB [0x3455f870 Sectors]
+Coerced Size: 418.625 GB [0x34540000 Sectors]
+Firmware state: Online, Spun Up
+Device Firmware Level: ES64
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c50043ac7d6d
+SAS Address(1): 0x0
+Connected Port Number: 5(path0)
+Inquiry Data: SEAGATE ST3450857SS     ES646SK1A9T4
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None
+Device Speed: Unknown
+Link Speed: Unknown
+Media Type: Hard Disk Device
+Drive Temperature :36C (96.80 F)
+PI Eligibility:  No
+Drive is formatted for PI information:  No
+PI: No PI
+Drive's write cache : Disabled
+Port-0 :
+Port status: Active
+Port's Linkspeed: Unknown
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+
+Exit Code: 0x00
