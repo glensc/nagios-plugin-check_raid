@@ -2,6 +2,18 @@ $VAR1 = {
           'battery' => [],
           'logical' => [
                          {
+                           'current_cache' => [
+                                                'WriteBack',
+                                                'ReadAheadNone',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'default_cache' => [
+                                                'WriteBack',
+                                                'ReadAheadNone',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
                            'name' => 'raid10',
                            'state' => 'Optimal'
                          }

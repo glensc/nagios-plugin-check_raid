@@ -18,30 +18,114 @@ $VAR1 = {
                        ],
           'logical' => [
                          {
+                           'current_cache' => [
+                                                'WriteBack',
+                                                'ReadAdaptive',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'default_cache' => [
+                                                'WriteBack',
+                                                'ReadAdaptive',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
                            'name' => 'DISK0.0',
                            'state' => 'Optimal'
                          },
                          {
+                           'current_cache' => [
+                                                'WriteBack',
+                                                'ReadAdaptive',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'default_cache' => [
+                                                'WriteBack',
+                                                'ReadAdaptive',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
                            'name' => 'DISK1.1',
                            'state' => 'Optimal'
                          },
                          {
+                           'current_cache' => [
+                                                'WriteBack',
+                                                'ReadAdaptive',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'default_cache' => [
+                                                'WriteBack',
+                                                'ReadAdaptive',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
                            'name' => 'DISK2.2',
                            'state' => 'Optimal'
                          },
                          {
+                           'current_cache' => [
+                                                'WriteBack',
+                                                'ReadAdaptive',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'default_cache' => [
+                                                'WriteBack',
+                                                'ReadAdaptive',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
                            'name' => 'DISK3.3',
                            'state' => 'Optimal'
                          },
                          {
+                           'current_cache' => [
+                                                'WriteBack',
+                                                'ReadAdaptive',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'default_cache' => [
+                                                'WriteBack',
+                                                'ReadAdaptive',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
                            'name' => 'DISK4.4',
                            'state' => 'Optimal'
                          },
                          {
+                           'current_cache' => [
+                                                'WriteBack',
+                                                'ReadAdaptive',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'default_cache' => [
+                                                'WriteBack',
+                                                'ReadAdaptive',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
                            'name' => 'DISK5.5',
                            'state' => 'Optimal'
                          },
                          {
+                           'current_cache' => [
+                                                'WriteBack',
+                                                'ReadAdaptive',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'default_cache' => [
+                                                'WriteBack',
+                                                'ReadAdaptive',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
                            'name' => 'DISK6.6',
                            'state' => 'Optimal'
                          }

@@ -1023,10 +1023,20 @@ sub parse_ld {
 			$ld{state} = $s;
 			next;
 		}
+
+		if (my($s) = /Default Cache Policy\s*:\s*(.+)/) {
+			$ld{default_cache} = [split /,\s*/, $s];
+			next;
+		}
+
+		if (my($s) = /Current Cache Policy\s*:\s*(.+)/) {
+			$ld{current_cache} = [split /,\s*/, $s];
+			next;
+		}
+
 		if (my($s) = /Exit Code: (\d+x\d+)/) {
 			$rc = hex($s);
-		}
-		else {
+		} else {
 			$rc = 0;
 		}
 	}
