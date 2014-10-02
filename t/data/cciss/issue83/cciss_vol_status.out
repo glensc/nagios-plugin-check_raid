@@ -1,0 +1,3 @@
+$ cat cciss_vol_status.out
+/dev/cciss/c0d0: (Smart Array 6i) RAID 1 Volume 0 status: OK.
+/dev/cciss/c0d0: (Smart Array 6i) Enclosure PROLIANT 6L2I (S/N: ) on Bus 0, Physical Port J1 status: OK.

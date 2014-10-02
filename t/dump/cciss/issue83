@@ -1,0 +1,14 @@
+$VAR1 = {
+	'/dev/cciss/c0d0' => {
+		'board_name' => 'Smart Array 6i',
+		'volumes' => {
+			'0' => {
+				'raid_level' => 'RAID 1',
+				'status' => 'OK',
+				'volume_number' => '0',
+				'certain' => 1,
+				'board_name' => 'Smart Array 6i'
+			}
+		}
+	}
+};
