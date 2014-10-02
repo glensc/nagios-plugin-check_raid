@@ -31,7 +31,10 @@ sub store_dump {
 
 	my $res =
 	open my $fh, '>', $file or die $!;
-	print $fh Dumper $c;
+	{
+		local $Data::Dumper::Sortkeys = 1;
+		print $fh Dumper $c;
+	}
 	close $fh or die $!;
 }
 
