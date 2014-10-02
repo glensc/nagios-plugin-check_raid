@@ -1,6 +1,7 @@
 ## Unreleased
 
-- cciss: fix parsing enclosure with space and no serial
+- cciss: fix parsing enclosure with space and no serial [#83][]
+- megacli: alert if default is WriteBack, but current is WriteThrough. [#65][]
 
 ## 3.2.0 (2014-09-21)
 - sudoers: support `#includedir` if enabled in sudoers config
@@ -117,3 +118,5 @@ NOTES:
 [#70]: https://github.com/glensc/nagios-plugin-check_raid/pull/70
 [#71]: https://github.com/glensc/nagios-plugin-check_raid/pull/71
 [#32]: https://github.com/glensc/nagios-plugin-check_raid/issues/32
+[#83]: https://github.com/glensc/nagios-plugin-check_raid/issues/83
+[#65]: https://github.com/glensc/nagios-plugin-check_raid/issues/65
