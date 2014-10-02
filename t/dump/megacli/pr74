@@ -1,0 +1,47 @@
+$VAR1 = {
+          'logical' => [
+                         {
+                           'state' => 'Optimal',
+                           'name' => 'raid10'
+                         }
+                       ],
+          'battery' => [],
+          'physical' => [
+                          {
+                            'name' => 'ATA ST9500620NS FTA1 9XF1KAGA',
+                            'predictive' => undef,
+                            'state' => 'Online',
+                            'dev' => '0'
+                          },
+                          {
+                            'predictive' => undef,
+                            'name' => 'ATA ST9500620NS FTA1 9XF1L4SC',
+                            'state' => 'Online',
+                            'dev' => '1'
+                          },
+                          {
+                            'dev' => '2',
+                            'state' => 'Online',
+                            'predictive' => undef,
+                            'name' => 'ATA ST9500620NS BE25 9XF1Y8KY'
+                          },
+                          {
+                            'predictive' => undef,
+                            'name' => 'ATA ST9500620NS FTA1 9XF1L4SK',
+                            'dev' => '3',
+                            'state' => 'Online'
+                          },
+                          {
+                            'predictive' => undef,
+                            'name' => 'ATA ST9500620NS BE25 9XF1Y7S7',
+                            'state' => 'Online',
+                            'dev' => '4'
+                          },
+                          {
+                            'predictive' => undef,
+                            'name' => 'ATA ST9500620NS BE25 9XF1Y7CQ',
+                            'dev' => '5',
+                            'state' => 'Online'
+                          }
+                        ]
+        };

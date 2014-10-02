@@ -1,0 +1,99 @@
+$VAR1 = {
+          'battery' => [
+                         {
+                           'voltage' => '4026',
+                           'temperature' => '30',
+                           'missing' => 'No',
+                           'replacement_required' => 'Yes',
+                           'learn_cycle_requested' => 'No',
+                           'charging_status' => 'None',
+                           'name' => '0',
+                           'voltage_state' => 'OK',
+                           'pack_will_fail' => undef,
+                           'state' => 'Faulty',
+                           'temperature_state' => 'OK',
+                           'learn_requested' => undef,
+                           'learn_cycle_active' => 'No'
+                         }
+                       ],
+          'physical' => [
+                          {
+                            'predictive' => undef,
+                            'name' => 'MK0311YHGXHPPAHitachi HDS723030ALA640 MKAOA5C0',
+                            'state' => 'Online',
+                            'dev' => '4'
+                          },
+                          {
+                            'predictive' => undef,
+                            'name' => 'MK0311YHGXGTSAHitachi HDS723030ALA640 MKAOA5C0',
+                            'dev' => '5',
+                            'state' => 'Online'
+                          },
+                          {
+                            'state' => 'Online',
+                            'dev' => '6',
+                            'name' => 'MK0311YHGX38DAHitachi HDS723030ALA640 MKAOA5C0',
+                            'predictive' => undef
+                          },
+                          {
+                            'name' => 'MK0311YHG31V6AHitachi HDS723030ALA640 MKAOA580',
+                            'predictive' => undef,
+                            'state' => 'Online',
+                            'dev' => '7'
+                          },
+                          {
+                            'name' => 'MK0311YHGVLH4AHitachi HDS723030ALA640 MKAOA5C0',
+                            'predictive' => undef,
+                            'state' => 'Online',
+                            'dev' => '8'
+                          },
+                          {
+                            'predictive' => undef,
+                            'name' => 'MK0311YHGBEBZAHitachi HDS723030ALA640 MKAOA580',
+                            'dev' => '9',
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '10',
+                            'state' => 'Online',
+                            'predictive' => undef,
+                            'name' => 'MK0311YHGBEAMAHitachi HDS723030ALA640 MKAOA580'
+                          },
+                          {
+                            'name' => 'MK0311YHGX2TJAHitachi HDS723030ALA640 MKAOA5C0',
+                            'predictive' => undef,
+                            'dev' => '11',
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '12',
+                            'state' => 'Online',
+                            'predictive' => undef,
+                            'name' => 'MK0311YHGXJUVAHitachi HDS723030ALA640 MKAOA5C0'
+                          },
+                          {
+                            'predictive' => undef,
+                            'name' => 'MK0311YHGWM50AHitachi HDS723030ALA640 MKAOA5C0',
+                            'dev' => '13',
+                            'state' => 'Online'
+                          },
+                          {
+                            'name' => 'MK0311YHGXGURAHitachi HDS723030ALA640 MKAOA5C0',
+                            'predictive' => undef,
+                            'state' => 'Hotspare',
+                            'dev' => '14'
+                          },
+                          {
+                            'name' => 'MK0311YHGX5JZAHitachi HDS723030ALA640 MKAOA5C0',
+                            'predictive' => undef,
+                            'state' => 'Hotspare',
+                            'dev' => '16'
+                          }
+                        ],
+          'logical' => [
+                         {
+                           'state' => 'Optimal',
+                           'name' => 'DISK0.0'
+                         }
+                       ]
+        };

@@ -1,0 +1,58 @@
+$VAR1 = {
+          'logical' => [],
+          'physical' => [
+                          {
+                            'name' => 'IBM-ESXSST9146803SS B53C6SD1LQ9C0324B53C',
+                            'predictive' => undef,
+                            'dev' => '10',
+                            'state' => 'Online'
+                          },
+                          {
+                            'name' => 'IBM-ESXSST9146803SS B53C6SD1P71V0324B53C',
+                            'predictive' => undef,
+                            'state' => 'Online',
+                            'dev' => '9'
+                          },
+                          {
+                            'state' => 'Online',
+                            'dev' => '13',
+                            'name' => 'IBM-ESXSCBRCA300C3ETS0 NC610PFVEUH0ECCXSA610',
+                            'predictive' => undef
+                          },
+                          {
+                            'predictive' => undef,
+                            'name' => 'IBM-ESXSCBRCA300C3ETS0 NC610PFVGB00ECCXSA610',
+                            'state' => 'Online',
+                            'dev' => '8'
+                          },
+                          {
+                            'predictive' => undef,
+                            'name' => 'IBM-ESXSCBRCA300C3ETS0 NC610PFVGDXPECCXSA610',
+                            'dev' => '11',
+                            'state' => 'Online'
+                          },
+                          {
+                            'state' => 'Predictive',
+                            'dev' => '14',
+                            'name' => 'IBM-ESXSST9300603SS F B53B3SE0WJ1Y0825B53B',
+                            'predictive' => 'Predictive'
+                          }
+                        ],
+          'battery' => [
+                         {
+                           'voltage' => '4049',
+                           'temperature' => '36',
+                           'replacement_required' => 'Yes',
+                           'missing' => 'No',
+                           'charging_status' => 'None',
+                           'learn_cycle_requested' => 'No',
+                           'name' => '0',
+                           'voltage_state' => 'OK',
+                           'learn_requested' => undef,
+                           'state' => 'Faulty',
+                           'temperature_state' => 'OK',
+                           'pack_will_fail' => undef,
+                           'learn_cycle_active' => 'No'
+                         }
+                       ]
+        };

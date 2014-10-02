@@ -1,0 +1,55 @@
+$VAR1 = {
+          'physical' => [
+                          {
+                            'dev' => '11',
+                            'state' => 'Online',
+                            'name' => 'IBM-ESXSMBE2147RC XXXXXXXXXXXXX17SC17SC17',
+                            'predictive' => undef
+                          },
+                          {
+                            'state' => 'Online',
+                            'dev' => '10',
+                            'name' => 'IBM-ESXSMBE2147RC XXXXXXXXXXXXX17SC17SC17',
+                            'predictive' => undef
+                          },
+                          {
+                            'dev' => '9',
+                            'state' => 'Online',
+                            'predictive' => undef,
+                            'name' => 'IBM-ESXSMBE2147RC XXXXXXXXXXXXX17SC17SC17'
+                          },
+                          {
+                            'name' => 'IBM-ESXSMBE2147RC XXXXXXXXXXXXX17SC17SC17',
+                            'predictive' => undef,
+                            'state' => 'Online',
+                            'dev' => '8'
+                          },
+                          {
+                            'name' => 'IBM-ESXSMBE2147RC XXXXXXXXXXXXX17SC17SC17',
+                            'predictive' => undef,
+                            'dev' => '12',
+                            'state' => 'Online'
+                          },
+                          {
+                            'name' => 'IBM-ESXSMBE2147RC XXXXXXXXXXXXX17SC17SC17',
+                            'predictive' => undef,
+                            'state' => 'Online',
+                            'dev' => '13'
+                          }
+                        ],
+          'battery' => [],
+          'logical' => [
+                         {
+                           'state' => 'Optimal',
+                           'name' => 'DISK0.0'
+                         },
+                         {
+                           'state' => 'Optimal',
+                           'name' => 'DISK1.1'
+                         },
+                         {
+                           'state' => 'Optimal',
+                           'name' => 'DISK2.2'
+                         }
+                       ]
+        };

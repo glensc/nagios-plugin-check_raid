@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 use constant TESTS => 16;
-use Test::More tests => TESTS*7;
+use Test::More tests => TESTS*8;
 use test;
 
 my @tests = (
@@ -19,6 +19,7 @@ my @tests = (
 		message => 'Volumes(2): OS:Optimal,DATA:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online',
 		perfdata => '',
 		longoutput => '',
+		c => 'megacli.1',
 	},
 	{
 		status => OK,
@@ -28,6 +29,7 @@ my @tests = (
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(11): 16=Hotspare 11,12,13,14,15,17=Online 18,19,20,21=Unconfigured(good)',
 		perfdata => '',
 		longoutput => '',
+		c => 'megacli.2',
 	},
 	{
 		status => OK,
@@ -37,6 +39,7 @@ my @tests = (
 		message => 'Volumes(3): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal; Devices(6): 11,10,09,08,12,13=Online',
 		perfdata => '',
 		longoutput => '',
+		c => 'issue41',
 	},
 	{
 		status => CRITICAL,
@@ -46,6 +49,7 @@ my @tests = (
 		message => 'Volumes(0): ; Devices(11): 16=Hotspare 11,12,13,14,15,17=Online 18,19,20,21=Unconfigured(good)',
 		perfdata => '',
 		longoutput => '',
+		c => 'megacli.pdlist.2',
 	},
 	{
 		status => CRITICAL,
@@ -55,6 +59,7 @@ my @tests = (
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online; Batteries(1): 0=Faulty',
 		perfdata => 'Battery0_T=30;;;; Battery0_V=4026;;;;',
 		longoutput => "Battery0:\n - State: Faulty\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: Yes\n - Temperature: OK (30 C)\n - Voltage: OK (4026 mV)",
+		c => 'issue39',
 	},
 	{
 		status => OK,
@@ -64,6 +69,7 @@ my @tests = (
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 08,07=Online; Batteries(1): 0=Operational',
 		perfdata => 'Battery0_T=18;;;; Battery0_V=3923;;;;',
 		longoutput => "Battery0:\n - State: Operational\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (18 C)\n - Voltage: OK (3923 mV)",
+		c => 'issue39.1',
 	},
 	{
 		status => CRITICAL,
@@ -73,6 +79,7 @@ my @tests = (
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 04,05=Online; Batteries(1): 0=Operational',
 		perfdata => 'Battery0_T=26;;;; Battery0_V=4053;;;;',
 		longoutput => "Battery0:\n - State: Operational\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: Yes\n - About to fail: No\n - Temperature: OK (26 C)\n - Voltage: OK (4053 mV)",
+		c => 'issue39.2',
 	},
 	{
 		status => WARNING,
@@ -82,6 +89,7 @@ my @tests = (
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 04,05=Online; Batteries(1): 0=Non Operational',
 		perfdata => 'Battery0_T=22;;;; Battery0_V=4090;;;;',
 		longoutput => "Battery0:\n - State: Non Operational\n - Charging status: Charging\n - Learn cycle requested: Yes\n - Learn cycle active: Yes\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (22 C)\n - Voltage: OK (4090 mV)",
+		c => 'issue39.3',
 	},
 	{
 		status => CRITICAL,
@@ -93,6 +101,7 @@ my @tests = (
 		perfdata => 'Battery0=22;4090',
 		perfdata => 'Battery0_T=22;;;; Battery0_V=4090;;;;',
 		longoutput => "Battery0:\n - State: Non Operational\n - Charging status: Charging\n - Learn cycle requested: Yes\n - Learn cycle active: Yes\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (22 C)\n - Voltage: OK (4090 mV)",
+		c => 'issue39.3',
 	},
 	{
 		status => OK,
@@ -102,6 +111,7 @@ my @tests = (
 		message => 'Volumes(7): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal,DISK3.3:Optimal,DISK4.4:Optimal,DISK5.5:Optimal,DISK6.6:Optimal; Devices(8): 11,12,13,14,10,15,09,08=Online; Batteries(1): 0=Optimal',
 		perfdata => 'Battery0_T=34;;;; Battery0_V=4073;;;;',
 		longoutput => "Battery0:\n - State: Optimal\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (34 C)\n - Voltage: OK (4073 mV)",
+		c => 'issue45',
 	},
 	{
 		status => CRITICAL,
@@ -111,6 +121,7 @@ my @tests = (
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(12): 14=Hotspare 04,05,06,07,08,09,10,11,12,16=Online 13 (W1F3ZE1TST3000DM001-1CH166 CC27)=Unconfigured(bad); Batteries(1): 0=Faulty',
 		perfdata => 'Battery0_T=29;;;; Battery0_V=4069;;;;',
 		longoutput => "Battery0:\n - State: Faulty\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: No\n - Temperature: OK (29 C)\n - Voltage: OK (4069 mV)",
+		c => 'megacli.3',
 	},
 	{
 		status => OK,
@@ -120,6 +131,7 @@ my @tests = (
 		message => 'Volumes(1): raid10:Optimal; Devices(6): 00,01,02,03,04,05=Online',
 		perfdata => '',
 		longoutput => '',
+		c => 'pr74',
 	},
 	{
 		status => CRITICAL,
@@ -128,7 +140,8 @@ my @tests = (
 		battery => 'issue49/battery',
 		message => 'Volumes(0): ; Devices(6): 10,09,13,08,11=Online 14 (IBM-ESXSST9300603SS F B53B3SE0WJ1Y0825B53B)=Predictive; Batteries(1): 0=Faulty',
 		perfdata => 'Battery0_T=36;;;; Battery0_V=4049;;;;',
-		longoutput => "Battery0:\n - State: Faulty\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: Yes\n - Temperature: OK (36 C)\n - Voltage: OK (4049 mV)"
+		longoutput => "Battery0:\n - State: Faulty\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: Yes\n - Temperature: OK (36 C)\n - Voltage: OK (4049 mV)",
+		c => 'issue49',
 	},
 	{
 		status => CRITICAL,
@@ -138,6 +151,7 @@ my @tests = (
 		message => 'Volumes(0): ; Devices(0): ',
 		perfdata => '',
 		longoutput => '',
+		c => 'issue32.8.01',
 	},
 	{
 		status => CRITICAL,
@@ -147,6 +161,7 @@ my @tests = (
 		message => 'Volumes(0): ; Devices(0): ',
 		perfdata => '',
 		longoutput => '',
+		c => 'issue32.8.07',
 	},
 	{
 		status => OK,
@@ -156,6 +171,7 @@ my @tests = (
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(6): 00,01,02,03,04,05=Online',
 		perfdata => '',
 		longoutput => '',
+		c => 'issue65',
 	},
 );
 
@@ -189,4 +205,14 @@ foreach my $test (@tests) {
 	is($plugin->message, $test->{message}, "status message");
 	is($plugin->perfdata, $test->{perfdata}, "performance data");
 	is($plugin->longoutput, $test->{longoutput}, "long output");
+
+	my $c = $plugin->parse;
+	my $df = TESTDIR . '/dump/megacli/' . $test->{c};
+	if (!-f $df) {
+		store_dump $df, $c;
+		# trigger error so that we don't have feeling all is ok ;)
+		ok(0, "Created dump for $df");
+	}
+	my $dump = read_dump($df);
+	is_deeply($c, $dump, "controller structure");
 }

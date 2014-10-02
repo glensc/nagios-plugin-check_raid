@@ -1,0 +1,47 @@
+$VAR1 = {
+          'physical' => [
+                          {
+                            'state' => 'Online',
+                            'dev' => '0',
+                            'predictive' => undef,
+                            'name' => 'SEAGATE ST3450857SS ES643SK1NLYN'
+                          },
+                          {
+                            'predictive' => undef,
+                            'name' => 'SEAGATE ST3450857SS ES643SK1MYJN',
+                            'dev' => '1',
+                            'state' => 'Online'
+                          },
+                          {
+                            'name' => 'SEAGATE ST3450857SS ES656SK1ACPY',
+                            'predictive' => undef,
+                            'state' => 'Online',
+                            'dev' => '2'
+                          },
+                          {
+                            'predictive' => undef,
+                            'name' => 'SEAGATE ST3450857SS ES656SK1BPCJ',
+                            'dev' => '3',
+                            'state' => 'Online'
+                          },
+                          {
+                            'name' => 'SEAGATE ST3450857SS ES656SK1CK90',
+                            'predictive' => undef,
+                            'dev' => '4',
+                            'state' => 'Online'
+                          },
+                          {
+                            'predictive' => undef,
+                            'name' => 'SEAGATE ST3450857SS ES646SK1A9T4',
+                            'state' => 'Online',
+                            'dev' => '5'
+                          }
+                        ],
+          'battery' => [],
+          'logical' => [
+                         {
+                           'state' => 'Optimal',
+                           'name' => 'DISK0.0'
+                         }
+                       ]
+        };

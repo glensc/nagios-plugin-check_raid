@@ -1,0 +1,5 @@
+$VAR1 = {
+          'battery' => [],
+          'physical' => [],
+          'logical' => []
+        };
