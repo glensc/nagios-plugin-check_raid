@@ -1,5 +1,6 @@
 use strict;
 use warnings;
+use Data::Dumper;
 require Exporter;
 
 use constant TESTDIR => ($0 =~ m{(.+)/[^/]+$});
@@ -17,12 +18,21 @@ use constant RESYNC => WARNING;
 our @EXPORT = qw(OK WARNING CRITICAL UNKNOWN TESTDIR);
 
 sub read_dump {
-	my $file = shift;
+	my ($file) = @_;
 	our $VAR1;
 
 	do $file;
 
 	return $VAR1;
+}
+
+sub store_dump {
+	my ($file, $c) = @_;
+
+	my $res =
+	open my $fh, '>', $file or die $!;
+	print $fh Dumper $c;
+	close $fh or die $!;
 }
 
 1;
