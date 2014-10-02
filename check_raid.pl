@@ -1023,10 +1023,20 @@ sub parse_ld {
 			$ld{state} = $s;
 			next;
 		}
+
+		if (my($s) = /Default Cache Policy\s*:\s*(.+)/) {
+			$ld{default_cache} = [split /,\s*/, $s];
+			next;
+		}
+
+		if (my($s) = /Current Cache Policy\s*:\s*(.+)/) {
+			$ld{current_cache} = [split /,\s*/, $s];
+			next;
+		}
+
 		if (my($s) = /Exit Code: (\d+x\d+)/) {
 			$rc = hex($s);
-		}
-		else {
+		} else {
 			$rc = 0;
 		}
 	}
@@ -1127,7 +1137,7 @@ sub parse_bbu {
 	return \@bbu;
 }
 
-sub check {
+sub parse {
 	my $this = shift;
 
 	my $pd = $this->parse_pd;
@@ -1138,16 +1148,36 @@ sub check {
 	my @vols = @$ld if $ld;
 	my @bats = @$bbu if $bbu;
 
+	return {
+		logical => $ld,
+		physical => $pd,
+		battery => $bbu,
+	};
+}
+
+sub check {
+	my $this = shift;
+
+	my $c = $this->parse;
+
 	my @vstatus;
-	foreach my $vol (@vols) {
+	foreach my $vol (@{$c->{logical}}) {
 		push(@vstatus, sprintf "%s:%s", $vol->{name}, $vol->{state});
 		if ($vol->{state} ne 'Optimal') {
 			$this->critical;
 		}
+
+		# check cache policy, #65
+		my @wt = grep { /WriteThrough/ } @{$vol->{current_cache}};
+		if (@wt) {
+			my @default = grep { /WriteThrough/ } @{$vol->{default_cache}};
+			# alert if WriteThrough is configured in default
+			$this->cache_fail unless @default;
+		}
 	}
 
 	my %dstatus;
-	foreach my $dev (@devs) {
+	foreach my $dev (@{$c->{physical}}) {
 		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare' || $dev->{state} eq 'Unconfigured(good)') {
 			push(@{$dstatus{$dev->{state}}}, sprintf "%02d", $dev->{dev});
 
@@ -1159,7 +1189,7 @@ sub check {
 	}
 
 	my (%bstatus, @bpdata, @blongout);
-	foreach my $bat (@bats) {
+	foreach my $bat (@{$c->{battery}}) {
 		if ($bat->{state} !~ /^(Operational|Optimal)$/) {
 			# BBU learn cycle in progress.
 			if ($bat->{charging_status} =~ /^(Charging|Discharging)$/ && $bat->{learn_cycle_active} eq 'Yes') {
@@ -1218,12 +1248,11 @@ sub check {
 		));
 	}
 
-	my @status;
-	push(@status,
-		'Volumes(' . ($#vols + 1) . '): ' . join(',', @vstatus) .
-		'; Devices(' . ($#devs + 1) . '): ' . $this->join_status(\%dstatus) .
-		(@bats ? '; Batteries(' . ($#bats + 1) . '): ' . $this->join_status(\%bstatus) : '')
-	);
+	my @cstatus;
+	push(@cstatus, 'Volumes(' . ($#{$c->{logical}} + 1) . '): ' . join(',', @vstatus));
+	push(@cstatus, 'Devices(' . ($#{$c->{physical}} + 1) . '): ' . $this->join_status(\%dstatus));
+	push(@cstatus, 'Batteries(' . ($#{$c->{battery}} + 1) . '): ' . $this->join_status(\%bstatus)) if @{$c->{battery}};
+	my @status = join('; ', @cstatus);
 
 	my @pdata;
 	push(@pdata,

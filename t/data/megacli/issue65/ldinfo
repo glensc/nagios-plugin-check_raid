@@ -1,0 +1,14 @@
+# MegaCli -LDInfo -Lall -aALL
+Adapter 0 -- Virtual Drive Information:
+Virtual Disk: 0 (target id: 0)
+Name:
+RAID Level: Primary-5, Secondary-0, RAID Level Qualifier-3
+Size:696960MB
+State: Optimal
+Stripe Size: 64kB
+Number Of Drives:6
+Span Depth:1
+Default Cache Policy: WriteBack, ReadAheadNone, Direct, No Write Cache if Bad BBU
+Current Cache Policy: WriteThrough, ReadAheadNone, Direct, No Write Cache if Bad BBU
+Access Policy: Read/Write
+Disk Cache Policy: Disk's Default
