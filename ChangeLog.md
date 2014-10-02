@@ -1,3 +1,7 @@
+## Unreleased
+
+- cciss: fix parsing enclosure with space and no serial
+
 ## 3.2.0 (2014-09-21)
 - sudoers: support `#includedir` if enabled in sudoers config
 - tw_cli: rewritten with full data parsing

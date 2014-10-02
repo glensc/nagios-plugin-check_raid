@@ -1,0 +1,14 @@
+$ cat cciss0.out
+cciss0: HP Smart Array 6i Controller
+Board ID: 0x40910e11
+Firmware Version: 2.58
+IRQ: 24
+Logical drives: 1
+Current Q depth: 0
+Current # commands on controller: 1
+Max Q depth since init: 6
+Max # commands on controller since init: 7
+Max SG entries since init: 128
+Sequential access devices: 0
+
+cciss/c0d0:	  72.88GB	RAID 1(1+0)

@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 8;
+use constant TESTS => 9;
 use Test::More tests =>  TESTS * 6;
 use test;
 
@@ -98,6 +98,17 @@ my @tests = (
 		smartctl => '',
 		message => '/dev/cciss/c0d0(Smart Array P800): Volume 0 (RAID 1): OK, Volume 1 (RAID 6): OK, Drives(10): 1E-1-1,1E-1-2,1E-1-3,1E-1-4,1E-1-5,1E-1-6,1E-1-7,1E-1-8,4I-1-1,4I-1-2=OK, Enclosures: MSA60(SGA710004E): OK, Cache: WriteCache:DISABLED ReadMem:114 MiB WriteMem:342 MiB',
 		c => 'cciss_vol_status.lupus',
+	},
+	{
+		status => OK,
+		detect_hpsa => 'no-such-file',
+		detect_cciss => 'cciss',
+		version => 'issue83/cciss_vol_status.version',
+		controller => 'issue83/cciss_vol_status.out',
+		cciss_proc => 'cciss/issue83/cciss0.out',
+		smartctl => '',
+		message => '/dev/cciss/c0d0(Smart Array 6i): Volume 0 (RAID 1): OK, Enclosures: PROLIANT 6L2I: OK',
+		c => 'issue83',
 	},
 );
 
