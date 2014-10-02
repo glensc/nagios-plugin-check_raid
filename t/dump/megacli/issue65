@@ -3,7 +3,7 @@ $VAR1 = {
           'logical' => [
                          {
                            'current_cache' => [
-                                                'WriteBack',
+                                                'WriteThrough',
                                                 'ReadAheadNone',
                                                 'Direct',
                                                 'No Write Cache if Bad BBU'

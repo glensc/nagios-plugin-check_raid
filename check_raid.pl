@@ -1166,6 +1166,14 @@ sub check {
 		if ($vol->{state} ne 'Optimal') {
 			$this->critical;
 		}
+
+		# check cache policy, #65
+		my @wt = grep { /WriteThrough/ } @{$vol->{current_cache}};
+		if (@wt) {
+			my @default = grep { /WriteThrough/ } @{$vol->{default_cache}};
+			# alert if WriteThrough is configured in default
+			$this->cache_fail unless @default;
+		}
 	}
 
 	my %dstatus;

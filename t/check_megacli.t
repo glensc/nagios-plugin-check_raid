@@ -164,9 +164,9 @@ my @tests = (
 		c => 'issue32.8.07',
 	},
 	{
-		status => OK,
+		status => WARNING,
 		pdlist => 'issue65/pdlist',
-		ldinfo => 'issue65/ldinfo2',
+		ldinfo => 'issue65/ldinfo',
 		battery => 'empty',
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(6): 00,01,02,03,04,05=Online',
 		perfdata => '',
