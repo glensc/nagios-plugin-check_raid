@@ -3239,11 +3239,12 @@ sub parse {
 
 		# catch enclosures, print_bus_status()
 		# /dev/cciss/c1d0: (Smart Array P800) Enclosure MSA70 (S/N: SGA651004J) on Bus 2, Physical Port 1E status: OK.
+		# /dev/cciss/c0d0: (Smart Array 6i) Enclosure PROLIANT 6L2I (S/N: ) on Bus 0, Physical Port J1 status: OK.
 		if (my($file, $board_name, $name, $sn, $bus, $port1, $port2, $status) = m{
 			^(/dev/[^:]+):\s        # File
 			\(([^)]+)\)\s           # Board Name
-			Enclosure\s(\S+)\s      # Enclosure Name
-			\(S/N:\s(\S+)\)\s        # Enclosure SN
+			Enclosure\s(.+)\s      # Enclosure Name
+			\(S/N:\s(\S*)\)\s       # Enclosure SN
 			on\sBus\s(\d+),\s       # Bus Number
 			Physical\sPort\s(.)     # physical_port1
 			(.)\s                   # physical_port2
@@ -3418,7 +3419,9 @@ sub check {
 			for my $i (sort {$a cmp $b} keys %{$c->{enclosures}}) {
 				my $e = $c->{enclosures}{$i};
 
-				my $s = "$e->{name}($e->{sn}): $e->{status}";
+				my $s = "$e->{name}";
+				$s .= "($e->{sn})" if $e->{sn};
+				$s .= ": $e->{status}";
 				if ($e->{status} !~ '^OK') {
 					$this->critical;
 				}

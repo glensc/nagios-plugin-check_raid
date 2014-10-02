@@ -107,7 +107,7 @@ my @tests = (
 		controller => 'issue83/cciss_vol_status.out',
 		cciss_proc => 'cciss/issue83/cciss0.out',
 		smartctl => '',
-		message => '/dev/cciss/c0d0(Smart Array 6i): Volume 0 (RAID 1): OK',
+		message => '/dev/cciss/c0d0(Smart Array 6i): Volume 0 (RAID 1): OK, Enclosures: PROLIANT 6L2I: OK',
 		c => 'issue83',
 	},
 );

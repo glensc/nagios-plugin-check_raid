@@ -4,11 +4,22 @@ $VAR1 = {
 		'volumes' => {
 			'0' => {
 				'raid_level' => 'RAID 1',
-				'status' => 'OK',
+				'board_name' => 'Smart Array 6i',
 				'volume_number' => '0',
 				'certain' => 1,
-				'board_name' => 'Smart Array 6i'
+				'status' => 'OK',
 			}
-		}
+		},
+		'enclosures' => {
+			'0' => {
+				'bus' => 0,
+				'board_name' => 'Smart Array 6i',
+				'name' => 'PROLIANT 6L2I',
+				'status' => 'OK',
+				'sn' => '',
+				'phys1' => 'J',
+				'phys2' => '1'
+			}
+		},
 	}
 };
