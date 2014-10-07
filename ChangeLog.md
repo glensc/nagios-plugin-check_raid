@@ -1,5 +1,9 @@
 ## Unreleased
 
+- ...
+
+## 3.2.1 (2014-10-07)
+
 - cciss: fix parsing enclosure with space and no serial [#83][]
 - megacli: alert if default is WriteBack, but current is WriteThrough. [#65][]
 
