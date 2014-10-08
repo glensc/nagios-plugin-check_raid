@@ -4433,12 +4433,14 @@ sub print_usage() {
 	"    Force the use of selected plugins, comma separated",
 	" -l, --list-plugins",
 	"    Lists active plugins",
+	" --noraid=STATE",
+	"    Return STATE if no RAID controller is found. Defaults to UNKNOWN",
 	" --resync=STATE",
 	"    Return STATE if RAID is in resync state. Defaults to WARNING",
 	" --check=STATE",
 	"    Return STATE if RAID is in check state. Defaults to OK",
-	" --noraid=STATE",
-	"    Return STATE if no RAID controller is found. Defaults to UNKNOWN",
+	" --cache-fail=STATE",
+	"    Set status as STATE if Write Cache is present but disabled. Defaults to WARNING",
 	" --bbulearn=STATE",
 	"    Return STATE if Backup Battery Unit (BBU) learning cycle is in progress. Defaults to WARNING",
 	" --bbu-monitoring",
@@ -4448,7 +4450,8 @@ sub print_usage() {
 
 sub print_help() {
 	print "check_raid, v$VERSION\n";
-	print "Copyright (c) 2004-2006 Steve Shipway, Copyright (c) 2009-2014, Elan Ruusamäe <glen\@pld-linux.org>
+	print "Copyright (c) 2004-2006 Steve Shipway,
+Copyright (c) 2009-2014, Elan Ruusamäe <glen\@pld-linux.org>
 
 This plugin reports the current server's RAID status
 https://github.com/glensc/nagios-plugin-check_raid

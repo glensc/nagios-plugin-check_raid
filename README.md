@@ -61,6 +61,8 @@ Command line arguments
 	    --resync=STATE      Set status as STATE if RAID is in resync state. Defaults to `WARNING`
 	    --check=STATE       Set status as STATE if RAID is in check state. Defaults to `OK`
 	    --cache-fail=STATE  Set status as STATE if Write Cache is present but disabled. Defaults to `WARNING`
+	    --bbulearn=STATE    Return STATE if Backup Battery Unit (BBU) learning cycle is in progress. Defaults to `WARNING`
+	    --bbu-monitoring    Enable experimental monitoring of the BBU status
 	-l  --list-plugins      Lists active plugins
 
 `STATE` can be one of: `OK`, `WARNING`, `CRITICAL`, `UNKNOWN`

@@ -7,6 +7,8 @@
 - cciss: fix parsing enclosure with space and no serial [#83][]
 - megacli: alert if default is WriteBack, but current is WriteThrough. [#65][]
 
+NOTE: megacli now checks cache state, use `--cache-fail=STATE` if default `WARNING` is not for you.
+
 ## 3.2.0 (2014-09-21)
 - sudoers: support `#includedir` if enabled in sudoers config
 - tw_cli: rewritten with full data parsing
