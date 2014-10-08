@@ -1173,6 +1173,7 @@ sub check {
 			my @default = grep { /WriteThrough/ } @{$vol->{default_cache}};
 			# alert if WriteThrough is configured in default
 			$this->cache_fail unless @default;
+			push(@vstatus, "WriteCache:DISABLED");
 		}
 	}
 

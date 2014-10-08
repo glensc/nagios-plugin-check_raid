@@ -1,6 +1,7 @@
 ## Unreleased
 
 - cciss: fix parsing enclosure with no enclosure name [#84][]
+- megacli: actually report that cache is disabled. [#85][]
 
 ## 3.2.1 (2014-10-07)
 
@@ -127,3 +128,4 @@ NOTES:
 [#83]: https://github.com/glensc/nagios-plugin-check_raid/issues/83
 [#65]: https://github.com/glensc/nagios-plugin-check_raid/issues/65
 [#84]: https://github.com/glensc/nagios-plugin-check_raid/issues/84
+[#85]: https://github.com/glensc/nagios-plugin-check_raid/issues/85

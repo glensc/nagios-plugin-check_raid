@@ -1,0 +1,35 @@
+$VAR1 = {
+          'battery' => [],
+          'logical' => [
+                         {
+                           'current_cache' => [
+                                                'WriteThrough',
+                                                'ReadAheadNone',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'default_cache' => [
+                                                'WriteBack',
+                                                'ReadAheadNone',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'name' => 'Virtual',
+                           'state' => 'Optimal'
+                         }
+                       ],
+          'physical' => [
+                          {
+                            'dev' => '0',
+                            'name' => 'WD-WMAW30959975WDC WD1003FBYX-01Y7B1 01.01V02',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '1',
+                            'name' => 'WD-WMAW31292255WDC WD1003FBYX-01Y7B1 01.01V02',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          }
+                        ]
+        };

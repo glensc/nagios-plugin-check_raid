@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 16;
+use constant TESTS => 17;
 use Test::More tests => TESTS*8;
 use test;
 
@@ -56,7 +56,7 @@ my @tests = (
 		pdlist => 'issue39/batteries.pdlist',
 		ldinfo => 'issue39/batteries.ldinfo',,
 		battery => 'issue39/batteries.bbustatus',
-		message => 'Volumes(1): DISK0.0:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online; Batteries(1): 0=Faulty',
+		message => 'Volumes(1): DISK0.0:Optimal,WriteCache:DISABLED; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online; Batteries(1): 0=Faulty',
 		perfdata => 'Battery0_T=30;;;; Battery0_V=4026;;;;',
 		longoutput => "Battery0:\n - State: Faulty\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: Yes\n - Temperature: OK (30 C)\n - Voltage: OK (4026 mV)",
 		c => 'issue39',
@@ -168,10 +168,20 @@ my @tests = (
 		pdlist => 'issue65/pdlist',
 		ldinfo => 'issue65/ldinfo',
 		battery => 'empty',
-		message => 'Volumes(1): DISK0.0:Optimal; Devices(6): 00,01,02,03,04,05=Online',
+		message => 'Volumes(1): DISK0.0:Optimal,WriteCache:DISABLED; Devices(6): 00,01,02,03,04,05=Online',
 		perfdata => '',
 		longoutput => '',
 		c => 'issue65',
+	},
+	{
+		status => WARNING,
+		pdlist => 'issue85/pdlist',
+		ldinfo => 'issue85/ldinfo',
+		battery => 'empty',
+		message => 'Volumes(1): Virtual:Optimal,WriteCache:DISABLED; Devices(2): 00,01=Online',
+		perfdata => '',
+		longoutput => '',
+		c => 'issue85',
 	},
 );
 
