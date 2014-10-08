@@ -3272,7 +3272,7 @@ sub parse {
 		if (my($file, $board_name, $name, $sn, $bus, $port1, $port2, $status) = m{
 			^(/dev/[^:]+):\s        # File
 			\(([^)]+)\)\s           # Board Name
-			Enclosure\s(.+)\s      # Enclosure Name
+			Enclosure\s(.*?)\s      # Enclosure Name
 			\(S/N:\s(\S*)\)\s       # Enclosure SN
 			on\sBus\s(\d+),\s       # Bus Number
 			Physical\sPort\s(.)     # physical_port1
@@ -3448,7 +3448,9 @@ sub check {
 			for my $i (sort {$a cmp $b} keys %{$c->{enclosures}}) {
 				my $e = $c->{enclosures}{$i};
 
-				my $s = "$e->{name}";
+				# enclosure name may be missing, identify by connection
+				my $s = $e->{name} || "$e->{bus}-$e->{phys1}$e->{phys2}";
+				# enclosure S/N may be missing
 				$s .= "($e->{sn})" if $e->{sn};
 				$s .= ": $e->{status}";
 				if ($e->{status} !~ '^OK') {

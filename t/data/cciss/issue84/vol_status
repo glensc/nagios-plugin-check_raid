@@ -1,0 +1,10 @@
+Controller: Smart Array 6i
+  Board ID: 0x40910e11
+  Logical drives: 0
+  Running firmware: 2.58
+  ROM firmware: 2.58
+/dev/cciss/c0d0: (Smart Array 6i) RAID 1 Volume 0 status: OK.
+  Physical drives: 2
+    b0t0 connector J1 box 0 bay 0                 COMPAQ  BD07289BB8                               DAL1P64091FN0615     HPB1 OK
+    b0t1 connector J1 box 0 bay 1                 COMPAQ  BD0728A4B4                                       J2094RPK     HPB8 OK
+/dev/cciss/c0d0: (Smart Array 6i) Enclosure  (S/N: ) on Bus 0, Physical Port J1 status: OK.

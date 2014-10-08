@@ -1,0 +1,50 @@
+$VAR1 = {
+          '/dev/cciss/c0d0' => {
+                                 'board_name' => 'Smart Array 6i',
+                                 'drives' => {
+                                               'J1-0-0' => {
+                                                             'bay' => 0,
+                                                             'box' => 0,
+                                                             'fw' => 'HPB1',
+                                                             'model' => 'COMPAQ  BD07289BB8',
+                                                             'phys1' => 'J',
+                                                             'phys2' => '1',
+                                                             'serial' => 'DAL1P64091FN0615',
+                                                             'slot' => 'J1-0-0',
+                                                             'status' => 'OK'
+                                                           },
+                                               'J1-0-1' => {
+                                                             'bay' => 1,
+                                                             'box' => 0,
+                                                             'fw' => 'HPB8',
+                                                             'model' => 'COMPAQ  BD0728A4B4',
+                                                             'phys1' => 'J',
+                                                             'phys2' => '1',
+                                                             'serial' => 'J2094RPK',
+                                                             'slot' => 'J1-0-1',
+                                                             'status' => 'OK'
+                                                           }
+                                             },
+                                 'enclosures' => {
+                                                   '0' => {
+                                                            'board_name' => 'Smart Array 6i',
+                                                            'bus' => 0,
+                                                            'name' => '',
+                                                            'phys1' => 'J',
+                                                            'phys2' => '1',
+                                                            'sn' => '',
+                                                            'status' => 'OK'
+                                                          }
+                                                 },
+                                 'pd count' => '2',
+                                 'volumes' => {
+                                                '0' => {
+                                                         'board_name' => 'Smart Array 6i',
+                                                         'certain' => 1,
+                                                         'raid_level' => 'RAID 1',
+                                                         'status' => 'OK',
+                                                         'volume_number' => '0'
+                                                       }
+                                              }
+                               }
+        };

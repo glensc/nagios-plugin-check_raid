@@ -1,6 +1,6 @@
 ## Unreleased
 
-- ...
+- cciss: fix parsing enclosure with no enclosure name [#84][]
 
 ## 3.2.1 (2014-10-07)
 
@@ -124,3 +124,4 @@ NOTES:
 [#32]: https://github.com/glensc/nagios-plugin-check_raid/issues/32
 [#83]: https://github.com/glensc/nagios-plugin-check_raid/issues/83
 [#65]: https://github.com/glensc/nagios-plugin-check_raid/issues/65
+[#84]: https://github.com/glensc/nagios-plugin-check_raid/issues/84

@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 9;
+use constant TESTS => 10;
 use Test::More tests =>  TESTS * 6;
 use test;
 
@@ -110,6 +110,17 @@ my @tests = (
 		message => '/dev/cciss/c0d0(Smart Array 6i): Volume 0 (RAID 1): OK, Enclosures: PROLIANT 6L2I: OK',
 		c => 'issue83',
 	},
+	{
+		status => OK,
+		detect_hpsa => 'no-such-file',
+		detect_cciss => 'cciss',
+		version => 'issue84/version',
+		controller => 'issue84/vol_status',
+		cciss_proc => 'cciss/issue84/cciss0',
+		smartctl => '',
+		message => '/dev/cciss/c0d0(Smart Array 6i): Volume 0 (RAID 1): OK, Drives(2): J1-0-0,J1-0-1=OK, Enclosures: 0-J1: OK',
+		c => 'issue84',
+	},
 );
 
 foreach my $test (@tests) {
@@ -137,9 +148,9 @@ foreach my $test (@tests) {
 	my $c = $plugin->parse;
 	my $df = TESTDIR . '/dump/cciss/' . $test->{c};
 	if (!-f $df) {
-		use Data::Dumper;
-		print Dumper $c;
-		die "Printed Dump for $df";
+		store_dump $df, $c;
+		# trigger error so that we don't have feeling all is ok ;)
+		ok(0, "Created dump for $df");
 	}
 	my $dump = read_dump($df);
 	is_deeply($c, $dump, "controller structure");
