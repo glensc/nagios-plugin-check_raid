@@ -1,0 +1,938 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Channel description                      : SAS/SATA
+   Controller Model                         : Adaptec 6805
+   Controller Serial Number                 : 1A15119C716
+   Physical Slot                            : 6
+   Temperature                              : 45 C/ 113 F (Normal)
+   Installed memory                         : 512 MB
+   Copyback                                 : Disabled
+   Background consistency check             : Disabled
+   Automatic Failover                       : Enabled
+   Global task priority                     : High
+   Performance Mode                         : Default/Dynamic
+   Host bus type                            : PCIe
+   Host bus speed                           : 5000 MHz
+   Hot bus link width                       : 8 bit(s)/link(s)
+   Stayawake period                         : Disabled
+   Spinup limit internal drives             : 0
+   Spinup limit external drives             : 0
+   Defunct disk drive count                 : 0
+   Logical devices/Failed/Degraded          : 5/0/0
+   NCQ status                               : Enabled
+   Statistics data collection mode          : Enabled
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 5.2-0 (19109)
+   Firmware                                 : 5.2-0 (19109)
+   Driver                                   : 1.1-7 (28000)
+   Boot Flash                               : 5.2-0 (19109)
+   --------------------------------------------------------
+   Controller ZMM Information
+   --------------------------------------------------------
+   Status                                   : ZMM Optimal
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical device number 0
+   Logical device name                      : Sistem
+   RAID level                               : 0
+   Status of logical device                 : Optimal
+   Size                                     : 571382 MB
+   Parity space                             : 0 MB
+   Stripe-unit size                         : 1024 KB
+   Read-cache setting                       : Enabled
+   Read-cache status                        : On
+   Write-cache setting                      : Enabled
+   Write-cache status                       : On
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : No
+   Global Hot-Spare                         : 0,36
+   Global Hot-Spare                         : 0,10
+   Global Hot-Spare                         : 0,9
+   Global Hot-Spare                         : 0,43
+   Bootable                                 : Yes
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (Controller:1,Enclosure:1,Slot:6) 3SJ261NE00009108HSF0
+   Segment 1                                : Present (Controller:1,Enclosure:1,Slot:7) 3SJ2635B00009107H872
+
+Logical device number 1
+   Logical device name                      : raid900
+   RAID level                               : 10
+   Status of logical device                 : Optimal
+   Size                                     : 1906678 MB
+   Parity space                             : 1906688 MB
+   Stripe-unit size                         : 1024 KB
+   Read-cache setting                       : Enabled
+   Read-cache status                        : On
+   Write-cache setting                      : Enabled
+   Write-cache status                       : On
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : Yes
+   Global Hot-Spare                         : 0,10
+   Global Hot-Spare                         : 0,9
+   Global Hot-Spare                         : 0,43
+   Bootable                                 : No
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Group 0, Segment 0                       : Present (Controller:1,Enclosure:1,Slot:2) Z1N00XW50000S137KQKX
+   Group 0, Segment 1                       : Present (Controller:1,Enclosure:1,Slot:3) Z1N00RXM0000S129YCCA
+   Group 1, Segment 0                       : Present (Controller:1,Enclosure:1,Slot:4) Z1N01CTZ0000S12986FZ
+   Group 1, Segment 1                       : Present (Controller:1,Enclosure:1,Slot:5) Z1N00TT60000S127K929
+
+Logical device number 2
+   Logical device name                      : raid200
+   RAID level                               : 10
+   Status of logical device                 : Optimal
+   Size                                     : 1142774 MB
+   Parity space                             : 1142784 MB
+   Stripe-unit size                         : 1024 KB
+   Read-cache setting                       : Enabled
+   Read-cache status                        : On
+   Write-cache setting                      : Enabled
+   Write-cache status                       : On
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : Yes
+   Global Hot-Spare                         : 0,36
+   Global Hot-Spare                         : 0,10
+   Global Hot-Spare                         : 0,9
+   Global Hot-Spare                         : 0,43
+   Bootable                                 : No
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Group 0, Segment 0                       : Present (Controller:1,Enclosure:1,Slot:8) 3SJ25CQ600009105PZTP
+   Group 0, Segment 1                       : Present (Controller:1,Enclosure:1,Slot:9) 3SJ262DQ00009107Z22T
+   Group 1, Segment 0                       : Present (Controller:1,Enclosure:1,Slot:10) 3SJ262ES000091089AWR
+   Group 1, Segment 1                       : Present (Controller:1,Enclosure:1,Slot:11) 3SJ261K500009107H72P
+   Group 2, Segment 0                       : Present (Controller:1,Enclosure:1,Slot:12) 3SJ25888000091089D3W
+   Group 2, Segment 1                       : Present (Controller:1,Enclosure:1,Slot:13) 3SJ244YZ00009107YVX3
+   Group 3, Segment 0                       : Present (Controller:1,Enclosure:1,Slot:14) 3SJ256L600009107Y5XD
+   Group 3, Segment 1                       : Present (Controller:1,Enclosure:1,Slot:15) 3SJ25G4N000091089DCA
+
+Logical device number 3
+   Logical device name                      : raid2t
+   RAID level                               : 10
+   Status of logical device                 : Optimal
+   Size                                     : 5713910 MB
+   Parity space                             : 5713920 MB
+   Stripe-unit size                         : 1024 KB
+   Read-cache setting                       : Enabled
+   Read-cache status                        : On
+   Write-cache setting                      : Enabled
+   Write-cache status                       : On
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : Yes
+   Global Hot-Spare                         : 0,10
+   Global Hot-Spare                         : 0,9
+   Global Hot-Spare                         : 0,43
+   Bootable                                 : No
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Group 0, Segment 0                       : Present (Controller:1,Enclosure:1,Slot:17)       MK0A31YHGLUS7A
+   Group 0, Segment 1                       : Present (Controller:1,Enclosure:1,Slot:18)       MK0A31YHGLBSTA
+   Group 1, Segment 0                       : Present (Controller:1,Enclosure:1,Slot:19)       MK0A31YHGLU1ZA
+   Group 1, Segment 1                       : Present (Controller:1,Enclosure:1,Slot:20)       MK0A31YHGLT00A
+   Group 2, Segment 0                       : Present (Controller:1,Enclosure:1,Slot:21)       MK0A31YHGM418A
+   Group 2, Segment 1                       : Present (Controller:1,Enclosure:1,Slot:22)       MK0A31YHGLT81A
+
+   No logical devices configured
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Ready
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,8(8:0)
+         Reported Location                  : Enclosure 0, Slot 0
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3300657SS
+         Firmware                           : 0006
+         Serial number                      : 3SJ2623W00009107YSLV
+         World-wide name                    : 5000C50028400978
+         Reserved Size                      : 416046 KB
+         Used Size                          : 0 MB
+         Unused Size                        : 285696 MB
+         Total Size                         : 286102 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #1
+         Device is a Hard drive
+         State                              : Global Hot-Spare
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,9(9:0)
+         Reported Location                  : Enclosure 0, Slot 1
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : Hitachi
+         Model                              : HUA723020ALA640
+         Firmware                           : MK7OA5C0
+         Serial number                      : MK0A31YHGLL0PD
+         Reserved Size                      : 3163160 KB
+         Used Size                          : 1904640 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 1907729 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #2
+         Device is a Hard drive
+         State                              : Global Hot-Spare
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,10(10:0)
+         Reported Location                  : Enclosure 0, Slot 2
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : Hitachi
+         Model                              : HUA723020ALA640
+         Firmware                           : MK7OA5C0
+         Serial number                      : MK0A31YHGLTNWA
+         Reserved Size                      : 3163160 KB
+         Used Size                          : 1904640 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 1907729 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #3
+         Device is a Hard drive
+         State                              : Ready
+         Supported                          : Yes
+         Transfer Speed                     : SAS 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,11(11:0)
+         Reported Location                  : Enclosure 0, Slot 3
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST9146802SS
+         Firmware                           : 0003
+         Serial number                      : 3NM6XQ2000009905VXVY
+         World-wide name                    : 5000C5000CA1E1E0
+         Reserved Size                      : 98304 KB
+         Used Size                          : 0 MB
+         Unused Size                        : 139918 MB
+         Total Size                         : 140014 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #4
+         Device is a Hard drive
+         State                              : Ready
+         Supported                          : Yes
+         Transfer Speed                     : SAS 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,12(12:0)
+         Reported Location                  : Enclosure 0, Slot 4
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST9146802SS
+         Firmware                           : 0003
+         Serial number                      : 3NM5YMFH00009847P9SA
+         World-wide name                    : 5000C5000CA1B774
+         Reserved Size                      : 117144 KB
+         Used Size                          : 0 MB
+         Unused Size                        : 139900 MB
+         Total Size                         : 140014 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #5
+         Device is a Hard drive
+         State                              : Ready
+         Supported                          : Yes
+         Transfer Speed                     : SAS 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,13(13:0)
+         Reported Location                  : Enclosure 0, Slot 5
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST9146802SS
+         Firmware                           : 0003
+         Serial number                      : 3NM6XPV600009905VY0C
+         World-wide name                    : 5000C5000CA1E298
+         Reserved Size                      : 98304 KB
+         Used Size                          : 0 MB
+         Unused Size                        : 139918 MB
+         Total Size                         : 140014 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #6
+         Device is a Hard drive
+         State                              : Ready
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,14(14:0)
+         Reported Location                  : Enclosure 0, Slot 6
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST9146803SS
+         Firmware                           : 0004
+         Serial number                      : 3SD0MT2200009951TXVQ
+         World-wide name                    : 5000C500132E29C0
+         Reserved Size                      : 117144 KB
+         Used Size                          : 0 MB
+         Unused Size                        : 139900 MB
+         Total Size                         : 140014 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #7
+         Device is a Hard drive
+         State                              : Ready
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,15(15:0)
+         Reported Location                  : Enclosure 0, Slot 7
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST9146803SS
+         Firmware                           : 0004
+         Serial number                      : 3SD0M84700009950NH7Y
+         World-wide name                    : 5000C500132E2AB0
+         Reserved Size                      : 117144 KB
+         Used Size                          : 0 MB
+         Unused Size                        : 139900 MB
+         Total Size                         : 140014 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #8
+         Device is a Hard drive
+         State                              : Ready
+         Supported                          : Yes
+         Transfer Speed                     : SAS 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,16(16:0)
+         Reported Location                  : Enclosure 0, Slot 8
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST9146802SS
+         Firmware                           : 0003
+         Serial number                      : 3NM6XPSQ00009905ULQL
+         World-wide name                    : 5000C5000CA1DDA0
+         Reserved Size                      : 117144 KB
+         Used Size                          : 0 MB
+         Unused Size                        : 139900 MB
+         Total Size                         : 140014 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #9
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,22(22:0)
+         Reported Location                  : Enclosure 1, Slot 2
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST1000NM0001
+         Firmware                           : 0001
+         Serial number                      : Z1N00XW50000S137KQKX
+         World-wide name                    : 5000C500343FEE64
+         Reserved Size                      : 538264 KB
+         Used Size                          : 953344 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #10
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,23(23:0)
+         Reported Location                  : Enclosure 1, Slot 3
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST1000NM0001
+         Firmware                           : 0001
+         Serial number                      : Z1N00RXM0000S129YCCA
+         World-wide name                    : 5000C500341BCE8C
+         Reserved Size                      : 538264 KB
+         Used Size                          : 953344 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #11
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,24(24:0)
+         Reported Location                  : Enclosure 1, Slot 4
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST1000NM0001
+         Firmware                           : 0001
+         Serial number                      : Z1N01CTZ0000S12986FZ
+         World-wide name                    : 5000C5003425B204
+         Reserved Size                      : 538264 KB
+         Used Size                          : 953344 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #12
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,25(25:0)
+         Reported Location                  : Enclosure 1, Slot 5
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST1000NM0001
+         Firmware                           : 0001
+         Serial number                      : Z1N00TT60000S127K929
+         World-wide name                    : 5000C500341BD578
+         Reserved Size                      : 538264 KB
+         Used Size                          : 953344 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #13
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,26(26:0)
+         Reported Location                  : Enclosure 1, Slot 6
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3300657SS
+         Firmware                           : 0006
+         Serial number                      : 3SJ261NE00009108HSF0
+         World-wide name                    : 5000C50028404C3C
+         Reserved Size                      : 415982 KB
+         Used Size                          : 285696 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 286102 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #14
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,27(27:0)
+         Reported Location                  : Enclosure 1, Slot 7
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3300657SS
+         Firmware                           : 0006
+         Serial number                      : 3SJ2635B00009107H872
+         World-wide name                    : 5000C500241FCF88
+         Reserved Size                      : 415982 KB
+         Used Size                          : 285696 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 286102 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #15
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,28(28:0)
+         Reported Location                  : Enclosure 1, Slot 8
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3300657SS
+         Firmware                           : 0006
+         Serial number                      : 3SJ25CQ600009105PZTP
+         World-wide name                    : 5000C500241FF230
+         Reserved Size                      : 415982 KB
+         Used Size                          : 285696 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 286102 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #16
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,29(29:0)
+         Reported Location                  : Enclosure 1, Slot 9
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3300657SS
+         Firmware                           : 0006
+         Serial number                      : 3SJ262DQ00009107Z22T
+         World-wide name                    : 5000C50028401DB8
+         Reserved Size                      : 415982 KB
+         Used Size                          : 285696 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 286102 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #17
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,30(30:0)
+         Reported Location                  : Enclosure 1, Slot 10
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3300657SS
+         Firmware                           : 0006
+         Serial number                      : 3SJ262ES000091089AWR
+         World-wide name                    : 5000C500284021C4
+         Reserved Size                      : 415982 KB
+         Used Size                          : 285696 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 286102 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #18
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,31(31:0)
+         Reported Location                  : Enclosure 1, Slot 11
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3300657SS
+         Firmware                           : 0006
+         Serial number                      : 3SJ261K500009107H72P
+         World-wide name                    : 5000C50028404668
+         Reserved Size                      : 415982 KB
+         Used Size                          : 285696 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 286102 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #19
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,32(32:0)
+         Reported Location                  : Enclosure 1, Slot 12
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3300657SS
+         Firmware                           : 0006
+         Serial number                      : 3SJ25888000091089D3W
+         World-wide name                    : 5000C500241F6E8C
+         Reserved Size                      : 415982 KB
+         Used Size                          : 285696 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 286102 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #20
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,33(33:0)
+         Reported Location                  : Enclosure 1, Slot 13
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3300657SS
+         Firmware                           : 0006
+         Serial number                      : 3SJ244YZ00009107YVX3
+         World-wide name                    : 5000C500241F3948
+         Reserved Size                      : 415982 KB
+         Used Size                          : 285696 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 286102 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #21
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,34(34:0)
+         Reported Location                  : Enclosure 1, Slot 14
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3300657SS
+         Firmware                           : 0006
+         Serial number                      : 3SJ256L600009107Y5XD
+         World-wide name                    : 5000C50028401FF0
+         Reserved Size                      : 415982 KB
+         Used Size                          : 285696 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 286102 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #22
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,35(35:0)
+         Reported Location                  : Enclosure 1, Slot 15
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3300657SS
+         Firmware                           : 0006
+         Serial number                      : 3SJ25G4N000091089DCA
+         World-wide name                    : 5000C500241F7368
+         Reserved Size                      : 415982 KB
+         Used Size                          : 285696 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 286102 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #23
+         Device is a Hard drive
+         State                              : Global Hot-Spare
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,36(36:0)
+         Reported Location                  : Enclosure 1, Slot 16
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : SEAGATE
+         Model                              : ST3300657SS
+         Firmware                           : 0006
+         Serial number                      : 3SJ259VW000091089A3K
+         World-wide name                    : 5000C500241F5D30
+         Reserved Size                      : 415982 KB
+         Used Size                          : 285696 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 286102 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+      Device #24
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,37(37:0)
+         Reported Location                  : Enclosure 1, Slot 17
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : Hitachi
+         Model                              : HUA723020ALA640
+         Firmware                           : MK7OA5C0
+         Serial number                      : MK0A31YHGLUS7A
+         Reserved Size                      : 3163160 KB
+         Used Size                          : 1904640 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 1907729 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #25
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,38(38:0)
+         Reported Location                  : Enclosure 1, Slot 18
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : Hitachi
+         Model                              : HUA723020ALA640
+         Firmware                           : MK7OA5C0
+         Serial number                      : MK0A31YHGLBSTA
+         Reserved Size                      : 3163160 KB
+         Used Size                          : 1904640 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 1907729 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #26
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,39(39:0)
+         Reported Location                  : Enclosure 1, Slot 19
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : Hitachi
+         Model                              : HUA723020ALA640
+         Firmware                           : MK7OA5C0
+         Serial number                      : MK0A31YHGLU1ZA
+         Reserved Size                      : 3163160 KB
+         Used Size                          : 1904640 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 1907729 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #27
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,40(40:0)
+         Reported Location                  : Enclosure 1, Slot 20
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : Hitachi
+         Model                              : HUA723020ALA640
+         Firmware                           : MK7OA5C0
+         Serial number                      : MK0A31YHGLT00A
+         Reserved Size                      : 3163160 KB
+         Used Size                          : 1904640 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 1907729 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #28
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,41(41:0)
+         Reported Location                  : Enclosure 1, Slot 21
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : Hitachi
+         Model                              : HUA723020ALA640
+         Firmware                           : MK7OA5C0
+         Serial number                      : MK0A31YHGM418A
+         Reserved Size                      : 3163160 KB
+         Used Size                          : 1904640 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 1907729 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #29
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,42(42:0)
+         Reported Location                  : Enclosure 1, Slot 22
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : Hitachi
+         Model                              : HUA723020ALA640
+         Firmware                           : MK7OA5C0
+         Serial number                      : MK0A31YHGLT81A
+         Reserved Size                      : 3163160 KB
+         Used Size                          : 1904640 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 1907729 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #30
+         Device is a Hard drive
+         State                              : Global Hot-Spare
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,43(43:0)
+         Reported Location                  : Enclosure 1, Slot 23
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : Hitachi
+         Model                              : HUA723020ALA640
+         Firmware                           : MK7OA5C0
+         Serial number                      : MK0A31YHGLWK8A
+         Reserved Size                      : 3163160 KB
+         Used Size                          : 1904640 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 1907729 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #31
+         Device is an Enclosure services device
+         Reported Channel,Device(T:L)       : 2,0(0:0)
+         Enclosure ID                       : 0
+         Type                               : SES2
+         Vendor                             : LSI CORP
+         Model                              : SAS2X28
+         Firmware                           : 0717
+         Status of Enclosure services device
+            Fan 1 status                    : 0 rpm (Not Installed)
+            Fan 2 status                    : 0 rpm (Not Installed)
+            Fan 3 status                    : 0 rpm (Not Installed)
+            Power supply 1 status           : Not Installed
+            Power supply 2 status           : Not Installed
+            Temperature Sensor Status 1     : 27 C/ 80 F (Normal)
+            Speaker status                  : Off
+      Device #32
+         Device is an Enclosure services device
+         Reported Channel,Device(T:L)       : 2,1(1:0)
+         Enclosure ID                       : 1
+         Type                               : SES2
+         Vendor                             : LSI CORP
+         Model                              : SAS2X36
+         Firmware                           : 0717
+         Status of Enclosure services device
+            Fan 1 status                    : 6540 rpm (Optimal)
+            Fan 2 status                    : 6840 rpm (Optimal)
+            Fan 3 status                    : 6960 rpm (Optimal)
+            Fan 4 status                    : 0 rpm (Unknown)
+            Fan 5 status                    : 0 rpm (Unknown)
+            Power supply 1 status           : Not Installed
+            Power supply 2 status           : Not Installed
+            Temperature Sensor Status 1     : 27 C/ 80 F (Normal)
+            Speaker status                  : Off
