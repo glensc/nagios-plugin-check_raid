@@ -2,6 +2,7 @@
 
 - cciss: fix parsing enclosure with no enclosure name [#84][]
 - megacli: actually report that cache is disabled. [#85][]
+- arcconf: accept 'Ready' as OK drive state. [#87][]
 
 ## 3.2.1 (2014-10-07)
 
@@ -129,3 +130,4 @@ NOTES:
 [#65]: https://github.com/glensc/nagios-plugin-check_raid/issues/65
 [#84]: https://github.com/glensc/nagios-plugin-check_raid/issues/84
 [#85]: https://github.com/glensc/nagios-plugin-check_raid/issues/85
+[#87]: https://github.com/glensc/nagios-plugin-check_raid/issues/87

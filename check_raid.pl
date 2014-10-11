@@ -2367,6 +2367,7 @@ sub sudo {
 
 sub parse_error {
 	my ($this, $message) = @_;
+	warn "arcconf: parse error: $message";
 	$this->unknown->message("Parse Error: $message");
 }
 
@@ -2823,7 +2824,7 @@ sub check {
 				$this->spare;
 				$pd->{status} = "$pd->{status} for $pd->{spare}";
 
-			} elsif ($pd->{status} !~ '^Online|Hot[- ]Spare') {
+			} elsif ($pd->{status} !~ /^Online|Hot[- ]Spare|Ready/) {
 				$this->critical;
 			}
 
