@@ -148,6 +148,15 @@ my @tests = (
 		perfdata => '',
 		longoutput => '',
 	},
+	{
+		status => OK,
+		pdlist => 'megacli.pdlist.jbod',
+		ldinfo => 'megacli.ldinfo.jbod',
+		battery => 'empty',
+		message => 'Volumes(0): ; Devices(4): 00,01,02,03=JBOD',
+		perfdata => '',
+		longoutput => '',
+	}
 );
 
 # save default value

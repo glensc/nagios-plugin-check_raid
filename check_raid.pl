@@ -1148,7 +1148,7 @@ sub check {
 
 	my %dstatus;
 	foreach my $dev (@devs) {
-		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare' || $dev->{state} eq 'Unconfigured(good)') {
+		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare' || $dev->{state} eq 'Unconfigured(good)' || $dev->{state} eq 'JBOD' ) {
 			push(@{$dstatus{$dev->{state}}}, sprintf "%02d", $dev->{dev});
 
 		} else {
