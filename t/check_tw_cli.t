@@ -20,7 +20,7 @@ my @tests = (
 		c => '1',
 	},
 	{
-		status => RESYNC,
+		status => OK,
 		info => '2/info',
 		unitstatus => '2/info.c0.unitstatus',
 		drivestatus => '2/info.c0.drivestatus',
@@ -60,7 +60,7 @@ my @tests = (
 		c => 'rover',
 	},
 	{
-		status => RESYNC,
+		status => OK,
 		info => 'bootc/info',
 		unitstatus => 'bootc/unitstatus',
 		drivestatus => 'bootc/drivestatus',

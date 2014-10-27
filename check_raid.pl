@@ -2282,11 +2282,11 @@ sub check {
 				$s .= " $u->{vim_percent}";
 
 			} elsif ($s eq 'VERIFYING') {
-				$this->resync;
+				$this->check_status;
 				$s .= " $u->{vim_percent}";
 
 			} elsif ($s eq 'REBUILDING') {
-				$this->warning;
+				$this->resync;
 				$s .= " $u->{rebuild_percent}";
 
 			} elsif ($s eq 'DEGRADED') {
@@ -2313,7 +2313,7 @@ sub check {
 			my $d = $c->{drivestatus}->{$p};
 			my $ds = $d->{status};
 			if ($ds eq 'VERIFYING') {
-				$this->resync;
+				$this->check_status;
 			} elsif ($ds ne 'OK') {
 				$this->critical;
 			}
