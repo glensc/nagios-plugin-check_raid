@@ -2310,7 +2310,11 @@ sub check {
 		foreach my $p (sort { $a cmp $b } keys %{$c->{drivestatus}}) {
 			my $d = $c->{drivestatus}->{$p};
 			my $ds = $d->{status};
-			$this->critical unless $ds eq 'OK';
+			if ($ds eq 'VERIFYING') {
+				$this->resync;
+			} elsif ($ds ne 'OK') {
+				$this->critical;
+			}
 
 			if ($d->{unit} eq '-') {
 				$ds = 'SPARE';
