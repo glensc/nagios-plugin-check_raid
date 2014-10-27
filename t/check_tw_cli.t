@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 6;
+use constant TESTS => 7;
 use Test::More tests => TESTS * 6;
 use test;
 
@@ -58,6 +58,14 @@ my @tests = (
 		drivestatus => 'rover/drivestatus',
 		message => 'c0(9500S-8): u0(RAID-5): OK, Cache:OFF, Drives(6): p0,p1,p2,p3,p4,p5=OK',
 		c => 'rover',
+	},
+	{
+		status => RESYNC,
+		info => 'bootc/info',
+		unitstatus => 'bootc/unitstatus',
+		drivestatus => 'bootc/drivestatus',
+		message => 'c0(9750-4i): u0(RAID-6): VERIFYING 29%(A), Cache:RiW, c0(9750-4i): u1(RAID-6): VERIFYING 18%(A), Cache:RiW, c0(9750-4i): u2(SPARE): VERIFYING 14%, c0(9750-4i): u3(SPARE): VERIFYING 0%, Drives(18): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21,p22,p23,p24,p8=OK p25,p9=VERIFYING',
+		c => 'bootc',
 	},
 );
 

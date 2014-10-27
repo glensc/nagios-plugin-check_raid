@@ -1,0 +1,22 @@
+
+VPort Status         Unit Size      Type  Phy Encl-Slot    Model
+------------------------------------------------------------------------------
+p8    OK             u0   2.73 TB   SATA  -   /c0/e0/slt0  ST3000NC002-1DY166  
+p9    VERIFYING      u3   2.73 TB   SATA  -   /c0/e0/slt1  ST3000NC002-1DY166  
+p10   OK             u0   2.73 TB   SATA  -   /c0/e0/slt2  ST3000NC002-1DY166  
+p11   OK             u0   2.73 TB   SATA  -   /c0/e0/slt3  ST3000NC002-1DY166  
+p12   OK             u0   2.73 TB   SATA  -   /c0/e0/slt4  ST3000NC002-1DY166  
+p13   OK             u0   2.73 TB   SATA  -   /c0/e0/slt5  ST3000NC002-1DY166  
+p14   OK             u0   2.73 TB   SATA  -   /c0/e0/slt6  ST3000NC002-1DY166  
+p15   OK             u0   2.73 TB   SATA  -   /c0/e0/slt7  ST3000NC002-1DY166  
+p16   OK             u1   2.73 TB   SATA  -   /c0/e0/slt8  ST3000NC002-1DY166  
+p17   OK             u1   2.73 TB   SATA  -   /c0/e0/slt9  ST3000NC002-1DY166  
+p18   OK             u1   2.73 TB   SATA  -   /c0/e0/slt10 ST3000NC002-1DY166  
+p19   OK             u1   2.73 TB   SATA  -   /c0/e0/slt11 ST3000NC002-1DY166  
+p20   OK             u1   2.73 TB   SATA  -   /c0/e0/slt12 ST3000NC002-1DY166  
+p21   OK             u1   2.73 TB   SATA  -   /c0/e0/slt13 ST3000NC002-1DY166  
+p22   OK             u1   2.73 TB   SATA  -   /c0/e0/slt14 ST3000NC002-1DY166  
+p23   OK             u1   2.73 TB   SATA  -   /c0/e0/slt15 ST3000NC002-1DY166  
+p24   OK             u0   2.73 TB   SATA  -   /c0/e0/slt16 ST3000NC002-1DY166  
+p25   VERIFYING      u2   2.73 TB   SATA  -   /c0/e0/slt17 ST33000650NS        
+
