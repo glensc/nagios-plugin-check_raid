@@ -1,0 +1,218 @@
+$VAR1 = {
+          'c0' => {
+                    'vrate' => 3,
+                    'ports' => 18,
+                    'rrate' => 5,
+                    'unitstatus' => {
+                                      'u2' => {
+                                                'rebuild_percent' => '-',
+                                                'size' => '2794.51',
+                                                'status' => 'VERIFYING',
+                                                'vim_percent' => '14%',
+                                                'strip' => '-',
+                                                'avrify' => 'ON',
+                                                'cache' => '-',
+                                                'type' => 'SPARE'
+                                              },
+                                      'u3' => {
+                                                'rebuild_percent' => '-',
+                                                'vim_percent' => '0%',
+                                                'status' => 'VERIFYING',
+                                                'size' => '2794.51',
+                                                'strip' => '-',
+                                                'avrify' => 'ON',
+                                                'cache' => '-',
+                                                'type' => 'SPARE'
+                                              },
+                                      'u0' => {
+                                                'rebuild_percent' => '-',
+                                                'vim_percent' => '29%(A)',
+                                                'size' => '16763.7',
+                                                'status' => 'VERIFYING',
+                                                'strip' => '256K',
+                                                'avrify' => 'ON',
+                                                'cache' => 'RiW',
+                                                'type' => 'RAID-6'
+                                              },
+                                      'u1' => {
+                                                'size' => '16763.7',
+                                                'status' => 'VERIFYING',
+                                                'vim_percent' => '18%(A)',
+                                                'rebuild_percent' => '-',
+                                                'type' => 'RAID-6',
+                                                'avrify' => 'ON',
+                                                'strip' => '256K',
+                                                'cache' => 'RiW'
+                                              }
+                                    },
+                    'drives' => 18,
+                    'units' => 4,
+                    'model' => '9750-4i',
+                    'bbu' => '-',
+                    'drivestatus' => {
+                                       'p20' => {
+                                                  'type' => 'SATA',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'encl' => '/c0/e0/slt12',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'unit' => 'u1',
+                                                  'phy' => '-'
+                                                },
+                                       'p13' => {
+                                                  'phy' => '-',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u0',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'encl' => '/c0/e0/slt5',
+                                                  'model' => 'ST3000NC002-1DY166  '
+                                                },
+                                       'p11' => {
+                                                  'phy' => '-',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u0',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'encl' => '/c0/e0/slt3'
+                                                },
+                                       'p19' => {
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'unit' => 'u1',
+                                                  'encl' => '/c0/e0/slt11',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'type' => 'SATA',
+                                                  'phy' => '-'
+                                                },
+                                       'p16' => {
+                                                  'type' => 'SATA',
+                                                  'encl' => '/c0/e0/slt8',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'unit' => 'u1',
+                                                  'phy' => '-'
+                                                },
+                                       'p14' => {
+                                                  'type' => 'SATA',
+                                                  'encl' => '/c0/e0/slt6',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'size' => '2.73 TB',
+                                                  'unit' => 'u0',
+                                                  'status' => 'OK',
+                                                  'phy' => '-'
+                                                },
+                                       'p24' => {
+                                                  'phy' => '-',
+                                                  'type' => 'SATA',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'encl' => '/c0/e0/slt16',
+                                                  'unit' => 'u0',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK'
+                                                },
+                                       'p18' => {
+                                                  'phy' => '-',
+                                                  'encl' => '/c0/e0/slt10',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'size' => '2.73 TB',
+                                                  'unit' => 'u1',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA'
+                                                },
+                                       'p12' => {
+                                                  'phy' => '-',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'encl' => '/c0/e0/slt4',
+                                                  'size' => '2.73 TB',
+                                                  'unit' => 'u0',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA'
+                                                },
+                                       'p25' => {
+                                                  'phy' => '-',
+                                                  'status' => 'VERIFYING',
+                                                  'size' => '2.73 TB',
+                                                  'unit' => 'u2',
+                                                  'model' => 'ST33000650NS        ',
+                                                  'encl' => '/c0/e0/slt17',
+                                                  'type' => 'SATA'
+                                                },
+                                       'p23' => {
+                                                  'phy' => '-',
+                                                  'type' => 'SATA',
+                                                  'size' => '2.73 TB',
+                                                  'unit' => 'u1',
+                                                  'status' => 'OK',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'encl' => '/c0/e0/slt15'
+                                                },
+                                       'p9' => {
+                                                 'phy' => '-',
+                                                 'encl' => '/c0/e0/slt1',
+                                                 'model' => 'ST3000NC002-1DY166  ',
+                                                 'size' => '2.73 TB',
+                                                 'unit' => 'u3',
+                                                 'status' => 'VERIFYING',
+                                                 'type' => 'SATA'
+                                               },
+                                       'p17' => {
+                                                  'size' => '2.73 TB',
+                                                  'unit' => 'u1',
+                                                  'status' => 'OK',
+                                                  'encl' => '/c0/e0/slt9',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'type' => 'SATA',
+                                                  'phy' => '-'
+                                                },
+                                       'p8' => {
+                                                 'type' => 'SATA',
+                                                 'encl' => '/c0/e0/slt0',
+                                                 'model' => 'ST3000NC002-1DY166  ',
+                                                 'status' => 'OK',
+                                                 'size' => '2.73 TB',
+                                                 'unit' => 'u0',
+                                                 'phy' => '-'
+                                               },
+                                       'p22' => {
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'encl' => '/c0/e0/slt14',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-'
+                                                },
+                                       'p10' => {
+                                                  'size' => '2.73 TB',
+                                                  'unit' => 'u0',
+                                                  'status' => 'OK',
+                                                  'encl' => '/c0/e0/slt2',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'type' => 'SATA',
+                                                  'phy' => '-'
+                                                },
+                                       'p21' => {
+                                                  'phy' => '-',
+                                                  'encl' => '/c0/e0/slt13',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'size' => '2.73 TB',
+                                                  'unit' => 'u1',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA'
+                                                },
+                                       'p15' => {
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'unit' => 'u0',
+                                                  'encl' => '/c0/e0/slt7',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'type' => 'SATA'
+                                                }
+                                     },
+                    'optimal' => 1
+                  }
+        };

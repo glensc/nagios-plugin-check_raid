@@ -1,0 +1,8 @@
+
+Unit  UnitType  Status         %RCmpl  %V/I/M  Stripe  Size(GB)  Cache  AVrfy
+------------------------------------------------------------------------------
+u0    RAID-6    VERIFYING      -       29%(A)  256K    16763.7   RiW    ON     
+u1    RAID-6    VERIFYING      -       18%(A)  256K    16763.7   RiW    ON     
+u2    SPARE     VERIFYING      -       14%     -       2794.51   -      ON     
+u3    SPARE     VERIFYING      -       0%      -       2794.51   -      ON     
+

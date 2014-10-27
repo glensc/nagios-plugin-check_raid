@@ -2269,10 +2269,12 @@ sub check {
 	}
 
 	# process each controller
-	while (my($cid, $c) = each %$c) {
+	for my $cid (sort keys %$c) {
+		my $c = $c->{$cid};
 		my @cstatus;
 
-		while (my($uid, $u) = each %{$c->{unitstatus}}) {
+		for my $uid (sort keys %{$c->{unitstatus}}) {
+			my $u = $c->{unitstatus}->{$uid};
 			my $s = $u->{status};
 
 			if ($s =~ /INITIALIZING|MIGRATING/) {
@@ -2280,11 +2282,11 @@ sub check {
 				$s .= " $u->{vim_percent}";
 
 			} elsif ($s eq 'VERIFYING') {
-				$this->resync;
+				$this->check_status;
 				$s .= " $u->{vim_percent}";
 
 			} elsif ($s eq 'REBUILDING') {
-				$this->warning;
+				$this->resync;
 				$s .= " $u->{rebuild_percent}";
 
 			} elsif ($s eq 'DEGRADED') {
@@ -2310,7 +2312,11 @@ sub check {
 		foreach my $p (sort { $a cmp $b } keys %{$c->{drivestatus}}) {
 			my $d = $c->{drivestatus}->{$p};
 			my $ds = $d->{status};
-			$this->critical unless $ds eq 'OK';
+			if ($ds eq 'VERIFYING') {
+				$this->check_status;
+			} elsif ($ds ne 'OK') {
+				$this->critical;
+			}
 
 			if ($d->{unit} eq '-') {
 				$ds = 'SPARE';
