@@ -2269,10 +2269,12 @@ sub check {
 	}
 
 	# process each controller
-	while (my($cid, $c) = each %$c) {
+	for my $cid (sort keys %$c) {
+		my $c = $c->{$cid};
 		my @cstatus;
 
-		while (my($uid, $u) = each %{$c->{unitstatus}}) {
+		for my $uid (sort keys %{$c->{unitstatus}}) {
+			my $u = $c->{unitstatus}->{$uid};
 			my $s = $u->{status};
 
 			if ($s =~ /INITIALIZING|MIGRATING/) {
