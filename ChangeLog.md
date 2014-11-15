@@ -1,5 +1,7 @@
 ## Unreleased
 
+## 3.2.2 (2014-11-15)
+
 - cciss: fix parsing enclosure with no enclosure name [#84][]
 - megacli: actually report that cache is disabled. [#85][]
 - arcconf: accept 'Ready' as OK drive state. [#87][]
