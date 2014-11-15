@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 17;
+use constant TESTS => 18;
 use Test::More tests => TESTS*8;
 use test;
 
@@ -183,6 +183,16 @@ my @tests = (
 		longoutput => '',
 		c => 'issue85',
 	},
+	{
+		status => OK,
+		pdlist => 'megacli.pdlist.jbod',
+		ldinfo => 'megacli.ldinfo.jbod',
+		battery => 'empty',
+		message => 'Volumes(0): ; Devices(4): 00,01,02,03=JBOD',
+		perfdata => '',
+		longoutput => '',
+		c => 'pr82',
+	}
 );
 
 # save default value

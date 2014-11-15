@@ -4,6 +4,7 @@
 - megacli: actually report that cache is disabled. [#85][]
 - arcconf: accept 'Ready' as OK drive state. [#87][]
 - tw_cli: tweak VERIFYING state [#89][]
+- megacli: JBOD state of physical device is OK as well [#82][]
 
 ## 3.2.1 (2014-10-07)
 
@@ -133,3 +134,4 @@ NOTES:
 [#85]: https://github.com/glensc/nagios-plugin-check_raid/issues/85
 [#87]: https://github.com/glensc/nagios-plugin-check_raid/issues/87
 [#89]: https://github.com/glensc/nagios-plugin-check_raid/pull/89
+[#82]: https://github.com/glensc/nagios-plugin-check_raid/pull/82

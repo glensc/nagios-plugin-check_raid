@@ -1,0 +1,30 @@
+$VAR1 = {
+          'battery' => [],
+          'logical' => [],
+          'physical' => [
+                          {
+                            'dev' => '0',
+                            'name' => '9XF1922XST9500620NS AA09',
+                            'predictive' => undef,
+                            'state' => 'JBOD'
+                          },
+                          {
+                            'dev' => '1',
+                            'name' => '9XF18SP9ST9500620NS AA09',
+                            'predictive' => undef,
+                            'state' => 'JBOD'
+                          },
+                          {
+                            'dev' => '2',
+                            'name' => '9XG1F6LTST91000640NS AA09',
+                            'predictive' => undef,
+                            'state' => 'JBOD'
+                          },
+                          {
+                            'dev' => '3',
+                            'name' => '9XG3WWBVST91000640NS AA09',
+                            'predictive' => undef,
+                            'state' => 'JBOD'
+                          }
+                        ]
+        };

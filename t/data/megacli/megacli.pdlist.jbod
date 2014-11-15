@@ -1,0 +1,177 @@
+                                     
+Adapter #0
+
+Enclosure Device ID: 32
+Slot Number: 0
+Enclosure position: 1
+Device Id: 0
+WWN: 5000c5004d296833
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 2
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+
+Raw Size: 465.761 GB [0x3a386030 Sectors]
+Non Coerced Size: 465.261 GB [0x3a286030 Sectors]
+Coerced Size: 465.25 GB [0x3a280000 Sectors]
+Sector Size:  0
+Firmware state: JBOD
+Device Firmware Level: AA09
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x4433221104000000
+Connected Port Number: 0(path0) 
+Inquiry Data:             9XF1922XST9500620NS                                 AA09
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 3.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :30C (86.00 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 3.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 1
+Enclosure position: 1
+Device Id: 1
+WWN: 5000c5004d29ac31
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 2
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+
+Raw Size: 465.761 GB [0x3a386030 Sectors]
+Non Coerced Size: 465.261 GB [0x3a286030 Sectors]
+Coerced Size: 465.25 GB [0x3a280000 Sectors]
+Sector Size:  0
+Firmware state: JBOD
+Device Firmware Level: AA09
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x4433221105000000
+Connected Port Number: 3(path0) 
+Inquiry Data:             9XF18SP9ST9500620NS                                 AA09
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 3.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :29C (84.20 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 3.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 2
+Enclosure position: 1
+Device Id: 2
+WWN: 5000c500408b96a1
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 2
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+
+Raw Size: 931.512 GB [0x74706db0 Sectors]
+Non Coerced Size: 931.012 GB [0x74606db0 Sectors]
+Coerced Size: 931.0 GB [0x74600000 Sectors]
+Sector Size:  0
+Firmware state: JBOD
+Device Firmware Level: AA09
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x4433221106000000
+Connected Port Number: 2(path0) 
+Inquiry Data:             9XG1F6LTST91000640NS                                AA09
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 3.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :32C (89.60 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 3.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 3
+Enclosure position: 1
+Device Id: 3
+WWN: 5000c5005071f613
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 2
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+
+Raw Size: 931.512 GB [0x74706db0 Sectors]
+Non Coerced Size: 931.012 GB [0x74606db0 Sectors]
+Coerced Size: 931.0 GB [0x74600000 Sectors]
+Sector Size:  0
+Firmware state: JBOD
+Device Firmware Level: AA09
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x4433221107000000
+Connected Port Number: 1(path0) 
+Inquiry Data:             9XG3WWBVST91000640NS                                AA09
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 3.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :31C (87.80 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 3.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+
+Exit Code: 0x00
