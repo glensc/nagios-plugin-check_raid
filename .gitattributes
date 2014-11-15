@@ -1,0 +1,11 @@
+# general excludes
+/.editorconfig export-ignore
+/.gitignore export-ignore
+/.gitattributes export-ignore
+
+# maintenance tools
+/.travis.yml export-ignore
+/cpanfile export-ignore
+
+# tests
+/t export-ignore
