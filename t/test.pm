@@ -29,7 +29,6 @@ sub read_dump {
 sub store_dump {
 	my ($file, $c) = @_;
 
-	my $res =
 	open my $fh, '>', $file or die $!;
 	{
 		local $Data::Dumper::Sortkeys = 1;
