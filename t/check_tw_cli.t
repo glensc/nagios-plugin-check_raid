@@ -89,9 +89,9 @@ foreach my $test (@tests) {
 	my $c = $plugin->parse;
 	my $df = TESTDIR . '/dump/tw_cli/' . $test->{c};
 	if (!-f $df) {
-		use Data::Dumper;
-		print Dumper $c;
-		die "Printed Dump for $df";
+		store_dump $df, $c;
+		# trigger error so that we don't have feeling all is ok ;)
+		ok(0, "Created dump for $df");
 	}
 	my $dump = read_dump($df);
 	is_deeply($c, $dump, "controller structure");
