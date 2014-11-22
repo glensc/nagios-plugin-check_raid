@@ -1,0 +1,110 @@
+$VAR1 = {
+          'controller' => {
+                            'defunct_count' => 0,
+                            'logical_count' => 1,
+                            'logical_degraded' => 0,
+                            'logical_failed' => 0,
+                            'status' => 'Optimal',
+                            'zmm_status' => 'ZMM Optimal'
+                          },
+          'controllers' => 1,
+          'logical' => [
+                         {
+                           'failed_stripes' => 'No',
+                           'id' => 0,
+                           'name' => 'Volume01',
+                           'raid' => '5',
+                           'size' => '5713910 MB',
+                           'status' => 'Optimal'
+                         }
+                       ],
+          'physical' => [
+                          [
+                            {
+                              'cd' => '0,0(0:0)',
+                              'devtype' => 'Hard drive',
+                              'firmware' => 'SN03',
+                              'fru' => 'None',
+                              'location' => '0:0',
+                              'model' => 'ST2000NM0011',
+                              'ncq' => 'Enabled',
+                              'power_state' => 'Full rpm',
+                              'power_states' => 'Full rpm,Powered off',
+                              'serial' => '*******',
+                              'size' => '1907729 MB',
+                              'smart' => '0',
+                              'speed' => 'SATA 6.0 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => '',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '0,1(1:0)',
+                              'devtype' => 'Hard drive',
+                              'firmware' => 'SN03',
+                              'fru' => 'None',
+                              'location' => '0:1',
+                              'model' => 'ST2000NM0011',
+                              'ncq' => 'Enabled',
+                              'power_state' => 'Full rpm',
+                              'power_states' => 'Full rpm,Powered off',
+                              'serial' => '*******',
+                              'size' => '1907729 MB',
+                              'smart' => '0',
+                              'speed' => 'SATA 6.0 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => '',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '0,2(2:0)',
+                              'devtype' => 'Hard drive',
+                              'firmware' => 'SN03',
+                              'fru' => 'None',
+                              'location' => '0:2',
+                              'model' => 'ST2000NM0011',
+                              'ncq' => 'Enabled',
+                              'power_state' => 'Full rpm',
+                              'power_states' => 'Full rpm,Powered off',
+                              'serial' => '*******',
+                              'size' => '1907729 MB',
+                              'smart' => '0',
+                              'speed' => 'SATA 6.0 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => '',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '0,3(3:0)',
+                              'devtype' => 'Hard drive',
+                              'firmware' => 'SN03',
+                              'fru' => 'None',
+                              'location' => '0:3',
+                              'model' => 'ST2000NM0011',
+                              'ncq' => 'Enabled',
+                              'power_state' => 'Full rpm',
+                              'power_states' => 'Full rpm,Powered off',
+                              'serial' => '*******',
+                              'size' => '1907729 MB',
+                              'smart' => '0',
+                              'speed' => 'SATA 6.0 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => '',
+                              'write_cache' => 'Enabled (write-back)'
+                            }
+                          ]
+                        ],
+          'tasks' => {
+                       'device' => '0',
+                       'id' => '100',
+                       'operation' => 'Build/Verify',
+                       'percent' => '11',
+                       'priority' => 'High',
+                       'status' => 'In Progress',
+                       'type' => 'Logical device'
+                     }
+        };

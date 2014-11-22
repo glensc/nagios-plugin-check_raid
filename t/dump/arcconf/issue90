@@ -1,0 +1,138 @@
+$VAR1 = {
+          'controller' => {
+                            'battery_status' => 'Not Installed',
+                            'defunct_count' => 1,
+                            'logical_count' => 1,
+                            'logical_critical' => 1,
+                            'logical_offline' => 1,
+                            'status' => 'Okay'
+                          },
+          'controllers' => 1,
+          'logical' => [
+                         {
+                           'id' => 0,
+                           'name' => 'ARRAY01',
+                           'raid' => 'Spanned_volume',
+                           'size' => '5722200 MB',
+                           'status' => 'Offline'
+                         }
+                       ],
+          'physical' => [
+                          [
+                            {
+                              'cd' => '0,0',
+                              'devtype' => 'Hard drive',
+                              'esd' => '2,0',
+                              'firmware' => 'BB12',
+                              'fru' => 'None',
+                              'location' => '0:0',
+                              'model' => '40NS',
+                              'pfa' => 'No',
+                              'serial' => '9QJ40LQ5',
+                              'size' => '953869 MB',
+                              'speed' => 'SATA 1.5 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => 'ST310003',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '0,1',
+                              'devtype' => 'Hard drive',
+                              'esd' => '2,0',
+                              'firmware' => 'BB12',
+                              'fru' => 'None',
+                              'location' => '0:1',
+                              'model' => '40NS',
+                              'pfa' => 'No',
+                              'serial' => '9QJ3ZX84',
+                              'size' => '953869 MB',
+                              'speed' => 'SATA 1.5 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => 'ST310003',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '0,2',
+                              'devtype' => 'Hard drive',
+                              'esd' => '2,0',
+                              'firmware' => 'BB12',
+                              'fru' => 'None',
+                              'location' => '0:2',
+                              'model' => '40NS',
+                              'pfa' => 'No',
+                              'serial' => '9QJ3Y860',
+                              'size' => '953869 MB',
+                              'speed' => 'SATA 1.5 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => 'ST310003',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '0,3',
+                              'devtype' => 'Hard drive',
+                              'esd' => '2,0',
+                              'firmware' => 'BB12',
+                              'fru' => 'None',
+                              'location' => '0:3',
+                              'model' => '40NS',
+                              'pfa' => 'No',
+                              'serial' => '9QJ3ZX0D',
+                              'size' => '953869 MB',
+                              'speed' => 'SATA 1.5 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => 'ST310003',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '0,4',
+                              'devtype' => 'Hard drive',
+                              'esd' => '2,0',
+                              'firmware' => 'BB12',
+                              'fru' => 'None',
+                              'location' => '0:4',
+                              'model' => '40NS',
+                              'pfa' => 'No',
+                              'serial' => '9QJ3ZXZ4',
+                              'size' => '953869 MB',
+                              'speed' => 'SATA 1.5 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => 'ST310003',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '0,5',
+                              'devtype' => 'Hard drive',
+                              'esd' => '2,0',
+                              'firmware' => 'BB12',
+                              'fru' => 'None',
+                              'location' => '0:5',
+                              'model' => '40NS',
+                              'pfa' => 'Yes',
+                              'size' => '0 MB',
+                              'speed' => 'Defunct',
+                              'status' => 'Defunct',
+                              'supported' => 'Yes',
+                              'vendor' => 'ST310003',
+                              'write_cache' => 'Unknown'
+                            },
+                            {
+                              'cd' => '2,0',
+                              'devtype' => 'Enclosure services device',
+                              'enclosure' => '0',
+                              'firmware' => '1.07',
+                              'model' => 'VSC7160',
+                              'temperature' => 'Normal',
+                              'type' => 'SES2',
+                              'vendor' => 'IBM-ESXS'
+                            }
+                          ]
+                        ],
+          'tasks' => {
+                       'operation' => 'None'
+                     }
+        };
