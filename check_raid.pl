@@ -87,7 +87,14 @@ sub find_sudo() {
 	my @sudo;
 	my $sudo = which('sudo') or die "Can't find sudo";
 	push(@sudo, $sudo);
-	push(@sudo, '-A');
+
+	# detect if sudo supports -A, issue #88
+	open(my $fh , '-|', $sudo, '-h') or die "Can't run 'sudo -h': $!";
+	local $/ = undef;
+	local $_ = <$fh>;
+	close($fh) or die $!;
+	push(@sudo, '-A') if /-A/;
+
 	return \@sudo;
 }
 

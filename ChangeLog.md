@@ -1,6 +1,7 @@
 ## Unreleased
 
 - arcconf: dead disks have no id, use physical location instead. [#90][]
+- sudo: detect if sudo has `-A` option [#88][]
 
 ## 3.2.2 (2014-11-15)
 
@@ -140,3 +141,4 @@ NOTES:
 [#89]: https://github.com/glensc/nagios-plugin-check_raid/pull/89
 [#82]: https://github.com/glensc/nagios-plugin-check_raid/pull/82
 [#90]: https://github.com/glensc/nagios-plugin-check_raid/issues/90
+[#88]: https://github.com/glensc/nagios-plugin-check_raid/issues/88
