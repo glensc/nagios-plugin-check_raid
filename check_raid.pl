@@ -56,7 +56,7 @@ use strict;
 {
 package utils;
 
-my @EXPORT = qw(which $sudo);
+my @EXPORT = qw(which find_sudo);
 my @EXPORT_OK = @EXPORT;
 
 # registered plugins
@@ -83,7 +83,14 @@ sub which {
 	return undef;
 }
 
-our $sudo = which('sudo');
+sub find_sudo() {
+	my @sudo;
+	my $sudo = which('sudo') or die "Can't find sudo";
+	push(@sudo, $sudo);
+	push(@sudo, '-A');
+	return \@sudo;
+}
+
 } # package utils
 
 {
@@ -138,7 +145,7 @@ sub new {
 	my $self = {
 		program_names => [ $class->program_names ],
 		commands => $class->commands,
-		sudo => $class->sudo ? $utils::sudo : '',
+		sudo => $class->sudo ? utils::find_sudo() : '',
 		@_,
 		name => $class,
 		status => undef,
@@ -382,7 +389,7 @@ sub cmd {
 	my @CMD = $this->{program};
 
 	# add sudo if program needs
-	unshift(@CMD, $this->{sudo}, '-A') if $> and $this->{sudo};
+	unshift(@CMD, @{$this->{sudo}}) if $> and $this->{sudo};
 
 	my $args = $this->{commands}{$command} or croak "command '$command' not defined";
 
