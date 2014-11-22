@@ -1,0 +1,25 @@
+  | ARCCONF |  IBM uniform command line interface
+  | ARCCONF |  Version 9.10 (B17444)
+  | ARCCONF |  (C) Adaptec 2003-2007
+  | ARCCONF |  All Rights Reserved
+
+ COPYBACK      | toggles controller copy back mode
+ CREATE        | creates a logical drive
+ DATASCRUB     | toggles the controller data scrubbing mode
+ DELETE        | deletes one or more logical drives
+ FAILOVER      | toggles the controller autotomatic failover mode
+ FLASHCOPY     | creates a copy of a logical drive
+ GETCONFIG     | prints controller information
+ GETLOGS       | gets controller log information
+ GETSTATUS     | displays the status of running tasks
+ GETVERSION    | prints version information for all controllers
+ IDENTIFY      | blinks LEDS on device(s) connected to a controller
+ MODIFY        | performs RAID Level Migration or Online Capacity Expansion
+ RESCAN        | checks for new or removed drives
+ ROMUPDATE     | updates controller firmware
+ SETCONFIG     | restores the default configuration
+ SETCACHE      | adjusts physical or logical drive cache mode
+ SETNAME       | renames a logical drive given its logical drive number
+ SETPRIORITY   | changes specific or global task priority
+ SETSTATE      | manually sets the state of a physical or logical drive
+ TASK          | performs a task such as synchronize on a physical or logical drive

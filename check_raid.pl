@@ -2631,16 +2631,16 @@ sub parse_config {
 					$pd[$ch][$pd]{ncq} = $ncq;
 				} elsif (my($pfa) = /PFA\s+:\s+(.+)/) {
 					$pd[$ch][$pd]{pfa} = $pfa;
-				} elsif (my($e) = /Enclosure ID\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{enclosure} = $e;
+				} elsif (my($eid) = /Enclosure ID\s+:\s+(.+)/) {
+					$pd[$ch][$pd]{enclosure} = $eid;
 				} elsif (my($t) = /Type\s+:\s+(.+)/) {
 					$pd[$ch][$pd]{type} = $t;
 				} elsif (my($smart) = /S\.M\.A\.R\.T\.(?:\s+warnings)?\s+:\s+(.+)/) {
 					$pd[$ch][$pd]{smart} = $smart;
 				} elsif (my($speed) = /Transfer Speed\s+:\s+(.+)/) {
 					$pd[$ch][$pd]{speed} = $speed;
-				} elsif (my($l) = /Reported Location\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{location} = $l;
+				} elsif (my($e, $s) = /Reported Location\s+:\s+(?:Enclosure|Connector) (\d+), (?:Slot|Device) (\d+)/) {
+					$pd[$ch][$pd]{location} = "$e:$s";
 				} elsif (my($sps) = /Supported Power States\s+:\s+(.+)/) {
 					$pd[$ch][$pd]{power_states} = $sps;
 				} elsif (my($cd) = /Reported Channel,Device(?:\(.+\))?\s+:\s+(.+)/) {
@@ -2820,7 +2820,7 @@ sub check {
 		for my $pd (@{$ch}) {
 			# skip not disks
 			next if not defined $pd;
-			next if $pd->{devtype} =~ 'Enclosure';
+			next if $pd->{devtype} =~ m/Enclosure/;
 
 			if ($pd->{status} eq 'Rebuilding') {
 				$this->resync;
@@ -2834,7 +2834,7 @@ sub check {
 				$this->critical;
 			}
 
-			my $id = $pd->{serial} || $pd->{wwn};
+			my $id = $pd->{serial} || $pd->{wwn} || $pd->{location};
 			push(@{$pd{$pd->{status}}}, $id);
 		}
 	}

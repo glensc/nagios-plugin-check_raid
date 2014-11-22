@@ -1,5 +1,7 @@
 ## Unreleased
 
+- arcconf: dead disks have no id, use physical location instead. [#90][]
+
 ## 3.2.2 (2014-11-15)
 
 - cciss: fix parsing enclosure with no enclosure name [#84][]
@@ -137,3 +139,4 @@ NOTES:
 [#87]: https://github.com/glensc/nagios-plugin-check_raid/issues/87
 [#89]: https://github.com/glensc/nagios-plugin-check_raid/pull/89
 [#82]: https://github.com/glensc/nagios-plugin-check_raid/pull/82
+[#90]: https://github.com/glensc/nagios-plugin-check_raid/issues/90

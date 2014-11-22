@@ -1,0 +1,47 @@
+Controllers found: 1
+
+   ControllerLog                  
+      controllerID ..................... 0
+      type ............................. 5
+      time ............................. 1416322004
+      version .......................... 0
+
+      deadDriveEntry              
+         adapterID ........................ 0
+         channelID ........................ 0
+         deviceID ......................... 5
+         entryType ........................ 0
+         rtcSeconds ....................... 10
+         rtcMinutes ....................... 3
+         rtcHours ......................... 0
+         rtcDay ........................... 28
+         rtcMonth ......................... 10
+         rtcYear .......................... 2014
+         serialNumber ..................... 9QJ407LY
+         vendorProductID .................. 9QJ407LYST310003
+         failureReasonCode ................ 33554432
+         majorReasonCode .................. 2
+         deviceAddress .................... 0
+         slotNum .......................... 5
+         enclIndex ........................ 0
+
+      deadDriveEntry              
+         adapterID ........................ 0
+         channelID ........................ 0
+         deviceID ......................... 5
+         entryType ........................ 0
+         rtcSeconds ....................... 41
+         rtcMinutes ....................... 10
+         rtcHours ......................... 0
+         rtcDay ........................... 28
+         rtcMonth ......................... 10
+         rtcYear .......................... 2014
+         serialNumber ..................... 9TE1NXXN
+         vendorProductID .................. 9TE1NXXNST310003
+         failureReasonCode ................ 0
+         majorReasonCode .................. 0
+         deviceAddress .................... 0
+         slotNum .......................... 5
+         enclIndex ........................ 0
+
+Command completed successfully.
