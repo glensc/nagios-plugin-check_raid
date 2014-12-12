@@ -1,0 +1,39 @@
+# /opt/MegaRAID/MegaCli/MegaCli64 -LDInfo -Lall -aALL -NoLog
+                                     
+
+Adapter 0 -- Virtual Drive Information:
+Virtual Drive: 0 (Target Id: 0)
+Name                :raid6
+RAID Level          : Primary-6, Secondary-0, RAID Level Qualifier-3
+Size                : 2.725 TB
+Parity Size         : 1.089 TB
+State               : Optimal
+Strip Size          : 64 KB
+Number Of Drives    : 7
+Span Depth          : 1
+Default Cache Policy: WriteBack, ReadAhead, Direct, No Write Cache if Bad BBU
+Current Cache Policy: WriteBack, ReadAhead, Direct, No Write Cache if Bad BBU
+Default Access Policy: Read/Write
+Current Access Policy: Read/Write
+Disk Cache Policy   : Disk's Default
+Encryption Type     : None
+Default Power Savings Policy: Controller Defined
+Current Power Savings Policy: None
+Can spin up in 1 minute: No
+LD has drives that support T10 power conditions: No
+LD's IO profile supports MAX power savings with cached writes: No
+Bad Blocks Exist: No
+Is VD Cached: No
+
+
+CacheCade Virtual Drive: 1 (Target Id: 1)
+Virtual Drive Type: CacheCade 
+Name:cachecade0
+Size:512.0 GB
+Target Id of the Associated LDs : None
+Default Cache Policy: WriteBack, ReadAheadNone, Direct, No Write Cache if Bad BBU
+Current Cache Policy: WriteBack, ReadAheadNone, Direct, No Write Cache if Bad BBU
+
+
+
+Exit Code: 0x00

@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 18;
+use constant TESTS => 19;
 use Test::More tests => TESTS*8;
 use test;
 
@@ -192,7 +192,17 @@ my @tests = (
 		perfdata => '',
 		longoutput => '',
 		c => 'pr82',
-	}
+	},
+	{
+		status => OK,
+		pdlist => 'empty',
+		ldinfo => 'issue91/ldinfo',
+		battery => 'empty',
+		message => 'Volumes(2): raid6:Optimal,cachecade0:; Devices(0): ',
+		perfdata => '',
+		longoutput => '',
+#		c => 'pr82',
+	},
 );
 
 # save default value
