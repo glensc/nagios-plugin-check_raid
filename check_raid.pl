@@ -3806,10 +3806,11 @@ sub check {
 			#
 			# SAS2IRCU: there are no IR volumes on the controller!
 			# SAS2IRCU: Error executing command STATUS.
-			#
 
-			if ( /SAS2IRCU: there are no IR volumes on the controller!/ ) {
-				#even though this isn't the last line, go ahead and set success.
+			if (/SAS2IRCU: there are no IR volumes on the controller/
+				or /The STATUS command is not supported by the firmware currently loaded on controller/
+			) {
+				# even though this isn't the last line, go ahead and set success.
 				$success = 1;
 				$state = $novolsstate;
 			}
