@@ -13,6 +13,12 @@ will add required lines to the sudo config file.
 
 [![Build Status](https://travis-ci.org/glensc/nagios-plugin-check_raid.png?branch=master)](https://travis-ci.org/glensc/nagios-plugin-check_raid)
 
+## Reporting bugs
+
+**IMPORTANT**: See [CONTRIBUTING.md](CONTRIBUTING.md) what is needed for your reported *Issue* to be worked on or *Pull Request* to be accepted.
+
+Failure to do so means I will just have to ignore your *Issue* or *Pull Request* and will eventually close with no resolution. Currently [there are too many](https://github.com/glensc/nagios-plugin-check_raid/labels/need%20test%20data) of such tickets.
+
 ## Installing
 
 Download latest release from [releases](https://github.com/glensc/nagios-plugin-check_raid/releases) page
@@ -67,10 +73,6 @@ Command line arguments
 
 `STATE` can be one of: `OK`, `WARNING`, `CRITICAL`, `UNKNOWN`
 
-## Reporting bugs
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
-
 ## Supported RAIDs
 
 Supported RAIDs that can be checked:
@@ -115,9 +117,8 @@ License: GPL v2
 http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
 Steve Shipway Thanks M Carmier for megaraid section.
 
-(c) 2009-2014 Elan Ruusamäe <glen@pld-linux.org> (maintainer from version 2.1 and upwards)
+(c) 2009-2015 Elan Ruusamäe <glen@pld-linux.org> (maintainer from version 2.1 and upwards)
 
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/glensc/nagios-plugin-check_raid/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
