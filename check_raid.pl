@@ -1567,8 +1567,8 @@ sub program_names {
 
 sub commands {
 	{
-		'status' => ['-|', '@CMD', '-i', '$id'],
 		'get_controller_no' => ['-|', '@CMD', '-p'],
+		'status' => ['-|', '@CMD', '-i', '$id'],
 		'sync status' => ['-|', '@CMD', '-n'],
 	}
 }
@@ -1587,10 +1587,11 @@ sub sudo {
 	);
 }
 
-sub parse {
+# get controller from mpt-status -p
+# FIXME: could there be multiple controllers?
+sub get_controller {
 	my $this = shift;
 
-	my (%ld, %pd);
 	my $fh = $this->cmd('get_controller_no');
 	my $id;
 	while (<$fh>) {
@@ -1602,7 +1603,15 @@ sub parse {
 	}
 	close $fh;
 
-	$fh = $this->cmd('status',{ '$id' => $id });
+	return $id;
+}
+
+sub parse {
+	my ($this, $id) = @_;
+
+	my (%ld, %pd);
+
+	my $fh = $this->cmd('status', { '$id' => $id });
 
 	my %VolumeTypesHuman = (
 		IS => 'RAID-0',
@@ -1698,7 +1707,8 @@ sub check {
 	# status messages pushed here
 	my @status;
 
-	my $status = $this->parse;
+	my $id = $this->get_controller;
+	my $status = $this->parse($id);
 
 	# process logical units
 	while (my($d, $u) = each %{$status->{logical}}) {
