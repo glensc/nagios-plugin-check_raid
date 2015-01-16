@@ -1587,6 +1587,18 @@ sub sudo {
 	);
 }
 
+sub active ($) {
+	my ($this) = @_;
+
+	# return if parent said NO
+	my $res = $this->SUPER::active(@_);
+	return $res unless $res;
+
+	# there should be a controller. #95
+	my $id = $this->get_controller;
+	return defined($id);
+}
+
 # get controller from mpt-status -p
 # FIXME: could there be multiple controllers?
 sub get_controller {

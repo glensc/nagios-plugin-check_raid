@@ -16,6 +16,7 @@ my $commands = {
 	proc => ['<', '.'],
 	mdstat => ['<', TESTDIR . '/data/mdstat/mdstat-failed'],
 	dmraid => ['<', TESTDIR . '/data/dmraid/pr35'],
+	get_controller_no => ['<', TESTDIR . '/data/mpt/pr36/getctrlno1'],
 };
 
 my %params = (

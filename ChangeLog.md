@@ -1,20 +1,21 @@
 ## Unreleased
 
-- arcconf: dead disks have no id, use physical location instead. [#90][]
+- arcconf: dead disks have no id, use physical location instead [#90][]
 - sudo: detect if sudo has `-A` option [#88][]
+- mpt: fix uninitialized value in mpt plugin when tool is installed but no controllers are present [#95][]
 
 ## 3.2.2 (2014-11-15)
 
 - cciss: fix parsing enclosure with no enclosure name [#84][]
-- megacli: actually report that cache is disabled. [#85][]
-- arcconf: accept 'Ready' as OK drive state. [#87][]
+- megacli: actually report that cache is disabled [#85][]
+- arcconf: accept 'Ready' as OK drive state [#87][]
 - tw_cli: tweak VERIFYING state [#89][]
 - megacli: JBOD state of physical device is OK as well [#82][]
 
 ## 3.2.1 (2014-10-07)
 
 - cciss: fix parsing enclosure with space and no serial [#83][]
-- megacli: alert if default is WriteBack, but current is WriteThrough. [#65][]
+- megacli: alert if default is WriteBack, but current is WriteThrough [#65][]
 
 NOTE: megacli now checks cache state, use `--cache-fail=STATE` if default `WARNING` is not for you.
 
@@ -142,3 +143,4 @@ NOTES:
 [#82]: https://github.com/glensc/nagios-plugin-check_raid/pull/82
 [#90]: https://github.com/glensc/nagios-plugin-check_raid/issues/90
 [#88]: https://github.com/glensc/nagios-plugin-check_raid/issues/88
+[#95]: https://github.com/glensc/nagios-plugin-check_raid/issues/95
