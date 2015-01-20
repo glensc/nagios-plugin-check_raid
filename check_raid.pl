@@ -83,8 +83,11 @@ sub which {
 	return undef;
 }
 
+our @sudo;
 sub find_sudo() {
-	my @sudo;
+	# detect once
+	return \@sudo if @sudo;
+
 	my $sudo = which('sudo') or die "Can't find sudo";
 	push(@sudo, $sudo);
 
