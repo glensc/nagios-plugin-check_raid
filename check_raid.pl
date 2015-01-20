@@ -11,7 +11,7 @@
 # 2004-2006 Steve Shipway, university of auckland,
 # http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
 # Steve Shipway Thanks M Carmier for megaraid section.
-# 2009-2014 Elan Ruusamäe <glen@pld-linux.org>
+# 2009-2015 Elan Ruusamäe <glen@pld-linux.org>
 
 # Requires: Perl 5.8 for the open(my $fh , '-|', @CMD) syntax.
 # You can workaround for earlier Perl it as:
@@ -4495,7 +4495,7 @@ sub print_usage() {
 sub print_help() {
 	print "check_raid, v$VERSION\n";
 	print "Copyright (c) 2004-2006 Steve Shipway,
-Copyright (c) 2009-2014, Elan Ruusamäe <glen\@pld-linux.org>
+Copyright (c) 2009-2015, Elan Ruusamäe <glen\@pld-linux.org>
 
 This plugin reports the current server's RAID status
 https://github.com/glensc/nagios-plugin-check_raid
