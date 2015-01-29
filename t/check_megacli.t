@@ -279,11 +279,11 @@ my @tests = (
 		c => 'pr82',
 	},
 	{
-		status => CRITICAL,
+		status => OK,
 		pdlist => 'issue91/9924033.txt',
 		ldinfo => 'issue91/9924032.txt',
 		battery => 'issue91/9924031.txt',
-		message => 'Volumes(2): raid6:Optimal,cachecade0:; Devices(8): 00,01,02,03,04,05,06,07=Online; Batteries(1): 0=Operational',
+		message => 'Volumes(2): raid6:Optimal; Devices(8): 00,01,02,03,04,05,06,07=Online; Batteries(1): 0=Operational',
 		perfdata => 'Battery0_T=39;;;; Battery0_V=3933;;;;',
 		longoutput => [
 			"Battery0:",

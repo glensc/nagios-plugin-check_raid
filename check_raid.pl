@@ -1033,6 +1033,11 @@ sub parse_ld {
 			next;
 		}
 
+		if (my($s) = /Virtual Drive Type\s*:\s*(\S+)/) {
+			$ld{type} = $s;
+			next;
+		}
+
 		if (my($s) = /State\s*:\s*(\S+)/) {
 			$ld{state} = $s;
 			next;
@@ -1176,6 +1181,11 @@ sub check {
 
 	my @vstatus;
 	foreach my $vol (@{$c->{logical}}) {
+		# skip CacheCade for now. #91
+		if ($vol->{type} && $vol->{type} eq 'CacheCade') {
+			next;
+		}
+
 		push(@vstatus, sprintf "%s:%s", $vol->{name}, $vol->{state});
 		if ($vol->{state} ne 'Optimal') {
 			$this->critical;

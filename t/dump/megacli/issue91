@@ -47,7 +47,8 @@ $VAR1 = {
                                                 'No Write Cache if Bad BBU'
                                               ],
                            'name' => 'cachecade0',
-                           'state' => undef
+                           'state' => undef,
+                           'type' => 'CacheCade'
                          }
                        ],
           'physical' => [
