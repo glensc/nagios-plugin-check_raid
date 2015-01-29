@@ -201,7 +201,7 @@ my @tests = (
 		message => 'Volumes(2): raid6:Optimal,cachecade0:; Devices(8): 00,01,02,03,04,05,06,07=Online; Batteries(1): 0=Operational',
 		perfdata => 'Battery0_T=39;;;; Battery0_V=3933;;;;',
 		longoutput => "Battery0:\n - State: Operational\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (39 C)\n - Voltage: OK (3933 mV)",
-#		c => 'issue91',
+		c => 'issue91',
 	},
 );
 
