@@ -14,7 +14,10 @@ To include the output to github ticket, enclose the block between triple backtic
     some output here...
     ```
 
-Alternatively post outputs to some pastebin service, or [gist](https://gists.github.com)
+Alternatively post outputs to some pastebin service, or [gist](https://gists.github.com).
+I recommend using [sprunge](http://sprunge.us/) due it's simple command line usage.
+
+It is very important that you **do provide** the command output, I can not support your usecase otherwise.
 
 ## Pull requests
 
