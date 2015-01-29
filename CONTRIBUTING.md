@@ -22,7 +22,7 @@ It is very important that you **do provide** the command output, I can not suppo
 
 Do not update changelog or attempt to change version, the changes may not be merged on codebase you created patch for and it will just create annoying merge conflicts later.
 
-Also do consider adding [debug output](#capture-debug-output-from-commands) as part of the commit, including registering new test to get the changes tested.
+Also you need to add at least [debug output](#capture-debug-output-from-commands) as part of the Pull Request, Optionally add new test for the data (I will update test myself then).
 
 ## Capture debug output from commands
 
