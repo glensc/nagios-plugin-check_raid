@@ -18,7 +18,7 @@ my @tests = (
 		battery => 'empty',
 		message => 'Volumes(2): OS:Optimal,DATA:Optimal; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online',
 		perfdata => '',
-		longoutput => '',
+		longoutput => [],
 		c => 'megacli.1',
 	},
 	{
@@ -28,7 +28,7 @@ my @tests = (
 		battery => 'empty',
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(11): 16=Hotspare 11,12,13,14,15,17=Online 18,19,20,21=Unconfigured(good)',
 		perfdata => '',
-		longoutput => '',
+		longoutput => [],
 		c => 'megacli.2',
 	},
 	{
@@ -38,7 +38,7 @@ my @tests = (
 		battery => 'empty',
 		message => 'Volumes(3): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal; Devices(6): 11,10,09,08,12,13=Online',
 		perfdata => '',
-		longoutput => '',
+		longoutput => [],
 		c => 'issue41',
 	},
 	{
@@ -48,7 +48,7 @@ my @tests = (
 		battery => 'empty',
 		message => 'Volumes(0): ; Devices(11): 16=Hotspare 11,12,13,14,15,17=Online 18,19,20,21=Unconfigured(good)',
 		perfdata => '',
-		longoutput => '',
+		longoutput => [],
 		c => 'megacli.pdlist.2',
 	},
 	{
@@ -58,7 +58,17 @@ my @tests = (
 		battery => 'issue39/batteries.bbustatus',
 		message => 'Volumes(1): DISK0.0:Optimal,WriteCache:DISABLED; Devices(12): 14,16=Hotspare 04,05,06,07,08,09,10,11,12,13=Online; Batteries(1): 0=Faulty',
 		perfdata => 'Battery0_T=30;;;; Battery0_V=4026;;;;',
-		longoutput => "Battery0:\n - State: Faulty\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: Yes\n - Temperature: OK (30 C)\n - Voltage: OK (4026 mV)",
+		longoutput => [
+			"Battery0:",
+			" - State: Faulty",
+			" - Charging status: None",
+			" - Learn cycle requested: No",
+			" - Learn cycle active: No",
+			" - Missing: No",
+			" - Replacement required: Yes",
+			" - Temperature: OK (30 C)",
+			" - Voltage: OK (4026 mV)",
+		],
 		c => 'issue39',
 	},
 	{
@@ -68,7 +78,18 @@ my @tests = (
 		battery => 'issue39/batteries.bbustatus.1',
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 08,07=Online; Batteries(1): 0=Operational',
 		perfdata => 'Battery0_T=18;;;; Battery0_V=3923;;;;',
-		longoutput => "Battery0:\n - State: Operational\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (18 C)\n - Voltage: OK (3923 mV)",
+		longoutput => [
+			"Battery0:",
+		   	" - State: Operational",
+		   	" - Charging status: None",
+			" - Learn cycle requested: No",
+			" - Learn cycle active: No",
+			" - Missing: No",
+			" - Replacement required: No",
+			" - About to fail: No",
+			" - Temperature: OK (18 C)",
+			" - Voltage: OK (3923 mV)"
+		],
 		c => 'issue39.1',
 	},
 	{
@@ -78,7 +99,18 @@ my @tests = (
 		battery => 'issue39/batteries.bbustatus.2',
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 04,05=Online; Batteries(1): 0=Operational',
 		perfdata => 'Battery0_T=26;;;; Battery0_V=4053;;;;',
-		longoutput => "Battery0:\n - State: Operational\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: Yes\n - About to fail: No\n - Temperature: OK (26 C)\n - Voltage: OK (4053 mV)",
+		longoutput => [
+			"Battery0:",
+			" - State: Operational",
+			" - Charging status: None",
+			" - Learn cycle requested: No",
+			" - Learn cycle active: No",
+			" - Missing: No",
+			" - Replacement required: Yes",
+			" - About to fail: No",
+			" - Temperature: OK (26 C)",
+			" - Voltage: OK (4053 mV)",
+		],
 		c => 'issue39.2',
 	},
 	{
@@ -88,7 +120,18 @@ my @tests = (
 		battery => 'issue39/batteries.bbustatus.3',
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 04,05=Online; Batteries(1): 0=Non Operational',
 		perfdata => 'Battery0_T=22;;;; Battery0_V=4090;;;;',
-		longoutput => "Battery0:\n - State: Non Operational\n - Charging status: Charging\n - Learn cycle requested: Yes\n - Learn cycle active: Yes\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (22 C)\n - Voltage: OK (4090 mV)",
+		longoutput => [
+			"Battery0:",
+			" - State: Non Operational",
+			" - Charging status: Charging",
+			" - Learn cycle requested: Yes",
+			" - Learn cycle active: Yes",
+			" - Missing: No",
+			" - Replacement required: No",
+			" - About to fail: No",
+			" - Temperature: OK (22 C)",
+			" - Voltage: OK (4090 mV)",
+		],
 		c => 'issue39.3',
 	},
 	{
@@ -100,7 +143,18 @@ my @tests = (
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 04,05=Online; Batteries(1): 0=Non Operational',
 		perfdata => 'Battery0=22;4090',
 		perfdata => 'Battery0_T=22;;;; Battery0_V=4090;;;;',
-		longoutput => "Battery0:\n - State: Non Operational\n - Charging status: Charging\n - Learn cycle requested: Yes\n - Learn cycle active: Yes\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (22 C)\n - Voltage: OK (4090 mV)",
+		longoutput => [
+			"Battery0:",
+			" - State: Non Operational",
+			" - Charging status: Charging",
+			" - Learn cycle requested: Yes",
+			" - Learn cycle active: Yes",
+			" - Missing: No",
+			" - Replacement required: No",
+			" - About to fail: No",
+			" - Temperature: OK (22 C)",
+			" - Voltage: OK (4090 mV)",
+		],
 		c => 'issue39.3',
 	},
 	{
@@ -110,7 +164,18 @@ my @tests = (
 		battery => 'issue45/MegaCli64-adpbbucmd.out',
 		message => 'Volumes(7): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal,DISK3.3:Optimal,DISK4.4:Optimal,DISK5.5:Optimal,DISK6.6:Optimal; Devices(8): 11,12,13,14,10,15,09,08=Online; Batteries(1): 0=Optimal',
 		perfdata => 'Battery0_T=34;;;; Battery0_V=4073;;;;',
-		longoutput => "Battery0:\n - State: Optimal\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (34 C)\n - Voltage: OK (4073 mV)",
+		longoutput => [
+			"Battery0:",
+			" - State: Optimal",
+			" - Charging status: None",
+			" - Learn cycle requested: No",
+			" - Learn cycle active: No",
+			" - Missing: No",
+			" - Replacement required: No",
+			" - About to fail: No",
+			" - Temperature: OK (34 C)",
+			" - Voltage: OK (4073 mV)",
+		],
 		c => 'issue45',
 	},
 	{
@@ -120,7 +185,17 @@ my @tests = (
 		battery => '3/bucmd',
 		message => 'Volumes(1): DISK0.0:Optimal; Devices(12): 14=Hotspare 04,05,06,07,08,09,10,11,12,16=Online 13 (W1F3ZE1TST3000DM001-1CH166 CC27)=Unconfigured(bad); Batteries(1): 0=Faulty',
 		perfdata => 'Battery0_T=29;;;; Battery0_V=4069;;;;',
-		longoutput => "Battery0:\n - State: Faulty\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: No\n - Temperature: OK (29 C)\n - Voltage: OK (4069 mV)",
+		longoutput => [
+			"Battery0:",
+			" - State: Faulty",
+			" - Charging status: None",
+			" - Learn cycle requested: No",
+			" - Learn cycle active: No",
+			" - Missing: No",
+			" - Replacement required: No",
+			" - Temperature: OK (29 C)",
+			" - Voltage: OK (4069 mV)",
+		],
 		c => 'megacli.3',
 	},
 	{
@@ -130,7 +205,7 @@ my @tests = (
 		battery => 'empty',
 		message => 'Volumes(1): raid10:Optimal; Devices(6): 00,01,02,03,04,05=Online',
 		perfdata => '',
-		longoutput => '',
+		longoutput => [],
 		c => 'pr74',
 	},
 	{
@@ -140,7 +215,17 @@ my @tests = (
 		battery => 'issue49/battery',
 		message => 'Volumes(0): ; Devices(6): 10,09,13,08,11=Online 14 (IBM-ESXSST9300603SS F B53B3SE0WJ1Y0825B53B)=Predictive; Batteries(1): 0=Faulty',
 		perfdata => 'Battery0_T=36;;;; Battery0_V=4049;;;;',
-		longoutput => "Battery0:\n - State: Faulty\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: Yes\n - Temperature: OK (36 C)\n - Voltage: OK (4049 mV)",
+		longoutput => [
+			"Battery0:",
+			" - State: Faulty",
+			" - Charging status: None",
+			" - Learn cycle requested: No",
+			" - Learn cycle active: No",
+			" - Missing: No",
+			" - Replacement required: Yes",
+			" - Temperature: OK (36 C)",
+			" - Voltage: OK (4049 mV)",
+		],
 		c => 'issue49',
 	},
 	{
@@ -150,7 +235,7 @@ my @tests = (
 		battery => 'issue32/bbustatus.MegaCli-8.01.06-1',
 		message => 'Volumes(0): ; Devices(0): ',
 		perfdata => '',
-		longoutput => '',
+		longoutput => [],
 		c => 'issue32.8.01',
 	},
 	{
@@ -160,7 +245,7 @@ my @tests = (
 		battery => 'issue32/bbustatus.MegaCli-8.07.10-1',
 		message => 'Volumes(0): ; Devices(0): ',
 		perfdata => '',
-		longoutput => '',
+		longoutput => [],
 		c => 'issue32.8.07',
 	},
 	{
@@ -170,7 +255,7 @@ my @tests = (
 		battery => 'empty',
 		message => 'Volumes(1): DISK0.0:Optimal,WriteCache:DISABLED; Devices(6): 00,01,02,03,04,05=Online',
 		perfdata => '',
-		longoutput => '',
+		longoutput => [],
 		c => 'issue65',
 	},
 	{
@@ -180,7 +265,7 @@ my @tests = (
 		battery => 'empty',
 		message => 'Volumes(1): Virtual:Optimal,WriteCache:DISABLED; Devices(2): 00,01=Online',
 		perfdata => '',
-		longoutput => '',
+		longoutput => [],
 		c => 'issue85',
 	},
 	{
@@ -190,7 +275,7 @@ my @tests = (
 		battery => 'empty',
 		message => 'Volumes(0): ; Devices(4): 00,01,02,03=JBOD',
 		perfdata => '',
-		longoutput => '',
+		longoutput => [],
 		c => 'pr82',
 	},
 	{
@@ -200,7 +285,18 @@ my @tests = (
 		battery => 'issue91/9924031.txt',
 		message => 'Volumes(2): raid6:Optimal,cachecade0:; Devices(8): 00,01,02,03,04,05,06,07=Online; Batteries(1): 0=Operational',
 		perfdata => 'Battery0_T=39;;;; Battery0_V=3933;;;;',
-		longoutput => "Battery0:\n - State: Operational\n - Charging status: None\n - Learn cycle requested: No\n - Learn cycle active: No\n - Missing: No\n - Replacement required: No\n - About to fail: No\n - Temperature: OK (39 C)\n - Voltage: OK (3933 mV)",
+		longoutput => [
+			"Battery0:",
+			" - State: Operational",
+			" - Charging status: None",
+			" - Learn cycle requested: No",
+			" - Learn cycle active: No",
+			" - Missing: No",
+			" - Replacement required: No",
+			" - About to fail: No",
+			" - Temperature: OK (39 C)",
+			" - Voltage: OK (3933 mV)",
+		],
 		c => 'issue91',
 	},
 );
@@ -234,7 +330,8 @@ foreach my $test (@tests) {
 	is($plugin->status, $test->{status}, "status code matches");
 	is($plugin->message, $test->{message}, "status message");
 	is($plugin->perfdata, $test->{perfdata}, "performance data");
-	is($plugin->longoutput, $test->{longoutput}, "long output");
+	my $longoutput = join("\n", @{$test->{longoutput}});
+	is($plugin->longoutput, $longoutput, "long output");
 
 	my $c = $plugin->parse;
 	my $df = TESTDIR . '/dump/megacli/' . $test->{c};
