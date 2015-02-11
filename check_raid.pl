@@ -550,8 +550,7 @@ package metastat;
 # Solaris, software RAID
 use base 'plugin';
 
-# Status: BROKEN: no test data
-#push(@utils::plugins, __PACKAGE__);
+push(@utils::plugins, __PACKAGE__);
 
 sub program_names {
 	__PACKAGE__;
@@ -564,7 +563,11 @@ sub commands {
 }
 
 sub sudo {
-	my $cmd = shift->{program};
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd"
 }
 
@@ -580,8 +583,8 @@ sub check {
 	while (<$fh>) {
 		if (/^(\S+):/) { $d = $1; $sd = ''; next; }
 		if (/Submirror \d+:\s+(\S+)/) { $sd = $1; next; }
-		if (my($s) = /State: (\S.+)/) {
-			if ($sd and valid($sd) and valid($d)) {
+		if (my($s) = /State: (\S.+\w)/) {
+			if ($sd and $this->valid($sd) and $this->valid($d)) {
 				if ($s =~ /Okay/i) {
 					# no worries...
 				} elsif ($s =~ /Resync/i) {
@@ -597,7 +600,7 @@ sub check {
 
 	return unless @status;
 
-	$this->message(join(' ', @status));
+	$this->ok->message(join(', ', @status));
 }
 
 package megaide;
