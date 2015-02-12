@@ -559,6 +559,7 @@ sub program_names {
 sub commands {
 	{
 		'status' => ['-|', '@CMD'],
+		'snapshot' => ['>&2', '@CMD', '-p' ],
 	}
 }
 
@@ -569,6 +570,24 @@ sub sudo {
 
 	my $cmd = $this->{program};
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd"
+}
+
+sub active ($) {
+        my ($this) = @_;
+
+        # program not found
+        return 0 unless $this->{program};
+
+        return $this->check_metadb > 0;
+}
+
+sub check_metadb {
+        my $this = shift;
+        my $fh = $this->cmd('snapshot');
+        while (<$fh>) {
+                return 0 if (/there are no existing databases/);
+        }
+        return 1;
 }
 
 sub check {

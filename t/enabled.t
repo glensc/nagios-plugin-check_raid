@@ -17,6 +17,7 @@ my $commands = {
 	mdstat => ['<', TESTDIR . '/data/mdstat/mdstat-failed'],
 	dmraid => ['<', TESTDIR . '/data/dmraid/pr35'],
 	get_controller_no => ['<', TESTDIR . '/data/mpt/pr36/getctrlno1'],
+	snapshot => ['<', TESTDIR . '/data/metastat/metastat-snapshot-mirrors'],
 };
 
 my %params = (
