@@ -1,0 +1,195 @@
+metastat
+d9: Mirror
+    Submirror 0: d19
+      State: Okay
+    Submirror 1: d29
+      State: Okay
+    Pass: 1
+    Read option: roundrobin (default)
+    Write option: parallel (default)
+    Size: 430007232 blocks (205 GB)
+
+d19: Submirror of d9
+    State: Okay
+    Hot spare pool: hsp001
+    Size: 430007232 blocks (205 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t2d0s0          0     No            Okay   Yes
+    Stripe 1:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t4d0s0      20352     No            Okay   Yes
+
+
+d29: Submirror of d9
+    State: Okay
+    Hot spare pool: hsp002
+    Size: 430007232 blocks (205 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c2t2d0s0          0     No            Okay   Yes
+    Stripe 1:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c2t4d0s0      20352     No            Okay   Yes
+
+
+d8: Mirror
+    Submirror 0: d18
+      State: Okay
+    Submirror 1: d28
+      State: Okay
+    Pass: 1
+    Read option: roundrobin (default)
+    Write option: parallel (default)
+    Size: 430007232 blocks (205 GB)
+
+d18: Submirror of d8
+    State: Okay
+    Hot spare pool: hsp001
+    Size: 430007232 blocks (205 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t1d0s0          0     No            Okay   Yes
+    Stripe 1:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t3d0s0      20352     No            Okay   Yes
+
+
+d28: Submirror of d8
+    State: Okay
+    Hot spare pool: hsp002
+    Size: 430007232 blocks (205 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c2t1d0s0          0     No            Okay   Yes
+    Stripe 1:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c2t3d0s0      20352     No            Okay   Yes
+
+
+d4: Mirror
+    Submirror 0: d14
+      State: Okay
+    Submirror 1: d24
+      State: Okay
+    Pass: 1
+    Read option: roundrobin (default)
+    Write option: parallel (default)
+    Size: 105372480 blocks (50 GB)
+
+d14: Submirror of d4
+    State: Okay
+    Size: 105372480 blocks (50 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t0d0s4          0     No            Okay   Yes
+
+
+d24: Submirror of d4
+    State: Okay
+    Size: 105372480 blocks (50 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c2t0d0s4          0     No            Okay   Yes
+
+
+d3: Mirror
+    Submirror 0: d13
+      State: Okay
+    Submirror 1: d23
+      State: Okay
+    Pass: 1
+    Read option: roundrobin (default)
+    Write option: parallel (default)
+    Size: 20972736 blocks (10 GB)
+
+d13: Submirror of d3
+    State: Okay
+    Size: 20972736 blocks (10 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t0d0s3          0     No            Okay   Yes
+
+
+d23: Submirror of d3
+    State: Okay
+    Size: 20972736 blocks (10 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c2t0d0s3          0     No            Okay   Yes
+
+
+d1: Mirror
+    Submirror 0: d11
+      State: Okay
+    Submirror 1: d21
+      State: Okay
+    Pass: 1
+    Read option: roundrobin (default)
+    Write option: parallel (default)
+    Size: 8395200 blocks (4.0 GB)
+
+d11: Submirror of d1
+    State: Okay
+    Size: 8395200 blocks (4.0 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t0d0s1          0     No            Okay   Yes
+
+
+d21: Submirror of d1
+    State: Okay
+    Size: 8395200 blocks (4.0 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c2t0d0s1          0     No            Okay   Yes
+
+
+d0: Mirror
+    Submirror 0: d10
+      State: Okay
+    Submirror 1: d20
+      State: Okay
+    Pass: 1
+    Read option: roundrobin (default)
+    Write option: parallel (default)
+    Size: 8395200 blocks (4.0 GB)
+
+d10: Submirror of d0
+    State: Okay
+    Size: 8395200 blocks (4.0 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t0d0s0          0     No            Okay   Yes
+
+
+d20: Submirror of d0
+    State: Okay
+    Size: 8395200 blocks (4.0 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c2t0d0s0          0     No            Okay   Yes
+
+
+hsp001: 1 hot spare
+        Device     Status      Length           Reloc
+        c1t5d0s0   Available    286678272 blocks        Yes
+
+hsp002: 1 hot spare
+        Device     Status      Length           Reloc
+        c2t5d0s0   Available    286678272 blocks        Yes
+
+Device Relocation Information:
+Device   Reloc  Device ID
+c2t2d0   Yes    id1,ssd@n20000000876d4b8d
+c2t4d0   Yes    id1,ssd@n2000001862f403ce
+c2t1d0   Yes    id1,ssd@n500000e010ee4d30
+c2t3d0   Yes    id1,ssd@n2000001862f1fbc6
+c1t2d0   Yes    id1,ssd@n500000e010ee0f50
+c1t4d0   Yes    id1,ssd@n2000001862f403be
+c1t1d0   Yes    id1,ssd@n500000e010ee3250
+c1t3d0   Yes    id1,ssd@n2000001862f405a4
+c2t0d0   Yes    id1,ssd@n500000e010ee3710
+c1t0d0   Yes    id1,ssd@n20000011c67a8a31
+c1t5d0   Yes    id1,ssd@n2000001862d8d283
+c2t5d0   Yes    id1,ssd@n2000001862f4042e
