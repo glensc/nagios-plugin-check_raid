@@ -614,6 +614,14 @@ sub check {
 				push(@status, "$d:$sd:$s");
 			}
 		}
+		if ( defined $d && $d =~ /hsp/ ) {
+			if ( /(c[0-9]+t[0-9]+d[0-9]+s[0-9]+)\s+(\w+)/ ) {
+				$sd = $1;
+				my  $s = $2;
+				$this->warning if ($s !~ /Available/);
+				push(@status, "$d:$sd:$s");
+			}
+		}
 	}
 	close $fh;
 
