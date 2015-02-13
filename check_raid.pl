@@ -559,7 +559,6 @@ sub program_names {
 sub commands {
 	{
 		'status' => ['-|', '@CMD'],
-		'snapshot' => ['>&2', '@CMD', '-p' ],
 	}
 }
 
@@ -578,16 +577,20 @@ sub active ($) {
         # program not found
         return 0 unless $this->{program};
 
-        return $this->check_metadb > 0;
+		$this->{output} = $this->get_metastat;
+		return unless ($this->{output});
 }
 
-sub check_metadb {
-        my $this = shift;
-        my $fh = $this->cmd('snapshot');
-        while (<$fh>) {
-                return 0 if (/there are no existing databases/);
-        }
-        return 1;
+sub get_metastat {
+	my $this = shift;
+	my $fh = $this->cmd('status');
+	my @data;
+	while (<$fh>) {
+		chomp;
+		return if (/there are no existing databases/);
+		push (@data,$_);
+	}
+return \@data;
 }
 
 sub check {
@@ -598,8 +601,7 @@ sub check {
 	# status messages pushed here
 	my @status;
 
-	my $fh = $this->cmd('status');
-	while (<$fh>) {
+	foreach (@{$this->{output}} ) {
 		if (/^(\S+):/) { $d = $1; $sd = ''; next; }
 		if (/Submirror \d+:\s+(\S+)/) { $sd = $1; next; }
 		if (my($s) = /State: (\S.+\w)/) {
@@ -623,7 +625,6 @@ sub check {
 			}
 		}
 	}
-	close $fh;
 
 	return unless @status;
 
