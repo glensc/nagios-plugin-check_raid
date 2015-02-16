@@ -558,7 +558,7 @@ sub program_names {
 
 sub commands {
 	{
-		'status' => ['-|', '@CMD'],
+		'status' => [>&2', '@CMD'],
 	}
 }
 
