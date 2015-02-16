@@ -604,6 +604,7 @@ sub check {
 	foreach (@{$this->{output}} ) {
 		if (/^(\S+):/) { $d = $1; $sd = ''; next; }
 		if (/Submirror \d+:\s+(\S+)/) { $sd = $1; next; }
+		if (/Device:\s+(\S+)/) { $sd = $1; next; }
 		if (my($s) = /State: (\S.+\w)/) {
 			if ($sd and $this->valid($sd) and $this->valid($d)) {
 				if ($s =~ /Okay/i) {
