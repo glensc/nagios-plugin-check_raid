@@ -578,7 +578,7 @@ sub active($) {
 	return 0 unless $this->{program};
 
 	my $output = $this->get_metastat;
-	return !!$output;
+	return !!@$output;
 }
 
 sub get_metastat {
