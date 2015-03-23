@@ -5,6 +5,7 @@
 - mpt: fix uninitialized value in mpt plugin when tool is installed but no controllers are present [#95][]
 - megacli: handle CacheCade devices (ignore for now). [#91][]
 - sas2ircu: handle when no RAID function is available (LSI 9202 16E) [#93][]
+- metastat: plugin is now usable [#38][], [#96][]
 
 ## 3.2.2 (2014-11-15)
 
@@ -148,3 +149,5 @@ NOTES:
 [#95]: https://github.com/glensc/nagios-plugin-check_raid/issues/95
 [#91]: https://github.com/glensc/nagios-plugin-check_raid/issues/91
 [#93]: https://github.com/glensc/nagios-plugin-check_raid/pull/93
+[#38]: https://github.com/glensc/nagios-plugin-check_raid/issues/38
+[#96]: https://github.com/glensc/nagios-plugin-check_raid/pull/96
