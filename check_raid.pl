@@ -558,7 +558,7 @@ sub program_names {
 
 sub commands {
 	{
-		'status' => ['>&2', '@CMD'],
+		'metastat' => ['>&2', '@CMD'],
 	}
 }
 
@@ -571,26 +571,31 @@ sub sudo {
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd"
 }
 
-sub active ($) {
+sub active($) {
 	my ($this) = @_;
 
 	# program not found
 	return 0 unless $this->{program};
 
-	$this->{output} = $this->get_metastat;
-	return unless $this->{output};
+	my $output = $this->get_metastat;
+	return unless $output;
 }
 
 sub get_metastat {
 	my $this = shift;
-	my $fh = $this->cmd('status');
+
+	# cache inside single run
+	return $this->{output} if defined $this->{output};
+
+	my $fh = $this->cmd('metastat');
 	my @data;
 	while (<$fh>) {
 		chomp;
-		return if (/there are no existing databases/);
+		last if /there are no existing databases/;
 		push(@data, $_);
 	}
-	return \@data;
+
+	return $this->{output} = \@data;
 }
 
 sub check {
@@ -600,8 +605,9 @@ sub check {
 
 	# status messages pushed here
 	my @status;
+	my $output = $this->get_metastat;
 
-	foreach (@{$this->{output}}) {
+	foreach (@$output) {
 		if (/^(\S+):/) { $d = $1; $sd = ''; next; }
 		if (/Submirror \d+:\s+(\S+)/) { $sd = $1; next; }
 		if (/Device:\s+(\S+)/) { $sd = $1; next; }
