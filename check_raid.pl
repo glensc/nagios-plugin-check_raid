@@ -550,8 +550,7 @@ package metastat;
 # Solaris, software RAID
 use base 'plugin';
 
-# Status: BROKEN: no test data
-#push(@utils::plugins, __PACKAGE__);
+push(@utils::plugins, __PACKAGE__);
 
 sub program_names {
 	__PACKAGE__;
@@ -559,13 +558,44 @@ sub program_names {
 
 sub commands {
 	{
-		'status' => ['-|', '@CMD'],
+		'metastat' => ['>&2', '@CMD'],
 	}
 }
 
 sub sudo {
-	my $cmd = shift->{program};
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd"
+}
+
+sub active($) {
+	my ($this) = @_;
+
+	# program not found
+	return 0 unless $this->{program};
+
+	my $output = $this->get_metastat;
+	return unless $output;
+}
+
+sub get_metastat {
+	my $this = shift;
+
+	# cache inside single run
+	return $this->{output} if defined $this->{output};
+
+	my $fh = $this->cmd('metastat');
+	my @data;
+	while (<$fh>) {
+		chomp;
+		last if /there are no existing databases/;
+		push(@data, $_);
+	}
+
+	return $this->{output} = \@data;
 }
 
 sub check {
@@ -575,13 +605,14 @@ sub check {
 
 	# status messages pushed here
 	my @status;
+	my $output = $this->get_metastat;
 
-	my $fh = $this->cmd('status');
-	while (<$fh>) {
+	foreach (@$output) {
 		if (/^(\S+):/) { $d = $1; $sd = ''; next; }
 		if (/Submirror \d+:\s+(\S+)/) { $sd = $1; next; }
-		if (my($s) = /State: (\S.+)/) {
-			if ($sd and valid($sd) and valid($d)) {
+		if (/Device:\s+(\S+)/) { $sd = $1; next; }
+		if (my($s) = /State: (\S.+\w)/) {
+			if ($sd and $this->valid($sd) and $this->valid($d)) {
 				if ($s =~ /Okay/i) {
 					# no worries...
 				} elsif ($s =~ /Resync/i) {
@@ -592,12 +623,20 @@ sub check {
 				push(@status, "$d:$sd:$s");
 			}
 		}
+
+		if (defined $d && $d =~ /hsp/) {
+			if (/(c[0-9]+t[0-9]+d[0-9]+s[0-9]+)\s+(\w+)/) {
+				$sd = $1;
+				my $s = $2;
+				$this->warning if ($s !~ /Available/);
+				push(@status, "$d:$sd:$s");
+			}
+		}
 	}
-	close $fh;
 
 	return unless @status;
 
-	$this->message(join(' ', @status));
+	$this->ok->message(join(', ', @status));
 }
 
 package megaide;
@@ -796,7 +835,7 @@ sub parse {
 	# We don't want to receive notifications in such case, so we check for this particular case here
 	if ($arr_checking && scalar(@md) >= 2) {
 		foreach my $dev (@md) {
-			if ( $dev->{resync_status} && $dev->{resync_status} eq "resync=DELAYED") {
+			if ($dev->{resync_status} && $dev->{resync_status} eq "resync=DELAYED") {
 				delete $dev->{resync_status};
 				$dev->{check_status} = "check=DELAYED";
 			}
@@ -1206,7 +1245,7 @@ sub check {
 
 	my %dstatus;
 	foreach my $dev (@{$c->{physical}}) {
-		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare' || $dev->{state} eq 'Unconfigured(good)' || $dev->{state} eq 'JBOD' ) {
+		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare' || $dev->{state} eq 'Unconfigured(good)' || $dev->{state} eq 'JBOD') {
 			push(@{$dstatus{$dev->{state}}}, sprintf "%02d", $dev->{dev});
 
 		} else {
@@ -1418,7 +1457,7 @@ sub check {
 		next unless $this->valid($n);
 		next unless (my($s, $c) = /Status .*: (\S+)\s+(\S+)/);
 
-		if ($c =~ /SYN|RBL/i ) { # resynching
+		if ($c =~ /SYN|RBL/i) { # resynching
 			$this->resync;
 		} elsif ($c !~ /OKY/i) { # not OK
 			$this->critical;
@@ -1621,7 +1660,7 @@ sub get_controller {
 	my $id;
 	while (<$fh>) {
 		chomp;
-		if ( /^Found.*id=(\d{1,2}),.*/ ) {
+		if (/^Found.*id=(\d{1,2}),.*/) {
 			$id = $1;
 			last;
 		}
@@ -2166,7 +2205,7 @@ sub parse {
 			(\d+)\s+    # Drives
 			(\d+)\s+    # Units
 			(\d+)\s+    # NotOpt: Not Optional
-			            # Not Optimal refers to any state except OK and VERIFYING.
+						# Not Optimal refers to any state except OK and VERIFYING.
 						# Other states include INITIALIZING, INIT-PAUSED,
 						# REBUILDING, REBUILD-PAUSED, DEGRADED, MIGRATING,
 						# MIGRATE-PAUSED, RECOVERY, INOPERABLE, and UNKNOWN.
@@ -2200,9 +2239,9 @@ sub parse {
 				(\S+)\s+  # UnitType
 				(\S+)\s+  # Status
 				(\S+)\s+  # %RCmpl: The %RCompl reports the percent completion
-				          # of the unit's Rebuild, if this task is in progress.
+						  # of the unit's Rebuild, if this task is in progress.
 				(\S+)\s+  # %V/I/M: The %V/I/M reports the percent completion
-				          # of the unit's Verify, Initialize, or Migrate,
+						  # of the unit's Verify, Initialize, or Migrate,
 						  # if one of these are in progress.
 				(\S+)\s+  # Strip
 				(\S+)\s+  # Size(GB)
@@ -2349,7 +2388,7 @@ sub check {
 			my @ustatus = $s;
 
 			# report cache, no checking
-			if ($u->{cache} && $u->{cache} ne '-')  {
+			if ($u->{cache} && $u->{cache} ne '-') {
 				push(@ustatus, "Cache:$u->{cache}");
 			}
 
@@ -2376,7 +2415,7 @@ sub check {
 		push(@status, "Drives($c->{drives}): ".$this->join_status(\%ds)) if %ds;
 
 		# check BBU
-		if ($c->{bbu} && $c->{bbu} ne '-')  {
+		if ($c->{bbu} && $c->{bbu} ne '-') {
 			$this->critical if $c->{bbu} ne 'OK';
 			push(@status, "BBU: $c->{bbu}");
 		}
@@ -3655,7 +3694,7 @@ sub check {
 			$c{$c} = [];
 			next;
 		}
-		# Surface Scan:   Running, LUN 10 (68% Complete)
+		# Surface Scan: Running, LUN 10 (68% Complete)
 		if (my($s, $m) = /Surface Scan:\s+(\S+)[,.]\s*(.*)/) {
 			if ($s eq 'Running') {
 				my ($l, $p) = $m =~ m{(LUN \d+) \((\d+)% Complete\)};
@@ -3679,7 +3718,7 @@ sub check {
 			}
 			next;
 		}
-		# Expansion:      Complete.
+		# Expansion: Complete.
 		if (my($s, $m) = /Expansion:\s+(\S+)[.,]\s*(.*)/) {
 			if ($s eq 'Running') {
 				my ($l, $p) = $m =~ m{(LUN \d+) \((\d+)% Complete\)};
@@ -3786,7 +3825,7 @@ sub detect {
 		# root@i41:/tmp$ echo $?
 		# 1
 
-		if ( /SAS2IRCU: MPTLib2 Error 1/ ) {
+		if (/SAS2IRCU: MPTLib2 Error 1/) {
 			$state = $noctrlstate;
 			$success = 1 ;
 		}
@@ -3795,7 +3834,7 @@ sub detect {
 
 	unless (close $fh) {
 		#sas2ircu exits 1 (but close exits 256) when we close fh if we have no controller, so handle that, too
-		if ( $? != 256 && $state eq $noctrlstate ) {
+		if ($? != 256 && $state eq $noctrlstate) {
 			$this->critical;
 		}
 	}
@@ -3854,7 +3893,7 @@ sub check {
 
 		unless (close $fh) {
 			#sas2ircu exits 256 when we close fh if we have no volumes, so handle that, too
-			if ( $? != 256 && $state eq $novolsstate ) {
+			if ($? != 256 && $state eq $novolsstate) {
 				$this->critical;
 				$state = $!;
 			}
@@ -3899,23 +3938,23 @@ sub check {
 		my $finalstate;
 		my $finalerrors="";
 
-		while ( my $line = <$fh> ) {
+		while (my $line = <$fh>) {
 			chomp $line;
 			# Device is a Hard disk
 			# Device is a Hard disk
 			# Device is a Enclosure services device
 			#
 			#lets make sure we're only checking disks.  we dont support other devices right now
-			if ( "$line" eq 'Device is a Hard disk' ) {
+			if ("$line" eq 'Device is a Hard disk') {
 				$device='disk';
-			} elsif ( $line =~ /^Device/ )  {
+			} elsif ($line =~ /^Device/) {
 				$device='other';
 			}
 
-			if ( "$device" eq 'disk' ) {
-				if ( $line =~ /Enclosure #|Slot #|State / ) {
+			if ("$device" eq 'disk') {
+				if ($line =~ /Enclosure #|Slot #|State /) {
 					#find our enclosure #
-					if ( $line =~ /^  Enclosure # / ) {
+					if ($line =~ /^  Enclosure # /) {
 						@data = split /:/, $line;
 						$enc=trim($data[1]);
 						#every time we hit a new enclosure line, reset our state and slot
@@ -3923,13 +3962,13 @@ sub check {
 						undef $slot;
 					}
 					#find our slot #
-					if ( $line =~ /^  Slot # / ) {
+					if ($line =~ /^  Slot # /) {
 						@data = split /:/, $line;
 						$slot=trim($data[1]);
 						$numslots++
 					}
 					#find our state
-					if ( $line =~ /^  State / ) {
+					if ($line =~ /^  State /) {
 						@data = split /:/, $line;
 						$state=ltrim($data[1]);
 
@@ -3937,7 +3976,7 @@ sub check {
 						#if ($numslots == 10 ) { $state='FREDFISH';}
 
 						#when we get a state, test on it and report it..
-						if ( $state =~ /Optimal|Ready/ ) {
+						if ($state =~ /Optimal|Ready/) {
 							#do nothing at the moment.
 						} else {
 							$this->critical;
@@ -3948,7 +3987,7 @@ sub check {
 				}
 			}
 
-			if ( $line =~ /SAS2IRCU: Utility Completed Successfully/) {
+			if ($line =~ /SAS2IRCU: Utility Completed Successfully/) {
 				$success = 1;
 			}
 
