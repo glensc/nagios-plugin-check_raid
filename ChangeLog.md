@@ -6,6 +6,8 @@
 - megacli: handle CacheCade devices (ignore for now). [#91][]
 - sas2ircu: handle when no RAID function is available (LSI 9202 16E) [#93][]
 - metastat: plugin is now usable [#38][], [#96][]
+- hpssacli: adding hpssacli support [#94][]
+
 
 ## 3.2.2 (2014-11-15)
 
@@ -151,3 +153,4 @@ NOTES:
 [#93]: https://github.com/glensc/nagios-plugin-check_raid/pull/93
 [#38]: https://github.com/glensc/nagios-plugin-check_raid/issues/38
 [#96]: https://github.com/glensc/nagios-plugin-check_raid/pull/96
+[#94]: https://github.com/glensc/nagios-plugin-check_raid/pull/94
