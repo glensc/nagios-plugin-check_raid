@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 3;
+use constant TESTS => 1;
 use Test::More tests => TESTS * 5;
 use test;
 
