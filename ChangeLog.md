@@ -1,4 +1,4 @@
-## Unreleased
+## 3.2.3 (2015-03-25)
 
 - arcconf: dead disks have no id, use physical location instead [#90][]
 - sudo: detect if sudo has `-A` option [#88][]

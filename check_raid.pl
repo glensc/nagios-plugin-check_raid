@@ -4629,7 +4629,7 @@ use Getopt::Long;
 
 my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
-my ($VERSION) = "3.2.2";
+my ($VERSION) = "3.2.3";
 my ($message, $status, $perfdata, $longoutput);
 my ($noraid_state) = $ERRORS{UNKNOWN};
 
