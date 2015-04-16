@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 3;
+use constant TESTS => 4;
 use Test::More tests => TESTS * 5;
 use test;
 
@@ -28,6 +28,12 @@ my @tests = (
 		controller => 'heracles/controller.all.show.status',
 		logical => 'heracles/logicaldrive.all.show',
 		message => 'Smart Array P400: ',
+	},
+	{
+		status => OK,
+		controller => 'PR94/ctrl-status',
+		logical => 'PR94/ld-show',
+		message => 'Smart Array P410i: Array A(OK)[LUN1:OK]',
 	},
 );
 

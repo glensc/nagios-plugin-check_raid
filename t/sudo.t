@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 
-use Test::More tests => 20;
+use Test::More tests => 19;
 use test;
 
 my $bindir = TESTDIR . '/data/bin';
@@ -70,10 +70,6 @@ my %sudo = (
 	hpacucli => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpacucli controller all show status",
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpacucli controller * logicaldrive all show",
-	],
-	hpssacli => [
-		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpssacli controller all show status",
-		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpssacli controller * logicaldrive all show",
 	],
 	areca => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/cli64 rsf info",

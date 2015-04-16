@@ -4103,138 +4103,6 @@ sub check {
 	$this->ok->message($this->join_status(\%status));
 }
 
-package hpssacli;
-use base 'plugin';
-
-# register
-push(@utils::plugins, __PACKAGE__);
-
-sub program_names {
-	__PACKAGE__;
-}
-
-sub commands {
-	{
-		'controller status' => ['-|', '@CMD', 'controller', 'all', 'show', 'status'],
-		'logicaldrive status' => ['-|', '@CMD', 'controller', '$target', 'logicaldrive', 'all', 'show'],
-	}
-}
-
-sub sudo {
-	my ($this, $deep) = @_;
-	# quick check when running check
-	return 1 unless $deep;
-
-	my $cmd = $this->{program};
-	(
-		"CHECK_RAID ALL=(root) NOPASSWD: $cmd controller all show status",
-		"CHECK_RAID ALL=(root) NOPASSWD: $cmd controller * logicaldrive all show",
-	);
-}
-
-sub check {
-	my $this = shift;
-
-	# status messages pushed here
-	my @status;
-
-	# TODO: allow target customize:
-	# hpssacli <target> is of format:
-	#  [controller all|slot=#|wwn=#|chassisname="AAA"|serialnumber=#|chassisserialnumber=#|ctrlpath=#:# ]
-	#  [array all|<id>]
-	#  [physicaldrive all|allunassigned|[#:]#:#|[#:]#:#-[#:]#:#]
-	#  [logicaldrive all|#]
-	#  [enclosure all|#:#|serialnumber=#|chassisname=#]
-	#  [licensekey all|<key>]
-
-	# Scan controllers
-	my (%targets);
-	my $fh = $this->cmd('controller status');
-	while (<$fh>) {
-		# Numeric slot
-		if (my($model, $slot) = /^(\S.+) in Slot (.+)/) {
-			$slot =~ s/ \(Embedded\)//;
-			$targets{"slot=$slot"} = $model;
-			$this->unknown if $slot !~ /^\d+$/;
-			next;
-		}
-		# Named Entry
-		if (my($model, $cn) = /^(\S.+) in (.+)/) {
-			$targets{"chassisname=$cn"} = $cn;
-			next;
-		}
-	}
-	close $fh;
-
-	unless (%targets) {
-		$this->warning;
-		$this->message("No Controllers were found on this machine");
-		return;
-	}
-
-	# Scan logical drives
-	for my $target (sort {$a cmp $b} keys %targets) {
-		my $model = $targets{$target};
-		# check each controllers
-		my $fh = $this->cmd('logicaldrive status', { '$target' => $target });
-
-		my ($array, %array);
-		while (<$fh>) {
-			# "array A"
-			# "array A (Failed)"
-			# "array B (Failed)"
-			if (my($a, $s) = /^\s+array (\S+)(?:\s*\((\S+)\))?$/) {
-				$array = $a;
-				# Offset 0 is Array own status
-				# XXX: I don't like this one: undef could be false positive
-				$array{$array}[0] = $s || 'OK';
-			}
-
-			# skip if no active array yet
-			next unless $array;
-
-			# logicaldrive 1 (68.3 GB, RAID 1, OK)
-			# capture only status
-			if (my($drive, $s) = /^\s+logicaldrive (\d+) \([\d.]+ .B, [^,]+, ([^\)]+)\)$/) {
-				# Offset 1 is each logical drive status
-				$array{$array}[1]{$drive} = $s;
-				next;
-			}
-
-			# Error: The controller identified by "slot=attr_value_slot_unknown" was not detected.
-			if (/Error:/) {
-				$this->unknown;
-			}
-		}
-		$this->unknown unless close $fh;
-
-		my @cstatus;
-		while (my($array, $d) = each %array) {
-			my ($astatus, $ld) = @$d;
-
-			my @astatus;
-			# extra details for non-normal arrays
-			foreach my $lun (sort { $a cmp $b } keys %$ld) {
-				my $s = $ld->{$lun};
-				push(@astatus, "LUN$lun:$s");
-
-				if ($s eq 'OK' or $s eq 'Disabled') {
-				} elsif ($s eq 'Failed' or $s eq 'Interim Recovery Mode') {
-					$this->critical;
-				} elsif ($s eq 'Rebuild' or $s eq 'Recover') {
-					$this->warning;
-				}
-			}
-			push(@cstatus, "Array $array($astatus)[". join(',', @astatus). "]");
-		}
-		push(@status, "$model: ".join(', ', @cstatus));
-	}
-
-	return unless @status;
-
-	$this->ok->message(join(', ', @status));
-}
-
 package hpacucli;
 use base 'plugin';
 
@@ -4242,7 +4110,7 @@ use base 'plugin';
 push(@utils::plugins, __PACKAGE__);
 
 sub program_names {
-	__PACKAGE__;
+	qw(hpacucli hpssacli);
 }
 
 sub commands {
