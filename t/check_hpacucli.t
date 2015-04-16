@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 4;
+use constant TESTS => 5;
 use Test::More tests => TESTS * 5;
 use test;
 
@@ -34,6 +34,12 @@ my @tests = (
 		controller => 'PR94/ctrl-status',
 		logical => 'PR94/ld-show',
 		message => 'Smart Array P410i: Array A(OK)[LUN1:OK]',
+	},
+	{
+		status => OK,
+		controller => 'issue98/controller.status',
+		logical => 'issue98/logical.status',
+		message => 'Smart Array P410: Array A(OK)[LUN1:OK], Array C(OK)[LUN3:OK], Array B(Failed)[LUN2:OK]',
 	},
 );
 
