@@ -39,7 +39,7 @@ my @tests = (
 		status => OK,
 		controller => 'issue98/controller.status',
 		logical => 'issue98/logical.status',
-		message => 'Smart Array P410: Array A(OK)[LUN1:OK], Array C(OK)[LUN3:OK], Array B(Failed)[LUN2:OK]',
+		message => 'Smart Array P410: Array A(OK)[LUN1:OK], Array B(Failed)[LUN2:OK], Array C(OK)[LUN3:OK]',
 	},
 );
 

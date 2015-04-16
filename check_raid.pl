@@ -4209,8 +4209,8 @@ sub check {
 		$this->unknown unless close $fh;
 
 		my @cstatus;
-		while (my($array, $d) = each %array) {
-			my ($astatus, $ld) = @$d;
+		foreach my $array (sort { $a cmp $b } keys %array) {
+			my ($astatus, $ld) = @{$array{$array}};
 
 			my @astatus;
 			# extra details for non-normal arrays
