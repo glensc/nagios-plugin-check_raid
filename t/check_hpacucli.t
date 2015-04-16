@@ -36,7 +36,7 @@ my @tests = (
 		message => 'Smart Array P410i: Array A(OK)[LUN1:OK]',
 	},
 	{
-		status => OK,
+		status => CRITICAL,
 		controller => 'issue98/controller.status',
 		logical => 'issue98/logical.status',
 		message => 'Smart Array P410: Array A(OK)[LUN1:OK], Array B(Failed)[LUN2:OK], Array C(OK)[LUN3:OK]',

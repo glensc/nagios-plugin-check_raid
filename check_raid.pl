@@ -4212,6 +4212,11 @@ sub check {
 		foreach my $array (sort { $a cmp $b } keys %array) {
 			my ($astatus, $ld) = @{$array{$array}};
 
+			# check array status
+			if ($astatus ne 'OK') {
+				$this->critical;
+			}
+
 			my @astatus;
 			# extra details for non-normal arrays
 			foreach my $lun (sort { $a cmp $b } keys %$ld) {
