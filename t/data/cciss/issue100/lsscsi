@@ -1,0 +1,2 @@
+[0:0:0:0]    storage HP       P410i            6.60  -         /dev/sg0
+[0:0:0:1]    disk    HP       LOGICAL VOLUME   6.60  /dev/sda   /dev/sg1

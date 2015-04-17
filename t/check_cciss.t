@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 10;
+use constant TESTS => 11;
 use Test::More tests =>  TESTS * 6;
 use test;
 
@@ -121,6 +121,18 @@ my @tests = (
 		message => '/dev/cciss/c0d0(Smart Array 6i): Volume 0 (RAID 1): OK, Drives(2): J1-0-0,J1-0-1=OK, Enclosures: 0-J1: OK',
 		c => 'issue84',
 	},
+	{
+		status => OK,
+		detect_hpsa => '',
+		detect_cciss => '',
+		lsscsi => 'cciss/issue100/lsscsi',
+		version => 'issue100/vol_status_ver',
+		controller => 'issue100/vol_status_1.09',
+		cciss_proc => '',
+		smartctl => '',
+		message => '/dev/sda(Smart Array P410i): Volume 0 (RAID 5): OK',
+		c => 'issue100',
+	},
 );
 
 foreach my $test (@tests) {
@@ -133,6 +145,7 @@ foreach my $test (@tests) {
 			'cciss_vol_status version' => ['<', TESTDIR . '/data/cciss/' .$test->{version} ],
 			'cciss proc' => ['<', TESTDIR . '/data/' .$test->{cciss_proc} ],
 			'smartctl' => ['<', TESTDIR . '/data/' .$test->{smartctl} ],
+			'lsscsi list' => ['<', TESTDIR . '/data/' .$test->{lsscsi} ],
 		},
 		no_smartctl => 1,
 	);

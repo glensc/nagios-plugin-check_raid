@@ -1,0 +1,14 @@
+$VAR1 = {
+          '/dev/sda' => {
+                          'board_name' => 'Smart Array P410i',
+                          'volumes' => {
+                                         '0' => {
+                                                  'board_name' => 'Smart Array P410i',
+                                                  'certain' => 1,
+                                                  'raid_level' => 'RAID 5',
+                                                  'status' => 'OK',
+                                                  'volume_number' => '0'
+                                                }
+                                       }
+                        }
+        };
