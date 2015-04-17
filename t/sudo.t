@@ -16,6 +16,7 @@ unshift(@utils::paths, $bindir);
 my $commands = {
 	proc => ['<', '.'],
 	'cciss_vol_status version' => ['<', TESTDIR . '/data/cciss/cciss-1.09' ],
+	'lsscsi list' => [ '<', '/dev/null' ],
 };
 
 my %params = (
