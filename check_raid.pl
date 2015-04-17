@@ -95,7 +95,10 @@ sub find_sudo() {
 	push(@sudo, $sudo);
 
 	# detect if sudo supports -A, issue #88
-	open(my $fh , '-|', $sudo, '-h') or die "Can't run 'sudo -h': $!";
+	use IPC::Open3;
+	my $fh;
+	my @cmd = ($sudo, '-h');
+	my $pid = open3(undef, $fh, undef, @cmd) or die "Can't run 'sudo -h': $!";
 	local $/ = undef;
 	local $_ = <$fh>;
 	close($fh) or die $!;
