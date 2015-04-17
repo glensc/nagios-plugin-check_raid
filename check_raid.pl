@@ -4132,11 +4132,8 @@ sub sudo {
 	);
 }
 
-sub check {
+sub scan_targets {
 	my $this = shift;
-
-	# status messages pushed here
-	my @status;
 
 	# TODO: allow target customize:
 	# hpacucli <target> is of format:
@@ -4166,16 +4163,16 @@ sub check {
 	}
 	close $fh;
 
-	unless (%targets) {
-		$this->warning;
-		$this->message("No Controllers were found on this machine");
-		return;
-	}
+	return \%targets;
+}
 
-	# Scan logical drives
-	for my $target (sort {$a cmp $b} keys %targets) {
-		my $model = $targets{$target};
-		# check each controllers
+# Scan logical drives
+sub scan_luns {
+	my ($this, $targets) = @_;
+
+	my %luns;
+	while (my($target, $model) = each %$targets) {
+		# check each controller
 		my $fh = $this->cmd('logicaldrive status', { '$target' => $target });
 
 		my ($array, %array);
@@ -4208,9 +4205,42 @@ sub check {
 		}
 		$this->unknown unless close $fh;
 
+		$luns{$target} = { %array };
+	}
+
+	return \%luns;
+}
+
+# parse hpacucli output into logical structure
+sub parse {
+	my $this = shift;
+
+	my $targets = $this->scan_targets;
+	if (!$targets) {
+		return $targets;
+	}
+	my $luns = $this->scan_luns($targets);
+	return { 'targets' => $targets, 'luns' => $luns };
+}
+
+sub check {
+	my $this = shift;
+
+	my $ctrl = $this->parse;
+	unless ($ctrl) {
+		$this->warning->message("No Controllers were found on this machine");
+		return;
+	}
+
+	# status messages pushed here
+	my @status;
+
+	for my $target (sort {$a cmp $b} keys %{$ctrl->{targets}}) {
+		my $model = $ctrl->{targets}->{$target};
+
 		my @cstatus;
-		foreach my $array (sort { $a cmp $b } keys %array) {
-			my ($astatus, $ld) = @{$array{$array}};
+		foreach my $array (sort { $a cmp $b } keys %{$ctrl->{luns}->{$target}}) {
+			my ($astatus, $ld) = @{$ctrl->{luns}->{$target}{$array}};
 
 			# check array status
 			if ($astatus ne 'OK') {
@@ -4232,6 +4262,7 @@ sub check {
 			}
 			push(@cstatus, "Array $array($astatus)[". join(',', @astatus). "]");
 		}
+
 		push(@status, "$model: ".join(', ', @cstatus));
 	}
 
