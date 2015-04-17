@@ -3215,7 +3215,7 @@ sub detect {
 	my ($fh, @devs);
 
 	# try lsscsi first
-	my $lsscsi = lsscsi->new();
+	my $lsscsi = lsscsi->new('commands' => $this->{commands});
 	if ($lsscsi->active) {
 		# for cciss_vol_status < 1.10 we need /dev/sgX nodes, columns which are type storage
 		@devs = $lsscsi->list_sg;
