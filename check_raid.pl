@@ -85,6 +85,9 @@ sub which {
 
 our @sudo;
 sub find_sudo() {
+	# no sudo needed if already root
+	return [] unless $>;
+
 	# detect once
 	return \@sudo if @sudo;
 
