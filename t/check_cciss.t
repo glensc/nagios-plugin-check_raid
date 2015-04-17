@@ -133,9 +133,9 @@ my @tests = (
 	},
 	{
 		status => OK,
+		lsscsi => 'cciss/issue100/lsscsi',
 		detect_hpsa => '',
 		detect_cciss => '',
-		lsscsi => 'cciss/issue100/lsscsi',
 		version => 'issue100/vol_status_ver',
 		controller => 'issue100/vol_status_1.09',
 		cciss_proc => '',
@@ -158,6 +158,7 @@ foreach my $test (@tests) {
 			'lsscsi list' => ['<', TESTDIR . '/data/' .$test->{lsscsi} ],
 		},
 		no_smartctl => 1,
+		use_lsscsi => $test->{lsscsi} ne '',
 	);
 	ok($plugin, "plugin created");
 
