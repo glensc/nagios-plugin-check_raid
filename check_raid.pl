@@ -3334,7 +3334,7 @@ sub trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
 
 # we process until we find end of sentence (dot at the end of the line)
 sub consume_diagnostic {
-	my ($this, $fh, $s) = @_;
+	my ($this, $fh) = @_;
 
 	my $diagnostic = '';
 	while (1) {
@@ -3345,6 +3345,18 @@ sub consume_diagnostic {
 		last if $s =~ /\.$/;
 	}
 	return trim($diagnostic);
+}
+
+# process to skip lines with physical location:
+# "         connector 1I box 1 bay 4 ..."
+sub consume_disk_map {
+	my ($this, $fh) = @_;
+
+	while (my $s = <$fh>) {
+		chomp $s;
+		# connector 1I box 1 bay 4
+		last unless $s =~ /^\s+connector\s/;
+	}
 }
 
 sub parse {
@@ -3491,6 +3503,23 @@ sub parse {
 			}
 
 			next if $got;
+		}
+
+		# show_disk_map("  Failed drives:", file, fd, id, controller_lun, ctlrtype,
+		# show_disk_map("  'Replacement' drives:", file, fd, id, controller_lun, ctlrtype,
+		# show_disk_map("  Drives currently substituted for by spares:", file, fd, id, controller_lun, ctlrtype,
+		if (/^  Failed drives:/ ||
+			/^  'Replacement' drives:/ ||
+			/^  Drives currently substituted for by spares:/
+		) {
+			# could store this somewhere, ignore for now
+			$this->consume_disk_map($fh);
+			next;
+		}
+
+		if (my($total_failed) = /Total of (\d+) failed physical drives detected on this logical drive\./) {
+			$c{$cdev}{phys_failed} = $total_failed;
+			next;
 		}
 
 		warn "Unparsed[$_]";

@@ -1,6 +1,7 @@
 $VAR1 = {
           '/dev/sda' => {
                           'board_name' => 'Smart Array P410i',
+                          'phys_failed' => '1',
                           'volumes' => {
                                          '0' => {
                                                   'board_name' => 'Smart Array P410i',
