@@ -1,0 +1,533 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Controller Mode                          : RAID (Expose RAW)
+   Controller Cache Preservation            : Disabled
+   Channel description                      : SAS/SATA
+   Controller Model                         : Adaptec ASR71605
+   Controller Serial Number                 : 3A021301524
+   Controller World Wide Name               : 50000D110617B500
+   Controller Alarm                         : Enabled
+   Physical Slot                            : 6
+   Temperature                              : 54 C/ 129 F (Normal)
+   Installed memory                         : 1024 MB
+   Global task priority                     : Medium
+   Performance Mode                         : Default/Dynamic
+   Host bus type                            : PCIe
+   Host bus speed                           : 8000 MHz
+   Host bus link width                      : 8 bit(s)/link(s)
+   Stayawake period                         : Disabled
+   Spinup limit internal drives             : 0
+   Spinup limit external drives             : 0
+   Defunct disk drive count                 : 0
+   Logical devices/Failed/Degraded          : 1/0/0
+   NCQ status                               : Enabled
+   Statistics data collection mode          : Disabled
+   Global Physical Device Write Cache Policy: Drive Specific
+   Monitor Log Severity Level               : Informational
+   --------------------------------------------------------
+   RAID Properties
+   --------------------------------------------------------
+   Copyback                                 : Disabled
+   Background consistency check             : Enabled
+   Background consistency check period      : 0
+   Automatic Failover                       : Enabled
+   --------------------------------------------------------
+   Controller BIOS Setting Information
+   --------------------------------------------------------
+   Runtime BIOS                             : Enabled
+   Array BBS Support                        : Enabled
+   Physical Drives Displayed during POST    : Disabled
+   Backplane Mode                           : IBPI
+   BIOS Halt on Missing Drive Count         : 255
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 7.5-0 (32033)
+   Firmware                                 : 7.5-0 (32033)
+   Driver                                   : 1.2-0 (30300)
+   Boot Flash                               : 7.5-0 (32033)
+
+   --------------------------------------------------------
+   Controller Cache Backup Unit Information
+   --------------------------------------------------------
+
+    Overall Backup Unit Status              : Not Present
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical device number 0
+   Logical device name                      : video
+   Block Size of member drives              : 512 Bytes
+   RAID level                               : 5
+   Unique Identifier                        : DADDB828
+   Status of logical device                 : Optimal
+   Size                                     : 42854390 MB
+   Parity space                             : 2856960 MB
+   Stripe-unit size                         : 256 KB
+   Read-cache setting                       : Enabled
+   Read-cache status                        : On
+   Write-cache setting                      : Enabled
+   Write-cache status                       : On
+   Partitioned                              : No
+   Protected by Hot-Spare                   : No
+   Bootable                                 : Yes
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (Controller:1,Enclosure:0,Slot:0)      WD-WMC4N0EA309P
+   Segment 1                                : Present (Controller:1,Enclosure:0,Slot:1)      WD-WMC4N0D4C3EC
+   Segment 2                                : Present (Controller:1,Enclosure:0,Slot:2)      WD-WMC4N0DARL7H
+   Segment 3                                : Present (Controller:1,Enclosure:0,Slot:3)      WD-WMC4N0D68KUE
+   Segment 4                                : Present (Controller:1,Enclosure:0,Slot:4)      WD-WCC1T0338432
+   Segment 5                                : Present (Controller:1,Enclosure:0,Slot:5)      WD-WCC1T0348080
+   Segment 6                                : Present (Controller:1,Enclosure:0,Slot:6)      WD-WCC1T0350619
+   Segment 7                                : Present (Controller:1,Enclosure:0,Slot:7)      WD-WMC1T1442256
+   Segment 8                                : Present (Controller:1,Enclosure:0,Slot:8)      WD-WMC1T1128983
+   Segment 9                                : Present (Controller:1,Enclosure:0,Slot:9)      WD-WMC1T0982452
+   Segment 10                               : Present (Controller:1,Enclosure:0,Slot:10)      WD-WMC1T1128924
+   Segment 11                               : Present (Controller:1,Enclosure:0,Slot:11)      WD-WCC1T0355878
+   Segment 12                               : Present (Controller:1,Enclosure:0,Slot:12)      WD-WMC1T1133813
+   Segment 13                               : Present (Controller:1,Enclosure:0,Slot:13)      WD-WMC1T0026837
+   Segment 14                               : Present (Controller:1,Enclosure:0,Slot:14)      WD-WMC1T1479988
+   Segment 15                               : Present (Controller:1,Enclosure:0,Slot:15)      WD-WMC1T3351994
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,0(0:0)
+         Reported Location                  : Enclosure 0, Slot 0
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68E
+         Firmware                           : 82.00A82
+         Serial number                      : WD-WMC4N0EA309P
+         World-wide name                    : 50014EE604E6A6D5
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #1
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,1(1:0)
+         Reported Location                  : Enclosure 0, Slot 1
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68E
+         Firmware                           : 82.00A82
+         Serial number                      : WD-WMC4N0D4C3EC
+         World-wide name                    : 50014EE604E61E57
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #2
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,2(2:0)
+         Reported Location                  : Enclosure 0, Slot 2
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68E
+         Firmware                           : 82.00A82
+         Serial number                      : WD-WMC4N0DARL7H
+         World-wide name                    : 50014EE6AF928791
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #3
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,3(3:0)
+         Reported Location                  : Enclosure 0, Slot 3
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68E
+         Firmware                           : 82.00A82
+         Serial number                      : WD-WMC4N0D68KUE
+         World-wide name                    : 50014EE604BF4944
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #4
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,4(4:0)
+         Reported Location                  : Enclosure 0, Slot 4
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68A
+         Firmware                           : 80.00A80
+         Serial number                      : WD-WCC1T0338432
+         World-wide name                    : 50014EE2B2BD2457
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #5
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,5(5:0)
+         Reported Location                  : Enclosure 0, Slot 5
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68A
+         Firmware                           : 80.00A80
+         Serial number                      : WD-WCC1T0348080
+         World-wide name                    : 50014EE2B2BD13C6
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #6
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,6(6:0)
+         Reported Location                  : Enclosure 0, Slot 6
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68A
+         Firmware                           : 80.00A80
+         Serial number                      : WD-WCC1T0350619
+         World-wide name                    : 50014EE2B2BC72EA
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #7
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,7(7:0)
+         Reported Location                  : Enclosure 0, Slot 7
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68A
+         Firmware                           : 80.00A80
+         Serial number                      : WD-WMC1T1442256
+         World-wide name                    : 50014EE058D2D01E
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #8
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,8(8:0)
+         Reported Location                  : Enclosure 0, Slot 8
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68A
+         Firmware                           : 80.00A80
+         Serial number                      : WD-WMC1T1128983
+         World-wide name                    : 50014EE602E4388E
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #9
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,9(9:0)
+         Reported Location                  : Enclosure 0, Slot 9
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68A
+         Firmware                           : 80.00A80
+         Serial number                      : WD-WMC1T0982452
+         World-wide name                    : 50014EE6AD8ED764
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #10
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,10(10:0)
+         Reported Location                  : Enclosure 0, Slot 10
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68A
+         Firmware                           : 80.00A80
+         Serial number                      : WD-WMC1T1128924
+         World-wide name                    : 50014EE65839A29E
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #11
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,11(11:0)
+         Reported Location                  : Enclosure 0, Slot 11
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68A
+         Firmware                           : 80.00A80
+         Serial number                      : WD-WCC1T0355878
+         World-wide name                    : 50014EE25D66A162
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #12
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,12(12:0)
+         Reported Location                  : Enclosure 0, Slot 12
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68A
+         Firmware                           : 80.00A80
+         Serial number                      : WD-WMC1T1133813
+         World-wide name                    : 50014EE6AD8F1046
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #13
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,13(13:0)
+         Reported Location                  : Enclosure 0, Slot 13
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68A
+         Firmware                           : 80.00A80
+         Serial number                      : WD-WMC1T0026837
+         World-wide name                    : 50014EE65839B0A7
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #14
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,14(14:0)
+         Reported Location                  : Enclosure 0, Slot 14
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68A
+         Firmware                           : 80.00A80
+         Serial number                      : WD-WMC1T1479988
+         World-wide name                    : 50014EE0037D9290
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #15
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,15(15:0)
+         Reported Location                  : Enclosure 0, Slot 15
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD30EFRX-68A
+         Firmware                           : 80.00A80
+         Serial number                      : WD-WMC1T3351994
+         World-wide name                    : 50014EE6588C11E0
+         Reserved Size                      : 4739480 KB
+         Used Size                          : 2856960 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 2861588 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         NCQ status                         : Enabled
+      Device #16
+         Device is an Enclosure services device
+         Reported Channel,Device(T:L)       : 2,0(0:0)
+         Enclosure ID                       : 0
+         Type                               : SES2
+         Vendor                             : ADAPTEC
+         Model                              : Virtual SGPIO
+         Firmware                           :    1
+         Status of Enclosure services device
+            Speaker status                  : Not available
+
+
+
+Command completed successfully.
