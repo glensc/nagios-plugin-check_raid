@@ -3664,12 +3664,7 @@ package hp_msa;
 use base 'plugin';
 
 # do not register, better use hpacucli
-#push(@utils::plugins, __PACKAGE__);
-
-sub new {
-	my $self = shift;
-	$self->SUPER::new(tty_device => "/dev/ttyS0", @_);
-}
+push(@utils::plugins, __PACKAGE__);
 
 sub active {
 	my $this = shift;
@@ -3679,6 +3674,9 @@ sub active {
 # check from /sys if there are any MSA VOLUME's present.
 sub detect {
 	my $this = shift;
+
+	# allow --plugin-option=hp_msa-enabled to force this plugin to be enabled
+	return 1 if exists $this->{options}{'hp_msa-enabled'};
 
 	for my $file (</sys/block/*/device/model>) {
 		open my $fh, '<', $file or next;
@@ -3692,7 +3690,8 @@ sub detect {
 sub check {
 	my $this = shift;
 
-	my $ctldevice = $this->{tty_device};
+	#  allow --plugin-option=hp_msa-serial=/dev/ttyS2 to specify serial line
+	my $ctldevice = $this->{options}{'hp_msa-serial'} || '/dev/ttyS0';
 
 	# status messages pushed here
 	my @status;
