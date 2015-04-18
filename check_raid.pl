@@ -3408,13 +3408,15 @@ sub parse {
 		# volume status, print_volume_status()
 		# /dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK
 		# /dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK.
-		if (my($file, $board_name, $raid_level, $volume_number, $certain, $status) = m{
+		# /dev/sda: (Smart Array P410i) RAID 5 Volume 0 status: OK.   At least one spare drive designated.  At least one spare drive has failed.
+		if (my($file, $board_name, $raid_level, $volume_number, $certain, $status, $spare_drive_status) = m{
 			^(/dev/[^:]+):\s        # File
 			\(([^)]+)\)\s           # Board Name
 			(RAID\s\d+|\([^)]+\))\s # RAID level
 			Volume\s(\d+)           # Volume number
 			(\(\?\))?\s             # certain?
 			status:\s(.*?)\.        # status (without a dot)
+			(.*)?                   # spare drive status messages
 		}x) {
 			$cdev = $file;
 			$c{$file}{volumes}{$volume_number} = {
@@ -3423,6 +3425,7 @@ sub parse {
 				volume_number => $volume_number,
 				certain => int(not defined $certain),
 				status => $status,
+				spare_drive_status => trim($spare_drive_status),
 			};
 
 			$c{$file}{board_name} = $board_name;

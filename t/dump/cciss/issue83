@@ -8,6 +8,7 @@ $VAR1 = {
 				'volume_number' => '0',
 				'certain' => 1,
 				'status' => 'OK',
+				'spare_drive_status' => '',
 			}
 		},
 		'enclosures' => {

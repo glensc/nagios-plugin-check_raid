@@ -8,6 +8,7 @@ $VAR1 = {
                                                   'certain' => 1,
                                                   'raid_level' => 'RAID 5',
                                                   'status' => 'OK',
+                                                  'spare_drive_status' => 'At least one spare drive designated.  At least one spare drive has failed.',
                                                   'volume_number' => '0'
                                                 }
                                        }
