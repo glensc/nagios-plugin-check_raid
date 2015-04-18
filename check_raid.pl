@@ -4836,6 +4836,15 @@ sub git_hash_object() {
 	return $digest;
 }
 
+# plugin options (key=>value pairs) passed as 'options' key to each plugin constructor.
+# the options are global, not plugin specific, but it's recommended to prefix option with plugin name.
+# the convention is to have PLUGIN_NAME-OPTION_NAME=OPTION_VALUE syntax to namespace each plugin option.
+#
+# so "--plugin-option=hp_msa-serial=/dev/ttyS2" would define option 'serial'
+# for 'hp_msa' plugin with value '/dev/ttyS2'.
+#
+my %plugin_options;
+
 Getopt::Long::Configure('bundling');
 GetOptions(
 	'V' => \$opt_V, 'version' => \$opt_V,
@@ -4848,6 +4857,7 @@ GetOptions(
 	'noraid=s' => sub { setstate(\$noraid_state, @_); },
 	'bbulearn=s' => sub { setstate(\$plugin::bbulearn_status, @_); },
 	'cache-fail=s' => sub { setstate(\$plugin::cache_fail_status, @_); },
+	'plugin-option=s' => sub { my($k, $v) = split(/=/, $_[1], 2); $plugin_options{$k} = $v; },
 	'bbu-monitoring' => \$plugin::bbu_monitoring,
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
@@ -4900,7 +4910,7 @@ $utils::debug = $opt_d;
 my @plugins = $opt_p ? grep { my $p = $_; grep { /^$p$/ } split(/,/, $opt_p) } @utils::plugins : @utils::plugins;
 
 foreach my $pn (@plugins) {
-	my $plugin = $pn->new;
+	my $plugin = $pn->new(options => \%plugin_options);
 
 	# skip inactive plugins (disabled or no tools available)
 	next unless $plugin->active;
