@@ -2671,6 +2671,10 @@ sub parse_config {
 				# not parsed yet
 			} elsif ($subsection eq 'Controller Vital Product Data') {
 				# not parsed yet
+			} elsif ($subsection eq 'RAID Properties') {
+				# not parsed yet
+			} elsif ($subsection eq 'Controller BIOS Setting Information') {
+				# not parsed yet
 			} else {
 				warn "SUBSECTION of [$section] NOT PARSED: [$subsection] [$_]";
 			}
