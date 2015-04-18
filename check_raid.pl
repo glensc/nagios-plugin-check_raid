@@ -4810,6 +4810,27 @@ sub setstate {
 	$$key = $ERRORS{$value};
 }
 
+# obtain git hash of check_raid.pl
+# http://stackoverflow.com/questions/460297/git-finding-the-sha1-of-an-individual-file-in-the-index#comment26055597_460315
+sub git_hash_object() {
+	my $content = "blob ";
+	$content .= -s $0;
+	$content .= "\0";
+	open my $fh, '<', $0 or die $!;
+	local $/ = undef;
+	$content .= <$fh>;
+	close($fh) or die $!;
+
+	# try Digest::SHA1
+	my $digest;
+	eval {
+		require Digest::SHA1;
+		$digest = Digest::SHA1::sha1_hex($content);
+	};
+
+	return $digest;
+}
+
 Getopt::Long::Configure('bundling');
 GetOptions(
 	'V' => \$opt_V, 'version' => \$opt_V,
@@ -4844,6 +4865,10 @@ if ($opt_d) {
 	my $git_ver = `git describe --tags 2>/dev/null`;
 	if ($git_ver) {
 		print "Using git: $git_ver";
+	}
+	my $hash = git_hash_object();
+	if ($hash) {
+		print "git hash object: $hash\n";
 	}
 	print "See CONTRIBUTING.md how to report bugs with debug data:\n";
 	print "https://github.com/glensc/nagios-plugin-check_raid/blob/master/CONTRIBUTING.md\n\n";
