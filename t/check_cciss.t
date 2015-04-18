@@ -189,5 +189,5 @@ foreach my $test (@tests) {
 		ok(0, "Created dump for $df");
 	}
 	my $dump = read_dump($df);
-	is_deeply($c, $dump, "controller structure");
+	is_deeply($c, $dump, "controller structure $df");
 }

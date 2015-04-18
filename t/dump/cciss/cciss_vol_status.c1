@@ -24,6 +24,7 @@ $VAR1 = {
 				'raid_level' => 'RAID 1',
 				'certain' => 1,
 				'status' => 'OK',
+				'spare_drive_status' => '',
 			},
 		},
 
