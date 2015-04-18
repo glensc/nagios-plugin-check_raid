@@ -94,6 +94,7 @@ NOTES:
 - Areca SATA RAID Support
 
 ## 2.1
+- New maintainer Elan Ruusamäe
 - Made script more generic and secure
 - Added `gdth`
 - Added `dpt_i2o`
