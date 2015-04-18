@@ -3220,9 +3220,10 @@ sub detect {
 
 	my ($fh, @devs);
 
-	# try lsscsi first
+	# try lsscsi first if enabled and allowed
 	my $lsscsi = lsscsi->new('commands' => $this->{commands});
-	if ($this->{use_lsscsi} || $lsscsi->active) {
+	my $use_lsscsi = defined($this->{use_lsscsi}) ? $this->{use_lsscsi} : $lsscsi->active;
+	if ($use_lsscsi) {
 		# for cciss_vol_status < 1.10 we need /dev/sgX nodes, columns which are type storage
 		@devs = $lsscsi->list_sg;
 
