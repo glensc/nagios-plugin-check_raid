@@ -1,3 +1,11 @@
+## Unreleased
+
+- arcconf: handle unparsed data from Arcconf 1.7. [#99][]
+- cciss: parse spare drive status. [#100][]
+- hide errors from sudo -h when using old sudo. [#88][]
+- don't detect sudo if running as root. fixes [#101][]
+- hpacucli: check for array status. fixes [#98][]
+
 ## 3.2.3 (2015-03-25)
 
 - arcconf: dead disks have no id, use physical location instead [#90][]
@@ -154,3 +162,7 @@ NOTES:
 [#38]: https://github.com/glensc/nagios-plugin-check_raid/issues/38
 [#96]: https://github.com/glensc/nagios-plugin-check_raid/pull/96
 [#94]: https://github.com/glensc/nagios-plugin-check_raid/pull/94
+[#99]: https://github.com/glensc/nagios-plugin-check_raid/issues/99
+[#100]: https://github.com/glensc/nagios-plugin-check_raid/issues/100
+[#101]: https://github.com/glensc/nagios-plugin-check_raid/issues/101
+[#98]: https://github.com/glensc/nagios-plugin-check_raid/issues/98
