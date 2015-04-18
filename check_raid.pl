@@ -4838,6 +4838,17 @@ if ($opt_V) {
 	print "check_raid Version $VERSION\n";
 	exit $ERRORS{'OK'};
 }
+
+if ($opt_d) {
+	print "check_raid Version $VERSION\n";
+	my $git_ver = `git describe --tags 2>/dev/null`;
+	if ($git_ver) {
+		print "Using git: $git_ver";
+	}
+	print "See CONTRIBUTING.md how to report bugs with debug data:\n";
+	print "https://github.com/glensc/nagios-plugin-check_raid/blob/master/CONTRIBUTING.md\n\n";
+}
+
 if ($opt_h) {
 	print_help();
 	exit $ERRORS{'OK'};
