@@ -7,6 +7,7 @@
 - hpacucli: check for array status. fixes [#98][]
 - hp_msa: allow configuring via plugin-options. [#97][]
 - allow plugin specific options [#58][]
+- make plugins work even if plugin programs not executable for non-root [#104][]
 
 ## 3.2.3 (2015-03-25)
 
@@ -171,3 +172,4 @@ NOTES:
 [#98]: https://github.com/glensc/nagios-plugin-check_raid/issues/98
 [#97]: https://github.com/glensc/nagios-plugin-check_raid/issues/97
 [#58]: https://github.com/glensc/nagios-plugin-check_raid/issues/58
+[#104]: https://github.com/glensc/nagios-plugin-check_raid/issues/104

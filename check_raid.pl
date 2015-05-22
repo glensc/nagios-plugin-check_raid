@@ -74,10 +74,11 @@ unshift(@paths, qw(/usr/local/nrpe /usr/local/bin /sbin /usr/sbin /bin /usr/sbin
 
 # lookup program from list of possible filenames
 # search is performed from $PATH plus additional hardcoded @paths
+# NOTE: we do not check for execute bit as it may fail for non-root. #104
 sub which {
 	for my $prog (@_) {
 		for my $path (@paths) {
-			return "$path/$prog" if -x "$path/$prog";
+			return "$path/$prog" if -f "$path/$prog";
 		}
 	}
 	return undef;
@@ -182,11 +183,11 @@ sub new {
 sub active {
 	my $this = shift;
 
-	# program not found
+	# no tool found, return false
 	return 0 unless $this->{program};
 
-	# program not executable
-	-x $this->{program};
+	# program file must exist, don't check for execute bit. #104
+	-f $this->{program};
 }
 
 # set status code for plugin result
