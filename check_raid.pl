@@ -2881,41 +2881,8 @@ sub check {
 		}
 
 		# Battery status
-		if (defined($c->{battery_status}) and $c->{battery_status} ne "Not Installed") {
-			push(@status, "Battery Status: $c->{battery_status}");
-
-			# if batter status 'Failed' none of the details below are available. #105
-			if ($c->{battery_status} eq 'Failed') {
-				$this->critical;
-			} else {
-
-			if ($c->{battery_overtemp} ne "No") {
-				$this->critical;
-				push(@status, "Battery Overtemp: $c->{battery_overtemp}");
-			}
-
-			push(@status, "Battery Capacity Remaining: $c->{battery_capacity}%");
-			if ($c->{battery_capacity} < 50) {
-				$this->critical;
-			}
-			if ($c->{battery_capacity} < 25) {
-				$this->warning;
-			}
-
-			if ($c->{battery_time} < 1440) {
-				$this->warning;
-			}
-			if ($c->{battery_time} < 720) {
-				$this->critical;
-			}
-
-			if ($c->{battery_time} < 60) {
-				push(@status, "Battery Time: $c->{battery_time}m");
-			} else {
-				push(@status, "Battery Time: $c->{battery_time_full}");
-			}
-			}
-		}
+		my @s = $this->battery_status($c);
+		push(@status, @s) if @s;
 	}
 
 	# check for physical devices
@@ -2971,6 +2938,54 @@ sub check {
 	push(@status, "Drives: ".$this->join_status(\%pd)) if %pd;
 
 	$this->ok->message(join(', ', @status));
+}
+
+# check battery status in $c
+sub battery_status {
+	my ($this, $c) = @_;
+
+	my @status;
+
+	if (!defined($c->{battery_status}) || $c->{battery_status} eq 'Not Installed') {
+		return;
+	}
+
+	push(@status, "Battery Status: $c->{battery_status}");
+
+	# if battery status is 'Failed', none of the details below are available. #105
+	if ($c->{battery_status} eq 'Failed') {
+		$this->critical;
+		return @status;
+	}
+
+	# detailed battery checks
+	if ($c->{battery_overtemp} ne 'No') {
+		$this->critical;
+		push(@status, "Battery Overtemp: $c->{battery_overtemp}");
+	}
+
+	push(@status, "Battery Capacity Remaining: $c->{battery_capacity}%");
+	if ($c->{battery_capacity} < 50) {
+		$this->critical;
+	}
+	if ($c->{battery_capacity} < 25) {
+		$this->warning;
+	}
+
+	if ($c->{battery_time} < 1440) {
+		$this->warning;
+	}
+	if ($c->{battery_time} < 720) {
+		$this->critical;
+	}
+
+	if ($c->{battery_time} < 60) {
+		push(@status, "Battery Time: $c->{battery_time}m");
+	} else {
+		push(@status, "Battery Time: $c->{battery_time_full}");
+	}
+
+	return @status;
 }
 
 package megarc;
