@@ -8,6 +8,7 @@
 - hp_msa: allow configuring via plugin-options. [#97][]
 - allow plugin specific options [#58][]
 - make plugins work even if plugin programs not executable for non-root [#104][]
+- arcconf: handle when battery has failed and no status available at all. [#105][]
 
 ## 3.2.3 (2015-03-25)
 
@@ -173,3 +174,4 @@ NOTES:
 [#97]: https://github.com/glensc/nagios-plugin-check_raid/issues/97
 [#58]: https://github.com/glensc/nagios-plugin-check_raid/issues/58
 [#104]: https://github.com/glensc/nagios-plugin-check_raid/issues/104
+[#105]: https://github.com/glensc/nagios-plugin-check_raid/issues/105
