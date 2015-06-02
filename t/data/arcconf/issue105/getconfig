@@ -1,0 +1,155 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Channel description                      : SAS/SATA
+   Controller Model                         : Adaptec 5405
+   Controller Serial Number                 : 9D33112BBD3
+   Physical Slot                            : 3
+   Temperature                              : 77 C/ 170 F (Normal)
+   Installed memory                         : 256 MB
+   Copyback                                 : Disabled
+   Background consistency check             : Disabled
+   Automatic Failover                       : Enabled
+   Global task priority                     : High
+   Performance Mode                         : Default/Dynamic
+   Stayawake period                         : Disabled
+   Spinup limit internal drives             : 0
+   Spinup limit external drives             : 0
+   Defunct disk drive count                 : 0
+   Logical devices/Failed/Degraded          : 1/0/0
+   Statistics data collection mode          : Enabled
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 5.2-0 (16343)
+   Firmware                                 : 5.2-0 (16343)
+   Driver                                   : 1.1-7 (28000)
+   Boot Flash                               : 5.2-0 (16343)
+   --------------------------------------------------------
+   Controller Battery Information
+   --------------------------------------------------------
+   Status                                   : Failed
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical device number 0
+   Logical device name                      : RAID10
+   RAID level                               : 10
+   Status of logical device                 : Optimal
+   Size                                     : 1906676 MB
+   Stripe-unit size                         : 256 KB
+   Read-cache mode                          : Enabled
+   Write-cache mode                         : Disabled (write-through)
+   Write-cache setting                      : Enabled (write-back) when protected by battery/ZMM
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : No
+   Bootable                                 : Yes
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Group 0, Segment 0                       : Present (Controller:1,Enclosure:0,Slot:2)      WD-WMATV3036928
+   Group 0, Segment 1                       : Present (Controller:1,Enclosure:0,Slot:1)      WD-WMATV3047731
+   Group 1, Segment 0                       : Present (Controller:1,Enclosure:0,Slot:0)      WD-WMATV3471115
+   Group 1, Segment 1                       : Present (Controller:1,Enclosure:0,Slot:3)      WD-WMATV3086188
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,0(0:0)
+         Reported Location                  : Enclosure 0, Slot 0
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : WDC
+         Model                              : WD1001FALS-0
+         Firmware                           : 05.00K05
+         Serial number                      : WD-WMATV3471115
+         Size                               : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         NCQ status                         : Disabled
+      Device #1
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,1(1:0)
+         Reported Location                  : Enclosure 0, Slot 1
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : WDC
+         Model                              : WD1001FALS-0
+         Firmware                           : 05.00K05
+         Serial number                      : WD-WMATV3047731
+         Size                               : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         NCQ status                         : Disabled
+      Device #2
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,2(2:0)
+         Reported Location                  : Enclosure 0, Slot 2
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : WDC
+         Model                              : WD1001FALS-0
+         Firmware                           : 05.00K05
+         Serial number                      : WD-WMATV3036928
+         Size                               : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         NCQ status                         : Disabled
+      Device #3
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,3(3:0)
+         Reported Location                  : Enclosure 0, Slot 3
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : WDC
+         Model                              : WD1001FALS-0
+         Firmware                           : 05.00K05
+         Serial number                      : WD-WMATV3086188
+         Size                               : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         NCQ status                         : Disabled
+      Device #4
+         Device is an Enclosure services device
+         Reported Channel,Device(T:L)       : 2,0(0:0)
+         Enclosure ID                       : 0
+         Type                               : SES2
+         Vendor                             : ADAPTEC
+         Model                              : Virtual SGPIO
+         Firmware                           : 0001
+         Status of Enclosure services device
+
+
+Command completed successfully.

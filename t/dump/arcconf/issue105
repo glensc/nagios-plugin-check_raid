@@ -1,0 +1,117 @@
+$VAR1 = {
+          'controller' => {
+                            'battery_status' => 'Failed',
+                            'defunct_count' => 0,
+                            'logical_count' => 1,
+                            'logical_degraded' => 0,
+                            'logical_failed' => 0,
+                            'status' => 'Optimal'
+                          },
+          'controllers' => 1,
+          'logical' => [
+                         {
+                           'failed_stripes' => 'No',
+                           'id' => 0,
+                           'name' => 'RAID10',
+                           'raid' => '10',
+                           'size' => '1906676 MB',
+                           'status' => 'Optimal'
+                         }
+                       ],
+          'physical' => [
+                          [
+                            {
+                              'cd' => '0,0(0:0)',
+                              'devtype' => 'Hard drive',
+                              'esd' => '2,0(0:0)',
+                              'firmware' => '05.00K05',
+                              'fru' => 'None',
+                              'location' => '0:0',
+                              'model' => 'WD1001FALS-0',
+                              'ncq' => 'Disabled',
+                              'power_state' => 'Full rpm',
+                              'power_states' => 'Full rpm,Powered off',
+                              'serial' => 'WD-WMATV3471115',
+                              'size' => '953869 MB',
+                              'smart' => '0',
+                              'speed' => 'SATA 3.0 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => 'WDC',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '0,1(1:0)',
+                              'devtype' => 'Hard drive',
+                              'esd' => '2,0(0:0)',
+                              'firmware' => '05.00K05',
+                              'fru' => 'None',
+                              'location' => '0:1',
+                              'model' => 'WD1001FALS-0',
+                              'ncq' => 'Disabled',
+                              'power_state' => 'Full rpm',
+                              'power_states' => 'Full rpm,Powered off',
+                              'serial' => 'WD-WMATV3047731',
+                              'size' => '953869 MB',
+                              'smart' => '0',
+                              'speed' => 'SATA 3.0 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => 'WDC',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '0,2(2:0)',
+                              'devtype' => 'Hard drive',
+                              'esd' => '2,0(0:0)',
+                              'firmware' => '05.00K05',
+                              'fru' => 'None',
+                              'location' => '0:2',
+                              'model' => 'WD1001FALS-0',
+                              'ncq' => 'Disabled',
+                              'power_state' => 'Full rpm',
+                              'power_states' => 'Full rpm,Powered off',
+                              'serial' => 'WD-WMATV3036928',
+                              'size' => '953869 MB',
+                              'smart' => '0',
+                              'speed' => 'SATA 3.0 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => 'WDC',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '0,3(3:0)',
+                              'devtype' => 'Hard drive',
+                              'esd' => '2,0(0:0)',
+                              'firmware' => '05.00K05',
+                              'fru' => 'None',
+                              'location' => '0:3',
+                              'model' => 'WD1001FALS-0',
+                              'ncq' => 'Disabled',
+                              'power_state' => 'Full rpm',
+                              'power_states' => 'Full rpm,Powered off',
+                              'serial' => 'WD-WMATV3086188',
+                              'size' => '953869 MB',
+                              'smart' => '0',
+                              'speed' => 'SATA 3.0 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => 'WDC',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '2,0(0:0)',
+                              'devtype' => 'Enclosure services device',
+                              'enclosure' => '0',
+                              'firmware' => '0001',
+                              'model' => 'Virtual SGPIO',
+                              'type' => 'SES2',
+                              'vendor' => 'ADAPTEC'
+                            }
+                          ]
+                        ],
+          'tasks' => {
+                       'operation' => 'None'
+                     }
+        };

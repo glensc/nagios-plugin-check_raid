@@ -2884,6 +2884,11 @@ sub check {
 		if (defined($c->{battery_status}) and $c->{battery_status} ne "Not Installed") {
 			push(@status, "Battery Status: $c->{battery_status}");
 
+			# if batter status 'Failed' none of the details below are available. #105
+			if ($c->{battery_status} eq 'Failed') {
+				$this->critical;
+			} else {
+
 			if ($c->{battery_overtemp} ne "No") {
 				$this->critical;
 				push(@status, "Battery Overtemp: $c->{battery_overtemp}");
@@ -2908,6 +2913,7 @@ sub check {
 				push(@status, "Battery Time: $c->{battery_time}m");
 			} else {
 				push(@status, "Battery Time: $c->{battery_time_full}");
+			}
 			}
 		}
 	}
