@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 14;
+use constant TESTS => 15;
 use Test::More tests => 2 + TESTS * 6;
 use test;
 
@@ -114,6 +114,13 @@ my @tests = (
 		getconfig => 'issue99/getconfig',
 		message => 'Controller:Optimal, Logical Device 0(video):Optimal, Drives: WD-WMC4N0EA309P,WD-WMC4N0D4C3EC,WD-WMC4N0DARL7H,WD-WMC4N0D68KUE,WD-WCC1T0338432,WD-WCC1T0348080,WD-WCC1T0350619,WD-WMC1T1442256,WD-WMC1T1128983,WD-WMC1T0982452,WD-WMC1T1128924,WD-WCC1T0355878,WD-WMC1T1133813,WD-WMC1T0026837,WD-WMC1T1479988,WD-WMC1T3351994=Online',
 		c => 'issue99',
+	},
+	{
+		status => CRITICAL,
+		getstatus => 'issue105/getstatus',
+		getconfig => 'issue105/getconfig',
+		message => 'Controller:Optimal, Battery Status: Failed, Battery Overtemp: , Battery Capacity Remaining: %, Battery Time: m, Logical Device 0(RAID10):Optimal, Drives: WD-WMATV3471115,WD-WMATV3047731,WD-WMATV3036928,WD-WMATV3086188=Online',
+		c => 'issue105',
 	},
 );
 
