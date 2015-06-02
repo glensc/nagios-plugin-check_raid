@@ -119,7 +119,7 @@ my @tests = (
 		status => CRITICAL,
 		getstatus => 'issue105/getstatus',
 		getconfig => 'issue105/getconfig',
-		message => 'Controller:Optimal, Battery Status: Failed, Battery Overtemp: , Battery Capacity Remaining: %, Battery Time: m, Logical Device 0(RAID10):Optimal, Drives: WD-WMATV3471115,WD-WMATV3047731,WD-WMATV3036928,WD-WMATV3086188=Online',
+		message => 'Controller:Optimal, Battery Status: Failed, Logical Device 0(RAID10):Optimal, Drives: WD-WMATV3471115,WD-WMATV3047731,WD-WMATV3036928,WD-WMATV3086188=Online',
 		c => 'issue105',
 	},
 );
