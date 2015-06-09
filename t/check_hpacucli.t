@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 5;
+use constant TESTS => 6;
 use Test::More tests => TESTS * 5;
 use test;
 
@@ -40,6 +40,12 @@ my @tests = (
 		controller => 'issue98/controller.status',
 		logical => 'issue98/logical.status',
 		message => 'Smart Array P410: Array A(OK)[LUN1:OK], Array B(Failed)[LUN2:OK], Array C(OK)[LUN3:OK]',
+	},
+	{
+		status => OK,
+		controller => 'issue106/ctrl.status',
+		logical => 'issue106/logical.status',
+		message => 'Smart HBA H240ar: Array A(OK)[LUN1:OK]',
 	},
 );
 
