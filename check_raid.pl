@@ -4214,6 +4214,7 @@ sub scan_targets {
 	while (<$fh>) {
 		# Numeric slot
 		if (my($model, $slot) = /^(\S.+) in Slot (.+)/) {
+			$slot =~ s/ \(RAID Mode\)//;
 			$slot =~ s/ \(Embedded\)//;
 			$targets{"slot=$slot"} = $model;
 			$this->unknown if $slot !~ /^\d+$/;
