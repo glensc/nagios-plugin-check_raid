@@ -1,2 +1,5 @@
-Error: Invalid target syntax. "(raid" is not a valid target. Type "help" for
-       more details.
+Smart HBA H240ar in Slot 0 (Embedded)
+
+   array A
+
+      logicaldrive 1 (558.9 GB, RAID 1, OK)
