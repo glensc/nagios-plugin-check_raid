@@ -2,6 +2,7 @@
 PLUGIN          := check_raid
 PLUGIN_SCRIPT   := $(PLUGIN).pl
 PLUGIN_VERSION  := $(shell test -e .git && git describe --tags || awk -F'"' '/VERSION/&&/=/{print $$2}' $(PLUGIN_SCRIPT))
+RPM_VERSION     := $(shell test -e .git && git describe --tags | sed -e 's/-/./g')
 PLUGINDIR       := /usr/lib/nagios/plugins
 PLUGINCONF      := /etc/nagios/plugins
 
@@ -41,3 +42,16 @@ dist:
 	rm -rf $(PLUGIN)-$(PLUGIN_VERSION)
 	md5sum -b $(PLUGIN)-$(PLUGIN_VERSION).tar.gz > $(PLUGIN)-$(PLUGIN_VERSION).tar.gz.md5
 	chmod 644 $(PLUGIN)-$(PLUGIN_VERSION).tar.gz $(PLUGIN)-$(PLUGIN_VERSION).tar.gz.md5
+
+rpm:
+	if [ -e ~/rpmbuild/SOURCES/$(PLUGIN) ]; then \
+		rm -rf ~/rpmbuild/SOURCES/$(PLUGIN); \
+	fi;
+	mkdir ~/rpmbuild/SOURCES/$(PLUGIN)
+	cp -a $(shell pwd)/* ~/rpmbuild/SOURCES/$(PLUGIN)
+	cp -a $(shell pwd)/.editorconfig ~/rpmbuild/SOURCES/$(PLUGIN)
+	cp -a $(shell pwd)/.gitattributes ~/rpmbuild/SOURCES/$(PLUGIN)
+	cp -a $(shell pwd)/.travis.yml ~/rpmbuild/SOURCES/$(PLUGIN)
+	find ~/rpmbuild/SOURCES/$(PLUGIN)/ -type f -name '*~' -exec rm {} \;
+	sed -e "s/###RPM_VERSION###/$(RPM_VERSION)/" nagios-plugin-$(PLUGIN).spec >~/rpmbuild/SPECS/nagios-plugin-$(PLUGIN).spec
+	rpmbuild -ba ~/rpmbuild/SPECS/nagios-plugin-$(PLUGIN).spec
