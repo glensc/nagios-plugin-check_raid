@@ -5,6 +5,18 @@ PLUGIN_VERSION  := $(shell test -e .git && git describe --tags || awk -F'"' '/VE
 PLUGINDIR       := /usr/lib/nagios/plugins
 PLUGINCONF      := /etc/nagios/plugins
 
+# rpm version related macros
+version_parts   := $(subst -, ,$(PLUGIN_VERSION))
+space           := $(nil) $(nil)
+RPM_VERSION     := $(firstword $(version_parts))
+RPM_RELEASE     := $(subst $(space),.,$(wordlist 2, $(words $(version_parts)), $(version_parts)))
+# if built from tag, release "1", otherwise "0.something"
+ifneq ($(RPM_RELEASE),)
+RPM_RELEASE     := 0.$(RPM_RELEASE)
+else
+RPM_RELEASE     := 1
+endif
+
 all:
 
 test:
@@ -41,3 +53,17 @@ dist:
 	rm -rf $(PLUGIN)-$(PLUGIN_VERSION)
 	md5sum -b $(PLUGIN)-$(PLUGIN_VERSION).tar.gz > $(PLUGIN)-$(PLUGIN_VERSION).tar.gz.md5
 	chmod 644 $(PLUGIN)-$(PLUGIN_VERSION).tar.gz $(PLUGIN)-$(PLUGIN_VERSION).tar.gz.md5
+
+rpm:
+	# needs to be ran in git checkout for version setup to work
+	test -d .git
+	rpmbuild -ba \
+		--define '_topdir $(CURDIR)' \
+		--define '_specdir %_topdir' \
+		--define '_sourcedir %_topdir' \
+		--define '_rpmdir %_topdir' \
+		--define '_srcrpmdir %_topdir' \
+		--define '_builddir %_topdir/BUILD' \
+		--define 'version $(RPM_VERSION)' \
+		--define 'release $(RPM_RELEASE)' \
+		nagios-plugin-$(PLUGIN).spec
