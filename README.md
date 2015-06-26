@@ -25,7 +25,7 @@ Download latest release from [releases](https://github.com/glensc/nagios-plugin-
 
 To download latest development version from github master (with wget or curl):
 
-    wget https://raw.github.com/glensc/nagios-plugin-check_raid/master/check_raid.pl -O check_raid.pl
+    wget https://raw.github.com/glensc/nagios-plugin-check_raid/master/check_raid.pl
     curl https://raw.github.com/glensc/nagios-plugin-check_raid/master/check_raid.pl > check_raid.pl
     chmod +x check_raid.pl
 
@@ -35,6 +35,10 @@ or tar format:
     tar xzf check_raid.tar.gz
     cd nagios-plugin-check_raid-*
 
+or git checkout:
+
+    git clone https://github.com/glensc/nagios-plugin-check_raid
+    cd nagios-plugin-check_raid
 
 next step would be to, setup system `sudo` rules:
 
