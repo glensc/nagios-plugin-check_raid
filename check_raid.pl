@@ -3198,6 +3198,9 @@ sub commands {
 		'detect hpsa' => ['<', '/sys/module/hpsa/refcnt'],
 		'detect cciss' => ['<', '/proc/driver/cciss'],
 		'cciss proc' => ['<', '/proc/driver/cciss/$controller'],
+
+		# for lsscsi, issue #109
+		'lsscsi list' => ['-|', '@CMD', '-g'],
 	}
 }
 
