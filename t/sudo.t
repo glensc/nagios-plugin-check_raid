@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 
-use Test::More tests => 19;
+use Test::More tests => 20;
 use test;
 
 my $bindir = TESTDIR . '/data/bin';
@@ -30,6 +30,7 @@ my %sudo = (
 	dpt_i2o => [],
 	cciss => [],
 	lsscsi => [],
+	hp_msa => [],
 
 	megacli => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/MegaCli -PDList -aALL -NoLog",

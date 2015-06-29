@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 
-use Test::More tests => 19;
+use Test::More tests => 20;
 use test;
 
 unshift(@utils::paths, TESTDIR . '/data/bin');
@@ -22,6 +22,10 @@ my $commands = {
 
 my %params = (
 	commands => $commands,
+	options => {
+		'hp_msa-serial' => '/dev/null',
+		'hp_msa-enabled' => 1,
+	},
 );
 
 # check that all plugins are enabled
