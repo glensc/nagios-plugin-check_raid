@@ -29,6 +29,9 @@ foreach my $test (@tests) {
 		lockdir => '.',
 		commands => {
 		},
+		options => {
+			'hp_msa-serial' => $test->{tty_device},
+		},
 	);
 
 	ok($plugin, "plugin created");
