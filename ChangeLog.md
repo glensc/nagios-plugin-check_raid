@@ -1,4 +1,4 @@
-## Unreleased
+## 3.2.4 (2015-07-03)
 
 - arcconf: handle unparsed data from Arcconf 1.7. [#99][]
 - cciss: parse spare drive status. [#100][]
