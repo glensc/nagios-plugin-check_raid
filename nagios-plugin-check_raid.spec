@@ -1,3 +1,5 @@
+%define	have_suggests	0%{?pld_release:1}
+
 %define		plugin	check_raid
 Summary:	Nagios plugin to check current server's RAID status
 Name:		nagios-plugin-%{plugin}
@@ -11,6 +13,7 @@ URL:		https://github.com/glensc/nagios-plugin-check_raid
 Requires:	%{plugindir}
 Requires:	/usr/bin/perl
 Requires:	sudo
+%if %{have_suggests}
 Suggests:	CmdTool2
 Suggests:	arcconf
 Suggests:	areca-cli
@@ -22,6 +25,7 @@ Suggests:	megarc-scsi
 Suggests:	mpt-status
 Suggests:	smartmontools
 Suggests:	tw_cli-9xxx
+%endif
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
