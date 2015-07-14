@@ -29,8 +29,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		plugindir	%{_prefix}/lib/nagios/plugins
 
 %description
-This plugin chekcs Check all RAID volumes (hardware and software) that
-can be identified.
+This plugin checks all RAID volumes (hardware and software) that can
+be identified.
 
 Supports:
 - AIX software RAID via lsvg
@@ -59,6 +59,9 @@ Supports:
 %setup -qcT
 cp -p %{SOURCE0} .
 cp -p %{SOURCE1} .
+cp -p %{_sourcedir}/README.md .
+cp -p %{_sourcedir}/ChangeLog.md .
+cp -p %{_sourcedir}/CONTRIBUTING.md .
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -83,5 +86,6 @@ fi
 
 %files
 %defattr(644,root,root,755)
+%doc README.md ChangeLog.md CONTRIBUTING.md
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{plugin}.cfg
 %attr(755,root,root) %{plugindir}/%{plugin}
