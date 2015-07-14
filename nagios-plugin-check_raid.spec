@@ -9,6 +9,9 @@ License:	GPL v2
 Group:		Networking
 Source0:	%{plugin}.pl
 Source1:	%{plugin}.cfg
+Source2:	README.md
+Source3:	ChangeLog.md
+Source4:	CONTRIBUTING.md
 URL:		https://github.com/glensc/nagios-plugin-check_raid
 Requires:	%{plugindir}
 Requires:	/usr/bin/perl
@@ -63,9 +66,9 @@ Supports:
 %setup -qcT
 cp -p %{SOURCE0} .
 cp -p %{SOURCE1} .
-cp -p %{_sourcedir}/README.md .
-cp -p %{_sourcedir}/ChangeLog.md .
-cp -p %{_sourcedir}/CONTRIBUTING.md .
+cp -p %{SOURCE2} .
+cp -p %{SOURCE3} .
+cp -p %{SOURCE4} .
 
 %install
 rm -rf $RPM_BUILD_ROOT
