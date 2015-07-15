@@ -1,0 +1,4 @@
+/dev/cciss/c0d0: (Smart Array P400) RAID 1 Volume 0 status: OK. 
+/dev/cciss/c1d0: (Smart Array P800) RAID 1 Volume 0 status: OK. 
+/dev/cciss/c1d0: (Smart Array P800) Enclosure MSA70 (S/N: SGA651004J) on Bus 2, Physical Port 1E status: OK.
+/dev/cciss/c1d0: (Smart Array P800) Enclosure MSA70 (S/N: SGA6510007) on Bus 3, Physical Port 1E status: Temperature problem.

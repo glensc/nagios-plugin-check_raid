@@ -1,0 +1,5 @@
+root@bruno ~# lsscsi -g
+[0:0:0:0]    disk    HP       LOGICAL VOLUME   5.14  /dev/sda   /dev/sg1 
+[0:3:0:0]    storage HP       P410i            5.14  -          /dev/sg0 
+
+

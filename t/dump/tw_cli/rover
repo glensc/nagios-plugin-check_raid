@@ -1,0 +1,70 @@
+$VAR1 = {
+	'c0' => {
+		'model' => '9500S-8',
+		'ports' => 8,
+		'drives' => 6,
+		'units' => 1,
+		'optimal' => 1,
+		'rrate' => 1,
+		'vrate' => 1,
+		'bbu' => undef,
+
+		'unitstatus' => {
+			'u0' => {
+				'status' => 'OK',
+				'size' => '1396.93',
+				'rebuild_percent' => '-',
+				'strip' => '64K',
+				'type' => 'RAID-5',
+				'vim_percent' => '-',
+				'avrify' => 'OFF',
+				'cache' => 'OFF'
+			},
+		},
+
+		'drivestatus' => {
+			'p0' => {
+				'unit' => 'u0',
+				'blocks' => 586072368,
+				'serial' => '3NF07VGV',
+				'status' => 'OK',
+				'size' => '279.46 GB',
+			},
+			'p1' => {
+				'unit' => 'u0',
+				'blocks' => 586072368,
+				'serial' => '3NF0DXAH',
+				'status' => 'OK',
+				'size' => '279.46 GB',
+			},
+			'p2' => {
+				'unit' => 'u0',
+				'blocks' => 586072368,
+				'serial' => '3NF0A39B',
+				'status' => 'OK',
+				'size' => '279.46 GB',
+			},
+			'p3' => {
+				'unit' => 'u0',
+				'blocks' => 586072368,
+				'serial' => '3NF0C1KJ',
+				'status' => 'OK',
+				'size' => '279.46 GB',
+			},
+			'p4' => {
+				'unit' => 'u0',
+				'blocks' => 586072368,
+				'serial' => '3NF0D3JR',
+				'status' => 'OK',
+				'size' => '279.46 GB',
+			},
+			'p5' => {
+				'unit' => 'u0',
+				'blocks' => 625142448,
+				'serial' => '6QF1JJY8',
+				'status' => 'OK',
+				'size' => '298.09 GB',
+			},
+		},
+	}
+};

@@ -1,0 +1,16 @@
+$VAR1 = {
+          '/dev/sda' => {
+                          'board_name' => 'Smart Array P410i',
+                          'phys_failed' => '1',
+                          'volumes' => {
+                                         '0' => {
+                                                  'board_name' => 'Smart Array P410i',
+                                                  'certain' => 1,
+                                                  'raid_level' => 'RAID 5',
+                                                  'status' => 'OK',
+                                                  'spare_drive_status' => 'At least one spare drive designated.  At least one spare drive has failed.',
+                                                  'volume_number' => '0'
+                                                }
+                                       }
+                        }
+        };

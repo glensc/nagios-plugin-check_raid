@@ -1,0 +1,168 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Okay
+   Channel description                      : SAS/SATA
+   Controller Model                         : IBM ServeRAID 8k-l  
+   Controller Serial Number                 : 4061EDA
+   Physical Slot                            : 0
+   Installed memory                         : 32 MB
+   Copyback                                 : Disabled
+   Data scrubbing                           : Enabled
+   Automatic Failover                       : Enabled
+   Defunct disk drive count                 : 1
+   Logical drives/Offline/Critical          : 1/1/0
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 5.2-0 (17003)
+   Firmware                                 : 5.2-0 (17003)
+   Driver                                   : 1.1-5 (2456)
+   Boot Flash                               : 5.1-0 (15411)
+   --------------------------------------------------------
+   Controller Battery Information
+   --------------------------------------------------------
+   Status                                   : Not Installed
+   --------------------------------------------------------
+   Controller Vital Product Data
+   --------------------------------------------------------
+   VPD Assigned#                            : 25R8078
+   EC Version#                              : J85097A
+   Controller FRU#                          : 25R8079
+
+----------------------------------------------------------------------
+Logical drive information
+----------------------------------------------------------------------
+Logical drive number 0
+   Logical drive name                       : ARRAY01
+   RAID level                               : Spanned_volume
+   Status of logical drive                  : Offline
+   Size                                     : 5722200 MB
+   Write-cache mode                         : Not supported
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : No
+   Bootable                                 : Yes
+   Defunct stripes                          : No
+   --------------------------------------------------------
+   Logical drive segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (0,0)             9QJ40LQ5
+   Segment 1                                : Present (0,1)             9QJ3ZX84
+   Segment 2                                : Present (0,2)             9QJ3Y860
+   Segment 3                                : Present (0,3)             9QJ3ZX0D
+   Segment 4                                : Present (0,4)             9QJ3ZXZ4
+   Segment 5                                : Inconsistent (0,5) 
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 1.5 Gb/s
+         Reported Channel,Device            : 0,0
+         Reported Location                  : Enclosure 0, Slot 0
+         Reported ESD                       : 2,0
+         Vendor                             : ST310003
+         Model                              : 40NS
+         Firmware                           : BB12
+         Serial number                      : 9QJ40LQ5
+         Size                               : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         PFA                                : No
+      Device #1
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 1.5 Gb/s
+         Reported Channel,Device            : 0,1
+         Reported Location                  : Enclosure 0, Slot 1
+         Reported ESD                       : 2,0
+         Vendor                             : ST310003
+         Model                              : 40NS
+         Firmware                           : BB12
+         Serial number                      : 9QJ3ZX84
+         Size                               : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         PFA                                : No
+      Device #2
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 1.5 Gb/s
+         Reported Channel,Device            : 0,2
+         Reported Location                  : Enclosure 0, Slot 2
+         Reported ESD                       : 2,0
+         Vendor                             : ST310003
+         Model                              : 40NS
+         Firmware                           : BB12
+         Serial number                      : 9QJ3Y860
+         Size                               : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         PFA                                : No
+      Device #3
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 1.5 Gb/s
+         Reported Channel,Device            : 0,3
+         Reported Location                  : Enclosure 0, Slot 3
+         Reported ESD                       : 2,0
+         Vendor                             : ST310003
+         Model                              : 40NS
+         Firmware                           : BB12
+         Serial number                      : 9QJ3ZX0D
+         Size                               : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         PFA                                : No
+      Device #4
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : SATA 1.5 Gb/s
+         Reported Channel,Device            : 0,4
+         Reported Location                  : Enclosure 0, Slot 4
+         Reported ESD                       : 2,0
+         Vendor                             : ST310003
+         Model                              : 40NS
+         Firmware                           : BB12
+         Serial number                      : 9QJ3ZXZ4
+         Size                               : 953869 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         PFA                                : No
+      Device #5
+         Device is a Hard drive
+         State                              : Defunct
+         Supported                          : Yes
+         Transfer Speed                     : Defunct
+         Reported Channel,Device            : 0,5
+         Reported Location                  : Enclosure 0, Slot 5
+         Reported ESD                       : 2,0
+         Vendor                             : ST310003
+         Model                              : 40NS
+         Firmware                           : BB12
+         Size                               : 0 MB
+         Write Cache                        : Unknown
+         FRU                                : None
+         PFA                                : Yes
+      Device #6
+         Device is an Enclosure services device
+         Reported Channel,Device            : 2,0
+         Enclosure ID                       : 0
+         Type                               : SES2
+         Vendor                             : IBM-ESXS
+         Model                              : VSC7160
+         Firmware                           : 1.07
+         Status of Enclosure services device
+            Temperature                     : Normal
+
+
+Command completed successfully.

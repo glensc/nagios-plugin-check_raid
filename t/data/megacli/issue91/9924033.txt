@@ -1,0 +1,357 @@
+                                     
+Adapter #0
+
+Enclosure Device ID: 32
+Slot Number: 0
+Drive's postion: DiskGroup: 0, Span: 0, Arm: 0
+Enclosure position: 0
+Device Id: 0
+WWN: 
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 558.911 GB [0x45dd2fb0 Sectors]
+Non Coerced Size: 558.411 GB [0x45cd2fb0 Sectors]
+Coerced Size: 558.375 GB [0x45cc0000 Sectors]
+Firmware state: Online, Spun Up
+Device Firmware Level: 0370
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x4433221104000000
+Connected Port Number: 6(path0) 
+Inquiry Data: BTWL420303WT600TGN  INTEL SSDSC2BB600G4                     D2010370
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Solid State Device
+Drive:  Not Certified
+Drive Temperature :26C (78.80 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Drive's write cache : Disabled
+Drive's NCQ setting : Disabled
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 1
+Drive's postion: DiskGroup: 0, Span: 0, Arm: 1
+Enclosure position: 0
+Device Id: 1
+WWN: 
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 558.911 GB [0x45dd2fb0 Sectors]
+Non Coerced Size: 558.411 GB [0x45cd2fb0 Sectors]
+Coerced Size: 558.375 GB [0x45cc0000 Sectors]
+Firmware state: Online, Spun Up
+Device Firmware Level: 0370
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x4433221105000000
+Connected Port Number: 7(path0) 
+Inquiry Data: BTWL420303V9600TGN  INTEL SSDSC2BB600G4                     D2010370
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Solid State Device
+Drive:  Not Certified
+Drive Temperature :26C (78.80 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Drive's write cache : Disabled
+Drive's NCQ setting : Disabled
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 2
+Drive's postion: DiskGroup: 0, Span: 0, Arm: 2
+Enclosure position: 0
+Device Id: 2
+WWN: 
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 558.911 GB [0x45dd2fb0 Sectors]
+Non Coerced Size: 558.411 GB [0x45cd2fb0 Sectors]
+Coerced Size: 558.375 GB [0x45cc0000 Sectors]
+Firmware state: Online, Spun Up
+Device Firmware Level: 0362
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x4433221106000000
+Connected Port Number: 4(path0) 
+Inquiry Data: BTPR311401EG600FGN  INTEL SSDSA2BW600G3D                    4PC10362
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 3.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Solid State Device
+Drive:  Not Certified
+Drive Temperature : N/A
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Drive's write cache : Disabled
+Drive's NCQ setting : Disabled
+Port-0 :
+Port status: Active
+Port's Linkspeed: 3.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 3
+Drive's postion: DiskGroup: 0, Span: 0, Arm: 3
+Enclosure position: 0
+Device Id: 3
+WWN: 
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 558.911 GB [0x45dd2fb0 Sectors]
+Non Coerced Size: 558.411 GB [0x45cd2fb0 Sectors]
+Coerced Size: 558.375 GB [0x45cc0000 Sectors]
+Firmware state: Online, Spun Up
+Device Firmware Level: 0362
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x4433221107000000
+Connected Port Number: 5(path0) 
+Inquiry Data: BTPR322002QM600FGN  INTEL SSDSA2BW600G3D                    4PC10362
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 3.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Solid State Device
+Drive:  Not Certified
+Drive Temperature : N/A
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Drive's write cache : Disabled
+Drive's NCQ setting : Disabled
+Port-0 :
+Port status: Active
+Port's Linkspeed: 3.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 4
+Drive's postion: DiskGroup: 0, Span: 0, Arm: 4
+Enclosure position: 0
+Device Id: 4
+WWN: 
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 558.911 GB [0x45dd2fb0 Sectors]
+Non Coerced Size: 558.411 GB [0x45cd2fb0 Sectors]
+Coerced Size: 558.375 GB [0x45cc0000 Sectors]
+Firmware state: Online, Spun Up
+Device Firmware Level: 0362
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x4433221100000000
+Connected Port Number: 0(path0) 
+Inquiry Data: BTPR326102KN600FGN  INTEL SSDSA2BW600G3D                    4PC10362
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 3.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Solid State Device
+Drive:  Not Certified
+Drive Temperature : N/A
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Drive's write cache : Disabled
+Drive's NCQ setting : Disabled
+Port-0 :
+Port status: Active
+Port's Linkspeed: 3.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 5
+Drive's postion: DiskGroup: 0, Span: 0, Arm: 5
+Enclosure position: 0
+Device Id: 5
+WWN: 
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 558.911 GB [0x45dd2fb0 Sectors]
+Non Coerced Size: 558.411 GB [0x45cd2fb0 Sectors]
+Coerced Size: 558.375 GB [0x45cc0000 Sectors]
+Firmware state: Online, Spun Up
+Device Firmware Level: 0362
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x4433221101000000
+Connected Port Number: 2(path0) 
+Inquiry Data: BTPR311303KN600FGN  INTEL SSDSA2BW600G3D                    4PC10362
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 3.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Solid State Device
+Drive:  Not Certified
+Drive Temperature : N/A
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Drive's write cache : Disabled
+Drive's NCQ setting : Disabled
+Port-0 :
+Port status: Active
+Port's Linkspeed: 3.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 6
+Drive's postion: DiskGroup: 0, Span: 0, Arm: 6
+Enclosure position: 0
+Device Id: 6
+WWN: 
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 558.911 GB [0x45dd2fb0 Sectors]
+Non Coerced Size: 558.411 GB [0x45cd2fb0 Sectors]
+Coerced Size: 558.375 GB [0x45cc0000 Sectors]
+Firmware state: Online, Spun Up
+Device Firmware Level: 0362
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x4433221102000000
+Connected Port Number: 3(path0) 
+Inquiry Data: BTPR321401G2600FGN  INTEL SSDSA2BW600G3D                    4PC10362
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 3.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Solid State Device
+Drive:  Not Certified
+Drive Temperature : N/A
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Drive's write cache : Disabled
+Drive's NCQ setting : Disabled
+Port-0 :
+Port status: Active
+Port's Linkspeed: 3.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 7
+Drive's postion: DiskGroup: 1, Span: 0, Arm: 0
+Enclosure position: 0
+Device Id: 7
+WWN: 
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SATA
+Raw Size: 558.911 GB [0x45dd2fb0 Sectors]
+Non Coerced Size: 558.411 GB [0x45cd2fb0 Sectors]
+Coerced Size: 558.375 GB [0x45cc0000 Sectors]
+Firmware state: Online, Spun Up
+Device Firmware Level: 0362
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x4433221103000000
+Connected Port Number: 1(path0) 
+Inquiry Data: BTPR32200491600FGN  INTEL SSDSA2BW600G3D                    4PC10362
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 3.0Gb/s 
+Link Speed: 3.0Gb/s 
+Media Type: Solid State Device
+Drive:  Not Certified
+Drive Temperature : N/A
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Drive's write cache : Disabled
+Drive's NCQ setting : Disabled
+Port-0 :
+Port status: Active
+Port's Linkspeed: 3.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+
+Exit Code: 0x00

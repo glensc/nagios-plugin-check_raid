@@ -1,0 +1,138 @@
+[09:06 AM] imap01-winn:/# metastat
+d30: Mirror
+    Submirror 0: d31
+      State: Okay
+    Submirror 1: d32
+      State: Okay
+    Pass: 1
+    Read option: roundrobin (default)
+    Write option: parallel (default)
+    Size: 71083845 blocks (33 GB)
+
+d31: Submirror of d30
+    State: Okay
+    Size: 71083845 blocks (33 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t2d0s6          0     No            Okay   Yes
+
+
+d32: Submirror of d30
+    State: Okay
+    Size: 71083845 blocks (33 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t3d0s6          0     No            Okay   Yes
+
+
+d3: Mirror
+    Submirror 0: d8
+      State: Okay
+    Submirror 1: d9
+      State: Okay
+    Pass: 1
+    Read option: roundrobin (default)
+    Write option: parallel (default)
+    Size: 12289806 blocks (5.9 GB)
+
+d8: Submirror of d3
+    State: Okay
+    Size: 12289806 blocks (5.9 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t0d0s7          0     No            Okay   Yes
+
+
+d9: Submirror of d3
+    State: Okay
+    Size: 12289806 blocks (5.9 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t1d0s7          0     No            Okay   Yes
+
+
+d1: Mirror
+    Submirror 0: d6
+      State: Okay
+    Submirror 1: d7
+      State: Okay
+    Pass: 1
+    Read option: roundrobin (default)
+    Write option: parallel (default)
+    Size: 32769927 blocks (15 GB)
+
+d6: Submirror of d1
+    State: Okay
+    Size: 32769927 blocks (15 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t0d0s1          0     No            Okay   Yes
+
+
+d7: Submirror of d1
+    State: Okay
+    Size: 32769927 blocks (15 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t1d0s1          0     No            Okay   Yes
+
+
+d0: Mirror
+    Submirror 0: d4
+      State: Okay
+    Submirror 1: d5
+      State: Okay
+    Pass: 1
+    Read option: roundrobin (default)
+    Write option: parallel (default)
+    Size: 16386408 blocks (7.8 GB)
+
+d4: Submirror of d0
+    State: Okay
+    Size: 16386408 blocks (7.8 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t0d0s0          0     No            Okay   Yes
+
+
+d5: Submirror of d0
+    State: Okay
+    Size: 16386408 blocks (7.8 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t1d0s0          0     No            Okay   Yes
+
+
+d2: Mirror
+    Submirror 0: d10
+      State: Okay
+    Submirror 1: d11
+      State: Okay
+    Pass: 1
+    Read option: roundrobin (default)
+    Write option: parallel (default)
+    Size: 9637704 blocks (4.6 GB)
+
+d10: Submirror of d2
+    State: Okay
+    Size: 9637704 blocks (4.6 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t0d0s3          0     No            Okay   Yes
+
+
+d11: Submirror of d2
+    State: Okay
+    Size: 9637704 blocks (4.6 GB)
+    Stripe 0:
+        Device     Start Block  Dbase        State Reloc Hot Spare
+        c1t1d0s3          0     No            Okay   Yes
+
+
+Device Relocation Information:
+Device   Reloc  Device ID
+c1t3d0   Yes    id1,sd@SFUJITSU_MAP3367N_SUN36G_00N0BF1K____
+c1t2d0   Yes    id1,sd@SSEAGATE_ST336607LSUN36G_3JA6LR7N00007422W6QK
+c1t1d0   Yes    id1,sd@SSEAGATE_ST336607LSUN36G_3JA69DGJ00007414CGBC
+c1t0d0   Yes    id1,sd@SSEAGATE_ST336607LSUN36G_3JA6AVF800007415Q53B
+

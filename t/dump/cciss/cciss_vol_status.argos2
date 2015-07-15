@@ -1,0 +1,76 @@
+$VAR1 = {
+	'/dev/cciss/c0d0' => {
+		'board_name' => 'Smart Array P400i',
+		'pd count' => 4,
+
+		'volumes' => {
+			0 => {
+				'board_name' => 'Smart Array P400i',
+				'volume_number' => 0,
+				'raid_level' => 'RAID 6',
+				'certain' => 1,
+				'status' => 'OK',
+				'spare_drive_status' => '',
+			},
+		},
+
+		'drives' => {
+			'1I-1-1' => {
+				'slot' => '1I-1-1',
+				'bay' => 1,
+				'phys1' => '1',
+				'phys2' => 'I',
+				'status' => 'OK',
+				'serial' => '3NP3BQ2700009910VW93',
+				'model' => 'HP      DG072BB975',
+				'fw' => 'HPDC',
+				'box' => 1,
+			},
+			'1I-1-2' => {
+				'slot' => '1I-1-2',
+				'bay' => 2,
+				'phys1' => '1',
+				'phys2' => 'I',
+				'status' => 'OK',
+				'serial' => '3NP3BQFM00009910VVWG',
+				'model' => 'HP      DG072BB975',
+				'fw' => 'HPDC',
+				'box' => 1,
+			},
+			'1I-1-3' => {
+				'slot' => '1I-1-3',
+				'bay' => 3,
+				'phys1' => '1',
+				'phys2' => 'I',
+				'status' => 'OK',
+				'serial' => '3NP3FVRE00009917SQV1',
+				'model' => 'HP      DG072BB975',
+				'fw' => 'HPDC',
+				'box' => 1,
+			},
+			'1I-1-4' => {
+				'slot' => '1I-1-4',
+				'bay' => 4,
+				'phys1' => '1',
+				'phys2' => 'I',
+				'status' => 'OK',
+				'serial' => '3NP3FVL400009917THQT',
+				'model' => 'HP      DG072BB975',
+				'fw' => 'HPDC',
+				'box' => 1,
+			},
+		},
+
+		'cache' => {
+			'disabled_temporarily' => 1,
+			'disabled_temporarily diagnostic' => 'Temporary disable condition. Posted write operations have been disabled due to the fact that less than 75% of the battery packs are at the sufficient voltage level.',
+			'configured' => 'Yes',
+			'file' => '/dev/cciss/c0d0',
+			'write_cache_enabled' => 'No',
+			'write_cache_memory' => '104 MiB',
+			'board' => 'Smart Array P400i',
+			'read_cache_memory' => '104 MiB',
+			'instance' => 0,
+		},
+	}
+};

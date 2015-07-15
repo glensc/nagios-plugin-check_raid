@@ -1,0 +1,6 @@
+[0:0:0:0]    enclosu HP       P2000G3 FC/iSCSI T100  -         /dev/sg0
+[0:0:0:210]  disk    HP       P2000G3 FC/iSCSI T100  /dev/sda  /dev/sg2
+[0:0:0:220]  disk    HP       P2000G3 FC/iSCSI T100  /dev/sdc  /dev/sg4
+[0:0:1:0]    enclosu HP       P2000G3 FC/iSCSI T100  -         /dev/sg1
+[0:0:1:210]  disk    HP       P2000G3 FC/iSCSI T100  /dev/sdb  /dev/sg3
+[0:0:1:220]  disk    HP       P2000G3 FC/iSCSI T100  /dev/sdd  /dev/sg5

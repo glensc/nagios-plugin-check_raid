@@ -1,0 +1,13 @@
+Smart Array P410 in Slot 1
+
+   array A
+
+      logicaldrive 1 (558.9 GB, RAID 1, OK)
+
+   array B (Failed)
+
+      logicaldrive 2 (2.2 TB, RAID 5, OK)
+
+   array C
+
+      logicaldrive 3 (2.2 TB, RAID 5, OK)

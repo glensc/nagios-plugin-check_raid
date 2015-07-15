@@ -7,14 +7,16 @@ BEGIN {
 use strict;
 use warnings;
 
-use Test::More tests => 18;
+use Test::More tests => 20;
 use test;
 
 my $bindir = TESTDIR . '/data/bin';
 unshift(@utils::paths, $bindir);
 
 my $commands = {
-	proc => ['<', '.']
+	proc => ['<', '.'],
+	'cciss_vol_status version' => ['<', TESTDIR . '/data/cciss/cciss-1.09' ],
+	'lsscsi list' => [ '<', '/dev/null' ],
 };
 
 my %params = (
@@ -28,6 +30,7 @@ my %sudo = (
 	dpt_i2o => [],
 	cciss => [],
 	lsscsi => [],
+	hp_msa => [],
 
 	megacli => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/MegaCli -PDList -aALL -NoLog",
@@ -47,7 +50,7 @@ my %sudo = (
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/mpt-status -p",
 	],
 	tw_cli => [
-		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/tw_cli info*",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/tw_cli-9xxx info*",
 	],
 	arcconf => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/arcconf GETSTATUS 1",
@@ -77,6 +80,9 @@ my %sudo = (
 	dmraid => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/dmraid -r",
 	],
+	metastat => [
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/metastat",
+	],
 );
 
 # check that sudo rules are what expected (to understand when they change)
@@ -86,6 +92,5 @@ foreach my $pn (@utils::plugins) {
 
 	my $exp = join "\n", @{$sudo{$pn}};
 	my $rules = join "\n", @rules;
-	printf("%s => '%s' ne '%s'\n", $pn, $exp, $rules) if $exp ne $rules;
-	ok($exp eq $rules, "$pn sudo ok");
+	is($rules, $exp, "$pn sudo ok");
 }

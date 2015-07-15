@@ -1,0 +1,14 @@
+Controller: Smart Array P410i
+  Board ID: 0x3245103c
+  Logical drives: 1
+  Running firmware: 6.60
+  ROM firmware: 6.60
+/dev/sda: (Smart Array P410i) RAID 5 Volume 0 status: OK.   At least one spare drive designated.  At least one spare drive has failed.
+  Failed drives:
+         connector 1I box 1 bay 4                 HP      EF0300FARMU                          6SJ8ND840000N5191GHP     HPD6
+
+    Total of 1 failed physical drives detected on this logical drive.
+  Physical drives: 3
+         connector 1I box 1 bay 1                 HP      EF0300FATFD                                      JXY1BLJN     HPDB OK
+         connector 1I box 1 bay 2                 HP      EF0300FATFD                                      JXXY6ZUN     HPDB OK
+         connector 1I box 1 bay 3                 HP      EF0300FATFD                                      JXY1MARN     HPDB OK

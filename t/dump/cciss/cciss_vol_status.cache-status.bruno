@@ -1,0 +1,54 @@
+$VAR1 = {
+	'/dev/sda' => {
+		'board_name' => 'Smart Array P410i',
+		'pd count' => 2,
+
+		'volumes' => {
+			0 => {
+				'board_name' => 'Smart Array P410i',
+				'volume_number' => 0,
+				'raid_level' => 'RAID 1',
+				'certain' => 1,
+				'status' => 'OK',
+				'spare_drive_status' => '',
+			},
+		},
+
+		'drives' => {
+			'1I-1-1' => {
+				'slot' => '1I-1-1',
+				'bay' => 1,
+				'phys1' => '1',
+				'phys2' => 'I',
+				'status' => 'OK',
+				'serial' => '6XN06HGP0000B147NV0K',
+				'model' => 'HP      EH0300FBQDD',
+				'fw' => 'HPD1',
+				'box' => 1,
+			},
+
+			'1I-1-2' => {
+				'slot' => '1I-1-2',
+				'bay' => 2,
+				'phys1' => '1',
+				'phys2' => 'I',
+				'status' => 'OK',
+				'serial' => '6XN07A4L0000S147YQP7',
+				'model' => 'HP      EH0300FBQDD',
+				'fw' => 'HPD1',
+				'box' => 1,
+			},
+		},
+
+		'cache' => {
+			'configured' => 'Yes',
+			'file' => '/dev/sg0',
+			'write_cache_enabled' => 'Yes',
+			'write_cache_memory' => '300 MiB',
+			'board' => 'Smart Array P410i',
+			'read_cache_memory' => '100 MiB',
+			'instance' => 0,
+			'flash_cache' => 1,
+		},
+	},
+};

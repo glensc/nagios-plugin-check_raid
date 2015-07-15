@@ -1,0 +1,140 @@
+$VAR1 = {
+	'c0' => {
+		'model' => '9650SE-16ML',
+		'ports' => 16,
+		'drives' => 16,
+		'units' => 1,
+		'optimal' => 1,
+		'rrate' => 5,
+		'vrate' => 1,
+		'bbu' => 'OK',
+
+		'unitstatus' => {
+			'u0' => {
+				'status' => 'OK',
+				'size' => '12107.1',
+				'rebuild_percent' => '-',
+				'strip' => '64K',
+				'type' => 'RAID-6',
+				'vim_percent' => '-',
+				'avrify' => 'OFF',
+				'cache' => 'ON'
+			}
+		},
+
+		'drivestatus' => {
+			'p5' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => 'S13PJ1NQC03011',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p7' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => 'S13PJ1NQC03017',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p0' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => 'S246JDWZ134931',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p11' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => 'S13PJ1NQC03014',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p10' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => 'S246JDWZ134930',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p13' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => 'S13PJ1NQC03018',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p14' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => 'S13PJ1NQC03021',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p6' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => 'S13PJ1NQC03012',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p1' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => 'S246JDWZ134929',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p4' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => 'S246JDWZ134927',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p2' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => 'S246JDWZ134928',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p8' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => '9QJ16BC3',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p15' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => 'S13PJ1NQC03019',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p3' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => 'S246JDWZ134932',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p12' => {
+				'unit' => '-',
+				'blocks' => 1953525168,
+				'serial' => '9QJ2NWT2',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+			'p9' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => 'S13PJ1NQC03015',
+				'status' => 'OK',
+				'size' => '931.51 GB'
+			},
+		},
+	},
+};

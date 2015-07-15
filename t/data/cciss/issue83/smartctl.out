@@ -1,0 +1,104 @@
+$ cat smartctl.out
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+SMART Health Status: OK
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+SMART Health Status: OK
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+SMART Health Status: OK
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+Standard Inquiry (36 bytes) failed [No such device or address]
+Retrying with a 64 byte Standard Inquiry
+Standard Inquiry (64 bytes) failed [No such device or address]
+A mandatory SMART command failed: exiting. To continue, add one or more '-T permissive' options.
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+Standard Inquiry (36 bytes) failed [No such device or address]
+Retrying with a 64 byte Standard Inquiry
+Standard Inquiry (64 bytes) failed [No such device or address]
+A mandatory SMART command failed: exiting. To continue, add one or more '-T permissive' options.
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+Standard Inquiry (36 bytes) failed [No such device or address]
+Retrying with a 64 byte Standard Inquiry
+Standard Inquiry (64 bytes) failed [No such device or address]
+A mandatory SMART command failed: exiting. To continue, add one or more '-T permissive' options.
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+Standard Inquiry (36 bytes) failed [No such device or address]
+Retrying with a 64 byte Standard Inquiry
+Standard Inquiry (64 bytes) failed [No such device or address]
+A mandatory SMART command failed: exiting. To continue, add one or more '-T permissive' options.
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+Standard Inquiry (36 bytes) failed [No such device or address]
+Retrying with a 64 byte Standard Inquiry
+Standard Inquiry (64 bytes) failed [No such device or address]
+A mandatory SMART command failed: exiting. To continue, add one or more '-T permissive' options.
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+Standard Inquiry (36 bytes) failed [No such device or address]
+Retrying with a 64 byte Standard Inquiry
+Standard Inquiry (64 bytes) failed [No such device or address]
+A mandatory SMART command failed: exiting. To continue, add one or more '-T permissive' options.
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+Standard Inquiry (36 bytes) failed [No such device or address]
+Retrying with a 64 byte Standard Inquiry
+Standard Inquiry (64 bytes) failed [No such device or address]
+A mandatory SMART command failed: exiting. To continue, add one or more '-T permissive' options.
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+Standard Inquiry (36 bytes) failed [No such device or address]
+Retrying with a 64 byte Standard Inquiry
+Standard Inquiry (64 bytes) failed [No such device or address]
+A mandatory SMART command failed: exiting. To continue, add one or more '-T permissive' options.
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+Standard Inquiry (36 bytes) failed [No such device or address]
+Retrying with a 64 byte Standard Inquiry
+Standard Inquiry (64 bytes) failed [No such device or address]
+A mandatory SMART command failed: exiting. To continue, add one or more '-T permissive' options.
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+Standard Inquiry (36 bytes) failed [No such device or address]
+Retrying with a 64 byte Standard Inquiry
+Standard Inquiry (64 bytes) failed [No such device or address]
+A mandatory SMART command failed: exiting. To continue, add one or more '-T permissive' options.
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+Standard Inquiry (36 bytes) failed [No such device or address]
+Retrying with a 64 byte Standard Inquiry
+Standard Inquiry (64 bytes) failed [No such device or address]
+A mandatory SMART command failed: exiting. To continue, add one or more '-T permissive' options.
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+Standard Inquiry (36 bytes) failed [No such device or address]
+Retrying with a 64 byte Standard Inquiry
+Standard Inquiry (64 bytes) failed [No such device or address]
+A mandatory SMART command failed: exiting. To continue, add one or more '-T permissive' options.
+smartctl 5.41 2011-06-09 r3365 [i686-linux-3.2.0-4-686-pae] (local build)
+Copyright (C) 2002-11 by Bruce Allen, http://smartmontools.sourceforge.net
+
+Standard Inquiry (36 bytes) failed [No such device or address]
+Retrying with a 64 byte Standard Inquiry
+Standard Inquiry (64 bytes) failed [No such device or address]
+A mandatory SMART command failed: exiting. To continue, add one or more '-T permissive' options.

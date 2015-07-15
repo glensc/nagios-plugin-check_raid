@@ -1,0 +1,59 @@
+$VAR1 = {
+          'battery' => [],
+          'logical' => [
+                         {
+                           'current_cache' => [
+                                                'WriteThrough',
+                                                'ReadAheadNone',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'default_cache' => [
+                                                'WriteBack',
+                                                'ReadAheadNone',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'name' => 'DISK0.0',
+                           'state' => 'Optimal'
+                         }
+                       ],
+          'physical' => [
+                          {
+                            'dev' => '0',
+                            'name' => 'SEAGATE ST3450857SS ES643SK1NLYN',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '1',
+                            'name' => 'SEAGATE ST3450857SS ES643SK1MYJN',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '2',
+                            'name' => 'SEAGATE ST3450857SS ES656SK1ACPY',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '3',
+                            'name' => 'SEAGATE ST3450857SS ES656SK1BPCJ',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '4',
+                            'name' => 'SEAGATE ST3450857SS ES656SK1CK90',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '5',
+                            'name' => 'SEAGATE ST3450857SS ES646SK1A9T4',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          }
+                        ]
+        };

@@ -1,0 +1,20 @@
+Controller: Smart Array P400i
+  Board ID: 0x3235103c
+  Logical drives: 1
+  Running firmware: 5.20
+  ROM firmware: 5.20
+/dev/cciss/c0d0: (Smart Array P400i) RAID 6 Volume 0 status: OK. 
+  Physical drives: 4
+         connector 1I box 1 bay 1                 HP      DG072BB975                           3NP3BQ2700009910VW93     HPDC OK
+         connector 1I box 1 bay 2                 HP      DG072BB975                           3NP3BQFM00009910VVWG     HPDC OK
+         connector 1I box 1 bay 3                 HP      DG072BB975                           3NP3FVRE00009917SQV1     HPDC OK
+         connector 1I box 1 bay 4                 HP      DG072BB975                           3NP3FVL400009917THQT     HPDC OK
+/dev/cciss/c0d0(Smart Array P400i:0): Non-Volatile Cache status:
+                   Cache configured: Yes
+                  Read cache memory: 104 MiB
+                 Write cache memory: 104 MiB
+                Write cache enabled: No
+   Write cache temporarily disabled
+           Temporary disable condition. Posted write operations have
+been disabled due to the fact that less than 75% of the
+battery packs are at the sufficient voltage level.

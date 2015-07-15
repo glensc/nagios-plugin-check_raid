@@ -1,0 +1,6 @@
+/usr/sbin/cciss_vol_status /dev/sg0
+/dev/sda: (Smart Array P410i) RAID 5 Volume 0 status: OK.   At least one spare drive designated.  At least one spare drive has failed.
+  Failed drives:
+         connector 1I box 1 bay 4                 HP      EF0300FARMU                          6SJ8ND840000N5191GHP     HPD6
+
+    Total of 1 failed physical drives detected on this logical drive.

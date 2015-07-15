@@ -1,0 +1,42 @@
+$VAR1 = {
+	'c0' => {
+		'model' => '8006-2LP',
+		'ports' => 2,
+		'drives' => 2,
+		'units' => 1,
+		'optimal' => 1,
+		'rrate' => 2,
+		'vrate' => '-',
+		'bbu' => '-',
+
+		'unitstatus' => {
+			'u0' => {
+				'status' => 'OK',
+				'size' => '698.637',
+				'rebuild_percent' => '-',
+				'strip' => '-',
+				'type' => 'RAID-1',
+				'vim_percent' => '-',
+				'avrify' => '-',
+				'cache' => 'W',
+			},
+		},
+
+		'drivestatus' => {
+			'p0' => {
+				'unit' => 'u0',
+				'blocks' => 1953525168,
+				'serial' => '9VPD4HXW',
+				'status' => 'OK',
+				'size' => '931.51 GB',
+			},
+			'p1' => {
+				'unit' => 'u0',
+				'blocks' => 1465149168,
+				'serial' => '9QK13E0L',
+				'status' => 'OK',
+				'size' => '698.63 GB',
+			},
+		},
+	},
+};

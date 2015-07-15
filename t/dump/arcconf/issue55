@@ -1,0 +1,108 @@
+$VAR1 = {
+          'controller' => {
+                            'battery_status' => 'Not Installed',
+                            'defunct_count' => 0,
+                            'logical_count' => 1,
+                            'logical_degraded' => 0,
+                            'logical_failed' => 0,
+                            'status' => 'Optimal'
+                          },
+          'controllers' => 1,
+          'logical' => [
+                         {
+                           'failed_stripes' => 'No',
+                           'id' => 0,
+                           'name' => 'plop',
+                           'raid' => '5',
+                           'size' => '3809270 MB',
+                           'status' => 'Optimal'
+                         }
+                       ],
+          'physical' => [
+                          [
+                            {
+                              'cd' => '0,0(0:0)',
+                              'devtype' => 'Hard drive',
+                              'firmware' => 'MX4OABB0',
+                              'fru' => 'None',
+                              'location' => '0:0',
+                              'model' => 'TOSHIBA DT01ACA2',
+                              'ncq' => 'Enabled',
+                              'power_state' => 'Full rpm',
+                              'power_states' => 'Full rpm,Powered off,Reduced rpm',
+                              'serial' => 'Y2O483PAS',
+                              'size' => '1907729 MB',
+                              'smart' => '0',
+                              'speed' => 'SATA 3.0 Gb/s',
+                              'ssd' => 'No',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => '',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '0,1(1:0)',
+                              'devtype' => 'Hard drive',
+                              'firmware' => 'MX4OABB0',
+                              'fru' => 'None',
+                              'location' => '0:1',
+                              'model' => 'TOSHIBA DT01ACA2',
+                              'ncq' => 'Enabled',
+                              'power_state' => 'Full rpm',
+                              'power_states' => 'Full rpm,Powered off,Reduced rpm',
+                              'serial' => 'Y2O3MYTGS',
+                              'size' => '1907729 MB',
+                              'smart' => '0',
+                              'speed' => 'SATA 3.0 Gb/s',
+                              'ssd' => 'No',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => '',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '0,2(2:0)',
+                              'devtype' => 'Hard drive',
+                              'firmware' => 'MX4OABB0',
+                              'fru' => 'None',
+                              'location' => '0:2',
+                              'model' => 'TOSHIBA DT01ACA2',
+                              'ncq' => 'Enabled',
+                              'power_state' => 'Full rpm',
+                              'power_states' => 'Full rpm,Powered off,Reduced rpm',
+                              'serial' => 'Y2O3M8RGS',
+                              'size' => '1907729 MB',
+                              'smart' => '0',
+                              'speed' => 'SATA 3.0 Gb/s',
+                              'ssd' => 'No',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => '',
+                              'write_cache' => 'Enabled (write-back)'
+                            },
+                            {
+                              'cd' => '0,3(3:0)',
+                              'devtype' => 'Hard drive',
+                              'firmware' => 'CC4H',
+                              'fru' => 'None',
+                              'location' => '0:3',
+                              'model' => 'ST3000DM001-9YN1',
+                              'ncq' => 'Enabled',
+                              'power_state' => 'Full rpm',
+                              'power_states' => 'Full rpm,Powered off,Reduced rpm',
+                              'serial' => 'S1F02BSH',
+                              'size' => '2861588 MB',
+                              'smart' => '0',
+                              'speed' => 'SATA 3.0 Gb/s',
+                              'ssd' => 'No',
+                              'status' => 'Online (JBOD)',
+                              'supported' => 'Yes',
+                              'vendor' => '',
+                              'write_cache' => 'Enabled (write-back)'
+                            }
+                          ]
+                        ],
+          'tasks' => {
+                       'operation' => 'None'
+                     }
+        };

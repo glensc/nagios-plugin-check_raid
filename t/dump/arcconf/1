@@ -1,0 +1,73 @@
+$VAR1 = {
+          'controller' => {
+                            'battery_status' => 'Not Installed',
+                            'defunct_count' => 0,
+                            'logical_count' => 1,
+                            'logical_degraded' => 0,
+                            'logical_failed' => 0,
+                            'status' => 'Optimal'
+                          },
+          'controllers' => 1,
+          'logical' => [
+                         {
+                           'failed_stripes' => 'No',
+                           'id' => 0,
+                           'raid' => '1',
+                           'size' => '69889 MB',
+                           'status' => 'Optimal'
+                         }
+                       ],
+          'physical' => [
+                          [
+                            {
+                              'cd' => '0,0',
+                              'devtype' => 'Hard drive',
+                              'esd' => '2,0',
+                              'firmware' => 'BA26',
+                              'fru' => '39R7360',
+                              'location' => '0:0',
+                              'model' => 'ST373455SS',
+                              'serial' => '3LQ1WEH4',
+                              'size' => '70006 MB',
+                              'smart' => 'No',
+                              'speed' => 'SAS 3.0 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => 'IBM-ESXS',
+                              'write_cache' => 'Disabled (write-through)',
+                              'wwn' => '5000C5000707AA3C'
+                            },
+                            {
+                              'cd' => '0,1',
+                              'devtype' => 'Hard drive',
+                              'esd' => '2,0',
+                              'firmware' => 'BA26',
+                              'fru' => '39R7360',
+                              'location' => '0:1',
+                              'model' => 'ST373455SS',
+                              'serial' => '3LQ1WEWL',
+                              'size' => '70006 MB',
+                              'smart' => 'No',
+                              'speed' => 'SAS 3.0 Gb/s',
+                              'status' => 'Online',
+                              'supported' => 'Yes',
+                              'vendor' => 'IBM-ESXS',
+                              'write_cache' => 'Disabled (write-through)',
+                              'wwn' => '5000C5000707C13C'
+                            },
+                            {
+                              'cd' => '2,0',
+                              'devtype' => 'Enclosure services device',
+                              'enclosure' => '0',
+                              'firmware' => '1.06',
+                              'model' => 'VSC7160',
+                              'temperature' => 'Normal',
+                              'type' => 'SES2',
+                              'vendor' => 'IBM-ESXS'
+                            }
+                          ]
+                        ],
+          'tasks' => {
+                       'operation' => 'None'
+                     }
+        };

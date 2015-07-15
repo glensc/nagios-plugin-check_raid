@@ -1,0 +1,104 @@
+$VAR1 = {
+          'battery' => [
+                         {
+                           'charging_status' => 'None',
+                           'learn_cycle_active' => 'No',
+                           'learn_cycle_requested' => 'No',
+                           'learn_requested' => undef,
+                           'missing' => 'No',
+                           'name' => '0',
+                           'pack_will_fail' => 'No',
+                           'replacement_required' => 'No',
+                           'state' => 'Operational',
+                           'temperature' => '39',
+                           'temperature_state' => 'OK',
+                           'voltage' => '3933',
+                           'voltage_state' => 'OK'
+                         }
+                       ],
+          'logical' => [
+                         {
+                           'current_cache' => [
+                                                'WriteBack',
+                                                'ReadAhead',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'default_cache' => [
+                                                'WriteBack',
+                                                'ReadAhead',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'name' => 'raid6',
+                           'state' => 'Optimal'
+                         },
+                         {
+                           'current_cache' => [
+                                                'WriteBack',
+                                                'ReadAheadNone',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'default_cache' => [
+                                                'WriteBack',
+                                                'ReadAheadNone',
+                                                'Direct',
+                                                'No Write Cache if Bad BBU'
+                                              ],
+                           'name' => 'cachecade0',
+                           'state' => undef,
+                           'type' => 'CacheCade'
+                         }
+                       ],
+          'physical' => [
+                          {
+                            'dev' => '0',
+                            'name' => 'BTWL420303WT600TGN INTEL SSDSC2BB600G4 D2010370',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '1',
+                            'name' => 'BTWL420303V9600TGN INTEL SSDSC2BB600G4 D2010370',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '2',
+                            'name' => 'BTPR311401EG600FGN INTEL SSDSA2BW600G3D 4PC10362',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '3',
+                            'name' => 'BTPR322002QM600FGN INTEL SSDSA2BW600G3D 4PC10362',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '4',
+                            'name' => 'BTPR326102KN600FGN INTEL SSDSA2BW600G3D 4PC10362',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '5',
+                            'name' => 'BTPR311303KN600FGN INTEL SSDSA2BW600G3D 4PC10362',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '6',
+                            'name' => 'BTPR321401G2600FGN INTEL SSDSA2BW600G3D 4PC10362',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          },
+                          {
+                            'dev' => '7',
+                            'name' => 'BTPR32200491600FGN INTEL SSDSA2BW600G3D 4PC10362',
+                            'predictive' => undef,
+                            'state' => 'Online'
+                          }
+                        ]
+        };

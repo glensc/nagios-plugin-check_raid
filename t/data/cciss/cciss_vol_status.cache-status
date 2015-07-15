@@ -1,0 +1,14 @@
+Controller: Smart Array P400i
+  Board ID: 0x3235103c
+  Logical drives: 1
+  Running firmware: 5.20
+  ROM firmware: 5.20
+/dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK. 
+  Physical drives: 2
+         connector 1I box 1 bay 1                 HP      DG072BB975                           3NP3K2JG00009921RS5B     HPDC OK
+         connector 1I box 1 bay 2                 HP      DG072BB975                           3NP3K40K00009920MTFH     HPDC OK
+/dev/cciss/c0d0(Smart Array P400i:0): Non-Volatile Cache status:
+                   Cache configured: Yes
+                  Read cache memory: 104 MiB
+                 Write cache memory: 104 MiB
+                Write cache enabled: Yes

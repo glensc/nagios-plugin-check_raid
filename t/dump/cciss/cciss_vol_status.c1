@@ -1,0 +1,52 @@
+$VAR1 = {
+	'/dev/cciss/c0d0' => {
+		'board_name' => 'Smart Array P400',
+
+		'volumes' => {
+			0 => {
+				'board_name' => 'Smart Array P400',
+				'volume_number' => 0,
+				'raid_level' => 'RAID 1',
+				'certain' => 1,
+				'status' => 'OK',
+				'spare_drive_status' => '',
+			},
+		},
+	},
+
+	'/dev/cciss/c1d0' => {
+		'board_name' => 'Smart Array P800',
+
+		'volumes' => {
+			0 => {
+				'board_name' => 'Smart Array P800',
+				'volume_number' => 0,
+				'raid_level' => 'RAID 1',
+				'certain' => 1,
+				'status' => 'OK',
+				'spare_drive_status' => '',
+			},
+		},
+
+		'enclosures' => {
+			'2' => {
+				'bus' => 2,
+				'status' => 'OK',
+				'phys1' => '1',
+				'phys2' => 'E',
+				'sn' => 'SGA651004J',
+				'name' => 'MSA70',
+				'board_name' => 'Smart Array P800'
+			},
+			'3' => {
+				'bus' => 3,
+				'status' => 'Temperature problem',
+				'phys1' => '1',
+				'phys2' => 'E',
+				'sn' => 'SGA6510007',
+				'name' => 'MSA70',
+				'board_name' => 'Smart Array P800'
+			},
+		},
+	},
+};

@@ -1,0 +1,51 @@
+                                     
+BBU status for Adapter: 0
+
+BatteryType: BBU
+Voltage: 3933 mV
+Current: 0 mA
+Temperature: 39 C
+
+Battery State     : Operational
+
+BBU Firmware Status:
+
+  Charging Status              : None
+  Voltage                                 : OK
+  Temperature                             : OK
+  Learn Cycle Requested	                  : No
+  Learn Cycle Active                      : No
+  Learn Cycle Status                      : OK
+  Learn Cycle Timeout                     : No
+  I2c Errors Detected                     : No
+  Battery Pack Missing                    : No
+  Battery Replacement required            : No
+  Remaining Capacity Low                  : No
+  Periodic Learn Required                 : No
+  Transparent Learn                       : No
+  No space to cache offload               : No
+  Pack is about to fail & should be replaced : No
+  Cache Offload premium feature required  : No
+  Module microcode update required        : No
+
+
+
+GasGuageStatus:
+  Fully Discharged        : No
+  Fully Charged           : Yes
+  Discharging             : No
+  Initialized             : No
+  Remaining Time Alarm    : No
+  Remaining Capacity Alarm: No
+  Discharge Terminated    : No
+  Over Temperature        : No
+  Charging Terminated     : No
+  Over Charged            : No
+
+Relative State of Charge: 98 %
+Charger Status: Complete
+Remaining Capacity: 472 mAh
+Full Charge Capacity: 485 mAh
+isSOHGood: Yes
+
+Exit Code: 0x00

@@ -1,0 +1,14 @@
+# metastat -p
+d40 -m d41 d42 1
+d41 1 1 c1t0d0s7
+d42 1 1 c1t1d0s7
+d20 -m d21 d22 1
+d21 1 1 c1t0d0s1
+d22 1 1 c1t1d0s1
+d10 -m d11 d12 1
+d11 1 1 c1t0d0s0
+d12 1 1 c1t1d0s0
+d30 -m d31 d32 1
+d31 1 1 c1t0d0s3
+d32 1 1 c1t1d0s3
+
