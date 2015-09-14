@@ -2810,6 +2810,7 @@ sub parse {
 	my ($this) = @_;
 
 	# we chdir to /var/log, as tool is creating 'UcliEvt.log'
+	# this can be disabled with 'nologs' parameter, but not sure do all versions support it
 	chdir('/var/log') || chdir('/');
 
 	my ($status, $config);
