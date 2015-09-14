@@ -26,6 +26,7 @@ Suggests:	lsscsi
 Suggests:	megacli-sas
 Suggests:	megarc-scsi
 Suggests:	mpt-status
+Suggests:	mvcli
 Suggests:	smartmontools
 Suggests:	tw_cli-9xxx
 %endif
