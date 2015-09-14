@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 15;
+use constant TESTS => 16;
 use Test::More tests => 2 + TESTS * 6;
 use test;
 
@@ -121,6 +121,13 @@ my @tests = (
 		getconfig => 'issue105/getconfig',
 		message => 'Controller:Optimal, Battery Status: Failed, Logical Device 0(RAID10):Optimal, Drives: WD-WMATV3471115,WD-WMATV3047731,WD-WMATV3036928,WD-WMATV3086188=Online',
 		c => 'issue105',
+	},
+	{
+		status => UNKNOWN,
+		getstatus => 'issue110/getstatus',
+		getconfig => 'issue110/getconfig-1',
+		message => 'More than one Controller found, this is not yet supported due lack of input data.',
+		c => 'issue110',
 	},
 );
 
