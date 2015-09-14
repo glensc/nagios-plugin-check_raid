@@ -4598,6 +4598,92 @@ sub check {
 	$this->ok->message(join(' ', @status));
 }
 
+package mvcli;
+use base 'plugin';
+
+#push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	qw(mvcli);
+}
+
+sub commands {
+	{
+		'mvcli blk' => ['-|', '@CMD'],
+		'mvcli smart' => ['-|', '@CMD'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd"
+}
+
+sub parse_blk {
+	my $this = shift;
+
+	my (@blk, %blk);
+
+	my $fh = $this->cmd('mvcli blk');
+	while (<$fh>) {
+		chomp;
+
+		if (my ($blk_id) = /Block id:\s+(\d+)/) {
+			# block id is first item, so push previous item to list
+			if (%blk) {
+				push(@blk, { %blk });
+				%blk = ();
+			}
+			$blk{blk_id} = int($blk_id);
+		} elsif (my($pd_id) = /PD id:\s+(\d+)/) {
+			$blk{pd_id} = int($pd_id);
+		} elsif (my($vd_id) = /VD id:\s+(\d+)/) {
+			$blk{vd_id} = int($vd_id);
+		} elsif (my($bstatus) = /Block status:\s+(.+)/) {
+			$blk{block_status} = $bstatus;
+		} elsif (my($size) = /Size:\s+(\d+) K/) {
+			$blk{size} = int($size);
+		} elsif (my($offset) = /Starting offset:\s+(\d+) K/) {
+			$blk{offset} = int($offset);
+		} else {
+#			warn "[$_]\n";
+		}
+	}
+	close $fh;
+
+	if (%blk) {
+		push(@blk, { %blk });
+	}
+
+	return wantarray ? @blk : \@blk;
+}
+
+sub parse {
+	my $this = shift;
+
+	my $blk = $this->parse_blk;
+	my @blk = @$blk if $blk;
+
+	return {
+		blk => $blk,
+	};
+}
+
+sub check {
+	my $this = shift;
+
+	my (@status);
+
+	# not implemented yet
+	$this->unknown;
+
+	$this->message(join('; ', @status));
+}
+
 {
 package main;
 
