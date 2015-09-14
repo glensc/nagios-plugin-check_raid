@@ -4177,7 +4177,7 @@ use base 'plugin';
 push(@utils::plugins, __PACKAGE__);
 
 sub program_names {
-	qw(hpacucli hpssacli);
+	qw(hpacucli);
 }
 
 sub commands {
@@ -4337,6 +4337,15 @@ sub check {
 	return unless @status;
 
 	$this->ok->message(join(', ', @status));
+}
+
+package hpssacli;
+# extend hpacucli,
+# with the only difference that different program name is used
+use base 'hpacucli';
+
+sub program_names {
+	qw(hpssacli);
 }
 
 package areca;
