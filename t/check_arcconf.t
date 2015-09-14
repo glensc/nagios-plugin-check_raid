@@ -123,10 +123,10 @@ my @tests = (
 		c => 'issue105',
 	},
 	{
-		status => UNKNOWN,
+		status => CRITICAL,
 		getstatus => 'issue110/getstatus',
 		getconfig => 'issue110/getconfig-1',
-		message => 'More than one Controller found, this is not yet supported due lack of input data.',
+		message => 'Controller:Optimal, Defunct drives:1, ZMM Status: ZMM Optimal, Controller:Optimal, Defunct drives:1, ZMM Status: ZMM Optimal, Logical Device 0(Main0):Optimal, Drives: OCZ-B8AV7L1U72V0GT61,22R0A094FRG8,22R0A092FRG8,22R0A03GFRG8,22R0A091FRG8,22R0A03HFRG8,22R0A0A9FRG8,22R0A0A4FRG8=Online',
 		c => 'issue110',
 	},
 );
