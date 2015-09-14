@@ -2450,7 +2450,7 @@ sub program_names {
 sub commands {
 	{
 		'getstatus' => ['-|', '@CMD', 'GETSTATUS', '1'],
-		'getconfig' => ['-|', '@CMD', 'GETCONFIG', '1', 'AL'],
+		'getconfig' => ['-|', '@CMD', 'GETCONFIG', '$ctrl', 'AL', 'nologs'],
 	}
 }
 
@@ -2462,7 +2462,7 @@ sub sudo {
 	my $cmd = $this->{program};
 	(
 		"CHECK_RAID ALL=(root) NOPASSWD: $cmd GETSTATUS 1",
-		"CHECK_RAID ALL=(root) NOPASSWD: $cmd GETCONFIG 1 AL",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd GETCONFIG * AL nologs",
 	);
 }
 
@@ -2532,12 +2532,6 @@ sub parse_status {
 	# Tasks seem to be Controller specific, but as we don't support over one controller, let it be global
 	$s{tasks} = { %task } if %task;
 
-	if ($count > 1) {
-		# don't know how to handle this, so better just fail
-		$this->unknown->message("More than one Controller found, this is not yet supported due lack of input data.");
-		return undef;
-	}
-
 	if ($count == 0) {
 		# if command completed, but no controllers,
 		# assume no hardware present
@@ -2561,7 +2555,8 @@ sub parse_config {
 	# Controller information, Logical/Physical device info
 	my (%c, @ld, $ld, @pd, $ch, $pd);
 
-	my $fh = $this->cmd('getconfig');
+	my $ctrl = 1;
+	my $fh = $this->cmd('getconfig', { ctrl => $ctrl });
 	my ($section, $subsection, $ok);
 	while (<$fh>) {
 		chomp;
