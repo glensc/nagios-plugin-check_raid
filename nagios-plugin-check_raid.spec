@@ -72,8 +72,8 @@ cp -p %{SOURCE4} .
 
 %build
 # set version
-%{__sed} -i -r -e '
-	s/my ($VERSION) = "[^"]+";/my ($VERSION) = "%{version}-%{release}";/
+%{__sed} -i -e '
+	s/my ($VERSION) = "[^"]*";/my ($VERSION) = "%{version}-%{release}";/
 ' %{plugin}.pl
 
 %install
