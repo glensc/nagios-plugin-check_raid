@@ -2541,21 +2541,30 @@ sub parse_status {
 		return undef;
 	}
 
-	$s{controllers} = $count;
+	$s{ctrl_count} = $count;
 
 	return \%s;
 }
 
-# parse GETCONFIG command
-# parses
-# - ...
+# parse GETCONFIG for all controllers
 sub parse_config {
 	my ($this, $status) = @_;
+
+	my %c;
+	for (my $i = 1; $i <= $status->{ctrl_count}; $i++) {
+		$c{$i} = $this->parse_ctrl_config($i, $status->{ctrl_count});
+	}
+
+	return { controllers => \%c };
+}
+
+# parse GETCONFIG command for specific controller
+sub parse_ctrl_config {
+	my ($this, $ctrl, $ctrl_count) = @_;
 
 	# Controller information, Logical/Physical device info
 	my (%c, @ld, $ld, @pd, $ch, $pd);
 
-	my $ctrl = 1;
 	my $fh = $this->cmd('getconfig', { ctrl => $ctrl });
 	my ($section, $subsection, $ok);
 	while (<$fh>) {
@@ -2571,7 +2580,7 @@ sub parse_config {
 		}
 
 		if (my($c) = /^Controllers found: (\d+)/) {
-			if ($c != $status->{controllers}) {
+			if ($c != $ctrl_count) {
 				# internal error?!
 				$this->unknown->message("Controller count mismatch");
 			}
@@ -2831,6 +2840,7 @@ sub check {
 
 	# check for controller status
 	for my $c ($data->{controller}) {
+		print "C=", Dumper $c;
 		$this->critical if $c->{status} !~ /Optimal|Okay/;
 		push(@status, "Controller:$c->{status}");
 
