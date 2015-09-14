@@ -1,0 +1,26 @@
+> smart -p 3
+Smart Info
+ID      Attribute Name          Current Worst   Threshhold      RawValue
+01      Read Error Rate         100     100     0               000000000000
+05      Reallocated Sectors     100     100     0               000000000000
+09      Power-On Hours Count    100     100     0               0000000005AC
+0C      Power Cycle Count       100     100     0               00000000000C
+AB      Unknown                 100     100     0               000000000000
+AC      Unknown                 100     100     0               000000000000
+AD      Unknown                 100     100     0               000000000007
+AE      Unknown                 100     100     0               000000000004
+B4      Unused Reserved Block   0       0       0               00000000086F
+B7      SATA Downshift Error    100     100     0               000000000000
+B8      End-to-End error        100     100     0               000000000000
+BB      Reported Uncorrectable  100     100     0               000000000000
+C2      HDA temperature         75      21      0               000000000019
+C4      Reallocation count      100     100     0               000000000010
+C5      Current pending         100     100     0               000000000000
+C6      Offline scan wrong      100     100     0               000000000000
+C7      UDMA CRC error rate     100     100     0               000000000000
+CA      Address Mark errors     100     100     0               000000000000
+CE      Flying height           100     100     0               000000000000
+D2      Vibration During Write  100     100     0               000000000000
+F6      Invalid                 100     100     0               000000006328
+F7      Invalid                 100     100     0               000000000C9F
+F8      Invalid                 100     100     0               000000003FDF

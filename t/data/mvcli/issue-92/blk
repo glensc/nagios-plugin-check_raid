@@ -1,0 +1,19 @@
+CLI Version: 4.1.0.9   RaidAPI Version: 5.0.0.1024
+Welcome to Marvell RAID Command Line Interface.
+
+> info -o BLK
+Block Information
+-----------------
+Block id:        0
+PD id:           2
+VD id:           0
+Block status:    assigned
+Size:            29977152 K
+Starting offset: 16384 K
+
+Block id:        4
+PD id:           3
+VD id:           0
+Block status:    assigned
+Size:            29977152 K
+Starting offset: 16384 K
