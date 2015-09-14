@@ -4662,14 +4662,55 @@ sub parse_blk {
 	return wantarray ? @blk : \@blk;
 }
 
+sub parse_smart {
+	my ($this, $blk) = @_;
+
+	# collect pd numbers
+	my @pd = map { $_->{pd_id} } @$blk;
+
+	my %smart;
+	foreach my $pd (@pd) {
+		my $fh = $this->cmd('mvcli smart', { '$pd' => $pd });
+		my %attrs = ();
+		while (<$fh>) {
+			chomp;
+
+			if (my($id, $name, $current, $worst, $treshold, $raw) = /
+				([\dA-F]{2})\s+ # attr
+				(.*?)\s+        # name
+				(\d+)\s+        # current
+				(\d+)\s+        # worst
+				(\d+)\s+        # treshold
+				([\dA-F]+)      # raw
+			/x) {
+				my %attr = ();
+				$attr{id} = $id;
+				$attr{name} = $name;
+				$attr{current} = int($current);
+				$attr{worst} = int($worst);
+				$attr{treshold} = int($treshold);
+				$attr{raw} = $raw;
+				$attrs{$id} = { %attr };
+			} else {
+#				warn "[$_]\n";
+			}
+		}
+
+		$smart{$pd} = { %attrs };
+	}
+
+	return \%smart;
+}
+
 sub parse {
 	my $this = shift;
 
 	my $blk = $this->parse_blk;
-	my @blk = @$blk if $blk;
+	my $smart = $this->parse_smart($blk);
 
 	return {
 		blk => $blk,
+		smart => $smart,
 	};
 }
 
@@ -4677,6 +4718,7 @@ sub check {
 	my $this = shift;
 
 	my (@status);
+	my @d = $this->parse;
 
 	# not implemented yet
 	$this->unknown;
