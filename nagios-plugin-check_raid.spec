@@ -70,6 +70,12 @@ cp -p %{SOURCE2} .
 cp -p %{SOURCE3} .
 cp -p %{SOURCE4} .
 
+%build
+# set version
+%{__sed} -i -r -e '
+	s/my ($VERSION) = "[^"]+";/my ($VERSION) = "%{version}-%{release}";/
+' %{plugin}.pl
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{plugindir}}
