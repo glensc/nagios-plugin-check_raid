@@ -2762,7 +2762,7 @@ sub parse_ctrl_config {
 					# not parsed yet
 				} elsif (/Expander SAS Address\s+:/) {
 					# not parsed yet
-				} elsif (/MaxCache (Capable|Assigned)\s+:\s+(.+)/) {
+				} elsif (/[Mm]axCache (Capable|Assigned)\s+:\s+(.+)/) {
 					# not parsed yet
 				} elsif (/Power supply \d+ status/) {
 					# not parsed yet
@@ -2839,8 +2839,9 @@ sub check {
 	my @status;
 
 	# check for controller status
-	for my $c ($data->{controller}) {
-		print "C=", Dumper $c;
+	for my $i (sort {$a cmp $b} keys $data->{controllers}) {
+		my $c = $data->{controllers}->{$i}->{controller};
+
 		$this->critical if $c->{status} !~ /Optimal|Okay/;
 		push(@status, "Controller:$c->{status}");
 
@@ -2894,7 +2895,7 @@ sub check {
 	# check for physical devices
 	my %pd;
 	my $pd_resync = 0;
-	for my $ch (@{$data->{physical}}) {
+	for my $ch (@{$data->{controllers}->{1}->{physical}}) {
 		for my $pd (@{$ch}) {
 			# skip not disks
 			next if not defined $pd;
@@ -2918,7 +2919,7 @@ sub check {
 	}
 
 	# check for logical devices
-	for my $ld (@{$data->{logical}}) {
+	for my $ld (@{$data->{controllers}->{1}->{logical}}) {
 		next unless $ld; # FIXME: fix that script assumes controllers start from '0'
 
 		if ($ld->{status} eq 'Degraded' && $pd_resync) {
