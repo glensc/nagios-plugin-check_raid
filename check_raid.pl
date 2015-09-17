@@ -2880,31 +2880,13 @@ sub check_controller {
 	return @status;
 }
 
-sub check {
-	my $this = shift;
+# check for physical devices
+sub check_physical {
+	my ($this, $p) = @_;
 
-	my $data = $this->parse;
-	$this->unknown,return unless $data;
-
-	my @status;
-
-	for my $i (sort {$a cmp $b} keys $data->{controllers}) {
-		my $c = $data->{controllers}->{$i};
-
-		push(@status, $this->check_controller($c->{controller}));
-
-		# current (logical device) tasks
-		if ($data->{tasks}->{operation} ne 'None') {
-			# just print it. no status change
-			my $task = $data->{tasks};
-			push(@status, "$task->{type} #$task->{device}: $task->{operation}: $task->{status} $task->{percent}%");
-		}
-	}
-
-	# check for physical devices
 	my %pd;
-	my $pd_resync = 0;
-	for my $ch (@{$data->{controllers}->{1}->{physical}}) {
+	$this->{pd_resync} = 0;
+	for my $ch (@$p) {
 		for my $pd (@{$ch}) {
 			# skip not disks
 			next if not defined $pd;
@@ -2912,7 +2894,7 @@ sub check {
 
 			if ($pd->{status} eq 'Rebuilding') {
 				$this->resync;
-				$pd_resync++;
+				$this->{pd_resync}++;
 
 			} elsif ($pd->{status} eq 'Dedicated Hot-Spare') {
 				$this->spare;
@@ -2927,11 +2909,18 @@ sub check {
 		}
 	}
 
-	# check for logical devices
-	for my $ld (@{$data->{controllers}->{1}->{logical}}) {
+	return \%pd;
+}
+
+# check for logical devices
+sub check_logical {
+	my ($this, $l) = @_;
+
+	my @status;
+	for my $ld (@$l) {
 		next unless $ld; # FIXME: fix that script assumes controllers start from '0'
 
-		if ($ld->{status} eq 'Degraded' && $pd_resync) {
+		if ($ld->{status} eq 'Degraded' && $this->{pd_resync}) {
 			$this->warning;
 		} elsif ($ld->{status} !~ /Optimal|Okay/) {
 			$this->critical;
@@ -2951,7 +2940,37 @@ sub check {
 		}
 	}
 
-	push(@status, "Drives: ".$this->join_status(\%pd)) if %pd;
+	return @status;
+}
+
+sub check {
+	my $this = shift;
+
+	my $data = $this->parse;
+	$this->unknown,return unless $data;
+
+	my @status;
+
+	for my $i (sort {$a cmp $b} keys %{$data->{controllers}}) {
+		my $c = $data->{controllers}->{$i};
+
+		push(@status, $this->check_controller($c->{controller}));
+
+		# current (logical device) tasks
+		if ($data->{tasks}->{operation} ne 'None') {
+			# just print it. no status change
+			my $task = $data->{tasks};
+			push(@status, "$task->{type} #$task->{device}: $task->{operation}: $task->{status} $task->{percent}%");
+		}
+
+		# check physical first, as it setups pd_resync flag
+		my $pd = $this->check_physical($c->{physical});
+
+		push(@status, $this->check_logical($c->{logical}));
+
+		# but report after logical devices
+		push(@status, "Drives: ".$this->join_status($pd)) if $pd;
+	}
 
 	$this->ok->message(join(', ', @status));
 }
