@@ -2,11 +2,12 @@
 use warnings;
 use strict;
 use Monitoring::Plugin;
+use App::Monitoring::Plugin::CheckRaid;
 
 my $PROGNAME = 'check_raid';
 my $VERSION = '4.0.0';
 
-my $p = Monitoring::Plugin->new(
+my $mp = Monitoring::Plugin->new(
     usage =>
 	"Usage: %s [ -v|--verbose ] [-t <timeout>]",
 
@@ -17,6 +18,9 @@ my $p = Monitoring::Plugin->new(
     shortname => $PROGNAME,
 );
 
-$p->getopts;
+$mp->getopts;
 
-$p->plugin_exit(OK, "Checked OK");
+my $mc = App::Monitoring::Plugin::CheckRaid->new();
+my @plugins = $mc->plugins();
+
+$mp->plugin_exit(OK, "Checked OK");
