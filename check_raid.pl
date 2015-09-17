@@ -2873,6 +2873,10 @@ sub check_controller {
 		push(@status, "ZMM Status: $c->{zmm_status}");
 	}
 
+	# Battery status
+	my @s = $this->battery_status($c);
+	push(@status, @s) if @s;
+
 	return @status;
 }
 
@@ -2885,9 +2889,9 @@ sub check {
 	my @status;
 
 	for my $i (sort {$a cmp $b} keys $data->{controllers}) {
-		my $c = $data->{controllers}->{$i}->{controller};
+		my $c = $data->{controllers}->{$i};
 
-		push(@status, $this->check_controller($c));
+		push(@status, $this->check_controller($c->{controller}));
 
 		# current (logical device) tasks
 		if ($data->{tasks}->{operation} ne 'None') {
@@ -2895,10 +2899,6 @@ sub check {
 			my $task = $data->{tasks};
 			push(@status, "$task->{type} #$task->{device}: $task->{operation}: $task->{status} $task->{percent}%");
 		}
-
-		# Battery status
-		my @s = $this->battery_status($c);
-		push(@status, @s) if @s;
 	}
 
 	# check for physical devices
