@@ -1,70 +1,74 @@
 $VAR1 = {
-          'controller' => {
-                            'battery_capacity' => 100,
-                            'battery_overtemp' => 'No',
-                            'battery_status' => 'Optimal',
-                            'battery_time' => 5280,
-                            'battery_time_full' => '3d16h0m',
-                            'defunct_count' => 0,
-                            'logical_count' => 1,
-                            'logical_degraded' => 0,
-                            'logical_failed' => 0,
-                            'status' => 'Optimal'
-                          },
-          'controllers' => 1,
-          'logical' => [
-                         {
-                           'failed_stripes' => 'No',
-                           'id' => 0,
-                           'raid' => '1',
-                           'size' => '139889 MB',
-                           'status' => 'Optimal'
-                         }
-                       ],
-          'physical' => [
-                          [
-                            {
-                              'cd' => '0,0',
-                              'devtype' => 'Hard drive',
-                              'firmware' => 'BA29',
-                              'fru' => 'None',
-                              'model' => 'ST3146855SS',
-                              'size' => '140013 MB',
-                              'smart' => 'No',
-                              'speed' => 'SAS 3.0 Gb/s',
-                              'status' => 'Online',
-                              'supported' => 'Yes',
-                              'vendor' => 'IBM-ESXS',
-                              'write_cache' => 'Disabled (write-through)',
-                              'wwn' => '5000C5000B426E88'
-                            },
-                            {
-                              'cd' => '0,1',
-                              'devtype' => 'Hard drive',
-                              'firmware' => 'SA05',
-                              'fru' => 'None',
-                              'model' => 'MBA3147RC',
-                              'size' => '140013 MB',
-                              'smart' => 'No',
-                              'speed' => 'SAS 3.0 Gb/s',
-                              'status' => 'Online',
-                              'supported' => 'Yes',
-                              'vendor' => 'IBM-ESXS',
-                              'write_cache' => 'Disabled (write-through)',
-                              'wwn' => '500000E01BEFF141'
-                            },
-                            {
-                              'cd' => '2,0',
-                              'devtype' => 'Enclosure services device',
-                              'enclosure' => '0',
-                              'firmware' => '1.07',
-                              'model' => 'VSC7160',
-                              'temperature' => 'Normal',
-                              'type' => 'SES2',
-                              'vendor' => 'IBM-ESXS'
-                            }
-                          ]
-                        ],
+          'controllers' => {
+                             '1' => {
+                                      'controller' => {
+                                                        'battery_capacity' => 100,
+                                                        'battery_overtemp' => 'No',
+                                                        'battery_status' => 'Optimal',
+                                                        'battery_time' => 5280,
+                                                        'battery_time_full' => '3d16h0m',
+                                                        'defunct_count' => 0,
+                                                        'logical_count' => 1,
+                                                        'logical_degraded' => 0,
+                                                        'logical_failed' => 0,
+                                                        'status' => 'Optimal'
+                                                      },
+                                      'logical' => [
+                                                     {
+                                                       'failed_stripes' => 'No',
+                                                       'id' => 0,
+                                                       'raid' => '1',
+                                                       'size' => '139889 MB',
+                                                       'status' => 'Optimal'
+                                                     }
+                                                   ],
+                                      'physical' => [
+                                                      [
+                                                        {
+                                                          'cd' => '0,0',
+                                                          'devtype' => 'Hard drive',
+                                                          'firmware' => 'BA29',
+                                                          'fru' => 'None',
+                                                          'model' => 'ST3146855SS',
+                                                          'size' => '140013 MB',
+                                                          'smart' => 'No',
+                                                          'speed' => 'SAS 3.0 Gb/s',
+                                                          'status' => 'Online',
+                                                          'supported' => 'Yes',
+                                                          'vendor' => 'IBM-ESXS',
+                                                          'write_cache' => 'Disabled (write-through)',
+                                                          'wwn' => '5000C5000B426E88'
+                                                        },
+                                                        {
+                                                          'cd' => '0,1',
+                                                          'devtype' => 'Hard drive',
+                                                          'firmware' => 'SA05',
+                                                          'fru' => 'None',
+                                                          'model' => 'MBA3147RC',
+                                                          'size' => '140013 MB',
+                                                          'smart' => 'No',
+                                                          'speed' => 'SAS 3.0 Gb/s',
+                                                          'status' => 'Online',
+                                                          'supported' => 'Yes',
+                                                          'vendor' => 'IBM-ESXS',
+                                                          'write_cache' => 'Disabled (write-through)',
+                                                          'wwn' => '500000E01BEFF141'
+                                                        },
+                                                        {
+                                                          'cd' => '2,0',
+                                                          'devtype' => 'Enclosure services device',
+                                                          'enclosure' => '0',
+                                                          'firmware' => '1.07',
+                                                          'model' => 'VSC7160',
+                                                          'temperature' => 'Normal',
+                                                          'type' => 'SES2',
+                                                          'vendor' => 'IBM-ESXS'
+                                                        }
+                                                      ]
+                                                    ]
+                                    }
+                           },
+          'ctrl_count' => 1,
           'tasks' => {
                        'operation' => 'None'
                      }

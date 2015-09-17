@@ -1,69 +1,73 @@
 $VAR1 = {
-          'controller' => {
-                            'battery_status' => 'Not Installed',
-                            'defunct_count' => 0,
-                            'logical_count' => 1,
-                            'logical_degraded' => 0,
-                            'logical_failed' => 0,
-                            'status' => 'Optimal'
-                          },
-          'controllers' => 1,
-          'logical' => [
-                         {
-                           'failed_stripes' => 'No',
-                           'id' => 0,
-                           'name' => 'RAID',
-                           'raid' => '1',
-                           'size' => '139981 MB',
-                           'status' => 'Optimal'
-                         }
-                       ],
-          'physical' => [
-                          [
-                            {
-                              'cd' => '0,0(0:0)',
-                              'devtype' => 'Hard drive',
-                              'firmware' => '0005',
-                              'fru' => 'None',
-                              'model' => 'ST3146707LC',
-                              'serial' => '3KS5ABTV0000970648ZZ',
-                              'size' => '140014 MB',
-                              'smart' => '0',
-                              'speed' => 'Ultra320',
-                              'status' => 'Online',
-                              'supported' => 'Yes',
-                              'vendor' => 'SEAGATE',
-                              'write_cache' => 'Unknown'
-                            },
-                            {
-                              'cd' => '0,1(1:0)',
-                              'devtype' => 'Hard drive',
-                              'firmware' => '0005',
-                              'fru' => 'None',
-                              'model' => 'ST3146707LC',
-                              'serial' => '3KS5SD1P00009718B64U',
-                              'size' => '140014 MB',
-                              'smart' => '0',
-                              'speed' => 'Ultra320',
-                              'status' => 'Online',
-                              'supported' => 'Yes',
-                              'vendor' => 'SEAGATE',
-                              'write_cache' => 'Unknown'
-                            },
-                            undef,
-                            undef,
-                            undef,
-                            undef,
-                            {
-                              'devtype' => 'Enclosure',
-                              'firmware' => '0',
-                              'model' => 'GEM318',
-                              'temperature' => 'Normal',
-                              'type' => 'SAF-TE',
-                              'vendor' => 'SUPER'
-                            }
-                          ]
-                        ],
+          'controllers' => {
+                             '1' => {
+                                      'controller' => {
+                                                        'battery_status' => 'Not Installed',
+                                                        'defunct_count' => 0,
+                                                        'logical_count' => 1,
+                                                        'logical_degraded' => 0,
+                                                        'logical_failed' => 0,
+                                                        'status' => 'Optimal'
+                                                      },
+                                      'logical' => [
+                                                     {
+                                                       'failed_stripes' => 'No',
+                                                       'id' => 0,
+                                                       'name' => 'RAID',
+                                                       'raid' => '1',
+                                                       'size' => '139981 MB',
+                                                       'status' => 'Optimal'
+                                                     }
+                                                   ],
+                                      'physical' => [
+                                                      [
+                                                        {
+                                                          'cd' => '0,0(0:0)',
+                                                          'devtype' => 'Hard drive',
+                                                          'firmware' => '0005',
+                                                          'fru' => 'None',
+                                                          'model' => 'ST3146707LC',
+                                                          'serial' => '3KS5ABTV0000970648ZZ',
+                                                          'size' => '140014 MB',
+                                                          'smart' => '0',
+                                                          'speed' => 'Ultra320',
+                                                          'status' => 'Online',
+                                                          'supported' => 'Yes',
+                                                          'vendor' => 'SEAGATE',
+                                                          'write_cache' => 'Unknown'
+                                                        },
+                                                        {
+                                                          'cd' => '0,1(1:0)',
+                                                          'devtype' => 'Hard drive',
+                                                          'firmware' => '0005',
+                                                          'fru' => 'None',
+                                                          'model' => 'ST3146707LC',
+                                                          'serial' => '3KS5SD1P00009718B64U',
+                                                          'size' => '140014 MB',
+                                                          'smart' => '0',
+                                                          'speed' => 'Ultra320',
+                                                          'status' => 'Online',
+                                                          'supported' => 'Yes',
+                                                          'vendor' => 'SEAGATE',
+                                                          'write_cache' => 'Unknown'
+                                                        },
+                                                        undef,
+                                                        undef,
+                                                        undef,
+                                                        undef,
+                                                        {
+                                                          'devtype' => 'Enclosure',
+                                                          'firmware' => '0',
+                                                          'model' => 'GEM318',
+                                                          'temperature' => 'Normal',
+                                                          'type' => 'SAF-TE',
+                                                          'vendor' => 'SUPER'
+                                                        }
+                                                      ]
+                                                    ]
+                                    }
+                           },
+          'ctrl_count' => 1,
           'tasks' => {
                        'operation' => 'None'
                      }

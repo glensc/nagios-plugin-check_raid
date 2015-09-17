@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 16;
+use constant TESTS => 15;
 use Test::More tests => 2 + TESTS * 6;
 use test;
 
