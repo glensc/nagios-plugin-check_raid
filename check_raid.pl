@@ -2829,62 +2829,71 @@ sub parse {
 	return { %$status, %$config };
 }
 
+# check for controller status
+sub check_controller {
+	my ($this, $c) = @_;
+
+	my @status;
+
+	$this->critical if $c->{status} !~ /Optimal|Okay/;
+	push(@status, "Controller:$c->{status}");
+
+	if ($c->{defunct_count} > 0) {
+		$this->critical;
+		push(@status, "Defunct drives:$c->{defunct_count}");
+	}
+
+	if (defined $c->{logical_failed} && $c->{logical_failed} > 0) {
+		$this->critical;
+		push(@status, "Failed drives:$c->{logical_failed}");
+	}
+
+	if (defined $c->{logical_degraded} && $c->{logical_degraded} > 0) {
+		$this->critical;
+		push(@status, "Degraded drives:$c->{logical_degraded}");
+	}
+
+	if (defined $c->{logical_offline} && $c->{logical_offline} > 0) {
+		$this->critical;
+		push(@status, "Offline drives:$c->{logical_offline}");
+	}
+
+	if (defined $c->{logical_critical} && $c->{logical_critical} > 0) {
+		$this->critical;
+		push(@status, "Critical drives:$c->{logical_critical}");
+	}
+
+	if (defined $c->{logical_degraded} && $c->{logical_degraded} > 0) {
+		$this->critical;
+		push(@status, "Degraded drives:$c->{logical_degraded}");
+	}
+
+	# ZMM (Zero-Maintenance Module) status
+	if (defined($c->{zmm_status})) {
+		push(@status, "ZMM Status: $c->{zmm_status}");
+	}
+
+	return @status;
+}
+
 sub check {
 	my $this = shift;
 
 	my $data = $this->parse;
 	$this->unknown,return unless $data;
 
-	# status messages pushed here
 	my @status;
 
-	# check for controller status
 	for my $i (sort {$a cmp $b} keys $data->{controllers}) {
 		my $c = $data->{controllers}->{$i}->{controller};
 
-		$this->critical if $c->{status} !~ /Optimal|Okay/;
-		push(@status, "Controller:$c->{status}");
-
-		if ($c->{defunct_count} > 0) {
-			$this->critical;
-			push(@status, "Defunct drives:$c->{defunct_count}");
-		}
-
-		if (defined $c->{logical_failed} && $c->{logical_failed} > 0) {
-			$this->critical;
-			push(@status, "Failed drives:$c->{logical_failed}");
-		}
-
-		if (defined $c->{logical_degraded} && $c->{logical_degraded} > 0) {
-			$this->critical;
-			push(@status, "Degraded drives:$c->{logical_degraded}");
-		}
-
-		if (defined $c->{logical_offline} && $c->{logical_offline} > 0) {
-			$this->critical;
-			push(@status, "Offline drives:$c->{logical_offline}");
-		}
-
-		if (defined $c->{logical_critical} && $c->{logical_critical} > 0) {
-			$this->critical;
-			push(@status, "Critical drives:$c->{logical_critical}");
-		}
-
-		if (defined $c->{logical_degraded} && $c->{logical_degraded} > 0) {
-			$this->critical;
-			push(@status, "Degraded drives:$c->{logical_degraded}");
-		}
+		push(@status, $this->check_controller($c));
 
 		# current (logical device) tasks
 		if ($data->{tasks}->{operation} ne 'None') {
 			# just print it. no status change
 			my $task = $data->{tasks};
 			push(@status, "$task->{type} #$task->{device}: $task->{operation}: $task->{status} $task->{percent}%");
-		}
-
-		# ZMM (Zero-Maintenance Module) status
-		if (defined($c->{zmm_status})) {
-			push(@status, "ZMM Status: $c->{zmm_status}");
 		}
 
 		# Battery status

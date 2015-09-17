@@ -35,7 +35,7 @@ my @tests = (
 		status => OK,
 		getstatus => '3/getstatus',
 		getconfig => '3/getconfig',
-		message => 'Controller:Optimal, Logical device #0: Build/Verify: In Progress 11%, ZMM Status: ZMM Optimal, Logical Device 0(Volume01):Optimal, Drives: *******,*******,*******,*******=Online',
+		message => 'Controller:Optimal, ZMM Status: ZMM Optimal, Logical device #0: Build/Verify: In Progress 11%, Logical Device 0(Volume01):Optimal, Drives: *******,*******,*******,*******=Online',
 		c => '3',
 	},
 	{
@@ -63,7 +63,7 @@ my @tests = (
 		status => WARNING,
 		getstatus => 'issue47/getstatus2',
 		getconfig => 'issue47/getconfig2',
-		message => 'Controller:Optimal, Logical device #0: Rebuild: In Progress 1%, ZMM Status: ZMM not installed, Logical Device 0(data):Degraded, Drives: WD-*******,WD-*******,WD-*******=Online WD-*******=Rebuilding',
+		message => 'Controller:Optimal, ZMM Status: ZMM not installed, Logical device #0: Rebuild: In Progress 1%, Logical Device 0(data):Degraded, Drives: WD-*******,WD-*******,WD-*******=Online WD-*******=Rebuilding',
 		c => 'issue47_2',
 	},
 	{
