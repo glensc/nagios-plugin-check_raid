@@ -22,5 +22,6 @@ $mp->getopts;
 
 my $mc = App::Monitoring::Plugin::CheckRaid->new();
 my @plugins = $mc->plugins();
+my @active_plugins = $mc->active_plugins();
 
 $mp->plugin_exit(OK, "Checked OK");
