@@ -5,10 +5,17 @@ export PERL5LIB := lib
 pack: check_raid.pl
 
 check_raid.pl: bin/check_raid.pl
-	fatpack trace $<
-	fatpack packlists-for `cat fatpacker.trace` > packlists
-	fatpack tree `cat packlists`
-	fatpack file $< > $@
-	chmod a+rx $@
+	# fatpack includes all in "lib" and "fatpacked", so export git tree and run there
+	rm -rf fatpack
+	install -d fatpack
+	git archive HEAD | tar -x -C fatpack
+	set -e; cd fatpack; \
+	fatpack trace $<; \
+	fatpack packlists-for `cat fatpacker.trace` > packlists; \
+	fatpack tree `cat packlists`; \
+	fatpack file $< > $@; \
+	chmod a+rx $@; \
+	mv $@ ..
+	rm -rf fatpack
 
 .PHONY: check_raid.pl
