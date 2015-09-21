@@ -1,9 +1,24 @@
 package App::Monitoring::Plugin::CheckRaid;
 
-use Module::Pluggable search_path => ['App::Monitoring::Plugin::CheckRaid::Plugins'], instantiate => 'new';
+use Carp qw(croak);
+use Module::Pluggable instantiate => 'new';
 
+# constructor
 sub new {
-	bless {};
+	my $class = shift;
+
+	croak 'Odd number of elements in argument hash' if @_ % 2;
+
+	my $self = {
+		@_,
+	};
+
+	my $obj = bless $self, $class;
+
+	# setup search path for Module::Pluggable
+	$self->search_path(add => __PACKAGE__ . '::Plugins');
+
+	return $obj;
 }
 
 # Get active plugins.
