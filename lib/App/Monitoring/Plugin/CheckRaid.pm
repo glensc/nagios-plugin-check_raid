@@ -1,5 +1,6 @@
 package App::Monitoring::Plugin::CheckRaid;
-use Module::Pluggable instantiate => 'new';
+
+use Module::Pluggable search_path => ['App::Monitoring::Plugin::CheckRaid::Plugins'], instantiate => 'new';
 
 sub new {
 	bless {};
