@@ -65,7 +65,7 @@ my $mc = App::Monitoring::Plugin::CheckRaid->new();
 
 # print active plugins
 if ($mp->opts->list_plugins) {
-	my @plugins = $mc->active_plugins();
+	my @plugins = $mc->active_plugins;
 	if (!@plugins) {
 		$mp->plugin_exit(UNKNOWN, "No active plugins")
 	}
@@ -77,7 +77,7 @@ if ($mp->opts->list_plugins) {
 }
 
 # perform check of each plugin
-foreach my $plugin ($mc->active_plugins()) {
+foreach my $plugin ($mc->active_plugins) {
 	# skip if no check method (not standalone checker)
 	next unless $plugin->can('check');
 
