@@ -1,6 +1,7 @@
 package App::Monitoring::Plugin::CheckRaid::Plugin;
 
 use Carp qw(croak);
+use strict;
 
 # constructor for plugins
 sub new {

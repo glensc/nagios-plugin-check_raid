@@ -61,7 +61,7 @@ $mp->add_arg(
 
 $mp->getopts;
 
-my $mc = App::Monitoring::Plugin::CheckRaid->new();
+my $mc = App::Monitoring::Plugin::CheckRaid->new(mp => $mp);
 
 # print active plugins
 if ($mp->opts->list_plugins) {
@@ -85,4 +85,6 @@ foreach my $plugin ($mc->active_plugins) {
 	$plugin->check;
 }
 
-$mp->plugin_exit(OK, "Checked OK");
+my ($code, $message) = $mp->check_messages;
+
+$mp->plugin_exit($code, $message);
