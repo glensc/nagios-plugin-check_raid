@@ -1,4 +1,4 @@
-package App::Monitoring::Plugin::CheckRaid::aaccli;
+package App::Monitoring::Plugin::CheckRaid::Plugin::aaccli;
 
 sub new {
 	bless {};
