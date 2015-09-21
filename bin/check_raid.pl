@@ -27,7 +27,7 @@ $mp->add_arg(
 	help => 'Treat CRITICAL errors as WARNING',
 );
 $mp->add_arg(
-	spec => 'list-plugins|l',
+	spec => 'list_plugins|list-plugins|l',
 	help => 'Lists active plugins',
 );
 $mp->add_arg(
@@ -62,7 +62,18 @@ $mp->add_arg(
 $mp->getopts;
 
 my $mc = App::Monitoring::Plugin::CheckRaid->new();
-my @plugins = $mc->plugins();
-my @active_plugins = $mc->active_plugins();
+
+# print active plugins
+if ($mp->opts->list_plugins) {
+	my @plugins = $mc->active_plugins();
+	if (!@plugins) {
+		$mp->plugin_exit(UNKNOWN, "No active plugins")
+	}
+	foreach my $p (@plugins) {
+		print $p->{name}, "\n";
+	}
+	my $count = @plugins;
+	$mp->plugin_exit(OK, "$count active plugins");
+}
 
 $mp->plugin_exit(OK, "Checked OK");

@@ -5,7 +5,8 @@ sub new {
 	bless {};
 }
 
-# Get active plugins
+# Get active plugins.
+# Returns the plugin objects
 sub active_plugins {
 	my $this = shift;
 
@@ -13,12 +14,10 @@ sub active_plugins {
 
 	# go over all registered plugins
 	foreach my $plugin ($this->plugins) {
-		print $plugin;
-
 		# skip inactive plugins (disabled or no tools available)
 		next unless $plugin->active;
 
-		push(@plugins, $plugin->{name});
+		push(@plugins, $plugin);
 	}
 
 	return wantarray ? @plugins : \@plugins;
