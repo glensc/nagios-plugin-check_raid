@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use warnings;
 use strict;
-use Monitoring::Plugin;
+use Monitoring::Plugin 0.37;
 use App::Monitoring::Plugin::CheckRaid;
 
 my $PROGNAME = 'check_raid';
