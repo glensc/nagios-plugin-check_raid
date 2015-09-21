@@ -76,4 +76,13 @@ if ($mp->opts->list_plugins) {
 	$mp->plugin_exit(OK, "$count active plugins");
 }
 
+# perform check of each plugin
+foreach my $plugin ($mc->active_plugins()) {
+	# skip if no check method (not standalone checker)
+	next unless $plugin->can('check');
+
+	# perform the check
+	$plugin->check;
+}
+
 $mp->plugin_exit(OK, "Checked OK");

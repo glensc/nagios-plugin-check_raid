@@ -6,4 +6,8 @@ sub active {
 	1;
 }
 
+sub check {
+	1;
+}
+
 1;
