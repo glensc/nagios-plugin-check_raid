@@ -7,7 +7,10 @@ sub active {
 }
 
 sub check {
-	1;
+	my $this = shift;
+
+	$this->add_message(CRITICAL, "Epic Fail");
+	$this->add_message(OK, "Not so Epic Fail");
 }
 
 1;

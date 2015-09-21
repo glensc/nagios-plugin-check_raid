@@ -19,4 +19,12 @@ sub new {
 	return bless $self, $class;
 }
 
+# Add $message of type $code
+sub add_message {
+	my ($this, $code, $message) = @_;
+
+	$this->{mp}->add_message($code, $message);
+}
+
+
 1;
