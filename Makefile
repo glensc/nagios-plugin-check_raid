@@ -5,6 +5,9 @@ export PERL5LIB := lib
 pack: check_raid.pl
 
 check_raid.pl: bin/check_raid.pl
+	# need 0.10.0 of fatpacker for Module::Pluggable to work
+	perl -e 'use App::FatPacker 0.10.0'
+
 	# fatpack includes all in "lib" and "fatpacked", so export git tree and run there
 	rm -rf fatpack
 	install -d fatpack
