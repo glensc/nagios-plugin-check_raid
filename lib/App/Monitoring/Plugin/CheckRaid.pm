@@ -28,7 +28,7 @@ sub plugins {
 
 	# call this once
 	if (!defined $this->{plugins}) {
-		my @plugins = $this->_plugins();
+		my @plugins = $this->_plugins(mp => $this);
 		$this->{plugins} = \@plugins;
 	}
 
