@@ -18,6 +18,47 @@ my $mp = Monitoring::Plugin->new(
     shortname => $PROGNAME,
 );
 
+$mp->add_arg(
+	spec => 'sudoers|S',
+	help => 'Setup sudo rules',
+);
+$mp->add_arg(
+	spec => 'warnonly|W',
+	help => 'Treat CRITICAL errors as WARNING',
+);
+$mp->add_arg(
+	spec => 'list-plugins|l',
+	help => 'Lists active plugins',
+);
+$mp->add_arg(
+	spec => 'plugin|p',
+	help => 'Force the use of selected plugins, comma separated',
+);
+$mp->add_arg(
+	spec => 'noraid',
+	help => 'Return STATE if no RAID controller is found. Defaults to UNKNOWN',
+);
+$mp->add_arg(
+	spec => 'resync',
+	help => 'Return STATE if RAID is in resync state. Defaults to WARNING',
+);
+$mp->add_arg(
+	spec => 'check',
+	help => 'Return STATE if RAID is in check state. Defaults to OK',
+);
+$mp->add_arg(
+	spec => 'cache-fail',
+	help => 'Set status as STATE if Write Cache is present but disabled. Defaults to WARNING',
+);
+$mp->add_arg(
+	spec => 'bbulearn',
+	help => 'Return STATE if Backup Battery Unit (BBU) learning cycle is in progress. Defaults to WARNING',
+);
+$mp->add_arg(
+	spec => 'bbu-monitoring',
+	help => 'Enable experimental monitoring of the BBU status',
+);
+
 $mp->getopts;
 
 my $mc = App::Monitoring::Plugin::CheckRaid->new();
