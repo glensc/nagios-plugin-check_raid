@@ -1,7 +1,8 @@
 package App::Monitoring::Plugin::CheckRaid;
 
 use Carp qw(croak);
-use Module::Pluggable instantiate => 'new';
+use Module::Pluggable instantiate => 'new', sub_name => '_plugins';
+use strict;
 
 # constructor
 sub new {
@@ -19,6 +20,19 @@ sub new {
 	$self->search_path(add => __PACKAGE__ . '::Plugins');
 
 	return $obj;
+}
+
+# create list of plugins
+sub plugins {
+	my ($this) = @_;
+
+	# call this once
+	if (!defined $this->{plugins}) {
+		my @plugins = $this->_plugins();
+		$this->{plugins} = \@plugins;
+	}
+
+	wantarray ? @{$this->{plugins}} : $this->{plugins};
 }
 
 # Get active plugins.
