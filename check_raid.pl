@@ -2422,7 +2422,7 @@ sub check {
 		push(@status, "Drives($c->{drives}): ".$this->join_status(\%ds)) if %ds;
 
 		# check BBU
-		if ($c->{bbu} && $c->{bbu} ne '-') {
+		if ($this->bbu_monitoring && $c->{bbu} && $c->{bbu} ne '-') {
 			$this->critical if $c->{bbu} ne 'OK';
 			push(@status, "BBU: $c->{bbu}");
 		}
