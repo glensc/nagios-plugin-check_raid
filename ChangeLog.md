@@ -193,3 +193,4 @@ NOTES:
 [#116]: https://github.com/glensc/nagios-plugin-check_raid/issues/116
 [#114]: https://github.com/glensc/nagios-plugin-check_raid/issues/114
 [#92]: https://github.com/glensc/nagios-plugin-check_raid/issues/92
+[#110]: https://github.com/glensc/nagios-plugin-check_raid/issues/110
