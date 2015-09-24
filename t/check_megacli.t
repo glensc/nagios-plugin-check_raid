@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 use constant TESTS => 19;
-use Test::More tests => TESTS*8;
+use Test::More tests => 1 + TESTS * 8;
 use test;
 
 my @tests = (
@@ -305,6 +305,9 @@ my @tests = (
 my $saved_bbulearn_status = $plugin::bbulearn_status;
 
 $plugin::bbu_monitoring = 1;
+
+# test that plugin can be created
+ok(megacli->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = megacli->new(

@@ -12,7 +12,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More tests => 6;
 use test;
 
 my @tests = (
@@ -22,6 +22,9 @@ my @tests = (
 		message => "Can't open /dev/ttyNOTTY",
 	},
 );
+
+# test that plugin can be created
+ok(hp_msa->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = hp_msa->new(

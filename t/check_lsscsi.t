@@ -7,9 +7,8 @@ BEGIN {
 use strict;
 use warnings;
 use constant TESTS => 3;
-use Test::More tests => 2 * TESTS;
+use Test::More tests => 1 + 2 * TESTS;
 use test;
-use Data::Dumper;
 
 my @tests = (
 	{
@@ -65,6 +64,9 @@ my @tests = (
 		}]
 	},
 );
+
+# test that plugin can be created
+ok(lsscsi->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = lsscsi->new(

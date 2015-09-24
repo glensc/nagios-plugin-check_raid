@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More tests => 6;
 use test;
 
 my @tests = (
@@ -16,6 +16,9 @@ my @tests = (
 		message => '0/00/0:Normal, 0/01/0:Normal',
 	},
 );
+
+# test that plugin can be created
+ok(afacli->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = afacli->new(

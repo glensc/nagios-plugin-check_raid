@@ -8,7 +8,7 @@ use strict;
 use warnings;
 use constant INACTIVE_TESTS => 2;
 use constant ACTIVE_TESTS => 18;
-use Test::More tests => ACTIVE_TESTS * 6 + INACTIVE_TESTS * 2;
+use Test::More tests => 1 + ACTIVE_TESTS * 6 + INACTIVE_TESTS * 2;
 use test;
 
 my @tests = (
@@ -96,6 +96,9 @@ my @tests = (
 # save default value
 my $saved_resync_status = $plugin::resync_status;
 my $saved_check_status = $plugin::check_status;
+
+# test that plugin can be created
+ok(mdstat->new, "plugin created");
 
 foreach my $test (@tests) {
 	if (defined $test->{resync_status}) {

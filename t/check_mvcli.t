@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More tests => 6;
 use test;
 
 my @tests = (
@@ -17,6 +17,9 @@ my @tests = (
 		message => '',
 	},
 );
+
+# test that plugin can be created
+ok(mvcli->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = mvcli->new(

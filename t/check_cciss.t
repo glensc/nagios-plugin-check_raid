@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 use constant TESTS => 12;
-use Test::More tests =>  TESTS * 6;
+use Test::More tests =>  1 + TESTS * 6;
 use test;
 
 my @tests = (
@@ -156,6 +156,9 @@ my @tests = (
 		c => 'issue100_1.10',
 	},
 );
+
+# test that plugin can be created
+ok(cciss->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = cciss->new(
