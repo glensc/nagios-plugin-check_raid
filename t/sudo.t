@@ -54,7 +54,7 @@ my %sudo = (
 	],
 	arcconf => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/arcconf GETSTATUS 1",
-		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/arcconf GETCONFIG 1 AL",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/arcconf GETCONFIG * AL nologs",
 	],
 	megarc => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/megarc -AllAdpInfo -nolog",
