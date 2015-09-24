@@ -56,8 +56,10 @@ use strict;
 {
 package utils;
 
-my @EXPORT = qw(which find_sudo);
-my @EXPORT_OK = @EXPORT;
+use Exporter 'import';
+
+our @EXPORT = qw(which find_sudo);
+our @EXPORT_OK = @EXPORT;
 
 # registered plugins
 our @plugins;
@@ -114,6 +116,8 @@ sub find_sudo() {
 package plugin;
 use Carp qw(croak);
 
+utils->import;
+
 # Nagios standard error codes
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 
@@ -162,7 +166,7 @@ sub new {
 	my $self = {
 		program_names => [ $class->program_names ],
 		commands => $class->commands,
-		sudo => $class->sudo ? utils::find_sudo() : '',
+		sudo => $class->sudo ? find_sudo() : '',
 		@_,
 		name => $class,
 		status => undef,
@@ -173,7 +177,7 @@ sub new {
 
 	# lookup program, if not defined by params
 	if (!$self->{program}) {
-		$self->{program} = utils::which(@{$self->{program_names}});
+		$self->{program} = which(@{$self->{program_names}});
 	}
 
 	return bless $self, $class;
@@ -655,7 +659,7 @@ use base 'plugin';
 #push(@utils::plugins, __PACKAGE__);
 
 sub sudo {
-	my $cat = utils::which('cat');
+	my $cat = which('cat');
 
 	"CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/0/status";
 }
@@ -1835,7 +1839,7 @@ use base 'plugin';
 #push(@utils::plugins, __PACKAGE__);
 
 sub sudo {
-	my $cat = utils::which('cat');
+	my $cat = which('cat');
 
 	my @sudo;
 	foreach my $mr (</proc/mega*/*/raiddrives*>) {
@@ -4938,7 +4942,7 @@ sub sudoers {
 	}
 
 	my $sudoers = find_file('/usr/local/etc/sudoers', '/etc/sudoers');
-	my $visudo = utils::which('visudo');
+	my $visudo = which('visudo');
 
 	die "Unable to find sudoers file.\n" unless -f $sudoers;
 	die "Unable to write to sudoers file '$sudoers'.\n" unless -w $sudoers;
