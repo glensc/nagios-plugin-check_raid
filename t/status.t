@@ -41,7 +41,7 @@ is($plugin->critical->status, CRITICAL, 'set critical');
 is($plugin->unknown->status, UNKNOWN, 'set unknown');
 
 # the same, but with -W option emulated
-plugin->set_critical_as_warning;
+$plugin->set_critical_as_warning;
 
 $plugin->{status} = undef;
 is($plugin->ok->status, OK, 'set ok');
