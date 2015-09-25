@@ -82,7 +82,7 @@ foreach my $test (@tests) {
 	);
 	ok($plugin, "plugin created");
 
-	$plugin::bbu_monitoring = 1;
+	$plugin::options{bbu_monitoring} = 1;
 
 	$plugin->check;
 	ok(1, "check ran");

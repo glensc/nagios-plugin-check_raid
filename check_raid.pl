@@ -121,23 +121,29 @@ utils->import;
 # Nagios standard error codes
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 
-# status to set when RAID is in resync state
-our $resync_status = $ERRORS{WARNING};
+# default plugin options
+our %options = (
+	# status to set when RAID is in resync state
+	resync_status => $ERRORS{WARNING},
 
-# status to set when RAID is in check state
-our $check_status = $ERRORS{OK};
+	# Status code to use when no raid was detected
+	noraid_state => $ERRORS{UNKNOWN},
 
-# status to set when PD is spare
-our $spare_status = $ERRORS{OK};
+	# status to set when RAID is in check state
+	check_status => $ERRORS{OK},
 
-# status to set when BBU is in learning cycle.
-our $bbulearn_status = $ERRORS{WARNING};
+	# status to set when PD is spare
+	spare_status => $ERRORS{OK},
 
-# status to set when Write Cache has failed.
-our $cache_fail_status = $ERRORS{WARNING};
+	# status to set when BBU is in learning cycle.
+	bbulearn_status => $ERRORS{WARNING},
 
-# check status of BBU
-our $bbu_monitoring = 0;
+	# status to set when Write Cache has failed.
+	cache_fail_status => $ERRORS{WARNING},
+
+	# check status of BBU
+	bbu_monitoring => 0,
+);
 
 # return list of programs this plugin needs
 # @internal
@@ -163,11 +169,19 @@ sub new {
 
 	croak 'Odd number of elements in argument hash' if @_ % 2;
 
+	# convert to hash
+	my %args = @_;
+
+	# merge 'options' from param and class defaults
+	%options = (%options, %{$args{options}}) if $args{options};
+	delete $args{options};
+
 	my $self = {
 		program_names => [ $class->program_names ],
 		commands => $class->commands,
 		sudo => $class->sudo ? find_sudo() : '',
-		@_,
+		options => \%options,
+		%args,
 		name => $class,
 		status => undef,
 		message => undef,
@@ -245,7 +259,7 @@ sub ok {
 # returns $this to allow fluent api
 sub resync {
 	my ($this) = @_;
-	$this->status($resync_status);
+	$this->status($this->{options}{resync_status});
 	return $this;
 }
 
@@ -253,7 +267,7 @@ sub resync {
 # returns $this to allow fluent api
 sub check_status {
 	my ($this) = @_;
-	$this->status($check_status);
+	$this->status($this->{options}{check_status});
 	return $this;
 }
 
@@ -261,7 +275,7 @@ sub check_status {
 # returns $this to allow fluent api
 sub spare {
 	my ($this) = @_;
-	$this->status($spare_status);
+	$this->status($this->{options}{spare_status});
 	return $this;
 }
 
@@ -269,7 +283,7 @@ sub spare {
 # returns $this to allow fluent api
 sub bbulearn {
 	my ($this) = @_;
-	$this->status($bbulearn_status);
+	$this->status($this->{options}{bbulearn_status});
 	return $this;
 }
 
@@ -277,7 +291,7 @@ sub bbulearn {
 # returns $this to allow fluent api
 sub cache_fail {
 	my ($this) = @_;
-	$this->status($cache_fail_status);
+	$this->status($this->{options}{cache_fail_status});
 	return $this;
 }
 
@@ -286,9 +300,9 @@ sub bbu_monitoring {
 	my ($this, $val) = @_;
 
 	if (defined $val) {
-		$bbu_monitoring = $val;
+		$this->{options}{bbu_monitoring} = $val;
 	}
-	$bbu_monitoring;
+	$this->{options}{bbu_monitoring};
 }
 
 # setup status message text
@@ -4781,7 +4795,6 @@ my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 my ($VERSION) = "3.2.4";
 my ($message, $status, $perfdata, $longoutput);
-my ($noraid_state) = $ERRORS{UNKNOWN};
 
 #####################################################################
 $ENV{'BASH_ENV'} = '';
@@ -5055,13 +5068,13 @@ GetOptions(
 	'h' => \$opt_h, 'help' => \$opt_h,
 	'S' => \$opt_S, 'sudoers' => \$opt_S,
 	'W' => \$opt_W, 'warnonly' => \$opt_W,
-	'resync=s' => sub { setstate(\$plugin::resync_status, @_); },
-	'check=s' => sub { setstate(\$plugin::check_status, @_); },
-	'noraid=s' => sub { setstate(\$noraid_state, @_); },
-	'bbulearn=s' => sub { setstate(\$plugin::bbulearn_status, @_); },
-	'cache-fail=s' => sub { setstate(\$plugin::cache_fail_status, @_); },
+	'resync=s' => sub { setstate(\$plugin_options{resync_status}, @_); },
+	'check=s' => sub { setstate(\$plugin_options{check_status}, @_); },
+	'noraid=s' => sub { setstate(\$plugin_options{noraid_state}, @_); },
+	'bbulearn=s' => sub { setstate(\$plugin_options{bbulearn_status}, @_); },
+	'cache-fail=s' => sub { setstate(\$plugin_options{cache_fail_status}, @_); },
 	'plugin-option=s' => sub { my($k, $v) = split(/=/, $_[1], 2); $plugin_options{$k} = $v; },
-	'bbu-monitoring' => \$plugin::bbu_monitoring,
+	'bbu-monitoring' => \$plugin_options{bbu_monitoring},
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});
@@ -5130,10 +5143,10 @@ foreach my $pn (@plugins) {
 		$message .= "$pn:[Plugin error]";
 		next;
 	}
-	if ($plugin->message or $noraid_state == $ERRORS{UNKNOWN}) {
+	if ($plugin->message or $plugin->{options}{noraid_state} == $ERRORS{UNKNOWN}) {
 		$status = $plugin->status if $plugin->status > $status;
 	} else {
-		$status = $noraid_state if $noraid_state > $status;
+		$status = $plugin->{options}{noraid_state} if $plugin->{options}{noraid_state} > $status;
 	}
 	$message .= '; ' if $message;
 	$message .= "$pn:[".$plugin->message."]";
@@ -5152,8 +5165,8 @@ if ($message) {
 		print "UNKNOWN: ";
 	}
 	print "$message\n";
-} elsif ($noraid_state != $ERRORS{UNKNOWN}) {
-	$status = $noraid_state;
+} elsif ($plugin::options{noraid_state} != $ERRORS{UNKNOWN}) {
+	$status = $plugin::options{noraid_state};
 	print "No RAID configuration found\n";
 } else {
 	$status = $ERRORS{UNKNOWN};

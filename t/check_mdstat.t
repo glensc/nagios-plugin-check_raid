@@ -93,28 +93,30 @@ my @tests = (
 	},
 );
 
-# save default value
-my $saved_resync_status = $plugin::resync_status;
-my $saved_check_status = $plugin::check_status;
+# save default values
+my $saved_resync_status = $plugin::options{resync_status};
+my $saved_check_status = $plugin::options{check_status};
 
 # test that plugin can be created
 ok(mdstat->new, "plugin created");
 
 foreach my $test (@tests) {
+	my %options = ();
 	if (defined $test->{resync_status}) {
-		$plugin::resync_status = $test->{resync_status};
+		$options{resync_status} = $test->{resync_status};
 	} else {
-		$plugin::resync_status = $saved_resync_status;
+		$options{resync_status} = $saved_resync_status;
 	}
 	if (defined $test->{check_status}) {
-		$plugin::check_status = $test->{check_status};
+		$options{check_status} = $test->{check_status};
 	} else {
-		$plugin::check_status = $saved_check_status;
+		$options{check_status} = $saved_check_status;
 	}
 	my $plugin = mdstat->new(
 		commands => {
 			'mdstat' => ['<', TESTDIR . '/data/mdstat/' . $test->{input}],
 		},
+		options => \%options,
 	);
 
 	ok($plugin, "plugin created");
