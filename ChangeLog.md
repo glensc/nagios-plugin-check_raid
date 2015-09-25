@@ -6,6 +6,9 @@
 - mvcli: new plugin, partial implementation [#92][]
 - improvements to `make rpm`. [#108][]
 
+NOTES:
+`arcconf` users need to update their `sudo` rules
+
 ## 3.2.4 (2015-07-03)
 
 - arcconf: handle unparsed data from Arcconf 1.7. [#99][]
