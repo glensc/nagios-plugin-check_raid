@@ -301,20 +301,15 @@ my @tests = (
 	},
 );
 
-# save default value
-my $saved_bbulearn_status = $plugin::options{bbulearn_status};
-
-$plugin::options{bbu_monitoring} = 1;
-
 # test that plugin can be created
 ok(megacli->new, "plugin created");
 
 foreach my $test (@tests) {
-	my %options = ();
+	my %options = (
+		bbu_monitoring => 1,
+	);
 	if (defined($test->{bbulearn_status})) {
 		$options{bbulearn_status} = $test->{bbulearn_status};
-	} else {
-		$options{bbulearn_status} = $saved_bbulearn_status;
 	}
 
 	my $plugin = megacli->new(

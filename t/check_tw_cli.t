@@ -79,10 +79,9 @@ foreach my $test (@tests) {
 			'unitstatus' => ['<', TESTDIR . '/data/tw_cli/' .$test->{unitstatus} ],
 			'drivestatus' => ['<', TESTDIR . '/data/tw_cli/' .$test->{drivestatus} ],
 		},
+		options => { bbu_monitoring => 1 },
 	);
 	ok($plugin, "plugin created");
-
-	$plugin::options{bbu_monitoring} = 1;
 
 	$plugin->check;
 	ok(1, "check ran");
