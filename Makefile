@@ -4,8 +4,13 @@ pack: check_raid.pl
 installdeps:
 	cpanm --installdeps -Llocal -n .
 
+# Params::Validate adds some Module::Build dependency, but Monitoring-Plugin needs just:
+# Configuring Monitoring-Plugin-0.39 ... OK
+# ==> Found dependencies: Params::Validate, Class::Accessor, Config::Tiny, Math::Calc::Units
+exclude_fatpack_modules := Module::Build,CPAN::Meta
+
 fatpack: installdeps
-	fatpack-simple --no-perl-strip bin/check_raid.pl $(options)
+	fatpack-simple --no-perl-strip --exclude $(exclude_fatpack_modules) bin/check_raid.pl $(options)
 
 check_raid.pl: bin/check_raid.pl
 	# ensure cpanm is present
