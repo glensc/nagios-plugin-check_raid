@@ -673,7 +673,8 @@ use base 'plugin';
 #push(@utils::plugins, __PACKAGE__);
 
 sub sudo {
-	my $cat = which('cat');
+	my ($this) = @_;
+	my $cat = $this->which('cat');
 
 	"CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/0/status";
 }
@@ -1853,7 +1854,8 @@ use base 'plugin';
 #push(@utils::plugins, __PACKAGE__);
 
 sub sudo {
-	my $cat = which('cat');
+	my ($this) = @_;
+	my $cat = $this->which('cat');
 
 	my @sudo;
 	foreach my $mr (</proc/mega*/*/raiddrives*>) {
