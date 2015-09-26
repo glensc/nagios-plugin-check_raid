@@ -13,6 +13,8 @@ fatpack: installdeps perlstrip
 	fatpack-simple --no-perl-strip --exclude $(exclude_fatpack_modules) bin/check_raid.pl $(options)
 
 perlstrip:
+	# make sure we run this in git export, files are modified in-place!
+	test ! -d .git
 	find local/lib -name '*.pm' | xargs perlstrip -s
 
 check_raid.pl: bin/check_raid.pl
