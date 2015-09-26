@@ -28,11 +28,29 @@ sub plugins {
 
 	# call this once
 	if (!defined $this->{plugins}) {
-		my @plugins = $this->_plugins(mp => $this->{mp});
+		my @plugins = $this->_plugins(options => $this->{options});
 		$this->{plugins} = \@plugins;
 	}
 
 	wantarray ? @{$this->{plugins}} : $this->{plugins};
+}
+
+# get plugin by name
+sub plugin {
+	my ($this, $name) = @_;
+
+	if (!defined $this->{plugin_names}) {
+		my %names;
+		foreach my $plugin ($this->plugins) {
+			my $name = $plugin->{name};
+			$names{$name} = $plugin;
+		}
+		$this->{plugin_names} = \%names;
+	}
+
+	croak "Plugin '$name' Can not be created" unless exists $this->{plugin_names}{$name};
+
+	$this->{plugin_names}{$name};
 }
 
 # Get active plugins.
