@@ -3,6 +3,7 @@ package App::Monitoring::Plugin::CheckRaid;
 use Carp qw(croak);
 use Module::Pluggable instantiate => 'new', sub_name => '_plugins';
 use strict;
+use warnings;
 
 # constructor
 sub new {
@@ -28,7 +29,7 @@ sub plugins {
 
 	# call this once
 	if (!defined $this->{plugins}) {
-		my @plugins = $this->_plugins(options => $this->{options});
+		my @plugins = $this->_plugins(%$this);
 		$this->{plugins} = \@plugins;
 	}
 
