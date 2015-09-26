@@ -12,8 +12,17 @@ sub new {
 	croak 'Odd number of elements in argument hash' if @_ % 2;
 	croak 'Class is already a reference' if ref $class;
 
+	# convert to hash
+	my %args = @_;
+
+	# merge commands
+	my %commands = %{$class->commands};
+	%commands = (%commands, %{$args{commands}}) if $args{commands};
+	delete $args{commands};
+
 	my $self = {
-		@_,
+		commands => \%commands,
+		%args,
 
 		# name of the plugin, without package namespace
 		name => ($class =~ /.*::([^:]+)$/),
