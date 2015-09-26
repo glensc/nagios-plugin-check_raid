@@ -1,6 +1,7 @@
 package App::Monitoring::Plugin::CheckRaid::Plugin;
 
 use Carp qw(croak);
+use App::Monitoring::Plugin::CheckRaid::Utils;
 use strict;
 use warnings;
 
@@ -18,7 +19,14 @@ sub new {
 		name => ($class =~ /.*::([^:]+)$/),
 	};
 
-	return bless $self, $class;
+	my $this = bless $self, $class;
+
+	# lookup program, if not defined by params
+	if (!$self->{program}) {
+		$self->{program} = which($this->program_names);
+	}
+
+	return $this;
 }
 
 # Add $message of type $code
