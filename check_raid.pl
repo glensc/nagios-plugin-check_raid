@@ -87,7 +87,7 @@ sub which {
 }
 
 our @sudo;
-sub find_sudo() {
+sub find_sudo {
 	# no sudo needed if already root
 	return [] unless $>;
 
@@ -360,7 +360,7 @@ sub join_status {
 }
 
 # return true if parameter is not in ignore list
-sub valid($) {
+sub valid {
 	my $this = shift;
 	my ($v) = lc $_[0];
 
@@ -375,7 +375,7 @@ use constant M => K * 1024;
 use constant G => M * 1024;
 use constant T => G * 1024;
 
-sub format_bytes($) {
+sub format_bytes {
 	my $this = shift;
 
 	my ($bytes) = @_;
@@ -596,7 +596,7 @@ sub sudo {
 	"CHECK_RAID ALL=(root) NOPASSWD: $cmd"
 }
 
-sub active($) {
+sub active {
 	my ($this) = @_;
 
 	# program not found
@@ -727,7 +727,7 @@ sub commands {
 	}
 }
 
-sub active ($) {
+sub active {
 	my ($this) = @_;
 	# easy way out. no /proc/mdstat
 	return 0 unless -e $this->{commands}{mdstat}[1];
@@ -1664,7 +1664,7 @@ sub sudo {
 	);
 }
 
-sub active ($) {
+sub active {
 	my ($this) = @_;
 
 	# return if parent said NO
@@ -1911,7 +1911,7 @@ sub commands {
 	}
 }
 
-sub active ($) {
+sub active {
 	my ($this) = @_;
 	return -d $this->{commands}{proc}[1];
 }
@@ -2139,7 +2139,7 @@ sub commands {
 	}
 }
 
-sub active ($) {
+sub active {
 	my ($this) = @_;
 	return -d $this->{commands}{proc}[1];
 }
@@ -4567,7 +4567,7 @@ sub commands {
 	}
 }
 
-sub active ($) {
+sub active {
 	my ($this) = @_;
 
 	# easy way out. no executable
@@ -4810,7 +4810,7 @@ sub find_file {
 	return undef;
 }
 
-sub print_usage() {
+sub print_usage {
 	print join "\n",
 	"Usage: check_raid [-h] [-V] [-S] [list of devices to ignore]",
 	"",
@@ -4842,7 +4842,7 @@ sub print_usage() {
 	"";
 }
 
-sub print_help() {
+sub print_help {
 	print "check_raid, v$VERSION\n";
 	print "Copyright (c) 2004-2006 Steve Shipway,
 Copyright (c) 2009-2015, Elan Ruusamäe <glen\@pld-linux.org>
@@ -5035,7 +5035,7 @@ sub setstate {
 
 # obtain git hash of check_raid.pl
 # http://stackoverflow.com/questions/460297/git-finding-the-sha1-of-an-individual-file-in-the-index#comment26055597_460315
-sub git_hash_object() {
+sub git_hash_object {
 	my $content = "blob ";
 	$content .= -s $0;
 	$content .= "\0";
