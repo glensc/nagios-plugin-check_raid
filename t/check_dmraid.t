@@ -8,7 +8,7 @@ use strict;
 use warnings;
 use constant ACTIVE_TESTS => 1;
 use constant INACTIVE_TESTS => 1;
-use Test::More tests => ACTIVE_TESTS * 5 + INACTIVE_TESTS * 3;
+use Test::More tests => 1 + ACTIVE_TESTS * 5 + INACTIVE_TESTS * 3;
 use test;
 
 my @tests = (
@@ -23,6 +23,9 @@ my @tests = (
 		dmraid => 'pr60',
 	},
 );
+
+# test that plugin can be created
+ok(dmraid->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = dmraid->new(

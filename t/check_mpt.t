@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 30;
+use Test::More tests => 31;
 use test;
 
 my @tests = (
@@ -48,6 +48,9 @@ my @tests = (
 		message => 'Volume 13 (RAID-1, 2 disks, 135 GiB): OPTIMAL',
 	},
 );
+
+# test that plugin can be created
+ok(mpt->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = mpt->new(

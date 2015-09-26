@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 use constant TESTS => 3;
-use Test::More tests => TESTS * 5;
+use Test::More tests => 1 + TESTS * 5;
 use test;
 
 my @tests = (
@@ -27,6 +27,9 @@ my @tests = (
 		message => 'd50:d51:Okay, d50:d52:Okay, d40:d41:Okay, d40:d42:Okay, d30:d31:Okay, d30:d32:Okay, d20:d21:Okay, d20:d22:Okay, d10:d11:Okay, d10:d12:Okay, d100:d60:Okay, d60:d61:Okay, d60:d62:Okay',
 	},
 );
+
+# test that plugin can be created
+ok(metastat->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = metastat->new(

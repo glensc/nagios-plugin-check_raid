@@ -8,7 +8,7 @@ use strict;
 use warnings;
 use constant INACTIVE_TESTS => 2;
 use constant ACTIVE_TESTS => 18;
-use Test::More tests => ACTIVE_TESTS * 6 + INACTIVE_TESTS * 2;
+use Test::More tests => 1 + ACTIVE_TESTS * 6 + INACTIVE_TESTS * 2;
 use test;
 
 my @tests = (
@@ -93,25 +93,22 @@ my @tests = (
 	},
 );
 
-# save default value
-my $saved_resync_status = $plugin::resync_status;
-my $saved_check_status = $plugin::check_status;
+# test that plugin can be created
+ok(mdstat->new, "plugin created");
 
 foreach my $test (@tests) {
+	my %options = ();
 	if (defined $test->{resync_status}) {
-		$plugin::resync_status = $test->{resync_status};
-	} else {
-		$plugin::resync_status = $saved_resync_status;
+		$options{resync_status} = $test->{resync_status};
 	}
 	if (defined $test->{check_status}) {
-		$plugin::check_status = $test->{check_status};
-	} else {
-		$plugin::check_status = $saved_check_status;
+		$options{check_status} = $test->{check_status};
 	}
 	my $plugin = mdstat->new(
 		commands => {
 			'mdstat' => ['<', TESTDIR . '/data/mdstat/' . $test->{input}],
 		},
+		options => \%options,
 	);
 
 	ok($plugin, "plugin created");

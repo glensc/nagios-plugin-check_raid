@@ -2,12 +2,6 @@
 BEGIN {
 	(my $srcdir = $0) =~ s,/[^/]+$,/,;
 	unshift @INC, $srcdir;
-
-	if ($ENV{TRAVIS}) {
-		use Test::More;
-		plan skip_all => "Skipping test as can't open /dev in travis";
-		exit 0;
-	}
 }
 
 use strict;
@@ -17,26 +11,23 @@ use test;
 
 my @tests = (
 	{
-		status => WARNING,
-		tty_device => '/dev/ttyNOTTY',
-		message => "Can't open /dev/ttyNOTTY",
+		status => UNKNOWN,
+		'mvcli blk' => 'issue-92/blk',
+		'mvcli smart' => 'issue-92/smart-2',
+		message => '',
 	},
 );
 
 # test that plugin can be created
-ok(hp_msa->new, "plugin created");
+ok(mvcli->new, "plugin created");
 
 foreach my $test (@tests) {
-	my $plugin = hp_msa->new(
-		tty_device => $test->{tty_device},
-		lockdir => '.',
+	my $plugin = mvcli->new(
 		commands => {
-		},
-		options => {
-			'hp_msa-serial' => $test->{tty_device},
+			'mvcli blk' => ['<', TESTDIR . '/data/mvcli/' .$test->{'mvcli blk'} ],
+			'mvcli smart' => ['<', TESTDIR . '/data/mvcli/' .$test->{'mvcli smart'} ],
 		},
 	);
-
 	ok($plugin, "plugin created");
 
 	$plugin->check;

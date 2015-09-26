@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 use constant TESTS => 4;
-use Test::More tests => TESTS*5;
+use Test::More tests => 1 + TESTS * 5;
 use test;
 
 my @tests = (
@@ -36,6 +36,9 @@ my @tests = (
 		message => 'Array#1(Raid Set # 000): Normal, Array#2(data2): Normal, Array#3(PassThroughDisk): Normal, Drive Assignment: 9,10,11,12,13,14=Array#1 15,16,17,18,19,20=Array#2 21=Pass Through',
 	},
 );
+
+# test that plugin can be created
+ok(areca->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = areca->new(

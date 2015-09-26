@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More tests => 6;
 use test;
 
 my @tests = (
@@ -21,6 +21,9 @@ my @tests = (
 		message => '/dev/cciss/c0d0#0=OK',
 	},
 );
+
+# test that plugin can be created
+ok(smartctl->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = smartctl->new(

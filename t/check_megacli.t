@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 use constant TESTS => 19;
-use Test::More tests => TESTS*8;
+use Test::More tests => 1 + TESTS * 8;
 use test;
 
 my @tests = (
@@ -301,27 +301,27 @@ my @tests = (
 	},
 );
 
-# save default value
-my $saved_bbulearn_status = $plugin::bbulearn_status;
-
-$plugin::bbu_monitoring = 1;
+# test that plugin can be created
+ok(megacli->new, "plugin created");
 
 foreach my $test (@tests) {
+	my %options = (
+		bbu_monitoring => 1,
+	);
+	if (defined($test->{bbulearn_status})) {
+		$options{bbulearn_status} = $test->{bbulearn_status};
+	}
+
 	my $plugin = megacli->new(
 		commands => {
 			'pdlist' => ['<', TESTDIR . '/data/megacli/' . $test->{pdlist}],
 			'ldinfo' => ['<', TESTDIR . '/data/megacli/' . $test->{ldinfo}],
 			'battery' => ['<', TESTDIR . '/data/megacli/' . $test->{battery}],
 		},
+		options => \%options,
 	);
 
 	ok($plugin, "plugin created");
-
-	if (defined($test->{bbulearn_status})) {
-		$plugin::bbulearn_status = $test->{bbulearn_status};
-	} else {
-		$plugin::bbulearn_status = $saved_bbulearn_status;
-	}
 
 	$plugin->check;
 	ok(1, "check ran");

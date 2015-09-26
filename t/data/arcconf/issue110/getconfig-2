@@ -1,0 +1,308 @@
+Controllers found: 2
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Channel description                      : SAS/SATA
+   Controller Model                         : Adaptec 6805Q
+   Controller Serial Number                 : 2B2111F7A1F
+   Controller World Wide Name               : 50000D1105548500
+   Controller Alarm                         : Enabled
+   Physical Slot                            : 1
+   Temperature                              : 35 C/ 95 F (Normal)
+   Installed memory                         : 512 MB
+   Global task priority                     : High
+   Performance Mode                         : Default/Dynamic
+   Host bus type                            : PCIe
+   Host bus speed                           : 5000 MHz
+   Host bus link width                      : 4 bit(s)/link(s)
+   Stayawake period                         : Disabled
+   Spinup limit internal drives             : 0
+   Spinup limit external drives             : 0
+   Defunct disk drive count                 : 0
+   Logical devices/Failed/Degraded          : 1/0/0
+   NCQ status                               : Enabled
+   Statistics data collection mode          : Enabled
+   --------------------------------------------------------
+   RAID Properties
+   --------------------------------------------------------
+   Copyback                                 : Enabled
+   Background consistency check             : Enabled
+   Background consistency check period      : 30
+   Automatic Failover                       : Enabled
+   SSDs assigned to maxCache pool           : 1
+   Maximum SSDs allowed in maxCache pool    : 8
+   maxCache Read Cache Pool Size            : 111.583 GB
+   maxCache flush and fetch rate            : 100
+   maxCache Read, Write Balance Factor      : 1,1
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 5.2-0 (19147)
+   Firmware                                 : 5.2-0 (19147)
+   Driver                                   : 1.2-0 (30200)
+   Boot Flash                               : 5.2-0 (19147)
+   --------------------------------------------------------
+   Controller ZMM Information
+   --------------------------------------------------------
+   Status                                   : ZMM Optimal
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical device number 0
+   Logical device name                      : Main0
+   Block Size of member drives              : 512 Bytes
+   RAID level                               : 6 Reed-Solomon
+   Unique Identifier                        : 54EC8526
+   Status of logical device                 : Optimal
+   Additional details                       : Initialized with Build/Clear
+   Size                                     : 700490 MB
+   Parity space                             : 280200 MB
+   Stripe-unit size                         : 1024 KB
+   Read-cache setting                       : Enabled
+   Read-cache status                        : On
+   Write-cache setting                      : On when protected by battery/ZMM
+   Write-cache status                       : On
+   maxCache read cache setting              : Enabled
+   maxCache read cache status               : On
+   Partitioned                              : No
+   Protected by Hot-Spare                   : No
+   Bootable                                 : Yes
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (Controller:2,Connector:1,Device:2)         22R0A03FFRG8
+   Segment 1                                : Present (Controller:2,Connector:1,Device:1)         22R0A0A6FRG8
+   Segment 2                                : Present (Controller:2,Connector:0,Device:2)         22R0A0A5FRG8
+   Segment 3                                : Present (Controller:2,Connector:0,Device:1)         22R0A04QFRG8
+   Segment 4                                : Present (Controller:2,Connector:1,Device:3)         22R0A093FRG8
+   Segment 5                                : Present (Controller:2,Connector:1,Device:0)         22R0A04SFRG8
+   Segment 6                                : Present (Controller:2,Connector:0,Device:3)         22R0A0A7FRG8
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,0(0:0)
+         Reported Location                  : Connector 0, Device 0
+         Vendor                             :
+         Model                              : OCZ-VERTEX3 MI
+         Firmware                           : 2.15
+         Serial number                      : OCZ-4B9TF76ES3WSEJ94
+         Reserved Size                      : 177560 KB
+         Used Size                          : 114300 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 114473 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full power,Powered off,Standby
+         SSD                                : Yes
+         maxCache Capable                   : Yes
+         maxCache Assigned                  : Yes
+         Temperature                        : Not Supported
+         NCQ status                         : Enabled
+      Device #1
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,1(1:0)
+         Reported Location                  : Connector 0, Device 1
+         Vendor                             : TOSHIBA
+         Model                              : MK1401GRRB
+         Firmware                           : 0102
+         Serial number                      : 22R0A04QFRG8
+         World-wide name                    : 50000393D851F1FD
+         Reserved Size                      : 176528 KB
+         Used Size                          : 140100 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 140272 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         maxCache Capable                   : No
+         maxCache Assigned                  : No
+         Temperature                        : Not Supported
+      Device #2
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,2(2:0)
+         Reported Location                  : Connector 0, Device 2
+         Vendor                             : TOSHIBA
+         Model                              : MK1401GRRB
+         Firmware                           : 0102
+         Serial number                      : 22R0A0A5FRG8
+         World-wide name                    : 50000393D852042D
+         Reserved Size                      : 176528 KB
+         Used Size                          : 140100 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 140272 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         maxCache Capable                   : No
+         maxCache Assigned                  : No
+         Temperature                        : Not Supported
+      Device #3
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,3(3:0)
+         Reported Location                  : Connector 0, Device 3
+         Vendor                             : TOSHIBA
+         Model                              : MK1401GRRB
+         Firmware                           : 0102
+         Serial number                      : 22R0A0A7FRG8
+         World-wide name                    : 50000393D8520439
+         Reserved Size                      : 176528 KB
+         Used Size                          : 140100 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 140272 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         maxCache Capable                   : No
+         maxCache Assigned                  : No
+         Temperature                        : Not Supported
+      Device #4
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,4(4:0)
+         Reported Location                  : Connector 1, Device 0
+         Vendor                             : TOSHIBA
+         Model                              : MK1401GRRB
+         Firmware                           : 0102
+         Serial number                      : 22R0A04SFRG8
+         World-wide name                    : 50000393D851F201
+         Reserved Size                      : 176528 KB
+         Used Size                          : 140100 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 140272 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         maxCache Capable                   : No
+         maxCache Assigned                  : No
+         Temperature                        : Not Supported
+      Device #5
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,5(5:0)
+         Reported Location                  : Connector 1, Device 1
+         Vendor                             : TOSHIBA
+         Model                              : MK1401GRRB
+         Firmware                           : 0102
+         Serial number                      : 22R0A0A6FRG8
+         World-wide name                    : 50000393D8520431
+         Reserved Size                      : 176528 KB
+         Used Size                          : 140100 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 140272 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         maxCache Capable                   : No
+         maxCache Assigned                  : No
+         Temperature                        : Not Supported
+      Device #6
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,6(6:0)
+         Reported Location                  : Connector 1, Device 2
+         Vendor                             : TOSHIBA
+         Model                              : MK1401GRRB
+         Firmware                           : 0102
+         Serial number                      : 22R0A03FFRG8
+         World-wide name                    : 50000393D851F0E9
+         Reserved Size                      : 176528 KB
+         Used Size                          : 140100 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 140272 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         maxCache Capable                   : No
+         maxCache Assigned                  : No
+         Temperature                        : Not Supported
+      Device #7
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SAS 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,7(7:0)
+         Reported Location                  : Connector 1, Device 3
+         Vendor                             : TOSHIBA
+         Model                              : MK1401GRRB
+         Firmware                           : 0102
+         Serial number                      : 22R0A093FRG8
+         World-wide name                    : 50000393D852035D
+         Reserved Size                      : 176528 KB
+         Used Size                          : 140100 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 140272 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         maxCache Capable                   : No
+         maxCache Assigned                  : No
+         Temperature                        : Not Supported
+
+
+
+Command completed successfully.

@@ -1,3 +1,14 @@
+## 3.2.5 (UNRELEASED)
+
+- tw_cli: respect bbu monitoring flag in tw_cli. [#117][]
+- hpssacli: make plugin to work if hpacucli is dected as well. [#116][], [#114][]
+- arcconf: parse multiple controllers. [#110][]
+- mvcli: new plugin, partial implementation [#92][]
+- improvements to `make rpm`. [#108][]
+
+NOTES:
+`arcconf` users need to update their `sudo` rules
+
 ## 3.2.4 (2015-07-03)
 
 - arcconf: handle unparsed data from Arcconf 1.7. [#99][]
@@ -181,3 +192,8 @@ NOTES:
 [#106]: https://github.com/glensc/nagios-plugin-check_raid/issues/106
 [#108]: https://github.com/glensc/nagios-plugin-check_raid/pull/108
 [#109]: https://github.com/glensc/nagios-plugin-check_raid/issues/109
+[#117]: https://github.com/glensc/nagios-plugin-check_raid/issues/117
+[#116]: https://github.com/glensc/nagios-plugin-check_raid/issues/116
+[#114]: https://github.com/glensc/nagios-plugin-check_raid/issues/114
+[#92]: https://github.com/glensc/nagios-plugin-check_raid/issues/92
+[#110]: https://github.com/glensc/nagios-plugin-check_raid/issues/110

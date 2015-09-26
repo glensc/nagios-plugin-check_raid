@@ -29,7 +29,7 @@ sub read_dump {
 sub store_dump {
 	my ($file, $c) = @_;
 
-	open my $fh, '>', $file or die $!;
+	open my $fh, '>', $file or die "Can't create: $file: $!";
 	{
 		local $Data::Dumper::Sortkeys = 1;
 		print $fh Dumper $c;

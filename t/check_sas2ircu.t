@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 10;
+use Test::More tests => 11;
 use test;
 
 my @tests = (
@@ -27,6 +27,9 @@ my @tests = (
 		message => 'ctrl #0: 1 Vols: Optimal: 2 Drives: Optimal (OPT)::',
 	},
 );
+
+# test that plugin can be created
+ok(sas2ircu->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = sas2ircu->new(

@@ -26,6 +26,7 @@ Suggests:	lsscsi
 Suggests:	megacli-sas
 Suggests:	megarc-scsi
 Suggests:	mpt-status
+Suggests:	mvcli
 Suggests:	smartmontools
 Suggests:	tw_cli-9xxx
 %endif
@@ -69,6 +70,12 @@ cp -p %{SOURCE1} .
 cp -p %{SOURCE2} .
 cp -p %{SOURCE3} .
 cp -p %{SOURCE4} .
+
+%build
+# set version
+%{__sed} -i -e '
+	s/my ($VERSION) = "[^"]*";/my ($VERSION) = "%{version}-%{release}";/
+' %{plugin}.pl
 
 %install
 rm -rf $RPM_BUILD_ROOT

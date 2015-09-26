@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 use constant TESTS => 6;
-use Test::More tests => TESTS * 5;
+use Test::More tests => 1 + TESTS * 5;
 use test;
 
 my @tests = (
@@ -48,6 +48,9 @@ my @tests = (
 		message => 'Smart HBA H240ar: Array A(OK)[LUN1:OK]',
 	},
 );
+
+# test that plugin can be created
+ok(hpacucli->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = hpacucli->new(

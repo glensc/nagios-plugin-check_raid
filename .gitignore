@@ -1,0 +1,6 @@
+# vim backups
+*~
+*.sw[op]
+
+# lockfile by SerialLine
+LCK..ttyNOTTY

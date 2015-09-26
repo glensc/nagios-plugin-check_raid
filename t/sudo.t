@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 
-use Test::More tests => 20;
+use Test::More tests => 21;
 use test;
 
 my $bindir = TESTDIR . '/data/bin';
@@ -54,7 +54,7 @@ my %sudo = (
 	],
 	arcconf => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/arcconf GETSTATUS 1",
-		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/arcconf GETCONFIG 1 AL",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/arcconf GETCONFIG * AL nologs",
 	],
 	megarc => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/megarc -AllAdpInfo -nolog",
@@ -73,6 +73,10 @@ my %sudo = (
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpacucli controller all show status",
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpacucli controller * logicaldrive all show",
 	],
+	hpssacli => [
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpssacli controller all show status",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpssacli controller * logicaldrive all show",
+	],
 	areca => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/cli64 rsf info",
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/cli64 disk info",
@@ -90,7 +94,7 @@ foreach my $pn (@utils::plugins) {
 	my $plugin = $pn->new(%params);
 	my @rules = $plugin->sudo(1) or undef;
 
-	my $exp = join "\n", @{$sudo{$pn}};
-	my $rules = join "\n", @rules;
+	my $exp = join "\n", @{$sudo{$pn}} if defined $sudo{$pn};
+	my $rules = join "\n", @rules; # if @rules;
 	is($rules, $exp, "$pn sudo ok");
 }

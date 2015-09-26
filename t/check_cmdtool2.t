@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More tests => 6;
 use test;
 
 my @tests = (
@@ -17,6 +17,9 @@ my @tests = (
 		message => 'Logical Drive 0,0: Optimal',
 	},
 );
+
+# test that plugin can be created
+ok(cmdtool2->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = cmdtool2->new(

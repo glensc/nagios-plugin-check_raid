@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 use constant TESTS => 7;
-use Test::More tests => TESTS * 6;
+use Test::More tests => 1 + TESTS * 6;
 use test;
 
 my @tests = (
@@ -69,6 +69,9 @@ my @tests = (
 	},
 );
 
+# test that plugin can be created
+ok(tw_cli->new, "plugin created");
+
 foreach my $test (@tests) {
 	my $plugin = tw_cli->new(
 		commands => {
@@ -76,6 +79,7 @@ foreach my $test (@tests) {
 			'unitstatus' => ['<', TESTDIR . '/data/tw_cli/' .$test->{unitstatus} ],
 			'drivestatus' => ['<', TESTDIR . '/data/tw_cli/' .$test->{drivestatus} ],
 		},
+		options => { bbu_monitoring => 1 },
 	);
 	ok($plugin, "plugin created");
 

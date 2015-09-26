@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 20;
+use Test::More tests => 21;
 use test;
 
 my @tests = (
@@ -35,6 +35,9 @@ my @tests = (
 		message => 'Controller 0: Array(RAID-1) ok (1 missing drives); Logical Drives: 0=ok; Disk B/00/0(MAXTOR  ATLAS10K4_73SCA) grown defects warning: 288, not assigned',
 	},
 );
+
+# test that plugin can be created
+ok(gdth->new, "plugin created");
 
 foreach my $test (@tests) {
 	my $plugin = gdth->new(

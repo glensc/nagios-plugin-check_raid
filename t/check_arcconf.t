@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 use constant TESTS => 15;
-use Test::More tests => 2 + TESTS * 6;
+use Test::More tests => 3 + TESTS * 6;
 use test;
 
 # NOTE: this plugin has side effect of changing dir
@@ -35,7 +35,7 @@ my @tests = (
 		status => OK,
 		getstatus => '3/getstatus',
 		getconfig => '3/getconfig',
-		message => 'Controller:Optimal, Logical device #0: Build/Verify: In Progress 11%, ZMM Status: ZMM Optimal, Logical Device 0(Volume01):Optimal, Drives: *******,*******,*******,*******=Online',
+		message => 'Controller:Optimal, ZMM Status: ZMM Optimal, Logical device #0: Build/Verify: In Progress 11%, Logical Device 0(Volume01):Optimal, Drives: *******,*******,*******,*******=Online',
 		c => '3',
 	},
 	{
@@ -63,7 +63,7 @@ my @tests = (
 		status => WARNING,
 		getstatus => 'issue47/getstatus2',
 		getconfig => 'issue47/getconfig2',
-		message => 'Controller:Optimal, Logical device #0: Rebuild: In Progress 1%, ZMM Status: ZMM not installed, Logical Device 0(data):Degraded, Drives: WD-*******,WD-*******,WD-*******=Online WD-*******=Rebuilding',
+		message => 'Controller:Optimal, ZMM Status: ZMM not installed, Logical device #0: Rebuild: In Progress 1%, Logical Device 0(data):Degraded, Drives: WD-*******,WD-*******,WD-*******=Online WD-*******=Rebuilding',
 		c => 'issue47_2',
 	},
 	{
@@ -122,9 +122,23 @@ my @tests = (
 		message => 'Controller:Optimal, Battery Status: Failed, Logical Device 0(RAID10):Optimal, Drives: WD-WMATV3471115,WD-WMATV3047731,WD-WMATV3036928,WD-WMATV3086188=Online',
 		c => 'issue105',
 	},
+# test framework doesn't support multiple outputs for same command
+	{
+		skip => 1,
+		status => CRITICAL,
+		getstatus => 'issue110/getstatus',
+		getconfig => 'issue110/getconfig-1',
+		message => 'Controller:Optimal, Defunct drives:1, ZMM Status: ZMM Optimal, Controller:Optimal, Defunct drives:1, ZMM Status: ZMM Optimal, Logical Device 0(Main0):Optimal, Drives: OCZ-B8AV7L1U72V0GT61,22R0A094FRG8,22R0A092FRG8,22R0A03GFRG8,22R0A091FRG8,22R0A03HFRG8,22R0A0A9FRG8,22R0A0A4FRG8=Online',
+		c => 'issue110',
+	},
 );
 
+# test that plugin can be created
+ok(arcconf->new, "plugin created");
+
 foreach my $test (@tests) {
+	next if $test->{skip};
+
 	my $plugin = arcconf->new(
 		commands => {
 			getstatus => ['<', $cwd . '/data/arcconf/' . $test->{getstatus}],

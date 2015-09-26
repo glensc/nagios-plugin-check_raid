@@ -56,8 +56,10 @@ use strict;
 {
 package utils;
 
-my @EXPORT = qw(which find_sudo);
-my @EXPORT_OK = @EXPORT;
+use Exporter 'import';
+
+our @EXPORT = qw(which find_sudo);
+our @EXPORT_OK = @EXPORT;
 
 # registered plugins
 our @plugins;
@@ -114,26 +116,34 @@ sub find_sudo() {
 package plugin;
 use Carp qw(croak);
 
+utils->import;
+
 # Nagios standard error codes
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 
-# status to set when RAID is in resync state
-our $resync_status = $ERRORS{WARNING};
+# default plugin options
+our %options = (
+	# status to set when RAID is in resync state
+	resync_status => $ERRORS{WARNING},
 
-# status to set when RAID is in check state
-our $check_status = $ERRORS{OK};
+	# Status code to use when no raid was detected
+	noraid_state => $ERRORS{UNKNOWN},
 
-# status to set when PD is spare
-our $spare_status = $ERRORS{OK};
+	# status to set when RAID is in check state
+	check_status => $ERRORS{OK},
 
-# status to set when BBU is in learning cycle.
-our $bbulearn_status = $ERRORS{WARNING};
+	# status to set when PD is spare
+	spare_status => $ERRORS{OK},
 
-# status to set when Write Cache has failed.
-our $cache_fail_status = $ERRORS{WARNING};
+	# status to set when BBU is in learning cycle.
+	bbulearn_status => $ERRORS{WARNING},
 
-# check status of BBU
-our $bbu_monitoring = 0;
+	# status to set when Write Cache has failed.
+	cache_fail_status => $ERRORS{WARNING},
+
+	# check status of BBU
+	bbu_monitoring => 0,
+);
 
 # return list of programs this plugin needs
 # @internal
@@ -159,11 +169,19 @@ sub new {
 
 	croak 'Odd number of elements in argument hash' if @_ % 2;
 
+	# convert to hash
+	my %args = @_;
+
+	# merge 'options' from param and class defaults
+	%options = (%options, %{$args{options}}) if $args{options};
+	delete $args{options};
+
 	my $self = {
 		program_names => [ $class->program_names ],
 		commands => $class->commands,
-		sudo => $class->sudo ? utils::find_sudo() : '',
-		@_,
+		sudo => $class->sudo ? find_sudo() : '',
+		options => \%options,
+		%args,
 		name => $class,
 		status => undef,
 		message => undef,
@@ -173,7 +191,7 @@ sub new {
 
 	# lookup program, if not defined by params
 	if (!$self->{program}) {
-		$self->{program} = utils::which(@{$self->{program_names}});
+		$self->{program} = which(@{$self->{program_names}});
 	}
 
 	return bless $self, $class;
@@ -241,7 +259,7 @@ sub ok {
 # returns $this to allow fluent api
 sub resync {
 	my ($this) = @_;
-	$this->status($resync_status);
+	$this->status($this->{options}{resync_status});
 	return $this;
 }
 
@@ -249,7 +267,7 @@ sub resync {
 # returns $this to allow fluent api
 sub check_status {
 	my ($this) = @_;
-	$this->status($check_status);
+	$this->status($this->{options}{check_status});
 	return $this;
 }
 
@@ -257,7 +275,7 @@ sub check_status {
 # returns $this to allow fluent api
 sub spare {
 	my ($this) = @_;
-	$this->status($spare_status);
+	$this->status($this->{options}{spare_status});
 	return $this;
 }
 
@@ -265,7 +283,7 @@ sub spare {
 # returns $this to allow fluent api
 sub bbulearn {
 	my ($this) = @_;
-	$this->status($bbulearn_status);
+	$this->status($this->{options}{bbulearn_status});
 	return $this;
 }
 
@@ -273,7 +291,7 @@ sub bbulearn {
 # returns $this to allow fluent api
 sub cache_fail {
 	my ($this) = @_;
-	$this->status($cache_fail_status);
+	$this->status($this->{options}{cache_fail_status});
 	return $this;
 }
 
@@ -282,9 +300,9 @@ sub bbu_monitoring {
 	my ($this, $val) = @_;
 
 	if (defined $val) {
-		$bbu_monitoring = $val;
+		$this->{options}{bbu_monitoring} = $val;
 	}
-	$bbu_monitoring;
+	$this->{options}{bbu_monitoring};
 }
 
 # setup status message text
@@ -655,7 +673,7 @@ use base 'plugin';
 #push(@utils::plugins, __PACKAGE__);
 
 sub sudo {
-	my $cat = utils::which('cat');
+	my $cat = which('cat');
 
 	"CHECK_RAID ALL=(root) NOPASSWD: $cat /proc/megaide/0/status";
 }
@@ -1835,7 +1853,7 @@ use base 'plugin';
 #push(@utils::plugins, __PACKAGE__);
 
 sub sudo {
-	my $cat = utils::which('cat');
+	my $cat = which('cat');
 
 	my @sudo;
 	foreach my $mr (</proc/mega*/*/raiddrives*>) {
@@ -2422,7 +2440,7 @@ sub check {
 		push(@status, "Drives($c->{drives}): ".$this->join_status(\%ds)) if %ds;
 
 		# check BBU
-		if ($c->{bbu} && $c->{bbu} ne '-') {
+		if ($this->bbu_monitoring && $c->{bbu} && $c->{bbu} ne '-') {
 			$this->critical if $c->{bbu} ne 'OK';
 			push(@status, "BBU: $c->{bbu}");
 		}
@@ -2450,7 +2468,7 @@ sub program_names {
 sub commands {
 	{
 		'getstatus' => ['-|', '@CMD', 'GETSTATUS', '1'],
-		'getconfig' => ['-|', '@CMD', 'GETCONFIG', '1', 'AL'],
+		'getconfig' => ['-|', '@CMD', 'GETCONFIG', '$ctrl', 'AL', 'nologs'],
 	}
 }
 
@@ -2462,7 +2480,7 @@ sub sudo {
 	my $cmd = $this->{program};
 	(
 		"CHECK_RAID ALL=(root) NOPASSWD: $cmd GETSTATUS 1",
-		"CHECK_RAID ALL=(root) NOPASSWD: $cmd GETCONFIG 1 AL",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd GETCONFIG * AL nologs",
 	);
 }
 
@@ -2532,12 +2550,6 @@ sub parse_status {
 	# Tasks seem to be Controller specific, but as we don't support over one controller, let it be global
 	$s{tasks} = { %task } if %task;
 
-	if ($count > 1) {
-		# don't know how to handle this, so better just fail
-		$this->unknown->message("More than one Controller found, this is not yet supported due lack of input data.");
-		return undef;
-	}
-
 	if ($count == 0) {
 		# if command completed, but no controllers,
 		# assume no hardware present
@@ -2547,21 +2559,31 @@ sub parse_status {
 		return undef;
 	}
 
-	$s{controllers} = $count;
+	$s{ctrl_count} = $count;
 
 	return \%s;
 }
 
-# parse GETCONFIG command
-# parses
-# - ...
+# parse GETCONFIG for all controllers
 sub parse_config {
 	my ($this, $status) = @_;
+
+	my %c;
+	for (my $i = 1; $i <= $status->{ctrl_count}; $i++) {
+		$c{$i} = $this->parse_ctrl_config($i, $status->{ctrl_count});
+	}
+
+	return { controllers => \%c };
+}
+
+# parse GETCONFIG command for specific controller
+sub parse_ctrl_config {
+	my ($this, $ctrl, $ctrl_count) = @_;
 
 	# Controller information, Logical/Physical device info
 	my (%c, @ld, $ld, @pd, $ch, $pd);
 
-	my $fh = $this->cmd('getconfig');
+	my $fh = $this->cmd('getconfig', { ctrl => $ctrl });
 	my ($section, $subsection, $ok);
 	while (<$fh>) {
 		chomp;
@@ -2576,7 +2598,7 @@ sub parse_config {
 		}
 
 		if (my($c) = /^Controllers found: (\d+)/) {
-			if ($c != $status->{controllers}) {
+			if ($c != $ctrl_count) {
 				# internal error?!
 				$this->unknown->message("Controller count mismatch");
 			}
@@ -2758,7 +2780,7 @@ sub parse_config {
 					# not parsed yet
 				} elsif (/Expander SAS Address\s+:/) {
 					# not parsed yet
-				} elsif (/MaxCache (Capable|Assigned)\s+:\s+(.+)/) {
+				} elsif (/[Mm]axCache (Capable|Assigned)\s+:\s+(.+)/) {
 					# not parsed yet
 				} elsif (/Power supply \d+ status/) {
 					# not parsed yet
@@ -2815,6 +2837,7 @@ sub parse {
 	my ($this) = @_;
 
 	# we chdir to /var/log, as tool is creating 'UcliEvt.log'
+	# this can be disabled with 'nologs' parameter, but not sure do all versions support it
 	chdir('/var/log') || chdir('/');
 
 	my ($status, $config);
@@ -2824,71 +2847,64 @@ sub parse {
 	return { %$status, %$config };
 }
 
-sub check {
-	my $this = shift;
+# check for controller status
+sub check_controller {
+	my ($this, $c) = @_;
 
-	my $data = $this->parse;
-	$this->unknown,return unless $data;
-
-	# status messages pushed here
 	my @status;
 
-	# check for controller status
-	for my $c ($data->{controller}) {
-		$this->critical if $c->{status} !~ /Optimal|Okay/;
-		push(@status, "Controller:$c->{status}");
+	$this->critical if $c->{status} !~ /Optimal|Okay/;
+	push(@status, "Controller:$c->{status}");
 
-		if ($c->{defunct_count} > 0) {
-			$this->critical;
-			push(@status, "Defunct drives:$c->{defunct_count}");
-		}
-
-		if (defined $c->{logical_failed} && $c->{logical_failed} > 0) {
-			$this->critical;
-			push(@status, "Failed drives:$c->{logical_failed}");
-		}
-
-		if (defined $c->{logical_degraded} && $c->{logical_degraded} > 0) {
-			$this->critical;
-			push(@status, "Degraded drives:$c->{logical_degraded}");
-		}
-
-		if (defined $c->{logical_offline} && $c->{logical_offline} > 0) {
-			$this->critical;
-			push(@status, "Offline drives:$c->{logical_offline}");
-		}
-
-		if (defined $c->{logical_critical} && $c->{logical_critical} > 0) {
-			$this->critical;
-			push(@status, "Critical drives:$c->{logical_critical}");
-		}
-
-		if (defined $c->{logical_degraded} && $c->{logical_degraded} > 0) {
-			$this->critical;
-			push(@status, "Degraded drives:$c->{logical_degraded}");
-		}
-
-		# current (logical device) tasks
-		if ($data->{tasks}->{operation} ne 'None') {
-			# just print it. no status change
-			my $task = $data->{tasks};
-			push(@status, "$task->{type} #$task->{device}: $task->{operation}: $task->{status} $task->{percent}%");
-		}
-
-		# ZMM (Zero-Maintenance Module) status
-		if (defined($c->{zmm_status})) {
-			push(@status, "ZMM Status: $c->{zmm_status}");
-		}
-
-		# Battery status
-		my @s = $this->battery_status($c);
-		push(@status, @s) if @s;
+	if ($c->{defunct_count} > 0) {
+		$this->critical;
+		push(@status, "Defunct drives:$c->{defunct_count}");
 	}
 
-	# check for physical devices
+	if (defined $c->{logical_failed} && $c->{logical_failed} > 0) {
+		$this->critical;
+		push(@status, "Failed drives:$c->{logical_failed}");
+	}
+
+	if (defined $c->{logical_degraded} && $c->{logical_degraded} > 0) {
+		$this->critical;
+		push(@status, "Degraded drives:$c->{logical_degraded}");
+	}
+
+	if (defined $c->{logical_offline} && $c->{logical_offline} > 0) {
+		$this->critical;
+		push(@status, "Offline drives:$c->{logical_offline}");
+	}
+
+	if (defined $c->{logical_critical} && $c->{logical_critical} > 0) {
+		$this->critical;
+		push(@status, "Critical drives:$c->{logical_critical}");
+	}
+
+	if (defined $c->{logical_degraded} && $c->{logical_degraded} > 0) {
+		$this->critical;
+		push(@status, "Degraded drives:$c->{logical_degraded}");
+	}
+
+	# ZMM (Zero-Maintenance Module) status
+	if (defined($c->{zmm_status})) {
+		push(@status, "ZMM Status: $c->{zmm_status}");
+	}
+
+	# Battery status
+	my @s = $this->battery_status($c);
+	push(@status, @s) if @s;
+
+	return @status;
+}
+
+# check for physical devices
+sub check_physical {
+	my ($this, $p) = @_;
+
 	my %pd;
-	my $pd_resync = 0;
-	for my $ch (@{$data->{physical}}) {
+	$this->{pd_resync} = 0;
+	for my $ch (@$p) {
 		for my $pd (@{$ch}) {
 			# skip not disks
 			next if not defined $pd;
@@ -2896,7 +2912,7 @@ sub check {
 
 			if ($pd->{status} eq 'Rebuilding') {
 				$this->resync;
-				$pd_resync++;
+				$this->{pd_resync}++;
 
 			} elsif ($pd->{status} eq 'Dedicated Hot-Spare') {
 				$this->spare;
@@ -2911,11 +2927,18 @@ sub check {
 		}
 	}
 
-	# check for logical devices
-	for my $ld (@{$data->{logical}}) {
+	return \%pd;
+}
+
+# check for logical devices
+sub check_logical {
+	my ($this, $l) = @_;
+
+	my @status;
+	for my $ld (@$l) {
 		next unless $ld; # FIXME: fix that script assumes controllers start from '0'
 
-		if ($ld->{status} eq 'Degraded' && $pd_resync) {
+		if ($ld->{status} eq 'Degraded' && $this->{pd_resync}) {
 			$this->warning;
 		} elsif ($ld->{status} !~ /Optimal|Okay/) {
 			$this->critical;
@@ -2935,7 +2958,37 @@ sub check {
 		}
 	}
 
-	push(@status, "Drives: ".$this->join_status(\%pd)) if %pd;
+	return @status;
+}
+
+sub check {
+	my $this = shift;
+
+	my $data = $this->parse;
+	$this->unknown,return unless $data;
+
+	my @status;
+
+	for my $i (sort {$a cmp $b} keys %{$data->{controllers}}) {
+		my $c = $data->{controllers}->{$i};
+
+		push(@status, $this->check_controller($c->{controller}));
+
+		# current (logical device) tasks
+		if ($data->{tasks}->{operation} ne 'None') {
+			# just print it. no status change
+			my $task = $data->{tasks};
+			push(@status, "$task->{type} #$task->{device}: $task->{operation}: $task->{status} $task->{percent}%");
+		}
+
+		# check physical first, as it setups pd_resync flag
+		my $pd = $this->check_physical($c->{physical});
+
+		push(@status, $this->check_logical($c->{logical}));
+
+		# but report after logical devices
+		push(@status, "Drives: ".$this->join_status($pd)) if $pd;
+	}
 
 	$this->ok->message(join(', ', @status));
 }
@@ -4177,7 +4230,7 @@ use base 'plugin';
 push(@utils::plugins, __PACKAGE__);
 
 sub program_names {
-	qw(hpacucli hpssacli);
+	qw(hpacucli);
 }
 
 sub commands {
@@ -4337,6 +4390,17 @@ sub check {
 	return unless @status;
 
 	$this->ok->message(join(', ', @status));
+}
+
+package hpssacli;
+# extend hpacucli,
+# with the only difference that different program name is used
+use base 'hpacucli';
+
+push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	qw(hpssacli);
 }
 
 package areca;
@@ -4589,6 +4653,134 @@ sub check {
 	$this->ok->message(join(' ', @status));
 }
 
+package mvcli;
+use base 'plugin';
+
+#push(@utils::plugins, __PACKAGE__);
+
+sub program_names {
+	qw(mvcli);
+}
+
+sub commands {
+	{
+		'mvcli blk' => ['-|', '@CMD'],
+		'mvcli smart' => ['-|', '@CMD'],
+	}
+}
+
+sub sudo {
+	my ($this, $deep) = @_;
+	# quick check when running check
+	return 1 unless $deep;
+
+	my $cmd = $this->{program};
+	"CHECK_RAID ALL=(root) NOPASSWD: $cmd"
+}
+
+sub parse_blk {
+	my $this = shift;
+
+	my (@blk, %blk);
+
+	my $fh = $this->cmd('mvcli blk');
+	while (<$fh>) {
+		chomp;
+
+		if (my ($blk_id) = /Block id:\s+(\d+)/) {
+			# block id is first item, so push previous item to list
+			if (%blk) {
+				push(@blk, { %blk });
+				%blk = ();
+			}
+			$blk{blk_id} = int($blk_id);
+		} elsif (my($pd_id) = /PD id:\s+(\d+)/) {
+			$blk{pd_id} = int($pd_id);
+		} elsif (my($vd_id) = /VD id:\s+(\d+)/) {
+			$blk{vd_id} = int($vd_id);
+		} elsif (my($bstatus) = /Block status:\s+(.+)/) {
+			$blk{block_status} = $bstatus;
+		} elsif (my($size) = /Size:\s+(\d+) K/) {
+			$blk{size} = int($size);
+		} elsif (my($offset) = /Starting offset:\s+(\d+) K/) {
+			$blk{offset} = int($offset);
+		} else {
+#			warn "[$_]\n";
+		}
+	}
+	close $fh;
+
+	if (%blk) {
+		push(@blk, { %blk });
+	}
+
+	return wantarray ? @blk : \@blk;
+}
+
+sub parse_smart {
+	my ($this, $blk) = @_;
+
+	# collect pd numbers
+	my @pd = map { $_->{pd_id} } @$blk;
+
+	my %smart;
+	foreach my $pd (@pd) {
+		my $fh = $this->cmd('mvcli smart', { '$pd' => $pd });
+		my %attrs = ();
+		while (<$fh>) {
+			chomp;
+
+			if (my($id, $name, $current, $worst, $treshold, $raw) = /
+				([\dA-F]{2})\s+ # attr
+				(.*?)\s+        # name
+				(\d+)\s+        # current
+				(\d+)\s+        # worst
+				(\d+)\s+        # treshold
+				([\dA-F]+)      # raw
+			/x) {
+				my %attr = ();
+				$attr{id} = $id;
+				$attr{name} = $name;
+				$attr{current} = int($current);
+				$attr{worst} = int($worst);
+				$attr{treshold} = int($treshold);
+				$attr{raw} = $raw;
+				$attrs{$id} = { %attr };
+			} else {
+#				warn "[$_]\n";
+			}
+		}
+
+		$smart{$pd} = { %attrs };
+	}
+
+	return \%smart;
+}
+
+sub parse {
+	my $this = shift;
+
+	my $blk = $this->parse_blk;
+	my $smart = $this->parse_smart($blk);
+
+	return {
+		blk => $blk,
+		smart => $smart,
+	};
+}
+
+sub check {
+	my $this = shift;
+
+	my (@status);
+	my @d = $this->parse;
+
+	# not implemented yet
+	$this->unknown;
+
+	$this->message(join('; ', @status));
+}
+
 {
 package main;
 
@@ -4603,7 +4795,6 @@ my ($opt_V, $opt_d, $opt_h, $opt_W, $opt_S, $opt_p, $opt_l);
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 my ($VERSION) = "3.2.4";
 my ($message, $status, $perfdata, $longoutput);
-my ($noraid_state) = $ERRORS{UNKNOWN};
 
 #####################################################################
 $ENV{'BASH_ENV'} = '';
@@ -4764,7 +4955,7 @@ sub sudoers {
 	}
 
 	my $sudoers = find_file('/usr/local/etc/sudoers', '/etc/sudoers');
-	my $visudo = utils::which('visudo');
+	my $visudo = which('visudo');
 
 	die "Unable to find sudoers file.\n" unless -f $sudoers;
 	die "Unable to write to sudoers file '$sudoers'.\n" unless -w $sudoers;
@@ -4877,13 +5068,13 @@ GetOptions(
 	'h' => \$opt_h, 'help' => \$opt_h,
 	'S' => \$opt_S, 'sudoers' => \$opt_S,
 	'W' => \$opt_W, 'warnonly' => \$opt_W,
-	'resync=s' => sub { setstate(\$plugin::resync_status, @_); },
-	'check=s' => sub { setstate(\$plugin::check_status, @_); },
-	'noraid=s' => sub { setstate(\$noraid_state, @_); },
-	'bbulearn=s' => sub { setstate(\$plugin::bbulearn_status, @_); },
-	'cache-fail=s' => sub { setstate(\$plugin::cache_fail_status, @_); },
+	'resync=s' => sub { setstate(\$plugin_options{resync_status}, @_); },
+	'check=s' => sub { setstate(\$plugin_options{check_status}, @_); },
+	'noraid=s' => sub { setstate(\$plugin_options{noraid_state}, @_); },
+	'bbulearn=s' => sub { setstate(\$plugin_options{bbulearn_status}, @_); },
+	'cache-fail=s' => sub { setstate(\$plugin_options{cache_fail_status}, @_); },
 	'plugin-option=s' => sub { my($k, $v) = split(/=/, $_[1], 2); $plugin_options{$k} = $v; },
-	'bbu-monitoring' => \$plugin::bbu_monitoring,
+	'bbu-monitoring' => \$plugin_options{bbu_monitoring},
 	'p=s' => \$opt_p, 'plugin=s' => \$opt_p,
 	'l' => \$opt_l, 'list-plugins' => \$opt_l,
 ) or exit($ERRORS{UNKNOWN});
@@ -4952,10 +5143,10 @@ foreach my $pn (@plugins) {
 		$message .= "$pn:[Plugin error]";
 		next;
 	}
-	if ($plugin->message or $noraid_state == $ERRORS{UNKNOWN}) {
+	if ($plugin->message or $plugin->{options}{noraid_state} == $ERRORS{UNKNOWN}) {
 		$status = $plugin->status if $plugin->status > $status;
 	} else {
-		$status = $noraid_state if $noraid_state > $status;
+		$status = $plugin->{options}{noraid_state} if $plugin->{options}{noraid_state} > $status;
 	}
 	$message .= '; ' if $message;
 	$message .= "$pn:[".$plugin->message."]";
@@ -4974,8 +5165,8 @@ if ($message) {
 		print "UNKNOWN: ";
 	}
 	print "$message\n";
-} elsif ($noraid_state != $ERRORS{UNKNOWN}) {
-	$status = $noraid_state;
+} elsif ($plugin::options{noraid_state} != $ERRORS{UNKNOWN}) {
+	$status = $plugin::options{noraid_state};
 	print "No RAID configuration found\n";
 } else {
 	$status = $ERRORS{UNKNOWN};
