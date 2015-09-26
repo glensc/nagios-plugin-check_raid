@@ -9,8 +9,11 @@ installdeps:
 # ==> Found dependencies: Params::Validate, Class::Accessor, Config::Tiny, Math::Calc::Units
 exclude_fatpack_modules := Module::Build,CPAN::Meta
 
-fatpack: installdeps
+fatpack: installdeps perlstrip
 	fatpack-simple --no-perl-strip --exclude $(exclude_fatpack_modules) bin/check_raid.pl $(options)
+
+perlstrip:
+	find local/lib -name '*.pm' | xargs perlstrip -s
 
 check_raid.pl: bin/check_raid.pl
 	# ensure cpanm is present
