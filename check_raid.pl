@@ -2470,7 +2470,7 @@ sub program_names {
 sub commands {
 	{
 		'getstatus' => ['-|', '@CMD', 'GETSTATUS', '1'],
-		'getconfig' => ['-|', '@CMD', 'GETCONFIG', '$ctrl', 'AL', 'nologs'],
+		'getconfig' => ['-|', '@CMD', 'GETCONFIG', '$ctrl', 'AL'],
 	}
 }
 
@@ -2585,7 +2585,7 @@ sub parse_ctrl_config {
 	# Controller information, Logical/Physical device info
 	my (%c, @ld, $ld, @pd, $ch, $pd);
 
-	my $fh = $this->cmd('getconfig', { ctrl => $ctrl });
+	my $fh = $this->cmd('getconfig', { '$ctrl' => $ctrl });
 	my ($section, $subsection, $ok);
 	while (<$fh>) {
 		chomp;
