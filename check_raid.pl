@@ -2894,8 +2894,10 @@ sub check_controller {
 	}
 
 	# Battery status
-	my @s = $this->battery_status($c);
-	push(@status, @s) if @s;
+        if ($this->bbu_monitoring) {
+		my @s = $this->battery_status($c);
+		push(@status, @s) if @s;
+	}
 
 	return @status;
 }
