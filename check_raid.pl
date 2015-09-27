@@ -491,7 +491,7 @@ sub cmd {
 } # package plugin
 
 package lsscsi;
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 push(@utils::plugins, __PACKAGE__);
 
@@ -573,7 +573,7 @@ sub scan {
 
 package metastat;
 # Solaris, software RAID
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 push(@utils::plugins, __PACKAGE__);
 
@@ -666,7 +666,7 @@ sub check {
 
 package megaide;
 # MegaIDE RAID controller
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 # Status: BROKEN: no test data
@@ -717,7 +717,7 @@ sub check {
 
 package mdstat;
 # Linux Multi-Device (md)
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -927,7 +927,7 @@ sub check {
 
 package lsraid;
 # Linux, software RAID
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 # Broken: missing test data
@@ -987,7 +987,7 @@ package megacli;
 # TODO: process drive temperatures
 # TODO: check error counts
 # TODO: hostspare information
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -1367,7 +1367,7 @@ sub check {
 
 package lsvg;
 # AIX LVM
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 # Status: broken (no test data)
@@ -1441,7 +1441,7 @@ package ips;
 # Serveraid IPS
 # Tested on IBM xSeries 346 servers with Adaptec ServeRAID 7k controllers.
 # The ipssend version was v7.12.14.
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -1500,7 +1500,7 @@ sub check {
 
 package aaccli;
 # Adaptec ServeRAID
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -1578,7 +1578,7 @@ sub check {
 
 package afacli;
 # Adaptec AACRAID
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -1632,7 +1632,7 @@ sub check {
 }
 
 package mpt;
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # LSILogic MPT ServeRAID
 
@@ -1847,7 +1847,7 @@ sub check {
 
 package megaraid;
 # MegaRAID
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 # Status: BROKEN: no test data
@@ -1901,7 +1901,7 @@ sub check {
 
 package gdth;
 # Linux gdth RAID
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -2129,7 +2129,7 @@ sub check {
 }
 
 package dpt_i2o;
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -2184,7 +2184,7 @@ package tw_cli;
 # Owned by LSI currently: https://en.wikipedia.org/wiki/3ware
 #
 # http://www.cyberciti.biz/files/tw_cli.8.html
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -2458,7 +2458,7 @@ package arcconf;
 # check designed from check-aacraid.py, Anchor System - <http://www.anchor.com.au>
 # Oliver Hookins, Paul De Audney, Barney Desmond.
 # Perl port (check_raid) by Elan Ruusamäe.
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -3052,7 +3052,7 @@ package megarc;
 # check designed from check_lsi_megaraid:
 # http://www.monitoringexchange.org/cgi-bin/page.cgi?g=Detailed/2416.html;d=1
 # Perl port (check_raid) by Elan Ruusamäe.
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -3156,7 +3156,7 @@ sub check {
 }
 
 package cmdtool2;
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -3235,7 +3235,7 @@ sub check {
 }
 
 package cciss;
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -3741,7 +3741,7 @@ sub check {
 }
 
 package hp_msa;
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # do not register, better use hpacucli
 push(@utils::plugins, __PACKAGE__);
@@ -3884,7 +3884,7 @@ package sas2ircu;
 # LSI SAS-2 controllers using the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU)
 # Based on the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU) User Guide
 # http://www.lsi.com/downloads/Public/Host%20Bus%20Adapters/Host%20Bus%20Adapters%20Common%20Files/SAS_SATA_6G_P12/SAS2IRCU_User_Guide.pdf
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -4151,7 +4151,7 @@ sub check {
 }
 
 package smartctl;
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # no registering as standalone plugin
 #push(@utils::plugins, __PACKAGE__);
@@ -4226,7 +4226,7 @@ sub check {
 }
 
 package hpacucli;
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -4397,7 +4397,7 @@ sub check {
 package hpssacli;
 # extend hpacucli,
 # with the only difference that different program name is used
-use base 'hpacucli';
+use parent -norequire, 'hpacucli';
 
 push(@utils::plugins, __PACKAGE__);
 
@@ -4410,7 +4410,7 @@ package areca;
 ## requires cli64 or cli32 binaries
 ## For links to manuals and binaries, see this issue:
 ## https://github.com/glensc/nagios-plugin-check_raid/issues/10
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -4554,7 +4554,7 @@ sub check {
 }
 
 package dmraid;
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 # register
 push(@utils::plugins, __PACKAGE__);
@@ -4656,7 +4656,7 @@ sub check {
 }
 
 package mvcli;
-use base 'plugin';
+use parent -norequire, 'plugin';
 
 #push(@utils::plugins, __PACKAGE__);
 
