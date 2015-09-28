@@ -2470,6 +2470,7 @@ sub program_names {
 sub commands {
 	{
 		'getstatus' => ['-|', '@CMD', 'GETSTATUS', '1'],
+		# 'nologs' does not exist in arcconf 6.50. #118
 		'getconfig' => ['-|', '@CMD', 'GETCONFIG', '$ctrl', 'AL'],
 	}
 }
@@ -2482,7 +2483,7 @@ sub sudo {
 	my $cmd = $this->{program};
 	(
 		"CHECK_RAID ALL=(root) NOPASSWD: $cmd GETSTATUS 1",
-		"CHECK_RAID ALL=(root) NOPASSWD: $cmd GETCONFIG * AL nologs",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd GETCONFIG * AL",
 	);
 }
 
