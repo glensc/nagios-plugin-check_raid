@@ -587,6 +587,7 @@ sub nosudo_cmd {
 # if command fails, program is exited (caller needs not to worry)
 sub cmd {
 	my ($this, $command, $cb) = @_;
+	my $debug = $utils::debug;
 
 	# build up command
 	my @CMD = $this->{program};
@@ -633,23 +634,23 @@ sub cmd {
 	if ($op eq '=' and ref $cb eq 'SCALAR') {
 		# Special: use open2
 		use IPC::Open2;
-		warn "DEBUG EXEC: $op @cmd" if $utils::debug;
+		warn "DEBUG EXEC: $op @cmd" if $debug;
 		my $pid = open2($fh, $$cb, @cmd) or croak "open2 failed: @cmd: $!";
 	} elsif ($op eq '>&2') {
 		# Special: same as '|-' but reads both STDERR and STDOUT
 		use IPC::Open3;
-		warn "DEBUG EXEC: $op @cmd" if $utils::debug;
+		warn "DEBUG EXEC: $op @cmd" if $debug;
 		my $pid = open3(undef, $fh, $cb, @cmd);
 
 	} else {
-		warn "DEBUG EXEC: @cmd" if $utils::debug;
+		warn "DEBUG EXEC: @cmd" if $debug;
 		open($fh, $op, @cmd) or croak "open failed: @cmd: $!";
 	}
 
 	# for dir handles, reopen as opendir
 	if (-d $fh) {
 		undef($fh);
-		warn "DEBUG OPENDIR: $cmd[0]" if $utils::debug;
+		warn "DEBUG OPENDIR: $cmd[0]" if $debug;
 		opendir($fh, $cmd[0]) or croak "opendir failed: @cmd: $!";
 	}
 
