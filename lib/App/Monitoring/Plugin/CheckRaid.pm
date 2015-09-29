@@ -63,6 +63,9 @@ sub active_plugins {
 
 	# go over all registered plugins
 	foreach my $plugin ($this->plugins) {
+		# skip if no check method (not standalone checker)
+		next unless $plugin->can('check');
+
 		# skip inactive plugins (disabled or no tools available)
 		next unless $plugin->active;
 
