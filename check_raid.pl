@@ -4874,13 +4874,6 @@ sub parse_sudoers_includedir {
 	return undef;
 }
 
-# return size of file
-# does not check for errors
-sub filesize {
-	my ($file) = @_;
-	return (stat($file))[7];
-}
-
 # get contents of a file
 sub cat {
 	my ($file) = @_;
