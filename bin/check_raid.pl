@@ -10,7 +10,7 @@ my $VERSION = '4.0.0';
 
 my $mp = Monitoring::Plugin->new(
     usage =>
-	"Usage: %s [ -v|--verbose ] [-t <timeout>]",
+	"Usage: %s [-h] [-V] [-S] [list of devices to ignore]",
 
     version => $VERSION,
     blurb => 'This plugin checks all RAID volumes (hardware and software) that can be identified.',
