@@ -1,11 +1,11 @@
 #!/usr/bin/perl
-use warnings;
-use strict;
 use Monitoring::Plugin 0.37;
 use App::Monitoring::Plugin::CheckRaid;
 use App::Monitoring::Plugin::CheckRaid::Sudoers;
 use App::Monitoring::Plugin::CheckRaid::Plugin;
 use App::Monitoring::Plugin::CheckRaid::Utils;
+use warnings;
+use strict;
 
 my $PROGNAME = 'check_raid';
 my $VERSION = '4.0.0';
@@ -38,7 +38,7 @@ $mp->add_arg(
 	help => 'Lists active plugins',
 );
 $mp->add_arg(
-	spec => 'plugin|p=s',
+	spec => 'plugin|p=s@',
 	help => 'Force the use of selected plugins, comma separated',
 );
 $mp->add_arg(
@@ -115,8 +115,9 @@ while (my($opt, $key) = each %state_flags) {
 }
 
 # enable only specified plugins
-if ($mp->opts->plugin) {
-	$plugin_options{enable_plugins} = [ split(/,/, $mp->opts->plugin) ];
+if (my $plugins = $mp->opts->plugin) {
+	# split, as each value can contain commas
+	$plugin_options{enable_plugins} = [ map { split(/,/, $_) } @$plugins ];
 }
 
 if (my $opts = $mp->opts->get('plugin-option')) {
