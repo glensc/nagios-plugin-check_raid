@@ -4,6 +4,7 @@ use strict;
 use Monitoring::Plugin 0.37;
 use App::Monitoring::Plugin::CheckRaid;
 use App::Monitoring::Plugin::CheckRaid::Sudoers;
+use App::Monitoring::Plugin::CheckRaid::Plugin;
 use App::Monitoring::Plugin::CheckRaid::Utils;
 
 my $PROGNAME = 'check_raid';
@@ -97,6 +98,10 @@ if ($mp->opts->list_plugins) {
 	$mp->plugin_exit(OK, "$count active plugins");
 }
 
+my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
+my $message = '';
+my $status = $ERRORS{OK};
+
 # perform check of each active plugin
 foreach my $plugin (@plugins) {
 	# skip if no check method (not standalone checker)
@@ -104,8 +109,42 @@ foreach my $plugin (@plugins) {
 
 	# perform the check
 	$plugin->check;
+	my $pn = $plugin->{name};
+
+	# collect results
+	unless (defined $plugin->status) {
+		$status = $ERRORS{UNKNOWN} if $ERRORS{UNKNOWN} > $status;
+		$message .= '; ' if $message;
+		$message .= "$pn:[Plugin error]";
+		next;
+	}
+	if ($plugin->message or $plugin->{options}{noraid_state} == $ERRORS{UNKNOWN}) {
+		$status = $plugin->status if $plugin->status > $status;
+	} else {
+		$status = $plugin->{options}{noraid_state} if $plugin->{options}{noraid_state} > $status;
+	}
+	$message .= '; ' if $message;
+	$message .= "$pn:[".$plugin->message."]";
+	$message .= ' | ' . $plugin->perfdata if $plugin->perfdata;
+	$message .= "\n" . $plugin->longoutput if $plugin->longoutput;
 }
 
-my ($code, $message) = $mp->check_messages;
-
-$mp->plugin_exit($code, $message);
+if ($message) {
+	if ($status == $ERRORS{OK}) {
+		print "OK: ";
+	} elsif ($status == $ERRORS{WARNING}) {
+		print "WARNING: ";
+	} elsif ($status == $ERRORS{CRITICAL}) {
+		print "CRITICAL: ";
+	} else {
+		print "UNKNOWN: ";
+	}
+	print "$message\n";
+} elsif ($plugin::options{noraid_state} != $ERRORS{UNKNOWN}) {
+	$status = $plugin::options{noraid_state};
+	print "No RAID configuration found\n";
+} else {
+	$status = $ERRORS{UNKNOWN};
+	print "No RAID configuration found (tried: ", join(', ', @plugins), ")\n";
+}
+exit $status;
