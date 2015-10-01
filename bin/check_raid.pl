@@ -65,10 +65,18 @@ $mp->add_arg(
 	spec => 'bbu-monitoring',
 	help => 'Enable experimental monitoring of the BBU status',
 );
+$mp->add_arg(
+	spec => 'warnonly|W',
+	help => 'Treat CRITICAL errors as WARNING',
+);
 
 $mp->getopts;
 
 my %options;
+
+if ($mp->opts->warnonly) {
+	App::Monitoring::Plugin::CheckRaid::Plugin->set_critical_as_warning;
+}
 
 # enable only specified plugins
 if ($mp->opts->plugin) {
