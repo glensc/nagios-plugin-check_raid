@@ -42,23 +42,23 @@ $mp->add_arg(
 	help => 'Force the use of selected plugins, comma separated',
 );
 $mp->add_arg(
-	spec => 'noraid',
+	spec => 'noraid=s',
 	help => 'Return STATE if no RAID controller is found. Defaults to UNKNOWN',
 );
 $mp->add_arg(
-	spec => 'resync',
+	spec => 'resync=s',
 	help => 'Return STATE if RAID is in resync state. Defaults to WARNING',
 );
 $mp->add_arg(
-	spec => 'check',
+	spec => 'check=s',
 	help => 'Return STATE if RAID is in check state. Defaults to OK',
 );
 $mp->add_arg(
-	spec => 'cache-fail',
+	spec => 'cache-fail=s',
 	help => 'Set status as STATE if Write Cache is present but disabled. Defaults to WARNING',
 );
 $mp->add_arg(
-	spec => 'bbulearn',
+	spec => 'bbulearn=s',
 	help => 'Return STATE if Backup Battery Unit (BBU) learning cycle is in progress. Defaults to WARNING',
 );
 $mp->add_arg(
@@ -76,10 +76,30 @@ if (@ARGV) {
 	@App::Monitoring::Plugin::CheckRaid::Utils::ignore = @ARGV;
 }
 
+my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
+
 my %options;
 
 if ($mp->opts->warnonly) {
 	App::Monitoring::Plugin::CheckRaid::Plugin->set_critical_as_warning;
+}
+
+# setup state flags
+my %state_flags = (
+	'resync' => 'resync_status',
+	'check' => 'check_status',
+	'noraid' => 'noraid_state',
+	'bbulearn' => 'bbulearn_status',
+	'cache-fail' => 'cache_fail_status',
+);
+while (my($opt, $key) = each %state_flags) {
+	if (my $value = $mp->opts->get($opt)) {
+		unless (exists $ERRORS{$value}) {
+			print "Invalid value: '$value' for --$opt\n";
+			exit $ERRORS{UNKNOWN};
+		}
+		$options{options}{$key} = $ERRORS{$value};
+	}
 }
 
 # enable only specified plugins
@@ -110,7 +130,6 @@ if ($mp->opts->list_plugins) {
 	$mp->plugin_exit(OK, "$count active plugins");
 }
 
-my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 my $message = '';
 my $status = $ERRORS{OK};
 
