@@ -32,7 +32,7 @@ $mp->add_arg(
 	help => 'Lists active plugins',
 );
 $mp->add_arg(
-	spec => 'plugin|p',
+	spec => 'plugin|p=s',
 	help => 'Force the use of selected plugins, comma separated',
 );
 $mp->add_arg(
@@ -62,7 +62,14 @@ $mp->add_arg(
 
 $mp->getopts;
 
-my $mc = App::Monitoring::Plugin::CheckRaid->new(mp => $mp);
+my %options;
+
+# enable only specified plugins
+if ($mp->opts->plugin) {
+	$options{enable_plugins} = [ split(/,/, $mp->opts->plugin) ];
+}
+
+my $mc = App::Monitoring::Plugin::CheckRaid->new(%options);
 
 my @plugins = $mc->active_plugins;
 if (!@plugins) {

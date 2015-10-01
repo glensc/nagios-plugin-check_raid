@@ -20,6 +20,14 @@ sub new {
 	# setup search path for Module::Pluggable
 	$self->search_path(add => __PACKAGE__ . '::Plugins');
 
+	# setup only certain plugins
+	if ($self->{enable_plugins}) {
+		my @plugins = map {
+			__PACKAGE__ . '::Plugins::' . $_
+		} @{$self->{enable_plugins}};
+		$self->only(\@plugins);
+	}
+
 	return $obj;
 }
 
