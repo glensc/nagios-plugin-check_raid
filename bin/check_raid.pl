@@ -42,6 +42,18 @@ $mp->add_arg(
 	help => 'Force the use of selected plugins, comma separated',
 );
 $mp->add_arg(
+	spec => 'plugin-option=s@',
+	help => "Specify extra option for specific plugin.\n" .
+'
+Plugin options (key=>value pairs) passed as "options" key to each plugin constructor.
+The options are global, not plugin specific, but it\'s recommended to prefix option with plugin name.
+The convention is to have PLUGIN_NAME-OPTION_NAME=OPTION_VALUE syntax to namespace each plugin option.
+
+For example "--plugin-option=hp_msa-serial=/dev/ttyS2"
+would define option "serial" for "hp_msa" plugin with value "/dev/ttyS2".
+'
+);
+$mp->add_arg(
 	spec => 'noraid=s',
 	help => 'Return STATE if no RAID controller is found. Defaults to UNKNOWN',
 );
@@ -105,6 +117,13 @@ while (my($opt, $key) = each %state_flags) {
 # enable only specified plugins
 if ($mp->opts->plugin) {
 	$options{enable_plugins} = [ split(/,/, $mp->opts->plugin) ];
+}
+
+if (my $opts = $mp->opts->get('plugin-option')) {
+	foreach my $o (@$opts) {
+		my($k, $v) = split(/=/, $o, 2);
+		$options{$k} = $v;
+	}
 }
 
 my $mc = App::Monitoring::Plugin::CheckRaid->new(%options);
