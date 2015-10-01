@@ -127,7 +127,8 @@ if ($mp->opts->list_plugins) {
 		print $p->{name}, "\n";
 	}
 	my $count = @plugins;
-	$mp->plugin_exit(OK, "$count active plugins");
+	warn "$count active plugins\n";
+	exit $ERRORS{OK};
 }
 
 my $message = '';
