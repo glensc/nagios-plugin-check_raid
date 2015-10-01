@@ -72,6 +72,10 @@ $mp->add_arg(
 
 $mp->getopts;
 
+if (@ARGV) {
+	@App::Monitoring::Plugin::CheckRaid::Utils::ignore = @ARGV;
+}
+
 my %options;
 
 if ($mp->opts->warnonly) {
