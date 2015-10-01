@@ -1,4 +1,4 @@
-package App::Monitoring::Plugin::CheckRaid::Plugins::aaccli;
+package App::Monitoring::Plugin::CheckRaid::Plugins::arcconf;
 
 use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
 use strict;
