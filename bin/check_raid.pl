@@ -3,6 +3,7 @@ use warnings;
 use strict;
 use Monitoring::Plugin 0.37;
 use App::Monitoring::Plugin::CheckRaid;
+use App::Monitoring::Plugin::CheckRaid::Sudoers;
 
 my $PROGNAME = 'check_raid';
 my $VERSION = '4.0.0';
@@ -66,6 +67,11 @@ my $mc = App::Monitoring::Plugin::CheckRaid->new(mp => $mp);
 my @plugins = $mc->active_plugins;
 if (!@plugins) {
 	$mp->plugin_exit(UNKNOWN, "No active plugins")
+}
+
+if ($mp->opts->sudoers) {
+	sudoers($mp->opts->debug, @plugins);
+	$mp->plugin_exit(OK, "sudoers updated");
 }
 
 # print active plugins
