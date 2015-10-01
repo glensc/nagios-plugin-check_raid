@@ -4,6 +4,7 @@ use strict;
 use Monitoring::Plugin 0.37;
 use App::Monitoring::Plugin::CheckRaid;
 use App::Monitoring::Plugin::CheckRaid::Sudoers;
+use App::Monitoring::Plugin::CheckRaid::Utils;
 
 my $PROGNAME = 'check_raid';
 my $VERSION = '4.0.0';
@@ -26,6 +27,10 @@ $mp->add_arg(
 $mp->add_arg(
 	spec => 'warnonly|W',
 	help => 'Treat CRITICAL errors as WARNING',
+);
+$mp->add_arg(
+	spec => 'debug|d',
+	help => 'debug mode, or dry-run for sudoers',
 );
 $mp->add_arg(
 	spec => 'list_plugins|list-plugins|l',
@@ -70,6 +75,8 @@ if ($mp->opts->plugin) {
 }
 
 my $mc = App::Monitoring::Plugin::CheckRaid->new(%options);
+
+$App::Monitoring::Plugin::CheckRaid::Utils::debug = $mp->opts->debug;
 
 my @plugins = $mc->active_plugins;
 if (!@plugins) {
