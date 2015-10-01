@@ -90,7 +90,7 @@ if (@ARGV) {
 
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
 
-my %options;
+my %plugin_options;
 
 if ($mp->opts->warnonly) {
 	App::Monitoring::Plugin::CheckRaid::Plugin->set_critical_as_warning;
@@ -110,23 +110,23 @@ while (my($opt, $key) = each %state_flags) {
 			print "Invalid value: '$value' for --$opt\n";
 			exit $ERRORS{UNKNOWN};
 		}
-		$options{options}{$key} = $ERRORS{$value};
+		$plugin_options{options}{$key} = $ERRORS{$value};
 	}
 }
 
 # enable only specified plugins
 if ($mp->opts->plugin) {
-	$options{enable_plugins} = [ split(/,/, $mp->opts->plugin) ];
+	$plugin_options{enable_plugins} = [ split(/,/, $mp->opts->plugin) ];
 }
 
 if (my $opts = $mp->opts->get('plugin-option')) {
 	foreach my $o (@$opts) {
 		my($k, $v) = split(/=/, $o, 2);
-		$options{$k} = $v;
+		$plugin_options{$k} = $v;
 	}
 }
 
-my $mc = App::Monitoring::Plugin::CheckRaid->new(%options);
+my $mc = App::Monitoring::Plugin::CheckRaid->new(%plugin_options);
 
 $App::Monitoring::Plugin::CheckRaid::Utils::debug = $mp->opts->debug;
 
