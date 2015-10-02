@@ -1,7 +1,7 @@
 # Makefile for check_raid plugin
 PLUGIN          := check_raid
 PLUGIN_SCRIPT   := $(PLUGIN).pl
-PLUGIN_VERSION  := $(shell test -e .git && git describe --tags || awk -F'"' '/VERSION/&&/=/{print $$2}' $(PLUGIN_SCRIPT))
+PLUGIN_VERSION  := $(shell test -e .git && git describe --tags || awk -F"'" '/VERSION/&&/=/{print $$2}' bin/$(PLUGIN_SCRIPT))
 PLUGINDIR       := /usr/lib/nagios/plugins
 PLUGINCONF      := /etc/nagios/plugins
 
@@ -74,7 +74,7 @@ release:
 	git tag -a "$$V" $$R; \
 	echo "Don't forget to push: git push origin refs/tags/$$V"
 
-install:
+install: $(PLUGIN_SCRIPT)
 	install -d $(DESTDIR)$(PLUGINDIR)
 	install -p $(PLUGIN_SCRIPT) $(DESTDIR)$(PLUGINDIR)/$(PLUGIN)
 	install -d $(DESTDIR)$(PLUGINCONF)
