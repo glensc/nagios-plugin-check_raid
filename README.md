@@ -23,29 +23,17 @@ Failure to do so means I will just have to ignore your *Issue* or *Pull Request*
 
 Download latest release from [releases](https://github.com/glensc/nagios-plugin-check_raid/releases) page
 
-To download latest development version from github master (with wget or curl):
+To obtain latest development version, grab [tarball](https://github.com/glensc/nagios-plugin-check_raid/archive/master/check_raid.tar.gz) or do a git checkout:
 
-    wget https://raw.github.com/glensc/nagios-plugin-check_raid/master/check_raid.pl
-    curl https://raw.github.com/glensc/nagios-plugin-check_raid/master/check_raid.pl > check_raid.pl
-    chmod +x check_raid.pl
+    git clone --depth=8 https://github.com/glensc/nagios-plugin-check_raid
 
-or tar format:
+to build self-contained [fatpacked](http://www.perladvent.org/2012/2012-12-14.html) `check_raid.pl`, invoke `make pack`, otherwise use `check_raid.sh` in project root to run the plugin in source tree.
 
-    wget https://github.com/glensc/nagios-plugin-check_raid/archive/master/check_raid.tar.gz
-    tar xzf check_raid.tar.gz
-    cd nagios-plugin-check_raid-*
-
-or git checkout:
-
-    git clone https://github.com/glensc/nagios-plugin-check_raid
-    cd nagios-plugin-check_raid
-
-next step would be to, setup system `sudo` rules:
+next step would be to setup system `sudo` rules:
 
     ./check_raid.pl -S
 
-you can preview what the rules are if you run the above command with `-d` option.
-
+run with `-d` to preview the sudo rules.
 
 Plugin should be ready to be run:
 
