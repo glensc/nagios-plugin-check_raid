@@ -33,7 +33,7 @@ foreach my $test (@tests) {
 	);
 	ok($plugin, "plugin created");
 
-	$plugin->check($test->{check_params});
+	$plugin->check_devices($test->{check_params});
 	ok(1, "check ran");
 
 	ok(defined($plugin->status), "status code set");
