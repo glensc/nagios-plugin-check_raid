@@ -7,10 +7,10 @@ BEGIN {
 use strict;
 use warnings;
 
-use Test::More tests => 21;
+use Test::More tests => 27;
 use test;
 
-unshift(@utils::paths, TESTDIR . '/data/bin');
+unshift(@App::Monitoring::Plugin::CheckRaid::Utils::paths, TESTDIR . '/data/bin');
 
 my $commands = {
 	proc => ['<', '.'],
@@ -28,9 +28,37 @@ my %params = (
 	},
 );
 
-# check that all plugins are enabled
-foreach my $pn (@utils::plugins) {
-	my $plugin = $pn->new(%params);
+# plugins known to be broken
+my %blacklist = map { $_ => 1 } qw(
+	lsraid
+	lsvg
+	megaide
+	megaraid
+	mvcli
+	smartctl
+);
 
-	ok($plugin->active, "plugin $pn is active");
+use Monitoring::Plugin ();
+use App::Monitoring::Plugin::CheckRaid;
+
+my $mc = App::Monitoring::Plugin::CheckRaid->new(%params);
+my @plugins = $mc->plugins;
+
+# check that all plugins are enabled
+# iterate over plugins, and check they report being active
+# skip items in blacklist first
+foreach my $plugin (@plugins) {
+	my $pn = $plugin->{name};
+	my $active = $plugin->active;
+
+	if (exists $blacklist{$pn} && !$active) {
+		ok(!$active, "plugin $pn blacklisted:YES active:NO");
+	   	next;
+	}
+	if (!exists $blacklist{$pn} && $active) {
+		ok($active, "plugin $pn blacklisted:NO active:YES");
+	   	next;
+	}
+
+	ok(0, "impossible");
 }

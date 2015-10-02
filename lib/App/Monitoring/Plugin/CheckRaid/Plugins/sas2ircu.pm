@@ -1,14 +1,15 @@
-package sas2ircu;
+package App::Monitoring::Plugin::CheckRaid::Plugins::sas2ircu;
+
 # LSI SAS-2 controllers using the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU)
 # Based on the SAS-2 Integrated RAID Configuration Utility (SAS2IRCU) User Guide
 # http://www.lsi.com/downloads/Public/Host%20Bus%20Adapters/Host%20Bus%20Adapters%20Common%20Files/SAS_SATA_6G_P12/SAS2IRCU_User_Guide.pdf
-use parent -norequire, 'plugin';
 
-# register
-push(@utils::plugins, __PACKAGE__);
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub program_names {
-	__PACKAGE__;
+	shift->{name};
 }
 
 sub commands {

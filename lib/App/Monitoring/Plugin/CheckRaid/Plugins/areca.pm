@@ -1,12 +1,13 @@
-package areca;
+package App::Monitoring::Plugin::CheckRaid::Plugins::areca;
+
 ## Areca SATA RAID Support
 ## requires cli64 or cli32 binaries
 ## For links to manuals and binaries, see this issue:
 ## https://github.com/glensc/nagios-plugin-check_raid/issues/10
-use parent -norequire, 'plugin';
 
-# register
-push(@utils::plugins, __PACKAGE__);
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub program_names {
 	qw(areca-cli areca_cli64 areca_cli32 cli64 cli32);

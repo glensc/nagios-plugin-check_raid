@@ -1,5 +1,7 @@
-package utils;
+package App::Monitoring::Plugin::CheckRaid::Utils;
 
+use warnings;
+use strict;
 use Exporter 'import';
 
 our @EXPORT = qw(which find_sudo);

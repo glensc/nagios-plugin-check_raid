@@ -1,10 +1,13 @@
-package mvcli;
-use parent -norequire, 'plugin';
+package App::Monitoring::Plugin::CheckRaid::Plugins::mvcli;
 
-#push(@utils::plugins, __PACKAGE__);
+# Status: BROKEN: not finished
+
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub program_names {
-	qw(mvcli);
+	shift->{name};
 }
 
 sub commands {

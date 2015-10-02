@@ -1,4 +1,5 @@
-package megarc;
+package App::Monitoring::Plugin::CheckRaid::Plugins::megarc;
+
 # LSI MegaRaid or Dell Perc arrays
 # Check the status of all arrays on all Lsi MegaRaid controllers on the local
 # machine. Uses the megarc program written by Lsi to get the status of all
@@ -7,13 +8,13 @@ package megarc;
 # check designed from check_lsi_megaraid:
 # http://www.monitoringexchange.org/cgi-bin/page.cgi?g=Detailed/2416.html;d=1
 # Perl port (check_raid) by Elan Ruusamäe.
-use parent -norequire, 'plugin';
 
-# register
-push(@utils::plugins, __PACKAGE__);
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub program_names {
-	__PACKAGE__;
+	shift->{name};
 }
 
 sub commands {

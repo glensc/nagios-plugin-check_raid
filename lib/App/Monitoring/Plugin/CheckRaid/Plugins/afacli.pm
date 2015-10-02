@@ -1,12 +1,13 @@
-package afacli;
-# Adaptec AACRAID
-use parent -norequire, 'plugin';
+package App::Monitoring::Plugin::CheckRaid::Plugins::afacli;
 
-# register
-push(@utils::plugins, __PACKAGE__);
+# Adaptec AACRAID
+
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub program_names {
-	__PACKAGE__;
+	shift->{name};
 }
 
 sub commands {

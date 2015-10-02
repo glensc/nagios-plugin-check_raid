@@ -1,11 +1,13 @@
-package smartctl;
-use parent -norequire, 'plugin';
+package App::Monitoring::Plugin::CheckRaid::Plugins::smartctl;
 
-# no registering as standalone plugin
-#push(@utils::plugins, __PACKAGE__);
+# NOTE: not standalone plugin
+
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub program_names {
-	__PACKAGE__;
+	shift->{name};
 }
 
 sub commands {

@@ -1,7 +1,9 @@
-package plugin;
-use Carp qw(croak);
+package App::Monitoring::Plugin::CheckRaid::Plugin;
 
-utils->import;
+use Carp qw(croak);
+use App::Monitoring::Plugin::CheckRaid::Utils;
+use strict;
+use warnings;
 
 # Nagios standard error codes
 my (%ERRORS) = (OK => 0, WARNING => 1, CRITICAL => 2, UNKNOWN => 3);
@@ -53,33 +55,44 @@ sub new {
 	my $class = shift;
 
 	croak 'Odd number of elements in argument hash' if @_ % 2;
+	croak 'Class is already a reference' if ref $class;
 
 	# convert to hash
 	my %args = @_;
 
 	# merge 'options' from param and class defaults
-	%options = (%options, %{$args{options}}) if $args{options};
+	my %opts = %options;
+	%opts = (%options, %{$args{options}}) if $args{options};
 	delete $args{options};
 
+	# merge commands
+	my %commands = %{$class->commands};
+	%commands = (%commands, %{$args{commands}}) if $args{commands};
+	delete $args{commands};
+
 	my $self = {
-		program_names => [ $class->program_names ],
-		commands => $class->commands,
+		commands => \%commands,
 		sudo => $class->sudo ? find_sudo() : '',
-		options => \%options,
+		options => \%opts,
 		%args,
-		name => $class,
+
+		# name of the plugin, without package namespace
+		name => ($class =~ /.*::([^:]+)$/),
+
 		status => undef,
 		message => undef,
 		perfdata => undef,
 		longoutput => undef,
 	};
 
+	my $this = bless $self, $class;
+
 	# lookup program, if not defined by params
 	if (!$self->{program}) {
-		$self->{program} = which(@{$self->{program_names}});
+		$self->{program} = which($this->program_names);
 	}
 
-	return bless $self, $class;
+	return $this;
 }
 
 # see if plugin is active (disabled or no tools available)
@@ -304,7 +317,8 @@ sub nosudo_cmd {
 # if command fails, program is exited (caller needs not to worry)
 sub cmd {
 	my ($this, $command, $cb) = @_;
-	my $debug = $utils::debug;
+
+	my $debug = $App::Monitoring::Plugin::CheckRaid::Utils::debug;
 
 	# build up command
 	my @CMD = $this->{program};

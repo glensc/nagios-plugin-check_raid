@@ -1,4 +1,4 @@
-## 3.2.5 (2015-10-03)
+## 3.2.5 (UNRELEASED)
 
 - tw_cli: respect bbu monitoring flag in tw_cli (defaults to off). [#117][]
 - hpssacli: make plugin to work if hpacucli is dected as well. [#116][], [#114][]

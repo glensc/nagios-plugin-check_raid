@@ -1,13 +1,14 @@
-package tw_cli;
+package App::Monitoring::Plugin::CheckRaid::Plugins::tw_cli;
+
 # tw_cli(8) is a Command Line Interface Storage Management Software for
 # AMCC/3ware ATA RAID Controller(s).
 # Owned by LSI currently: https://en.wikipedia.org/wiki/3ware
 #
 # http://www.cyberciti.biz/files/tw_cli.8.html
-use parent -norequire, 'plugin';
 
-# register
-push(@utils::plugins, __PACKAGE__);
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub program_names {
 	qw(tw_cli-9xxx tw_cli tw-cli);

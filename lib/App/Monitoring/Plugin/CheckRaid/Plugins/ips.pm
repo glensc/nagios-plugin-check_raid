@@ -1,11 +1,12 @@
-package ips;
+package App::Monitoring::Plugin::CheckRaid::Plugins::ips;
+
 # Serveraid IPS
 # Tested on IBM xSeries 346 servers with Adaptec ServeRAID 7k controllers.
 # The ipssend version was v7.12.14.
-use parent -norequire, 'plugin';
 
-# register
-push(@utils::plugins, __PACKAGE__);
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub program_names {
 	qw(ipssend);

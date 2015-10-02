@@ -1,8 +1,8 @@
-package dpt_i2o;
-use parent -norequire, 'plugin';
+package App::Monitoring::Plugin::CheckRaid::Plugins::dpt_i2o;
 
-# register
-push(@utils::plugins, __PACKAGE__);
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub commands {
 	{

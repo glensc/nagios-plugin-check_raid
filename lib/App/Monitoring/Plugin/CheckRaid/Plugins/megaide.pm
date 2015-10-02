@@ -1,10 +1,11 @@
-package megaide;
-# MegaIDE RAID controller
-use parent -norequire, 'plugin';
+package App::Monitoring::Plugin::CheckRaid::Plugins::megaide;
 
-# register
+# MegaIDE RAID controller
 # Status: BROKEN: no test data
-#push(@utils::plugins, __PACKAGE__);
+
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub sudo {
 	my ($this) = @_;

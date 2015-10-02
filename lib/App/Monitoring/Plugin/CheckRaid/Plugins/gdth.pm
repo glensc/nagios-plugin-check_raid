@@ -1,9 +1,10 @@
-package gdth;
-# Linux gdth RAID
-use parent -norequire, 'plugin';
+package App::Monitoring::Plugin::CheckRaid::Plugins::gdth;
 
-# register
-push(@utils::plugins, __PACKAGE__);
+# Linux gdth RAID
+
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub commands {
 	{

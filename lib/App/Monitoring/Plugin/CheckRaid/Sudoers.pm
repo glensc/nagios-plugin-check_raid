@@ -1,8 +1,10 @@
-package sudoers;
+package App::Monitoring::Plugin::CheckRaid::Sudoers;
+
+use App::Monitoring::Plugin::CheckRaid::Utils;
+use warnings;
+use strict;
 
 use Exporter 'import';
-
-utils->import;
 
 our @EXPORT = qw(sudoers);
 our @EXPORT_OK = @EXPORT;
@@ -12,17 +14,13 @@ our @EXPORT_OK = @EXPORT;
 # if sudoers config has "#includedir" directive, add file to that dir
 # otherwise update main sudoers file
 sub sudoers {
-	my ($dry_run) = @_;
+	my $dry_run = shift;
+	my @plugins = @_;
 
 	# build values to be added
-	# go over all registered plugins
+	# go over all active plugins
 	my @sudo;
-	foreach my $pn (@utils::plugins) {
-		my $plugin = $pn->new;
-
-		# skip inactive plugins (disabled or no tools available)
-		next unless $plugin->active;
-
+	foreach my $plugin (@plugins) {
 		# collect sudo rules
 		my @rules = $plugin->sudo(1) or next;
 
@@ -162,5 +160,3 @@ sub find_file {
 	}
 	return undef;
 }
-
-1;

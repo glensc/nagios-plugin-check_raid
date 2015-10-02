@@ -1,15 +1,16 @@
-package arcconf;
+package App::Monitoring::Plugin::CheckRaid::Plugins::arcconf;
+
 # Adaptec AAC-RAID
 # check designed from check-aacraid.py, Anchor System - <http://www.anchor.com.au>
 # Oliver Hookins, Paul De Audney, Barney Desmond.
 # Perl port (check_raid) by Elan Ruusamäe.
-use parent -norequire, 'plugin';
 
-# register
-push(@utils::plugins, __PACKAGE__);
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub program_names {
-	__PACKAGE__;
+	shift->{name};
 }
 
 sub commands {

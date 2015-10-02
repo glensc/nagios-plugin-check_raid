@@ -1,8 +1,9 @@
-package cciss;
-use parent -norequire, 'plugin';
+package App::Monitoring::Plugin::CheckRaid::Plugins::cciss;
 
-# register
-push(@utils::plugins, __PACKAGE__);
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use App::Monitoring::Plugin::CheckRaid::Plugins::lsscsi;
+use strict;
+use warnings;
 
 sub program_names {
 	'cciss_vol_status';
@@ -46,7 +47,7 @@ sub sudo {
 
 	my @cciss_disks = $this->detect_disks(@cciss_devs);
 	if (!$v1_10 && @cciss_disks) {
-		my $smartctl = smartctl->new();
+		my $smartctl = App::Monitoring::Plugin::CheckRaid::Plugins::smartctl->new();
 
 		if ($smartctl->active) {
 			my $cmd = $smartctl->{program};
@@ -69,7 +70,7 @@ sub detect {
 	my ($fh, @devs);
 
 	# try lsscsi first if enabled and allowed
-	my $lsscsi = lsscsi->new('commands' => $this->{commands});
+	my $lsscsi = App::Monitoring::Plugin::CheckRaid::Plugins::lsscsi->new('commands' => $this->{commands});
 	my $use_lsscsi = defined($this->{use_lsscsi}) ? $this->{use_lsscsi} : $lsscsi->active;
 	if ($use_lsscsi) {
 		# for cciss_vol_status < 1.10 we need /dev/sgX nodes, columns which are type storage
@@ -489,7 +490,7 @@ sub check {
 			my %params = ();
 			$params{commands}{smartctl} = $this->{commands}{smartctl} if $this->{commands}{smartctl};
 
-			my $smartctl = smartctl->new(%params);
+			my $smartctl = App::Monitoring::Plugin::CheckRaid::Plugins::smartctl->new(%params);
 			# do not perform check if smartctl is missing
 			if ($smartctl->active) {
 				$smartctl->check(@disks);

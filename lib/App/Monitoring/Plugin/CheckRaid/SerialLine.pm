@@ -1,7 +1,10 @@
-package SerialLine;
+package App::Monitoring::Plugin::CheckRaid::SerialLine;
+
 # Package dealing with connecting to serial line and handling UUCP style locks.
 
 use Carp;
+use strict;
+use warnings;
 
 sub new {
 	my $self = shift;

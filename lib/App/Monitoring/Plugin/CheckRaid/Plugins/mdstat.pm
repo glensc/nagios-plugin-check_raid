@@ -1,9 +1,10 @@
-package mdstat;
-# Linux Multi-Device (md)
-use parent -norequire, 'plugin';
+package App::Monitoring::Plugin::CheckRaid::Plugins::mdstat;
 
-# register
-push(@utils::plugins, __PACKAGE__);
+# Linux Multi-Device (md)
+
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub commands {
 	{

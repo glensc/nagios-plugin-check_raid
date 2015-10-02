@@ -1,12 +1,10 @@
-package hpssacli;
-# extend hpacucli,
-# with the only difference that different program name is used
-use parent -norequire, 'hpacucli';
+package App::Monitoring::Plugin::CheckRaid::Plugins::hpssacli;
 
-push(@utils::plugins, __PACKAGE__);
+# This plugin extends hpacucli plugin,
+# with the only difference that different program name will be used.
 
-sub program_names {
-	qw(hpssacli);
-}
+use base 'App::Monitoring::Plugin::CheckRaid::Plugins::hpacucli';
+use strict;
+use warnings;
 
 1;

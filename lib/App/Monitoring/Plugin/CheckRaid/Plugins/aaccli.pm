@@ -1,12 +1,13 @@
-package aaccli;
-# Adaptec ServeRAID
-use parent -norequire, 'plugin';
+package App::Monitoring::Plugin::CheckRaid::Plugins::aaccli;
 
-# register
-push(@utils::plugins, __PACKAGE__);
+# Adaptec ServeRAID
+
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub program_names {
-	__PACKAGE__;
+	shift->{name};
 }
 
 sub commands {
@@ -17,6 +18,7 @@ sub commands {
 
 sub sudo {
 	my ($this, $deep) = @_;
+
 	# quick check when running check
 	return 1 unless $deep;
 

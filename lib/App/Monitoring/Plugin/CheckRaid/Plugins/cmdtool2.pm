@@ -1,8 +1,8 @@
-package cmdtool2;
-use parent -norequire, 'plugin';
+package App::Monitoring::Plugin::CheckRaid::Plugins::cmdtool2;
 
-# register
-push(@utils::plugins, __PACKAGE__);
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub program_names {
 	'CmdTool2';

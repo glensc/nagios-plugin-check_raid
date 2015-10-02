@@ -12,7 +12,7 @@ use test;
 my %options = (
 	something => 1,
 );
-my $plugin = plugin->new(options => \%options);
+my $plugin = App::Monitoring::Plugin::CheckRaid::Plugin->new(options => \%options);
 
 is($plugin->{options}{something}, 1, 'custom option is set');
 ok(exists($plugin->{options}{resync_status}), 'default option is present');

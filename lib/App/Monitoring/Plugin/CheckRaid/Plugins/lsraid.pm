@@ -1,13 +1,14 @@
-package lsraid;
-# Linux, software RAID
-use parent -norequire, 'plugin';
+package App::Monitoring::Plugin::CheckRaid::Plugins::lsraid;
 
-# register
+# Linux, software RAID
 # Broken: missing test data
-#push(@utils::plugins, __PACKAGE__);
+
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub program_names {
-	__PACKAGE__;
+	shift->{name};
 }
 
 sub commands {

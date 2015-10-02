@@ -1,10 +1,8 @@
-package mpt;
-use parent -norequire, 'plugin';
+package App::Monitoring::Plugin::CheckRaid::Plugins::mpt;
 
-# LSILogic MPT ServeRAID
-
-# register
-push(@utils::plugins, __PACKAGE__);
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub program_names {
 	qw(mpt-status);

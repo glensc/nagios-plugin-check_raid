@@ -5,7 +5,6 @@
 
 # maintenance tools
 /.travis.yml export-ignore
-/cpanfile export-ignore
 
 # tests
 /t export-ignore

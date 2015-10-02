@@ -1,8 +1,9 @@
-package hp_msa;
-use parent -norequire, 'plugin';
+package App::Monitoring::Plugin::CheckRaid::Plugins::hp_msa;
 
-# do not register, better use hpacucli
-push(@utils::plugins, __PACKAGE__);
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use App::Monitoring::Plugin::CheckRaid::SerialLine;
+use strict;
+use warnings;
 
 sub active {
 	my $this = shift;
@@ -37,7 +38,7 @@ sub check {
 	my %opts = ();
 	$opts{lockdir} = $this->{lockdir} if $this->{lockdir};
 
-	my $modem = SerialLine->new($ctldevice, %opts);
+	my $modem = App::Monitoring::Plugin::CheckRaid::SerialLine->new($ctldevice, %opts);
 	my $fh = $modem->open();
 	unless ($fh) {
 		$this->warning;

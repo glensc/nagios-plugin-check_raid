@@ -1,4 +1,5 @@
-package megacli;
+package App::Monitoring::Plugin::CheckRaid::Plugins::megacli;
+
 # MegaRAID SAS 8xxx controllers
 # based on info from here:
 # http://www.bxtra.net/Articles/2008-09-16/Dell-Perc6i-RAID-Monitoring-Script-using-MegaCli-LSI-CentOS-52-64-bits
@@ -7,10 +8,10 @@ package megacli;
 # TODO: process drive temperatures
 # TODO: check error counts
 # TODO: hostspare information
-use parent -norequire, 'plugin';
 
-# register
-push(@utils::plugins, __PACKAGE__);
+use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use strict;
+use warnings;
 
 sub program_names {
 	qw(MegaCli64 MegaCli megacli);
