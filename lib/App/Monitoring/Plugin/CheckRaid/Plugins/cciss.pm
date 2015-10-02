@@ -493,7 +493,7 @@ sub check {
 			my $smartctl = App::Monitoring::Plugin::CheckRaid::Plugins::smartctl->new(%params);
 			# do not perform check if smartctl is missing
 			if ($smartctl->active) {
-				$smartctl->check(@disks);
+				$smartctl->check_devices(@disks);
 
 				# XXX this is hack, as we have no proper subcommand check support
 				$this->message($this->message . " " .$smartctl->message);

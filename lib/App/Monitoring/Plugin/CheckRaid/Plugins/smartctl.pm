@@ -32,7 +32,7 @@ sub sudo {
 # - device to check (/dev/cciss/c0d0)
 # - disk options (-dcciss)
 # - disk number (0..15)
-sub check {
+sub check_devices {
 	my $this = shift;
 	my @devs = @_;
 
