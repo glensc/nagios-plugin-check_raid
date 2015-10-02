@@ -22,7 +22,9 @@ all:
 test:
 	perl -MTest::Harness -e 'runtests @ARGV' t/*.t
 
-pack: check_raid.pl
+pack:
+	rm -f $(PLUGIN_SCRIPT)
+	$(MAKE) $(PLUGIN_SCRIPT)
 
 installdeps:
 	cpanm --installdeps -Llocal -n .
@@ -33,14 +35,14 @@ installdeps:
 exclude_fatpack_modules := Module::Build,CPAN::Meta
 
 fatpack: installdeps perlstrip
-	fatpack-simple --no-perl-strip --exclude $(exclude_fatpack_modules) bin/check_raid.pl $(options)
+	fatpack-simple --no-perl-strip --exclude $(exclude_fatpack_modules) bin/$(PLUGIN_SCRIPT) $(options)
 
 perlstrip:
 	# make sure we run this in git export, files are modified in-place!
 	test ! -d .git
 	find local/lib -name '*.pm' | xargs perlstrip -s
 
-check_raid.pl: bin/check_raid.pl
+$(PLUGIN_SCRIPT): bin/$(PLUGIN_SCRIPT)
 	# ensure cpanm is present
 	cpanm --version
 
@@ -88,7 +90,7 @@ dist:
 	md5sum -b $(PLUGIN)-$(PLUGIN_VERSION).tar.gz > $(PLUGIN)-$(PLUGIN_VERSION).tar.gz.md5
 	chmod 644 $(PLUGIN)-$(PLUGIN_VERSION).tar.gz $(PLUGIN)-$(PLUGIN_VERSION).tar.gz.md5
 
-rpm:
+rpm: $(PLUGIN_SCRIPT)
 	# needs to be ran in git checkout for version setup to work
 	test -d .git
 	rpmbuild -ba \
@@ -101,5 +103,3 @@ rpm:
 		--define 'version $(RPM_VERSION)' \
 		--define 'release $(RPM_RELEASE)' \
 		nagios-plugin-$(PLUGIN).spec
-
-.PHONY: check_raid.pl
