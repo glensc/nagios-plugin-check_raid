@@ -1,3 +1,10 @@
+## 4.0.0 (UNRELEASED)
+
+Source code layout changed so that all plugins are in separate file ([#115][]). The
+distribution will still include single `check_raid.pl` file for official
+releases. See [Development](README.md#development) how to roll `check_raid.pl`
+or run from source tree yourself.
+
 ## 3.2.5 (2015-10-03)
 
 - tw_cli: respect bbu monitoring flag in tw_cli (defaults to off). [#117][]
@@ -200,3 +207,4 @@ NOTES:
 [#92]: https://github.com/glensc/nagios-plugin-check_raid/issues/92
 [#110]: https://github.com/glensc/nagios-plugin-check_raid/issues/110
 [#118]: https://github.com/glensc/nagios-plugin-check_raid/pull/118
+[#115]: https://github.com/glensc/nagios-plugin-check_raid/issues/115
