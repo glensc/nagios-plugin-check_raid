@@ -1,2 +1,6 @@
 #!/bin/sh
-exec perl -Ilib bin/check_raid.pl "$@"
+
+lnk=`readlink -f $0`
+base=`dirname $lnk`
+
+exec perl -I${base}/lib ${base}/bin/check_raid.pl "$@"
