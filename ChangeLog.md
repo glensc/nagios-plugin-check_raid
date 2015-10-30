@@ -1,4 +1,4 @@
-## 4.0.0 (UNRELEASED)
+## 4.0.0 (2015-10-31)
 
 Source code layout changed so that all plugins are in separate file ([#115][]). The
 distribution will still include single `check_raid.pl` file for official
