@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 19;
+use constant TESTS => 20;
 use Test::More tests => 1 + TESTS * 8;
 use test;
 
@@ -299,6 +299,17 @@ my @tests = (
 		],
 		c => 'issue91',
 	},
+	{
+		status => CRITICAL,
+		pdlist => 'issue123/pdlist',
+		ldinfo => 'issue123/ldinfo',
+		battery => 'empty',
+		message => 'Volumes(1): DISK0.0:Optimal,WriteCache:DISABLED; Devices(8): 11,10,08,12,13,14,16=Online 09 (IBM-ESXSM)=Predictive',
+		perfdata => '',
+		longoutput => [],
+		c => 'issue123',
+		bbu => 0,
+	},
 );
 
 # test that plugin can be created
@@ -308,6 +319,8 @@ foreach my $test (@tests) {
 	my %options = (
 		bbu_monitoring => 1,
 	);
+	$options{bbu_monitoring} = $test->{bbu} if exists $test->{bbu};
+
 	if (defined($test->{bbulearn_status})) {
 		$options{bbulearn_status} = $test->{bbulearn_status};
 	}
