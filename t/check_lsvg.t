@@ -6,34 +6,23 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 6;
+use Test::More tests => 1;
 use test;
 
 my @tests = (
-	{
-		status => OK,
-		smartctl => 'smartctl.cciss.$disk',
-		check_params => (
-			['/dev/cciss/c0d0', '-dcciss', 0],
-			['/dev/cciss/c0d0', '-dcciss', 7],
-			['/dev/cciss/c0d0', '-dcciss', 8],
-		),
-		message => '/dev/cciss/c0d0#0=OK',
-	},
 );
 
 # test that plugin can be created
-ok(smartctl->new, "plugin created");
+ok(lsvg->new, "plugin created");
 
 foreach my $test (@tests) {
-	my $plugin = smartctl->new(
+	my $plugin = lsvg->new(
 		commands => {
-			'smartctl' => ['<', TESTDIR . '/data/' . $test->{smartctl} ],
 		},
 	);
 	ok($plugin, "plugin created");
 
-	$plugin->check_devices($test->{check_params});
+	$plugin->check;
 	ok(1, "check ran");
 
 	ok(defined($plugin->status), "status code set");

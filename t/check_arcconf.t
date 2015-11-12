@@ -144,6 +144,7 @@ foreach my $test (@tests) {
 			getstatus => ['<', $cwd . '/data/arcconf/' . $test->{getstatus}],
 			getconfig => ['<', $cwd . '/data/arcconf/' . $test->{getconfig}],
 		},
+		options => { bbu_monitoring => 1 },
 	);
 
 	ok($plugin, "plugin created");

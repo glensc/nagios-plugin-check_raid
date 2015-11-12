@@ -1,7 +1,7 @@
 # Makefile for check_raid plugin
 PLUGIN          := check_raid
 PLUGIN_SCRIPT   := $(PLUGIN).pl
-PLUGIN_VERSION  := $(shell test -e .git && git describe --tags || awk -F'"' '/VERSION/&&/=/{print $$2}' $(PLUGIN_SCRIPT))
+PLUGIN_VERSION  := $(shell test -e .git && git describe --tags || awk -F"'" '/VERSION/&&/=/{print $$2}' bin/$(PLUGIN_SCRIPT))
 PLUGINDIR       := /usr/lib/nagios/plugins
 PLUGINCONF      := /etc/nagios/plugins
 
@@ -22,6 +22,42 @@ all:
 test:
 	perl -MTest::Harness -e 'runtests @ARGV' t/*.t
 
+pack:
+	rm -f $(PLUGIN_SCRIPT)
+	$(MAKE) $(PLUGIN_SCRIPT)
+
+installdeps:
+	cpanm --installdeps -Llocal -n .
+
+# Params::Validate adds some Module::Build dependency, but Monitoring-Plugin needs just:
+# Configuring Monitoring-Plugin-0.39 ... OK
+# ==> Found dependencies: Params::Validate, Class::Accessor, Config::Tiny, Math::Calc::Units
+exclude_fatpack_modules := Module::Build,CPAN::Meta,Module::CPANfile
+
+fatpack: installdeps perlstrip
+	fatpack-simple --no-perl-strip --exclude $(exclude_fatpack_modules) bin/$(PLUGIN_SCRIPT) $(options)
+
+perlstrip:
+	# make sure we run this in git export, files are modified in-place!
+	test ! -d .git
+	find local/lib -name '*.pm' | xargs perlstrip -s
+
+$(PLUGIN_SCRIPT): bin/$(PLUGIN_SCRIPT)
+	# ensure cpanm is present
+	cpanm --version
+
+	# need 0.10.0 of fatpacker for Module::Pluggable to work
+	perl -e 'use App::FatPacker 0.10.0'
+	perl -e 'use App::FatPacker::Simple'
+
+	# ensure we run in clean tree. export git tree and run there.
+	rm -rf fatpack
+	install -d fatpack
+	git archive HEAD | tar -x -C fatpack
+	$(MAKE) -C fatpack fatpack options="--output ../$@"
+	rm -rf fatpack
+	grep -o 'fatpacked{.*}' $@
+
 perltidy:
 	perltidy $(PLUGIN_SCRIPT)
 
@@ -38,7 +74,7 @@ release:
 	git tag -a "$$V" $$R; \
 	echo "Don't forget to push: git push origin refs/tags/$$V"
 
-install:
+install: $(PLUGIN_SCRIPT)
 	install -d $(DESTDIR)$(PLUGINDIR)
 	install -p $(PLUGIN_SCRIPT) $(DESTDIR)$(PLUGINDIR)/$(PLUGIN)
 	install -d $(DESTDIR)$(PLUGINCONF)
@@ -54,7 +90,7 @@ dist:
 	md5sum -b $(PLUGIN)-$(PLUGIN_VERSION).tar.gz > $(PLUGIN)-$(PLUGIN_VERSION).tar.gz.md5
 	chmod 644 $(PLUGIN)-$(PLUGIN_VERSION).tar.gz $(PLUGIN)-$(PLUGIN_VERSION).tar.gz.md5
 
-rpm:
+rpm: $(PLUGIN_SCRIPT)
 	# needs to be ran in git checkout for version setup to work
 	test -d .git
 	rpmbuild -ba \

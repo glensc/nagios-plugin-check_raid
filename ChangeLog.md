@@ -1,13 +1,22 @@
-## 3.2.5 (UNRELEASED)
+## 4.0.0 (2015-10-31)
 
-- tw_cli: respect bbu monitoring flag in tw_cli. [#117][]
+Source code layout changed so that all plugins are in separate file ([#115][]). The
+distribution will still include single `check_raid.pl` file for official
+releases. See [Development](README.md#development) how to roll `check_raid.pl`
+or run from source tree yourself.
+
+## 3.2.5 (2015-10-03)
+
+- tw_cli: respect bbu monitoring flag in tw_cli (defaults to off). [#117][]
 - hpssacli: make plugin to work if hpacucli is dected as well. [#116][], [#114][]
-- arcconf: parse multiple controllers. [#110][]
+- arcconf: parse multiple controllers. [#110][] [#118][]
 - mvcli: new plugin, partial implementation [#92][]
 - improvements to `make rpm`. [#108][]
+- arcconf: bbu monitoring is optional (defaults to off). [#118][]
 
 NOTES:
-`arcconf` users need to update their `sudo` rules
+- `arcconf` users need to update their `sudo` rules
+- `arcconf` & `tw_cli` respect bbu monitoring flag, which defaults to off
 
 ## 3.2.4 (2015-07-03)
 
@@ -197,3 +206,5 @@ NOTES:
 [#114]: https://github.com/glensc/nagios-plugin-check_raid/issues/114
 [#92]: https://github.com/glensc/nagios-plugin-check_raid/issues/92
 [#110]: https://github.com/glensc/nagios-plugin-check_raid/issues/110
+[#118]: https://github.com/glensc/nagios-plugin-check_raid/pull/118
+[#115]: https://github.com/glensc/nagios-plugin-check_raid/issues/115

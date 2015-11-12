@@ -11,7 +11,7 @@ use Test::More tests => 21;
 use test;
 
 my $bindir = TESTDIR . '/data/bin';
-unshift(@utils::paths, $bindir);
+unshift(@App::Monitoring::Plugin::CheckRaid::Utils::paths, $bindir);
 
 my $commands = {
 	proc => ['<', '.'],
@@ -54,7 +54,7 @@ my %sudo = (
 	],
 	arcconf => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/arcconf GETSTATUS 1",
-		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/arcconf GETCONFIG * AL nologs",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/arcconf GETCONFIG * AL",
 	],
 	megarc => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/megarc -AllAdpInfo -nolog",
@@ -89,9 +89,26 @@ my %sudo = (
 	],
 );
 
+use App::Monitoring::Plugin::CheckRaid;
+
+my $mc = App::Monitoring::Plugin::CheckRaid->new(%params);
+#my @plugins = $mc->active_plugins;
+my @plugins = $mc->plugins;
+
+my %blacklist = map { $_ => 1 } qw(
+	lsraid
+	lsvg
+	megaide
+	megaraid
+	mvcli
+	smartctl
+);
+@plugins = map { exists $blacklist{$_->{name}} ? undef : $_ } @plugins;
+
 # check that sudo rules are what expected (to understand when they change)
-foreach my $pn (@utils::plugins) {
-	my $plugin = $pn->new(%params);
+foreach my $plugin (@plugins) {
+	next unless $plugin;
+	my $pn = $plugin->{name};
 	my @rules = $plugin->sudo(1) or undef;
 
 	my $exp = join "\n", @{$sudo{$pn}} if defined $sudo{$pn};
