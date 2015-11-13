@@ -295,6 +295,9 @@ sub check {
 		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare' || $dev->{state} eq 'Unconfigured(good)' || $dev->{state} eq 'JBOD') {
 			push(@{$dstatus{$dev->{state}}}, sprintf "%02d", $dev->{dev});
 
+		} elsif ($dev->{state} eq 'Predictive') {
+			$this->warning;
+			push(@{$dstatus{$dev->{state}}}, sprintf "%02d (%s)", $dev->{dev}, $dev->{name});
 		} else {
 			$this->critical;
 			# TODO: process other statuses

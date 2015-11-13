@@ -1,3 +1,8 @@
+
+## 4.0.1 (UNRELEASED)
+
+- megacli: Support Predictive Failures as Warning rather than critical [#123][]
+
 ## 4.0.0 (2015-10-31)
 
 Source code layout changed so that all plugins are in separate file ([#115][]). The
@@ -208,3 +213,4 @@ NOTES:
 [#110]: https://github.com/glensc/nagios-plugin-check_raid/issues/110
 [#118]: https://github.com/glensc/nagios-plugin-check_raid/pull/118
 [#115]: https://github.com/glensc/nagios-plugin-check_raid/issues/115
+[#123]: https://github.com/glensc/nagios-plugin-check_raid/issues/123

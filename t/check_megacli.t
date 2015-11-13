@@ -300,7 +300,7 @@ my @tests = (
 		c => 'issue91',
 	},
 	{
-		status => CRITICAL,
+		status => WARNING,
 		pdlist => 'issue123/pdlist',
 		ldinfo => 'issue123/ldinfo',
 		battery => 'empty',
