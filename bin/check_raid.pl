@@ -133,7 +133,7 @@ $App::Monitoring::Plugin::CheckRaid::Utils::debug = $mp->opts->debug;
 
 my @plugins = $mc->active_plugins;
 if (!@plugins) {
-	$mp->plugin_exit(UNKNOWN, "No active plugins")
+	$mp->plugin_exit($plugin_options{options}{noraid_state}, "No active plugins (No RAID found)");
 }
 
 if ($mp->opts->sudoers) {
