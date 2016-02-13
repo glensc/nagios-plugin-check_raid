@@ -7,6 +7,8 @@ package App::Monitoring::Plugin::CheckRaid::Plugins::tw_cli;
 # http://www.cyberciti.biz/files/tw_cli.8.html
 
 use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
+use Date::Parse qw(strptime);
+use DateTime;
 use strict;
 use warnings;
 
@@ -19,6 +21,7 @@ sub commands {
 		'info' => ['-|', '@CMD', 'info'],
 		'unitstatus' => ['-|', '@CMD', 'info', '$controller', 'unitstatus'],
 		'drivestatus' => ['-|', '@CMD', 'info', '$controller', 'drivestatus'],
+		'bbustatus' => ['-|', '@CMD', 'info', '$controller', 'bbustatus'],
 	}
 }
 
@@ -187,6 +190,38 @@ sub parse {
 			}
 		}
 		close $fh;
+
+		# get BBU status
+		$fh = $this->cmd('bbustatus', { '$controller' => $c });
+		while (<$fh>) {
+			next if /^$/;
+			next if /^-{10,}$/;
+			if (my($bbu, $onlinestate, $bbuready, $status, $volt, $temp, $hours, $lastcaptest) = m{^
+				(bbu\d*)\s+     # BBU, possibly numbered (RARE)
+				(\S+)\s+        # OnlineState
+				(\S+)\s+        # BBUReady
+				(\S+)\s+        # Status
+				(\S+)\s+        # Volt
+				(\S+)\s+        # Temp
+				(\d+)\s+        # Hours
+				(\S+)\s+        # LastCapTest
+			}x) {
+				$c{$c}{bbustatus}{$bbu} = {
+					OnlineState => $onlinestate,
+					BBUReady => $bbuready,
+					Status => $status,
+					Volt => $volt,
+					Temp => $temp,
+					Hours => $hours,
+					LastCapTest => $lastcaptest,
+				};
+			}
+			if (m{^b\+}) {
+				$this->unknown;
+				warn "unparsed: [$_]";
+			}
+		}
+		close $fh;
 	}
 
 	return \%c;
@@ -262,10 +297,79 @@ sub check {
 		}
 		push(@status, "Drives($c->{drives}): ".$this->join_status(\%ds)) if %ds;
 
-		# check BBU
-		if ($this->bbu_monitoring && $c->{bbu} && $c->{bbu} ne '-') {
-			$this->critical if $c->{bbu} ne 'OK';
-			push(@status, "BBU: $c->{bbu}");
+		# check BBU, but be prepared that BBU status might not report anything
+		if ($this->{options}{bbu_monitoring} && $c->{bbu} && $c->{bbu} ne '-') {
+			# On old controllers, bbustatus did not exist; and the only BBU status
+			# you got was on the controller listing.
+			if(scalar(keys %{$c->{bbustatus}}) < 1) {
+				$this->critical if $c->{bbu} ne 'OK';
+				push(@status, "BBU: $c->{bbu}");
+			} else {
+				foreach my $bbuid (sort { $a cmp $b } keys %{$c->{bbustatus}}) {
+					my $bat = $c->{bbustatus}->{$bbuid};
+					my $bs = $bat->{Status}; # We might override this later
+					my @batmsg;
+					if($bs eq 'Testing' or $bs eq 'Charging') {
+						$this->bbulearn;
+					} elsif($bs eq 'WeakBat') {
+						# Time to replace your battery
+						$this->warning;
+					} elsif($bs ne 'OK') {
+						$this->critical;
+					}
+					# We do NOT check BBUReady, as it doesn't private granular
+					# info.
+					# Check OnlineState flag as well
+					# A battery can be GOOD, but disabled; this is only reflected in OnlineState.
+					if($bat->{OnlineState} ne 'On') {
+						push @batmsg, 'OnlineStatus='.$bat->{OnlineState};
+						$this->critical;
+					}
+					# Check voltage & temps
+					push @batmsg, 'Volt='.$bat->{Volt};
+					push @batmsg, 'Temp='.$bat->{Temp};
+					if ($bat->{Volt} =~ /^(LOW|HIGH)$/) {
+						$this->critical;
+					} elsif ($bat->{Volt} =~ /^(LOW|HIGH)$/) {
+						$this->warning;
+					}
+					if ($bat->{Temp} =~ /^(LOW|HIGH)$/) {
+						$this->critical;
+					} elsif ($bat->{Temp} =~ /^(LOW|HIGH)$/) {
+						$this->warning;
+					}
+					# Check runtime estimate
+					# Warn if too low
+					my $bbulearn = '';
+					if ($bat->{Hours} ne '-' and int($bat->{Hours}) <= 1) {
+						# TODO: make this configurable before going live
+						#$this->warning;
+						$this->bbulearn;
+						$bbulearn = '/LEARN';
+					}
+					push @batmsg, 'Hours='.$bat->{Hours};
+
+					# Check date of last capacity test
+					if ($bat->{LastCapTest} eq 'xx-xxx-xxxx') {
+						$this->bbulearn;
+						$bbulearn = '/LEARN';
+					} elsif ($bat->{LastCapTest} ne '-') {
+						# TODO: is the short name of month localized by tw_cli?
+						#my ($mday, $mon, $year) = (strptime($bat->{LastCapTest}, '%d-%b-%Y'))[3,4,5];
+						#my $lastcaptest_epoch = DateTime->new(year => $year, month => $mon, day => $mday, hour => 0, minute => 0, second => 0);
+						#my $present_time = time;
+						## TODO: this value should be configurable before going live, also need to mock system date for testing
+						#if (($present_time-$lastcaptest_epoch) > 86400*365) {
+						#	$this->bbulearn;
+						#}
+					}
+					push @batmsg, 'LastCapTest='.$bat->{LastCapTest};
+					my $msg = join(',', @batmsg);
+					my $bbustatus = $bs.$bbulearn;
+					$bbustatus = "$bbuid=$bs" if $bbuid ne 'bbu'; # If we have multiple BBU, specify which one
+					push(@status, "BBU: $bbustatus($msg)");
+				}
+			}
 		}
 	}
 

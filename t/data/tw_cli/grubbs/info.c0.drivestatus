@@ -1,0 +1,18 @@
+
+VPort Status         Unit Size      Type  Phy Encl-Slot    Model
+------------------------------------------------------------------------------
+p8    OK             -    136.73 GB SAS   -   /c0/e0/slt3  SEAGATE ST3146855SS 
+p9    OK             -    136.73 GB SAS   -   /c0/e0/slt6  SEAGATE ST3146855SS 
+p10   OK             u0   55.90 GB  SATA  -   /c0/e1/slt1  OCZ-VERTEX2         
+p11   OK             u1   2.73 TB   SATA  -   /c0/e1/slt3  ST33000651AS        
+p12   OK             u1   2.73 TB   SATA  -   /c0/e1/slt5  ST33000651AS        
+p13   OK             u1   2.73 TB   SATA  -   /c0/e1/slt6  ST33000651AS        
+p14   OK             u1   2.73 TB   SATA  -   /c0/e1/slt8  ST33000651AS        
+p15   OK             u1   2.73 TB   SATA  -   /c0/e1/slt10 ST33000651AS        
+p16   OK             u1   2.73 TB   SATA  -   /c0/e1/slt13 ST33000651AS        
+p17   OK             u1   2.73 TB   SATA  -   /c0/e1/slt15 ST33000651AS        
+p18   OK             u1   2.73 TB   SATA  -   /c0/e1/slt17 ST33000651AS        
+p19   OK             u0   55.90 GB  SATA  -   /c0/e1/slt18 OCZ-VERTEX2         
+p20   OK             u2   931.51 GB SATA  -   /c0/e1/slt20 ST31000528AS        
+p21   OK             u2   931.51 GB SATA  -   /c0/e1/slt22 ST31000528AS        
+
