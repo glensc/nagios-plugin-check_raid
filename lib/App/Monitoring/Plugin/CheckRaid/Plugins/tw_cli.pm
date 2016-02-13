@@ -18,10 +18,11 @@ sub program_names {
 
 sub commands {
 	{
-		'info' => ['-|', '@CMD', 'info'],
+		'show' => ['-|', '@CMD', 'show'], # This is 'info' output AND enclosure summary
 		'unitstatus' => ['-|', '@CMD', 'info', '$controller', 'unitstatus'],
 		'drivestatus' => ['-|', '@CMD', 'info', '$controller', 'drivestatus'],
 		'bbustatus' => ['-|', '@CMD', 'info', '$controller', 'bbustatus'],
+		'enc_show_all' => ['-|', '@CMD', '$encid', 'show all'],
 	}
 }
 
@@ -31,7 +32,12 @@ sub sudo {
 	return 1 unless $deep;
 
 	my $cmd = $this->{program};
-	"CHECK_RAID ALL=(root) NOPASSWD: $cmd info*";
+	(
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd info",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd info *",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd show",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd * show all",
+	);
 }
 
 sub trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
@@ -47,9 +53,18 @@ sub parse {
 
 	my (%c);
 	# scan controllers
-	my $fh = $this->cmd('info');
+	my ($sect_ctl, $sect_enc) = 0;
+	my $fh = $this->cmd('show');
 	while (<$fh>) {
-		if (my($ctl, $model, $ports, $drives, $units, $notopt, $rrate, $vrate, $bbu) = m{^
+		# Section break
+		if(/^\s*$/) { ($sect_ctl,$sect_enc) = (0,0); next; };
+		# header line
+		if(/^-+$/) { next; };
+		# section headers
+		if (/^Ctl.*Model.*Rate/) { $sect_ctl = 1; next; };
+		if (/^Enclosure.*Drive/) { $sect_enc = 1; next; };
+		# controller section
+		if ($sect_ctl and my($ctl, $model, $ports, $drives, $units, $notopt, $rrate, $vrate, $bbu) = m{^
 			(c\d+)\s+   # Controller
 			(\S+)\s+    # Model
 			(\d+)\s+    # (V)Ports
@@ -75,13 +90,28 @@ sub parse {
 				bbu => $bbu,
 			};
 		}
+		# enclosure section
+		if ($sect_enc and my($enc, $slots, $drives, $fans, $tsunits, $psunits, $alarms) = m{^
+			((?:/c\d+)?/e\d+)\s+   # Controller, Enclosure
+			  # 9650SE reports enclosures as /eX
+			  # 9690SA+ report enclosures as /cX/eX
+			(\d+)\s+    # Slots
+			(\d+)\s+    # Drives
+			(\d+)\s+    # Fans
+			(\d+)\s+    # TSUnits - Temp Sensor
+			(\d+)\s+    # PSUnits - Power Supply
+			(\d+)\s+    # Alarms
+		}x) {
+			# This will be filled in later by the enclosure pass
+			$c{$enc} = {};
+		}
 	}
 	close $fh;
 
 	# no controllers? skip early
 	return unless %c;
 
-	for my $c (keys %c) {
+	for my $c (grep /^\/?c\d+$/, keys %c) {
 		# get each unit on controllers
 		$fh = $this->cmd('unitstatus', { '$controller' => $c });
 		while (<$fh>) {
@@ -215,11 +245,150 @@ sub parse {
 					Hours => $hours,
 					LastCapTest => $lastcaptest,
 				};
+				next;
 			}
-			if (m{^b\+}) {
+			if (m{^\S+\+}) {
 				$this->unknown;
 				warn "unparsed: [$_]";
 			}
+		}
+		close $fh;
+	}
+
+	# Do enclosures now, which might NOT be attached the controllers
+	for my $encid (grep /\/e\d+$/, keys %c) {
+		$fh = $this->cmd('enc_show_all', { '$encid' => $encid });
+		# Variable names chose to be 'sect_XXX' explicitly.
+		# This says what section we are in right now
+		my ($sect_enc, $sect_fan, $sect_tmp, $sect_psu, $sect_slt, $sect_alm) = (0,0,0,0,0,0);
+		# This says what section we have seen, it gets reset at the start of each enclosure block;
+		my ($seen_enc, $seen_fan, $seen_tmp, $seen_psu, $seen_slt, $seen_alm) = (0,0,0,0,0,0);
+		while (<$fh>) {
+			# Skip the header break lines
+			next if /^-+$/;
+			# and the partial indented header that is ABOVE the fan header
+			next if /^\s+-+Speed-+\s*$/;
+			# If the line is blank, reset our section headers
+			if(/^\s*$/){
+				($sect_enc, $sect_fan, $sect_tmp, $sect_psu, $sect_slt, $sect_alm) = (0,0,0,0,0,0);
+				# If we have SEEN all of the sections, also reset the seen markers
+				# This is needed when the output contains multiple enclosures
+				if($sect_enc and $sect_fan and $sect_tmp and $sect_psu and $sect_slt and $sect_alm) {
+					($seen_enc, $seen_fan, $seen_tmp, $seen_psu, $seen_slt, $seen_alm) = (0,0,0,0,0,0);
+				}
+				next;
+			}
+			if (/^Encl.*Status/)        { $seen_enc = $sect_enc = 1; next; }
+			if (/^Fan.*Status/)         { $seen_fan = $sect_fan = 1; next; }
+			if (/^TempSensor.*Status/)  { $seen_tmp = $sect_tmp = 1; next; }
+			if (/^PowerSupply.*Status/) { $seen_psu = $sect_psu = 1; next; }
+			if (/^Slot.*Status/)        { $seen_slt = $sect_slt = 1; next; }
+			if (/^Alarm.*Status/)       { $seen_alm = $sect_alm = 1; next; }
+			# ------ Start of new enclosure
+			if ($sect_enc and my($encl, $encl_status) = m{^
+				((?:/c\d+)?/e\d+)\s+   # Controller, Enclosure
+				(\S+)\s+   # Status
+			}x) {
+				# This is a special case for the test environment, as it is
+				# hard to feed MULTI command inputs into the mock.
+				if($ENV{'HARNESS_ACTIVE'} and $encl ne $encid) {
+					$encid = $encl;
+				}
+				$c{$encid} = {
+					encl   => $encl, # Dupe of $encid to verify
+					status => $encl_status,
+					# This is the top-level enclosure object
+					fans => {},
+					tempsensor => {},
+					powersupply => {},
+					slot => {},
+					alarm => {},
+				};
+			}
+			# ------ Fans
+			elsif ($sect_fan and my($fan, $fan_status, $fan_state, $fan_step, $fan_rpm, $fan_identify) = m{^
+				(fan\S+)\s+   # Fan
+				(\S+)\s+   # Status
+				(\S+)\s+   # State
+				(\S+)\s+   # Step
+				(\d+|N/A)\s+   # RPM
+				(\S+)\s+   # Identify
+			}x) {
+				$c{$encid}{fans}{$fan} = {
+					status => $fan_status,
+					state => $fan_state,
+					step => $fan_step,
+					rpm => $fan_rpm,
+					identify => $fan_identify,
+				};
+				next;
+			}
+			# ------ TempSensor
+			elsif ($sect_tmp and my($tmp, $tmp_status, $tmp_temperature, $tmp_identify) = m{^
+				(temp\S+)\s+   # TempSensor
+				(\S+)\s+   # Status
+				(\S+)\s+   # Temperature
+				(\S+)\s+   # Identify
+			}x) {
+				$c{$encid}{tempsensor}{$tmp} = {
+					status => $tmp_status,
+					temperature => $tmp_temperature,
+					identify => $tmp_identify,
+				};
+				next;
+			}
+			# ------ PowerSupply
+			elsif ($sect_psu and my($psu, $psu_status, $psu_state, $psu_voltage, $psu_current, $psu_identify) = m{^
+				((?:pw|psu)\S+)\s+   # PowerSupply
+				(\S+)\s+   # Status
+				(\S+)\s+   # State
+				(\S+)\s+   # Voltage
+				(\S+)\s+   # Current
+				(\S+)\s+   # Identify
+			}x) {
+				$c{$encid}{powersupply}{$psu} = {
+					status => $psu_status,
+					state => $psu_state,
+					voltage => $psu_voltage,
+					current => $psu_current,
+					identify => $psu_identify,
+				};
+				next;
+			}
+			# ------ Slot
+			elsif ($sect_slt and my($slt, $slt_status, $slt_vport, $slt_identify) = m{^
+				(slo?t\S+)\s+   # Slot
+				(\S+)\s+   # Status
+				(\S+)\s+   # (V)Port
+				(\S+)\s+   # Identify
+			}x) {
+				$c{$encid}{slot}{$slt} = {
+					status => $slt_status,
+					vport => $slt_vport,
+					identify => $slt_identify,
+				};
+				next;
+			}
+			# ------ Alarm
+			elsif ($sect_alm and my($alm, $alm_status, $alm_state, $alm_audibility) = m{^
+				(alm\S+)\s+   # Alarm
+				(\S+)\s+   # Status
+				(\S+)\s+   # State
+				(\S+)\s+   # Audibility
+			}x) {
+				$c{$encid}{alarm}{$alm} = {
+					status => $alm_status,
+					state => $alm_state,
+					audibility => $alm_audibility,
+				};
+				next;
+			}
+			# ---- End of known data
+			elsif (m{^\S+\+}) {
+				$this->unknown;
+				warn "unparsed: [$_]";
+			}
+
 		}
 		close $fh;
 	}

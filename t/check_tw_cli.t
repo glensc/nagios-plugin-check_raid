@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 9;
+use constant TESTS => 11;
 use Test::More tests => 1 + TESTS * 6;
 use test;
 
@@ -14,6 +14,7 @@ my @tests = (
 	{
 		status => OK,
 		info => '1/info',
+		show => '1/show',
 		unitstatus => '1/info.c.unitstatus',
 		drivestatus => '1/info.c.drivestatus',
 		bbustatus => 'empty',
@@ -23,6 +24,7 @@ my @tests = (
 	{
 		status => OK,
 		info => '2/info',
+		show => '2/show',
 		unitstatus => '2/info.c0.unitstatus',
 		drivestatus => '2/info.c0.drivestatus',
 		bbustatus => 'empty',
@@ -32,6 +34,7 @@ my @tests = (
 	{
 		status => CRITICAL,
 		info => 'lumpy/info',
+		show => 'lumpy/show',
 		unitstatus => 'lumpy/unitstatus',
 		drivestatus => 'lumpy/drivestatus',
 		bbustatus => 'empty',
@@ -41,6 +44,7 @@ my @tests = (
 	{
 		status => OK,
 		info => 'ichy/info',
+		show => 'ichy/show',
 		unitstatus => 'ichy/info.c0.unitstatus',
 		drivestatus => 'ichy/info.c0.drivestatus',
 		bbustatus => 'empty',
@@ -50,6 +54,7 @@ my @tests = (
 	{
 		status => OK,
 		info => 'black/info',
+		show => 'black/show',
 		unitstatus => 'black/unitstatus',
 		drivestatus => 'black/drivestatus',
 		bbustatus => 'empty',
@@ -59,6 +64,7 @@ my @tests = (
 	{
 		status => OK,
 		info => 'rover/info',
+		show => 'rover/show',
 		unitstatus => 'rover/unitstatus',
 		drivestatus => 'rover/drivestatus',
 		bbustatus => 'empty',
@@ -68,6 +74,7 @@ my @tests = (
 	{
 		status => OK,
 		info => 'bootc/info',
+		show => 'bootc/show',
 		unitstatus => 'bootc/unitstatus',
 		drivestatus => 'bootc/drivestatus',
 		bbustatus => 'empty',
@@ -77,15 +84,40 @@ my @tests = (
 	{
 		status => OK,
 		info => 'grubbs/info',
+		show => 'grubbs/show',
 		unitstatus => 'grubbs/info.c0.unitstatus',
 		drivestatus => 'grubbs/info.c0.drivestatus',
 		bbustatus => 'grubbs/info.c0.bbustatus',
+		enc_show_all => 'grubbs/c0.eX.show.all',
 		message => 'c0(9750-4i): u0(RAID-1): OK, Cache:RiW, c0(9750-4i): u1(RAID-10): OK, Cache:RiW, c0(9750-4i): u2(RAID-0): OK, Cache:RiW, Drives(14): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21=OK p8,p9=SPARE, BBU: OK(Volt=OK,Temp=OK,Hours=93,LastCapTest=24-Jul-2012)',
 		c => 'grubbs',
 	},
 	{
+		status => OK,
+		info => 'grubbs/info',
+		show => 'grubbs/show',
+		unitstatus => 'grubbs/info.c0.unitstatus',
+		drivestatus => 'grubbs/info.c0.drivestatus',
+		bbustatus => 'grubbs/info.c0.bbustatus',
+		enc_show_all => 'grubbs/c0.e0.show.all',
+		message => 'c0(9750-4i): u0(RAID-1): OK, Cache:RiW, c0(9750-4i): u1(RAID-10): OK, Cache:RiW, c0(9750-4i): u2(RAID-0): OK, Cache:RiW, Drives(14): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21=OK p8,p9=SPARE, BBU: OK(Volt=OK,Temp=OK,Hours=93,LastCapTest=24-Jul-2012)',
+		c => 'grubbs-e0',
+	},
+	{
+		status => OK,
+		info => 'grubbs/info',
+		show => 'grubbs/show',
+		unitstatus => 'grubbs/info.c0.unitstatus',
+		drivestatus => 'grubbs/info.c0.drivestatus',
+		bbustatus => 'grubbs/info.c0.bbustatus',
+		enc_show_all => 'grubbs/c0.e1.show.all',
+		message => 'c0(9750-4i): u0(RAID-1): OK, Cache:RiW, c0(9750-4i): u1(RAID-10): OK, Cache:RiW, c0(9750-4i): u2(RAID-0): OK, Cache:RiW, Drives(14): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21=OK p8,p9=SPARE, BBU: OK(Volt=OK,Temp=OK,Hours=93,LastCapTest=24-Jul-2012)',
+		c => 'grubbs-e1',
+	},
+	{
 		status => WARNING,
 		info => 'bohr/info',
+		show => 'bohr/show',
 		unitstatus => 'bohr/info.c0.unitstatus',
 		drivestatus => 'bohr/info.c0.drivestatus',
 		bbustatus => 'bohr/info.c0.bbustatus',
@@ -98,13 +130,20 @@ my @tests = (
 ok(tw_cli->new, "plugin created");
 
 foreach my $test (@tests) {
+	my $commands = {
+	};
+	my $emptyfile = TESTDIR . '/data/tw_cli/empty';
+	foreach my $commandname (qw(info show unitstatus drivestatus bbustatus enc_show_all)) {
+		my $f;
+		if($test->{$commandname}) {
+			$f = TESTDIR . '/data/tw_cli/' .$test->{$commandname};
+		} else {
+			$f = $emptyfile;
+		}
+		$commands->{$commandname} = ['<', $f ];
+	}
 	my $plugin = tw_cli->new(
-		commands => {
-			'info' => ['<', TESTDIR . '/data/tw_cli/' .$test->{info} ],
-			'unitstatus' => ['<', TESTDIR . '/data/tw_cli/' .$test->{unitstatus} ],
-			'drivestatus' => ['<', TESTDIR . '/data/tw_cli/' .$test->{drivestatus} ],
-			'bbustatus' => ['<', TESTDIR . '/data/tw_cli/' .$test->{bbustatus} ],
-		},
+		commands => $commands,
 		options => { bbu_monitoring => 1, bbulearn => 'OK' },
 	);
 	ok($plugin, "plugin created ($test->{c})");
