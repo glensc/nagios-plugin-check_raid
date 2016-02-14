@@ -1,0 +1,8 @@
+
+Ctl   Model        (V)Ports  Drives   Units   NotOpt  RRate   VRate  BBU
+------------------------------------------------------------------------
+c0    9750-4i      18        18       4       0       5       3      -        
+
+Encl    Slots   Drives  Fans   TSUnits  PSUnits
+--------------------------------------------------
+/c0/e0  12       10       6      8        2

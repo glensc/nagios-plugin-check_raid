@@ -60,9 +60,16 @@ sub parse {
 		if(/^\s*$/) { ($sect_ctl,$sect_enc) = (0,0); next; };
 		# header line
 		if(/^-+$/) { next; };
-		# section headers
+		# section headers: Controller
+		# Ctl   Model  Ports     Drives  Units   NotOpt  RRate VRate  BBU
+		# Ctl   Model  (V)Ports  Drives  Units   NotOpt  RRate VRate  BBU
 		if (/^Ctl.*Model.*Rate/) { $sect_ctl = 1; next; };
-		if (/^Enclosure.*Drive/) { $sect_enc = 1; next; };
+		# section headers: Enclosure
+		#  Encl    Slots   Drives  Fans   TSUnits   Ctls
+		#  Encl    Slots   Drives  Fans   TSUnits  PSUnits
+		#  Enclosure     Slots  Drives  Fans  TSUnits  PSUnits  Alarms
+		if (/^Encl.*Drive/) { $sect_enc = 1; next; };
+
 		# controller section
 		if ($sect_ctl and my($ctl, $model, $ports, $drives, $units, $notopt, $rrate, $vrate, $bbu) = m{^
 			(c\d+)\s+   # Controller
@@ -99,8 +106,8 @@ sub parse {
 			(\d+)\s+    # Drives
 			(\d+)\s+    # Fans
 			(\d+)\s+    # TSUnits - Temp Sensor
-			(\d+)\s+    # PSUnits - Power Supply
-			(\d+)\s+    # Alarms
+			(\d+)?\s+    # PSUnits - Power Supply, not always present!
+			(\d+)?\s+    # Controller OR Alarms, not always present!
 		}x) {
 			# This will be filled in later by the enclosure pass
 			$c{$enc} = {};
@@ -256,6 +263,9 @@ sub parse {
 	}
 
 	# Do enclosures now, which might NOT be attached the controllers
+	# WARNING: This data section has not always been consistent over versions of tw_cli.
+	# You should try to use the newest version of the driver, as it deliberately uses the newer style of output
+	# rather than the output for the tw_cli versions released with 9550SX/9590SE/9650SE
 	for my $encid (grep /\/e\d+$/, keys %c) {
 		$fh = $this->cmd('enc_show_all', { '$encid' => $encid });
 		# Variable names chose to be 'sect_XXX' explicitly.

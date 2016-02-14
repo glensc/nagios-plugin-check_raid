@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 14;
+use constant TESTS => 15;
 use Test::More tests => 1 + TESTS * 6;
 use test;
 
@@ -80,6 +80,17 @@ my @tests = (
 		bbustatus => 'empty',
 		message => 'c0(9750-4i): u0(RAID-6): VERIFYING 29%(A), Cache:RiW, c0(9750-4i): u1(RAID-6): VERIFYING 18%(A), Cache:RiW, c0(9750-4i): u2(SPARE): VERIFYING 14%, c0(9750-4i): u3(SPARE): VERIFYING 0%, Drives(18): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21,p22,p23,p24,p8=OK p25,p9=VERIFYING',
 		c => 'bootc',
+	},
+	{
+		status => OK,
+		info => 'bootc/info',
+		show => 'bootc-enc/show',
+		unitstatus => 'bootc/unitstatus',
+		drivestatus => 'bootc/drivestatus',
+		bbustatus => 'empty',
+		enc_show_all => 'bootc-enc/c0.e0.show.all',
+		message => 'c0(9750-4i): u0(RAID-6): VERIFYING 29%(A), Cache:RiW, c0(9750-4i): u1(RAID-6): VERIFYING 18%(A), Cache:RiW, c0(9750-4i): u2(SPARE): VERIFYING 14%, c0(9750-4i): u3(SPARE): VERIFYING 0%, Drives(18): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21,p22,p23,p24,p8=OK p25,p9=VERIFYING, Enclosure: /c0/e0(fan0=OK(2670),fan1=OK(9500),fan2=OK(8540),fan3=OK(2830),fan4=OK(9120),fan5=OK(8330),temp0=OK(41C),temp1=OK(38C),temp2=OK(34C),temp3=OK(38C),temp4=OK(38C),temp5=OK(34C),pwrs0=OK(status=on,voltage=OK,current=OK),pwrs1=OK(status=on,voltage=OK,current=OK),slot0=OK,slot10=OK,slot2=OK,slot3=OK,slot4=OK,slot5=OK,slot6=OK,slot7=OK,slot8=OK,slot9=OK)',
+		c => 'bootc-enc',
 	},
 	{
 		status => OK,
