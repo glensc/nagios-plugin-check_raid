@@ -409,7 +409,7 @@ sub check {
 	}
 
 	# process each controller
-	for my $cid (sort keys %$c) {
+	for my $cid (sort grep !/e\d+/, keys %$c) {
 		my $c = $c->{$cid};
 		my @cstatus;
 
@@ -540,6 +540,56 @@ sub check {
 				}
 			}
 		}
+	}
+	# process each enclosure
+	use Data::Dumper;
+	for my $eid (sort grep /\/e\d+/, keys %$c) {
+		my $e = $c->{$eid};
+		# If the enclosure command returned nothing, we have no status to
+		# report.
+		next unless defined($e->{status});
+		#warn "Enclosure $eid\n".Dumper($e);
+		# Something is wrong, but we are not sure what yet.
+		$this->warning unless $e->{status} eq 'OK';
+		my @estatus;
+		for my $fan_id (sort keys %{$e->{fans}}) {
+			my $f = $e->{fans}->{$fan_id};
+			my $s = $f->{status};
+			next if $s eq 'NOT-REPORTABLE' or $s eq 'NOT-INSTALLED' or $s eq 'NO-DEVICE';
+			$this->warning if $s ne 'OK';
+			push(@estatus, "$fan_id=$s($f->{rpm})");
+		}
+		for my $tmp_id (sort keys %{$e->{tempsensor}}) {
+			my $t = $e->{tempsensor}->{$tmp_id};
+			my $s = $t->{status};
+			next if $s eq 'NOT-REPORTABLE' or $s eq 'NOT-INSTALLED' or $s eq 'NO-DEVICE';
+			$this->warning if $s ne 'OK';
+			$t->{temperature} =~ s/\(\d+F\)//; # get rid of extra units
+			push(@estatus, "$tmp_id=$s($t->{temperature})");
+		}
+		for my $psu_id (sort keys %{$e->{powersupply}}) {
+			my $t = $e->{powersupply}->{$psu_id};
+			my $s = $t->{status};
+			next if $s eq 'NOT-REPORTABLE' or $s eq 'NOT-INSTALLED' or $s eq 'NO-DEVICE';
+			$this->warning if $s ne 'OK';
+			push(@estatus, "$psu_id=$s(status=$t->{state},voltage=$t->{voltage},current=$t->{current})");
+		}
+		for my $slot_id (sort keys %{$e->{slot}}) {
+			my $t = $e->{slot}->{$slot_id};
+			my $s = $t->{status};
+			next if $s eq 'NOT-REPORTABLE' or $s eq 'NOT-INSTALLED' or $s eq 'NO-DEVICE';
+			$this->warning if $s ne 'OK';
+			push(@estatus, "$slot_id=$s");
+		}
+		for my $alarm_id (sort keys %{$e->{alarm}}) {
+			my $t = $e->{alarm}->{$alarm_id};
+			my $s = $t->{status};
+			next if $s eq 'NOT-REPORTABLE' or $s eq 'NOT-INSTALLED' or $s eq 'NO-DEVICE';
+			$this->warning if $s ne 'OK';
+			push(@estatus, "$alarm_id=$s(State=$t->{state},Audibility=$t->{audibility})");
+		}
+		#warn join("\n", @estatus);
+		push(@status, "Enclosure: $eid(".join(',', @estatus).")");
 	}
 
 	return unless @status;

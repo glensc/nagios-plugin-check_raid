@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 11;
+use constant TESTS => 14;
 use Test::More tests => 1 + TESTS * 6;
 use test;
 
@@ -87,31 +87,64 @@ my @tests = (
 		show => 'grubbs/show',
 		unitstatus => 'grubbs/info.c0.unitstatus',
 		drivestatus => 'grubbs/info.c0.drivestatus',
-		bbustatus => 'grubbs/info.c0.bbustatus',
-		enc_show_all => 'grubbs/c0.eX.show.all',
-		message => 'c0(9750-4i): u0(RAID-1): OK, Cache:RiW, c0(9750-4i): u1(RAID-10): OK, Cache:RiW, c0(9750-4i): u2(RAID-0): OK, Cache:RiW, Drives(14): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21=OK p8,p9=SPARE, BBU: OK(Volt=OK,Temp=OK,Hours=93,LastCapTest=24-Jul-2012)',
-		c => 'grubbs',
+		#bbustatus => 'grubbs/info.c0.bbustatus',
+		#enc_show_all => 'grubbs/c0.eX.show.all',
+		message => 'c0(9750-4i): u0(RAID-1): OK, Cache:RiW, c0(9750-4i): u1(RAID-10): OK, Cache:RiW, c0(9750-4i): u2(RAID-0): OK, Cache:RiW, Drives(14): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21=OK p8,p9=SPARE, BBU: OK',
+		c => 'grubbs-nobbu-noenc',
 	},
 	{
 		status => OK,
+		info => 'grubbs/info',
+		show => 'grubbs/show',
+		unitstatus => 'grubbs/info.c0.unitstatus',
+		drivestatus => 'grubbs/info.c0.drivestatus',
+		bbustatus => 'grubbs/info.c0.bbustatus',
+		#enc_show_all => 'grubbs/c0.eX.show.all',
+		message => 'c0(9750-4i): u0(RAID-1): OK, Cache:RiW, c0(9750-4i): u1(RAID-10): OK, Cache:RiW, c0(9750-4i): u2(RAID-0): OK, Cache:RiW, Drives(14): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21=OK p8,p9=SPARE, BBU: OK(Volt=OK,Temp=OK,Hours=93,LastCapTest=24-Jul-2012)',
+		c => 'grubbs-bbu-noenc',
+	},
+	{
+		status => WARNING,
+		info => 'grubbs/info',
+		show => 'grubbs/show',
+		unitstatus => 'grubbs/info.c0.unitstatus',
+		drivestatus => 'grubbs/info.c0.drivestatus',
+		#bbustatus => 'grubbs/info.c0.bbustatus',
+		enc_show_all => 'grubbs/c0.eX.show.all',
+		message => 'c0(9750-4i): u0(RAID-1): OK, Cache:RiW, c0(9750-4i): u1(RAID-10): OK, Cache:RiW, c0(9750-4i): u2(RAID-0): OK, Cache:RiW, Drives(14): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21=OK p8,p9=SPARE, BBU: OK, Enclosure: /c0/e0(temp0=OK(22C),slot3=OK,slot6=OK,alm0=ACTIVATED(State=ON,Audibility=UNMUTE)), Enclosure: /c0/e1(fan0=OK(6900),fan1=OK(6900),fan2=OK(6660),temp0=OK(24C),slot1=OK,slot10=OK,slot13=OK,slot15=OK,slot17=OK,slot18=OK,slot20=OK,slot22=OK,slot3=OK,slot5=OK,slot6=OK,slot8=OK,alm0=ACTIVATED(State=ON,Audibility=UNMUTE))',
+		c => 'grubbs-nobbu-enc',
+	},
+	{
+		status => WARNING,
+		info => 'grubbs/info',
+		show => 'grubbs/show',
+		unitstatus => 'grubbs/info.c0.unitstatus',
+		drivestatus => 'grubbs/info.c0.drivestatus',
+		bbustatus => 'grubbs/info.c0.bbustatus',
+		enc_show_all => 'grubbs/c0.eX.show.all',
+		message => 'c0(9750-4i): u0(RAID-1): OK, Cache:RiW, c0(9750-4i): u1(RAID-10): OK, Cache:RiW, c0(9750-4i): u2(RAID-0): OK, Cache:RiW, Drives(14): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21=OK p8,p9=SPARE, BBU: OK(Volt=OK,Temp=OK,Hours=93,LastCapTest=24-Jul-2012), Enclosure: /c0/e0(temp0=OK(22C),slot3=OK,slot6=OK,alm0=ACTIVATED(State=ON,Audibility=UNMUTE)), Enclosure: /c0/e1(fan0=OK(6900),fan1=OK(6900),fan2=OK(6660),temp0=OK(24C),slot1=OK,slot10=OK,slot13=OK,slot15=OK,slot17=OK,slot18=OK,slot20=OK,slot22=OK,slot3=OK,slot5=OK,slot6=OK,slot8=OK,alm0=ACTIVATED(State=ON,Audibility=UNMUTE))',
+		c => 'grubbs',
+	},
+	{
+		status => WARNING,
 		info => 'grubbs/info',
 		show => 'grubbs/show',
 		unitstatus => 'grubbs/info.c0.unitstatus',
 		drivestatus => 'grubbs/info.c0.drivestatus',
 		bbustatus => 'grubbs/info.c0.bbustatus',
 		enc_show_all => 'grubbs/c0.e0.show.all',
-		message => 'c0(9750-4i): u0(RAID-1): OK, Cache:RiW, c0(9750-4i): u1(RAID-10): OK, Cache:RiW, c0(9750-4i): u2(RAID-0): OK, Cache:RiW, Drives(14): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21=OK p8,p9=SPARE, BBU: OK(Volt=OK,Temp=OK,Hours=93,LastCapTest=24-Jul-2012)',
+		message => 'c0(9750-4i): u0(RAID-1): OK, Cache:RiW, c0(9750-4i): u1(RAID-10): OK, Cache:RiW, c0(9750-4i): u2(RAID-0): OK, Cache:RiW, Drives(14): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21=OK p8,p9=SPARE, BBU: OK(Volt=OK,Temp=OK,Hours=93,LastCapTest=24-Jul-2012), Enclosure: /c0/e0(temp0=OK(22C),slot3=OK,slot6=OK,alm0=ACTIVATED(State=ON,Audibility=UNMUTE))',
 		c => 'grubbs-e0',
 	},
 	{
-		status => OK,
+		status => WARNING,
 		info => 'grubbs/info',
 		show => 'grubbs/show',
 		unitstatus => 'grubbs/info.c0.unitstatus',
 		drivestatus => 'grubbs/info.c0.drivestatus',
 		bbustatus => 'grubbs/info.c0.bbustatus',
 		enc_show_all => 'grubbs/c0.e1.show.all',
-		message => 'c0(9750-4i): u0(RAID-1): OK, Cache:RiW, c0(9750-4i): u1(RAID-10): OK, Cache:RiW, c0(9750-4i): u2(RAID-0): OK, Cache:RiW, Drives(14): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21=OK p8,p9=SPARE, BBU: OK(Volt=OK,Temp=OK,Hours=93,LastCapTest=24-Jul-2012)',
+		message => 'c0(9750-4i): u0(RAID-1): OK, Cache:RiW, c0(9750-4i): u1(RAID-10): OK, Cache:RiW, c0(9750-4i): u2(RAID-0): OK, Cache:RiW, Drives(14): p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21=OK p8,p9=SPARE, BBU: OK(Volt=OK,Temp=OK,Hours=93,LastCapTest=24-Jul-2012), Enclosure: /c0/e1(fan0=OK(6900),fan1=OK(6900),fan2=OK(6660),temp0=OK(24C),slot1=OK,slot10=OK,slot13=OK,slot15=OK,slot17=OK,slot18=OK,slot20=OK,slot22=OK,slot3=OK,slot5=OK,slot6=OK,slot8=OK,alm0=ACTIVATED(State=ON,Audibility=UNMUTE))',
 		c => 'grubbs-e1',
 	},
 	{
