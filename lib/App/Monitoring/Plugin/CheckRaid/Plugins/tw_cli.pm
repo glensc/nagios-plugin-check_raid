@@ -552,13 +552,12 @@ sub check {
 		}
 	}
 	# process each enclosure
-	use Data::Dumper;
 	for my $eid (sort grep /\/e\d+/, keys %$c) {
 		my $e = $c->{$eid};
 		# If the enclosure command returned nothing, we have no status to
 		# report.
 		next unless defined($e->{status});
-		#warn "Enclosure $eid\n".Dumper($e);
+
 		# Something is wrong, but we are not sure what yet.
 		$this->warning unless $e->{status} eq 'OK';
 		my @estatus;
