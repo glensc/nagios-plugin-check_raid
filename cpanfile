@@ -6,7 +6,7 @@ requires perl => '5.008';
 requires 'Module::Pluggable', 5.1;
 requires 'Monitoring::Plugin' => '0.37';
 requires 'Date::Parse'; # tw_cli
-requires 'TimeDate'; # tw_cli
+requires 'DateTime'; # tw_cli
 
 on 'test' => sub {
 	requires 'ExtUtils::MakeMaker::CPANfile';
