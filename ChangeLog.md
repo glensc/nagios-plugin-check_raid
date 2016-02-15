@@ -1,11 +1,11 @@
 
 ## 4.0.1 (UNRELEASED)
 
-NOTES:
-- `tw_cli` users need to update their `sudo` rules
-
 - megacli: Support Predictive Failures as Warning rather than critical [#123][]
 - tw_cli: Implement detailed BBU & Enclosure checks [#131][]
+
+NOTES:
+- `tw_cli` users need to update their `sudo` rules
 
 ## [4.0.0] - 2015-10-31
 
