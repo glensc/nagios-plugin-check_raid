@@ -1,0 +1,387 @@
+$VAR1 = {
+          '/c0/e0' => {
+                        'alarm' => {},
+                        'encl' => '/c0/e0',
+                        'fans' => {
+                                    'fan0' => {
+                                                'identify' => 'Off',
+                                                'rpm' => '2670',
+                                                'state' => 'ON',
+                                                'status' => 'OK',
+                                                'step' => '1'
+                                              },
+                                    'fan1' => {
+                                                'identify' => 'Off',
+                                                'rpm' => '9500',
+                                                'state' => 'ON',
+                                                'status' => 'OK',
+                                                'step' => '1'
+                                              },
+                                    'fan2' => {
+                                                'identify' => 'Off',
+                                                'rpm' => '8540',
+                                                'state' => 'ON',
+                                                'status' => 'OK',
+                                                'step' => '1'
+                                              },
+                                    'fan3' => {
+                                                'identify' => 'Off',
+                                                'rpm' => '2830',
+                                                'state' => 'ON',
+                                                'status' => 'OK',
+                                                'step' => '1'
+                                              },
+                                    'fan4' => {
+                                                'identify' => 'Off',
+                                                'rpm' => '9120',
+                                                'state' => 'ON',
+                                                'status' => 'OK',
+                                                'step' => '1'
+                                              },
+                                    'fan5' => {
+                                                'identify' => 'Off',
+                                                'rpm' => '8330',
+                                                'state' => 'ON',
+                                                'status' => 'OK',
+                                                'step' => '1'
+                                              }
+                                  },
+                        'powersupply' => {
+                                           'pwrs0' => {
+                                                        'current' => 'OK',
+                                                        'identify' => 'Off',
+                                                        'state' => 'on',
+                                                        'status' => 'OK',
+                                                        'voltage' => 'OK'
+                                                      },
+                                           'pwrs1' => {
+                                                        'current' => 'OK',
+                                                        'identify' => 'Off',
+                                                        'state' => 'on',
+                                                        'status' => 'OK',
+                                                        'voltage' => 'OK'
+                                                      }
+                                         },
+                        'slot' => {
+                                    'slot0' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'OK',
+                                                 'vport' => '/c0/p0'
+                                               },
+                                    'slot1' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'NO-DEVICE',
+                                                 'vport' => '-'
+                                               },
+                                    'slot10' => {
+                                                  'identify' => 'Off',
+                                                  'status' => 'OK',
+                                                  'vport' => '/c0/p9'
+                                                },
+                                    'slot11' => {
+                                                  'identify' => 'Off',
+                                                  'status' => 'NO-DEVICE',
+                                                  'vport' => '-'
+                                                },
+                                    'slot2' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'OK',
+                                                 'vport' => '/c0/p1'
+                                               },
+                                    'slot3' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'OK',
+                                                 'vport' => '/c0/p2'
+                                               },
+                                    'slot4' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'OK',
+                                                 'vport' => '/c0/p3'
+                                               },
+                                    'slot5' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'OK',
+                                                 'vport' => '/c0/p4'
+                                               },
+                                    'slot6' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'OK',
+                                                 'vport' => '/c0/p5'
+                                               },
+                                    'slot7' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'OK',
+                                                 'vport' => '/c0/p6'
+                                               },
+                                    'slot8' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'OK',
+                                                 'vport' => '/c0/p7'
+                                               },
+                                    'slot9' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'OK',
+                                                 'vport' => '/c0/p8'
+                                               }
+                                  },
+                        'status' => 'OK',
+                        'tempsensor' => {
+                                          'temp0' => {
+                                                       'identify' => 'Off',
+                                                       'status' => 'OK',
+                                                       'temperature' => '41C(105F)'
+                                                     },
+                                          'temp1' => {
+                                                       'identify' => 'Off',
+                                                       'status' => 'OK',
+                                                       'temperature' => '38C(100F)'
+                                                     },
+                                          'temp2' => {
+                                                       'identify' => 'Off',
+                                                       'status' => 'OK',
+                                                       'temperature' => '34C(93F)'
+                                                     },
+                                          'temp3' => {
+                                                       'identify' => 'Off',
+                                                       'status' => 'OK',
+                                                       'temperature' => '38C(100F)'
+                                                     },
+                                          'temp4' => {
+                                                       'identify' => 'Off',
+                                                       'status' => 'OK',
+                                                       'temperature' => '38C(100F)'
+                                                     },
+                                          'temp5' => {
+                                                       'identify' => 'Off',
+                                                       'status' => 'OK',
+                                                       'temperature' => '34C(93F)'
+                                                     },
+                                          'temp6' => {
+                                                       'identify' => 'Off',
+                                                       'status' => 'NOT-INSTALLED',
+                                                       'temperature' => '-'
+                                                     },
+                                          'temp7' => {
+                                                       'identify' => 'Off',
+                                                       'status' => 'NOT-INSTALLED',
+                                                       'temperature' => '-'
+                                                     }
+                                        }
+                      },
+          'c0' => {
+                    'bbu' => '-',
+                    'drives' => 18,
+                    'drivestatus' => {
+                                       'p10' => {
+                                                  'encl' => '/c0/e0/slt2',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u0'
+                                                },
+                                       'p11' => {
+                                                  'encl' => '/c0/e0/slt3',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u0'
+                                                },
+                                       'p12' => {
+                                                  'encl' => '/c0/e0/slt4',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u0'
+                                                },
+                                       'p13' => {
+                                                  'encl' => '/c0/e0/slt5',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u0'
+                                                },
+                                       'p14' => {
+                                                  'encl' => '/c0/e0/slt6',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u0'
+                                                },
+                                       'p15' => {
+                                                  'encl' => '/c0/e0/slt7',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u0'
+                                                },
+                                       'p16' => {
+                                                  'encl' => '/c0/e0/slt8',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p17' => {
+                                                  'encl' => '/c0/e0/slt9',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p18' => {
+                                                  'encl' => '/c0/e0/slt10',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p19' => {
+                                                  'encl' => '/c0/e0/slt11',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p20' => {
+                                                  'encl' => '/c0/e0/slt12',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p21' => {
+                                                  'encl' => '/c0/e0/slt13',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p22' => {
+                                                  'encl' => '/c0/e0/slt14',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p23' => {
+                                                  'encl' => '/c0/e0/slt15',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p24' => {
+                                                  'encl' => '/c0/e0/slt16',
+                                                  'model' => 'ST3000NC002-1DY166  ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u0'
+                                                },
+                                       'p25' => {
+                                                  'encl' => '/c0/e0/slt17',
+                                                  'model' => 'ST33000650NS        ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'VERIFYING',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u2'
+                                                },
+                                       'p8' => {
+                                                 'encl' => '/c0/e0/slt0',
+                                                 'model' => 'ST3000NC002-1DY166  ',
+                                                 'phy' => '-',
+                                                 'size' => '2.73 TB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               },
+                                       'p9' => {
+                                                 'encl' => '/c0/e0/slt1',
+                                                 'model' => 'ST3000NC002-1DY166  ',
+                                                 'phy' => '-',
+                                                 'size' => '2.73 TB',
+                                                 'status' => 'VERIFYING',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u3'
+                                               }
+                                     },
+                    'model' => '9750-4i',
+                    'optimal' => 1,
+                    'ports' => 18,
+                    'rrate' => 5,
+                    'units' => 4,
+                    'unitstatus' => {
+                                      'u0' => {
+                                                'avrify' => 'ON',
+                                                'cache' => 'RiW',
+                                                'rebuild_percent' => '-',
+                                                'size' => '16763.7',
+                                                'status' => 'VERIFYING',
+                                                'strip' => '256K',
+                                                'type' => 'RAID-6',
+                                                'vim_percent' => '29%(A)'
+                                              },
+                                      'u1' => {
+                                                'avrify' => 'ON',
+                                                'cache' => 'RiW',
+                                                'rebuild_percent' => '-',
+                                                'size' => '16763.7',
+                                                'status' => 'VERIFYING',
+                                                'strip' => '256K',
+                                                'type' => 'RAID-6',
+                                                'vim_percent' => '18%(A)'
+                                              },
+                                      'u2' => {
+                                                'avrify' => 'ON',
+                                                'cache' => '-',
+                                                'rebuild_percent' => '-',
+                                                'size' => '2794.51',
+                                                'status' => 'VERIFYING',
+                                                'strip' => '-',
+                                                'type' => 'SPARE',
+                                                'vim_percent' => '14%'
+                                              },
+                                      'u3' => {
+                                                'avrify' => 'ON',
+                                                'cache' => '-',
+                                                'rebuild_percent' => '-',
+                                                'size' => '2794.51',
+                                                'status' => 'VERIFYING',
+                                                'strip' => '-',
+                                                'type' => 'SPARE',
+                                                'vim_percent' => '0%'
+                                              }
+                                    },
+                    'vrate' => 3
+                  }
+        };

@@ -1,0 +1,111 @@
+$VAR1 = {
+          'c0' => {
+                    'bbu' => 'OK',
+                    'bbustatus' => {
+                                     'bbu' => {
+                                                'BBUReady' => 'Yes',
+                                                'Hours' => '0',
+                                                'LastCapTest' => 'xx-xxx-xxxx',
+                                                'OnlineState' => 'On',
+                                                'Status' => 'OK',
+                                                'Temp' => 'OK',
+                                                'Volt' => 'OK'
+                                              }
+                                   },
+                    'drives' => 6,
+                    'drivestatus' => {
+                                       'p0' => {
+                                                 'encl' => '-',
+                                                 'model' => 'ST4000VN000-1H4168  ',
+                                                 'phy' => 0,
+                                                 'size' => '3.63 TB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               },
+                                       'p1' => {
+                                                 'encl' => '-',
+                                                 'model' => 'ST4000VN000-1H4168  ',
+                                                 'phy' => 1,
+                                                 'size' => '3.63 TB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               },
+                                       'p2' => {
+                                                 'encl' => '-',
+                                                 'model' => 'ST4000VN000-1H4168  ',
+                                                 'phy' => 2,
+                                                 'size' => '3.63 TB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               },
+                                       'p3' => {
+                                                 'encl' => '-',
+                                                 'model' => 'ST4000VN000-1H4168  ',
+                                                 'phy' => 3,
+                                                 'size' => '3.63 TB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               },
+                                       'p4' => {
+                                                 'encl' => '-',
+                                                 'model' => 'WDC WD60EFRX-68MYMN1',
+                                                 'phy' => 4,
+                                                 'size' => '5.45 TB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u1'
+                                               },
+                                       'p5' => {
+                                                 'encl' => '-',
+                                                 'model' => 'WDC WD60EFRX-68MYMN1',
+                                                 'phy' => 5,
+                                                 'size' => '5.45 TB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u2'
+                                               }
+                                     },
+                    'model' => '9650SE-8LPML',
+                    'optimal' => 1,
+                    'ports' => 8,
+                    'rrate' => 1,
+                    'units' => 3,
+                    'unitstatus' => {
+                                      'u0' => {
+                                                'avrify' => 'ON',
+                                                'cache' => 'RiW',
+                                                'rebuild_percent' => '-',
+                                                'size' => '7450.56',
+                                                'status' => 'OK',
+                                                'strip' => '256K',
+                                                'type' => 'RAID-10',
+                                                'vim_percent' => '-'
+                                              },
+                                      'u1' => {
+                                                'avrify' => 'OFF',
+                                                'cache' => 'Ri',
+                                                'rebuild_percent' => '-',
+                                                'size' => '5589.03',
+                                                'status' => 'OK',
+                                                'strip' => '-',
+                                                'type' => 'JBOD',
+                                                'vim_percent' => '-'
+                                              },
+                                      'u2' => {
+                                                'avrify' => 'OFF',
+                                                'cache' => 'Ri',
+                                                'rebuild_percent' => '-',
+                                                'size' => '5589.03',
+                                                'status' => 'OK',
+                                                'strip' => '-',
+                                                'type' => 'JBOD',
+                                                'vim_percent' => '-'
+                                              }
+                                    },
+                    'vrate' => 1
+                  }
+        };

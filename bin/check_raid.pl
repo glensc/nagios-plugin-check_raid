@@ -95,6 +95,9 @@ my %plugin_options;
 if ($mp->opts->warnonly) {
 	App::Monitoring::Plugin::CheckRaid::Plugin->set_critical_as_warning;
 }
+if ($mp->opts->get('bbu-monitoring')) {
+	$plugin_options{options}{bbu_monitoring} = 1;
+}
 
 # setup state flags
 my %state_flags = (

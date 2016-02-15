@@ -1,0 +1,10 @@
+
+VPort Status         Unit Size      Type  Phy Encl-Slot    Model
+------------------------------------------------------------------------------
+p0    OK             u0   3.63 TB   SATA  0   -            ST4000VN000-1H4168  
+p1    OK             u0   3.63 TB   SATA  1   -            ST4000VN000-1H4168  
+p2    OK             u0   3.63 TB   SATA  2   -            ST4000VN000-1H4168  
+p3    OK             u0   3.63 TB   SATA  3   -            ST4000VN000-1H4168  
+p4    OK             u1   5.45 TB   SATA  4   -            WDC WD60EFRX-68MYMN1
+p5    OK             u2   5.45 TB   SATA  5   -            WDC WD60EFRX-68MYMN1
+
