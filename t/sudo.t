@@ -50,7 +50,10 @@ my %sudo = (
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/mpt-status -p",
 	],
 	tw_cli => [
-		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/tw_cli-9xxx info*",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/tw_cli-9xxx info",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/tw_cli-9xxx info *",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/tw_cli-9xxx show",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/tw_cli-9xxx * show all",
 	],
 	arcconf => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/arcconf GETSTATUS 1",

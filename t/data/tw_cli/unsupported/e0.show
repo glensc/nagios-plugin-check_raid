@@ -1,0 +1,15 @@
+Encl        Controllers
+-------------------------
+e0          /c0
+Fan       Status          
+----------------------
+fan0      OK
+TempSensor       Temperature 
+-------------------------------
+temp0            24~C(75~F)
+Slot      Status          Port          Identify
+----------------------------------------------------
+slot0     OK              /c0/p0        No            
+slot1     OK              /c0/p1        Yes            
+slot2     NO-DEVICE       -             No            
+slot3     NO-DEVICE       -             No

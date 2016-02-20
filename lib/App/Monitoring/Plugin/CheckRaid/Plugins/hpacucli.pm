@@ -1,5 +1,13 @@
 package App::Monitoring::Plugin::CheckRaid::Plugins::hpacucli;
 
+## hpacucli/hpssacli support
+#
+# driver developers recommend to use cciss_vol_status for monitoring,
+# hpacucli/hpssacli shouldn't be used for monitoring due they obtaining global
+# kernel lock while cciss_vol_status does not. cciss_vol_status is designed for
+# monitoring
+# https://github.com/glensc/nagios-plugin-check_raid/issues/114#issuecomment-138866801
+
 use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
 use strict;
 use warnings;

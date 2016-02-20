@@ -1,0 +1,43 @@
+Encl        Status
+---------------------------
+/c0/e0      OK
+
+Fan         Status          State   Step   RPM     Identify
+------------------------------------------------------------
+fan0        OK              ON      1      2670    Off
+fan1        OK              ON      1      9500    Off
+fan2        OK              ON      1      8540    Off
+fan3        OK              ON      1      2830    Off
+fan4        OK              ON      1      9120    Off
+fan5        OK              ON      1      8330    Off
+
+TempSensor    Status         Temperature     Identify
+--------------------------------------------------------
+temp0         OK             41C(105F)       Off
+temp1         OK             38C(100F)       Off
+temp2         OK             34C(93F)        Off
+temp3         OK             38C(100F)       Off
+temp4         OK             38C(100F)       Off
+temp5         OK             34C(93F)        Off
+temp6         NOT-INSTALLED  -               Off
+temp7         NOT-INSTALLED  -               Off
+
+PowerSupply  Status         State  Voltage        Current        Identify
+---------------------------------------------------------------------------
+pwrs0        OK             on     OK             OK             Off
+pwrs1        OK             on     OK             OK             Off
+
+Slot      Status          (V)Port       Identify
+--------------------------------------------------
+slot0     OK              /c0/p0        Off
+slot1     NO-DEVICE       -             Off
+slot2     OK              /c0/p1        Off
+slot3     OK              /c0/p2        Off
+slot4     OK              /c0/p3        Off
+slot5     OK              /c0/p4        Off
+slot6     OK              /c0/p5        Off
+slot7     OK              /c0/p6        Off
+slot8     OK              /c0/p7        Off
+slot9     OK              /c0/p8        Off
+slot10    OK              /c0/p9        Off
+slot11    NO-DEVICE       -             Off

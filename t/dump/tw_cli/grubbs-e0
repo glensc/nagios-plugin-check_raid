@@ -1,0 +1,303 @@
+$VAR1 = {
+          '/c0/e0' => {
+                        'alarm' => {
+                                     'alm0' => {
+                                                 'audibility' => 'UNMUTE',
+                                                 'state' => 'ON',
+                                                 'status' => 'ACTIVATED'
+                                               }
+                                   },
+                        'encl' => '/c0/e0',
+                        'fans' => {
+                                    'fan0' => {
+                                                'identify' => 'N/A',
+                                                'rpm' => 'N/A',
+                                                'state' => '-',
+                                                'status' => 'NOT-INSTALLED',
+                                                'step' => '-'
+                                              },
+                                    'fan1' => {
+                                                'identify' => 'N/A',
+                                                'rpm' => 'N/A',
+                                                'state' => '-',
+                                                'status' => 'NOT-INSTALLED',
+                                                'step' => '-'
+                                              },
+                                    'fan2' => {
+                                                'identify' => 'N/A',
+                                                'rpm' => 'N/A',
+                                                'state' => '-',
+                                                'status' => 'NOT-INSTALLED',
+                                                'step' => '-'
+                                              }
+                                  },
+                        'powersupply' => {
+                                           'pwrs0' => {
+                                                        'current' => '-',
+                                                        'identify' => 'N/A',
+                                                        'state' => '-',
+                                                        'status' => 'NOT-INSTALLED',
+                                                        'voltage' => '-'
+                                                      },
+                                           'pwrs1' => {
+                                                        'current' => '-',
+                                                        'identify' => 'N/A',
+                                                        'state' => '-',
+                                                        'status' => 'NOT-INSTALLED',
+                                                        'voltage' => '-'
+                                                      }
+                                         },
+                        'slot' => {
+                                    'slot0' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'NO-DEVICE',
+                                                 'vport' => '-'
+                                               },
+                                    'slot1' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'NO-DEVICE',
+                                                 'vport' => '-'
+                                               },
+                                    'slot10' => {
+                                                  'identify' => 'Off',
+                                                  'status' => 'NO-DEVICE',
+                                                  'vport' => '-'
+                                                },
+                                    'slot11' => {
+                                                  'identify' => 'Off',
+                                                  'status' => 'NO-DEVICE',
+                                                  'vport' => '-'
+                                                },
+                                    'slot2' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'NO-DEVICE',
+                                                 'vport' => '-'
+                                               },
+                                    'slot3' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'OK',
+                                                 'vport' => '/c0/p8'
+                                               },
+                                    'slot4' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'NO-DEVICE',
+                                                 'vport' => '-'
+                                               },
+                                    'slot5' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'NO-DEVICE',
+                                                 'vport' => '-'
+                                               },
+                                    'slot6' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'OK',
+                                                 'vport' => '/c0/p9'
+                                               },
+                                    'slot7' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'NO-DEVICE',
+                                                 'vport' => '-'
+                                               },
+                                    'slot8' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'NO-DEVICE',
+                                                 'vport' => '-'
+                                               },
+                                    'slot9' => {
+                                                 'identify' => 'Off',
+                                                 'status' => 'NO-DEVICE',
+                                                 'vport' => '-'
+                                               }
+                                  },
+                        'status' => 'ALARM-ACTIVATED',
+                        'tempsensor' => {
+                                          'temp0' => {
+                                                       'identify' => 'N/A',
+                                                       'status' => 'OK',
+                                                       'temperature' => '22C(71F)'
+                                                     }
+                                        }
+                      },
+          '/c0/e1' => {},
+          'c0' => {
+                    'bbu' => 'OK',
+                    'bbustatus' => {
+                                     'bbu' => {
+                                                'BBUReady' => 'Yes',
+                                                'Hours' => '93',
+                                                'LastCapTest' => '24-Jul-2012',
+                                                'OnlineState' => 'On',
+                                                'Status' => 'OK',
+                                                'Temp' => 'OK',
+                                                'Volt' => 'OK'
+                                              }
+                                   },
+                    'drives' => 14,
+                    'drivestatus' => {
+                                       'p10' => {
+                                                  'encl' => '/c0/e1/slt1',
+                                                  'model' => 'OCZ-VERTEX2         ',
+                                                  'phy' => '-',
+                                                  'size' => '55.90 GB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u0'
+                                                },
+                                       'p11' => {
+                                                  'encl' => '/c0/e1/slt3',
+                                                  'model' => 'ST33000651AS        ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p12' => {
+                                                  'encl' => '/c0/e1/slt5',
+                                                  'model' => 'ST33000651AS        ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p13' => {
+                                                  'encl' => '/c0/e1/slt6',
+                                                  'model' => 'ST33000651AS        ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p14' => {
+                                                  'encl' => '/c0/e1/slt8',
+                                                  'model' => 'ST33000651AS        ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p15' => {
+                                                  'encl' => '/c0/e1/slt10',
+                                                  'model' => 'ST33000651AS        ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p16' => {
+                                                  'encl' => '/c0/e1/slt13',
+                                                  'model' => 'ST33000651AS        ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p17' => {
+                                                  'encl' => '/c0/e1/slt15',
+                                                  'model' => 'ST33000651AS        ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p18' => {
+                                                  'encl' => '/c0/e1/slt17',
+                                                  'model' => 'ST33000651AS        ',
+                                                  'phy' => '-',
+                                                  'size' => '2.73 TB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p19' => {
+                                                  'encl' => '/c0/e1/slt18',
+                                                  'model' => 'OCZ-VERTEX2         ',
+                                                  'phy' => '-',
+                                                  'size' => '55.90 GB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u0'
+                                                },
+                                       'p20' => {
+                                                  'encl' => '/c0/e1/slt20',
+                                                  'model' => 'ST31000528AS        ',
+                                                  'phy' => '-',
+                                                  'size' => '931.51 GB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u2'
+                                                },
+                                       'p21' => {
+                                                  'encl' => '/c0/e1/slt22',
+                                                  'model' => 'ST31000528AS        ',
+                                                  'phy' => '-',
+                                                  'size' => '931.51 GB',
+                                                  'status' => 'OK',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u2'
+                                                },
+                                       'p8' => {
+                                                 'encl' => '/c0/e0/slt3',
+                                                 'model' => 'SEAGATE ST3146855SS ',
+                                                 'phy' => '-',
+                                                 'size' => '136.73 GB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SAS',
+                                                 'unit' => '-'
+                                               },
+                                       'p9' => {
+                                                 'encl' => '/c0/e0/slt6',
+                                                 'model' => 'SEAGATE ST3146855SS ',
+                                                 'phy' => '-',
+                                                 'size' => '136.73 GB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SAS',
+                                                 'unit' => '-'
+                                               }
+                                     },
+                    'model' => '9750-4i',
+                    'optimal' => 1,
+                    'ports' => 14,
+                    'rrate' => 1,
+                    'units' => 3,
+                    'unitstatus' => {
+                                      'u0' => {
+                                                'avrify' => 'ON',
+                                                'cache' => 'RiW',
+                                                'rebuild_percent' => '-',
+                                                'size' => '55.8691',
+                                                'status' => 'OK',
+                                                'strip' => '-',
+                                                'type' => 'RAID-1',
+                                                'vim_percent' => '-'
+                                              },
+                                      'u1' => {
+                                                'avrify' => 'ON',
+                                                'cache' => 'RiW',
+                                                'rebuild_percent' => '-',
+                                                'size' => '11175.8',
+                                                'status' => 'OK',
+                                                'strip' => '256K',
+                                                'type' => 'RAID-10',
+                                                'vim_percent' => '-'
+                                              },
+                                      'u2' => {
+                                                'avrify' => 'ON',
+                                                'cache' => 'RiW',
+                                                'rebuild_percent' => '-',
+                                                'size' => '1862.62',
+                                                'status' => 'OK',
+                                                'strip' => '256K',
+                                                'type' => 'RAID-0',
+                                                'vim_percent' => '-'
+                                              }
+                                    },
+                    'vrate' => 1
+                  }
+        };

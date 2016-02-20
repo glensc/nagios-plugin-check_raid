@@ -1,0 +1,43 @@
+/c0/e0 Vendor = LSI CORP
+/c0/e0 Product ID = SAS2X28         
+/c0/e0 Product Revision = 0717
+/c0/e0 SEP=0, Firmware Version = 55.07.23.000
+
+Encl        Status      
+-----------------------------
+/c0/e0      ALARM-ACTIVATED 
+
+                                    ---Speed--- 
+Fan         Status          State   Step   RPM     Identify
+------------------------------------------------------------
+fan0        NOT-INSTALLED   -       -      N/A     N/A     
+fan1        NOT-INSTALLED   -       -      N/A     N/A     
+fan2        NOT-INSTALLED   -       -      N/A     N/A     
+
+TempSensor    Status         Temperature     Identify 
+--------------------------------------------------------
+temp0         OK             22C(71F)        N/A             
+
+PowerSupply  Status         State  Voltage        Current        Identify
+---------------------------------------------------------------------------
+pwrs0        NOT-INSTALLED  -      -              -              N/A     
+pwrs1        NOT-INSTALLED  -      -              -              N/A     
+
+Slot      Status          (V)Port       Identify
+--------------------------------------------------
+slot0     NO-DEVICE       -             Off           
+slot1     NO-DEVICE       -             Off           
+slot2     NO-DEVICE       -             Off           
+slot3     OK              /c0/p8        Off           
+slot4     NO-DEVICE       -             Off           
+slot5     NO-DEVICE       -             Off           
+slot6     OK              /c0/p9        Off           
+slot7     NO-DEVICE       -             Off           
+slot8     NO-DEVICE       -             Off           
+slot9     NO-DEVICE       -             Off           
+slot10    NO-DEVICE       -             Off           
+slot11    NO-DEVICE       -             Off           
+
+Alarm     Status          State     Audibility
+------------------------------------------------
+alm0      ACTIVATED       ON        UNMUTE       

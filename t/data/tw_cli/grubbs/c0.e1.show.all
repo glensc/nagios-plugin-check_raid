@@ -1,0 +1,59 @@
+/c0/e1 Vendor = LSI CORP
+/c0/e1 Product ID = SAS2X36         
+/c0/e1 Product Revision = 0717
+/c0/e1 SEP=0, Firmware Version = 55.07.23.000
+
+Encl        Status      
+-----------------------------
+/c0/e1      ALARM-ACTIVATED 
+
+                                    ---Speed--- 
+Fan         Status          State   Step   RPM     Identify
+------------------------------------------------------------
+fan0        OK              ON      7      6900    N/A     
+fan1        OK              ON      7      6900    N/A     
+fan2        OK              ON      7      6660    N/A     
+fan3        NOT-REPORTABLE  -       0      0       N/A     
+fan4        NOT-REPORTABLE  -       0      0       N/A     
+
+TempSensor    Status         Temperature     Identify 
+--------------------------------------------------------
+temp0         OK             24C(75F)        N/A             
+
+PowerSupply  Status         State  Voltage        Current        Identify
+---------------------------------------------------------------------------
+pwrs0        NOT-INSTALLED  -      -              -              N/A     
+pwrs1        NOT-INSTALLED  -      -              -              N/A     
+
+Slot      Status          (V)Port       Identify
+--------------------------------------------------
+slot0     NO-DEVICE       -             Off           
+slot1     OK              /c0/p10       Off           
+slot2     NO-DEVICE       -             Off           
+slot3     OK              /c0/p11       Off           
+slot4     NO-DEVICE       -             Off           
+slot5     OK              /c0/p12       Off           
+slot6     OK              /c0/p13       Off           
+slot7     NO-DEVICE       -             Off           
+slot8     OK              /c0/p14       Off           
+slot9     NO-DEVICE       -             Off           
+slot10    OK              /c0/p15       Off           
+slot11    NO-DEVICE       -             Off           
+slot12    NO-DEVICE       -             Off           
+slot13    OK              /c0/p16       Off           
+slot14    NO-DEVICE       -             Off           
+slot15    OK              /c0/p17       Off           
+slot16    NO-DEVICE       -             Off           
+slot17    OK              /c0/p18       Off           
+slot18    OK              /c0/p19       Off           
+slot19    NO-DEVICE       -             Off           
+slot20    OK              /c0/p20       Off           
+slot21    NO-DEVICE       -             Off           
+slot22    OK              /c0/p21       Off           
+slot23    NO-DEVICE       -             Off           
+
+Alarm     Status          State     Audibility
+------------------------------------------------
+alm0      ACTIVATED       ON        UNMUTE       
+
+

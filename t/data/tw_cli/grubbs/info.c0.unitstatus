@@ -1,0 +1,8 @@
+
+Unit  UnitType  Status         %RCmpl  %V/I/M  Stripe  Size(GB)  Cache  AVrfy
+------------------------------------------------------------------------------
+u0    RAID-1    OK             -       -       -       55.8691   RiW    ON     
+u1    RAID-10   OK             -       -       256K    11175.8   RiW    ON     
+u2    RAID-0    OK             -       -       256K    1862.62   RiW    ON     
+
+

@@ -2,6 +2,10 @@
 ## 4.0.1 (UNRELEASED)
 
 - megacli: Support Predictive Failures as Warning rather than critical [#123][]
+- tw_cli: Implement detailed BBU & Enclosure checks [#131][]
+
+NOTES:
+- `tw_cli` users need to update their `sudo` rules
 
 ## [4.0.0] - 2015-10-31
 
@@ -213,6 +217,7 @@ NOTES:
 [#118]: https://github.com/glensc/nagios-plugin-check_raid/pull/118
 [#115]: https://github.com/glensc/nagios-plugin-check_raid/issues/115
 [#123]: https://github.com/glensc/nagios-plugin-check_raid/issues/123
+[#131]: https://github.com/glensc/nagios-plugin-check_raid/pull/131
 
 [4.0.0]: https://github.com/glensc/nagios-plugin-check_raid/compare/3.2.5...4.0.0
 [3.2.5]: https://github.com/glensc/nagios-plugin-check_raid/compare/3.2.4...3.2.5
