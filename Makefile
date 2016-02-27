@@ -34,13 +34,12 @@ installdeps:
 # ==> Found dependencies: Params::Validate, Class::Accessor, Config::Tiny, Math::Calc::Units
 exclude_fatpack_modules := Module::Build,CPAN::Meta,Module::CPANfile
 
-fatpack: installdeps perlstrip
-	fatpack-simple --no-perl-strip --exclude $(exclude_fatpack_modules) bin/$(PLUGIN_SCRIPT) $(options)
-
-perlstrip:
-	# make sure we run this in git export, files are modified in-place!
-	test ! -d .git
-	find local/lib -name '*.pm' | xargs perlstrip -s
+fatpack: installdeps
+	fatpack-simple \
+		--exclude-strip='lib/*' \
+		--exclude-strip='bin/*' \
+		--exclude=$(exclude_fatpack_modules) \
+		bin/$(PLUGIN_SCRIPT) $(options)
 
 $(PLUGIN_SCRIPT): bin/$(PLUGIN_SCRIPT)
 	# ensure cpanm is present
