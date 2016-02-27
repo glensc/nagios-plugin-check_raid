@@ -16,5 +16,5 @@ on 'test' => sub {
 # but these should be installed to system when building fatpack
 on 'never' => sub {
 	requires 'App::FatPacker' => '0.10.0';
-	requires 'App::FatPacker::Simple' => '0.04';
+	requires 'App::FatPacker::Simple' => '0.07';
 };
