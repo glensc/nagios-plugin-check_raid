@@ -36,8 +36,8 @@ exclude_fatpack_modules := Module::Build,CPAN::Meta,Module::CPANfile
 
 fatpack: installdeps
 	fatpack-simple \
-		--exclude-strip='lib/*' \
-		--exclude-strip='bin/*' \
+		--exclude-strip='^lib/*' \
+		--exclude-strip='^bin/*' \
 		--exclude=$(exclude_fatpack_modules) \
 		bin/$(PLUGIN_SCRIPT) $(options)
 
