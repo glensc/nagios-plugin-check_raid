@@ -47,7 +47,7 @@ $(PLUGIN_SCRIPT): bin/$(PLUGIN_SCRIPT)
 
 	# need 0.10.0 of fatpacker for Module::Pluggable to work
 	perl -e 'use App::FatPacker 0.10.0'
-	perl -e 'use App::FatPacker::Simple'
+	perl -e 'use App::FatPacker::Simple 0.07'
 
 	# ensure we run in clean tree. export git tree and run there.
 	rm -rf fatpack
