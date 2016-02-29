@@ -32,7 +32,7 @@ installdeps:
 # Params::Validate adds some Module::Build dependency, but Monitoring-Plugin needs just:
 # Configuring Monitoring-Plugin-0.39 ... OK
 # ==> Found dependencies: Params::Validate, Class::Accessor, Config::Tiny, Math::Calc::Units
-exclude_fatpack_modules := Module::Build,CPAN::Meta,Module::CPANfile
+exclude_fatpack_modules := Module::Build,CPAN::Meta,Module::CPANfile,ExtUtils::MakeMaker::CPANfile
 
 fatpack: installdeps
 	fatpack-simple \
