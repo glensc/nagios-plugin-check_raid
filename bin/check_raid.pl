@@ -141,6 +141,10 @@ my $mc = App::Monitoring::Plugin::CheckRaid->new(%plugin_options);
 
 $App::Monitoring::Plugin::CheckRaid::Utils::debug = $mp->opts->debug;
 
+if ($mp->opts->debug) {
+	print "Visit <$BUGS_URL> how to report bugs\n\n",
+}
+
 my @plugins = $mc->active_plugins;
 if (!@plugins) {
 	$mp->plugin_exit($plugin_options{options}{noraid_state}, "No active plugins (No RAID found)");
