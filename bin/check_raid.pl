@@ -9,16 +9,22 @@ use strict;
 
 my $PROGNAME = 'check_raid';
 my $VERSION = q/4.0.2/;
+my $URL = 'https://github.com/glensc/nagios-plugin-check_raid';
+my $BUGS_URL = 'https://github.com/glensc/nagios-plugin-check_raid#reporting-bugs';
 
 my $mp = Monitoring::Plugin->new(
-    usage =>
-	"Usage: %s [-h] [-V] [-S] [list of devices to ignore]",
+	usage =>
+		"Usage: %s [-h] [-V] [-S] [list of devices to ignore]",
 
-    version => $VERSION,
-    blurb => 'This plugin checks all RAID volumes (hardware and software) that can be identified.',
+	version => $VERSION,
+	blurb =>
+		"This plugin checks all RAID volumes (hardware and software) that can be identified\n".
+		"Homepage: $URL\n".
+		"Reporting Bugs: $BUGS_URL\n".
+		"",
 
-    plugin  => $PROGNAME,
-    shortname => $PROGNAME,
+	plugin  => $PROGNAME,
+	shortname => $PROGNAME,
 );
 
 $mp->add_arg(
