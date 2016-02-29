@@ -17,11 +17,12 @@ my $mp = Monitoring::Plugin->new(
 		"Usage: %s [-h] [-V] [-S] [list of devices to ignore]",
 
 	version => $VERSION,
-	blurb =>
-		"This plugin checks all RAID volumes (hardware and software) that can be identified\n".
-		"Homepage: $URL\n".
-		"Reporting Bugs: $BUGS_URL\n".
+	blurb => join($/,
+		"This plugin checks all RAID volumes (hardware and software) that can be identified",
 		"",
+		"Homepage: $URL",
+		"Reporting Bugs: $BUGS_URL",
+	),
 
 	plugin  => $PROGNAME,
 	shortname => $PROGNAME,
