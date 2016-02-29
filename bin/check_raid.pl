@@ -8,7 +8,7 @@ use warnings;
 use strict;
 
 my $PROGNAME = 'check_raid';
-my $VERSION = q/4.0.1/;
+my $VERSION = q/4.0.2/;
 
 my $mp = Monitoring::Plugin->new(
     usage =>
