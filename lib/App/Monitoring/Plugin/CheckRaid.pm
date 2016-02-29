@@ -1,7 +1,7 @@
 package App::Monitoring::Plugin::CheckRaid;
 
 use Carp qw(croak);
-use Module::Pluggable instantiate => 'new', sub_name => '_plugins';
+use Module::Pluggable 5.1 instantiate => 'new', sub_name => '_plugins';
 use strict;
 use warnings;
 
