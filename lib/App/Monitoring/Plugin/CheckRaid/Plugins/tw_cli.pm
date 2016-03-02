@@ -7,8 +7,10 @@ package App::Monitoring::Plugin::CheckRaid::Plugins::tw_cli;
 # http://www.cyberciti.biz/files/tw_cli.8.html
 
 use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
-use Date::Parse qw(strptime);
-use DateTime;
+# not yet, see:
+# https://github.com/glensc/nagios-plugin-check_raid/pull/131#issuecomment-189957806
+#use Date::Parse qw(strptime);
+#use DateTime;
 use strict;
 use warnings;
 

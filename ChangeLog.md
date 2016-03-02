@@ -1,5 +1,6 @@
+## 4.0.2 - UNRELEASED
 
-## 4.0.1 (UNRELEASED)
+## [4.0.1] - 2016-02-29
 
 - megacli: Support Predictive Failures as Warning rather than critical [#123][]
 - tw_cli: Implement detailed BBU & Enclosure checks [#131][]
@@ -27,7 +28,7 @@ NOTES:
 - `arcconf` users need to update their `sudo` rules
 - `arcconf` & `tw_cli` respect bbu monitoring flag, which defaults to off
 
-## [3.2.4] 2015-07-03
+## [3.2.4] - 2015-07-03
 
 - arcconf: handle unparsed data from Arcconf 1.7. [#99][]
 - cciss: parse spare drive status. [#100][]
@@ -42,7 +43,7 @@ NOTES:
 - add make rpm target [#108][]
 - add missing lsscsi command for cciss. [#109][]
 
-## [3.2.3] 2015-03-25
+## [3.2.3] - 2015-03-25
 
 - arcconf: dead disks have no id, use physical location instead [#90][]
 - sudo: detect if sudo has `-A` option [#88][]
@@ -52,7 +53,7 @@ NOTES:
 - metastat: plugin is now usable [#38][], [#96][]
 - hpssacli: adding hpssacli support [#94][]
 
-## [3.2.2] 2014-11-15
+## [3.2.2] - 2014-11-15
 
 - cciss: fix parsing enclosure with no enclosure name [#84][]
 - megacli: actually report that cache is disabled [#85][]
@@ -60,21 +61,21 @@ NOTES:
 - tw_cli: tweak VERIFYING state [#89][]
 - megacli: JBOD state of physical device is OK as well [#82][]
 
-## [3.2.1] 2014-10-07
+## [3.2.1] - 2014-10-07
 
 - cciss: fix parsing enclosure with space and no serial [#83][]
 - megacli: alert if default is WriteBack, but current is WriteThrough [#65][]
 
 NOTE: megacli now checks cache state, use `--cache-fail=STATE` if default `WARNING` is not for you.
 
-## [3.2.0] 2014-09-21
+## [3.2.0] - 2014-09-21
 - sudoers: support `#includedir` if enabled in sudoers config
 - tw_cli: rewritten with full data parsing
 - cciss: rewritten with full data parsing, optionally use lsscsi to find controller devices
 
 NOTE: when using `cciss` plugin with `hpsa` kernel driver, install `lsscsi` program and `cciss_vol_status` 1.10+ to get best results. `cciss_vol_status` v1.10 enables check of individual disks and their S.M.A.R.T status.
 
-## [3.1.0] 2014-09-08
+## [3.1.0] - 2014-09-08
 - sudoers: disable requiretty (enabled in CentOS 6.5) [#52][]
 - megacli fixes [#50][], [#53][], [#56][], [#63][], [#74][], [#32][]
 - arcconf fixes [#47][], [#51][], [#55][], [#67][], [#68][], [#66][]
@@ -92,11 +93,11 @@ NOTE: when using `cciss` plugin with `hpsa` kernel driver, install `lsscsi` prog
 NOTES:
 `mpt-status` and `sas2ircu` users need to update their `sudo` rules
 
-## [3.0.5] 2013-11-27
+## [3.0.5] - 2013-11-27
 
 - fixed program version
 
-## [3.0.4] 2013-11-25
+## [3.0.4] - 2013-11-25
 - added `--noraid=OK|WARNING|CRITICAL|UNKNOWN` option. defaults to `UNKNOWN`
 - setup sudo rules option (`-S`) supports debug (`-d`) and will only print the
   rules. Output is sent to stdout, so you can save that output to file of
@@ -109,10 +110,10 @@ NOTES:
 - set state WARNING when raid is resyncing by default, override with `--resync=STATE`
 - arcconf: check physical devices
 
-## [3.0.3] 2013-11-12
+## [3.0.3] - 2013-11-12
 - resync fixes
 
-## [3.0.2] 2013-11-11
+## [3.0.2] - 2013-11-11
 - Detecting SCSI devices or hosts with `lsscsi`
 - Updated to handle ARCCONF 9.30 output
 - Fixed `-W` option handling ([#29][])
@@ -219,6 +220,7 @@ NOTES:
 [#123]: https://github.com/glensc/nagios-plugin-check_raid/issues/123
 [#131]: https://github.com/glensc/nagios-plugin-check_raid/pull/131
 
+[4.0.1]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/glensc/nagios-plugin-check_raid/compare/3.2.5...4.0.0
 [3.2.5]: https://github.com/glensc/nagios-plugin-check_raid/compare/3.2.4...3.2.5
 [3.2.4]: https://github.com/glensc/nagios-plugin-check_raid/compare/3.2.3...3.2.4
