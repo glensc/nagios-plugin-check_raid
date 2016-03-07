@@ -23,40 +23,55 @@ sub sudo {
 
 sub commands {
 	{
-		'dmsetup' => ['-|', '@CMD', 'status', '--target=raid'],
+		'dmsetup' => [ '-|', '@CMD', 'status', '--target=raid' ],
 	}
+}
+
+sub parse {
+	my $this = shift;
+
+	my @columns = qw[
+		dmname s l
+		raid
+		raidraid_type
+		devices
+		health_chars
+		sync_ratio
+		sync_action
+		mismatch_cnt
+	];
+
+	my @devices;
+	my $fh = $this->cmd('dmsetup');
+	while (<$fh>) {
+		my %h;
+		@h{@columns} = split;
+		$h{dmname} =~ s/:$//;
+		push @devices, { %h };
+	}
+	close $fh;
+	return \@devices;
 }
 
 sub check {
 	my $this = shift;
 
+	my $c = $this->parse;
+
 	my @status;
-	my @raid_list;
-	my $rh = $this->cmd('dmsetup');
-	while (<$rh>) {
-		chomp;
-		push @raid_list, $_;
-	}
-	close $rh;
-
-	my $raid;
-
-	foreach $raid (@raid_list)
+	foreach my $dm (@$c)
 	{
-		my ($_lv_name, $_s, $_l, $_raid, $_raid_type, $_devices, $_health_chars, $_sync_ratio, $_sync_action, $_mismatch_cnt) = split(/ /, $raid);
-
-		if($_health_chars =~ /D/)
+		if ($dm->{health_chars} =~ /D/)
 		{
 			$this->critical;
 		}
 
-		$_sync_action =~ s/^\s+|\s+$//g;
-		if ($_sync_action eq 'check' or $_sync_action eq 'repair' or $_sync_action eq 'init')
+		if ($dm->{sync_action} =~ /^(check|repair|init)$/)
 		{
 			$this->warning;
 		}
 
-		push(@status, "$_lv_name:$_sync_action");
+		push(@status, "$dm->{dmname}:$dm->{sync_action}");
 	}
 
 	return unless @status;

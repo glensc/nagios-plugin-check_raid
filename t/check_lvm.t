@@ -14,7 +14,7 @@ my @tests = (
 	{
 		dmsetup => 'pr-134/dmsetup',
 		status => OK,
-		message => 'vg1-cache::idle, vg1-zoom::idle',
+		message => 'vg1-cache:idle, vg1-zoom:idle',
 	},
 );
 
