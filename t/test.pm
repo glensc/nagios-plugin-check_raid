@@ -36,6 +36,7 @@ use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::mvcli';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::sas2ircu';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::smartctl';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::tw_cli';
+use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::lvm';
 
 use constant OK => 0;
 use constant WARNING => 1;

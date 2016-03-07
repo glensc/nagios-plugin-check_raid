@@ -1,0 +1,2 @@
+vg1-cache: 0 4194304 raid raid1 2 AA 4194304/4194304 idle 0
+vg1-zoom: 0 2097152 raid raid1 2 AA 2097152/2097152 idle 0
