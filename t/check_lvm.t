@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 use constant TESTS => 1;
-use Test::More tests => 1 + TESTS * 5;
+use Test::More tests => 1 + TESTS * 6;
 use test;
 
 my @tests = (
@@ -35,4 +35,14 @@ foreach my $test (@tests) {
 	ok(defined($plugin->status), "status code set");
 	is($plugin->status, $test->{status}, "status code matches");
 	is($plugin->message, $test->{message}, "status message");
+
+	my $c = $plugin->parse;
+	my $df = TESTDIR . '/dump/lvm/' . $test->{dmsetup};
+	if (!-f $df) {
+		store_dump $df, $c;
+		# trigger error so that we don't have feeling all is ok ;)
+		ok(0, "Created dump for $df");
+	}
+	my $dump = read_dump($df);
+	is_deeply($c, $dump, "parsed structure");
 }
