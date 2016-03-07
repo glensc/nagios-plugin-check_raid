@@ -1,6 +1,6 @@
 package App::Monitoring::Plugin::CheckRaid::Plugins::lvm;
 
-# Package to check lvm raid
+# Package to check Linux LVM RAID
 
 use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
 use strict;
