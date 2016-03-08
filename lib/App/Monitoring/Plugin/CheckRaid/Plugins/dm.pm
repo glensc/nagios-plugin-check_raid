@@ -83,8 +83,16 @@ sub parse_target {
 		# the 'buffer' filled with status chars
 		$h{status_chars} = shift @parts;
 
-		# TODO: remaining: '3 disk 252:13 A'
-		$h{_remaining} = join ' ', @parts;
+		# log device information
+		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-log.c#L807-L810
+		# log params, always '3'
+		shift @parts;
+		my %l;
+		$l{type} = shift @parts;
+		$l{device} = shift @parts;
+		# status: F->D->A
+		$l{status_char} = shift @parts;
+		$h{log} = { %l };
 	}
 
 	%h;

@@ -1,12 +1,16 @@
 $VAR1 = [
           {
-            '_remaining' => '3 disk 252:13 A',
             'devices' => [
                            '252:14',
                            '252:15'
                          ],
             'dmname' => 'vg-testmirror',
             'l' => '2097152',
+            'log' => {
+                       'device' => '252:13',
+                       'status_char' => 'A',
+                       'type' => 'disk'
+                     },
             'nr_mirrors' => 2,
             'ratio' => '2048/2048',
             's' => '0',
