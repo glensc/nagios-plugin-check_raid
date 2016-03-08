@@ -69,12 +69,17 @@ sub parse {
 			(\S+)\s+     # target
 			(.+)         # rest of the data
 			}x) {
+			%h = $this->parse_target($target, $rest);
+
+			# skip target type not handled
+			next unless %h;
+
 			%h = (
 				'dmname' => $dmname,
 				's'      => $s,
 				'l'      => $l,
 				'target' => $target,
-				$this->parse_target($target, $rest),
+				%h,
 			);
 		}
 		push @devices, { %h };
