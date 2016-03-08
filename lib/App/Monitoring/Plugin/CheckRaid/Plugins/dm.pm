@@ -93,6 +93,9 @@ sub parse_target {
 		# status: F->D->A
 		$l{status_char} = shift @parts;
 		$h{log} = { %l };
+
+		# for debugging. fill only if something remains not parsed
+		$h{_remaining} = join ' ', @parts if @parts;
 	}
 
 	%h;
