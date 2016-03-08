@@ -1,6 +1,6 @@
 ## 4.0.2 - UNRELEASED
 
-- lvm: Support for Linux LVM Raid. [#134][]
+- dm: Support for Linux Device-Mapper targets. [#134][], [#130][]
 
 ## [4.0.1] - 2016-02-29
 
@@ -222,6 +222,7 @@ NOTES:
 [#123]: https://github.com/glensc/nagios-plugin-check_raid/issues/123
 [#131]: https://github.com/glensc/nagios-plugin-check_raid/pull/131
 [#134]: https://github.com/glensc/nagios-plugin-check_raid/pull/134
+[#130]: https://github.com/glensc/nagios-plugin-check_raid/issues/130
 
 [4.0.1]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/glensc/nagios-plugin-check_raid/compare/3.2.5...4.0.0
