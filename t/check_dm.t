@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 1;
+use constant TESTS => 2;
 use Test::More tests => 1 + TESTS * 6;
 use test;
 
@@ -15,6 +15,11 @@ my @tests = (
 		dmsetup => 'pr-134/dmsetup',
 		status => OK,
 		message => 'vg1-cache:idle, vg1-zoom:idle',
+	},
+	{
+		dmsetup => 'pr-134/raid',
+		status => OK,
+		message => 'vg-SWAP:idle, vg-root:idle, vg-testraid:idle',
 	},
 );
 
