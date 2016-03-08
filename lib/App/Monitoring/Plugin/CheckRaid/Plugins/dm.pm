@@ -1,4 +1,4 @@
-package App::Monitoring::Plugin::CheckRaid::Plugins::lvm;
+package App::Monitoring::Plugin::CheckRaid::Plugins::dm;
 
 # Package to check Linux LVM RAID
 # https://www.kernel.org/doc/Documentation/device-mapper/dm-raid.txt

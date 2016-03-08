@@ -19,12 +19,12 @@ my @tests = (
 );
 
 # test that plugin can be created
-ok(lvm->new, "plugin created");
+ok(dm->new, "plugin created");
 
 foreach my $test (@tests) {
-	my $plugin = lvm->new(
+	my $plugin = dm->new(
 		commands => {
-			'dmsetup' => ['<', TESTDIR . '/data/lvm/' .$test->{dmsetup} ],
+			'dmsetup' => ['<', TESTDIR . '/data/dm/' .$test->{dmsetup} ],
 		},
 	);
 	ok($plugin, "plugin created");
@@ -37,7 +37,7 @@ foreach my $test (@tests) {
 	is($plugin->message, $test->{message}, "status message");
 
 	my $c = $plugin->parse;
-	my $df = TESTDIR . '/dump/lvm/' . $test->{dmsetup};
+	my $df = TESTDIR . '/dump/dm/' . $test->{dmsetup};
 	if (!-f $df) {
 		store_dump $df, $c;
 		# trigger error so that we don't have feeling all is ok ;)
