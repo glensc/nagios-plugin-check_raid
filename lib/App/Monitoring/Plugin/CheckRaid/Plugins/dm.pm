@@ -18,31 +18,56 @@ sub sudo {
 
 	my $cmd = $this->{program};
 	(
-		"CHECK_RAID ALL=(root) NOPASSWD: $cmd status --target=raid",
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd status",
 	);
 }
 
 sub commands {
 	{
-		'dmsetup' => [ '-|', '@CMD', 'status', '--target=raid' ],
+		'dmsetup' => [ '-|', '@CMD', 'status' ],
 	}
+}
+
+sub parse_target {
+	my ($this, $target, $data) = @_;
+
+	my %h;
+
+	# https://www.kernel.org/doc/Documentation/device-mapper/dm-raid.txt
+	if ($target eq 'raid') {
+		my @cols = qw(
+			raid_type devices health_chars
+			sync_ratio sync_action mismatch_cnt
+		);
+
+		@h{@cols} = split /\s+/, $data;
+	}
+
+	%h;
 }
 
 sub parse {
 	my $this = shift;
 
-	my @columns = qw[
-		dmname s l raid
-		raid_type devices health_chars
-		sync_ratio sync_action mismatch_cnt
-	];
-
 	my @devices;
 	my $fh = $this->cmd('dmsetup');
 	while (<$fh>) {
 		my %h;
-		@h{@columns} = split;
-		$h{dmname} =~ s/:$//;
+		if (my ($dmname, $s, $l, $target, $rest) = m{^
+			(\S+):\s+    # dmname
+			(\S+)\s+     # s
+			(\S+)\s+     # l
+			(\S+)\s+     # raid
+			(.+)         # rest of the data
+			}x) {
+			%h = (
+				'dmname' => $dmname,
+				's'      => $s,
+				'l'      => $l,
+				'target' => $target,
+				$this->parse_target($target, $rest),
+			);
+		}
 		push @devices, { %h };
 	}
 	close $fh;

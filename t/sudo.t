@@ -91,7 +91,7 @@ my %sudo = (
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/metastat",
 	],
 	dm => [
-		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/dmsetup status --target=raid",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/dmsetup status",
 	],
 );
 
