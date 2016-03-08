@@ -1,26 +1,26 @@
 $VAR1 = [
           {
-            'devices' => '2',
             'dmname' => 'vg1-cache',
-            'health_chars' => 'AA',
             'l' => '4194304',
             'mismatch_cnt' => '0',
-            'target' => 'raid',
+            'raid_disks' => '2',
             'raid_type' => 'raid1',
             's' => '0',
+            'status_chars' => 'AA',
             'sync_action' => 'idle',
-            'sync_ratio' => '4194304/4194304'
+            'sync_ratio' => '4194304/4194304',
+            'target' => 'raid'
           },
           {
-            'devices' => '2',
             'dmname' => 'vg1-zoom',
-            'health_chars' => 'AA',
             'l' => '2097152',
             'mismatch_cnt' => '0',
-            'target' => 'raid',
+            'raid_disks' => '2',
             'raid_type' => 'raid1',
             's' => '0',
+            'status_chars' => 'AA',
             'sync_action' => 'idle',
-            'sync_ratio' => '2097152/2097152'
+            'sync_ratio' => '2097152/2097152',
+            'target' => 'raid'
           }
         ];

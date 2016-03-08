@@ -40,16 +40,51 @@ sub commands {
 sub parse_target {
 	my ($this, $target, $data) = @_;
 
+	local $_ = $data;
 	my %h;
 
 	# https://www.kernel.org/doc/Documentation/device-mapper/dm-raid.txt
 	if ($target eq 'raid') {
+		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1377
+		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1409-L1423
+		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1425-L1435
+		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1437-L1442
+		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1444-L1452
 		my @cols = qw(
-			raid_type devices health_chars
-			sync_ratio sync_action mismatch_cnt
-		);
+			raid_type raid_disks
+			status_chars
+			sync_ratio
+			sync_action
+			mismatch_cnt
+			);
 
-		@h{@cols} = split /\s+/, $data;
+		@h{@cols} = split;
+
+	} elsif ($target eq 'mirror') {
+		# https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Logical_Volume_Manager_Administration/device_mapper.html#mirror-map
+		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid1.c#L1355
+		my @parts = split;
+
+		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid1.c#L1365
+		$h{nr_mirrors} = shift @parts;
+
+		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid1.c#L1366-L1369
+		my @devs;
+		for (my $i = 0; $i < $h{nr_mirrors}; $i++) {
+			push(@devs, shift @parts);
+		}
+		$h{devices} = \@devs;
+
+		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid1.c#L1372-L1374
+		# some ratio?
+		$h{ratio} = shift @parts;
+		# param count? always '1'
+		shift @parts;
+		# the 'buffer' filled with status chars
+		$h{status_chars} = shift @parts;
+
+		# TODO: remaining: '3 disk 252:13 A'
+		$h{_remaining} = join ' ', @parts;
 	}
 
 	%h;
@@ -64,8 +99,8 @@ sub parse {
 		my %h;
 		if (my ($dmname, $s, $l, $target, $rest) = m{^
 			(\S+):\s+    # dmname
-			(\S+)\s+     # s
-			(\S+)\s+     # l
+			(\S+)\s+     # start
+			(\S+)\s+     # length
 			(\S+)\s+     # target
 			(.+)         # rest of the data
 			}x) {
@@ -96,12 +131,17 @@ sub check {
 	my @status;
 	foreach my $dm (@$c)
 	{
-		# <health_chars>  One char for each device, indicating:
-		# 'A' = alive and in-sync,
-		# 'a' = alive but not in-sync,
-		# 'D' = dead/failed.
-		$this->critical if ($dm->{health_chars} =~ /D/);
-		$this->warning if ($dm->{health_chars} =~ /a/);
+		# <status_chars>  One char for each device, indicating:
+		# 'A' = alive and in-sync (mirror, raid1, raid)
+		# 'a' = alive but not in-sync (mirror, raid1)
+		# 'D' = dead/failed (mirror, raid1, raid)
+		# 'S' = Sync (mirror, raid1)
+		# 'mirror'/'raid1': https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid1.c#L1330-L1342
+		# 'raid': https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1409-L1414
+		$this->critical if ($dm->{status_chars} =~ /D/);
+		$this->warning if ($dm->{status_chars} =~ /[aS]/);
+
+		my @s = "$dm->{dmname}:$dm->{status_chars}";
 
 		# <sync_action>   One of the following possible states:
 		# idle    - No synchronization action is being performed.
@@ -111,12 +151,13 @@ sub check {
 		# check   - A user-initiated full check of the array is...
 		# repair  - The same as "check", but discrepancies are...
 		# reshape - The array is undergoing a reshape.
-		if ($dm->{sync_action} =~ /^(check|repair|init)$/)
-		{
-			$this->warning;
+		if ($dm->{sync_action}) {
+			push(@s, $dm->{sync_action});
+			if ($dm->{sync_action} =~ /^(check|repair|init)$/) {
+				$this->warning;
+			}
 		}
-
-		push(@status, "$dm->{dmname}:$dm->{sync_action}");
+		push(@status, join(' ', @s));
 	}
 
 	return unless @status;
