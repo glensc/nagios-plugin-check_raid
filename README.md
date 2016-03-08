@@ -82,7 +82,7 @@ Supported RAIDs that can be checked:
 - Linux LSI MegaRaid hardware RAID via CmdTool2
 - Linux LSI MegaRaid hardware RAID via megarc
 - Linux LSI MegaRaid hardware RAID via `/proc/megaraid`
-- Linux LVM RAID
+- Linux Device Mapper
 - Linux MegaIDE hardware RAID controllers via `/proc/megaide`
 - Linux MPT hardware RAID via mpt-status
 - Linux software RAID (md) via `/proc/mdstat`

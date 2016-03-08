@@ -1,7 +1,16 @@
 package App::Monitoring::Plugin::CheckRaid::Plugins::dm;
 
-# Package to check Linux LVM RAID
-# https://www.kernel.org/doc/Documentation/device-mapper/dm-raid.txt
+# Package to check Linux Device Mapper
+
+# Linux LVM Mirrors
+# https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Logical_Volume_Manager_Administration/mirror_create.html
+#
+# Linux LVM RAID
+# https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Logical_Volume_Manager_Administration/raid_volumes.html
+#
+# Low-level:
+# https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Logical_Volume_Manager_Administration/device_mapper.html#mirror-map
+# https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Logical_Volume_Manager_Administration/device_mapper.html#dmraid-map
 
 use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
 use strict;
@@ -57,7 +66,7 @@ sub parse {
 			(\S+):\s+    # dmname
 			(\S+)\s+     # s
 			(\S+)\s+     # l
-			(\S+)\s+     # raid
+			(\S+)\s+     # target
 			(.+)         # rest of the data
 			}x) {
 			%h = (
