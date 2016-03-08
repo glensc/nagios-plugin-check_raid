@@ -37,68 +37,84 @@ sub commands {
 	}
 }
 
-sub parse_target {
-	my ($this, $target, $data) = @_;
+# https://www.kernel.org/doc/Documentation/device-mapper/dm-raid.txt
+sub parse_raid {
+	local $_ = shift;
 
-	local $_ = $data;
+	# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1377
+	# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1409-L1423
+	# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1425-L1435
+	# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1437-L1442
+	# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1444-L1452
+	my @cols = qw(
+		raid_type raid_disks
+		status_chars
+		sync_ratio
+		sync_action
+		mismatch_cnt
+		);
+
 	my %h;
-
-	# https://www.kernel.org/doc/Documentation/device-mapper/dm-raid.txt
-	if ($target eq 'raid') {
-		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1377
-		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1409-L1423
-		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1425-L1435
-		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1437-L1442
-		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid.c#L1444-L1452
-		my @cols = qw(
-			raid_type raid_disks
-			status_chars
-			sync_ratio
-			sync_action
-			mismatch_cnt
-			);
-
-		@h{@cols} = split;
-
-	} elsif ($target eq 'mirror') {
-		# https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Logical_Volume_Manager_Administration/device_mapper.html#mirror-map
-		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid1.c#L1355
-		my @parts = split;
-
-		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid1.c#L1365
-		$h{nr_mirrors} = shift @parts;
-
-		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid1.c#L1366-L1369
-		my @devs;
-		for (my $i = 0; $i < $h{nr_mirrors}; $i++) {
-			push(@devs, shift @parts);
-		}
-		$h{devices} = \@devs;
-
-		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid1.c#L1372-L1374
-		# some ratio?
-		$h{ratio} = shift @parts;
-		# param count? always '1'
-		shift @parts;
-		# the 'buffer' filled with status chars
-		$h{status_chars} = shift @parts;
-
-		# log device information
-		# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-log.c#L807-L810
-		# log params, always '3'
-		shift @parts;
-		my %l;
-		$l{type} = shift @parts;
-		$l{device} = shift @parts;
-		# status: F->D->A
-		$l{status_char} = shift @parts;
-		$h{log} = { %l };
-
-		# for debugging. fill only if something remains not parsed
-		$h{_remaining} = join ' ', @parts if @parts;
-	}
+	@h{@cols} = split;
 
 	%h;
+}
+
+# https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Logical_Volume_Manager_Administration/device_mapper.html#mirror-map
+sub parse_mirror {
+	local $_ = shift;
+
+	my %h;
+
+	# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid1.c#L1355
+	my @parts = split;
+
+	# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid1.c#L1365
+	$h{nr_mirrors} = shift @parts;
+
+	# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid1.c#L1366-L1369
+	my @devs;
+	for (my $i = 0; $i < $h{nr_mirrors}; $i++) {
+		push(@devs, shift @parts);
+	}
+	$h{devices} = \@devs;
+
+	# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-raid1.c#L1372-L1374
+	# some ratio?
+	$h{ratio} = shift @parts;
+	# param count? always '1'
+	shift @parts;
+	# the 'buffer' filled with status chars
+	$h{status_chars} = shift @parts;
+
+	# log device information
+	# https://github.com/torvalds/linux/blob/v3.18/drivers/md/dm-log.c#L807-L810
+	# log params, always '3'
+	shift @parts;
+	my %l;
+	$l{type} = shift @parts;
+	$l{device} = shift @parts;
+	# status: F->D->A
+	$l{status_char} = shift @parts;
+	$h{log} = { %l };
+
+	# for debugging. fill only if something remains not parsed
+	$h{_remaining} = join ' ', @parts if @parts;
+
+	%h;
+}
+
+sub parse_target {
+	my ($target, $data) = @_;
+
+	if ($target eq 'raid') {
+		return parse_raid($data);
+
+	} elsif ($target eq 'mirror') {
+		return parse_mirror($data);
+	}
+
+	undef;
 }
 
 sub parse {
@@ -113,9 +129,9 @@ sub parse {
 			(\S+)\s+     # start
 			(\S+)\s+     # length
 			(\S+)\s+     # target
-			(.+)         # rest of the data
-			}x) {
-			%h = $this->parse_target($target, $rest);
+			(.+)\s*      # rest of the data
+			$}x) {
+			%h = parse_target($target, $rest);
 
 			# skip target type not handled
 			next unless %h;
