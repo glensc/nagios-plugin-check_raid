@@ -127,7 +127,8 @@ sub parse {
 			(\d+)\s+        # start
 			(\d+)\s+        # length
 			(\S+)           # target
-			(?:\s+(.+)\s*)? # rest of the data
+			(?:\s+(.+))?    # rest of the data
+			\s?             # there may be trailing space
 			$}x) {
 			my $h = parse_target($target, $rest);
 
