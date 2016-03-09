@@ -57,7 +57,7 @@ sub parse_raid {
 	my %h;
 	@h{@cols} = split;
 
-	%h;
+	\%h;
 }
 
 # https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Logical_Volume_Manager_Administration/device_mapper.html#mirror-map
@@ -101,19 +101,14 @@ sub parse_mirror {
 	# for debugging. fill only if something remains not parsed
 	$h{_remaining} = join ' ', @parts if @parts;
 
-	%h;
+	\%h;
 }
 
 sub parse_target {
 	my ($target, $data) = @_;
 
-	if ($target eq 'raid') {
-		return parse_raid($data);
-
-	} elsif ($target eq 'mirror') {
-		return parse_mirror($data);
-	}
-
+	return parse_raid($data) if $target eq 'raid';
+	return parse_mirror($data) if $target eq 'mirror';
 	undef;
 }
 
@@ -123,28 +118,35 @@ sub parse {
 	my @devices;
 	my $fh = $this->cmd('dmsetup');
 	while (<$fh>) {
+		# skip comments.
+		# not present in dmsetup output, but our test files may have.
+		next if /^#/;
+
 		my %h;
 		if (my ($dmname, $s, $l, $target, $rest) = m{^
-			(\S+):\s+    # dmname
-			(\S+)\s+     # start
-			(\S+)\s+     # length
-			(\S+)\s+     # target
-			(.+)\s*      # rest of the data
+			(\S+):\s+       # dmname
+			(\d+)\s+        # start
+			(\d+)\s+        # length
+			(\S+)           # target
+			(?:\s+(.+)\s*)? # rest of the data
 			$}x) {
-			%h = parse_target($target, $rest);
+			my $h = parse_target($target, $rest);
 
 			# skip target type not handled
-			next unless %h;
+			next unless $h;
 
 			%h = (
 				'dmname' => $dmname,
 				's'      => $s,
 				'l'      => $l,
 				'target' => $target,
-				%h,
+				%$h,
 			);
+			push @devices, { %h };
+			next;
 		}
-		push @devices, { %h };
+		warn "Unhandled:[$_]";
+		$this->unknown;
 	}
 	close $fh;
 	return \@devices;

@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 3;
+use constant TESTS => 4;
 use Test::More tests => 1 + TESTS * 6;
 use test;
 
@@ -25,6 +25,11 @@ my @tests = (
 		dmsetup => 'pr-134/mirror',
 		status => OK,
 		message => 'vg-testmirror:AA',
+	},
+	{
+		dmsetup => 'pr-134/all-combos',
+		status => OK,
+		message => 'vg-mirror--mirrorlog--core:AA, vg-mirror--mirrorlog--disk:AA, vg-mirror--mirrorlog--mirrored:AA, vg-mirror--mirrorlog--mirrored_mlog:AA, vg-raid1:AA idle, vg-raid5:AAA idle, vg-raid6:AAAAA idle',
 	},
 );
 
