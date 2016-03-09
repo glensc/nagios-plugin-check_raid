@@ -14,7 +14,7 @@ my @tests = (
 	{
 		dmsetup => 'pr-134/dmsetup',
 		status => OK,
-		message => 'vg1-cache:AA idle, vg1-zoom:AA idle',
+		message => 'vg1-cache1:AA idle, vg1-zoom1:AA idle',
 	},
 	{
 		dmsetup => 'pr-134/raid',

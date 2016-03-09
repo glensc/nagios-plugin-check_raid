@@ -1,18 +1,18 @@
 $VAR1 = [
           {
-            'dmname' => 'vg1-cache',
-            'l' => '4194304',
+            'dmname' => 'vg1-cache1',
+            'l' => '2097152',
             'mismatch_cnt' => '0',
             'raid_disks' => '2',
             'raid_type' => 'raid1',
             's' => '0',
             'status_chars' => 'AA',
             'sync_action' => 'idle',
-            'sync_ratio' => '4194304/4194304',
+            'sync_ratio' => '2097152/2097152',
             'target' => 'raid'
           },
           {
-            'dmname' => 'vg1-zoom',
+            'dmname' => 'vg1-zoom1',
             'l' => '2097152',
             'mismatch_cnt' => '0',
             'raid_disks' => '2',
