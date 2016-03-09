@@ -1,0 +1,10 @@
+vg1-zoom1_rimage_1: 0 2097152 linear 
+vg1-cache1: 0 2097152 raid raid1 2 AA 2097152/2097152 idle 0
+vg1-zoom1_rimage_0: 0 2097152 linear 
+vg1-cache1_rmeta_1: 0 8192 linear 
+vg1-cache1_rmeta_0: 0 8192 linear 
+vg1-zoom1_rmeta_1: 0 8192 linear 
+vg1-zoom1_rmeta_0: 0 8192 linear 
+vg1-cache1_rimage_1: 0 2097152 linear 
+vg1-zoom1: 0 2097152 raid raid1 2 AA 2097152/2097152 idle 0
+vg1-cache1_rimage_0: 0 2097152 linear 

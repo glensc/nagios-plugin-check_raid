@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 
-use Test::More tests => 21;
+use Test::More tests => 22;
 use test;
 
 my $bindir = TESTDIR . '/data/bin';
@@ -89,6 +89,9 @@ my %sudo = (
 	],
 	metastat => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/metastat",
+	],
+	dm => [
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/dmsetup status",
 	],
 );
 

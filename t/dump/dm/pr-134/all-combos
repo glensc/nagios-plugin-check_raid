@@ -1,0 +1,110 @@
+$VAR1 = [
+          {
+            'devices' => [
+                           '254:57',
+                           '254:58'
+                         ],
+            'dmname' => 'vg-mirror--mirrorlog--core',
+            'l' => '2097152',
+            'log' => {
+                       'device' => undef,
+                       'status_char' => undef,
+                       'type' => 'core'
+                     },
+            'nr_mirrors' => 2,
+            'ratio' => '2048/2048',
+            's' => '0',
+            'status_chars' => 'AA',
+            'target' => 'mirror'
+          },
+          {
+            'devices' => [
+                           '254:61',
+                           '254:62'
+                         ],
+            'dmname' => 'vg-mirror--mirrorlog--disk',
+            'l' => '2097152',
+            'log' => {
+                       'device' => '254:60',
+                       'status_char' => 'A',
+                       'type' => 'disk'
+                     },
+            'nr_mirrors' => 2,
+            'ratio' => '730/2048',
+            's' => '0',
+            'status_chars' => 'AA',
+            'target' => 'mirror'
+          },
+          {
+            'devices' => [
+                           '254:67',
+                           '254:68'
+                         ],
+            'dmname' => 'vg-mirror--mirrorlog--mirrored',
+            'l' => '2097152',
+            'log' => {
+                       'device' => '254:66',
+                       'status_char' => 'A',
+                       'type' => 'disk'
+                     },
+            'nr_mirrors' => 2,
+            'ratio' => '1328/2048',
+            's' => '0',
+            'status_chars' => 'AA',
+            'target' => 'mirror'
+          },
+          {
+            'devices' => [
+                           '254:64',
+                           '254:65'
+                         ],
+            'dmname' => 'vg-mirror--mirrorlog--mirrored_mlog',
+            'l' => '8192',
+            'log' => {
+                       'device' => undef,
+                       'status_char' => undef,
+                       'type' => 'core'
+                     },
+            'nr_mirrors' => 2,
+            'ratio' => '8/8',
+            's' => '0',
+            'status_chars' => 'AA',
+            'target' => 'mirror'
+          },
+          {
+            'dmname' => 'vg-raid1',
+            'l' => '2097152',
+            'mismatch_cnt' => '0',
+            'raid_disks' => '2',
+            'raid_type' => 'raid1',
+            's' => '0',
+            'status_chars' => 'AA',
+            'sync_action' => 'idle',
+            'sync_ratio' => '2097152/2097152',
+            'target' => 'raid'
+          },
+          {
+            'dmname' => 'vg-raid5',
+            'l' => '2097152',
+            'mismatch_cnt' => '0',
+            'raid_disks' => '3',
+            'raid_type' => 'raid5_ls',
+            's' => '0',
+            'status_chars' => 'AAA',
+            'sync_action' => 'idle',
+            'sync_ratio' => '1048576/1048576',
+            'target' => 'raid'
+          },
+          {
+            'dmname' => 'vg-raid6',
+            'l' => '2113536',
+            'mismatch_cnt' => '0',
+            'raid_disks' => '5',
+            'raid_type' => 'raid6_zr',
+            's' => '0',
+            'status_chars' => 'AAAAA',
+            'sync_action' => 'idle',
+            'sync_ratio' => '704512/704512',
+            'target' => 'raid'
+          }
+        ];

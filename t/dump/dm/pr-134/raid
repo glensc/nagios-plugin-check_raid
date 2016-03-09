@@ -1,0 +1,38 @@
+$VAR1 = [
+          {
+            'dmname' => 'vg-SWAP',
+            'l' => '4194304',
+            'mismatch_cnt' => '0',
+            'raid_disks' => '2',
+            'raid_type' => 'raid1',
+            's' => '0',
+            'status_chars' => 'AA',
+            'sync_action' => 'idle',
+            'sync_ratio' => '4194304/4194304',
+            'target' => 'raid'
+          },
+          {
+            'dmname' => 'vg-root',
+            'l' => '20971520',
+            'mismatch_cnt' => '0',
+            'raid_disks' => '2',
+            'raid_type' => 'raid1',
+            's' => '0',
+            'status_chars' => 'AA',
+            'sync_action' => 'idle',
+            'sync_ratio' => '20971520/20971520',
+            'target' => 'raid'
+          },
+          {
+            'dmname' => 'vg-testraid',
+            'l' => '2097152',
+            'mismatch_cnt' => '0',
+            'raid_disks' => '2',
+            'raid_type' => 'raid1',
+            's' => '0',
+            'status_chars' => 'AA',
+            'sync_action' => 'idle',
+            'sync_ratio' => '2097152/2097152',
+            'target' => 'raid'
+          }
+        ];
