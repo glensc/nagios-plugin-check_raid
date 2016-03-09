@@ -1,0 +1,45 @@
+# LVC="lvcreate -L 1g --alloc anywhere"
+# $LVC --type raid1 -n raid1 vg
+# $LVC --type raid5 -n raid5 vg
+# $LVC --type raid6 -n raid6 -i 3 vg
+# $LVC --type mirror -n mirror-mirrorlog-core --mirrorlog core vg
+# $LVC --type mirror -n mirror-mirrorlog-disk --mirrorlog disk vg
+# $LVC --type mirror -n mirror-mirrorlog-mirrored --mirrorlog mirrored vg
+#
+# dmsetup status |grep -e raid -e mirror |sort
+vg-mirror--mirrorlog--core: 0 2097152 mirror 2 254:57 254:58 2048/2048 1 AA 1 core
+vg-mirror--mirrorlog--core_mimage_0: 0 2097152 linear
+vg-mirror--mirrorlog--core_mimage_1: 0 2097152 linear
+vg-mirror--mirrorlog--disk: 0 2097152 mirror 2 254:61 254:62 730/2048 1 AA 3 disk 254:60 A
+vg-mirror--mirrorlog--disk_mimage_0: 0 2097152 linear
+vg-mirror--mirrorlog--disk_mimage_1: 0 2097152 linear
+vg-mirror--mirrorlog--disk_mlog: 0 8192 linear
+vg-mirror--mirrorlog--mirrored: 0 2097152 mirror 2 254:67 254:68 1328/2048 1 AA 3 disk 254:66 A
+vg-mirror--mirrorlog--mirrored_mimage_0: 0 2097152 linear
+vg-mirror--mirrorlog--mirrored_mimage_1: 0 2097152 linear
+vg-mirror--mirrorlog--mirrored_mlog: 0 8192 mirror 2 254:64 254:65 8/8 1 AA 1 core
+vg-mirror--mirrorlog--mirrored_mlog_mimage_0: 0 8192 linear
+vg-mirror--mirrorlog--mirrored_mlog_mimage_1: 0 8192 linear
+vg-raid1: 0 2097152 raid raid1 2 AA 2097152/2097152 idle 0
+vg-raid1_rimage_0: 0 2097152 linear
+vg-raid1_rimage_1: 0 2097152 linear
+vg-raid1_rmeta_0: 0 8192 linear
+vg-raid1_rmeta_1: 0 8192 linear
+vg-raid5: 0 2097152 raid raid5_ls 3 AAA 1048576/1048576 idle 0
+vg-raid5_rimage_0: 0 1048576 linear
+vg-raid5_rimage_1: 0 1048576 linear
+vg-raid5_rimage_2: 0 1048576 linear
+vg-raid5_rmeta_0: 0 8192 linear
+vg-raid5_rmeta_1: 0 8192 linear
+vg-raid5_rmeta_2: 0 8192 linear
+vg-raid6: 0 2113536 raid raid6_zr 5 AAAAA 704512/704512 idle 0
+vg-raid6_rimage_0: 0 704512 linear
+vg-raid6_rimage_1: 0 704512 linear
+vg-raid6_rimage_2: 0 704512 linear
+vg-raid6_rimage_3: 0 704512 linear
+vg-raid6_rimage_4: 0 704512 linear
+vg-raid6_rmeta_0: 0 8192 linear
+vg-raid6_rmeta_1: 0 8192 linear
+vg-raid6_rmeta_2: 0 8192 linear
+vg-raid6_rmeta_3: 0 8192 linear
+vg-raid6_rmeta_4: 0 8192 linear
