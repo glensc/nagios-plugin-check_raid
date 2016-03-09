@@ -122,7 +122,6 @@ sub parse {
 		# not present in dmsetup output, but our test files may have.
 		next if /^#/;
 
-		my %h;
 		if (my ($dmname, $s, $l, $target, $rest) = m{^
 			(\S+):\s+       # dmname
 			(\d+)\s+        # start
@@ -135,16 +134,17 @@ sub parse {
 			# skip target type not handled
 			next unless $h;
 
-			%h = (
+			my %h = (
 				'dmname' => $dmname,
 				's'      => $s,
 				'l'      => $l,
 				'target' => $target,
 				%$h,
 			);
-			push @devices, { %h };
+			push @devices, \%h;
 			next;
 		}
+
 		warn "Unhandled:[$_]";
 		$this->unknown;
 	}
