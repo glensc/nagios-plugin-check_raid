@@ -39,7 +39,7 @@ ok(dm->new, "plugin created");
 foreach my $test (@tests) {
 	my $plugin = dm->new(
 		commands => {
-			'dmsetup' => ['<', TESTDIR . '/data/dm/' .$test->{dmsetup} ],
+			'dmsetup noflush' => ['<', TESTDIR . '/data/dm/' .$test->{dmsetup} ],
 		},
 	);
 	ok($plugin, "plugin created");

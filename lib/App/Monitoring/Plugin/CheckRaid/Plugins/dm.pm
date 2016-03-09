@@ -27,13 +27,15 @@ sub sudo {
 
 	my $cmd = $this->{program};
 	(
+		"CHECK_RAID ALL=(root) NOPASSWD: $cmd status --noflush",
 		"CHECK_RAID ALL=(root) NOPASSWD: $cmd status",
 	);
 }
 
 sub commands {
 	{
-		'dmsetup' => [ '-|', '@CMD', 'status' ],
+		'dmsetup'         => [ '-|', '@CMD', 'status' ],
+		'dmsetup noflush' => [ '-|', '@CMD', 'status', '--noflush' ],
 	}
 }
 
@@ -112,11 +114,23 @@ sub parse_target {
 	undef;
 }
 
+sub get_fh {
+	my $this = shift;
+
+	# use dmsetup --noflush, requires LVM >= 2.02.97
+	# if that fails, fall back to just dmsetup
+	# https://github.com/glensc/nagios-plugin-check_raid/issues/130#issuecomment-194476070
+	my $fh = $this->cmd('dmsetup noflush');
+	$fh = $this->cmd('dmsetup') if eof $fh;
+
+	return $fh;
+}
+
 sub parse {
 	my $this = shift;
 
 	my @devices;
-	my $fh = $this->cmd('dmsetup');
+	my $fh = $this->get_fh();
 	while (<$fh>) {
 		# skip comments.
 		# not present in dmsetup output, but our test files may have.
