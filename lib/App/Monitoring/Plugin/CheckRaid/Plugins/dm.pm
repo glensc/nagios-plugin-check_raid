@@ -122,6 +122,8 @@ sub parse {
 		# not present in dmsetup output, but our test files may have.
 		next if /^#/;
 
+		last if /No devices found/;
+
 		if (my ($dmname, $s, $l, $target, $rest) = m{^
 			(\S+):\s+       # dmname
 			(\d+)\s+        # start
@@ -157,6 +159,11 @@ sub check {
 	my $this = shift;
 
 	my $c = $this->parse;
+
+	if (!@$c) {
+		$this->warning->message("No devices to check");
+		return;
+	}
 
 	my @status;
 	foreach my $dm (@$c)
