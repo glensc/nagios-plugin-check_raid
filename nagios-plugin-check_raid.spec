@@ -1,5 +1,8 @@
 %define	have_suggests	0%{?pld_release:1}
 
+%define		_sysconfdir	/etc/nagios/plugins
+%define		plugindir	%{_prefix}/lib/nagios/plugins
+
 %define		plugin	check_raid
 Summary:	Nagios plugin to check current server's RAID status
 Name:		nagios-plugin-%{plugin}
@@ -32,9 +35,6 @@ Suggests:	tw_cli-9xxx
 %endif
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_sysconfdir	/etc/nagios/plugins
-%define		plugindir	%{_prefix}/lib/nagios/plugins
 
 %description
 This plugin checks all RAID volumes (hardware and software) that can
