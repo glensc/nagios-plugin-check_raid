@@ -4,6 +4,8 @@ PLUGIN_SCRIPT   := $(PLUGIN).pl
 PLUGIN_VERSION  := $(shell test -e .git && git describe --tags || awk -F"'" '/VERSION/&&/=/{print $$2}' bin/$(PLUGIN_SCRIPT))
 PLUGINDIR       := /usr/lib/nagios/plugins
 PLUGINCONF      := /etc/nagios/plugins
+CACHE_DIR       := $(CURDIR)/cache
+CPANM_CACHE     := $(CACHE_DIR)/cpanm
 
 # rpm version related macros
 RPM_NAME        := nagios-plugin-$(PLUGIN)
@@ -29,7 +31,11 @@ pack:
 	$(MAKE) $(PLUGIN_SCRIPT)
 
 installdeps:
-	cpanm --installdeps -Llocal -n .
+	cpanm --installdeps -Llocal -n . \
+		--cascade-search \
+		--save-dists=$(CPANM_CACHE) \
+		--mirror=$(CPANM_CACHE) \
+		--mirror=http://search.cpan.org/CPAN
 
 # Params::Validate adds some Module::Build dependency, but Monitoring-Plugin needs just:
 # Configuring Monitoring-Plugin-0.39 ... OK
@@ -55,7 +61,7 @@ $(PLUGIN_SCRIPT): bin/$(PLUGIN_SCRIPT)
 	rm -rf fatpack
 	install -d fatpack
 	git archive HEAD | tar -x -C fatpack
-	$(MAKE) -f $(CURDIR)/Makefile -C fatpack fatpack options="--output ../$@"
+	$(MAKE) -f $(CURDIR)/Makefile -C fatpack fatpack CACHE_DIR=$(CACHE_DIR) options="--output ../$@"
 	rm -rf fatpack
 	grep -o 'fatpacked{.*}' $@
 
