@@ -5,6 +5,7 @@
 
 # maintenance tools
 /.travis.yml export-ignore
+/Makefile export-ignore
 
 # tests
 /t export-ignore
