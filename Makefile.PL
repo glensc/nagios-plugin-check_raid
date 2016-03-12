@@ -1,3 +1,4 @@
+use utf8;
 use ExtUtils::MakeMaker;
 use ExtUtils::MakeMaker::CPANfile;
 
