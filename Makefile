@@ -55,7 +55,7 @@ $(PLUGIN_SCRIPT): bin/$(PLUGIN_SCRIPT)
 	rm -rf fatpack
 	install -d fatpack
 	git archive HEAD | tar -x -C fatpack
-	$(MAKE) -C fatpack fatpack options="--output ../$@"
+	$(MAKE) -f $(CURDIR)/Makefile -C fatpack fatpack options="--output ../$@"
 	rm -rf fatpack
 	grep -o 'fatpacked{.*}' $@
 
