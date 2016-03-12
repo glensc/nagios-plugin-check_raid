@@ -6,6 +6,7 @@ PLUGINDIR       := /usr/lib/nagios/plugins
 PLUGINCONF      := /etc/nagios/plugins
 
 # rpm version related macros
+RPM_NAME        := nagios-plugin-$(PLUGIN)
 version_parts   := $(subst -, ,$(PLUGIN_VERSION))
 space           := $(nil) $(nil)
 RPM_VERSION     := $(firstword $(version_parts))
@@ -16,6 +17,7 @@ RPM_RELEASE     := 0.$(RPM_RELEASE)
 else
 RPM_RELEASE     := 1
 endif
+RPM_FILENAME    := $(RPM_NAME)-$(RPM_VERSION)-$(RPM_RELEASE).noarch.rpm
 
 all:
 
@@ -92,6 +94,9 @@ dist:
 rpm: $(PLUGIN_SCRIPT)
 	# needs to be ran in git checkout for version setup to work
 	test -d .git
+	# display build system info
+	rpmbuild --version
+	lsb_release -a || cat /etc/os-release || :
 	rpmbuild -ba \
 		--define '_topdir $(CURDIR)' \
 		--define '_specdir %_topdir' \
@@ -101,4 +106,6 @@ rpm: $(PLUGIN_SCRIPT)
 		--define '_builddir %_topdir/BUILD' \
 		--define 'version $(RPM_VERSION)' \
 		--define 'release $(RPM_RELEASE)' \
-		nagios-plugin-$(PLUGIN).spec
+		$(RPM_NAME).spec
+	# display built rpm requires
+	rpm -qp --requires $(CURDIR)/$(RPM_FILENAME)
