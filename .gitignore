@@ -1,6 +1,7 @@
-# vim backups
+# editor backups
 *~
 *.sw[op]
+*.bak
 
 # lockfile by SerialLine
 LCK..ttyNOTTY
@@ -12,3 +13,11 @@ LCK..ttyNOTTY
 # rpm builds
 /nagios-plugin-*.rpm
 /BUILD
+
+# perl dist
+/fatpack/
+/local/
+/*.tar.gz
+/MANIFEST
+/MYMETA.json
+/MYMETA.yml
