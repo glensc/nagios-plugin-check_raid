@@ -1,4 +1,4 @@
-## 4.0.2 - UNRELEASED
+## [4.0.2] - 2016-03-14
 
 - dm: Support for Linux Device-Mapper targets. [#134][], [#130][]
 
@@ -224,6 +224,7 @@ NOTES:
 [#134]: https://github.com/glensc/nagios-plugin-check_raid/pull/134
 [#130]: https://github.com/glensc/nagios-plugin-check_raid/issues/130
 
+[4.0.2]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.1...4.0.2
 [4.0.1]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/glensc/nagios-plugin-check_raid/compare/3.2.5...4.0.0
 [3.2.5]: https://github.com/glensc/nagios-plugin-check_raid/compare/3.2.4...3.2.5
