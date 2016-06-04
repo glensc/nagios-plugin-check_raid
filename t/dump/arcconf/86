@@ -1,0 +1,73 @@
+$VAR1 = {
+          'controllers' => {
+                             '1' => {
+                                      'controller' => {
+                                                        'battery_status' => 'Not Installed',
+                                                        'defunct_count' => 1,
+                                                        'logical_count' => 1,
+                                                        'logical_degraded' => 0,
+                                                        'logical_failed' => 0,
+                                                        'status' => 'Optimal'
+                                                      },
+                                      'logical' => [
+                                                     {
+                                                       'failed_stripes' => 'No',
+                                                       'id' => 0,
+                                                       'name' => 'raid1',
+                                                       'raid' => '1',
+                                                       'size' => '70006 MB',
+                                                       'status' => 'Degraded'
+                                                     }
+                                                   ],
+                                      'physical' => [
+                                                      [
+                                                        {
+                                                          'cd' => '0,0(0:0)',
+                                                          'devtype' => 'Hard drive',
+                                                          'firmware' => '0003',
+                                                          'fru' => 'None',
+                                                          'model' => 'ST373207LC',
+                                                          'serial' => '3KT2ZPHH000076165TAD',
+                                                          'size' => '70007 MB',
+                                                          'smart' => '0',
+                                                          'speed' => 'Ultra320',
+                                                          'status' => 'Online',
+                                                          'supported' => 'Yes',
+                                                          'vendor' => 'SEAGATE',
+                                                          'write_cache' => 'Unknown'
+                                                        },
+                                                        {
+                                                          'cd' => '0,1(1:0)',
+                                                          'devtype' => 'Hard drive',
+                                                          'fail_ldev_segs' => 'True',
+                                                          'firmware' => '',
+                                                          'fru' => 'None',
+                                                          'model' => '*MISSING*',
+                                                          'size' => '0 MB',
+                                                          'smart' => '0',
+                                                          'status' => 'Failed',
+                                                          'supported' => 'Yes',
+                                                          'vendor' => '*MISSING*',
+                                                          'write_cache' => 'Unknown'
+                                                        },
+                                                        undef,
+                                                        undef,
+                                                        undef,
+                                                        undef,
+                                                        {
+                                                          'devtype' => 'Enclosure',
+                                                          'firmware' => '0',
+                                                          'model' => 'GEM318',
+                                                          'temperature' => 'Normal',
+                                                          'type' => 'SAF-TE',
+                                                          'vendor' => 'SUPER'
+                                                        }
+                                                      ]
+                                                    ]
+                                    }
+                           },
+          'ctrl_count' => 1,
+          'tasks' => {
+                       'operation' => 'None'
+                     }
+        };
