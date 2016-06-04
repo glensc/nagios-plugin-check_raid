@@ -279,8 +279,8 @@ sub parse_ctrl_config {
 				} elsif (my($vnd) = /Vendor\s+:\s*(.*)/) {
 					# allow edits, i.e removed 'Vendor' value from test data
 					$pd[$ch][$pd]{vendor} = $vnd;
-				} elsif (my($mod) = /Model\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{model} = $mod;
+				} elsif (my($mod) = /Model\s+:\s+(.*)/) {
+					$pd[$ch][$pd]{model} = $mod || '*MISSING*';
 				} elsif (my($fw) = /Firmware\s+:\s*(.*)/) {
 					$pd[$ch][$pd]{firmware} = $fw;
 				} elsif (my($sn) = /Serial number\s+:\s+(.+)/) {
@@ -317,6 +317,8 @@ sub parse_ctrl_config {
 					$pd[$ch][$pd]{cd} = $cd;
 				} elsif (my($type) = /Device is an?\s+(.+)/) {
 					$pd[$ch][$pd]{devtype} = $type;
+				} elsif (my($fail_ldev_segs) = /Failed logical device segments\s+:\s+(\S+)/) {
+					$pd[$ch][$pd]{fail_ldev_segs} = $fail_ldev_segs;
 				} elsif (/Status of Enclosure/) {
 					# ignored
 				} elsif (my($temp) = /Temperature.*:\s+(.+)/) {
