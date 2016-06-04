@@ -257,6 +257,7 @@ sub parse_ctrl_config {
 				undef($pd);
 			} elsif (my($n) = /Device #(\d+)/) {
 				$pd = int($n);
+				$pd[$ch][$pd]{device_id} = $pd;
 			} elsif (not defined $pd) {
 				if (/Transfer Speed\s+:\s+(.+)/) {
 					# not parsed yet

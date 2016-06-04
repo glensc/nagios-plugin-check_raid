@@ -23,6 +23,7 @@ $VAR1 = {
                                                       [
                                                         {
                                                           'cd' => '0,0(0:0)',
+                                                          'device_id' => 0,
                                                           'devtype' => 'Hard drive',
                                                           'firmware' => '0005',
                                                           'fru' => 'None',
@@ -38,6 +39,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,1(1:0)',
+                                                          'device_id' => 1,
                                                           'devtype' => 'Hard drive',
                                                           'firmware' => '0005',
                                                           'fru' => 'None',
@@ -56,6 +58,7 @@ $VAR1 = {
                                                         undef,
                                                         undef,
                                                         {
+                                                          'device_id' => 6,
                                                           'devtype' => 'Enclosure',
                                                           'firmware' => '0',
                                                           'model' => 'GEM318',

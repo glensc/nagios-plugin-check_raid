@@ -39,6 +39,7 @@ $VAR1 = {
                                                       [
                                                         {
                                                           'cd' => '0,8(8:0)',
+                                                          'device_id' => 0,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -60,6 +61,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,9(9:0)',
+                                                          'device_id' => 1,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -81,6 +83,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,10(10:0)',
+                                                          'device_id' => 2,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -102,6 +105,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,11(11:0)',
+                                                          'device_id' => 3,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -123,6 +127,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,12(12:0)',
+                                                          'device_id' => 4,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -144,6 +149,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,13(13:0)',
+                                                          'device_id' => 5,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -165,6 +171,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,14(14:0)',
+                                                          'device_id' => 6,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -186,6 +193,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,15(15:0)',
+                                                          'device_id' => 7,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -207,6 +215,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,16(16:0)',
+                                                          'device_id' => 8,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -228,6 +237,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,17(17:0)',
+                                                          'device_id' => 9,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -249,6 +259,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,18(18:0)',
+                                                          'device_id' => 10,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -270,6 +281,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,19(19:0)',
+                                                          'device_id' => 11,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -291,6 +303,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,20(20:0)',
+                                                          'device_id' => 12,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -312,6 +325,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,21(21:0)',
+                                                          'device_id' => 13,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -333,6 +347,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,22(22:0)',
+                                                          'device_id' => 14,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -354,6 +369,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,23(23:0)',
+                                                          'device_id' => 15,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -375,6 +391,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,24(24:0)',
+                                                          'device_id' => 16,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -396,6 +413,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,25(25:0)',
+                                                          'device_id' => 17,
                                                           'devtype' => 'Hard drive',
                                                           'esd' => '2,0(0:0)',
                                                           'firmware' => '0008',
@@ -417,6 +435,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '2,0(0:0)',
+                                                          'device_id' => 18,
                                                           'devtype' => 'Enclosure services device',
                                                           'enclosure' => '0',
                                                           'firmware' => '0717',

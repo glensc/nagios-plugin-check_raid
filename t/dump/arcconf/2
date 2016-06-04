@@ -26,6 +26,7 @@ $VAR1 = {
                                                       [
                                                         {
                                                           'cd' => '0,0',
+                                                          'device_id' => 0,
                                                           'devtype' => 'Hard drive',
                                                           'firmware' => 'BA29',
                                                           'fru' => 'None',
@@ -41,6 +42,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '0,1',
+                                                          'device_id' => 1,
                                                           'devtype' => 'Hard drive',
                                                           'firmware' => 'SA05',
                                                           'fru' => 'None',
@@ -56,6 +58,7 @@ $VAR1 = {
                                                         },
                                                         {
                                                           'cd' => '2,0',
+                                                          'device_id' => 2,
                                                           'devtype' => 'Enclosure services device',
                                                           'enclosure' => '0',
                                                           'firmware' => '1.07',
