@@ -4,31 +4,31 @@
 
 ## [4.0.2] - 2016-03-14
 
-- dm: Support for Linux Device-Mapper targets. [#134][], [#130][]
+- dm: Support for Linux Device-Mapper targets. [#134], [#130]
 
 ## [4.0.1] - 2016-02-29
 
-- megacli: Support Predictive Failures as Warning rather than critical [#123][]
-- tw_cli: Implement detailed BBU & Enclosure checks [#131][]
+- megacli: Support Predictive Failures as Warning rather than critical [#123]
+- tw_cli: Implement detailed BBU & Enclosure checks [#131]
 
 NOTES:
 - `tw_cli` users need to update their `sudo` rules
 
 ## [4.0.0] - 2015-10-31
 
-Source code layout changed so that all plugins are in separate file ([#115][]). The
+Source code layout changed so that all plugins are in separate file ([#115]). The
 distribution will still include single `check_raid.pl` file for official
 releases. See [Development](README.md#development) how to roll `check_raid.pl`
 or run from source tree yourself.
 
 ## [3.2.5] - 2015-10-03
 
-- tw_cli: respect bbu monitoring flag in tw_cli (defaults to off). [#117][]
-- hpssacli: make plugin to work if hpacucli is dected as well. [#116][], [#114][]
-- arcconf: parse multiple controllers. [#110][] [#118][]
-- mvcli: new plugin, partial implementation [#92][]
-- improvements to `make rpm`. [#108][]
-- arcconf: bbu monitoring is optional (defaults to off). [#118][]
+- tw_cli: respect bbu monitoring flag in tw_cli (defaults to off). [#117]
+- hpssacli: make plugin to work if hpacucli is dected as well. [#116], [#114]
+- arcconf: parse multiple controllers. [#110] [#118]
+- mvcli: new plugin, partial implementation [#92]
+- improvements to `make rpm`. [#108]
+- arcconf: bbu monitoring is optional (defaults to off). [#118]
 
 NOTES:
 - `arcconf` users need to update their `sudo` rules
@@ -36,41 +36,41 @@ NOTES:
 
 ## [3.2.4] - 2015-07-03
 
-- arcconf: handle unparsed data from Arcconf 1.7. [#99][]
-- cciss: parse spare drive status. [#100][]
-- hide errors from sudo -h when using old sudo. [#88][]
-- don't detect sudo if running as root. fixes [#101][]
-- hpacucli: check for array status. fixes [#98][]
-- hp_msa: allow configuring via plugin-options. [#97][]
-- allow plugin specific options [#58][]
-- make plugins work even if plugin programs not executable for non-root [#104][]
-- arcconf: handle when battery has failed and no status available at all. [#105][]
-- hpacucli: fix for HP H240ar controller. [#106][]
-- add make rpm target [#108][]
-- add missing lsscsi command for cciss. [#109][]
+- arcconf: handle unparsed data from Arcconf 1.7. [#99]
+- cciss: parse spare drive status. [#100]
+- hide errors from sudo -h when using old sudo. [#88]
+- don't detect sudo if running as root. fixes [#101]
+- hpacucli: check for array status. fixes [#98]
+- hp_msa: allow configuring via plugin-options. [#97]
+- allow plugin specific options [#58]
+- make plugins work even if plugin programs not executable for non-root [#104]
+- arcconf: handle when battery has failed and no status available at all. [#105]
+- hpacucli: fix for HP H240ar controller. [#106]
+- add make rpm target [#108]
+- add missing lsscsi command for cciss. [#109]
 
 ## [3.2.3] - 2015-03-25
 
-- arcconf: dead disks have no id, use physical location instead [#90][]
-- sudo: detect if sudo has `-A` option [#88][]
-- mpt: fix uninitialized value in mpt plugin when tool is installed but no controllers are present [#95][]
-- megacli: handle CacheCade devices (ignore for now). [#91][]
-- sas2ircu: handle when no RAID function is available (LSI 9202 16E) [#93][]
-- metastat: plugin is now usable [#38][], [#96][]
-- hpssacli: adding hpssacli support [#94][]
+- arcconf: dead disks have no id, use physical location instead [#90]
+- sudo: detect if sudo has `-A` option [#88]
+- mpt: fix uninitialized value in mpt plugin when tool is installed but no controllers are present [#95]
+- megacli: handle CacheCade devices (ignore for now). [#91]
+- sas2ircu: handle when no RAID function is available (LSI 9202 16E) [#93]
+- metastat: plugin is now usable [#38], [#96]
+- hpssacli: adding hpssacli support [#94]
 
 ## [3.2.2] - 2014-11-15
 
-- cciss: fix parsing enclosure with no enclosure name [#84][]
-- megacli: actually report that cache is disabled [#85][]
-- arcconf: accept 'Ready' as OK drive state [#87][]
-- tw_cli: tweak VERIFYING state [#89][]
-- megacli: JBOD state of physical device is OK as well [#82][]
+- cciss: fix parsing enclosure with no enclosure name [#84]
+- megacli: actually report that cache is disabled [#85]
+- arcconf: accept 'Ready' as OK drive state [#87]
+- tw_cli: tweak VERIFYING state [#89]
+- megacli: JBOD state of physical device is OK as well [#82]
 
 ## [3.2.1] - 2014-10-07
 
-- cciss: fix parsing enclosure with space and no serial [#83][]
-- megacli: alert if default is WriteBack, but current is WriteThrough [#65][]
+- cciss: fix parsing enclosure with space and no serial [#83]
+- megacli: alert if default is WriteBack, but current is WriteThrough [#65]
 
 NOTE: megacli now checks cache state, use `--cache-fail=STATE` if default `WARNING` is not for you.
 
@@ -82,19 +82,19 @@ NOTE: megacli now checks cache state, use `--cache-fail=STATE` if default `WARNI
 NOTE: when using `cciss` plugin with `hpsa` kernel driver, install `lsscsi` program and `cciss_vol_status` 1.10+ to get best results. `cciss_vol_status` v1.10 enables check of individual disks and their S.M.A.R.T status.
 
 ## [3.1.0] - 2014-09-08
-- sudoers: disable requiretty (enabled in CentOS 6.5) [#52][]
-- megacli fixes [#50][], [#53][], [#56][], [#63][], [#74][], [#32][]
-- arcconf fixes [#47][], [#51][], [#55][], [#67][], [#68][], [#66][]
-- mpt-status fixes [#36][], [#57][]
-- add `/opt/bin` to `$PATH` [#54][]
+- sudoers: disable requiretty (enabled in CentOS 6.5) [#52]
+- megacli fixes [#50], [#53], [#56], [#63], [#74], [#32]
+- arcconf fixes [#47], [#51], [#55], [#67], [#68], [#66]
+- mpt-status fixes [#36], [#57]
+- add `/opt/bin` to `$PATH` [#54]
 - add travis integration
-- hpacucli fixes [#62][]
-- mdstat auto-readonly raid fix [#64][]
-- areca fixes [#72][]
-- dmraid detect fixes [#60][]
-- mdstat: do not trigger WARN when checking (even multiple) arrays by default [#77][]
-- fixed behaviour of `--noraid` option [#70][]
-- sas2ircu: add disks check, handle no RAID volumes [#71][]
+- hpacucli fixes [#62]
+- mdstat auto-readonly raid fix [#64]
+- areca fixes [#72]
+- dmraid detect fixes [#60]
+- mdstat: do not trigger WARN when checking (even multiple) arrays by default [#77]
+- fixed behaviour of `--noraid` option [#70]
+- sas2ircu: add disks check, handle no RAID volumes [#71]
 
 NOTES:
 `mpt-status` and `sas2ircu` users need to update their `sudo` rules
@@ -111,8 +111,8 @@ NOTES:
 - sudo: add `-A` option to use askpass and fail sooner if no sudo rules present
 - arcconf: check physical devices
 - megacli: Fixed handling of multiple Virtual Drive without name
-- megacli: Batteries check (megacli), perfdata, longoutput, and `--noraidok` option ([#39][], [#33][])
-- megacli: reports CRITICAL on Battery state Optimal ([#45][], [#46][])
+- megacli: Batteries check (megacli), perfdata, longoutput, and `--noraidok` option ([#39], [#33])
+- megacli: reports CRITICAL on Battery state Optimal ([#45], [#46])
 - set state WARNING when raid is resyncing by default, override with `--resync=STATE`
 - arcconf: check physical devices
 
@@ -122,10 +122,10 @@ NOTES:
 ## [3.0.2] - 2013-11-11
 - Detecting SCSI devices or hosts with `lsscsi`
 - Updated to handle ARCCONF 9.30 output
-- Fixed `-W` option handling ([#29][])
-- `dmraid` support ([#35][])
-- `mdstat` plugin rewritten to handle external devices ([#34][])
-- added `--resync=OK|WARNING|CRITICAL|UNKNOWN` option. defaults to `OK` ([#23][], [#24][], [#28][], [#37][])
+- Fixed `-W` option handling ([#29])
+- `dmraid` support ([#35])
+- `mdstat` plugin rewritten to handle external devices ([#34])
+- added `--resync=OK|WARNING|CRITICAL|UNKNOWN` option. defaults to `OK` ([#23], [#24], [#28], [#37])
 
 ## [3.0.1]
 - Fixes to `cciss` plugin, improvements in `mpt`, `areca`, `mdstat` plugins
