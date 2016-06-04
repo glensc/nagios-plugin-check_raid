@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 15;
+use constant TESTS => 16;
 use Test::More tests => 3 + TESTS * 6;
 use test;
 
@@ -122,14 +122,22 @@ my @tests = (
 		message => 'Controller:Optimal, Battery Status: Failed, Logical Device 0(RAID10):Optimal, Drives: WD-WMATV3471115,WD-WMATV3047731,WD-WMATV3036928,WD-WMATV3086188=Online',
 		c => 'issue105',
 	},
-# test framework doesn't support multiple outputs for same command
 	{
+		# test framework doesn't support multiple outputs for same command
 		skip => 1,
 		status => CRITICAL,
 		getstatus => 'issue110/getstatus',
 		getconfig => 'issue110/getconfig-1',
 		message => 'Controller:Optimal, Defunct drives:1, ZMM Status: ZMM Optimal, Controller:Optimal, Defunct drives:1, ZMM Status: ZMM Optimal, Logical Device 0(Main0):Optimal, Drives: OCZ-B8AV7L1U72V0GT61,22R0A094FRG8,22R0A092FRG8,22R0A03GFRG8,22R0A091FRG8,22R0A03HFRG8,22R0A0A9FRG8,22R0A0A4FRG8=Online',
 		c => 'issue110',
+	},
+	{
+		status => CRITICAL,
+		getstatus => '86/arcconf-getstatus.out',
+		getconfig => '86/arcconf-getconfig.out',
+		message => 'Controller:Optimal, Defunct drives:1, Logical Device 0(raid1):Degraded, '.
+			'Drives: =Failed 3KT2ZPHH000076165TAD=Online',
+		c => '86',
 	},
 );
 

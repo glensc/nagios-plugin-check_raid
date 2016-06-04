@@ -1,0 +1,103 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Channel description                      : SCSI
+   Controller Model                         : Adaptec 2025S
+   Controller Serial Number                 : BAD0
+   Physical Slot                            : 6
+   Installed memory                         : 64 MB
+   Copyback                                 : Disabled
+   Background consistency check             : Disabled
+   Automatic Failover                       : Enabled
+   Stayawake period                         : Disabled
+   Spinup limit internal drives             : 0
+   Spinup limit external drives             : 0
+   Defunct disk drive count                 : 1
+   Logical devices/Failed/Degraded          : 1/0/1
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 4.2-1 (7373)
+   Firmware                                 : 4.2-1 (7373)
+   Driver                                   : 1.2-0 (30300)
+   Boot Flash                               : 0.0-0 (0)
+   --------------------------------------------------------
+   Controller Battery Information
+   --------------------------------------------------------
+   Status                                   : Not Installed
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical device number 0
+   Logical device name                      : raid1
+   RAID level                               : 1
+   Status of logical device                 : Degraded
+   Size                                     : 70006 MB
+   Read-cache mode                          : Enabled
+   Write-cache mode                         : Enabled (write-back)
+   Write-cache setting                      : Enabled (write-back)
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : No
+   Bootable                                 : Yes
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (0,0) 3KT2ZPHH000076165TAD
+   Segment 1                                : Missing
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+   Channel #0:
+      Transfer Speed                        : Ultra320
+      Initiator at SCSI ID 7
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Supported                          : Yes
+         Transfer Speed                     : Ultra320
+         Reported Channel,Device(T:L)       : 0,0(0:0)
+         Vendor                             : SEAGATE
+         Model                              : ST373207LC
+         Firmware                           : 0003
+         Serial number                      : 3KT2ZPHH000076165TAD
+         Size                               : 70007 MB
+         Write Cache                        : Unknown
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+      Device #1
+         Device is a Hard drive
+         State                              : Failed
+         Failed logical device segments     : True
+         Supported                          : Yes
+         Reported Channel,Device(T:L)       : 0,1(1:0)
+         Vendor                             : *MISSING*
+         Model                              : 
+         Firmware                           : 
+         Size                               : 0 MB
+         Write Cache                        : Unknown
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+      Device #6
+         Device is an Enclosure
+         Type                               : SAF-TE
+         Vendor                             : SUPER
+         Model                              : GEM318
+         Firmware                           : 0
+         Status of Enclosure
+            Temperature status              : Normal
+   Channel #1:
+      Transfer Speed                        : Ultra320
+      Initiator at SCSI ID 7
+      No physical drives attached
+
+
+Command completed successfully.
