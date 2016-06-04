@@ -1,4 +1,4 @@
-## 4.0.3 - UNRELEASED
+## [4.0.3] - UNRELEASED
 
 - arcconf: parse Unparsed Physical Device data [#86]
 
@@ -229,6 +229,7 @@ NOTES:
 [#130]: https://github.com/glensc/nagios-plugin-check_raid/issues/130
 [#86]: https://github.com/glensc/nagios-plugin-check_raid/issues/86
 
+[4.0.3]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.2...master
 [4.0.2]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.1...4.0.2
 [4.0.1]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/glensc/nagios-plugin-check_raid/compare/3.2.5...4.0.0
