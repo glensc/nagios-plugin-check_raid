@@ -1,5 +1,7 @@
 ## 4.0.3 - UNRELEASED
 
+- arcconf: parse Unparsed Physical Device data [#86]
+
 ## [4.0.2] - 2016-03-14
 
 - dm: Support for Linux Device-Mapper targets. [#134][], [#130][]
@@ -225,6 +227,7 @@ NOTES:
 [#131]: https://github.com/glensc/nagios-plugin-check_raid/pull/131
 [#134]: https://github.com/glensc/nagios-plugin-check_raid/pull/134
 [#130]: https://github.com/glensc/nagios-plugin-check_raid/issues/130
+[#86]: https://github.com/glensc/nagios-plugin-check_raid/issues/86
 
 [4.0.2]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.1...4.0.2
 [4.0.1]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.0...4.0.1
