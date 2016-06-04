@@ -135,8 +135,7 @@ my @tests = (
 		status => CRITICAL,
 		getstatus => '86/arcconf-getstatus.out',
 		getconfig => '86/arcconf-getconfig.out',
-		message => 'Controller:Optimal, Defunct drives:1, Logical Device 0(raid1):Degraded, '.
-			'Drives: =Failed 3KT2ZPHH000076165TAD=Online',
+		message => 'Controller:Optimal, Defunct drives:1, Logical Device 0(raid1):Degraded, Drives: 0,1(1:0)=Failed 3KT2ZPHH000076165TAD=Online',
 		c => '86',
 	},
 );

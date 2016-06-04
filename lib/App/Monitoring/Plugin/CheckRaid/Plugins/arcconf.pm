@@ -280,7 +280,7 @@ sub parse_ctrl_config {
 					# allow edits, i.e removed 'Vendor' value from test data
 					$pd[$ch][$pd]{vendor} = $vnd;
 				} elsif (my($mod) = /Model\s+:\s+(.*)/) {
-					$pd[$ch][$pd]{model} = $mod || '*MISSING*';
+					$pd[$ch][$pd]{model} = $mod;
 				} elsif (my($fw) = /Firmware\s+:\s*(.*)/) {
 					$pd[$ch][$pd]{firmware} = $fw;
 				} elsif (my($sn) = /Serial number\s+:\s+(.+)/) {
@@ -475,7 +475,7 @@ sub check_physical {
 				$this->critical;
 			}
 
-			my $id = $pd->{serial} || $pd->{wwn} || $pd->{location};
+			my $id = $pd->{serial} || $pd->{wwn} || $pd->{location} || $pd->{cd};
 			push(@{$pd{$pd->{status}}}, $id);
 		}
 	}
