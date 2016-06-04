@@ -306,8 +306,10 @@ sub parse_ctrl_config {
 					$pd[$ch][$pd]{enclosure} = $eid;
 				} elsif (my($t) = /Type\s+:\s+(.+)/) {
 					$pd[$ch][$pd]{type} = $t;
-				} elsif (my($smart) = /S\.M\.A\.R\.T\.(?:\s+warnings)?\s+:\s+(.+)/) {
+				} elsif (my($smart) = /S\.M\.A\.R\.T\.\s+:\s+(.+)/) {
 					$pd[$ch][$pd]{smart} = $smart;
+				} elsif (my($smart_warn) = /S\.M\.A\.R\.T\.\s+warnings\s+:\s+(.+)/) {
+					$pd[$ch][$pd]{smart_warn} = $smart_warn;
 				} elsif (my($speed) = /Transfer Speed\s+:\s+(.+)/) {
 					$pd[$ch][$pd]{speed} = $speed;
 				} elsif (my($e, $s) = /Reported Location\s+:\s+(?:Enclosure|Connector) (\d+), (?:Slot|Device) (\d+)/) {
