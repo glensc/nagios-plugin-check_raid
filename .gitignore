@@ -1,7 +1,8 @@
-# editor backups
+# editor noise
 *~
 *.sw[op]
 *.bak
+/.idea/
 
 # lockfile by SerialLine
 LCK..ttyNOTTY
@@ -17,6 +18,8 @@ LCK..ttyNOTTY
 # perl dist
 /fatpack/
 /local/
+/cache/
+/blib/
 /*.tar.gz
 /MANIFEST
 /MYMETA.json
