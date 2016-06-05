@@ -175,7 +175,7 @@ sub check {
 	my $c = $this->parse;
 
 	if (!@$c) {
-		$this->warning->message("No devices to check");
+		$this->noraid->message("No devices to check");
 		return;
 	}
 

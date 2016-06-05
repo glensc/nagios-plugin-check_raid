@@ -62,7 +62,7 @@ would define option "serial" for "hp_msa" plugin with value "/dev/ttyS2".
 );
 $mp->add_arg(
 	spec => 'noraid=s',
-	help => 'Return STATE if no RAID controller is found. Defaults to UNKNOWN',
+	help => 'Return STATE if no RAID volumes are found. Defaults to UNKNOWN',
 );
 $mp->add_arg(
 	spec => 'resync=s',
@@ -110,7 +110,7 @@ if ($mp->opts->get('bbu-monitoring')) {
 my %state_flags = (
 	'resync' => 'resync_status',
 	'check' => 'check_status',
-	'noraid' => 'noraid_state',
+	'noraid' => 'noraid_status',
 	'bbulearn' => 'bbulearn_status',
 	'cache-fail' => 'cache_fail_status',
 );
@@ -147,7 +147,7 @@ if ($mp->opts->debug) {
 
 my @plugins = $mc->active_plugins;
 if (!@plugins) {
-	$mp->plugin_exit($plugin_options{options}{noraid_state}, "No active plugins (No RAID found)");
+	$mp->plugin_exit($plugin_options{options}{noraid_status}, "No active plugins (No RAID found)");
 }
 
 if ($mp->opts->sudoers) {
@@ -184,10 +184,10 @@ foreach my $plugin (@plugins) {
 		$message .= "$pn:[Plugin error]";
 		next;
 	}
-	if ($plugin->message or $plugin->{options}{noraid_state} == $ERRORS{UNKNOWN}) {
+	if ($plugin->message or $plugin->{options}{noraid_status} == $ERRORS{UNKNOWN}) {
 		$status = $plugin->status if $plugin->status > $status;
 	} else {
-		$status = $plugin->{options}{noraid_state} if $plugin->{options}{noraid_state} > $status;
+		$status = $plugin->{options}{noraid_status} if $plugin->{options}{noraid_status} > $status;
 	}
 	$message .= '; ' if $message;
 	$message .= "$pn:[".$plugin->message."]";
@@ -206,8 +206,8 @@ if ($message) {
 		print "UNKNOWN: ";
 	}
 	print "$message\n";
-} elsif ($plugin::options{noraid_state} != $ERRORS{UNKNOWN}) {
-	$status = $plugin::options{noraid_state};
+} elsif ($plugin::options{noraid_status} != $ERRORS{UNKNOWN}) {
+	$status = $plugin::options{noraid_status};
 	print "No RAID configuration found\n";
 } else {
 	$status = $ERRORS{UNKNOWN};

@@ -13,8 +13,8 @@ our %options = (
 	# status to set when RAID is in resync state
 	resync_status => $ERRORS{WARNING},
 
-	# Status code to use when no raid was detected
-	noraid_state => $ERRORS{UNKNOWN},
+	# Status code to use when no raid volumes were detected
+	noraid_status => $ERRORS{UNKNOWN},
 
 	# status to set when RAID is in check state
 	check_status => $ERRORS{OK},
@@ -166,6 +166,14 @@ sub resync {
 sub check_status {
 	my ($this) = @_;
 	$this->status($this->{options}{check_status});
+	return $this;
+}
+
+# helper to set status for no raid condition
+# returns $this to allow fluent api
+sub noraid {
+	my ($this) = @_;
+	$this->status($this->{options}{noraid_status});
 	return $this;
 }
 
