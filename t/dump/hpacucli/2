@@ -1,0 +1,24 @@
+$VAR1 = {
+          'luns' => {
+                      'chassisname=MY STORAGE' => {
+                                                    'A' => [
+                                                             'OK',
+                                                             {
+                                                               '1' => 'Interim Recovery Mode'
+                                                             }
+                                                           ]
+                                                  },
+                      'slot=0' => {
+                                    'A' => [
+                                             'OK',
+                                             {
+                                               '1' => 'Interim Recovery Mode'
+                                             }
+                                           ]
+                                  }
+                    },
+          'targets' => {
+                         'chassisname=MY STORAGE' => 'MY STORAGE',
+                         'slot=0' => 'Smart Array P400i'
+                       }
+        };

@@ -1,0 +1,8 @@
+$VAR1 = {
+          'luns' => {
+                      'slot=ATTR_VALUE_SLOT_UNKNOWN' => {}
+                    },
+          'targets' => {
+                         'slot=ATTR_VALUE_SLOT_UNKNOWN' => 'Smart Array P400'
+                       }
+        };
