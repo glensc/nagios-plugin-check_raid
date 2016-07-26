@@ -6,8 +6,8 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 6;
-use Test::More tests => 1 + TESTS * 5;
+use constant TESTS => 7;
+use Test::More tests => 1 + TESTS * 6;
 use test;
 
 my @tests = (
@@ -52,6 +52,13 @@ my @tests = (
 		logical => 'issue106/logical.status',
 		message => 'Smart HBA H240ar: Array A(OK)[LUN1:OK]',
 		c => '6',
+	},
+	{
+		status => UNKNOWN,
+		controller => '145/controller',
+		logical => '145/logicaldrive',
+		message => 'Smart HBA H244br: Array A(OK)[LUN1:OK], Smart Array P840: Array A(OK)[LUN1:OK]',
+		c => '145',
 	},
 );
 
