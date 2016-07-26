@@ -54,7 +54,7 @@ my @tests = (
 		c => '6',
 	},
 	{
-		status => UNKNOWN,
+		status => OK,
 		controller => '145/controller',
 		logical => '145/logicaldrive',
 		message => 'Smart HBA H244br: Array A(OK)[LUN1:OK], Smart Array P840: Array A(OK)[LUN1:OK]',

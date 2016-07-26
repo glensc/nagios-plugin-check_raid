@@ -8,17 +8,17 @@ $VAR1 = {
                                              }
                                            ]
                                   },
-                      'slot=1 (HBA Mode)' => {
-                                               'A' => [
-                                                        'OK',
-                                                        {
-                                                          '1' => 'OK'
-                                                        }
-                                                      ]
+                      'slot=1' => {
+                                    'A' => [
+                                             'OK',
+                                             {
+                                               '1' => 'OK'
                                              }
+                                           ]
+                                  }
                     },
           'targets' => {
                          'slot=0' => 'Smart HBA H244br',
-                         'slot=1 (HBA Mode)' => 'Smart Array P840'
+                         'slot=1' => 'Smart Array P840'
                        }
         };
