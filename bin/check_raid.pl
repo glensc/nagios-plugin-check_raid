@@ -1,4 +1,11 @@
 #!/usr/bin/perl
+#
+# This is development version of the check_raid.pl plugin
+# If you are running this file directly, you are doing it wrong
+#
+# See installation notes:
+# https://github.com/glensc/nagios-plugin-check_raid#installing
+#
 use Monitoring::Plugin 0.37;
 use App::Monitoring::Plugin::CheckRaid;
 use App::Monitoring::Plugin::CheckRaid::Sudoers;
