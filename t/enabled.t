@@ -37,7 +37,6 @@ my %blacklist = map { $_ => 1 } qw(
 	mvcli
 );
 
-use Monitoring::Plugin ();
 use App::Monitoring::Plugin::CheckRaid;
 
 my $mc = App::Monitoring::Plugin::CheckRaid->new(%params);
