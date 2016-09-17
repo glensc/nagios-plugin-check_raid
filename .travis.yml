@@ -10,5 +10,11 @@ perl:
   - "5.10"
   - "5.8"
 
+before_script:
+  - cpanm App::FatPacker
+  - cpanm App::FatPacker::Simple
+
 script:
   - make pack
+
+# vim:ft=yaml:et:ts=2:sw=2
