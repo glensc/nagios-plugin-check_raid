@@ -15,10 +15,6 @@ cache:
   directories:
     - cache
 
-# skip install step. we run cpanm ourselves with caching options
-# https://docs.travis-ci.com/user/customizing-the-build/#Skipping-the-Installation-Step
-install: true
-
 script:
   - make pack
   - make test
