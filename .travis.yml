@@ -14,10 +14,6 @@ cache:
   directories:
     - cache
 
-before_script:
-  - cpanm -n App::FatPacker
-  - cpanm -n App::FatPacker::Simple
-
 script:
   - make pack
 
