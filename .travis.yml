@@ -10,6 +10,10 @@ perl:
   - "5.10"
   - "5.8"
 
+cache:
+  directories:
+    - cache
+
 before_script:
   - cpanm App::FatPacker
   - cpanm App::FatPacker::Simple
