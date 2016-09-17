@@ -6,6 +6,8 @@ PLUGINDIR       := /usr/lib/nagios/plugins
 PLUGINCONF      := /etc/nagios/plugins
 CACHE_DIR       := $(CURDIR)/cache
 CPANM_CACHE     := $(CACHE_DIR)/cpanm
+export PERL5LIB	:= $(CURDIR)/sysdeps/lib/perl5
+PATH			:= $(CURDIR)/sysdeps/bin:$(PATH)
 
 # rpm version related macros
 RPM_NAME        := nagios-plugin-$(PLUGIN)
@@ -26,6 +28,10 @@ all:
 test:
 	perl -MTest::Harness -e 'runtests @ARGV' t/*.t
 
+builddeps:
+	cpanm -n -L sysdeps App::FatPacker
+	cpanm -n -L sysdeps App::FatPacker::Simple
+
 pack:
 	rm -f $(PLUGIN_SCRIPT)
 	$(MAKE) $(PLUGIN_SCRIPT)
@@ -42,7 +48,7 @@ installdeps:
 # ==> Found dependencies: Params::Validate, Class::Accessor, Config::Tiny, Math::Calc::Units
 exclude_fatpack_modules := Module::Build,CPAN::Meta,Module::CPANfile,ExtUtils::MakeMaker::CPANfile
 
-fatpack: installdeps
+fatpack: installdeps builddeps
 	fatpack-simple \
 		--exclude-strip='^lib/*' \
 		--exclude-strip='^bin/*' \
