@@ -20,8 +20,8 @@ cache:
 install: true
 
 script:
-  - make test
   - make pack
+  - make test
 
 # https://docs.travis-ci.com/user/deployment/releases
 deploy:
