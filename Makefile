@@ -48,14 +48,14 @@ installdeps:
 # ==> Found dependencies: Params::Validate, Class::Accessor, Config::Tiny, Math::Calc::Units
 exclude_fatpack_modules := Module::Build,CPAN::Meta,Module::CPANfile,ExtUtils::MakeMaker::CPANfile
 
-fatpack: installdeps builddeps
+fatpack: installdeps
 	fatpack-simple \
 		--exclude-strip='^lib/*' \
 		--exclude-strip='^bin/*' \
 		--exclude=$(exclude_fatpack_modules) \
 		bin/$(PLUGIN_SCRIPT) $(options)
 
-$(PLUGIN_SCRIPT): bin/$(PLUGIN_SCRIPT)
+$(PLUGIN_SCRIPT): bin/$(PLUGIN_SCRIPT) builddeps
 	# ensure cpanm is present
 	cpanm --version
 
