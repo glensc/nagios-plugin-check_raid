@@ -6,6 +6,7 @@ PLUGINDIR       := /usr/lib/nagios/plugins
 PLUGINCONF      := /etc/nagios/plugins
 CACHE_DIR       := $(CURDIR)/cache
 CPANM_CACHE     := $(CACHE_DIR)/cpanm
+CPANM			:= cpanm --cascade-search --save-dists=$(CPANM_CACHE) --mirror=$(CPANM_CACHE) --mirror=http://search.cpan.org/CPAN
 export PERL5LIB	:= $(CURDIR)/sysdeps/lib/perl5
 PATH			:= $(CURDIR)/sysdeps/bin:$(PATH)
 
@@ -29,19 +30,14 @@ test:
 	perl -MTest::Harness -e 'runtests @ARGV' t/*.t
 
 builddeps:
-	cpanm -n -L sysdeps App::FatPacker
-	cpanm -n -L sysdeps App::FatPacker::Simple
+	$(CPANM) -n -L sysdeps App::FatPacker App::FatPacker::Simple
 
 pack:
 	rm -f $(PLUGIN_SCRIPT)
 	$(MAKE) $(PLUGIN_SCRIPT)
 
 installdeps:
-	cpanm --installdeps -Llocal -n . \
-		--cascade-search \
-		--save-dists=$(CPANM_CACHE) \
-		--mirror=$(CPANM_CACHE) \
-		--mirror=http://search.cpan.org/CPAN
+	$(CPANM) --installdeps -Llocal -n .
 
 # Params::Validate adds some Module::Build dependency, but Monitoring-Plugin needs just:
 # Configuring Monitoring-Plugin-0.39 ... OK
@@ -57,7 +53,7 @@ fatpack: installdeps
 
 $(PLUGIN_SCRIPT): bin/$(PLUGIN_SCRIPT) builddeps
 	# ensure cpanm is present
-	cpanm --version
+	$(CPANM) --version
 
 	# need 0.10.0 of fatpacker for Module::Pluggable to work
 	perl -e 'use App::FatPacker 0.10.0'
