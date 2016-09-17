@@ -17,4 +17,18 @@ cache:
 script:
   - make pack
 
+# https://docs.travis-ci.com/user/deployment/releases
+deploy:
+  provider: releases
+  api_key:
+    secure: lE3YmAY2AR4QJE+62fFljzG9TruoNgEcg/+MxokLsufgN3ZDTKXVbyFaJySIfFRJ3VezRvh84JLzrcOeQZxN14Qruqnp1ZJ5NoMDT9HUxBJmikBTfopJobUFeQPvZXBb2o+XrF57KNtRhFGLoeXMvMVoPO9IlQ1zv4Z6dtJe2GM=
+  file:
+    - check_raid.pl
+  skip_cleanup: true
+  on:
+    repo: glensc/nagios-plugin-check_raid
+    # deploy from 5.22 version, the other versions somewhy bundle too much dependencies
+    perl: '5.22'
+    tags: true
+
 # vim:ft=yaml:et:ts=2:sw=2
