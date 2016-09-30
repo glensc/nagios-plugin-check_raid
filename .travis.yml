@@ -15,8 +15,11 @@ cache:
   directories:
     - cache
 
+matrix:
+  fast_finish: true
+
 script:
-  - make pack
+  - if [ "$TRAVIS_PERL_VERSION" "5.22" ]; then make pack; fi
   - make test
 
 # https://docs.travis-ci.com/user/deployment/releases
