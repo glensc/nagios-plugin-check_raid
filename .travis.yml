@@ -19,7 +19,8 @@ matrix:
   fast_finish: true
 
 script:
-  - if [ "$TRAVIS_PERL_VERSION" "5.22" ]; then make pack; fi
+  - set -e
+  - if [ "$TRAVIS_PERL_VERSION" = "5.22" ]; then make pack; fi
   - make test
 
 # https://docs.travis-ci.com/user/deployment/releases
