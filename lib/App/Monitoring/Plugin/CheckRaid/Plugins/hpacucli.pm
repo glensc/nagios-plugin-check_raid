@@ -156,6 +156,9 @@ sub check {
 			# extra details for non-normal arrays
 			foreach my $lun (sort { $a cmp $b } keys %$ld) {
 				my $s = $ld->{$lun};
+				if($lun ne 'OK'){
+					$this->warning;
+				}
 				push(@astatus, "LUN$lun:$s");
 
 				if ($s eq 'OK' or $s eq 'Disabled') {
