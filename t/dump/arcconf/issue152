@@ -1,0 +1,54 @@
+$VAR1 = {
+          'controllers' => {
+                             '1' => {
+                                      'controller' => {
+                                                        'battery_status' => 'Not Installed',
+                                                        'defunct_count' => 0,
+                                                        'logical_count' => 1,
+                                                        'logical_degraded' => 0,
+                                                        'logical_failed' => 0,
+                                                        'status' => 'Optimal'
+                                                      },
+                                      'logical' => [
+                                                     {
+                                                       'failed_stripes' => 'No',
+                                                       'id' => 0,
+                                                       'raid' => '5',
+                                                       'size' => '1906678 MB'
+                                                     }
+                                                   ],
+                                      'physical' => [
+                                                      [
+                                                        {
+                                                          'cd' => '0,1(1:0)',
+                                                          'device_id' => 0,
+                                                          'devtype' => 'Hard drive',
+                                                          'firmware' => 'JP4OA3EA',
+                                                          'fru' => 'None',
+                                                          'location' => '0:1',
+                                                          'model' => 'HUA722010CLA330',
+                                                          'ncq' => 'Enabled',
+                                                          'power_state' => 'Full rpm',
+                                                          'power_states' => 'Full rpm,Powered off,Reduced rpm',
+                                                          'serial' => 'JPW9K0J80A2PLL',
+                                                          'size' => '953869 MB',
+                                                          'smart' => 'No',
+                                                          'smart_warn' => '0',
+                                                          'speed' => 'SATA 3.0 Gb/s',
+                                                          'ssd' => 'No',
+                                                          'status' => 'Online',
+                                                          'supported' => 'Yes',
+                                                          'temperature' => 'Not Supported',
+                                                          'vendor' => 'Hitachi',
+                                                          'write_cache' => 'Disabled (write-through)',
+                                                          'wwn' => '50000D1101D8A111'
+                                                        }
+                                                      ]
+                                                    ]
+                                    }
+                           },
+          'ctrl_count' => 1,
+          'tasks' => {
+                       'operation' => 'None'
+                     }
+        };

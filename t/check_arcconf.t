@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 16;
+use constant TESTS => 17;
 use Test::More tests => 3 + TESTS * 6;
 use test;
 
@@ -137,6 +137,13 @@ my @tests = (
 		getconfig => '86/arcconf-getconfig.out',
 		message => 'Controller:Optimal, Defunct drives:1, Logical Device 0(raid1):Degraded, Drives: 0,1(1:0)=Failed 3KT2ZPHH000076165TAD=Online',
 		c => '86',
+	},
+	{
+		status => CRITICAL,
+		getstatus => 'issue152/arc2_getstatus.txt',
+		getconfig => 'issue152/arc2_getconfig.txt',
+		message => 'Controller:Optimal, Logical Device 0:, Drives: JPW9K0J80A2PLL=Online',
+		c => 'issue152',
 	},
 );
 
