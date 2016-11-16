@@ -344,7 +344,7 @@ sub parse_ctrl_config {
 			}
 
 		} elsif ($section =~ /Logical (device|drive) information/) {
-			if (my($n) = /Logical (?:device|drive) number (\d+)/) {
+			if (my($n) = /Logical (?:[Dd]evice|drive) number (\d+)/) {
 				$ld = int($n);
 				$ld[$ld]{id} = $n;
 
