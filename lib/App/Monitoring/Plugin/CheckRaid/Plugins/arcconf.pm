@@ -252,10 +252,12 @@ sub parse_ctrl_config {
 			}
 
 		} elsif ($section eq 'Physical Device information') {
-			if (my($c) = /Channel #(\d+)/) {
+			if (defined($subsection) && $subsection eq 'Device Phy Information') {
+				# not parsed yet
+			} elsif (my($c) = /Channel #(\d+)/) {
 				$ch = int($c);
 				undef($pd);
-			} elsif (my($n) = /Device #(\d+)/) {
+			} elsif (my($n) = /^\s+Device #(\d+)/) {
 				$pd = int($n);
 				$pd[$ch][$pd]{device_id} = $pd;
 			} elsif (not defined $pd) {
@@ -374,6 +376,8 @@ sub parse_ctrl_config {
 				#   Defunct segments                         : No]
 			}
 		} elsif ($section =~ /MaxCache 3\.0 information/) {
+			# not parsed yet
+		} elsif ($section eq 'Connector information') {
 			# not parsed yet
 		} else {
 			warn "NOT PARSED: [$section] [$_]";
