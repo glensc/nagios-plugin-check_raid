@@ -1,0 +1,15 @@
+$VAR1 = {
+          'luns' => {
+                      'slot=0b' => {
+                                     'A' => [
+                                              'OK',
+                                              {
+                                                '1' => 'OK'
+                                              }
+                                            ]
+                                   }
+                    },
+          'targets' => {
+                         'slot=0b' => 'Dynamic Smart Array B140i'
+                       }
+        };
