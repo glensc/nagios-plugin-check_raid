@@ -6,9 +6,9 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant ACTIVE_TESTS => 1;
+use constant ACTIVE_TESTS => 2;
 use constant INACTIVE_TESTS => 1;
-use Test::More tests => 1 + ACTIVE_TESTS * 5 + INACTIVE_TESTS * 3;
+use Test::More tests => 1 + ACTIVE_TESTS * 3 + INACTIVE_TESTS * 3;
 use test;
 
 my @tests = (
@@ -22,6 +22,12 @@ my @tests = (
 		active => 0,
 		dmraid => 'pr60',
 	},
+	{
+		active => 0,
+		status => OK,
+		dmraid => 'issue129/dmraid-r',
+		message => '',
+	},
 );
 
 # test that plugin can be created
@@ -32,18 +38,17 @@ foreach my $test (@tests) {
 		commands => {
 			'dmraid' => ['<', TESTDIR . '/data/dmraid/' .$test->{dmraid} ],
 		},
+		options => {
+			'dmraid-enabled' => 1,
+		},
 	);
 
 	ok($plugin, "plugin created");
 
-	my $active = $plugin->active;
-	ok($active == $test->{active}, "active matches");
-
-	# can't check if plugin not active
-	next unless $active;
-
 	$plugin->check;
 	ok(1, "check ran");
+
+	next unless $test->{active};
 
 	ok(defined($plugin->status), "status code set");
 	is($plugin->status, $test->{status}, "status code matches");
