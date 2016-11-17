@@ -259,21 +259,21 @@ sub process_controller_information {
 	$c->{status} = $cs->{'Controller Status'};
 
 	if (exists $cs->{$s = 'Defunct Disk Drive Count'} || exists $cs->{$s = 'Defunct disk drive count'}) {
-		$c->{defunct_count} = $cs->{$s};
+		$c->{defunct_count} = int($cs->{$s});
 	}
 
 	if ($s = $cs->{'Logical devices/Failed/Degraded'}) {
 		my($td, $fd, $dd) = $s =~ m{(\d+)/(\d+)/(\d+)};
 		$c->{logical_count} = int($td);
 		$c->{logical_failed} = int($fd);
-		$c->{logical_degraded} = int($fd); # must be $dd
+		$c->{logical_degraded} = int($dd);
 	}
 	# ARCCONF 9.30: Logical drives/Offline/Critical
 	if ($s = $cs->{'Logical drives/Offline/Critical'}) {
 		my($td2, $fd2, $dd2) = $s =~ m{(\d+)/(\d+)/(\d+)};
 		$c->{logical_count} = int($td2);
 		$c->{logical_offline} = int($fd2);
-		$c->{logical_critical} = int($fd2); # must be $dd2c
+		$c->{logical_critical} = int($dd2);
 	}
 
 	$cs = $data->{'Controller Battery Information'};

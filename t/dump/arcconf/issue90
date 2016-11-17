@@ -3,9 +3,9 @@ $VAR1 = {
                              '1' => {
                                       'controller' => {
                                                         'battery_status' => 'Not Installed',
-                                                        'defunct_count' => 1,
+                                                        'defunct_count' => '1',
                                                         'logical_count' => 1,
-                                                        'logical_critical' => 1,
+                                                        'logical_critical' => 0,
                                                         'logical_offline' => 1,
                                                         'status' => 'Okay'
                                                       },

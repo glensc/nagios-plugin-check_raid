@@ -60,10 +60,10 @@ my @tests = (
 		c => 'issue47_1',
 	},
 	{
-		status => WARNING,
+		status => CRITICAL,
 		getstatus => 'issue47/getstatus2',
 		getconfig => 'issue47/getconfig2',
-		message => 'Controller:Optimal, ZMM Status: ZMM not installed, Logical device #0: Rebuild: In Progress 1%, Logical Device 0(data):Degraded, Drives: WD-*******,WD-*******,WD-*******=Online WD-*******=Rebuilding',
+		message => 'Controller:Optimal, Degraded drives:1, Degraded drives:1, ZMM Status: ZMM not installed, Logical device #0: Rebuild: In Progress 1%, Logical Device 0(data):Degraded, Drives: WD-*******,WD-*******,WD-*******=Online WD-*******=Rebuilding',
 		c => 'issue47_2',
 	},
 	{
@@ -105,7 +105,7 @@ my @tests = (
 		status => CRITICAL,
 		getstatus => 'issue90/b',
 		getconfig => 'issue90/c',
-		message => 'Controller:Okay, Defunct drives:1, Offline drives:1, Critical drives:1, Logical Device 0(ARRAY01):Offline, Drives: 0:5=Defunct 9QJ40LQ5,9QJ3ZX84,9QJ3Y860,9QJ3ZX0D,9QJ3ZXZ4=Online',
+		message => 'Controller:Okay, Defunct drives:1, Offline drives:1, Logical Device 0(ARRAY01):Offline, Drives: 0:5=Defunct 9QJ40LQ5,9QJ3ZX84,9QJ3Y860,9QJ3ZX0D,9QJ3ZXZ4=Online',
 		c => 'issue90',
 	},
 	{
@@ -135,7 +135,7 @@ my @tests = (
 		status => CRITICAL,
 		getstatus => '86/arcconf-getstatus.out',
 		getconfig => '86/arcconf-getconfig.out',
-		message => 'Controller:Optimal, Defunct drives:1, Logical Device 0(raid1):Degraded, Drives: 0,1(1:0)=Failed 3KT2ZPHH000076165TAD=Online',
+		message => 'Controller:Optimal, Defunct drives:1, Degraded drives:1, Degraded drives:1, Logical Device 0(raid1):Degraded, Drives: 0,1(1:0)=Failed 3KT2ZPHH000076165TAD=Online',
 		c => '86',
 	},
 	{

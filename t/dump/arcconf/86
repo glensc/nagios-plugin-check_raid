@@ -5,7 +5,7 @@ $VAR1 = {
                                                         'battery_status' => 'Not Installed',
                                                         'defunct_count' => 1,
                                                         'logical_count' => 1,
-                                                        'logical_degraded' => 0,
+                                                        'logical_degraded' => 1,
                                                         'logical_failed' => 0,
                                                         'status' => 'Optimal'
                                                       },
