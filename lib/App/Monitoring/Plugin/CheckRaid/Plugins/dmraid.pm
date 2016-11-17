@@ -17,6 +17,9 @@ sub commands {
 sub active {
 	my ($this) = @_;
 
+	# allow --plugin-option=dmraid-enabled to force this plugin to be enabled
+	return 1 if exists $this->{options}{'dmraid-enabled'};
+
 	# return if parent said NO
 	my $res = $this->SUPER::active(@_);
 	return $res unless $res;
