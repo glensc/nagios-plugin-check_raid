@@ -58,6 +58,17 @@ sub filter_targets {
 	return \%res;
 }
 
+# split:
+# '(Embedded) (RAID Mode)'
+# to:
+# [ 'Embedded', 'RAID Mode' ]
+sub split_controller_modes {
+	my ($modes) = @_;
+	my @parts;
+	push @parts, $1 while $modes =~ /\((.*?)\)/g;
+	return \@parts;
+}
+
 sub scan_targets {
 	my $this = shift;
 
@@ -75,14 +86,19 @@ sub scan_targets {
 	my $fh = $this->cmd('controller status');
 	while (<$fh>) {
 		# Numeric slot
-		if (my($controller, $slot) = /^(\S.+) in Slot (.+)/) {
-			$slot =~ s/ \(RAID Mode\)//;
-			$slot =~ s/ \(HBA Mode\)//;
-			$slot =~ s/ \(Embedded\)//;
+		if (my($controller, $slot, $modes) = /
+				^(\S.+)\sin\sSlot
+				\s(\S+?) # slot number
+				(?:     # optional mode
+					\s(\(.+\))
+				)?$
+			/x) {
+
 			$targets{"slot=$slot"} = {
 				target => "slot=$slot",
 				controller => $controller,
 				slot => $slot,
+				modes => split_controller_modes($modes || ''),
 			};
 			$this->unknown if $slot !~ /^\d+/;
 			next;

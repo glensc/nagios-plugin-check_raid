@@ -39,6 +39,7 @@ $VAR1 = [
                          }
                        ],
             'controller' => 'Smart Array P410',
+            'modes' => [],
             'slot' => '1',
             'target' => 'slot=1'
           }

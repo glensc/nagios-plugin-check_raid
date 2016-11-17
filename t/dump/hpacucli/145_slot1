@@ -15,6 +15,9 @@ $VAR1 = [
                          }
                        ],
             'controller' => 'Smart Array P840',
+            'modes' => [
+                         'HBA Mode'
+                       ],
             'slot' => '1',
             'target' => 'slot=1'
           }

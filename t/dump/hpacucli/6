@@ -15,6 +15,10 @@ $VAR1 = [
                          }
                        ],
             'controller' => 'Smart HBA H240ar',
+            'modes' => [
+                         'Embedded',
+                         'RAID Mode'
+                       ],
             'slot' => '0',
             'target' => 'slot=0'
           }

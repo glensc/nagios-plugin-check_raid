@@ -15,6 +15,7 @@ $VAR1 = [
                          }
                        ],
             'controller' => 'Dynamic Smart Array B140i',
+            'modes' => [],
             'slot' => '0b',
             'target' => 'slot=0b'
           }

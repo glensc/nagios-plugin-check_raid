@@ -1,6 +1,7 @@
 $VAR1 = [
           {
             'controller' => 'Smart Array P400',
+            'modes' => [],
             'slot' => 'ATTR_VALUE_SLOT_UNKNOWN',
             'target' => 'slot=ATTR_VALUE_SLOT_UNKNOWN'
           }

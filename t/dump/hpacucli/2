@@ -34,6 +34,9 @@ $VAR1 = [
                          }
                        ],
             'controller' => 'Smart Array P400i',
+            'modes' => [
+                         'Embedded'
+                       ],
             'slot' => '0',
             'target' => 'slot=0'
           }
