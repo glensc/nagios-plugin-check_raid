@@ -17,8 +17,9 @@ sub commands {
 sub active {
 	my ($this) = @_;
 
-	# easy way out. no executable
-	return 0 unless -e $this->{commands}{dmraid}[1];
+	# return if parent said NO
+	my $res = $this->SUPER::active(@_);
+	return $res unless $res;
 
 	# check if dmraid is empty
 	return keys %{$this->parse} > 0;
