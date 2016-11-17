@@ -1,15 +1,21 @@
-$VAR1 = {
-          'luns' => {
-                      'slot=0b' => {
-                                     'A' => [
-                                              'OK',
-                                              {
-                                                '1' => 'OK'
-                                              }
-                                            ]
-                                   }
-                    },
-          'targets' => {
-                         'slot=0b' => 'Dynamic Smart Array B140i'
-                       }
-        };
+$VAR1 = [
+          {
+            'array' => [
+                         {
+                           'logicaldrives' => [
+                                                {
+                                                  'id' => '1',
+                                                  'raid' => 'RAID 5',
+                                                  'size' => '10.9 TB',
+                                                  'status' => 'OK'
+                                                }
+                                              ],
+                           'name' => 'A',
+                           'status' => 'OK'
+                         }
+                       ],
+            'controller' => 'Dynamic Smart Array B140i',
+            'slot' => '0b',
+            'target' => 'slot=0b'
+          }
+        ];

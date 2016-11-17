@@ -1,24 +1,40 @@
-$VAR1 = {
-          'luns' => {
-                      'chassisname=MY STORAGE' => {
-                                                    'A' => [
-                                                             'OK',
-                                                             {
-                                                               '1' => 'OK'
-                                                             }
-                                                           ]
-                                                  },
-                      'slot=0' => {
-                                    'A' => [
-                                             'OK',
-                                             {
-                                               '1' => 'OK'
-                                             }
-                                           ]
-                                  }
-                    },
-          'targets' => {
-                         'chassisname=MY STORAGE' => 'MY STORAGE',
-                         'slot=0' => 'Smart Array P400i'
-                       }
-        };
+$VAR1 = [
+          {
+            'array' => [
+                         {
+                           'logicaldrives' => [
+                                                {
+                                                  'id' => '1',
+                                                  'raid' => 'RAID 1',
+                                                  'size' => '68.3 GB',
+                                                  'status' => 'OK'
+                                                }
+                                              ],
+                           'name' => 'A',
+                           'status' => 'OK'
+                         }
+                       ],
+            'chassisname' => 'MY STORAGE',
+            'controller' => 'MSA1500 CS',
+            'target' => 'chassisname=MY STORAGE'
+          },
+          {
+            'array' => [
+                         {
+                           'logicaldrives' => [
+                                                {
+                                                  'id' => '1',
+                                                  'raid' => 'RAID 1',
+                                                  'size' => '68.3 GB',
+                                                  'status' => 'OK'
+                                                }
+                                              ],
+                           'name' => 'A',
+                           'status' => 'OK'
+                         }
+                       ],
+            'controller' => 'Smart Array P400i',
+            'slot' => '0',
+            'target' => 'slot=0'
+          }
+        ];

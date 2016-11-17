@@ -1,15 +1,21 @@
-$VAR1 = {
-          'luns' => {
-                      'slot=0' => {
-                                    'A' => [
-                                             'OK',
-                                             {
-                                               '1' => 'OK'
-                                             }
-                                           ]
-                                  }
-                    },
-          'targets' => {
-                         'slot=0' => 'Smart Array P410i'
-                       }
-        };
+$VAR1 = [
+          {
+            'array' => [
+                         {
+                           'logicaldrives' => [
+                                                {
+                                                  'id' => '1',
+                                                  'raid' => 'RAID 5',
+                                                  'size' => '894.2 GB',
+                                                  'status' => 'OK'
+                                                }
+                                              ],
+                           'name' => 'A',
+                           'status' => 'OK'
+                         }
+                       ],
+            'controller' => 'Smart Array P410i',
+            'slot' => '0',
+            'target' => 'slot=0'
+          }
+        ];

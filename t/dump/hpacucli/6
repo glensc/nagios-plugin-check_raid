@@ -1,15 +1,21 @@
-$VAR1 = {
-          'luns' => {
-                      'slot=0' => {
-                                    'A' => [
-                                             'OK',
-                                             {
-                                               '1' => 'OK'
-                                             }
-                                           ]
-                                  }
-                    },
-          'targets' => {
-                         'slot=0' => 'Smart HBA H240ar'
-                       }
-        };
+$VAR1 = [
+          {
+            'array' => [
+                         {
+                           'logicaldrives' => [
+                                                {
+                                                  'id' => '1',
+                                                  'raid' => 'RAID 1',
+                                                  'size' => '558.9 GB',
+                                                  'status' => 'OK'
+                                                }
+                                              ],
+                           'name' => 'A',
+                           'status' => 'OK'
+                         }
+                       ],
+            'controller' => 'Smart HBA H240ar',
+            'slot' => '0',
+            'target' => 'slot=0'
+          }
+        ];

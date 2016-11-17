@@ -75,17 +75,25 @@ sub scan_targets {
 	my $fh = $this->cmd('controller status');
 	while (<$fh>) {
 		# Numeric slot
-		if (my($model, $slot) = /^(\S.+) in Slot (.+)/) {
+		if (my($controller, $slot) = /^(\S.+) in Slot (.+)/) {
 			$slot =~ s/ \(RAID Mode\)//;
 			$slot =~ s/ \(HBA Mode\)//;
 			$slot =~ s/ \(Embedded\)//;
-			$targets{"slot=$slot"} = $model;
+			$targets{"slot=$slot"} = {
+				target => "slot=$slot",
+				controller => $controller,
+				slot => $slot,
+			};
 			$this->unknown if $slot !~ /^\d+/;
 			next;
 		}
 		# Named Entry
-		if (my($model, $cn) = /^(\S.+) in (.+)/) {
-			$targets{"chassisname=$cn"} = $cn;
+		if (my($controller, $cn) = /^(\S.+) in (.+)/) {
+			$targets{"chassisname=$cn"} = {
+				target => "chassisname=$cn",
+				controller => $controller,
+				chassisname => $cn,
+			};
 			next;
 		}
 	}
@@ -98,31 +106,41 @@ sub scan_targets {
 sub scan_luns {
 	my ($this, $targets) = @_;
 
-	my %luns;
-	while (my($target, $model) = each %$targets) {
+	my @luns;
+	# sort by target to ensure consistent results
+	for my $target (sort {$a->{target} cmp $b->{target}} values(%$targets)) {
 		# check each controller
-		my $fh = $this->cmd('logicaldrive status', { '$target' => $target });
+		my $fh = $this->cmd('logicaldrive status', { '$target' => $target->{target} });
 
-		my ($array, %array);
+		my $index = -1;
+		my @array;
+		my %array;
 		while (<$fh>) {
 			# "array A"
 			# "array A (Failed)"
 			# "array B (Failed)"
 			if (my($a, $s) = /^\s+array (\S+)(?:\s*\((\S+)\))?$/) {
-				$array = $a;
+				$index++;
 				# Offset 0 is Array own status
 				# XXX: I don't like this one: undef could be false positive
-				$array{$array}[0] = $s || 'OK';
+				$target->{'array'}[$index]{status} = $s || 'OK';
+				$target->{'array'}[$index]{name} = $a;
 			}
 
 			# skip if no active array yet
-			next unless $array;
+			next if $index < 0;
 
 			# logicaldrive 1 (68.3 GB, RAID 1, OK)
 			# capture only status
-			if (my($drive, $s) = /^\s+logicaldrive (\d+) \([\d.]+ .B, [^,]+, ([^\)]+)\)$/) {
+			if (my($drive, $size, $raid, $status) = /^\s+logicaldrive (\d+) \(([\d.]+ .B), ([^,]+), ([^\)]+)\)$/) {
 				# Offset 1 is each logical drive status
-				$array{$array}[1]{$drive} = $s;
+				my $ld = {
+					'id' => $drive,
+					'status' => $status,
+					'size' => $size,
+					'raid' => $raid,
+				};
+				push(@{$target->{'array'}[$index]{logicaldrives}}, $ld);
 				next;
 			}
 
@@ -133,10 +151,10 @@ sub scan_luns {
 		}
 		$this->unknown unless close $fh;
 
-		$luns{$target} = { %array };
+		push(@luns, $target);
 	}
 
-	return \%luns;
+	return \@luns;
 }
 
 # parse hpacucli output into logical structure
@@ -147,8 +165,8 @@ sub parse {
 	if (!$targets) {
 		return $targets;
 	}
-	my $luns = $this->scan_luns($targets);
-	return { 'targets' => $targets, 'luns' => $luns };
+
+	return $this->scan_luns($targets);
 }
 
 sub check {
@@ -163,23 +181,19 @@ sub check {
 	# status messages pushed here
 	my @status;
 
-	for my $target (sort {$a cmp $b} keys %{$ctrl->{targets}}) {
-		my $model = $ctrl->{targets}->{$target};
-
+	foreach my $target (@$ctrl) {
 		my @cstatus;
-		foreach my $array (sort { $a cmp $b } keys %{$ctrl->{luns}->{$target}}) {
-			my ($astatus, $ld) = @{$ctrl->{luns}->{$target}{$array}};
-
+		foreach my $array (@{$target->{array}}) {
 			# check array status
-			if ($astatus ne 'OK') {
+			if ($array->{status} ne 'OK') {
 				$this->critical;
 			}
 
 			my @astatus;
 			# extra details for non-normal arrays
-			foreach my $lun (sort { $a cmp $b } keys %$ld) {
-				my $s = $ld->{$lun};
-				push(@astatus, "LUN$lun:$s");
+			foreach my $ld (@{$array->{logicaldrives}}) {
+				my $s = $ld->{status};
+				push(@astatus, "LUN$ld->{id}:$s");
 
 				if ($s eq 'OK' or $s eq 'Disabled') {
 				} elsif ($s eq 'Failed' or $s eq 'Interim Recovery Mode') {
@@ -188,10 +202,11 @@ sub check {
 					$this->warning;
 				}
 			}
-			push(@cstatus, "Array $array($astatus)[". join(',', @astatus). "]");
+			push(@cstatus, "Array $array->{name}($array->{status})[". join(',', @astatus). "]");
 		}
 
-		push(@status, "$model: ".join(', ', @cstatus));
+		my $name = $target->{chassisname} || $target->{controller};
+		push(@status, "$name: ".join(', ', @cstatus));
 	}
 
 	return unless @status;

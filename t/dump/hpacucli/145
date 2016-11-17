@@ -1,24 +1,40 @@
-$VAR1 = {
-          'luns' => {
-                      'slot=0' => {
-                                    'A' => [
-                                             'OK',
-                                             {
-                                               '1' => 'OK'
-                                             }
-                                           ]
-                                  },
-                      'slot=1' => {
-                                    'A' => [
-                                             'OK',
-                                             {
-                                               '1' => 'OK'
-                                             }
-                                           ]
-                                  }
-                    },
-          'targets' => {
-                         'slot=0' => 'Smart HBA H244br',
-                         'slot=1' => 'Smart Array P840'
-                       }
-        };
+$VAR1 = [
+          {
+            'array' => [
+                         {
+                           'logicaldrives' => [
+                                                {
+                                                  'id' => '1',
+                                                  'raid' => 'RAID 1',
+                                                  'size' => '838.3 GB',
+                                                  'status' => 'OK'
+                                                }
+                                              ],
+                           'name' => 'A',
+                           'status' => 'OK'
+                         }
+                       ],
+            'controller' => 'Smart HBA H244br',
+            'slot' => '0',
+            'target' => 'slot=0'
+          },
+          {
+            'array' => [
+                         {
+                           'logicaldrives' => [
+                                                {
+                                                  'id' => '1',
+                                                  'raid' => 'RAID 1',
+                                                  'size' => '838.3 GB',
+                                                  'status' => 'OK'
+                                                }
+                                              ],
+                           'name' => 'A',
+                           'status' => 'OK'
+                         }
+                       ],
+            'controller' => 'Smart Array P840',
+            'slot' => '1',
+            'target' => 'slot=1'
+          }
+        ];

@@ -1,27 +1,45 @@
-$VAR1 = {
-          'luns' => {
-                      'slot=1' => {
-                                    'A' => [
-                                             'OK',
-                                             {
-                                               '1' => 'OK'
-                                             }
-                                           ],
-                                    'B' => [
-                                             'Failed',
-                                             {
-                                               '2' => 'OK'
-                                             }
-                                           ],
-                                    'C' => [
-                                             'OK',
-                                             {
-                                               '3' => 'OK'
-                                             }
-                                           ]
-                                  }
-                    },
-          'targets' => {
-                         'slot=1' => 'Smart Array P410'
-                       }
-        };
+$VAR1 = [
+          {
+            'array' => [
+                         {
+                           'logicaldrives' => [
+                                                {
+                                                  'id' => '1',
+                                                  'raid' => 'RAID 1',
+                                                  'size' => '558.9 GB',
+                                                  'status' => 'OK'
+                                                }
+                                              ],
+                           'name' => 'A',
+                           'status' => 'OK'
+                         },
+                         {
+                           'logicaldrives' => [
+                                                {
+                                                  'id' => '2',
+                                                  'raid' => 'RAID 5',
+                                                  'size' => '2.2 TB',
+                                                  'status' => 'OK'
+                                                }
+                                              ],
+                           'name' => 'B',
+                           'status' => 'Failed'
+                         },
+                         {
+                           'logicaldrives' => [
+                                                {
+                                                  'id' => '3',
+                                                  'raid' => 'RAID 5',
+                                                  'size' => '2.2 TB',
+                                                  'status' => 'OK'
+                                                }
+                                              ],
+                           'name' => 'C',
+                           'status' => 'OK'
+                         }
+                       ],
+            'controller' => 'Smart Array P410',
+            'slot' => '1',
+            'target' => 'slot=1'
+          }
+        ];

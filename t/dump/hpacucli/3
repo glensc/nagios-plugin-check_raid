@@ -1,8 +1,7 @@
-$VAR1 = {
-          'luns' => {
-                      'slot=ATTR_VALUE_SLOT_UNKNOWN' => {}
-                    },
-          'targets' => {
-                         'slot=ATTR_VALUE_SLOT_UNKNOWN' => 'Smart Array P400'
-                       }
-        };
+$VAR1 = [
+          {
+            'controller' => 'Smart Array P400',
+            'slot' => 'ATTR_VALUE_SLOT_UNKNOWN',
+            'target' => 'slot=ATTR_VALUE_SLOT_UNKNOWN'
+          }
+        ];
