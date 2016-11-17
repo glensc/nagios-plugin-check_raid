@@ -1,0 +1,8 @@
+[root@xxx ~]# /sbin/hpssacli controller slot=0b logicaldrive all show
+
+Dynamic Smart Array B140i in Slot 0b
+
+   array A
+
+	  logicaldrive 1 (10.9 TB, RAID 5, OK)
+

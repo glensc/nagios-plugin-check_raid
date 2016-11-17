@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 9;
+use constant TESTS => 10;
 use Test::More tests => 1 + TESTS * 6;
 use test;
 
@@ -75,6 +75,13 @@ my @tests = (
 		message => 'Smart Array P840: Array A(OK)[LUN1:OK]',
 		targets => 'slot=1',
 		c => '145_slot1',
+	},
+	{
+		status => OK,
+		controller => 'issue139/controller',
+		logical => 'issue139/logicaldrive',
+		message => 'Dynamic Smart Array B140i: Array A(OK)[LUN1:OK]',
+		c => 'issue139',
 	},
 );
 
