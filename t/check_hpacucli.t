@@ -77,7 +77,7 @@ my @tests = (
 		c => '145_slot1',
 	},
 	{
-		status => UNKNOWN,
+		status => OK,
 		controller => 'issue139/controller',
 		logical => 'issue139/logicaldrive',
 		message => 'Dynamic Smart Array B140i: Array A(OK)[LUN1:OK]',

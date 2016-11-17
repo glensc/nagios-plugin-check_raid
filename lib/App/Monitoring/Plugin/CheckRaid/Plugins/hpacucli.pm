@@ -80,7 +80,7 @@ sub scan_targets {
 			$slot =~ s/ \(HBA Mode\)//;
 			$slot =~ s/ \(Embedded\)//;
 			$targets{"slot=$slot"} = $model;
-			$this->unknown if $slot !~ /^\d+$/;
+			$this->unknown if $slot !~ /^\d+/;
 			next;
 		}
 		# Named Entry
