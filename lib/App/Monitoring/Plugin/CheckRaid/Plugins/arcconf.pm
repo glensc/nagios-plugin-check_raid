@@ -63,12 +63,11 @@ sub parse_status {
 			last;
 		}
 
-		if (my($c) = /^Controllers found: (\d+)/) {
+		if (my($c) = /^Controllers [Ff]ound: (\d+)/) {
 			$count = int($c);
 			next;
 		}
 
-		# termination
 		if (/^(\S.+) Task:$/) {
 			$task{type} = $1;
 			next;
@@ -208,10 +207,10 @@ sub parse_ctrl_config {
 		# - value may be truncated (t/data/arcconf/issue47/getconfig)
 		my ($key, $value) = /^\s*(.+?)(?:\s+:\s*(.*?))?$/;
 
-		if ($section eq 'Controller information') {
+		if ($section =~ /Controller [Ii]nformation/) {
 			$sectiondata{$subsection || '_'}{$key} = $value;
 
-		} elsif ($section eq 'Physical Device information') {
+		} elsif ($section =~ /Physical Device [Ii]nformation/) {
 			if (my($c) = /Channel #(\d+)/) {
 				$ch = int($c);
 				undef($pd);
@@ -224,8 +223,8 @@ sub parse_ctrl_config {
 				$sectiondata{$ch}{$pdk}{$subsection || '_'}{$key} = $value;
 			}
 
-		} elsif ($section =~ /Logical (device|drive) information/) {
-			if (my($n) = /Logical (?:[Dd]evice|drive) number (\d+)/) {
+		} elsif ($section =~ /Logical ([Dd]evice|drive) [Ii]nformation/) {
+			if (my($n) = /Logical (?:[Dd]evice|drive) [Nn]umber (\d+)/) {
 				$ld = int($n);
 			} else {
 				$sectiondata{$ld}{$subsection || '_'}{$key} = $value;
@@ -258,7 +257,10 @@ sub process_controller_information {
 
 	# TODO: battery stuff is under subsection "Controller Battery Information"
 	$c->{status} = $cs->{'Controller Status'};
-	$c->{defunct_count} = int($cs->{'Defunct disk drive count'});
+
+	if (exists $cs->{$s = 'Defunct Disk Drive Count'} || exists $cs->{$s = 'Defunct disk drive count'}) {
+		$c->{defunct_count} = $cs->{$s};
+	}
 
 	if ($s = $cs->{'Logical devices/Failed/Degraded'}) {
 		my($td, $fd, $dd) = $s =~ m{(\d+)/(\d+)/(\d+)};
@@ -306,7 +308,9 @@ sub process_logical_device_information {
 		my $cs = $d->{_} || $d->{'Logical device segment information'};
 
 		$ld[$ld]{id} = $ld;
-		$ld[$ld]{raid} = $cs->{'RAID level'};
+		if (exists $cs->{$s = 'RAID Level'} || exists $cs->{$s = 'RAID level'}) {
+			$ld[$ld]{raid} = $cs->{$s};
+		}
 		$ld[$ld]{size} = $cs->{'Size'};
 		$ld[$ld]{failed_stripes} = $cs->{'Failed stripes'} if exists $cs->{'Failed stripes'};
 		$ld[$ld]{defunct_segments} = $cs->{'Defunct segments'} if exists $cs->{'Defunct segments'};
@@ -396,7 +400,11 @@ sub process_physical_device_information {
 				$pd[$ch][$pd]{cd} = $s;
 			}
 
-			if (exists $cs->{$s = 'Device is a Hard drive'} || exists $cs->{$s = 'Device is an Enclosure'} || exists $cs->{$s = 'Device is an Enclosure services device'}) {
+			if (exists $cs->{$s = 'Device is a Hard drive'}
+				|| exists $cs->{$s = 'Device is an Enclosure'}
+				|| exists $cs->{$s = 'Device is an Enclosure services device'}
+				|| exists $cs->{$s = 'Device is an Enclosure Services Device'}
+			) {
 				($pd[$ch][$pd]{devtype}) = $s =~ /Device is an?\s+(.+)/;
 			}
 
@@ -464,7 +472,7 @@ sub check_controller {
 
 	my @status;
 
-	$this->critical if $c->{status} !~ /Optimal|Okay/;
+	$this->critical if $c->{status} !~ /Optimal|Okay|OK/;
 	push(@status, "Controller:$c->{status}");
 
 	if ($c->{defunct_count} > 0) {

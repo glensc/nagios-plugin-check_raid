@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 17;
+use constant TESTS => 18;
 use Test::More tests => 3 + TESTS * 6;
 use test;
 
@@ -144,6 +144,13 @@ my @tests = (
 		getconfig => 'issue152/arc2_getconfig.txt',
 		message => 'Controller:Optimal, Logical Device 0(mordor):Optimal, Drives: JPW9K0J80A2PLL,Z1N0CB3T,Z1N0CC2Q=Online',
 		c => 'issue152',
+	},
+	{
+		status => OK,
+		getstatus => 'issue128/getstatus',
+		getconfig => 'issue128/getconfig',
+		message => 'Controller:OK, Logical Device 0:Optimal, Drives: 0:0,0:1,0:2,0:3,0:4,0:5,0:6,0:7,0:8,0:9,0:10,0:11,0:12,0:13,0:14,0:15=Online',
+		c => 'issue128',
 	},
 );
 
