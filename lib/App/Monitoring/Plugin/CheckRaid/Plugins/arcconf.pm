@@ -308,7 +308,9 @@ sub process_logical_device_information {
 		my $cs = $d->{_} || $d->{'Logical device segment information'};
 
 		$ld[$ld]{id} = $ld;
-		$ld[$ld]{raid} = $cs->{'RAID level'};
+		if (exists $cs->{$s = 'RAID Level'} || exists $cs->{$s = 'RAID level'}) {
+			$ld[$ld]{raid} = $cs->{$s};
+		}
 		$ld[$ld]{size} = $cs->{'Size'};
 		$ld[$ld]{failed_stripes} = $cs->{'Failed stripes'} if exists $cs->{'Failed stripes'};
 		$ld[$ld]{defunct_segments} = $cs->{'Defunct segments'} if exists $cs->{'Defunct segments'};

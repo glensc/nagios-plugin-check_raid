@@ -8,7 +8,7 @@ $VAR1 = {
                                       'logical' => [
                                                      {
                                                        'id' => 0,
-                                                       'raid' => undef,
+                                                       'raid' => '5',
                                                        'size' => '42854390 MB',
                                                        'status' => 'Optimal'
                                                      }
