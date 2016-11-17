@@ -4,6 +4,7 @@
 - hpssacli: handle Unknown status in HP Raid Controller [#145]
 - arcconf: fix 2.x parse problems [#152]
 - arcconf: fix Arcconf 2.00 (NOT PARSED) [#128]
+- arcconf: fix wrong parsing of logical degrated/critical, 44af5b1
 
 ## [4.0.2] - 2016-03-14
 
