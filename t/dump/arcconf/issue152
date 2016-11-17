@@ -13,8 +13,10 @@ $VAR1 = {
                                                      {
                                                        'failed_stripes' => 'No',
                                                        'id' => 0,
+                                                       'name' => 'mordor',
                                                        'raid' => '5',
-                                                       'size' => '1906678 MB'
+                                                       'size' => '1906678 MB',
+                                                       'status' => 'Optimal'
                                                      }
                                                    ],
                                       'physical' => [
@@ -42,6 +44,54 @@ $VAR1 = {
                                                           'vendor' => 'Hitachi',
                                                           'write_cache' => 'Disabled (write-through)',
                                                           'wwn' => '50000D1101D8A111'
+                                                        },
+                                                        {
+                                                          'cd' => '0,2(2:0)',
+                                                          'device_id' => 1,
+                                                          'devtype' => 'Hard drive',
+                                                          'firmware' => 'SN02',
+                                                          'fru' => 'None',
+                                                          'location' => '0:2',
+                                                          'model' => 'ST1000NM0011',
+                                                          'ncq' => 'Enabled',
+                                                          'power_state' => 'Full rpm',
+                                                          'power_states' => 'Full rpm,Powered off',
+                                                          'serial' => 'Z1N0CB3T',
+                                                          'size' => '953869 MB',
+                                                          'smart' => 'No',
+                                                          'smart_warn' => '0',
+                                                          'speed' => 'SATA 3.0 Gb/s',
+                                                          'ssd' => 'No',
+                                                          'status' => 'Online',
+                                                          'supported' => 'Yes',
+                                                          'temperature' => 'Not Supported',
+                                                          'vendor' => '',
+                                                          'write_cache' => 'Disabled (write-through)',
+                                                          'wwn' => '50000D1101D8A110'
+                                                        },
+                                                        {
+                                                          'cd' => '0,3(3:0)',
+                                                          'device_id' => 2,
+                                                          'devtype' => 'Hard drive',
+                                                          'firmware' => 'SN02',
+                                                          'fru' => 'None',
+                                                          'location' => '0:3',
+                                                          'model' => 'ST1000NM0011',
+                                                          'ncq' => 'Enabled',
+                                                          'power_state' => 'Full rpm',
+                                                          'power_states' => 'Full rpm,Powered off',
+                                                          'serial' => 'Z1N0CC2Q',
+                                                          'size' => '953869 MB',
+                                                          'smart' => 'No',
+                                                          'smart_warn' => '0',
+                                                          'speed' => 'SATA 3.0 Gb/s',
+                                                          'ssd' => 'No',
+                                                          'status' => 'Online',
+                                                          'supported' => 'Yes',
+                                                          'temperature' => 'Not Supported',
+                                                          'vendor' => '',
+                                                          'write_cache' => 'Disabled (write-through)',
+                                                          'wwn' => '50000D1101D8A112'
                                                         }
                                                       ]
                                                     ]

@@ -139,10 +139,10 @@ my @tests = (
 		c => '86',
 	},
 	{
-		status => CRITICAL,
+		status => OK,
 		getstatus => 'issue152/arc2_getstatus.txt',
 		getconfig => 'issue152/arc2_getconfig.txt',
-		message => 'Controller:Optimal, Logical Device 0:, Drives: JPW9K0J80A2PLL=Online',
+		message => 'Controller:Optimal, Logical Device 0(mordor):Optimal, Drives: JPW9K0J80A2PLL,Z1N0CB3T,Z1N0CC2Q=Online',
 		c => 'issue152',
 	},
 );

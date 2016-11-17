@@ -311,10 +311,10 @@ sub process_logical_device_information {
 		$ld[$ld]{failed_stripes} = $cs->{'Failed stripes'} if exists $cs->{'Failed stripes'};
 		$ld[$ld]{defunct_segments} = $cs->{'Defunct segments'} if exists $cs->{'Defunct segments'};
 
-		if ($s = $cs->{'Status of logical device'} || $cs->{'Status of logical drive'}) {
+		if ($s = $cs->{'Status of Logical Device'} || $cs->{'Status of logical device'} || $cs->{'Status of logical drive'}) {
 			$ld[$ld]{status} = $s;
 		}
-		if ($s = $cs->{'Logical device name'} || $cs->{'Logical drive name'}) {
+		if ($s = $cs->{'Logical Device name'} || $cs->{'Logical device name'} || $cs->{'Logical drive name'}) {
 			$ld[$ld]{name} = $s;
 		}
 
@@ -346,7 +346,8 @@ sub process_physical_device_information {
 	my (@pd, $cs, $s);
 	while (my($ch, $channel_data) = each %$data) {
 		while (my($pd, $d) = each %$channel_data) {
-			$cs = $d->{_};
+			# FIXME: fallback to 'Device Phy Information' due parser bug
+			$cs = $d->{_} || $d->{'Device Phy Information'};
 
 			# FIXME: this should be skipped in check process, not here
 			if ($pd eq '') {
