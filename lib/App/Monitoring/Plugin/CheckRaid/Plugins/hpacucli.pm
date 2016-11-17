@@ -35,6 +35,29 @@ sub sudo {
 	);
 }
 
+# if --plugin-option=hpacucli-target=slot=0 is specified
+# filter only allowed values
+sub filter_targets {
+	my ($this, $targets) = @_;
+
+	my $cli_opts = $this->{options}{'hpacucli-target'};
+	if (!$cli_opts) {
+		return $targets;
+	}
+
+	my %res;
+	my @filters = split(/,/, $cli_opts);
+	for my $filter (@filters) {
+		if (exists $targets->{$filter}) {
+			$res{$filter} = $targets->{$filter};
+		} else {
+			$this->critical->message("Controller $filter not found");
+		}
+	}
+
+	return \%res;
+}
+
 sub scan_targets {
 	my $this = shift;
 
@@ -68,7 +91,7 @@ sub scan_targets {
 	}
 	close $fh;
 
-	return \%targets;
+	return $this->filter_targets(\%targets);
 }
 
 # Scan logical drives

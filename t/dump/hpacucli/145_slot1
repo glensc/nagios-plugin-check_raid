@@ -1,0 +1,15 @@
+$VAR1 = {
+          'luns' => {
+                      'slot=1' => {
+                                    'A' => [
+                                             'OK',
+                                             {
+                                               '1' => 'OK'
+                                             }
+                                           ]
+                                  }
+                    },
+          'targets' => {
+                         'slot=1' => 'Smart Array P840'
+                       }
+        };

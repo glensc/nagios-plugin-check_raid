@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 7;
+use constant TESTS => 9;
 use Test::More tests => 1 + TESTS * 6;
 use test;
 
@@ -60,19 +60,43 @@ my @tests = (
 		message => 'Smart HBA H244br: Array A(OK)[LUN1:OK], Smart Array P840: Array A(OK)[LUN1:OK]',
 		c => '145',
 	},
+	{
+		status => CRITICAL,
+		controller => '145/controller',
+		logical => '145/logicaldrive',
+		message => 'Controller slot=30 not found',
+		targets => 'slot=30',
+		c => '145_error',
+	},
+	{
+		status => OK,
+		controller => '145/controller',
+		logical => '145/logicaldrive',
+		message => 'Smart Array P840: Array A(OK)[LUN1:OK]',
+		targets => 'slot=1',
+		c => '145_slot1',
+	},
 );
 
 # test that plugin can be created
 ok(hpacucli->new, "plugin created");
 
 foreach my $test (@tests) {
-	my $plugin = hpacucli->new(
+	my %args = (
 		program => '/bin/true',
 		commands => {
 			'controller status' => ['<', TESTDIR . '/data/hpacucli/' . $test->{controller} ],
 			'logicaldrive status' => ['<', TESTDIR . '/data/hpacucli/' .$test->{logical} ],
 		},
+		options => {
+		},
 	);
+
+	if ($test->{targets}) {
+		$args{'options'}{'hpacucli-target'} = $test->{targets};
+	}
+
+	my $plugin = hpacucli->new(%args);
 
 	ok($plugin, "plugin created");
 
