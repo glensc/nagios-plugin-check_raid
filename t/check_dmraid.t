@@ -8,7 +8,7 @@ use strict;
 use warnings;
 use constant ACTIVE_TESTS => 2;
 use constant INACTIVE_TESTS => 1;
-use Test::More tests => 1 + ACTIVE_TESTS * 3 + INACTIVE_TESTS * 3;
+use Test::More tests => 1 + ACTIVE_TESTS * 5 + INACTIVE_TESTS * 2;
 use test;
 
 my @tests = (
@@ -23,10 +23,10 @@ my @tests = (
 		dmraid => 'pr60',
 	},
 	{
-		active => 0,
+		active => 1,
 		status => OK,
 		dmraid => 'issue129/dmraid-r',
-		message => '',
+		message => '.ddf1_disks: /dev/sdb(GROUP, 1.82 GiB): ok, /dev/sda(GROUP, 1.82 GiB): ok',
 	},
 );
 

@@ -6,6 +6,7 @@
 - arcconf: fix Arcconf 2.00 (NOT PARSED) [#128]
 - arcconf: fix wrong parsing of logical degrated/critical, 44af5b1
 - hpacucli: add commandline option to specify targets to monitor, [#151]
+- dmraid: add type=GROUP support, [#129]
 
 ## [4.0.2] - 2016-03-14
 
@@ -237,6 +238,7 @@ NOTES:
 [#152]: https://github.com/glensc/nagios-plugin-check_raid/issues/152
 [#128]: https://github.com/glensc/nagios-plugin-check_raid/issues/128
 [#151]: https://github.com/glensc/nagios-plugin-check_raid/issues/151
+[#129]: https://github.com/glensc/nagios-plugin-check_raid/issues/129
 
 [4.0.3]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.2...master
 [4.0.2]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.1...4.0.2

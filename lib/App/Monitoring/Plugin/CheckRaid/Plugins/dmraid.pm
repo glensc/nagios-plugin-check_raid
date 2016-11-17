@@ -47,10 +47,11 @@ sub parse {
 		chomp;
 		next unless (my($device, $format, $name, $type, $status, $sectors) = m{^
 			# /dev/sda: jmicron, "jmicron_JRAID", mirror, ok, 781385728 sectors, data@ 0
+			# /dev/sdb: ddf1, ".ddf1_disks", GROUP, ok, 1953253376 sectors, data@ 0
 			(/dev/\S+):\s # device
 			(\S+),\s # format
 			"([^"]+)",\s # name
-			(mirror|stripe[d]?),\s # type
+			(mirror|stripe[d]?|GROUP),\s # type
 			(\w+),\s # status
 			(\d+)\ssectors,.* # sectors
 		$}x);
