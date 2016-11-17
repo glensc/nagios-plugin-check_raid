@@ -1,0 +1,261 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Channel description                      : SAS/SATA
+   Controller Model                         : Adaptec 5405
+   Controller Serial Number                 : 9D351131448
+   Controller World Wide Name               : 50000D1101D8A100
+   Controller Alarm                         : Enabled
+   Physical Slot                            : 4
+   Temperature                              : 51 C/ 123 F (Normal)
+   Installed memory                         : 256 MB
+   Global task priority                     : High
+   Performance Mode                         : Default/Dynamic
+   Host bus type                            : PCIe
+   Host bus speed                           : 2500 MHz
+   Host bus link width                      : 4 bit(s)/link(s)
+   PCI Device ID                            : 645
+   Stayawake period                         : Disabled
+   Spinup limit internal drives             : 0
+   Spinup limit external drives             : 0
+   Defunct disk drive count                 : 0
+   Logical devices/Failed/Degraded          : 1/0/0
+   NCQ status                               : Enabled
+   Statistics data collection mode          : Enabled
+   --------------------------------------------------------
+   RAID Properties
+   --------------------------------------------------------
+   Copyback                                 : Disabled
+   Automatic Failover                       : Enabled
+   Background consistency check             : Disabled
+   Background consistency check period      : 30
+   SSDs assigned to maxCache pool           : 0
+   Maximum SSDs allowed in maxCache pool    : 8
+   maxCache Read Cache Pool Size            : 0.000 GB
+   maxCache flush and fetch rate            : 0
+   maxCache Read, Write Balance Factor      : 3,1
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 5.2-0 (18252)
+   Firmware                                 : 5.2-0 (18252)
+   Driver                                   : 1.2-0 (30300)
+   Boot Flash                               : 5.2-0 (18252)
+   --------------------------------------------------------
+   Controller Battery Information
+   --------------------------------------------------------
+   Status                                   : Not Installed
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical Device number 0
+   Logical Device name                      : mordor
+   Block Size of member drives              : 512 Bytes
+   RAID level                               : 5
+   Unique Identifier                        : F801D82C
+   Status of Logical Device                 : Optimal
+   Additional details                       : Initialized with Build/Clear
+   Size                                     : 1906678 MB
+   Parity space                             : 953344 MB
+   Stripe-unit size                         : 256 KB
+   Interface Type                           : Serial ATA
+   Device Type                              : HDD
+   Read-cache setting                       : Enabled
+   Read-cache status                        : On
+   Write-cache setting                      : Disabled
+   Write-cache status                       : Off
+   maxCache read cache setting              : Disabled
+   maxCache read cache status               : Off
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : No
+   Bootable                                 : Yes
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical Device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (953869MB, SATA, HDD, Connector:0, Device:1)       JPW9K0J80A2PLL
+   Segment 1                                : Present (953869MB, SATA, HDD, Connector:0, Device:2)             Z1N0CB3T
+   Segment 2                                : Present (953869MB, SATA, HDD, Connector:0, Device:3)             Z1N0CC2Q
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,1(1:0)
+         Reported Location                  : Connector 0, Device 1
+         Vendor                             : Hitachi
+         Model                              : HUA722010CLA330
+         Firmware                           : JP4OA3EA
+         Serial number                      : JPW9K0J80A2PLL
+         World-wide name                    : 50000D1101D8A111
+         Reserved Size                      : 538264 KB
+         Used Size                          : 953344 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 953869 MB
+         Write Cache                        : Disabled (write-through)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         maxCache Capable                   : No
+         maxCache Assigned                  : No
+         Temperature                        : Not Supported
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 50000D1101D8A111
+            Attached PHY Identifier         : 1
+            Attached SAS Address            : 50000D1101D8A100
+
+      Device #1
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,2(2:0)
+         Reported Location                  : Connector 0, Device 2
+         Vendor                             : 
+         Model                              : ST1000NM0011
+         Firmware                           : SN02
+         Serial number                      : Z1N0CB3T
+         World-wide name                    : 50000D1101D8A110
+         Reserved Size                      : 538264 KB
+         Used Size                          : 953344 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 953869 MB
+         Write Cache                        : Disabled (write-through)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         maxCache Capable                   : No
+         maxCache Assigned                  : No
+         Temperature                        : Not Supported
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 50000D1101D8A110
+            Attached PHY Identifier         : 0
+            Attached SAS Address            : 50000D1101D8A100
+
+      Device #2
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Transfer Speed                     : SATA 3.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,3(3:0)
+         Reported Location                  : Connector 0, Device 3
+         Vendor                             : 
+         Model                              : ST1000NM0011
+         Firmware                           : SN02
+         Serial number                      : Z1N0CC2Q
+         World-wide name                    : 50000D1101D8A112
+         Reserved Size                      : 538264 KB
+         Used Size                          : 953344 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 953869 MB
+         Write Cache                        : Disabled (write-through)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off
+         SSD                                : No
+         maxCache Capable                   : No
+         maxCache Assigned                  : No
+         Temperature                        : Not Supported
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 50000D1101D8A112
+            Attached PHY Identifier         : 2
+            Attached SAS Address            : 50000D1101D8A100
+
+
+
+----------------------------------------------------------------------
+Connector information
+----------------------------------------------------------------------
+Connector #0
+   Connector Name                           : CN0
+
+   -------------------------------------------------------------------
+   Lane Information                         
+   -------------------------------------------------------------------
+   Lane #0                                  
+      Channel ID                            : 0
+      Device ID                             : 0
+      SAS Address                           : 50000D1101D8A100
+      PHY Identifier                        : 3
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D1101D8A100
+
+   Lane #1                                  
+      Channel ID                            : 0
+      Device ID                             : 1
+      SAS Address                           : 50000D1101D8A100
+      PHY Identifier                        : 1
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D1101D8A100
+         Attached PHY Identifier            : 0
+         Attached SAS Address               : 50000D1101D8A111
+         Negotiated Logical Link Rate       : PHY enabled - 3 Gbps
+
+   Lane #2                                  
+      Channel ID                            : 0
+      Device ID                             : 2
+      SAS Address                           : 50000D1101D8A100
+      PHY Identifier                        : 0
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D1101D8A100
+         Attached PHY Identifier            : 0
+         Attached SAS Address               : 50000D1101D8A110
+         Negotiated Logical Link Rate       : PHY enabled - 3 Gbps
+
+   Lane #3                                  
+      Channel ID                            : 0
+      Device ID                             : 3
+      SAS Address                           : 50000D1101D8A100
+      PHY Identifier                        : 2
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D1101D8A100
+         Attached PHY Identifier            : 0
+         Attached SAS Address               : 50000D1101D8A112
+         Negotiated Logical Link Rate       : PHY enabled - 3 Gbps
+
+
+
+Command completed successfully.

@@ -130,10 +130,21 @@ sub parse_ctrl_config {
 	my ($this, $ctrl, $ctrl_count) = @_;
 
 	# Controller information, Logical/Physical device info
-	my (%c, @ld, $ld, @pd, $ch, $pd);
+	my ($ld, $ch, $pd);
+
+	my $res = { controller => {}, logical => [], physical => [] };
 
 	my $fh = $this->cmd('getconfig', { '$ctrl' => $ctrl });
 	my ($section, $subsection, $ok);
+	my %sectiondata = ();
+
+	# called when data for section needs to be processed
+	my $flush = sub {
+		my $method = 'process_' . lc($section);
+		$method =~ s/[.\s]+/_/g;
+		$this->$method($res, \%sectiondata);
+		%sectiondata = ();
+	};
 	while (<$fh>) {
 		chomp;
 		# empty line
@@ -157,6 +168,11 @@ sub parse_ctrl_config {
 		# section start
 		if (/^---+/) {
 			if (my($s) = <$fh> =~ /^(\w.+)$/) {
+				# flush the lines
+				if (defined($section)) {
+					&$flush();
+				}
+
 				$section = $s;
 				unless (<$fh> =~ /^---+/) {
 					$this->parse_error($_);
@@ -186,204 +202,245 @@ sub parse_ctrl_config {
 
 		next unless defined $section;
 
+		# regex notes:
+		# - value portion may be missing
+		# - value may be empty
+		# - value may be truncated (t/data/arcconf/issue47/getconfig)
+		my ($key, $value) = /^\s*(.+?)(?:\s+:\s*(.*?))?$/;
+
 		if ($section eq 'Controller information') {
-			if (not defined $subsection) {
-				# TODO: battery stuff is under subsection "Controller Battery Information"
-				if (my($s) = /Controller Status\s*:\s*(.+)/) {
-					$c{status} = $s;
-
-				} elsif (my($df) = /Defunct disk drive count\s+:\s*(\d+)/) {
-					$c{defunct_count} = int($df);
-
-				} elsif (my($td, $fd, $dd) = m{Logical devices/Failed/Degraded\s*:\s*(\d+)/(\d+)/(\d+)}) {
-					$c{logical_count} = int($td);
-					$c{logical_failed} = int($fd);
-					$c{logical_degraded} = int($fd);
-
-				} elsif (my($td2, $fd2, $dd2) = m{Logical drives/Offline/Critical\s*:\s*(\d+)/(\d+)/(\d+)}) {
-					# ARCCONF 9.30
-					$c{logical_count} = int($td2);
-					$c{logical_offline} = int($fd2);
-					$c{logical_critical} = int($fd2);
-				}
-
-			} elsif ($subsection eq 'Controller Battery Information') {
-				if (my($bs) = /^\s+Status\s*:\s*(.*)$/) {
-					$c{battery_status} = $bs;
-
-				} elsif (my($bt) = /Over temperature\s*:\s*(.+)$/) {
-					$c{battery_overtemp} = $bt;
-
-				} elsif (my($bc) = /Capacity remaining\s*:\s*(\d+)\s*percent.*$/) {
-					$c{battery_capacity} = int($bc);
-
-				} elsif (my($d, $h, $m) = /Time remaining \(at current draw\)\s*:\s*(\d+) days, (\d+) hours, (\d+) minutes/) {
-					$c{battery_time} = int($d) * 1440 + int($h) * 60 + int($m);
-					$c{battery_time_full} = "${d}d${h}h${m}m";
-
-				} else {
-					warn "Battery not parsed: [$_]";
-				}
-
-			} elsif ($subsection eq 'Controller ZMM Information') {
-				if (my($bs) = /^\s+Status\s*:\s*(.*)$/) {
-					$c{zmm_status} = $bs;
-				} else {
-					warn "ZMM not parsed: [$_]";
-				}
-
-			} elsif ($subsection eq 'Controller Version Information') {
-				# not parsed yet
-			} elsif ($subsection eq 'Controller Vital Product Data') {
-				# not parsed yet
-			} elsif ($subsection eq 'Controller Cache Backup Unit Information') {
-				# not parsed yet
-			} elsif ($subsection eq 'Supercap Information') {
-				# this is actually sub section of cache backup unit
-				# not parsed yet
-			} elsif ($subsection eq 'Controller Vital Product Data') {
-				# not parsed yet
-			} elsif ($subsection eq 'RAID Properties') {
-				# not parsed yet
-			} elsif ($subsection eq 'Controller BIOS Setting Information') {
-				# not parsed yet
-			} else {
-				warn "SUBSECTION of [$section] NOT PARSED: [$subsection] [$_]";
-			}
+			$sectiondata{$subsection || '_'}{$key} = $value;
 
 		} elsif ($section eq 'Physical Device information') {
 			if (my($c) = /Channel #(\d+)/) {
 				$ch = int($c);
 				undef($pd);
-			} elsif (my($n) = /Device #(\d+)/) {
+			} elsif (my($n) = /^\s+Device #(\d+)/) {
 				$pd = int($n);
-				$pd[$ch][$pd]{device_id} = $pd;
-			} elsif (not defined $pd) {
-				if (/Transfer Speed\s+:\s+(.+)/) {
-					# not parsed yet
-				} elsif (/Initiator at SCSI ID/) {
-					# not parsed yet
-				} elsif (/No physical drives attached/) {
-					# ignored
-				} else {
-					warn "Unparsed Physical Device data: [$_]";
-				}
 			} else {
-				if (my($ps) = /Power State\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{power_state} = $ps;
-				} elsif (my($st) = /^\s+State\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{status} = $st;
-				} elsif (my($su) = /Supported\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{supported} = $su;
-				} elsif (my($sf) = /Dedicated Spare for\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{spare} = $sf;
-				} elsif (my($vnd) = /Vendor\s+:\s*(.*)/) {
-					# allow edits, i.e removed 'Vendor' value from test data
-					$pd[$ch][$pd]{vendor} = $vnd;
-				} elsif (my($mod) = /Model\s+:\s+(.*)/) {
-					$pd[$ch][$pd]{model} = $mod;
-				} elsif (my($fw) = /Firmware\s+:\s*(.*)/) {
-					$pd[$ch][$pd]{firmware} = $fw;
-				} elsif (my($sn) = /Serial number\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{serial} = $sn;
-				} elsif (my($wwn) = /World-wide name\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{wwn} = $wwn;
-				} elsif (my($sz) = /Size\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{size} = $sz;
-				} elsif (my($wc) = /Write Cache\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{write_cache} = $wc;
-				} elsif (my($ssd) = /SSD\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{ssd} = $ssd;
-				} elsif (my($fru) = /FRU\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{fru} = $fru;
-				} elsif (my($esd) = /Reported ESD(?:\(.+\))?\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{esd} = $esd;
-				} elsif (my($ncq) = /NCQ status\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{ncq} = $ncq;
-				} elsif (my($pfa) = /PFA\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{pfa} = $pfa;
-				} elsif (my($eid) = /Enclosure ID\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{enclosure} = $eid;
-				} elsif (my($t) = /Type\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{type} = $t;
-				} elsif (my($smart) = /S\.M\.A\.R\.T\.\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{smart} = $smart;
-				} elsif (my($smart_warn) = /S\.M\.A\.R\.T\.\s+warnings\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{smart_warn} = $smart_warn;
-				} elsif (my($speed) = /Transfer Speed\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{speed} = $speed;
-				} elsif (my($e, $s) = /Reported Location\s+:\s+(?:Enclosure|Connector) (\d+), (?:Slot|Device) (\d+)/) {
-					$pd[$ch][$pd]{location} = "$e:$s";
-				} elsif (my($sps) = /Supported Power States\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{power_states} = $sps;
-				} elsif (my($cd) = /Reported Channel,Device(?:\(.+\))?\s+:\s+(.+)/) {
-					$pd[$ch][$pd]{cd} = $cd;
-				} elsif (my($type) = /Device is an?\s+(.+)/) {
-					$pd[$ch][$pd]{devtype} = $type;
-				} elsif (my($fail_ldev_segs) = /Failed logical device segments\s+:\s+(\S+)/) {
-					$pd[$ch][$pd]{fail_ldev_segs} = $fail_ldev_segs;
-				} elsif (/Status of Enclosure/) {
-					# ignored
-				} elsif (my($temp) = /Temperature.*:\s+(.+)/) {
-					$pd[$ch][$pd]{temperature} = $temp;
-				} elsif (/(Fan \d+|Speaker) status/) {
-					# not parsed yet
-				} elsif (/Expander ID\s+:/) {
-					# not parsed yet
-				} elsif (/Enclosure Logical Identifier\s+:/) {
-					# not parsed yet
-				} elsif (/Expander SAS Address\s+:/) {
-					# not parsed yet
-				} elsif (/[Mm]axCache (Capable|Assigned)\s+:\s+(.+)/) {
-					# not parsed yet
-				} elsif (/Power supply \d+ status/) {
-					# not parsed yet
-				} else {
-					warn "Unparsed Physical Device data: [$_]";
-				}
+				# FIXME: $pdk hack for t/data/arcconf/issue67/getconfig
+				my $pdk = $pd;
+				$pdk = '' unless defined $pdk;
+				$sectiondata{$ch}{$pdk}{$subsection || '_'}{$key} = $value;
 			}
 
 		} elsif ($section =~ /Logical (device|drive) information/) {
-			if (my($n) = /Logical (?:device|drive) number (\d+)/) {
+			if (my($n) = /Logical (?:[Dd]evice|drive) number (\d+)/) {
 				$ld = int($n);
-				$ld[$ld]{id} = $n;
-
-			} elsif (my($s) = /Status of logical (?:device|drive)\s+:\s+(.+)/) {
-				$ld[$ld]{status} = $s;
-
-			} elsif (my($ln) = /Logical (?:device|drive) name\s+:\s+(.+)/) {
-				$ld[$ld]{name} = $ln;
-
-			} elsif (my($rl) = /RAID level\s+:\s+(.+)/) {
-				$ld[$ld]{raid} = $rl;
-
-			} elsif (my($sz) = /Size\s+:\s+(.+)/) {
-				$ld[$ld]{size} = $sz;
-
-			} elsif (my($fs) = /Failed stripes\s+:\s+(.+)/) {
-				$ld[$ld]{failed_stripes} = $fs;
-
-			} elsif (my($ds) = /Defunct segments\s+:\s+(.+)/) {
-				$ld[$ld]{defunct_segments} = $ds;
-
 			} else {
-				#   Write-cache mode                         : Not supported]
-				#   Partitioned                              : Yes]
-				#   Number of segments                       : 2]
-				#   Drive(s) (Channel,Device)                : 0,0 0,1]
-				#   Defunct segments                         : No]
+				$sectiondata{$ld}{$subsection || '_'}{$key} = $value;
 			}
-		} elsif ($section =~ /MaxCache 3\.0 information/) {
+
+		} elsif ($section eq 'MaxCache 3.0 information') {
+			# not parsed yet
+		} elsif ($section eq 'Connector information') {
 			# not parsed yet
 		} else {
 			warn "NOT PARSED: [$section] [$_]";
 		}
 	}
 	close $fh;
+	&$flush() if $section;
 
 	$this->unknown->message("Command did not succeed") unless defined $ok;
 
-	return { controller => \%c, logical => \@ld, physical => \@pd };
+	return $res;
+}
+
+# Process Controller Information section
+sub process_controller_information {
+	my ($this, $res, $data) = @_;
+	my $c = {};
+	my $s;
+
+	# current section
+	my $cs = $data->{_};
+
+	# TODO: battery stuff is under subsection "Controller Battery Information"
+	$c->{status} = $cs->{'Controller Status'};
+	$c->{defunct_count} = int($cs->{'Defunct disk drive count'});
+
+	if ($s = $cs->{'Logical devices/Failed/Degraded'}) {
+		my($td, $fd, $dd) = $s =~ m{(\d+)/(\d+)/(\d+)};
+		$c->{logical_count} = int($td);
+		$c->{logical_failed} = int($fd);
+		$c->{logical_degraded} = int($fd); # must be $dd
+	}
+	# ARCCONF 9.30: Logical drives/Offline/Critical
+	if ($s = $cs->{'Logical drives/Offline/Critical'}) {
+		my($td2, $fd2, $dd2) = $s =~ m{(\d+)/(\d+)/(\d+)};
+		$c->{logical_count} = int($td2);
+		$c->{logical_offline} = int($fd2);
+		$c->{logical_critical} = int($fd2); # must be $dd2c
+	}
+
+	$cs = $data->{'Controller Battery Information'};
+	$c->{battery_status} = $cs->{Status} if exists $cs->{Status};
+	$c->{battery_overtemp} = $cs->{'Over temperature'} if exists $cs->{'Over temperature'};
+
+	if ($s = $cs->{'Capacity remaining'}) {
+		my ($bc) = $s =~ m{(\d+)\s*percent.*$};
+		$c->{battery_capacity} = int($bc);
+	}
+
+	if ($s = $cs->{'Time remaining (at current draw)'}) {
+		my($d, $h, $m) = $s =~ /(\d+) days, (\d+) hours, (\d+) minutes/;
+		$c->{battery_time} = int($d) * 1440 + int($h) * 60 + int($m);
+		$c->{battery_time_full} = "${d}d${h}h${m}m";
+	}
+
+
+	$cs = $data->{'Controller ZMM Information'};
+	$c->{zmm_status} = $cs->{Status} if exists $cs->{'Status'};
+
+	$res->{controller} = $c;
+}
+
+sub process_logical_device_information {
+	my ($this, $res, $data) = @_;
+	my $s;
+
+	my @ld;
+	while (my($ld, $d) = each %$data) {
+		# FIXME: parser fails to reset subsection
+		my $cs = $d->{_} || $d->{'Logical device segment information'};
+
+		$ld[$ld]{id} = $ld;
+		$ld[$ld]{raid} = $cs->{'RAID level'};
+		$ld[$ld]{size} = $cs->{'Size'};
+		$ld[$ld]{failed_stripes} = $cs->{'Failed stripes'} if exists $cs->{'Failed stripes'};
+		$ld[$ld]{defunct_segments} = $cs->{'Defunct segments'} if exists $cs->{'Defunct segments'};
+
+		if ($s = $cs->{'Status of Logical Device'} || $cs->{'Status of logical device'} || $cs->{'Status of logical drive'}) {
+			$ld[$ld]{status} = $s;
+		}
+		if ($s = $cs->{'Logical Device name'} || $cs->{'Logical device name'} || $cs->{'Logical drive name'}) {
+			$ld[$ld]{name} = $s;
+		}
+
+		#   Write-cache mode                         : Not supported]
+		#   Partitioned                              : Yes]
+		#   Number of segments                       : 2]
+		#   Drive(s) (Channel,Device)                : 0,0 0,1]
+		#   Defunct segments                         : No]
+	}
+
+	$res->{logical} = \@ld;
+}
+
+sub process_physical_device_information {
+	my ($this, $res, $data) = @_;
+
+	# Keys with no values:
+	# "Device #0"
+	# "Device is a Hard drive"
+	#
+	# ignored:
+	# /Transfer Speed\s+:\s+(.+)/
+	# /Initiator at SCSI ID/
+	# /No physical drives attached/
+	#
+	# has only one subsection:
+	# 'Device Phy Information', which is not yet processed
+
+	my (@pd, $cs, $s);
+	while (my($ch, $channel_data) = each %$data) {
+		while (my($pd, $d) = each %$channel_data) {
+			# FIXME: fallback to 'Device Phy Information' due parser bug
+			$cs = $d->{_} || $d->{'Device Phy Information'};
+
+			# FIXME: this should be skipped in check process, not here
+			if ($pd eq '') {
+				next;
+			}
+
+			$pd[$ch][$pd]{device_id} = $pd;
+			$pd[$ch][$pd]{power_state} = $cs->{'Power State'} if exists $cs->{'Power State'};
+			$pd[$ch][$pd]{status} = $cs->{'State'} if exists $cs->{'State'};
+			$pd[$ch][$pd]{supported} = $cs->{'Supported'} if exists $cs->{'Supported'};
+			$pd[$ch][$pd]{spare} = $cs->{'Dedicated Spare for'} if exists $cs->{'Dedicated Spare for'};
+			$pd[$ch][$pd]{model} = $cs->{'Model'};
+			$pd[$ch][$pd]{serial} = $cs->{'Serial number'} if exists $cs->{'Serial number'};
+			$pd[$ch][$pd]{wwn} = $cs->{'World-wide name'} if exists $cs->{'World-wide name'};
+			$pd[$ch][$pd]{write_cache} = $cs->{'Write Cache'} if exists $cs->{'Write Cache'};
+			$pd[$ch][$pd]{ssd} = $cs->{'SSD'} if exists $cs->{'SSD'};
+			$pd[$ch][$pd]{fru} = $cs->{'FRU'} if exists $cs->{'FRU'};
+			$pd[$ch][$pd]{ncq} = $cs->{'NCQ status'} if exists $cs->{'NCQ status'};
+			$pd[$ch][$pd]{pfa} = $cs->{'PFA'} if exists $cs->{'PFA'};
+			$pd[$ch][$pd]{enclosure} = $cs->{'Enclosure ID'} if exists $cs->{'Enclosure ID'};
+			$pd[$ch][$pd]{type} = $cs->{'Type'} if exists $cs->{'Type'};
+			$pd[$ch][$pd]{smart} = $cs->{'S.M.A.R.T.'} if exists $cs->{'S.M.A.R.T.'};
+			$pd[$ch][$pd]{smart_warn} = $cs->{'S.M.A.R.T. warnings'} if exists $cs->{'S.M.A.R.T. warnings'};
+			$pd[$ch][$pd]{speed} = $cs->{'Transfer Speed'} if $cs->{'Transfer Speed'};
+			$pd[$ch][$pd]{power_states} = $cs->{'Supported Power States'} if exists $cs->{'Supported Power States'};
+			$pd[$ch][$pd]{fail_ldev_segs} = $cs->{'Failed logical device segments'} if exists $cs->{'Failed logical device segments'};
+
+			# allow edits, i.e removed 'Vendor'/'Firmware' value from test data
+			$pd[$ch][$pd]{vendor} = $cs->{'Vendor'} || '';
+			$pd[$ch][$pd]{firmware} = $cs->{'Firmware'} if exists $cs->{'Firmware'};
+
+			# previous parser was not exact line match
+			if ($s = $cs->{'Size'} || $cs->{'Total Size'}) {
+				$pd[$ch][$pd]{size} = $s;
+			}
+
+			$s = $cs->{'Reported ESD'} || $cs->{'Reported ESD(T:L)'};
+			$pd[$ch][$pd]{esd} = $s if $s;
+
+			if ($s = $cs->{'Reported Location'}) {
+				my($e, $s) = $s =~ /(?:Enclosure|Connector) (\d+), (?:Slot|Device) (\d+)/;
+				$pd[$ch][$pd]{location} = "$e:$s";
+			}
+
+			if ($s = $cs->{'Reported Channel,Device'} || $cs->{'Reported Channel,Device(T:L)'}) {
+				$pd[$ch][$pd]{cd} = $s;
+			}
+
+			if (exists $cs->{$s = 'Device is a Hard drive'} || exists $cs->{$s = 'Device is an Enclosure'} || exists $cs->{$s = 'Device is an Enclosure services device'}) {
+				($pd[$ch][$pd]{devtype}) = $s =~ /Device is an?\s+(.+)/;
+			}
+
+			# TODO: normalize and other formats:
+			# Current Temperature                : 27 deg C
+			# Life-time Temperature Recorded
+			# Temperature                              : 51 C/ 123 F (Normal)
+			# Temperature                     : Normal
+			# Temperature                        : Not Supported
+			# Temperature Sensor Status 1     : 21 C/ 69 F (Normal)
+			# Temperature Sensor Status 1     : 23 C/ 73 F (Normal)
+			# Temperature Sensor Status 1     : 27 C/ 80 F (Normal)
+			# Temperature Sensor Status 1     : 46 C/ 114 F (Abnormal)
+			# Temperature status              : Normal
+			# Threshold Temperature              : 51 deg C
+			# FIXME: previous code used last line with /Temperature/ match
+			if ($s = $cs->{'Temperature'} || $cs->{'Temperature Sensor Status 1'} || $cs->{'Temperature status'}) {
+				$pd[$ch][$pd]{temperature} = $s;
+			}
+
+			# ignored:
+			# Status of Enclosure
+			# (Fan \d+|Speaker) status/
+			# /Expander ID\s+:/
+			# /Enclosure Logical Identifier\s+:/
+			# /Expander SAS Address\s+:/
+			# /[Mm]axCache (Capable|Assigned)\s+:\s+(.+)/
+			# /Power supply \d+ status/
+		}
+	}
+
+
+	$res->{physical} = \@pd;
+}
+
+sub process_logical_drive_information {
+	shift->process_logical_device_information(@_);
+}
+
+sub process_maxcache_3_0_information {
+}
+
+# TODO: issue152/arc2_getconfig.txt
+sub process_connector_information {
 }
 
 # NB: side effect: ARCCONF changes current directory to /var/log
