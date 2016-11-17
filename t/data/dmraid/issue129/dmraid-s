@@ -1,0 +1,10 @@
+**\* Group superset .ddf1_disks
+--> Active Subset
+name   : ddf1_all
+size   : 1953253376
+stride : 128
+type   : mirror
+status : ok
+subsets: 0
+devs   : 2
+spares : 0

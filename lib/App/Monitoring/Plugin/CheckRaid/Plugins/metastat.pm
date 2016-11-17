@@ -28,8 +28,9 @@ sub sudo {
 sub active {
 	my ($this) = @_;
 
-	# program not found
-	return 0 unless $this->{program};
+	# return if parent said NO
+	my $res = $this->SUPER::active(@_);
+	return $res unless $res;
 
 	my $output = $this->get_metastat;
 	return !!@$output;
