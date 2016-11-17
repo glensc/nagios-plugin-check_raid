@@ -8,6 +8,7 @@
 - hpacucli: add commandline option to specify targets to monitor, [#151]
 - dmraid: add type=GROUP support, [#129]
 - hpacucli: verify only that slot name starts with digit. [#139]
+- hpacucli: rewritten how data is parsed, 5762977
 
 ## [4.0.2] - 2016-03-14
 
