@@ -136,13 +136,14 @@ sub parse_ctrl_config {
 
 	my $fh = $this->cmd('getconfig', { '$ctrl' => $ctrl });
 	my ($section, $subsection, $ok);
-	my %lines = ();
+	my %sectiondata = ();
 
 	# called when data for section needs to be processed
 	my $flush = sub {
 		my $method = 'process_' . lc($section);
 		$method =~ s/[.\s]+/_/g;
-		$this->$method($res, $lines{$section});
+		$this->$method($res, \%sectiondata);
+		%sectiondata = ();
 	};
 	while (<$fh>) {
 		chomp;
@@ -208,7 +209,7 @@ sub parse_ctrl_config {
 		my ($key, $value) = /^\s*(.+?)(?:\s+:\s*(.*?))?$/;
 
 		if ($section eq 'Controller information') {
-			$lines{$section}{$subsection || '_'}{$key} = $value;
+			$sectiondata{$subsection || '_'}{$key} = $value;
 
 		} elsif ($section eq 'Physical Device information') {
 			if (my($c) = /Channel #(\d+)/) {
@@ -220,14 +221,14 @@ sub parse_ctrl_config {
 				# FIXME: $pdk hack for t/data/arcconf/issue67/getconfig
 				my $pdk = $pd;
 				$pdk = '' unless defined $pdk;
-				$lines{$section}{$ch}{$pdk}{$subsection || '_'}{$key} = $value;
+				$sectiondata{$ch}{$pdk}{$subsection || '_'}{$key} = $value;
 			}
 
 		} elsif ($section =~ /Logical (device|drive) information/) {
 			if (my($n) = /Logical (?:[Dd]evice|drive) number (\d+)/) {
 				$ld = int($n);
 			} else {
-				$lines{$section}{$ld}{$subsection || '_'}{$key} = $value;
+				$sectiondata{$ld}{$subsection || '_'}{$key} = $value;
 			}
 
 		} elsif ($section eq 'MaxCache 3.0 information') {
