@@ -70,18 +70,16 @@ $(PLUGIN_SCRIPT): bin/$(PLUGIN_SCRIPT) builddeps
 perltidy:
 	perltidy $(PLUGIN_SCRIPT)
 
-release:
-	@echo "Checking for tag"; \
-	V=`./$(PLUGIN_SCRIPT) -V | cut -d' ' -f3`; \
-	T=`git tag -l $$V`; \
-	if [ -n "$$T" ]; then \
-		echo >&2 "Tag $$T already exists"; \
-		exit 1; \
-	fi; \
-	R=`git rev-parse HEAD`; \
-	echo "RELEASE: create version $$V at $$R"; \
-	git tag -a "$$V" $$R; \
-	echo "Don't forget to push: git push origin refs/tags/$$V"
+# create snapshot release from current HEAD
+# travis will build release tarball and upload it to github release page
+snapshot:
+	@set -e; \
+	git for-each-ref refs/tags/snapshot --format '%(refname:strip=2)' | xargs git tag -d; \
+	branch=$$(git rev-parse --abbrev-ref HEAD); \
+	commit=$$(git rev-parse --short HEAD); \
+	message="snapshot build created from $$commit on $$branch branch. uploaded by travis. use at your own risk"; \
+	git tag -am "$$message" snapshot HEAD; \
+	git push -f git@github.com:glensc/nagios-plugin-check_raid.git snapshot
 
 install: $(PLUGIN_SCRIPT)
 	install -d $(DESTDIR)$(PLUGINDIR)
