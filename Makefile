@@ -63,6 +63,7 @@ $(PLUGIN_SCRIPT): bin/$(PLUGIN_SCRIPT) builddeps
 	rm -rf fatpack
 	install -d fatpack
 	git archive HEAD | tar -x -C fatpack
+	sed -i -e '/VERSION/ s;q/.*/;q/$(PLUGIN_VERSION)/;' fatpack/bin/check_raid.pl
 	$(MAKE) -f $(CURDIR)/Makefile -C fatpack fatpack CACHE_DIR=$(CACHE_DIR) PERL5LIB=$(PERL5LIB) options="--output ../$@"
 	rm -rf fatpack
 	grep -o 'fatpacked{.*}' $@
