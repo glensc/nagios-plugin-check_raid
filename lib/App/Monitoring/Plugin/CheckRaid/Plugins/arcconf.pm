@@ -472,7 +472,7 @@ sub check_controller {
 
 	my @status;
 
-	$this->critical if $c->{status} !~ /Optimal|Okay/;
+	$this->critical if $c->{status} !~ /Optimal|Okay|OK/;
 	push(@status, "Controller:$c->{status}");
 
 	if ($c->{defunct_count} > 0) {
