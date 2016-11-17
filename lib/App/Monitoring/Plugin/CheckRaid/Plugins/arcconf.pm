@@ -130,7 +130,7 @@ sub parse_ctrl_config {
 	my ($this, $ctrl, $ctrl_count) = @_;
 
 	# Controller information, Logical/Physical device info
-	my (%c, @ld, $ld, @pd, $ch, $pd);
+	my ($ld, $ch, $pd);
 
 	my $res = { controller => {}, logical => [], physical => [] };
 
@@ -140,7 +140,6 @@ sub parse_ctrl_config {
 
 	# called when data for section needs to be processed
 	my $flush = sub {
-		my ($section, $data) = @_;
 		my $method = 'process_' . lc($section);
 		$method =~ s/[.\s]+/_/g;
 		$this->$method($res, $lines{$section});
@@ -170,7 +169,7 @@ sub parse_ctrl_config {
 			if (my($s) = <$fh> =~ /^(\w.+)$/) {
 				# flush the lines
 				if (defined($section)) {
-					&$flush($section);
+					&$flush();
 				}
 
 				$section = $s;
@@ -202,9 +201,6 @@ sub parse_ctrl_config {
 
 		next unless defined $section;
 
-		my $method = 'parse_ctrl_config_' . lc($section);
-		$method =~ s/\s+/_/g;
-
 		# regex notes:
 		# - value portion may be missing
 		# - value may be empty
@@ -234,7 +230,7 @@ sub parse_ctrl_config {
 				$lines{$section}{$ld}{$subsection || '_'}{$key} = $value;
 			}
 
-		} elsif ($section =~ /MaxCache 3\.0 information/) {
+		} elsif ($section eq 'MaxCache 3.0 information') {
 			# not parsed yet
 		} elsif ($section eq 'Connector information') {
 			# not parsed yet
@@ -243,7 +239,7 @@ sub parse_ctrl_config {
 		}
 	}
 	close $fh;
-	&$flush($section) if $section;
+	&$flush() if $section;
 
 	$this->unknown->message("Command did not succeed") unless defined $ok;
 
