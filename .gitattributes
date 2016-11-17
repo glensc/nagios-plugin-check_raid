@@ -9,3 +9,6 @@
 
 # tests
 /t export-ignore
+
+# github
+/ISSUE_TEMPLATE.md export-ignore
