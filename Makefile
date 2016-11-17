@@ -77,7 +77,9 @@ snapshot:
 	git for-each-ref refs/tags/snapshot --format '%(refname:strip=2)' | xargs git tag -d; \
 	branch=$$(git rev-parse --abbrev-ref HEAD); \
 	commit=$$(git rev-parse --short HEAD); \
-	message="snapshot build created from $$commit on $$branch branch. uploaded by travis. use at your own risk"; \
+	title="snapshot from $$branch branch"; \
+	body="created from $$commit on $$branch branch. uploaded by travis. use at your own risk"; \
+	message=`printf "%s\n\n%s" "$$title" "$$body"`; \
 	git tag -am "$$message" snapshot HEAD; \
 	git push -f git@github.com:glensc/nagios-plugin-check_raid.git snapshot
 
