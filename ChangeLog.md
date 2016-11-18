@@ -12,6 +12,7 @@
 - hpacucli: split controller modes to array, f95c611
 - hpacucli: parse controller status, 03ae764
 - hpacucli: check/report controller/cache/battery status, f16f0c2
+- fix plugin commandline options support, a2c5b8a
 
 ## [4.0.2] - 2016-03-14
 
