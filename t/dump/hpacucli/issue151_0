@@ -1,0 +1,24 @@
+$VAR1 = [
+          {
+            'array' => [
+                         {
+                           'logicaldrives' => [
+                                                {
+                                                  'id' => '1',
+                                                  'raid' => 'RAID 5',
+                                                  'size' => '838.1 GB',
+                                                  'status' => 'OK'
+                                                }
+                                              ],
+                           'name' => 'A',
+                           'status' => 'OK'
+                         }
+                       ],
+            'controller' => 'Smart Array P410i',
+            'modes' => [
+                         'Embedded'
+                       ],
+            'slot' => '0',
+            'target' => 'slot=0'
+          }
+        ];

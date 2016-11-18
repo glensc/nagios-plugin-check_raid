@@ -1,0 +1,8 @@
+$VAR1 = [
+          {
+            'controller' => 'Smart Array P411',
+            'modes' => [],
+            'slot' => '3',
+            'target' => 'slot=3'
+          }
+        ];

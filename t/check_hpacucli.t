@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 10;
+use constant TESTS => 12;
 use Test::More tests => 1 + TESTS * 6;
 use test;
 
@@ -82,6 +82,23 @@ my @tests = (
 		logical => 'issue139/logicaldrive',
 		message => 'Dynamic Smart Array B140i: Array A(OK)[LUN1:OK]',
 		c => 'issue139',
+	},
+	# framework does not allow testing two logical devices, so two tests here instead
+	{
+		status => OK,
+		controller => '151/controller',
+		logical => '151/logicaldrive.slot0',
+		message => 'Smart Array P410i: Array A(OK)[LUN1:OK]',
+		targets => 'slot=0',
+		c => 'issue151_0',
+	},
+	{
+		status => OK,
+		controller => '151/controller',
+		logical => '151/logicaldrive.slot3',
+		message => 'Smart Array P411: ',
+		targets => 'slot=3',
+		c => 'issue151_3',
 	},
 );
 

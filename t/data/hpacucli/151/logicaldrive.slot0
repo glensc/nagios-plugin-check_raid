@@ -1,0 +1,7 @@
+root@xxx:~# /usr/sbin/hpacucli controller slot=0 logicaldrive all show
+
+Smart Array P410i in Slot 0 (Embedded)
+
+   array A
+
+      logicaldrive 1 (838.1 GB, RAID 5, OK)

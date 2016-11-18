@@ -1,0 +1,10 @@
+root@xxx:~#  /usr/sbin/hpacucli controller all show status
+
+Smart Array P410i in Slot 0 (Embedded)
+   Controller Status: OK
+   Cache Status: OK
+   Battery/Capacitor Status: OK
+
+Smart Array P411 in Slot 3
+   Controller Status: OK
+   Cache Status: Not Configured
