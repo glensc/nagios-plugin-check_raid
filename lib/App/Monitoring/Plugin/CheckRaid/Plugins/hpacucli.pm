@@ -184,6 +184,21 @@ sub scan_luns {
 				push(@{$target->{'array'}[$index]{logicaldrives}}, $ld);
 				next;
 			}
+
+			# skip known noise
+			if (
+				/\s+Type "help" for more details/
+				# Controller name: exact match
+				|| /^\Q$target->{controller}\E\s/
+				# loose match, some test data seems malformed
+				|| / in Slot \d/
+				|| /^FIRMWARE UPGRADE REQUIRED:/
+				|| /^\s{27}/
+			) {
+				next;
+			}
+
+			warn "Unhandled: [$_]\n";
 		}
 		$this->unknown unless close $fh;
 
