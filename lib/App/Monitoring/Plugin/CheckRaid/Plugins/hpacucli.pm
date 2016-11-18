@@ -12,6 +12,8 @@ use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
 use strict;
 use warnings;
 
+use constant E_NO_LOGICAL_DEVS => 'The specified device does not have any logical drives';
+
 sub program_names {
 	shift->{name};
 }
@@ -150,9 +152,9 @@ sub scan_luns {
 			next if /^$/ or /^#/;
 
 			# Error: The controller identified by "slot=attr_value_slot_unknown" was not detected.
-			if (/Error:/) {
+			if (/^Error:\s/) {
 				# store it somewhere. should it be appended?
-				$target->{'error'} = $_;
+				($target->{'error'}) = /^Error:\s+(.+?)\.?\s*$/;
 				$this->unknown;
 				next;
 			}
@@ -256,10 +258,21 @@ sub cstatus {
 	my (@s, $s);
 
 	# always include controller status
-	push(@s, $c->{'Controller Status'});
+	push(@s, $c->{'Controller Status'} || 'ERROR');
 	if ($c->{'Controller Status'} ne 'OK') {
 		$this->critical;
 	}
+
+	if ($c->{error}) {
+		if ($c->{error} eq E_NO_LOGICAL_DEVS) {
+			$this->noraid;
+			push(@s, 'Not configured');
+		} else {
+			$this->unknown;
+			push(@s, $c->{error});
+		}
+	}
+
 	# print those only if not ok and configured
 	if (($s = $c->{'Cache Status'}) && $s !~ /^(OK|Not Configured)/) {
 		push(@s, "Cache: $s");
@@ -273,7 +286,7 @@ sub cstatus {
 	# start with identifyier
 	my $name = $c->{chassisname} || $c->{controller};
 
-	return $name . '[' . join(' ', @s) . ']';
+	return $name . '[' . join(', ', @s) . ']';
 }
 
 sub check {
@@ -295,7 +308,9 @@ sub check {
 			}
 			push(@astatus, $this->astatus($array). '['. join(',', @lstatus). ']');
 		}
-		push(@status, $this->cstatus($ctrl). ': '. join(', ', @astatus));
+		my $cstatus = $this->cstatus($ctrl);
+		$cstatus .= ': '. join(', ', @astatus) if @astatus;
+		push(@status, $cstatus);
 	}
 
 	return unless @status;

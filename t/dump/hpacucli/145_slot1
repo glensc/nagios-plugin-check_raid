@@ -2,7 +2,7 @@ $VAR1 = [
           {
             'Controller Status' => 'OK',
             'controller' => 'Smart Array P840',
-            'error' => 'Error: The specified device does not have any logical drives.',
+            'error' => 'The specified device does not have any logical drives',
             'modes' => [
                          'HBA Mode'
                        ],

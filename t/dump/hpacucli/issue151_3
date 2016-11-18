@@ -3,7 +3,7 @@ $VAR1 = [
             'Cache Status' => 'Not Configured',
             'Controller Status' => 'OK',
             'controller' => 'Smart Array P411',
-            'error' => 'Error: The specified device does not have any logical drives.',
+            'error' => 'The specified device does not have any logical drives',
             'modes' => [],
             'slot' => '3',
             'target' => 'slot=3'
