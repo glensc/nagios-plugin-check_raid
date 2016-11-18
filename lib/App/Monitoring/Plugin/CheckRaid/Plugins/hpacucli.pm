@@ -253,11 +253,27 @@ sub astatus {
 # updates check status if problems found
 sub cstatus {
 	my ($this, $c) = @_;
+	my (@s, $s);
+
+	# always include controller status
+	push(@s, $c->{'Controller Status'});
+	if ($c->{'Controller Status'} ne 'OK') {
+		$this->critical;
+	}
+	# print those only if not ok and configured
+	if (($s = $c->{'Cache Status'}) && $s !~ /^(OK|Not Configured)/) {
+		push(@s, "Cache: $s");
+		$this->critical;
+	}
+	if (($s = $c->{'Battery/Capacitor Status'}) && $s !~ /^(OK|Not Configured)/) {
+		push(@s, "Battery: $s");
+		$this->critical;
+	}
 
 	# start with identifyier
 	my $name = $c->{chassisname} || $c->{controller};
 
-	return $name;
+	return $name . '[' . join(' ', @s) . ']';
 }
 
 sub check {
