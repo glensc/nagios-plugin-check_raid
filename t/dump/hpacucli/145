@@ -1,5 +1,6 @@
 $VAR1 = [
           {
+            'Controller Status' => 'OK',
             'array' => [
                          {
                            'logicaldrives' => [
@@ -23,6 +24,7 @@ $VAR1 = [
             'target' => 'slot=0'
           },
           {
+            'Controller Status' => 'OK',
             'array' => [
                          {
                            'logicaldrives' => [

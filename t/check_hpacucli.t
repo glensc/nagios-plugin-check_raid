@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 10;
+use constant TESTS => 12;
 use Test::More tests => 1 + TESTS * 6;
 use test;
 
@@ -15,49 +15,49 @@ my @tests = (
 		status => OK,
 		controller => 'hpacucli.controller.all.show.status',
 		logical => 'hpacucli.slot=0.logicaldrive.all.show',
-		message => 'MY STORAGE: Array A(OK)[LUN1:OK], Smart Array P400i: Array A(OK)[LUN1:OK]',
+		message => 'MY STORAGE[OK]: Array A(OK)[LUN1:OK], Smart Array P400i[OK]: Array A(OK)[LUN1:OK]',
 		c => '1',
 	},
 	{
 		status => CRITICAL,
 		controller => 'hpacucli.controller.all.show.status',
 		logical => 'hpacucli.interim_recovery_mode.show',
-		message => 'MY STORAGE: Array A(OK)[LUN1:Interim Recovery Mode], Smart Array P400i: Array A(OK)[LUN1:Interim Recovery Mode]',
+		message => 'MY STORAGE[OK]: Array A(OK)[LUN1:Interim Recovery Mode], Smart Array P400i[OK]: Array A(OK)[LUN1:Interim Recovery Mode]',
 		c => '2',
 	},
 	{
 		status => UNKNOWN,
 		controller => 'heracles/controller.all.show.status',
 		logical => 'heracles/logicaldrive.all.show',
-		message => 'Smart Array P400: ',
+		message => 'Smart Array P400[OK]: ',
 		c => '3',
 	},
 	{
 		status => OK,
 		controller => 'PR94/ctrl-status',
 		logical => 'PR94/ld-show',
-		message => 'Smart Array P410i: Array A(OK)[LUN1:OK]',
+		message => 'Smart Array P410i[OK]: Array A(OK)[LUN1:OK]',
 		c => '4',
 	},
 	{
 		status => CRITICAL,
 		controller => 'issue98/controller.status',
 		logical => 'issue98/logical.status',
-		message => 'Smart Array P410: Array A(OK)[LUN1:OK], Array B(Failed)[LUN2:OK], Array C(OK)[LUN3:OK]',
+		message => 'Smart Array P410[OK]: Array A(OK)[LUN1:OK], Array B(Failed)[LUN2:OK], Array C(OK)[LUN3:OK]',
 		c => '5',
 	},
 	{
 		status => OK,
 		controller => 'issue106/ctrl.status',
 		logical => 'issue106/logical.status',
-		message => 'Smart HBA H240ar: Array A(OK)[LUN1:OK]',
+		message => 'Smart HBA H240ar[OK]: Array A(OK)[LUN1:OK]',
 		c => '6',
 	},
 	{
 		status => OK,
 		controller => '145/controller',
 		logical => '145/logicaldrive',
-		message => 'Smart HBA H244br: Array A(OK)[LUN1:OK], Smart Array P840: Array A(OK)[LUN1:OK]',
+		message => 'Smart HBA H244br[OK]: Array A(OK)[LUN1:OK], Smart Array P840[OK]: Array A(OK)[LUN1:OK]',
 		c => '145',
 	},
 	{
@@ -72,7 +72,7 @@ my @tests = (
 		status => OK,
 		controller => '145/controller',
 		logical => '145/logicaldrive',
-		message => 'Smart Array P840: Array A(OK)[LUN1:OK]',
+		message => 'Smart Array P840[OK]: Array A(OK)[LUN1:OK]',
 		targets => 'slot=1',
 		c => '145_slot1',
 	},
@@ -80,8 +80,25 @@ my @tests = (
 		status => OK,
 		controller => 'issue139/controller',
 		logical => 'issue139/logicaldrive',
-		message => 'Dynamic Smart Array B140i: Array A(OK)[LUN1:OK]',
+		message => 'Dynamic Smart Array B140i[OK]: Array A(OK)[LUN1:OK]',
 		c => 'issue139',
+	},
+	# framework does not allow testing two logical devices, so two tests here instead
+	{
+		status => OK,
+		controller => '151/controller',
+		logical => '151/logicaldrive.slot0',
+		message => 'Smart Array P410i[OK]: Array A(OK)[LUN1:OK]',
+		targets => 'slot=0',
+		c => 'issue151_0',
+	},
+	{
+		status => UNKNOWN,
+		controller => '151/controller',
+		logical => '151/logicaldrive.slot3',
+		message => 'Smart Array P411[OK]: ',
+		targets => 'slot=3',
+		c => 'issue151_3',
 	},
 );
 

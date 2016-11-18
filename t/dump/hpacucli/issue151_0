@@ -9,7 +9,7 @@ $VAR1 = [
                                                 {
                                                   'id' => '1',
                                                   'raid' => 'RAID 5',
-                                                  'size' => '894.2 GB',
+                                                  'size' => '838.1 GB',
                                                   'status' => 'OK'
                                                 }
                                               ],

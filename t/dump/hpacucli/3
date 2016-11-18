@@ -1,6 +1,9 @@
 $VAR1 = [
           {
+            'Cache Status' => 'OK',
+            'Controller Status' => 'OK',
             'controller' => 'Smart Array P400',
+            'error' => 'Error: Invalid target syntax. "attr_value_slot_unknown" is not a valid target. ',
             'modes' => [],
             'slot' => 'ATTR_VALUE_SLOT_UNKNOWN',
             'target' => 'slot=ATTR_VALUE_SLOT_UNKNOWN'

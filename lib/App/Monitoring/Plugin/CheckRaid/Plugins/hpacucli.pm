@@ -82,9 +82,13 @@ sub scan_targets {
 	#  [licensekey all|<key>]
 
 	# Scan controllers
-	my (%targets);
+	my (%targets, $target);
 	my $fh = $this->cmd('controller status');
 	while (<$fh>) {
+		chomp;
+		# skip empty lines and artificial comments (added by this project)
+		next if /^$/ or /^#/;
+
 		# Numeric slot
 		if (my($controller, $slot, $modes) = /
 				^(\S.+)\sin\sSlot
@@ -94,8 +98,9 @@ sub scan_targets {
 				)?$
 			/x) {
 
-			$targets{"slot=$slot"} = {
-				target => "slot=$slot",
+			$target = "slot=$slot";
+			$targets{$target} = {
+				target => $target,
 				controller => $controller,
 				slot => $slot,
 				modes => split_controller_modes($modes || ''),
@@ -105,12 +110,20 @@ sub scan_targets {
 		}
 		# Named Entry
 		if (my($controller, $cn) = /^(\S.+) in (.+)/) {
-			$targets{"chassisname=$cn"} = {
-				target => "chassisname=$cn",
+			$target = "chassisname=$cn";
+			$targets{$target} = {
+				target => $target,
 				controller => $controller,
 				chassisname => $cn,
 			};
 			next;
+		}
+
+		# Other statuses, try "key: value" pairs
+		if (my ($key, $value) = /^\s*(.+?):\s+(.+?)$/) {
+			$targets{$target}{$key} = $value;
+		} else {
+			warn "Unparsed: [$_]\n";
 		}
 	}
 	close $fh;
@@ -132,6 +145,18 @@ sub scan_luns {
 		my @array;
 		my %array;
 		while (<$fh>) {
+			chomp;
+			# skip empty lines and artificial comments (added by this project)
+			next if /^$/ or /^#/;
+
+			# Error: The controller identified by "slot=attr_value_slot_unknown" was not detected.
+			if (/Error:/) {
+				# store it somewhere. should it be appended?
+				$target->{'error'} = $_;
+				$this->unknown;
+				next;
+			}
+
 			# "array A"
 			# "array A (Failed)"
 			# "array B (Failed)"
@@ -141,14 +166,14 @@ sub scan_luns {
 				# XXX: I don't like this one: undef could be false positive
 				$target->{'array'}[$index]{status} = $s || 'OK';
 				$target->{'array'}[$index]{name} = $a;
+				next;
 			}
-
-			# skip if no active array yet
-			next if $index < 0;
 
 			# logicaldrive 1 (68.3 GB, RAID 1, OK)
 			# capture only status
 			if (my($drive, $size, $raid, $status) = /^\s+logicaldrive (\d+) \(([\d.]+ .B), ([^,]+), ([^\)]+)\)$/) {
+				warn "Index out of bounds" if $index < 0; # XXX should not happen
+
 				# Offset 1 is each logical drive status
 				my $ld = {
 					'id' => $drive,
@@ -160,10 +185,20 @@ sub scan_luns {
 				next;
 			}
 
-			# Error: The controller identified by "slot=attr_value_slot_unknown" was not detected.
-			if (/Error:/) {
-				$this->unknown;
+			# skip known noise
+			if (
+				/\s+Type "help" for more details/
+				# Controller name: exact match
+				|| /^\Q$target->{controller}\E\s/
+				# loose match, some test data seems malformed
+				|| / in Slot \d/
+				|| /^FIRMWARE UPGRADE REQUIRED:/
+				|| /^\s{27}/
+			) {
+				next;
 			}
+
+			warn "Unhandled: [$_]\n";
 		}
 		$this->unknown unless close $fh;
 
@@ -185,44 +220,82 @@ sub parse {
 	return $this->scan_luns($targets);
 }
 
+# format lun (logicaldevice) status
+# update check status if problems found
+sub lstatus {
+	my ($this, $ld) = @_;
+
+	my $s = $ld->{status};
+
+	if ($s eq 'OK' or $s eq 'Disabled') {
+	} elsif ($s eq 'Failed' or $s eq 'Interim Recovery Mode') {
+		$this->critical;
+	} elsif ($s eq 'Rebuild' or $s eq 'Recover') {
+		$this->warning;
+	}
+
+	return "LUN$ld->{id}:$s";
+}
+
+# format array status
+# update check status if problems found
+sub astatus {
+	my ($this, $array) = @_;
+
+	if ($array->{status} ne 'OK') {
+		$this->critical;
+	}
+
+	return "Array $array->{name}($array->{status})";
+}
+
+# format controller status
+# updates check status if problems found
+sub cstatus {
+	my ($this, $c) = @_;
+	my (@s, $s);
+
+	# always include controller status
+	push(@s, $c->{'Controller Status'});
+	if ($c->{'Controller Status'} ne 'OK') {
+		$this->critical;
+	}
+	# print those only if not ok and configured
+	if (($s = $c->{'Cache Status'}) && $s !~ /^(OK|Not Configured)/) {
+		push(@s, "Cache: $s");
+		$this->critical;
+	}
+	if (($s = $c->{'Battery/Capacitor Status'}) && $s !~ /^(OK|Not Configured)/) {
+		push(@s, "Battery: $s");
+		$this->critical;
+	}
+
+	# start with identifyier
+	my $name = $c->{chassisname} || $c->{controller};
+
+	return $name . '[' . join(' ', @s) . ']';
+}
+
 sub check {
 	my $this = shift;
 
-	my $ctrl = $this->parse;
-	unless ($ctrl) {
+	my $ctrls = $this->parse;
+	unless ($ctrls) {
 		$this->warning->message("No Controllers were found on this machine");
 		return;
 	}
 
-	# status messages pushed here
 	my @status;
-
-	foreach my $target (@$ctrl) {
-		my @cstatus;
-		foreach my $array (@{$target->{array}}) {
-			# check array status
-			if ($array->{status} ne 'OK') {
-				$this->critical;
-			}
-
-			my @astatus;
-			# extra details for non-normal arrays
+	foreach my $ctrl (@$ctrls) {
+		my @astatus;
+		foreach my $array (@{$ctrl->{array}}) {
+			my @lstatus;
 			foreach my $ld (@{$array->{logicaldrives}}) {
-				my $s = $ld->{status};
-				push(@astatus, "LUN$ld->{id}:$s");
-
-				if ($s eq 'OK' or $s eq 'Disabled') {
-				} elsif ($s eq 'Failed' or $s eq 'Interim Recovery Mode') {
-					$this->critical;
-				} elsif ($s eq 'Rebuild' or $s eq 'Recover') {
-					$this->warning;
-				}
+				push(@lstatus, $this->lstatus($ld));
 			}
-			push(@cstatus, "Array $array->{name}($array->{status})[". join(',', @astatus). "]");
+			push(@astatus, $this->astatus($array). '['. join(',', @lstatus). ']');
 		}
-
-		my $name = $target->{chassisname} || $target->{controller};
-		push(@status, "$name: ".join(', ', @cstatus));
+		push(@status, $this->cstatus($ctrl). ': '. join(', ', @astatus));
 	}
 
 	return unless @status;

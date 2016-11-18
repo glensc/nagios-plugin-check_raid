@@ -1,5 +1,6 @@
 $VAR1 = [
           {
+            'Controller Status' => 'OK',
             'array' => [
                          {
                            'logicaldrives' => [
