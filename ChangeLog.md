@@ -10,6 +10,7 @@
 - hpacucli: verify only that slot name starts with digit. [#139]
 - hpacucli: rewritten how data is parsed, 5762977
 - hpacucli: split controller modes to array, f95c611
+- hpacucli: parse controller status, 03ae764
 
 ## [4.0.2] - 2016-03-14
 
