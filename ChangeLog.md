@@ -247,6 +247,7 @@ NOTES:
 [#151]: https://github.com/glensc/nagios-plugin-check_raid/issues/151
 [#129]: https://github.com/glensc/nagios-plugin-check_raid/issues/129
 [#139]: https://github.com/glensc/nagios-plugin-check_raid/issues/139
+[#154]: https://github.com/glensc/nagios-plugin-check_raid/issues/154
 
 [4.0.3]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.2...master
 [4.0.2]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.1...4.0.2
