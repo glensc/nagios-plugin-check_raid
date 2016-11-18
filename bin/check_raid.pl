@@ -140,7 +140,7 @@ if (my $plugins = $mp->opts->plugin) {
 if (my $opts = $mp->opts->get('plugin-option')) {
 	foreach my $o (@$opts) {
 		my($k, $v) = split(/=/, $o, 2);
-		$plugin_options{$k} = $v;
+		$plugin_options{options}{$k} = $v;
 	}
 }
 
