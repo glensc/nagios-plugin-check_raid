@@ -1,4 +1,4 @@
-root@xxx:~# /usr/sbin/hpacucli controller slot=0 logicaldrive all show
+#root@xxx:~# /usr/sbin/hpacucli controller slot=0 logicaldrive all show
 
 Smart Array P410i in Slot 0 (Embedded)
 

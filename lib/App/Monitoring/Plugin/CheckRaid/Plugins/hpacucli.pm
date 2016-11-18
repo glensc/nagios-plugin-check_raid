@@ -145,6 +145,18 @@ sub scan_luns {
 		my @array;
 		my %array;
 		while (<$fh>) {
+			chomp;
+			# skip empty lines and artificial comments (added by this project)
+			next if /^$/ or /^#/;
+
+			# Error: The controller identified by "slot=attr_value_slot_unknown" was not detected.
+			if (/Error:/) {
+				# store it somewhere. should it be appended?
+				$target->{'error'} = $_;
+				$this->unknown;
+				next;
+			}
+
 			# "array A"
 			# "array A (Failed)"
 			# "array B (Failed)"
@@ -154,14 +166,14 @@ sub scan_luns {
 				# XXX: I don't like this one: undef could be false positive
 				$target->{'array'}[$index]{status} = $s || 'OK';
 				$target->{'array'}[$index]{name} = $a;
+				next;
 			}
-
-			# skip if no active array yet
-			next if $index < 0;
 
 			# logicaldrive 1 (68.3 GB, RAID 1, OK)
 			# capture only status
 			if (my($drive, $size, $raid, $status) = /^\s+logicaldrive (\d+) \(([\d.]+ .B), ([^,]+), ([^\)]+)\)$/) {
+				warn "Index out of bounds" if $index < 0; # XXX should not happen
+
 				# Offset 1 is each logical drive status
 				my $ld = {
 					'id' => $drive,
@@ -171,11 +183,6 @@ sub scan_luns {
 				};
 				push(@{$target->{'array'}[$index]{logicaldrives}}, $ld);
 				next;
-			}
-
-			# Error: The controller identified by "slot=attr_value_slot_unknown" was not detected.
-			if (/Error:/) {
-				$this->unknown;
 			}
 		}
 		$this->unknown unless close $fh;

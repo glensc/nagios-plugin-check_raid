@@ -93,7 +93,7 @@ my @tests = (
 		c => 'issue151_0',
 	},
 	{
-		status => OK,
+		status => UNKNOWN,
 		controller => '151/controller',
 		logical => '151/logicaldrive.slot3',
 		message => 'Smart Array P411: ',

@@ -1,5 +1,5 @@
-root@xxx:~# /usr/sbin/hpacucli controller slot=3 logicaldrive all show
+#root@xxx:~# /usr/sbin/hpacucli controller slot=3 logicaldrive all show
 
 Error: The specified device does not have any logical drives.
 
-root@xxx:~#
+#root@xxx:~#
