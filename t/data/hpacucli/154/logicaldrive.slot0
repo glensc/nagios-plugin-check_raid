@@ -1,0 +1,7 @@
+#sudo /usr/sbin/hpacucli controller slot=0 logicaldrive all show
+
+Smart Array 5i in Slot 0
+
+   array A
+
+      logicaldrive 1 (17.0 GB, RAID 1+0, OK)

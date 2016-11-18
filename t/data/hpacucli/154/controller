@@ -1,0 +1,9 @@
+#sudo /usr/sbin/hpacucli controller all show status
+
+Smart Array 5i in Slot 0
+   Controller Status: OK
+   Cache Status: OK
+
+Smart Array 642 in Slot 1
+   Controller Status: OK
+   Cache Status: Not Configured

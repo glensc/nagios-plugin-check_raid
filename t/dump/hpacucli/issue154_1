@@ -1,0 +1,11 @@
+$VAR1 = [
+          {
+            'Cache Status' => 'Not Configured',
+            'Controller Status' => 'OK',
+            'controller' => 'Smart Array 642',
+            'error' => 'The specified device does not have any logical drives',
+            'modes' => [],
+            'slot' => '1',
+            'target' => 'slot=1'
+          }
+        ];

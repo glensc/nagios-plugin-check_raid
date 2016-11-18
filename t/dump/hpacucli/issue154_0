@@ -1,0 +1,24 @@
+$VAR1 = [
+          {
+            'Cache Status' => 'OK',
+            'Controller Status' => 'OK',
+            'array' => [
+                         {
+                           'logicaldrives' => [
+                                                {
+                                                  'id' => '1',
+                                                  'raid' => 'RAID 1+0',
+                                                  'size' => '17.0 GB',
+                                                  'status' => 'OK'
+                                                }
+                                              ],
+                           'name' => 'A',
+                           'status' => 'OK'
+                         }
+                       ],
+            'controller' => 'Smart Array 5i',
+            'modes' => [],
+            'slot' => '0',
+            'target' => 'slot=0'
+          }
+        ];
