@@ -31,6 +31,7 @@ deploy:
   file:
     - check_raid.pl
   skip_cleanup: true
+  overwrite: true
   on:
     repo: glensc/nagios-plugin-check_raid
     # deploy from 5.22 version, the other versions somewhy bundle too much dependencies
