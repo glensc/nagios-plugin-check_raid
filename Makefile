@@ -87,9 +87,14 @@ snapshot:
 # it's annoying to write shell in travis yaml
 travis:
 	# build check_raid.pl only on tags
-	if [ -n "$(TRAVIS_TAG)" ] && [ "$(TRAVIS_PERL_VERSION)" = "5.22" ]; then $(MAKE) pack; fi
-	# rename for better identifying build
-	if [ "$(TRAVIS_TAG)" = "snapshot" ]; then mv $(PLUGIN_SCRIPT) $(PLUGIN)-$(PLUGIN_VERSION).pl; fi
+	# on snapshot, rename for better identifying build
+	set -e; \
+	if [ -n "$(TRAVIS_TAG)" ] && [ "$(TRAVIS_PERL_VERSION)" = "5.22" ]; then \
+		$(MAKE) pack; \
+		if [ "$(TRAVIS_TAG)" = "snapshot" ]; then \
+			mv $(PLUGIN_SCRIPT) $(PLUGIN)-$(PLUGIN_VERSION).pl; \
+		fi; \
+	fi
 
 install: $(PLUGIN_SCRIPT)
 	install -d $(DESTDIR)$(PLUGINDIR)
