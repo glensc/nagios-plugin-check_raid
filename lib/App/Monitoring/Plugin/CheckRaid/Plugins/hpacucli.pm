@@ -220,44 +220,66 @@ sub parse {
 	return $this->scan_luns($targets);
 }
 
+# format lun (logicaldevice) status
+# update check status if problems found
+sub lstatus {
+	my ($this, $ld) = @_;
+
+	my $s = $ld->{status};
+
+	if ($s eq 'OK' or $s eq 'Disabled') {
+	} elsif ($s eq 'Failed' or $s eq 'Interim Recovery Mode') {
+		$this->critical;
+	} elsif ($s eq 'Rebuild' or $s eq 'Recover') {
+		$this->warning;
+	}
+
+	return "LUN$ld->{id}:$s";
+}
+
+# format array status
+# update check status if problems found
+sub astatus {
+	my ($this, $array) = @_;
+
+	if ($array->{status} ne 'OK') {
+		$this->critical;
+	}
+
+	return "Array $array->{name}($array->{status})";
+}
+
+# format controller status
+# updates check status if problems found
+sub cstatus {
+	my ($this, $c) = @_;
+
+	# start with identifyier
+	my $name = $c->{chassisname} || $c->{controller};
+
+	return $name;
+}
+
 sub check {
 	my $this = shift;
 
-	my $ctrl = $this->parse;
-	unless ($ctrl) {
+	my $ctrls = $this->parse;
+	unless ($ctrls) {
 		$this->warning->message("No Controllers were found on this machine");
 		return;
 	}
 
-	# status messages pushed here
 	my @status;
-
-	foreach my $target (@$ctrl) {
-		my @cstatus;
-		foreach my $array (@{$target->{array}}) {
-			# check array status
-			if ($array->{status} ne 'OK') {
-				$this->critical;
-			}
-
-			my @astatus;
-			# extra details for non-normal arrays
+	foreach my $ctrl (@$ctrls) {
+		my @astatus;
+		foreach my $array (@{$ctrl->{array}}) {
+			my @lstatus;
 			foreach my $ld (@{$array->{logicaldrives}}) {
-				my $s = $ld->{status};
-				push(@astatus, "LUN$ld->{id}:$s");
-
-				if ($s eq 'OK' or $s eq 'Disabled') {
-				} elsif ($s eq 'Failed' or $s eq 'Interim Recovery Mode') {
-					$this->critical;
-				} elsif ($s eq 'Rebuild' or $s eq 'Recover') {
-					$this->warning;
-				}
+				push(@lstatus, $this->lstatus($ld));
 			}
-			push(@cstatus, "Array $array->{name}($array->{status})[". join(',', @astatus). "]");
+			push(@astatus, $this->astatus($array). '['. join(',', @lstatus). ']');
 		}
-
-		my $name = $target->{chassisname} || $target->{controller};
-		push(@status, "$name: ".join(', ', @cstatus));
+		push(@status, $this->cstatus($ctrl). ': '. join(', ', @astatus));
 	}
 
 	return unless @status;
