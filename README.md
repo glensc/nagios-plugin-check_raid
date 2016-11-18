@@ -56,7 +56,7 @@ Command line arguments
 	-S  --sudoers           Configure /etc/sudoers file
 	-W  --warnonly          Don't send CRITICAL status
 	-p  --plugin <name(s)>  Force the use of selected plugins, comma separated
-	    --noraid=STATE      Set status as STATE if RAID controller is found. Defaults to `UNKNOWN`
+	    --noraid=STATE      Set status as STATE if RAID controller is not found. Defaults to `UNKNOWN`
 	    --resync=STATE      Set status as STATE if RAID is in resync state. Defaults to `WARNING`
 	    --check=STATE       Set status as STATE if RAID is in check state. Defaults to `OK`
 	    --cache-fail=STATE  Set status as STATE if Write Cache is present but disabled. Defaults to `WARNING`
