@@ -1,14 +1,14 @@
 # Makefile for check_raid plugin
 PLUGIN          := check_raid
 PLUGIN_SCRIPT   := $(PLUGIN).pl
-PLUGIN_VERSION  := $(shell test -e .git && { git tag -d snapshot 2>/dev/null || :; git describe --tags; } || awk -F"'" '/VERSION/&&/=/{print $$2}' bin/$(PLUGIN_SCRIPT))
+PLUGIN_VERSION  := $(shell test -e .git && { git tag -d snapshot >/dev/null 2>&1 || :; git describe --tags; } || awk -F"'" '/VERSION/&&/=/{print $$2}' bin/$(PLUGIN_SCRIPT))
 PLUGINDIR       := /usr/lib/nagios/plugins
 PLUGINCONF      := /etc/nagios/plugins
 CACHE_DIR       := $(CURDIR)/cache
 CPANM_CACHE     := $(CACHE_DIR)/cpanm
-CPANM			:= cpanm --cascade-search --save-dists=$(CPANM_CACHE) --mirror=$(CPANM_CACHE) --mirror=http://search.cpan.org/CPAN
-export PERL5LIB	:= $(CURDIR)/sysdeps/lib/perl5
-PATH			:= $(CURDIR)/sysdeps/bin:$(PATH)
+CPANM           := cpanm --cascade-search --save-dists=$(CPANM_CACHE) --mirror=$(CPANM_CACHE) --mirror=http://search.cpan.org/CPAN
+export PERL5LIB := $(CURDIR)/sysdeps/lib/perl5
+PATH            := $(CURDIR)/sysdeps/bin:$(PATH)
 
 # rpm version related macros
 RPM_NAME        := nagios-plugin-$(PLUGIN)
@@ -83,6 +83,13 @@ snapshot:
 	message=`printf "%s\n\n%s" "$$title" "$$body"`; \
 	git tag -am "$$message" snapshot HEAD; \
 	git push -f git@github.com:glensc/nagios-plugin-check_raid.git snapshot
+
+# it's annoying to write shell in travis yaml
+travis:
+	# build check_raid.pl only on tags
+	if [ -n "$(TRAVIS_TAG)" ] && [ "$(TRAVIS_PERL_VERSION)" = "5.22" ]; then $(MAKE) pack; fi
+	# rename for better identifying build
+	if [ "$(TRAVIS_TAG)" = "snapshot" ]; then mv $(PLUGIN_SCRIPT) $(PLUGIN)-$(PLUGIN_VERSION).pl; fi
 
 install: $(PLUGIN_SCRIPT)
 	install -d $(DESTDIR)$(PLUGINDIR)
