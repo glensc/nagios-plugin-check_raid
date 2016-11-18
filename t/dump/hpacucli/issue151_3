@@ -1,5 +1,7 @@
 $VAR1 = [
           {
+            'Cache Status' => 'Not Configured',
+            'Controller Status' => 'OK',
             'controller' => 'Smart Array P411',
             'modes' => [],
             'slot' => '3',

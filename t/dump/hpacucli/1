@@ -1,5 +1,8 @@
 $VAR1 = [
           {
+            'Battery/Capacitor Status' => 'OK',
+            'Cache Status' => 'OK',
+            'Controller Status' => 'OK',
             'array' => [
                          {
                            'logicaldrives' => [
@@ -19,6 +22,9 @@ $VAR1 = [
             'target' => 'chassisname=MY STORAGE'
           },
           {
+            'Battery/Capacitor Status' => 'OK',
+            'Cache Status' => 'OK',
+            'Controller Status' => 'OK',
             'array' => [
                          {
                            'logicaldrives' => [

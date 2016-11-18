@@ -1,5 +1,7 @@
 $VAR1 = [
           {
+            'Cache Status' => 'OK',
+            'Controller Status' => 'OK',
             'controller' => 'Smart Array P400',
             'modes' => [],
             'slot' => 'ATTR_VALUE_SLOT_UNKNOWN',

@@ -1,5 +1,8 @@
 $VAR1 = [
           {
+            'Battery/Capacitor Status' => 'OK',
+            'Cache Status' => 'OK',
+            'Controller Status' => 'OK',
             'array' => [
                          {
                            'logicaldrives' => [

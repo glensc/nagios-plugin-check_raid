@@ -1,4 +1,4 @@
-root@xxx:~#  /usr/sbin/hpacucli controller all show status
+#root@xxx:~#  /usr/sbin/hpacucli controller all show status
 
 Smart Array P410i in Slot 0 (Embedded)
    Controller Status: OK

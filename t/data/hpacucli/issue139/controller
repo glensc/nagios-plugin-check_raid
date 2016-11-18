@@ -1,4 +1,4 @@
-[root@xxx ~]# /sbin/hpssacli controller all show status
+#[root@xxx ~]# /sbin/hpssacli controller all show status
 
 Dynamic Smart Array B140i in Slot 0b
    Controller Status: OK

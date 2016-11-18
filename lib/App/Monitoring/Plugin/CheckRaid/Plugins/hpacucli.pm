@@ -82,9 +82,13 @@ sub scan_targets {
 	#  [licensekey all|<key>]
 
 	# Scan controllers
-	my (%targets);
+	my (%targets, $target);
 	my $fh = $this->cmd('controller status');
 	while (<$fh>) {
+		chomp;
+		# skip empty lines and artificial comments (added by this project)
+		next if /^$/ or /^#/;
+
 		# Numeric slot
 		if (my($controller, $slot, $modes) = /
 				^(\S.+)\sin\sSlot
@@ -94,8 +98,9 @@ sub scan_targets {
 				)?$
 			/x) {
 
-			$targets{"slot=$slot"} = {
-				target => "slot=$slot",
+			$target = "slot=$slot";
+			$targets{$target} = {
+				target => $target,
 				controller => $controller,
 				slot => $slot,
 				modes => split_controller_modes($modes || ''),
@@ -105,12 +110,20 @@ sub scan_targets {
 		}
 		# Named Entry
 		if (my($controller, $cn) = /^(\S.+) in (.+)/) {
-			$targets{"chassisname=$cn"} = {
-				target => "chassisname=$cn",
+			$target = "chassisname=$cn";
+			$targets{$target} = {
+				target => $target,
 				controller => $controller,
 				chassisname => $cn,
 			};
 			next;
+		}
+
+		# Other statuses, try "key: value" pairs
+		if (my ($key, $value) = /^\s*(.+?):\s+(.+?)$/) {
+			$targets{$target}{$key} = $value;
+		} else {
+			warn "Unparsed: [$_]\n";
 		}
 	}
 	close $fh;
