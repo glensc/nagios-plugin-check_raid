@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 18;
+use constant TESTS => 19;
 use Test::More tests => 3 + TESTS * 6;
 use test;
 
@@ -151,6 +151,13 @@ my @tests = (
 		getconfig => 'issue128/getconfig',
 		message => 'Controller:OK, Logical Device 0:Optimal, Drives: 0:0,0:1,0:2,0:3,0:4,0:5,0:6,0:7,0:8,0:9,0:10,0:11,0:12,0:13,0:14,0:15=Online',
 		c => 'issue128',
+	},
+	{
+		status => CRITICAL,
+		getstatus => 'issue155/getstatus',
+		getconfig => 'issue155/getconfig',
+		message => 'Controller:Optimal, Defunct drives:1, Degraded drives:1, Degraded drives:1, Logical Device 0(HDD):Optimal, Logical Device 1(SSD):Degraded, Drives: 0:2=Failed WD-WMC4M1057040,WD-WMC4M1019533,50026B726900BD5E,WD-WMC4M1311378,WD-WMC4M1081289,50026B726900BD87,50026B726900BD5F=Online',
+		c => 'issue155',
 	},
 );
 
