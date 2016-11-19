@@ -1,6 +1,6 @@
 <!--
 
-If you are reporting a new issue, make sure that there are not have any
+If you are reporting a new issue, make sure that there are not any
 duplicates already open. You can ensure this by searching the issue list for
 this repository. If there is a duplicate, please close your issue and add a
 comment to the existing issue instead.
