@@ -1,4 +1,4 @@
-## [4.0.3] - UNRELEASED
+## [4.0.3] - 2016-11-20
 
 - arcconf: parse Unparsed Physical Device data [#86]
 - hpssacli: handle Unknown status in HP Raid Controller [#145]
@@ -252,7 +252,7 @@ NOTES:
 [#154]: https://github.com/glensc/nagios-plugin-check_raid/issues/154
 [#155]: https://github.com/glensc/nagios-plugin-check_raid/issues/155
 
-[4.0.3]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.2...master
+[4.0.3]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.2...4.0.3
 [4.0.2]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.1...4.0.2
 [4.0.1]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/glensc/nagios-plugin-check_raid/compare/3.2.5...4.0.0
