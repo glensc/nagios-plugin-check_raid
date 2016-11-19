@@ -1,3 +1,5 @@
+## [4.0.4] - UNRELEASED
+
 ## [4.0.3] - 2016-11-20
 
 - arcconf: parse Unparsed Physical Device data [#86]
@@ -35,6 +37,8 @@ Source code layout changed so that all plugins are in separate file ([#115]). Th
 distribution will still include single `check_raid.pl` file for official
 releases. See [Development](README.md#development) how to roll `check_raid.pl`
 or run from source tree yourself.
+
+Despite the major version change, the underlying plugins code is same as in 3.2.5.
 
 ## [3.2.5] - 2015-10-03
 
@@ -252,6 +256,7 @@ NOTES:
 [#154]: https://github.com/glensc/nagios-plugin-check_raid/issues/154
 [#155]: https://github.com/glensc/nagios-plugin-check_raid/issues/155
 
+[4.0.4]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.3...master
 [4.0.3]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.2...4.0.3
 [4.0.2]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.1...4.0.2
 [4.0.1]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.0...4.0.1
