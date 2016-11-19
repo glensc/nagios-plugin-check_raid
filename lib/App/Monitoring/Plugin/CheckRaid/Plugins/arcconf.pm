@@ -54,8 +54,8 @@ sub parse_status {
 	my %task;
 	while (<$fh>) {
 		chomp;
-		# empty line
-		next if /^$/;
+		# empty line or comment
+		next if /^$/ or /^#/;
 
 		# termination
 		if (/^Command completed successfully/) {
@@ -498,11 +498,6 @@ sub check_controller {
 	if (defined $c->{logical_critical} && $c->{logical_critical} > 0) {
 		$this->critical;
 		push(@status, "Critical drives:$c->{logical_critical}");
-	}
-
-	if (defined $c->{logical_degraded} && $c->{logical_degraded} > 0) {
-		$this->critical;
-		push(@status, "Degraded drives:$c->{logical_degraded}");
 	}
 
 	# ZMM (Zero-Maintenance Module) status

@@ -14,6 +14,7 @@
 - hpacucli: check/report controller/cache/battery status, f16f0c2
 - fix plugin commandline options support, a2c5b8a
 - hpacucli: handle not configured controller with noraid status code. [#145], [#151], [#154], 85423dd
+- arcconf: fix duplicate degrated report [#155]
 
 ## [4.0.2] - 2016-03-14
 
@@ -248,6 +249,7 @@ NOTES:
 [#129]: https://github.com/glensc/nagios-plugin-check_raid/issues/129
 [#139]: https://github.com/glensc/nagios-plugin-check_raid/issues/139
 [#154]: https://github.com/glensc/nagios-plugin-check_raid/issues/154
+[#155]: https://github.com/glensc/nagios-plugin-check_raid/issues/155
 
 [4.0.3]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.2...master
 [4.0.2]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.1...4.0.2
