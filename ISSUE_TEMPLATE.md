@@ -24,7 +24,8 @@ https://github.com/glensc/nagios-plugin-check_raid#reporting-bugs
 **Output of each command from `check_raid -d`**
 
 <!--
-You can also attach text files to bugreport of each output
+You can also attach text files by dragging & dropping, picking them using
+"selecting them" link below, or pasting from the clipboard.
 -->
 
 (command being executed)
