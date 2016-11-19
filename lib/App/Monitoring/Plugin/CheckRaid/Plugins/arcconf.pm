@@ -54,8 +54,8 @@ sub parse_status {
 	my %task;
 	while (<$fh>) {
 		chomp;
-		# empty line
-		next if /^$/;
+		# empty line or comment
+		next if /^$/ or /^#/;
 
 		# termination
 		if (/^Command completed successfully/) {
