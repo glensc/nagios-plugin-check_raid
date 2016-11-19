@@ -500,11 +500,6 @@ sub check_controller {
 		push(@status, "Critical drives:$c->{logical_critical}");
 	}
 
-	if (defined $c->{logical_degraded} && $c->{logical_degraded} > 0) {
-		$this->critical;
-		push(@status, "Degraded drives:$c->{logical_degraded}");
-	}
-
 	# ZMM (Zero-Maintenance Module) status
 	if (defined($c->{zmm_status})) {
 		push(@status, "ZMM Status: $c->{zmm_status}");

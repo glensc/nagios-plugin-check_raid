@@ -63,7 +63,7 @@ my @tests = (
 		status => CRITICAL,
 		getstatus => 'issue47/getstatus2',
 		getconfig => 'issue47/getconfig2',
-		message => 'Controller:Optimal, Degraded drives:1, Degraded drives:1, ZMM Status: ZMM not installed, Logical device #0: Rebuild: In Progress 1%, Logical Device 0(data):Degraded, Drives: WD-*******,WD-*******,WD-*******=Online WD-*******=Rebuilding',
+		message => 'Controller:Optimal, Degraded drives:1, ZMM Status: ZMM not installed, Logical device #0: Rebuild: In Progress 1%, Logical Device 0(data):Degraded, Drives: WD-*******,WD-*******,WD-*******=Online WD-*******=Rebuilding',
 		c => 'issue47_2',
 	},
 	{
@@ -135,7 +135,7 @@ my @tests = (
 		status => CRITICAL,
 		getstatus => '86/arcconf-getstatus.out',
 		getconfig => '86/arcconf-getconfig.out',
-		message => 'Controller:Optimal, Defunct drives:1, Degraded drives:1, Degraded drives:1, Logical Device 0(raid1):Degraded, Drives: 0,1(1:0)=Failed 3KT2ZPHH000076165TAD=Online',
+		message => 'Controller:Optimal, Defunct drives:1, Degraded drives:1, Logical Device 0(raid1):Degraded, Drives: 0,1(1:0)=Failed 3KT2ZPHH000076165TAD=Online',
 		c => '86',
 	},
 	{
@@ -156,7 +156,7 @@ my @tests = (
 		status => CRITICAL,
 		getstatus => 'issue155/getstatus',
 		getconfig => 'issue155/getconfig',
-		message => 'Controller:Optimal, Defunct drives:1, Degraded drives:1, Degraded drives:1, Logical Device 0(HDD):Optimal, Logical Device 1(SSD):Degraded, Drives: 0:2=Failed WD-WMC4M1057040,WD-WMC4M1019533,50026B726900BD5E,WD-WMC4M1311378,WD-WMC4M1081289,50026B726900BD87,50026B726900BD5F=Online',
+		message => 'Controller:Optimal, Defunct drives:1, Degraded drives:1, Logical Device 0(HDD):Optimal, Logical Device 1(SSD):Degraded, Drives: 0:2=Failed WD-WMC4M1057040,WD-WMC4M1019533,50026B726900BD5E,WD-WMC4M1311378,WD-WMC4M1081289,50026B726900BD87,50026B726900BD5F=Online',
 		c => 'issue155',
 	},
 );
