@@ -15,6 +15,7 @@
 - fix plugin commandline options support, a2c5b8a
 - hpacucli: handle not configured controller with noraid status code. [#145], [#151], [#154], 85423dd
 - arcconf: fix duplicate degrated report [#155]
+- arcconf: add `/usr/StorMan` to search path [#155]
 
 ## [4.0.2] - 2016-03-14
 
