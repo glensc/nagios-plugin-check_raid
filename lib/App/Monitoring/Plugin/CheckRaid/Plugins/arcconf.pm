@@ -350,8 +350,14 @@ sub process_physical_device_information {
 	my (@pd, $cs, $s);
 	while (my($ch, $channel_data) = each %$data) {
 		while (my($pd, $d) = each %$channel_data) {
-			# FIXME: fallback to 'Device Phy Information' due parser bug
-			$cs = $d->{_} || $d->{'Device Phy Information'};
+			# Due to parser bugs not resetting the subsection, flatten all the 
+			# subsections into a single Hash
+			$cs = {};
+			foreach my $subsection (values %$d) {
+				foreach my $key (keys %$subsection) {
+					$cs->{$key} = $subsection->{$key};
+				}
+			}
 
 			# FIXME: this should be skipped in check process, not here
 			if ($pd eq '') {
