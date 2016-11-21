@@ -161,7 +161,7 @@ my @tests = (
 	},
 	{
 		status => OK,
-		getstatus => 'issue155/getstatus',
+		getstatus => 'pr156/arcconf_getstatus.txt',
 		getconfig => 'pr156/arcconf.txt',
 		message => 'Controller:Optimal, Logical Device 0(RAID6-ID0-7):Optimal, Drives: N8GP15YY,N8GPZWEY,N8GPZZ7Y,N8GPYHUY,N8GPZZ3Y,N8GPZZ4Y,N8GPZZ9Y,N8GR000Y=Online',
 		c => 'pr156',
