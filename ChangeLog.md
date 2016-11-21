@@ -1,5 +1,7 @@
 ## [4.0.4] - UNRELEASED
 
+- arcconf: fix subsection parsing [#156]
+
 ## [4.0.3] - 2016-11-20
 
 - arcconf: parse Unparsed Physical Device data [#86]
@@ -94,6 +96,7 @@ NOTES:
 NOTE: megacli now checks cache state, use `--cache-fail=STATE` if default `WARNING` is not for you.
 
 ## [3.2.0] - 2014-09-21
+
 - sudoers: support `#includedir` if enabled in sudoers config
 - tw_cli: rewritten with full data parsing
 - cciss: rewritten with full data parsing, optionally use lsscsi to find controller devices
@@ -101,6 +104,7 @@ NOTE: megacli now checks cache state, use `--cache-fail=STATE` if default `WARNI
 NOTE: when using `cciss` plugin with `hpsa` kernel driver, install `lsscsi` program and `cciss_vol_status` 1.10+ to get best results. `cciss_vol_status` v1.10 enables check of individual disks and their S.M.A.R.T status.
 
 ## [3.1.0] - 2014-09-08
+
 - sudoers: disable requiretty (enabled in CentOS 6.5) [#52]
 - megacli fixes [#50], [#53], [#56], [#63], [#74], [#32]
 - arcconf fixes [#47], [#51], [#55], [#67], [#68], [#66]
@@ -123,6 +127,7 @@ NOTES:
 - fixed program version
 
 ## [3.0.4] - 2013-11-25
+
 - added `--noraid=OK|WARNING|CRITICAL|UNKNOWN` option. defaults to `UNKNOWN`
 - setup sudo rules option (`-S`) supports debug (`-d`) and will only print the
   rules. Output is sent to stdout, so you can save that output to file of
@@ -136,9 +141,11 @@ NOTES:
 - arcconf: check physical devices
 
 ## [3.0.3] - 2013-11-12
+
 - resync fixes
 
 ## [3.0.2] - 2013-11-11
+
 - Detecting SCSI devices or hosts with `lsscsi`
 - Updated to handle ARCCONF 9.30 output
 - Fixed `-W` option handling ([#29])
@@ -147,14 +154,17 @@ NOTES:
 - added `--resync=OK|WARNING|CRITICAL|UNKNOWN` option. defaults to `OK` ([#23], [#24], [#28], [#37])
 
 ## [3.0.1]
+
 - Fixes to `cciss` plugin, improvements in `mpt`, `areca`, `mdstat` plugins
 
 ## 2.2
+
 - Project moved to [github](https://github.com/glensc/nagios-plugin-check_raid)
 - SAS2IRCU support
 - Areca SATA RAID Support
 
 ## 2.1
+
 - New maintainer Elan Ruusamäe
 - Made script more generic and secure
 - Added `gdth`
@@ -255,6 +265,7 @@ NOTES:
 [#139]: https://github.com/glensc/nagios-plugin-check_raid/issues/139
 [#154]: https://github.com/glensc/nagios-plugin-check_raid/issues/154
 [#155]: https://github.com/glensc/nagios-plugin-check_raid/issues/155
+[#156]: https://github.com/glensc/nagios-plugin-check_raid/pull/156
 
 [4.0.4]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.3...master
 [4.0.3]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.2...4.0.3
