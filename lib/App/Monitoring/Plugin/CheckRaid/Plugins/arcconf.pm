@@ -144,10 +144,18 @@ sub parse_ctrl_config {
 		$this->$method($res, \%sectiondata);
 		%sectiondata = ();
 	};
+	my $subsection_reset = sub {
+		$ch = 0;
+		undef($ld);
+		undef($pd);
+		undef($subsection);
+	};
 	while (<$fh>) {
 		chomp;
-		# empty line
-		if (/^$/) {
+
+		# empty line or comment
+		if (/^$/ or /^#/) {
+			&$subsection_reset;
 			next;
 		}
 
@@ -156,7 +164,7 @@ sub parse_ctrl_config {
 			last;
 		}
 
-		if (my($c) = /^Controllers found: (\d+)/) {
+		if (my($c) = /^Controllers [Ff]ound: (\d+)/) {
 			if ($c != $ctrl_count) {
 				# internal error?!
 				$this->unknown->message("Controller count mismatch");
@@ -176,10 +184,7 @@ sub parse_ctrl_config {
 				unless (<$fh> =~ /^---+/) {
 					$this->parse_error($_);
 				}
-				undef($ld);
-				$ch = 0;
-				undef($pd);
-				undef($subsection);
+				&$subsection_reset;
 				next;
 			}
 			$this->parse_error($_);
@@ -199,7 +204,7 @@ sub parse_ctrl_config {
 			$this->parse_error($_);
 		}
 
-		next unless defined $section;
+		warn("SKIP without section: [$_]\n"),next unless defined $section;
 
 		# regex notes:
 		# - value portion may be missing
@@ -227,6 +232,14 @@ sub parse_ctrl_config {
 			if (my($n) = /Logical (?:[Dd]evice|drive) [Nn]umber (\d+)/) {
 				$ld = int($n);
 			} else {
+				# skip lone line: issue87/getconfig
+				if (/No logical devices configured/) {
+					next;
+				}
+				if (not defined $ld) {
+					warn "LD undefined:[$_]\n";
+					next;
+				}
 				$sectiondata{$ld}{$subsection || '_'}{$key} = $value;
 			}
 
@@ -304,8 +317,7 @@ sub process_logical_device_information {
 
 	my @ld;
 	while (my($ld, $d) = each %$data) {
-		# FIXME: parser fails to reset subsection
-		my $cs = $d->{_} || $d->{'Logical device segment information'};
+		my $cs = $d->{_};
 
 		$ld[$ld]{id} = $ld;
 		if (exists $cs->{$s = 'RAID Level'} || exists $cs->{$s = 'RAID level'}) {
@@ -350,8 +362,7 @@ sub process_physical_device_information {
 	my (@pd, $cs, $s);
 	while (my($ch, $channel_data) = each %$data) {
 		while (my($pd, $d) = each %$channel_data) {
-			# FIXME: fallback to 'Device Phy Information' due parser bug
-			$cs = $d->{_} || $d->{'Device Phy Information'};
+			$cs = $d->{_};
 
 			# FIXME: this should be skipped in check process, not here
 			if ($pd eq '') {

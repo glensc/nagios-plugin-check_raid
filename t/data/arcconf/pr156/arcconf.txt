@@ -1,0 +1,608 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Controller Mode                          : RAID (Expose RAW)
+   Controller Cache Preservation            : Disabled
+   Channel description                      : SAS/SATA
+   Controller Model                         : Adaptec ASR8805
+   Controller Serial Number                 : 6A28636EF0B
+   Controller World Wide Name               : 50000D1701D65B00
+   Controller Alarm                         : Enabled
+   Physical Slot                            : 6
+   Temperature                              : 49 C/ 120 F (Normal)
+   Installed memory                         : 1024 MB
+   Global task priority                     : High
+   Performance Mode                         : Default/Dynamic
+   Host bus type                            : PCIe
+   Host bus speed                           : 8000 MHz
+   Host bus link width                      : 8 bit(s)/link(s)
+   PCI Device ID                            : 653
+   Stayawake period                         : Disabled
+   Spinup limit internal drives             : 0
+   Spinup limit external drives             : 0
+   Defunct disk drive count                 : 0
+   Logical devices/Failed/Degraded          : 1/0/0
+   NCQ status                               : Enabled
+   Statistics data collection mode          : Disabled
+   Global Physical Device Write Cache Policy: Drive Specific
+   Monitor Log Severity Level               : Informational
+   Global Max SAS Phy Link Rate             : 12 Gbps
+   Verify Write Setting                     : Not Applicable
+   --------------------------------------------------------
+   RAID Properties
+   --------------------------------------------------------
+   Copyback                                 : Disabled
+   Automatic Failover                       : Enabled
+   Background consistency check             : Disabled
+   Background consistency check period      : 0
+   Error Tunable Profile                    : Normal
+   --------------------------------------------------------
+   Controller BIOS Setting Information
+   --------------------------------------------------------
+   Runtime BIOS                             : Enabled
+   Array BBS Support                        : Disabled
+   Physical Drives Displayed during POST    : Enabled
+   Backplane Mode                           : SGPIO
+   BIOS Halt on Missing Drive Count         : 255
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 7.10-0 (33067)
+   Firmware                                 : 7.10-0 (33067)
+   Driver                                   : 1.2-1 (41010)
+   Boot Flash                               : 7.10-0 (33067)
+   CPLD (Load version/ Flash version)       : 8/ 11
+   SEEPROM (Load version/ Flash version)    : 1/ 1
+   FCT Custom Init String Version           : 0x0
+
+   --------------------------------------------------------
+   Controller Cache Backup Unit Information
+   --------------------------------------------------------
+
+    Overall Backup Unit Status              : Not Present
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical Device number 0
+   Logical Device name                      : RAID6-ID0-7
+   Block Size of member drives              : 512 Bytes
+   RAID level                               : 6 Reed-Solomon
+   Unique Identifier                        : 10A9C7B1
+   Status of Logical Device                 : Optimal
+   Additional details                       : Initialized with Build/Clear
+   Size                                     : 22886390 MB
+   Parity space                             : 7628800 MB
+   Stripe-unit size                         : 256 KB
+   Interface Type                           : Serial ATA
+   Device Type                              : HDD
+   Read-cache setting                       : Enabled
+   Read-cache status                        : On
+   Write-cache setting                      : Enabled
+   Write-cache status                       : On
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : No
+   Bootable                                 : Yes
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical Device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (3815447MB, SATA, HDD, Enclosure:0, Slot:0) N8GP15YY
+   Segment 1                                : Present (3815447MB, SATA, HDD, Enclosure:0, Slot:1) N8GPZWEY
+   Segment 2                                : Present (3815447MB, SATA, HDD, Enclosure:0, Slot:2) N8GPZZ7Y
+   Segment 3                                : Present (3815447MB, SATA, HDD, Enclosure:0, Slot:3) N8GPYHUY
+   Segment 4                                : Present (3815447MB, SATA, HDD, Enclosure:0, Slot:4) N8GPZZ3Y
+   Segment 5                                : Present (3815447MB, SATA, HDD, Enclosure:0, Slot:5) N8GPZZ4Y
+   Segment 6                                : Present (3815447MB, SATA, HDD, Enclosure:0, Slot:6) N8GPZZ9Y
+   Segment 7                                : Present (3815447MB, SATA, HDD, Enclosure:0, Slot:7) N8GR000Y
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,0(0:0)
+         Reported Location                  : Enclosure 0, Slot 0(Connector 0)
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD4002FYYZ-0
+         Firmware                           : 1M02
+         Serial number                      : N8GP15YY
+         World-wide name                    : 5000CCA244C99044
+         Reserved Size                      : 1072920 KB
+         Used Size                          : 3814400 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 3815447 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 35 C/ 95 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 30000D1701D65B03
+            Attached PHY Identifier         : 3
+            Attached SAS Address            : 50000D1701D65B00
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #1
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,1(1:0)
+         Reported Location                  : Enclosure 0, Slot 1(Connector 0)
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD4002FYYZ-0
+         Firmware                           : 1M02
+         Serial number                      : N8GPZWEY
+         World-wide name                    : 5000CCA244C9FFBB
+         Reserved Size                      : 1072920 KB
+         Used Size                          : 3814400 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 3815447 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 36 C/ 96 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 30000D1701D65B02
+            Attached PHY Identifier         : 2
+            Attached SAS Address            : 50000D1701D65B00
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #2
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,2(2:0)
+         Reported Location                  : Enclosure 0, Slot 2(Connector 0)
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD4002FYYZ-0
+         Firmware                           : 1M02
+         Serial number                      : N8GPZZ7Y
+         World-wide name                    : 5000CCA244CA0012
+         Reserved Size                      : 1072920 KB
+         Used Size                          : 3814400 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 3815447 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 35 C/ 95 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 30000D1701D65B00
+            Attached PHY Identifier         : 0
+            Attached SAS Address            : 50000D1701D65B00
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #3
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,3(3:0)
+         Reported Location                  : Enclosure 0, Slot 3(Connector 0)
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD4002FYYZ-0
+         Firmware                           : 1M02
+         Serial number                      : N8GPYHUY
+         World-wide name                    : 5000CCA244C9FA92
+         Reserved Size                      : 1072920 KB
+         Used Size                          : 3814400 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 3815447 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 32 C/ 89 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 30000D1701D65B01
+            Attached PHY Identifier         : 1
+            Attached SAS Address            : 50000D1701D65B00
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #4
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,4(4:0)
+         Reported Location                  : Enclosure 0, Slot 4(Connector 1)
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD4002FYYZ-0
+         Firmware                           : 1M02
+         Serial number                      : N8GPZZ3Y
+         World-wide name                    : 5000CCA244CA000E
+         Reserved Size                      : 1072920 KB
+         Used Size                          : 3814400 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 3815447 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 33 C/ 91 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 30000D1701D65B05
+            Attached PHY Identifier         : 5
+            Attached SAS Address            : 50000D1701D65B00
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #5
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,5(5:0)
+         Reported Location                  : Enclosure 0, Slot 5(Connector 1)
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD4002FYYZ-0
+         Firmware                           : 1M02
+         Serial number                      : N8GPZZ4Y
+         World-wide name                    : 5000CCA244CA000F
+         Reserved Size                      : 1072920 KB
+         Used Size                          : 3814400 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 3815447 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 34 C/ 93 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 30000D1701D65B06
+            Attached PHY Identifier         : 6
+            Attached SAS Address            : 50000D1701D65B00
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #6
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,6(6:0)
+         Reported Location                  : Enclosure 0, Slot 6(Connector 1)
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD4002FYYZ-0
+         Firmware                           : 1M02
+         Serial number                      : N8GPZZ9Y
+         World-wide name                    : 5000CCA244CA0014
+         Reserved Size                      : 1072920 KB
+         Used Size                          : 3814400 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 3815447 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 33 C/ 91 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 30000D1701D65B04
+            Attached PHY Identifier         : 4
+            Attached SAS Address            : 50000D1701D65B00
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #7
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,7(7:0)
+         Reported Location                  : Enclosure 0, Slot 7(Connector 1)
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : WDC WD4002FYYZ-0
+         Firmware                           : 1M02
+         Serial number                      : N8GR000Y
+         World-wide name                    : 5000CCA244CA002A
+         Reserved Size                      : 1072920 KB
+         Used Size                          : 3814400 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 3815447 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 32 C/ 89 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 30000D1701D65B07
+            Attached PHY Identifier         : 7
+            Attached SAS Address            : 50000D1701D65B00
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #8
+         Device is an Enclosure Services Device
+         Reported Channel,Device(T:L)       : 2,0(0:0)
+         Enclosure ID                       : 0
+         Type                               : SES2
+         Vendor                             : ADAPTEC
+         Model                              : Virtual SGPIO
+         Firmware                           :    1
+         Status of Enclosure Services Device
+            Speaker status                  : Not Available
+
+
+----------------------------------------------------------------------
+Connector information
+----------------------------------------------------------------------
+Connector #0
+   Connector Name                           : CN0
+
+   -------------------------------------------------------------------
+   Lane Information                         
+   -------------------------------------------------------------------
+   Lane #0                                  
+      Channel ID                            : 0
+      Device ID                             : 0
+      SAS Address                           : 50000D1701D65B00
+      PHY Identifier                        : 3
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D1701D65B00
+         Attached PHY Identifier            : 0
+         Attached SAS Address               : 30000D1701D65B03
+         Negotiated Logical Link Rate       : PHY enabled - 6 Gbps
+
+   Lane #1                                  
+      Channel ID                            : 0
+      Device ID                             : 1
+      SAS Address                           : 50000D1701D65B00
+      PHY Identifier                        : 2
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D1701D65B00
+         Attached PHY Identifier            : 0
+         Attached SAS Address               : 30000D1701D65B02
+         Negotiated Logical Link Rate       : PHY enabled - 6 Gbps
+
+   Lane #2                                  
+      Channel ID                            : 0
+      Device ID                             : 2
+      SAS Address                           : 50000D1701D65B00
+      PHY Identifier                        : 0
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D1701D65B00
+         Attached PHY Identifier            : 0
+         Attached SAS Address               : 30000D1701D65B00
+         Negotiated Logical Link Rate       : PHY enabled - 6 Gbps
+
+   Lane #3                                  
+      Channel ID                            : 0
+      Device ID                             : 3
+      SAS Address                           : 50000D1701D65B00
+      PHY Identifier                        : 1
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D1701D65B00
+         Attached PHY Identifier            : 0
+         Attached SAS Address               : 30000D1701D65B01
+         Negotiated Logical Link Rate       : PHY enabled - 6 Gbps
+
+
+Connector #1
+   Connector Name                           : CN1
+
+   -------------------------------------------------------------------
+   Lane Information                         
+   -------------------------------------------------------------------
+   Lane #0                                  
+      Channel ID                            : 0
+      Device ID                             : 4
+      SAS Address                           : 50000D1701D65B00
+      PHY Identifier                        : 5
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D1701D65B00
+         Attached PHY Identifier            : 0
+         Attached SAS Address               : 30000D1701D65B05
+         Negotiated Logical Link Rate       : PHY enabled - 6 Gbps
+
+   Lane #1                                  
+      Channel ID                            : 0
+      Device ID                             : 5
+      SAS Address                           : 50000D1701D65B00
+      PHY Identifier                        : 6
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D1701D65B00
+         Attached PHY Identifier            : 0
+         Attached SAS Address               : 30000D1701D65B06
+         Negotiated Logical Link Rate       : PHY enabled - 6 Gbps
+
+   Lane #2                                  
+      Channel ID                            : 0
+      Device ID                             : 6
+      SAS Address                           : 50000D1701D65B00
+      PHY Identifier                        : 4
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D1701D65B00
+         Attached PHY Identifier            : 0
+         Attached SAS Address               : 30000D1701D65B04
+         Negotiated Logical Link Rate       : PHY enabled - 6 Gbps
+
+   Lane #3                                  
+      Channel ID                            : 0
+      Device ID                             : 7
+      SAS Address                           : 50000D1701D65B00
+      PHY Identifier                        : 7
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D1701D65B00
+         Attached PHY Identifier            : 0
+         Attached SAS Address               : 30000D1701D65B07
+         Negotiated Logical Link Rate       : PHY enabled - 6 Gbps
+
+
+
+Command completed successfully.

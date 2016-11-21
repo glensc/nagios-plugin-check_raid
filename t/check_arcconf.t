@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 19;
+use constant TESTS => 20;
 use Test::More tests => 3 + TESTS * 6;
 use test;
 
@@ -158,6 +158,13 @@ my @tests = (
 		getconfig => 'issue155/getconfig',
 		message => 'Controller:Optimal, Defunct drives:1, Degraded drives:1, Logical Device 0(HDD):Optimal, Logical Device 1(SSD):Degraded, Drives: 0:2=Failed WD-WMC4M1057040,WD-WMC4M1019533,50026B726900BD5E,WD-WMC4M1311378,WD-WMC4M1081289,50026B726900BD87,50026B726900BD5F=Online',
 		c => 'issue155',
+	},
+	{
+		status => OK,
+		getstatus => 'issue155/getstatus',
+		getconfig => 'pr156/arcconf.txt',
+		message => 'Controller:Optimal, Logical Device 0(RAID6-ID0-7):Optimal, Drives: N8GP15YY,N8GPZWEY,N8GPZZ7Y,N8GPYHUY,N8GPZZ3Y,N8GPZZ4Y,N8GPZZ9Y,N8GR000Y=Online',
+		c => 'pr156',
 	},
 );
 
