@@ -2,7 +2,7 @@ $VAR1 = {
           'controllers' => {
                              '1' => {
                                       'controller' => {
-                                                        'defunct_count' => '0',
+                                                        'defunct_count' => 0,
                                                         'status' => 'OK'
                                                       },
                                       'logical' => [

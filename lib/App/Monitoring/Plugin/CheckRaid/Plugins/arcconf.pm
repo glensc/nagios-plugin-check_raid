@@ -1,9 +1,6 @@
 package App::Monitoring::Plugin::CheckRaid::Plugins::arcconf;
 
 # Adaptec AAC-RAID
-# check designed from check-aacraid.py, Anchor System - <http://www.anchor.com.au>
-# Oliver Hookins, Paul De Audney, Barney Desmond.
-# Perl port (check_raid) by Elan Ruusamäe.
 
 use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
 use strict;
@@ -213,19 +210,30 @@ sub parse_ctrl_config {
 		my ($key, $value) = /^\s*(.+?)(?:\s+:\s*(.*?))?$/;
 
 		if ($section =~ /Controller [Ii]nformation/) {
-			$sectiondata{$subsection || '_'}{$key} = $value;
+			if (not defined $subsection) {
+				$sectiondata{$key} = $value;
+			} else {
+				$sectiondata{$subsection}{$key} = $value;
+			}
 
 		} elsif ($section =~ /Physical Device [Ii]nformation/) {
 			if (my($c) = /Channel #(\d+)/) {
 				$ch = int($c);
 				undef($pd);
+				next;
+
 			} elsif (my($n) = /^\s+Device #(\d+)/) {
 				$pd = int($n);
+				next;
+
 			} else {
-				# FIXME: $pdk hack for t/data/arcconf/issue67/getconfig
-				my $pdk = $pd;
-				$pdk = '' unless defined $pdk;
-				$sectiondata{$ch}{$pdk}{$subsection || '_'}{$key} = $value;
+				if (not defined $pd) {
+					$sectiondata{$ch}{$key} = $value;
+				} elsif (not defined $subsection) {
+					$sectiondata{$ch}{'pd'}{$pd}{$key} = $value;
+				} else {
+					$sectiondata{$ch}{'pd'}{$pd}{$subsection}{$key} = $value;
+				}
 			}
 
 		} elsif ($section =~ /Logical ([Dd]evice|drive) [Ii]nformation/) {
@@ -240,7 +248,11 @@ sub parse_ctrl_config {
 					warn "LD undefined:[$_]\n";
 					next;
 				}
-				$sectiondata{$ld}{$subsection || '_'}{$key} = $value;
+				if (not defined $subsection) {
+					$sectiondata{$ld}{$key} = $value;
+				} else {
+					$sectiondata{$ld}{$subsection}{$key} = $value;
+				}
 			}
 
 		} elsif ($section eq 'MaxCache 3.0 information') {
@@ -266,9 +278,8 @@ sub process_controller_information {
 	my $s;
 
 	# current section
-	my $cs = $data->{_};
+	my $cs = $data;
 
-	# TODO: battery stuff is under subsection "Controller Battery Information"
 	$c->{status} = $cs->{'Controller Status'};
 
 	if (exists $cs->{$s = 'Defunct Disk Drive Count'} || exists $cs->{$s = 'Defunct disk drive count'}) {
@@ -316,8 +327,7 @@ sub process_logical_device_information {
 	my $s;
 
 	my @ld;
-	while (my($ld, $d) = each %$data) {
-		my $cs = $d->{_};
+	while (my($ld, $cs) = each %$data) {
 
 		$ld[$ld]{id} = $ld;
 		if (exists $cs->{$s = 'RAID Level'} || exists $cs->{$s = 'RAID level'}) {
@@ -361,8 +371,7 @@ sub process_physical_device_information {
 
 	my (@pd, $cs, $s);
 	while (my($ch, $channel_data) = each %$data) {
-		while (my($pd, $d) = each %$channel_data) {
-			$cs = $d->{_};
+		while (my($pd, $cs) = each %{$channel_data->{pd}}) {
 
 			# FIXME: this should be skipped in check process, not here
 			if ($pd eq '') {
@@ -446,7 +455,6 @@ sub process_physical_device_information {
 			# /Power supply \d+ status/
 		}
 	}
-
 
 	$res->{physical} = \@pd;
 }
