@@ -190,7 +190,7 @@ foreach my $test (@tests) {
 		commands => $commands,
 		options => { bbu_monitoring => 1, bbulearn => 'OK' },
 	);
-	ok($plugin, "plugin created ($test->{c})");
+	ok($plugin, "plugin created: $test->{c}");
 
 	$plugin->check;
 	ok(1, "check ran ($test->{c})");

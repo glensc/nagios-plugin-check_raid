@@ -26,7 +26,7 @@ foreach my $test (@tests) {
 			'container list' => ['<', TESTDIR . '/data/afacli/' .$test->{container} ],
 		},
 	);
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{container}");
 
 	$plugin->check;
 	ok(1, "check ran");

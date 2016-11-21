@@ -42,7 +42,7 @@ foreach my $test (@tests) {
 			'dmsetup noflush' => ['<', TESTDIR . '/data/dm/' .$test->{dmsetup} ],
 		},
 	);
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{dmsetup}");
 
 	$plugin->check;
 	ok(1, "check ran");

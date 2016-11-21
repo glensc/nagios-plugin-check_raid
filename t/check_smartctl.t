@@ -31,7 +31,7 @@ foreach my $test (@tests) {
 			'smartctl' => ['<', TESTDIR . '/data/' . $test->{smartctl} ],
 		},
 	);
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{smartctl}");
 
 	$plugin->check_devices($test->{check_params});
 	ok(1, "check ran");

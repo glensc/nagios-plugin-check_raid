@@ -111,7 +111,7 @@ foreach my $test (@tests) {
 		options => \%options,
 	);
 
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{input}");
 
 	my $active = $plugin->active;
 	ok($active == $test->{active}, "active matches");

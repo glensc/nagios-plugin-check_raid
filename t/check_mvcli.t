@@ -28,7 +28,7 @@ foreach my $test (@tests) {
 			'mvcli smart' => ['<', TESTDIR . '/data/mvcli/' .$test->{'mvcli smart'} ],
 		},
 	);
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{'mvcli blk'}");
 
 	$plugin->check;
 	ok(1, "check ran");

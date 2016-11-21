@@ -28,7 +28,7 @@ foreach my $test (@tests) {
 			'proc entry' => ['<', TESTDIR . '/data/' .$test->{entry} ],
 		},
 	);
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{proc}");
 
 	$plugin->check;
 	ok(1, "check ran");

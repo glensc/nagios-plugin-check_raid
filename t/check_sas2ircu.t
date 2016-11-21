@@ -40,7 +40,7 @@ foreach my $test (@tests) {
 			'device status' => ['<', TESTDIR . '/data/sas2ircu/' . $test->{cdisplay} ],
 		},
 	);
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{list}");
 
 	$plugin->check;
 	ok(1, "check ran");

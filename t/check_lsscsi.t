@@ -74,7 +74,7 @@ foreach my $test (@tests) {
 			'lsscsi list' => ['<', TESTDIR . '/data/lsscsi/' .$test->{file} ],
 		}
 	);
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{file}");
 
 	my $scan = $plugin->scan;
 	is_deeply($scan, $test->{scan}, "scan structure");

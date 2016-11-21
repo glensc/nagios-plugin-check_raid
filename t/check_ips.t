@@ -26,7 +26,7 @@ foreach my $test (@tests) {
 			'list logical drive' => ['<', TESTDIR . '/data/ips/' . $test->{list} ],
 		},
 	);
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{list}");
 
 	$plugin->check;
 	ok(1, "check ran");

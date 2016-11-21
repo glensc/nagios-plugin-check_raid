@@ -175,7 +175,7 @@ foreach my $test (@tests) {
 		no_smartctl => 1,
 		use_lsscsi => $test->{lsscsi} ne '',
 	);
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{c}");
 
 	$plugin->check;
 	ok(1, "check ran");
@@ -192,5 +192,5 @@ foreach my $test (@tests) {
 		ok(0, "Created dump for $df");
 	}
 	my $dump = read_dump($df);
-	is_deeply($c, $dump, "controller structure $df");
+	is_deeply($c, $dump, "controller structure");
 }

@@ -138,7 +138,7 @@ foreach my $test (@tests) {
 
 	my $plugin = hpacucli->new(%args);
 
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{c}");
 
 	$plugin->check;
 	ok(1, "check ran");

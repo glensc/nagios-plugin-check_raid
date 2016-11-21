@@ -28,7 +28,7 @@ foreach my $test (@tests) {
 			'controller config' => ['<', TESTDIR . '/data/megarc/' .$test->{config} ],
 		},
 	);
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{list}");
 
 	$plugin->check;
 	ok(1, "check ran");

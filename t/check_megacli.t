@@ -334,7 +334,7 @@ foreach my $test (@tests) {
 		options => \%options,
 	);
 
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{c}");
 
 	$plugin->check;
 	ok(1, "check ran");

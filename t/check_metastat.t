@@ -37,7 +37,7 @@ foreach my $test (@tests) {
 			'metastat' => ['<', TESTDIR . '/data/metastat/' .$test->{metastat} ],
 		},
 	);
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{metastat}");
 
 	$plugin->check;
 	ok(1, "check ran");

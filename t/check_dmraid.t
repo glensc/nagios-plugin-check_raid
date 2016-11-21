@@ -43,7 +43,7 @@ foreach my $test (@tests) {
 		},
 	);
 
-	ok($plugin, "plugin created");
+	ok($plugin, "plugin created: $test->{dmraid}");
 
 	$plugin->check;
 	ok(1, "check ran");
