@@ -156,7 +156,7 @@ sub parse_ctrl_config {
 			last;
 		}
 
-		if (my($c) = /^Controllers found: (\d+)/) {
+		if (my($c) = /^Controllers [Ff]ound: (\d+)/) {
 			if ($c != $ctrl_count) {
 				# internal error?!
 				$this->unknown->message("Controller count mismatch");
