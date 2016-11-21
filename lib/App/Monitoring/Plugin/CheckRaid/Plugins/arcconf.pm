@@ -365,19 +365,10 @@ sub process_physical_device_information {
 	# /Transfer Speed\s+:\s+(.+)/
 	# /Initiator at SCSI ID/
 	# /No physical drives attached/
-	#
-	# has only one subsection:
-	# 'Device Phy Information', which is not yet processed
 
 	my (@pd, $cs, $s);
 	while (my($ch, $channel_data) = each %$data) {
 		while (my($pd, $cs) = each %{$channel_data->{pd}}) {
-
-			# FIXME: this should be skipped in check process, not here
-			if ($pd eq '') {
-				next;
-			}
-
 			$pd[$ch][$pd]{device_id} = $pd;
 			$pd[$ch][$pd]{power_state} = $cs->{'Power State'} if exists $cs->{'Power State'};
 			$pd[$ch][$pd]{status} = $cs->{'State'} if exists $cs->{'State'};
