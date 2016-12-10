@@ -1,3 +1,7 @@
+# check_raid changelog
+
+## [4.0.5] - UNRELEASED
+
 ## [4.0.4] - 2016-12-11
 
 - arcconf: fix subsection parsing [#156]
@@ -267,6 +271,7 @@ NOTES:
 [#155]: https://github.com/glensc/nagios-plugin-check_raid/issues/155
 [#156]: https://github.com/glensc/nagios-plugin-check_raid/pull/156
 
+[4.0.5]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.4...master
 [4.0.4]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.3...4.0.4
 [4.0.3]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.2...4.0.3
 [4.0.2]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.1...4.0.2
