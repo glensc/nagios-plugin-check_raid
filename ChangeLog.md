@@ -2,6 +2,9 @@
 
 ## [4.0.5] - UNRELEASED
 
+- hpacucli: skip firmware upgrade noise, [#157]
+- cciss: import smartctl, [#149]
+
 ## [4.0.4] - 2016-12-11
 
 - arcconf: fix subsection parsing [#156]
@@ -270,6 +273,8 @@ NOTES:
 [#154]: https://github.com/glensc/nagios-plugin-check_raid/issues/154
 [#155]: https://github.com/glensc/nagios-plugin-check_raid/issues/155
 [#156]: https://github.com/glensc/nagios-plugin-check_raid/pull/156
+[#157]: https://github.com/glensc/nagios-plugin-check_raid/issue/157
+[#149]: https://github.com/glensc/nagios-plugin-check_raid/issue/149
 
 [4.0.5]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.4...master
 [4.0.4]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.3...4.0.4
