@@ -224,6 +224,9 @@ sub parse {
 	while (<$fh>) {
 		chomp;
 
+		# skip empty lines and artificial comments (added by this project)
+		next if /^$/ or /^#/;
+
 		if (/Controller:/) {
 			# this is first item when new controller is found
 			# reset previous state

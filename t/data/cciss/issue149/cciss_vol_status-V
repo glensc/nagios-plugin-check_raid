@@ -1,0 +1,37 @@
+# /usr/bin/cciss_vol_status -V /dev/sg0 /dev/sg1 /dev/sg2
+
+Controller: Smart Array
+  Board ID: 0x21c0103c
+  Logical drives: 1
+  Running firmware: 3.56
+  ROM firmware: 3.56
+/dev/sda: (Smart Array) RAID 5 Volume 0 status: OK.   At least one spare drive designated.  At least one spare drive remains available.
+  Physical drives: 4
+         connector 1I box 1 bay 1                 HP      EH0600JEDHE                          S7M179FC0000K645BD9F     HPD4 OK
+         connector 1I box 1 bay 2                 HP      EH0600JEDHE                          S7M15RXP0000M6470KYB     HPD4 OK
+         connector 1I box 1 bay 3                 HP      EH0600JEDHE                          S7M16DNY0000M64722F9     HPD4 OK
+         connector 1I box 1 bay 4                 HP      EH0600JEDHE                          S7M179320000K647JJ84     HPD4 OK
+/dev/sg0(Smart Array:0): Non-Volatile Cache status:
+                   Cache configured: Yes
+                  Read cache memory: 182 MiB
+                 Write cache memory: 1634 MiB
+                Write cache enabled: Yes
+   Flash backed cache present
+Controller: Smart Array
+  Board ID: 0x21c0103c
+  Logical drives: 1
+  Running firmware: 3.56
+  ROM firmware: 3.56
+/dev/sda: (Smart Array) RAID 5 Volume 0 status: OK.   At least one spare drive designated.  At least one spare drive remains available.
+  Physical drives: 4
+         connector 1I box 1 bay 1                 HP      EH0600JEDHE                          S7M179FC0000K645BD9F     HPD4 OK
+         connector 1I box 1 bay 2                 HP      EH0600JEDHE                          S7M15RXP0000M6470KYB     HPD4 OK
+         connector 1I box 1 bay 3                 HP      EH0600JEDHE                          S7M16DNY0000M64722F9     HPD4 OK
+         connector 1I box 1 bay 4                 HP      EH0600JEDHE                          S7M179320000K647JJ84     HPD4 OK
+/dev/sg1(Smart Array:0): Non-Volatile Cache status:
+                   Cache configured: Yes
+                  Read cache memory: 182 MiB
+                 Write cache memory: 1634 MiB
+                Write cache enabled: Yes
+   Flash backed cache present
+#cciss_vol_status: open /dev/sg2: No such file or directory

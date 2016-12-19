@@ -1,0 +1,5 @@
+[0:0:0:0]    storage HP       P410i            3.66  -          /dev/sg0 
+[0:0:0:1]    disk    HP       LOGICAL VOLUME   3.66  /dev/sda   /dev/sg1 
+[0:0:0:2]    disk    HP       LOGICAL VOLUME   3.66  /dev/sdb   /dev/sg2 
+[1:0:0:0]    cd/dvd  hp       DVD RW AD-7586H  KP03  /dev/sr0   /dev/sg3
+

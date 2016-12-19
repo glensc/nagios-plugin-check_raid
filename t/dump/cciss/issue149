@@ -1,0 +1,72 @@
+$VAR1 = {
+          '/dev/sda' => {
+                          'board_name' => 'Smart Array',
+                          'cache' => {
+                                       'board' => 'Smart Array',
+                                       'configured' => 'Yes',
+                                       'file' => '/dev/sg1',
+                                       'flash_cache' => 1,
+                                       'instance' => 0,
+                                       'read_cache_memory' => '182 MiB',
+                                       'write_cache_enabled' => 'Yes',
+                                       'write_cache_memory' => '1634 MiB'
+                                     },
+                          'drives' => {
+                                        '1I-1-1' => {
+                                                      'bay' => 1,
+                                                      'box' => 1,
+                                                      'fw' => 'HPD4',
+                                                      'model' => 'HP      EH0600JEDHE',
+                                                      'phys1' => '1',
+                                                      'phys2' => 'I',
+                                                      'serial' => 'S7M179FC0000K645BD9F',
+                                                      'slot' => '1I-1-1',
+                                                      'status' => 'OK'
+                                                    },
+                                        '1I-1-2' => {
+                                                      'bay' => 2,
+                                                      'box' => 1,
+                                                      'fw' => 'HPD4',
+                                                      'model' => 'HP      EH0600JEDHE',
+                                                      'phys1' => '1',
+                                                      'phys2' => 'I',
+                                                      'serial' => 'S7M15RXP0000M6470KYB',
+                                                      'slot' => '1I-1-2',
+                                                      'status' => 'OK'
+                                                    },
+                                        '1I-1-3' => {
+                                                      'bay' => 3,
+                                                      'box' => 1,
+                                                      'fw' => 'HPD4',
+                                                      'model' => 'HP      EH0600JEDHE',
+                                                      'phys1' => '1',
+                                                      'phys2' => 'I',
+                                                      'serial' => 'S7M16DNY0000M64722F9',
+                                                      'slot' => '1I-1-3',
+                                                      'status' => 'OK'
+                                                    },
+                                        '1I-1-4' => {
+                                                      'bay' => 4,
+                                                      'box' => 1,
+                                                      'fw' => 'HPD4',
+                                                      'model' => 'HP      EH0600JEDHE',
+                                                      'phys1' => '1',
+                                                      'phys2' => 'I',
+                                                      'serial' => 'S7M179320000K647JJ84',
+                                                      'slot' => '1I-1-4',
+                                                      'status' => 'OK'
+                                                    }
+                                      },
+                          'pd count' => '4',
+                          'volumes' => {
+                                         '0' => {
+                                                  'board_name' => 'Smart Array',
+                                                  'certain' => 1,
+                                                  'raid_level' => 'RAID 5',
+                                                  'spare_drive_status' => 'At least one spare drive designated.  At least one spare drive remains available.',
+                                                  'status' => 'OK',
+                                                  'volume_number' => '0'
+                                                }
+                                       }
+                        }
+        };
