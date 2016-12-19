@@ -91,6 +91,14 @@ sub scan_targets {
 		# skip empty lines and artificial comments (added by this project)
 		next if /^$/ or /^#/;
 
+		# skip known noise
+		if (
+			/FIRMWARE UPGRADE REQUIRED: /
+			|| /^\s{27}/
+		) {
+			next;
+		}
+
 		# Numeric slot
 		if (my($controller, $slot, $modes) = /
 				^(\S.+)\sin\sSlot
@@ -110,6 +118,7 @@ sub scan_targets {
 			$this->unknown if $slot !~ /^\d+/;
 			next;
 		}
+
 		# Named Entry
 		if (my($controller, $cn) = /^(\S.+) in (.+)/) {
 			$target = "chassisname=$cn";
@@ -124,9 +133,10 @@ sub scan_targets {
 		# Other statuses, try "key: value" pairs
 		if (my ($key, $value) = /^\s*(.+?):\s+(.+?)$/) {
 			$targets{$target}{$key} = $value;
-		} else {
-			warn "Unparsed: [$_]\n";
+			next;
 		}
+
+		warn "Unparsed: [$_]\n";
 	}
 	close $fh;
 
