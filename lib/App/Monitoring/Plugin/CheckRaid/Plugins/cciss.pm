@@ -2,6 +2,7 @@ package App::Monitoring::Plugin::CheckRaid::Plugins::cciss;
 
 use base 'App::Monitoring::Plugin::CheckRaid::Plugin';
 use App::Monitoring::Plugin::CheckRaid::Plugins::lsscsi;
+use App::Monitoring::Plugin::CheckRaid::Plugins::smartctl;
 use strict;
 use warnings;
 
