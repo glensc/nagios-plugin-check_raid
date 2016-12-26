@@ -1,4 +1,5 @@
 language: perl
+dist: trusty
 sudo: false
 perl:
   - "5.24"
@@ -26,6 +27,7 @@ script:
   - make travis
 
 before_deploy: |
+  ruby --version
   gem install --no-ri --no-rdoc chandler
 
   # Create token in https://github.com/settings/tokens with 'public_repo' access
