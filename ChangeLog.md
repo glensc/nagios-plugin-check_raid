@@ -5,9 +5,14 @@
 - hpacucli: skip firmware upgrade noise, [#157]
 - cciss: import smartctl, [#149]
 
+[#149]: https://github.com/glensc/nagios-plugin-check_raid/issue/149
+[#157]: https://github.com/glensc/nagios-plugin-check_raid/issue/157
+
 ## [4.0.4] - 2016-12-11
 
 - arcconf: fix subsection parsing [#156]
+
+[#156]: https://github.com/glensc/nagios-plugin-check_raid/pull/156
 
 ## [4.0.3] - 2016-11-20
 
@@ -28,14 +33,30 @@
 - arcconf: fix duplicate degrated report [#155]
 - arcconf: add `/usr/StorMan` to search path [#155]
 
+[#86]: https://github.com/glensc/nagios-plugin-check_raid/issues/86
+[#128]: https://github.com/glensc/nagios-plugin-check_raid/issues/128
+[#129]: https://github.com/glensc/nagios-plugin-check_raid/issues/129
+[#139]: https://github.com/glensc/nagios-plugin-check_raid/issues/139
+[#145]: https://github.com/glensc/nagios-plugin-check_raid/issues/145
+[#151]: https://github.com/glensc/nagios-plugin-check_raid/issues/151
+[#152]: https://github.com/glensc/nagios-plugin-check_raid/issues/152
+[#154]: https://github.com/glensc/nagios-plugin-check_raid/issues/154
+[#155]: https://github.com/glensc/nagios-plugin-check_raid/issues/155
+
 ## [4.0.2] - 2016-03-14
 
 - dm: Support for Linux Device-Mapper targets. [#134], [#130]
+
+[#130]: https://github.com/glensc/nagios-plugin-check_raid/issues/130
+[#134]: https://github.com/glensc/nagios-plugin-check_raid/pull/134
 
 ## [4.0.1] - 2016-02-29
 
 - megacli: Support Predictive Failures as Warning rather than critical [#123]
 - tw_cli: Implement detailed BBU & Enclosure checks [#131]
+
+[#123]: https://github.com/glensc/nagios-plugin-check_raid/issues/123
+[#131]: https://github.com/glensc/nagios-plugin-check_raid/pull/131
 
 NOTES:
 - `tw_cli` users need to update their `sudo` rules
@@ -49,11 +70,13 @@ or run from source tree yourself.
 
 Despite the major version change, the underlying plugins code is same as in 3.2.5.
 
+[#115]: https://github.com/glensc/nagios-plugin-check_raid/issues/115
+
 ## [3.2.5] - 2015-10-03
 
 - tw_cli: respect bbu monitoring flag in tw_cli (defaults to off). [#117]
 - hpssacli: make plugin to work if hpacucli is dected as well. [#116], [#114]
-- arcconf: parse multiple controllers. [#110] [#118]
+- arcconf: parse multiple controllers. [#110], [#118]
 - mvcli: new plugin, partial implementation [#92]
 - improvements to `make rpm`. [#108]
 - arcconf: bbu monitoring is optional (defaults to off). [#118]
@@ -61,6 +84,14 @@ Despite the major version change, the underlying plugins code is same as in 3.2.
 NOTES:
 - `arcconf` users need to update their `sudo` rules
 - `arcconf` & `tw_cli` respect bbu monitoring flag, which defaults to off
+
+[#92]: https://github.com/glensc/nagios-plugin-check_raid/issues/92
+[#108]: https://github.com/glensc/nagios-plugin-check_raid/pull/108
+[#110]: https://github.com/glensc/nagios-plugin-check_raid/issues/110
+[#114]: https://github.com/glensc/nagios-plugin-check_raid/issues/114
+[#116]: https://github.com/glensc/nagios-plugin-check_raid/issues/116
+[#117]: https://github.com/glensc/nagios-plugin-check_raid/issues/117
+[#118]: https://github.com/glensc/nagios-plugin-check_raid/pull/118
 
 ## [3.2.4] - 2015-07-03
 
@@ -77,6 +108,19 @@ NOTES:
 - add make rpm target [#108]
 - add missing lsscsi command for cciss. [#109]
 
+[#58]: https://github.com/glensc/nagios-plugin-check_raid/issues/58
+[#88]: https://github.com/glensc/nagios-plugin-check_raid/issues/88
+[#97]: https://github.com/glensc/nagios-plugin-check_raid/issues/97
+[#98]: https://github.com/glensc/nagios-plugin-check_raid/issues/98
+[#99]: https://github.com/glensc/nagios-plugin-check_raid/issues/99
+[#100]: https://github.com/glensc/nagios-plugin-check_raid/issues/100
+[#101]: https://github.com/glensc/nagios-plugin-check_raid/issues/101
+[#104]: https://github.com/glensc/nagios-plugin-check_raid/issues/104
+[#105]: https://github.com/glensc/nagios-plugin-check_raid/issues/105
+[#106]: https://github.com/glensc/nagios-plugin-check_raid/issues/106
+[#108]: https://github.com/glensc/nagios-plugin-check_raid/pull/108
+[#109]: https://github.com/glensc/nagios-plugin-check_raid/issues/109
+
 ## [3.2.3] - 2015-03-25
 
 - arcconf: dead disks have no id, use physical location instead [#90]
@@ -87,6 +131,15 @@ NOTES:
 - metastat: plugin is now usable [#38], [#96]
 - hpssacli: adding hpssacli support [#94]
 
+[#38]: https://github.com/glensc/nagios-plugin-check_raid/issues/38
+[#88]: https://github.com/glensc/nagios-plugin-check_raid/issues/88
+[#90]: https://github.com/glensc/nagios-plugin-check_raid/issues/90
+[#91]: https://github.com/glensc/nagios-plugin-check_raid/issues/91
+[#93]: https://github.com/glensc/nagios-plugin-check_raid/pull/93
+[#94]: https://github.com/glensc/nagios-plugin-check_raid/pull/94
+[#95]: https://github.com/glensc/nagios-plugin-check_raid/issues/95
+[#96]: https://github.com/glensc/nagios-plugin-check_raid/pull/96
+
 ## [3.2.2] - 2014-11-15
 
 - cciss: fix parsing enclosure with no enclosure name [#84]
@@ -95,12 +148,21 @@ NOTES:
 - tw_cli: tweak VERIFYING state [#89]
 - megacli: JBOD state of physical device is OK as well [#82]
 
+[#82]: https://github.com/glensc/nagios-plugin-check_raid/pull/82
+[#84]: https://github.com/glensc/nagios-plugin-check_raid/issues/84
+[#85]: https://github.com/glensc/nagios-plugin-check_raid/issues/85
+[#87]: https://github.com/glensc/nagios-plugin-check_raid/issues/87
+[#89]: https://github.com/glensc/nagios-plugin-check_raid/pull/89
+
 ## [3.2.1] - 2014-10-07
 
 - cciss: fix parsing enclosure with space and no serial [#83]
 - megacli: alert if default is WriteBack, but current is WriteThrough [#65]
 
 NOTE: megacli now checks cache state, use `--cache-fail=STATE` if default `WARNING` is not for you.
+
+[#65]: https://github.com/glensc/nagios-plugin-check_raid/issues/65
+[#83]: https://github.com/glensc/nagios-plugin-check_raid/issues/83
 
 ## [3.2.0] - 2014-09-21
 
@@ -129,6 +191,30 @@ NOTE: when using `cciss` plugin with `hpsa` kernel driver, install `lsscsi` prog
 NOTES:
 `mpt-status` and `sas2ircu` users need to update their `sudo` rules
 
+[#32]: https://github.com/glensc/nagios-plugin-check_raid/issues/32
+[#36]: https://github.com/glensc/nagios-plugin-check_raid/issues/36
+[#47]: https://github.com/glensc/nagios-plugin-check_raid/issues/47
+[#50]: https://github.com/glensc/nagios-plugin-check_raid/issues/50
+[#51]: https://github.com/glensc/nagios-plugin-check_raid/issues/51
+[#52]: https://github.com/glensc/nagios-plugin-check_raid/issues/52
+[#53]: https://github.com/glensc/nagios-plugin-check_raid/issues/53
+[#54]: https://github.com/glensc/nagios-plugin-check_raid/issues/54
+[#55]: https://github.com/glensc/nagios-plugin-check_raid/issues/55
+[#56]: https://github.com/glensc/nagios-plugin-check_raid/issues/56
+[#57]: https://github.com/glensc/nagios-plugin-check_raid/pull/57
+[#60]: https://github.com/glensc/nagios-plugin-check_raid/pull/60
+[#62]: https://github.com/glensc/nagios-plugin-check_raid/pull/62
+[#63]: https://github.com/glensc/nagios-plugin-check_raid/issues/63
+[#64]: https://github.com/glensc/nagios-plugin-check_raid/issues/64
+[#66]: https://github.com/glensc/nagios-plugin-check_raid/pull/66
+[#67]: https://github.com/glensc/nagios-plugin-check_raid/issues/67
+[#68]: https://github.com/glensc/nagios-plugin-check_raid/pull/68
+[#70]: https://github.com/glensc/nagios-plugin-check_raid/pull/70
+[#71]: https://github.com/glensc/nagios-plugin-check_raid/pull/71
+[#72]: https://github.com/glensc/nagios-plugin-check_raid/pull/72
+[#74]: https://github.com/glensc/nagios-plugin-check_raid/pull/74
+[#77]: https://github.com/glensc/nagios-plugin-check_raid/pull/77
+
 ## [3.0.5] - 2013-11-27
 
 - fixed program version
@@ -147,6 +233,11 @@ NOTES:
 - set state WARNING when raid is resyncing by default, override with `--resync=STATE`
 - arcconf: check physical devices
 
+[#33]: https://github.com/glensc/nagios-plugin-check_raid/issues/33
+[#39]: https://github.com/glensc/nagios-plugin-check_raid/pull/39
+[#45]: https://github.com/glensc/nagios-plugin-check_raid/issues/45
+[#46]: https://github.com/glensc/nagios-plugin-check_raid/pull/46
+
 ## [3.0.3] - 2013-11-12
 
 - resync fixes
@@ -159,6 +250,14 @@ NOTES:
 - `dmraid` support ([#35])
 - `mdstat` plugin rewritten to handle external devices ([#34])
 - added `--resync=OK|WARNING|CRITICAL|UNKNOWN` option. defaults to `OK` ([#23], [#24], [#28], [#37])
+
+[#23]: https://github.com/glensc/nagios-plugin-check_raid/pull/23
+[#24]: https://github.com/glensc/nagios-plugin-check_raid/issues/24
+[#28]: https://github.com/glensc/nagios-plugin-check_raid/pull/28
+[#29]: https://github.com/glensc/nagios-plugin-check_raid/pull/29
+[#34]: https://github.com/glensc/nagios-plugin-check_raid/issues/34
+[#35]: https://github.com/glensc/nagios-plugin-check_raid/pull/35
+[#37]: https://github.com/glensc/nagios-plugin-check_raid/pull/37
 
 ## [3.0.1]
 
@@ -191,90 +290,6 @@ NOTES:
 
 ## 1.1
 - IPS; Solaris, AIX, Linux software RAID; `megaide`
-
-[#23]: https://github.com/glensc/nagios-plugin-check_raid/pull/23
-[#24]: https://github.com/glensc/nagios-plugin-check_raid/issues/24
-[#28]: https://github.com/glensc/nagios-plugin-check_raid/pull/28
-[#29]: https://github.com/glensc/nagios-plugin-check_raid/pull/29
-[#33]: https://github.com/glensc/nagios-plugin-check_raid/issues/33
-[#34]: https://github.com/glensc/nagios-plugin-check_raid/issues/34
-[#35]: https://github.com/glensc/nagios-plugin-check_raid/pull/35
-[#36]: https://github.com/glensc/nagios-plugin-check_raid/issues/36
-[#37]: https://github.com/glensc/nagios-plugin-check_raid/pull/37
-[#39]: https://github.com/glensc/nagios-plugin-check_raid/pull/39
-[#45]: https://github.com/glensc/nagios-plugin-check_raid/issues/45
-[#46]: https://github.com/glensc/nagios-plugin-check_raid/pull/46
-[#47]: https://github.com/glensc/nagios-plugin-check_raid/issues/47
-[#50]: https://github.com/glensc/nagios-plugin-check_raid/issues/50
-[#51]: https://github.com/glensc/nagios-plugin-check_raid/issues/51
-[#52]: https://github.com/glensc/nagios-plugin-check_raid/issues/52
-[#53]: https://github.com/glensc/nagios-plugin-check_raid/issues/53
-[#54]: https://github.com/glensc/nagios-plugin-check_raid/issues/54
-[#55]: https://github.com/glensc/nagios-plugin-check_raid/issues/55
-[#56]: https://github.com/glensc/nagios-plugin-check_raid/issues/56
-[#57]: https://github.com/glensc/nagios-plugin-check_raid/pull/57
-[#62]: https://github.com/glensc/nagios-plugin-check_raid/pull/62
-[#63]: https://github.com/glensc/nagios-plugin-check_raid/issues/63
-[#64]: https://github.com/glensc/nagios-plugin-check_raid/issues/64
-[#67]: https://github.com/glensc/nagios-plugin-check_raid/issues/67
-[#68]: https://github.com/glensc/nagios-plugin-check_raid/pull/68
-[#74]: https://github.com/glensc/nagios-plugin-check_raid/pull/74
-[#72]: https://github.com/glensc/nagios-plugin-check_raid/pull/72
-[#60]: https://github.com/glensc/nagios-plugin-check_raid/pull/60
-[#77]: https://github.com/glensc/nagios-plugin-check_raid/pull/77
-[#66]: https://github.com/glensc/nagios-plugin-check_raid/pull/66
-[#70]: https://github.com/glensc/nagios-plugin-check_raid/pull/70
-[#71]: https://github.com/glensc/nagios-plugin-check_raid/pull/71
-[#32]: https://github.com/glensc/nagios-plugin-check_raid/issues/32
-[#83]: https://github.com/glensc/nagios-plugin-check_raid/issues/83
-[#65]: https://github.com/glensc/nagios-plugin-check_raid/issues/65
-[#84]: https://github.com/glensc/nagios-plugin-check_raid/issues/84
-[#85]: https://github.com/glensc/nagios-plugin-check_raid/issues/85
-[#87]: https://github.com/glensc/nagios-plugin-check_raid/issues/87
-[#89]: https://github.com/glensc/nagios-plugin-check_raid/pull/89
-[#82]: https://github.com/glensc/nagios-plugin-check_raid/pull/82
-[#90]: https://github.com/glensc/nagios-plugin-check_raid/issues/90
-[#88]: https://github.com/glensc/nagios-plugin-check_raid/issues/88
-[#95]: https://github.com/glensc/nagios-plugin-check_raid/issues/95
-[#91]: https://github.com/glensc/nagios-plugin-check_raid/issues/91
-[#93]: https://github.com/glensc/nagios-plugin-check_raid/pull/93
-[#38]: https://github.com/glensc/nagios-plugin-check_raid/issues/38
-[#96]: https://github.com/glensc/nagios-plugin-check_raid/pull/96
-[#94]: https://github.com/glensc/nagios-plugin-check_raid/pull/94
-[#99]: https://github.com/glensc/nagios-plugin-check_raid/issues/99
-[#100]: https://github.com/glensc/nagios-plugin-check_raid/issues/100
-[#101]: https://github.com/glensc/nagios-plugin-check_raid/issues/101
-[#98]: https://github.com/glensc/nagios-plugin-check_raid/issues/98
-[#97]: https://github.com/glensc/nagios-plugin-check_raid/issues/97
-[#58]: https://github.com/glensc/nagios-plugin-check_raid/issues/58
-[#104]: https://github.com/glensc/nagios-plugin-check_raid/issues/104
-[#105]: https://github.com/glensc/nagios-plugin-check_raid/issues/105
-[#106]: https://github.com/glensc/nagios-plugin-check_raid/issues/106
-[#108]: https://github.com/glensc/nagios-plugin-check_raid/pull/108
-[#109]: https://github.com/glensc/nagios-plugin-check_raid/issues/109
-[#117]: https://github.com/glensc/nagios-plugin-check_raid/issues/117
-[#116]: https://github.com/glensc/nagios-plugin-check_raid/issues/116
-[#114]: https://github.com/glensc/nagios-plugin-check_raid/issues/114
-[#92]: https://github.com/glensc/nagios-plugin-check_raid/issues/92
-[#110]: https://github.com/glensc/nagios-plugin-check_raid/issues/110
-[#118]: https://github.com/glensc/nagios-plugin-check_raid/pull/118
-[#115]: https://github.com/glensc/nagios-plugin-check_raid/issues/115
-[#123]: https://github.com/glensc/nagios-plugin-check_raid/issues/123
-[#131]: https://github.com/glensc/nagios-plugin-check_raid/pull/131
-[#134]: https://github.com/glensc/nagios-plugin-check_raid/pull/134
-[#130]: https://github.com/glensc/nagios-plugin-check_raid/issues/130
-[#86]: https://github.com/glensc/nagios-plugin-check_raid/issues/86
-[#145]: https://github.com/glensc/nagios-plugin-check_raid/issues/145
-[#152]: https://github.com/glensc/nagios-plugin-check_raid/issues/152
-[#128]: https://github.com/glensc/nagios-plugin-check_raid/issues/128
-[#151]: https://github.com/glensc/nagios-plugin-check_raid/issues/151
-[#129]: https://github.com/glensc/nagios-plugin-check_raid/issues/129
-[#139]: https://github.com/glensc/nagios-plugin-check_raid/issues/139
-[#154]: https://github.com/glensc/nagios-plugin-check_raid/issues/154
-[#155]: https://github.com/glensc/nagios-plugin-check_raid/issues/155
-[#156]: https://github.com/glensc/nagios-plugin-check_raid/pull/156
-[#157]: https://github.com/glensc/nagios-plugin-check_raid/issue/157
-[#149]: https://github.com/glensc/nagios-plugin-check_raid/issue/149
 
 [4.0.5]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.4...master
 [4.0.4]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.3...4.0.4
