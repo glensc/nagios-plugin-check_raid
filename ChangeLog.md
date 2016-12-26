@@ -5,8 +5,8 @@
 - hpacucli: skip firmware upgrade noise, [#157]
 - cciss: import smartctl, [#149]
 
-[#149]: https://github.com/glensc/nagios-plugin-check_raid/issue/149
-[#157]: https://github.com/glensc/nagios-plugin-check_raid/issue/157
+[#149]: https://github.com/glensc/nagios-plugin-check_raid/issues/149
+[#157]: https://github.com/glensc/nagios-plugin-check_raid/issues/157
 
 ## [4.0.4] - 2016-12-11
 
