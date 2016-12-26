@@ -52,14 +52,14 @@
 
 ## [4.0.1] - 2016-02-29
 
+NOTES:
+- `tw_cli` users need to update their `sudo` rules
+
 - megacli: Support Predictive Failures as Warning rather than critical [#123]
 - tw_cli: Implement detailed BBU & Enclosure checks [#131]
 
 [#123]: https://github.com/glensc/nagios-plugin-check_raid/issues/123
 [#131]: https://github.com/glensc/nagios-plugin-check_raid/pull/131
-
-NOTES:
-- `tw_cli` users need to update their `sudo` rules
 
 ## [4.0.0] - 2015-10-31
 
@@ -74,16 +74,16 @@ Despite the major version change, the underlying plugins code is same as in 3.2.
 
 ## [3.2.5] - 2015-10-03
 
+NOTES:
+- `arcconf` users need to update their `sudo` rules
+- `arcconf` & `tw_cli` respect bbu monitoring flag, which defaults to off
+
 - tw_cli: respect bbu monitoring flag in tw_cli (defaults to off). [#117]
 - hpssacli: make plugin to work if hpacucli is dected as well. [#116], [#114]
 - arcconf: parse multiple controllers. [#110], [#118]
 - mvcli: new plugin, partial implementation [#92]
 - improvements to `make rpm`. [#108]
 - arcconf: bbu monitoring is optional (defaults to off). [#118]
-
-NOTES:
-- `arcconf` users need to update their `sudo` rules
-- `arcconf` & `tw_cli` respect bbu monitoring flag, which defaults to off
 
 [#92]: https://github.com/glensc/nagios-plugin-check_raid/issues/92
 [#108]: https://github.com/glensc/nagios-plugin-check_raid/pull/108
@@ -156,23 +156,28 @@ NOTES:
 
 ## [3.2.1] - 2014-10-07
 
+NOTE: megacli now checks cache state, use `--cache-fail=STATE` if default `WARNING` is not for you.
+
 - cciss: fix parsing enclosure with space and no serial [#83]
 - megacli: alert if default is WriteBack, but current is WriteThrough [#65]
-
-NOTE: megacli now checks cache state, use `--cache-fail=STATE` if default `WARNING` is not for you.
 
 [#65]: https://github.com/glensc/nagios-plugin-check_raid/issues/65
 [#83]: https://github.com/glensc/nagios-plugin-check_raid/issues/83
 
 ## [3.2.0] - 2014-09-21
 
+NOTE: when using `cciss` plugin with `hpsa` kernel driver, install `lsscsi`
+program and `cciss_vol_status` 1.10+ to get best results. `cciss_vol_status`
+v1.10 enables check of individual disks and their S.M.A.R.T status.
+
 - sudoers: support `#includedir` if enabled in sudoers config
 - tw_cli: rewritten with full data parsing
 - cciss: rewritten with full data parsing, optionally use lsscsi to find controller devices
 
-NOTE: when using `cciss` plugin with `hpsa` kernel driver, install `lsscsi` program and `cciss_vol_status` 1.10+ to get best results. `cciss_vol_status` v1.10 enables check of individual disks and their S.M.A.R.T status.
-
 ## [3.1.0] - 2014-09-08
+
+NOTES:
+`mpt-status` and `sas2ircu` users need to update their `sudo` rules
 
 - sudoers: disable requiretty (enabled in CentOS 6.5) [#52]
 - megacli fixes [#50], [#53], [#56], [#63], [#74], [#32]
@@ -187,9 +192,6 @@ NOTE: when using `cciss` plugin with `hpsa` kernel driver, install `lsscsi` prog
 - mdstat: do not trigger WARN when checking (even multiple) arrays by default [#77]
 - fixed behaviour of `--noraid` option [#70]
 - sas2ircu: add disks check, handle no RAID volumes [#71]
-
-NOTES:
-`mpt-status` and `sas2ircu` users need to update their `sudo` rules
 
 [#32]: https://github.com/glensc/nagios-plugin-check_raid/issues/32
 [#36]: https://github.com/glensc/nagios-plugin-check_raid/issues/36
