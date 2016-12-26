@@ -1,5 +1,7 @@
 # check_raid changelog
 
+## [4.0.6] - UNRELEASED
+
 ## [4.0.5] - 2016-12-26
 
 - hpacucli: skip firmware upgrade noise, [#157]
@@ -293,6 +295,7 @@ NOTES:
 ## 1.1
 - IPS; Solaris, AIX, Linux software RAID; `megaide`
 
+[4.0.6]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.5...master
 [4.0.5]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.4...4.0.5
 [4.0.4]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.3...4.0.4
 [4.0.3]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.2...4.0.3
