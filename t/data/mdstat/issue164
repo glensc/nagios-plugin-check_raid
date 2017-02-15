@@ -1,0 +1,10 @@
+Personalities : [raid1]
+md1 : active raid1 sdc1[0] sdh1[5](F) sdg1[4] sdf1[3] sde1[2] sdd1[1]
+      1953382400 blocks super 1.2 [5/5] [UUUUU]
+      bitmap: 2/15 pages [8KB], 65536KB chunk
+
+md0 : active raid1 sda1[0] sdb1[1]
+      124967936 blocks super 1.2 [2/2] [UU]
+      bitmap: 1/1 pages [4KB], 65536KB chunk
+
+unused devices: <none>
