@@ -2,6 +2,11 @@
 
 ## [4.0.6] - UNRELEASED
 
+- failed md hotspares not detected [#164], [#165], @bzed
+
+[#164]: https://github.com/glensc/nagios-plugin-check_raid/issues/164
+[#165]: https://github.com/glensc/nagios-plugin-check_raid/pull/165
+
 ## [4.0.5] - 2016-12-26
 
 - hpacucli: skip firmware upgrade noise, [#157]
