@@ -161,9 +161,6 @@ sub parse {
 			push @devices, \%h;
 			next;
 		}
-
-		warn "Unhandled:[$_]";
-		$this->unknown;
 	}
 	close $fh;
 	return \@devices;
