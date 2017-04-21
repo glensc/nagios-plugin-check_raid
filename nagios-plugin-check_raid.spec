@@ -35,6 +35,7 @@ Suggests:	tw_cli-9xxx
 %endif
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+AutoReq: no
 
 %description
 This plugin checks all RAID volumes (hardware and software) that can
