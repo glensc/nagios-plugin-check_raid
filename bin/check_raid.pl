@@ -91,10 +91,6 @@ $mp->add_arg(
 	spec => 'bbu-monitoring',
 	help => 'Enable experimental monitoring of the BBU status',
 );
-$mp->add_arg(
-	spec => 'warnonly|W',
-	help => 'Treat CRITICAL errors as WARNING',
-);
 
 $mp->getopts;
 
