@@ -1,16 +1,6 @@
 language: perl
 dist: trusty
 sudo: false
-perl:
-  - "5.24"
-  - "5.22"
-  - "5.20"
-  - "5.18"
-  - "5.16"
-  - "5.14"
-  - "5.12"
-  - "5.10"
-  - "5.8"
 git:
   depth: 6000
 
@@ -18,13 +8,42 @@ cache:
   directories:
     - cache
 
-matrix:
-  fast_finish: true
+jobs:
+  include:
+    - perl: "5.24"
+    - perl: "5.22"
+    - perl: "5.20"
+    - perl: "5.18"
+    - perl: "5.16"
+    - perl: "5.14"
+    - perl: "5.12"
+    - perl: "5.10"
+    - perl: "5.8"
+
+    # TODO: would be nice to have two separate stages, one for build, and other for actually publishing
+    - stage: GitHub Release
+      # deploy from 5.22 version, the other versions somewhy bundle too much dependencies
+      perl: "5.22"
+      script:
+        - set -e
+        - make travis
+      # https://docs.travis-ci.com/user/deployment/releases
+      deploy:
+        provider: releases
+        api_key:
+          secure: lE3YmAY2AR4QJE+62fFljzG9TruoNgEcg/+MxokLsufgN3ZDTKXVbyFaJySIfFRJ3VezRvh84JLzrcOeQZxN14Qruqnp1ZJ5NoMDT9HUxBJmikBTfopJobUFeQPvZXBb2o+XrF57KNtRhFGLoeXMvMVoPO9IlQ1zv4Z6dtJe2GM=
+        file_glob: true
+        file:
+          - check_raid*.pl
+        skip_cleanup: true
+        overwrite: true
+        on:
+          repo: glensc/nagios-plugin-check_raid
+          tags: true
 
 script:
   - set -e
   - make test
-  - make travis
 
 before_deploy: |
   ruby --version
@@ -34,21 +53,5 @@ before_deploy: |
   # and set as env var:
   # $ travis env set -p CHANDLER_GITHUB_API_TOKEN ...
   chandler push $TRAVIS_TAG
-
-# https://docs.travis-ci.com/user/deployment/releases
-deploy:
-  provider: releases
-  api_key:
-    secure: lE3YmAY2AR4QJE+62fFljzG9TruoNgEcg/+MxokLsufgN3ZDTKXVbyFaJySIfFRJ3VezRvh84JLzrcOeQZxN14Qruqnp1ZJ5NoMDT9HUxBJmikBTfopJobUFeQPvZXBb2o+XrF57KNtRhFGLoeXMvMVoPO9IlQ1zv4Z6dtJe2GM=
-  file_glob: true
-  file:
-    - check_raid*.pl
-  skip_cleanup: true
-  overwrite: true
-  on:
-    repo: glensc/nagios-plugin-check_raid
-    # deploy from 5.22 version, the other versions somewhy bundle too much dependencies
-    perl: '5.22'
-    tags: true
 
 # vim:ft=yaml:et:ts=2:sw=2
