@@ -13,7 +13,7 @@ Group:		Networking
 Source0:	%{plugin}.pl
 Source1:	%{plugin}.cfg
 Source2:	README.md
-Source3:	ChangeLog.md
+Source3:	CHANGELOG.md
 Source4:	CONTRIBUTING.md
 URL:		https://github.com/glensc/nagios-plugin-check_raid
 Requires:	%{plugindir}
@@ -100,6 +100,6 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc README.md ChangeLog.md CONTRIBUTING.md
+%doc README.md CHANGELOG.md CONTRIBUTING.md
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{plugin}.cfg
 %attr(755,root,root) %{plugindir}/%{plugin}
