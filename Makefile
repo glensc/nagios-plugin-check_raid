@@ -10,27 +10,33 @@ CPANM           := cpanm --cascade-search --save-dists=$(CPANM_CACHE) --mirror=$
 export PERL5LIB := $(CURDIR)/sysdeps/lib/perl5
 PATH            := $(CURDIR)/sysdeps/bin:$(PATH)
 
-# rpm version related macros
+# package related macros
 RPM_NAME        := nagios-plugin-$(PLUGIN)
+DEB_NAME        := nagios-plugin-$(subst _,-,$(PLUGIN))
 version_parts   := $(subst -, ,$(PLUGIN_VERSION))
 space           := $(nil) $(nil)
-RPM_VERSION     := $(firstword $(version_parts))
-RPM_RELEASE     := $(subst $(space),.,$(wordlist 2, $(words $(version_parts)), $(version_parts)))
+PKG_VERSION     := $(firstword $(version_parts))
+PKG_RELEASE     := $(subst $(space),.,$(wordlist 2, $(words $(version_parts)), $(version_parts)))
 # if built from tag, release "1", otherwise "0.something"
-ifneq ($(RPM_RELEASE),)
-RPM_RELEASE     := 0.$(RPM_RELEASE)
+ifneq ($(PKG_RELEASE),)
+PKG_RELEASE     := 0.$(PKG_RELEASE)
 else
-RPM_RELEASE     := 1
+PKG_RELEASE     := 1
 endif
-RPM_FILENAME    := $(RPM_NAME)-$(RPM_VERSION)-$(RPM_RELEASE).noarch.rpm
+RPM_FILENAME    := $(RPM_NAME)-$(PKG_VERSION)-$(PKG_RELEASE).noarch.rpm
+DEB_FILENAME    := $(DEB_NAME)_$(PKG_VERSION)-$(PKG_RELEASE)_all.deb
 
 all:
 
 test:
 	perl -MTest::Harness -e 'runtests @ARGV' t/*.t
 
+clean:
+	rm -vf builddeps *.deb *.rpm
+
 builddeps:
 	$(CPANM) -n -L sysdeps App::FatPacker App::FatPacker::Simple
+	touch $@
 
 pack:
 	rm -f $(PLUGIN_SCRIPT)
@@ -96,7 +102,20 @@ install: $(PLUGIN_SCRIPT)
 	install -d $(DESTDIR)$(PLUGINCONF)
 	cp -p $(PLUGIN).cfg $(DESTDIR)$(PLUGINCONF)
 
-rpm: $(PLUGIN_SCRIPT)
+deb: $(DEB_FILENAME)
+	@ls -l --full $<
+
+rpm: $(RPM_FILENAME)
+	@ls -l --full $<
+	# display built rpm requires
+	rpm -qp --requires $(CURDIR)/$(RPM_FILENAME)
+	# display built rpm provides
+	rpm -qp --provides $(CURDIR)/$(RPM_FILENAME)
+
+$(DEB_FILENAME): $(RPM_FILENAME)
+	fpm -f -s rpm -t deb --name $(DEB_NAME) --version $(PKG_VERSION) --iteration $(PKG_RELEASE) -a all --no-auto-depends -d libmonitoring-plugin-perl $(RPM_FILENAME)
+
+$(RPM_FILENAME): $(PLUGIN_SCRIPT)
 	# needs to be ran in git checkout for version setup to work
 	test -d .git
 	# display build system info
@@ -110,8 +129,6 @@ rpm: $(PLUGIN_SCRIPT)
 		--define '_srcrpmdir %_topdir' \
 		--define '_builddir %_topdir/BUILD' \
 		--define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm' \
-		--define 'version $(RPM_VERSION)' \
-		--define 'release $(RPM_RELEASE)' \
+		--define 'version $(PKG_VERSION)' \
+		--define 'release $(PKG_RELEASE)' \
 		$(RPM_NAME).spec
-	# display built rpm requires
-	rpm -qp --requires $(CURDIR)/$(RPM_FILENAME)
