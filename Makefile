@@ -109,6 +109,7 @@ rpm: $(PLUGIN_SCRIPT)
 		--define '_rpmdir %_topdir' \
 		--define '_srcrpmdir %_topdir' \
 		--define '_builddir %_topdir/BUILD' \
+		--define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm' \
 		--define 'version $(RPM_VERSION)' \
 		--define 'release $(RPM_RELEASE)' \
 		$(RPM_NAME).spec
