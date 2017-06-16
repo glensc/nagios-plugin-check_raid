@@ -1,6 +1,6 @@
 language: perl
 dist: trusty
-sudo: false
+sudo: required
 git:
   depth: 6000
 
@@ -27,6 +27,8 @@ jobs:
       script:
         - set -e
         - make dist
+        - sudo apt-get install rpm
+        - make rpm
       # https://docs.travis-ci.com/user/deployment/releases
       deploy:
         provider: releases
