@@ -85,16 +85,10 @@ snapshot:
 	git push -f git@github.com:glensc/nagios-plugin-check_raid.git snapshot
 
 # it's annoying to write shell in travis yaml
-travis:
-	# build check_raid.pl only on tags
+dist:
+	$(MAKE) pack
 	# on snapshot, rename for better identifying build
-	set -e; \
-	if [ -n "$(TRAVIS_TAG)" ] && [ "$(TRAVIS_PERL_VERSION)" = "5.22" ]; then \
-		$(MAKE) pack; \
-		if [ "$(TRAVIS_TAG)" = "snapshot" ]; then \
-			mv $(PLUGIN_SCRIPT) $(PLUGIN)-$(PLUGIN_VERSION).pl; \
-		fi; \
-	fi
+	[ "$(TRAVIS_TAG)" != "snapshot" ] || mv $(PLUGIN_SCRIPT) $(PLUGIN)-$(PLUGIN_VERSION).pl
 
 install: $(PLUGIN_SCRIPT)
 	install -d $(DESTDIR)$(PLUGINDIR)

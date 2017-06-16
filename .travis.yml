@@ -26,7 +26,7 @@ jobs:
       perl: "5.22"
       script:
         - set -e
-        - make travis
+        - make dist
       # https://docs.travis-ci.com/user/deployment/releases
       deploy:
         provider: releases
