@@ -26,6 +26,16 @@ endif
 RPM_FILENAME    := $(RPM_NAME)-$(PKG_VERSION)-$(PKG_RELEASE).noarch.rpm
 DEB_FILENAME    := $(DEB_NAME)_$(PKG_VERSION)-$(PKG_RELEASE)_all.deb
 
+# common fpm options
+FPM_OPTIONS += --license GPLv2
+FPM_OPTIONS += --vendor glen@pld-linux.org
+FPM_OPTIONS += --maintainer glen@pld-linux.org
+FPM_OPTIONS += --url https://github.com/glensc/nagios-plugin-check_raid
+FPM_OPTIONS += --description "Nagios/Icinga plugin to check current server's RAID status"
+FPM_OPTIONS += --name $(DEB_NAME)
+FPM_OPTIONS += --version $(PKG_VERSION)
+FPM_OPTIONS += --iteration $(PKG_RELEASE)
+
 all:
 
 test:
@@ -114,7 +124,7 @@ rpm: $(RPM_FILENAME)
 
 $(DEB_FILENAME):
 	$(MAKE) install DESTDIR=inst-root
-	fpm -f -s dir -t deb --name $(DEB_NAME) --version $(PKG_VERSION) --iteration $(PKG_RELEASE) -a all -C inst-root .
+	fpm -f -s dir -t deb $(FPM_OPTIONS) -a all -C inst-root .
 
 $(RPM_FILENAME): $(PLUGIN_SCRIPT)
 	# needs to be ran in git checkout for version setup to work

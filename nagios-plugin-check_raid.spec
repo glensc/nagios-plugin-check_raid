@@ -4,7 +4,7 @@
 %define		plugindir	%{_prefix}/lib/nagios/plugins
 
 %define		plugin	check_raid
-Summary:	Nagios plugin to check current server's RAID status
+Summary:	Nagios/Icinga plugin to check current server's RAID status
 Name:		nagios-plugin-%{plugin}
 Version:	%{version}
 Release:	%{release}
