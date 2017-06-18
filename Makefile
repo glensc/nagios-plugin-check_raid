@@ -32,7 +32,7 @@ test:
 	perl -MTest::Harness -e 'runtests @ARGV' t/*.t
 
 clean:
-	rm -vf builddeps *.deb *.rpm
+	rm -vf builddeps inst-root *.deb *.rpm
 
 builddeps:
 	$(CPANM) -n -L sysdeps App::FatPacker App::FatPacker::Simple
@@ -112,8 +112,9 @@ rpm: $(RPM_FILENAME)
 	# display built rpm provides
 	rpm -qp --provides $(CURDIR)/$(RPM_FILENAME)
 
-$(DEB_FILENAME): $(RPM_FILENAME)
-	fpm -f -s rpm -t deb --name $(DEB_NAME) --version $(PKG_VERSION) --iteration $(PKG_RELEASE) -a all --no-auto-depends -d libmonitoring-plugin-perl $(RPM_FILENAME)
+$(DEB_FILENAME):
+	$(MAKE) install DESTDIR=inst-root
+	fpm -f -s dir -t deb --name $(DEB_NAME) --version $(PKG_VERSION) --iteration $(PKG_RELEASE) -a all -C inst-root .
 
 $(RPM_FILENAME): $(PLUGIN_SCRIPT)
 	# needs to be ran in git checkout for version setup to work

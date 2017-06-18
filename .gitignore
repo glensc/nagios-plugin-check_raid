@@ -11,9 +11,12 @@ LCK..ttyNOTTY
 /check_raid.pl
 /check_raid.pl.asc
 
-# rpm builds
+# build related
 /nagios-plugin-*.rpm
+/nagios-plugin-*.deb
 /BUILD
+/builddeps
+/inst-root/
 
 # perl dist
 /fatpack/
