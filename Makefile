@@ -42,7 +42,7 @@ test:
 	perl -MTest::Harness -e 'runtests @ARGV' t/*.t
 
 clean:
-	rm -vf builddeps inst-root *.deb *.rpm
+	rm -vrf builddeps inst-root *.deb *.rpm
 
 builddeps:
 	$(CPANM) -n -L sysdeps App::FatPacker App::FatPacker::Simple
@@ -102,7 +102,7 @@ snapshot:
 
 # it's annoying to write shell in travis yaml
 dist:
-	$(MAKE) pack
+	$(MAKE) rpm deb
 	# on snapshot, rename for better identifying build
 	[ "$(TRAVIS_TAG)" != "snapshot" ] || mv $(PLUGIN_SCRIPT) $(PLUGIN)-$(PLUGIN_VERSION).pl
 
