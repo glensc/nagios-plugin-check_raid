@@ -17,6 +17,7 @@ LCK..ttyNOTTY
 /BUILD
 /builddeps
 /inst-root/
+/sysdeps/
 
 # perl dist
 /fatpack/
