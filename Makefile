@@ -124,7 +124,7 @@ rpm: $(RPM_FILENAME)
 
 $(DEB_FILENAME):
 	$(MAKE) install DESTDIR=inst-root
-	fpm -f -s dir -t deb $(FPM_OPTIONS) -a all -C inst-root .
+	fpm -f -s dir -t deb $(FPM_OPTIONS) -a all --deb-upstream-changelog CHANGELOG.md -C inst-root .
 
 $(RPM_FILENAME): $(PLUGIN_SCRIPT)
 	# needs to be ran in git checkout for version setup to work
