@@ -15,7 +15,7 @@ use warnings;
 use strict;
 
 my $PROGNAME = 'check_raid';
-my $VERSION = q/4.0.7-dev/;
+my $VERSION = q/4.0.8-dev/;
 my $URL = 'https://github.com/glensc/nagios-plugin-check_raid';
 my $BUGS_URL = 'https://github.com/glensc/nagios-plugin-check_raid#reporting-bugs';
 
