@@ -37,7 +37,9 @@ jobs:
           secure: lE3YmAY2AR4QJE+62fFljzG9TruoNgEcg/+MxokLsufgN3ZDTKXVbyFaJySIfFRJ3VezRvh84JLzrcOeQZxN14Qruqnp1ZJ5NoMDT9HUxBJmikBTfopJobUFeQPvZXBb2o+XrF57KNtRhFGLoeXMvMVoPO9IlQ1zv4Z6dtJe2GM=
         file_glob: true
         file:
-          - check_raid*.pl
+          - ./check_raid*.pl
+          - ./*.rpm
+          - ./*.deb
         skip_cleanup: true
         overwrite: true
         on:
