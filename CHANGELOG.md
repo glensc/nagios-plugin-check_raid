@@ -1,8 +1,12 @@
 # check_raid changelog
 
-## [4.0.7]
+## [4.0.7] - 2017-06-18
 
-[4.0.7]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.6...master
+- remove duplicate `-W` parameter [#168], @CoolDuke
+- build .deb and .rpm with a release
+
+[4.0.7]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.6...4.0.7
+[#168]: https://github.com/glensc/nagios-plugin-check_raid/pull/168
 
 ## [4.0.6] - 2017-04-20
 
