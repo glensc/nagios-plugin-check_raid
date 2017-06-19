@@ -56,7 +56,7 @@ sub get_controller {
 			last;
 		}
 	}
-	close $fh;
+	$fh->close();
 
 	return $id;
 }

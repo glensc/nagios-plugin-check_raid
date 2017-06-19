@@ -379,7 +379,7 @@ sub cmd {
 		# Special: same as '|-' but reads both STDERR and STDOUT
 		use IPC::Open3;
 		warn "DEBUG EXEC: $op @cmd" if $debug;
-		my $pid = open3(undef, $fh, $cb, @cmd);
+		my $pid = open3(undef, $fh, $cb, @cmd) or croak "open3 failed: @cmd: $!";
 
 	} else {
 		warn "DEBUG EXEC: @cmd" if $debug;
@@ -391,6 +391,17 @@ sub cmd {
 		undef($fh);
 		warn "DEBUG OPENDIR: $cmd[0]" if $debug;
 		opendir($fh, $cmd[0]) or croak "opendir failed: @cmd: $!";
+	}
+
+	if ($debug) {
+		my $logfile = "$command.txt";
+		warn "DEBUG[$command]: writing to: '$logfile'\n";
+
+		use IO::Tee;
+
+		open my $log, '>', $logfile;
+		my $dup = IO::Tee->new($fh, $logfile);
+		$fh = $dup;
 	}
 
 	return $fh;

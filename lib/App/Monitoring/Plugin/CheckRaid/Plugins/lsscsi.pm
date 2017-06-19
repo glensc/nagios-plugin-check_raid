@@ -74,7 +74,7 @@ sub scan {
 			});
 		}
 	}
-	close $fh;
+	$fh->close;
 
 	$this->{sdevs} = \@sdevs;
 	return wantarray ? @sdevs : \@sdevs;

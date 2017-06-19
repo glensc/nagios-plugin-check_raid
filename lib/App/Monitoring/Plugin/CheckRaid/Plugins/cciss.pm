@@ -169,7 +169,7 @@ sub cciss_vol_status_version {
 	my $version = sub {
 		my $fh = $this->nosudo_cmd('cciss_vol_status version');
 		my ($line) = <$fh>;
-		close $fh;
+		$fh->close;
 		return 0 unless $line;
 
 		if (my($v) = $line =~ /^cciss_vol_status version ([\d.]+)$/) {
@@ -381,7 +381,7 @@ sub parse {
 
 		warn "Unparsed[$_]";
 	}
-	close($fh);
+	$fh->close;
 
 	return \%c;
 }

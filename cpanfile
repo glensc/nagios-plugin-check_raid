@@ -5,6 +5,7 @@ requires perl => '5.008';
 
 requires 'Module::Pluggable', 5.1;
 requires 'Monitoring::Plugin' => '0.37';
+requires 'IO::Tee', '0.64';
 
 # not yet
 # see https://github.com/glensc/nagios-plugin-check_raid/pull/131#issuecomment-189957806

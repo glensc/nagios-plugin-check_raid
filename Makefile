@@ -67,7 +67,7 @@ fatpack: installdeps
 		--exclude=$(exclude_fatpack_modules) \
 		bin/$(PLUGIN_SCRIPT) $(options)
 
-$(PLUGIN_SCRIPT): bin/$(PLUGIN_SCRIPT) builddeps
+$(PLUGIN_SCRIPT): bin/$(PLUGIN_SCRIPT) Makefile builddeps
 	# ensure cpanm is present
 	$(CPANM) --version
 
@@ -122,7 +122,7 @@ rpm: $(RPM_FILENAME)
 	# display built rpm provides
 	rpm -qp --provides $(CURDIR)/$(RPM_FILENAME)
 
-$(DEB_FILENAME):
+$(DEB_FILENAME): $(PLUGIN_SCRIPT)
 	$(MAKE) install DESTDIR=inst-root
 	fpm -f -s dir -t deb $(FPM_OPTIONS) -a all --deb-upstream-changelog CHANGELOG.md -C inst-root .
 

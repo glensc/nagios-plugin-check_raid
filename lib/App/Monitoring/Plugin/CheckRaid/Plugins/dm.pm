@@ -188,7 +188,7 @@ sub _parse {
 		warn "Unhandled:[$_]";
 		$this->unknown;
 	}
-	close $fh;
+	$fh->close;
 	return \@devices;
 }
 
