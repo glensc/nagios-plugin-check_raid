@@ -45,7 +45,7 @@ sub check {
 	# get controllers
 	my $fh = $this->cmd('controller list');
 	my @lines = <$fh>;
-	close $fh;
+	$fh->close;
 
 	if ($lines[11] =~ /No Adapters Found/) {
 		$this->warning;
@@ -81,7 +81,7 @@ sub check {
 				next;
 			}
 		}
-		close $fh;
+		$fh->close;
 
 		# now process the details
 		unless (keys %d) {

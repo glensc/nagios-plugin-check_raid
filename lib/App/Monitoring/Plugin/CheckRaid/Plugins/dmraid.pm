@@ -70,7 +70,7 @@ sub parse {
 
 		push(@{$arrays{$name}}, $member);
 	}
-	close $fh;
+	$fh->close;
 
 	return \%arrays;
 }

@@ -73,7 +73,7 @@ sub detect {
 
 	}
 
-	unless (close $fh) {
+	unless ($fh->close) {
 		#sas2ircu exits 1 (but close exits 256) when we close fh if we have no controller, so handle that, too
 		if ($? != 256 && $state eq $noctrlstate) {
 			$this->critical;
@@ -132,7 +132,7 @@ sub check {
 
 		}
 
-		unless (close $fh) {
+		unless ($fh->close) {
 			#sas2ircu exits 256 when we close fh if we have no volumes, so handle that, too
 			if ($? != 256 && $state eq $novolsstate) {
 				$this->critical;
@@ -235,7 +235,7 @@ sub check {
 		} #end while
 
 
-		unless (close $fh) {
+		unless ($fh->close) {
 			$this->critical;
 			$state = $!;
 		}

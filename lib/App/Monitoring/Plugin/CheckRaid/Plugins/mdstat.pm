@@ -137,7 +137,7 @@ sub parse {
 
 		push(@md, { %md } ) if %md;
 	}
-	close $fh;
+	$fh->close;
 
 	# One of the arrays is in checking state, which could be because there is a scheduled sync of all MD arrays
 	# In such a case, all of the arrays are scheduled to by checked, but only one of them is actually running the check

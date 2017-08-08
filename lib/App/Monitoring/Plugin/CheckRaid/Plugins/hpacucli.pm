@@ -138,7 +138,7 @@ sub scan_targets {
 
 		warn "Unparsed: [$_]\n";
 	}
-	close $fh;
+	$fh->close;
 
 	return $this->filter_targets(\%targets);
 }
@@ -212,7 +212,7 @@ sub scan_luns {
 
 			warn "Unhandled: [$_]\n";
 		}
-		$this->unknown unless close $fh;
+		$this->unknown unless $fh->close;
 
 		push(@luns, $target);
 	}

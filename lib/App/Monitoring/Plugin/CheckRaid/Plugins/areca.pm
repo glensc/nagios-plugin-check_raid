@@ -75,7 +75,7 @@ sub check {
 
 		$arrays{$n} = [ $id, $s ];
 	}
-	close $fh;
+	$fh->close;
 
 	## Check Drive Status
 	$fh = $this->cmd('disk info');
@@ -140,7 +140,7 @@ sub check {
 			$this->critical;
 		}
 	}
-	close $fh;
+	$fh->close;
 
 	push(@status, "Drive Assignment: ".$this->join_status(\%drivestatus)) if %drivestatus;
 

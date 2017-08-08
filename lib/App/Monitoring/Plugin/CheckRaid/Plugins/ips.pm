@@ -53,7 +53,7 @@ sub check {
 
 		push(@status, "$n:$s");
 	}
-	close $fh;
+	$fh->close;
 
 	return unless @status;
 

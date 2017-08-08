@@ -115,7 +115,7 @@ sub parse {
 			$c{$enc} = {};
 		}
 	}
-	close $fh;
+	$fh->close;
 
 	# no controllers? skip early
 	return unless %c;
@@ -156,7 +156,7 @@ sub parse {
 				warn "unparsed: [$_]";
 			}
 		}
-		close $fh;
+		$fh->close;
 
 		# get individual disk status
 		$fh = $this->cmd('drivestatus', { '$controller' => $c });
@@ -228,7 +228,7 @@ sub parse {
 				warn "unparsed: [$_]";
 			}
 		}
-		close $fh;
+		$fh->close;
 
 		# get BBU status
 		$fh = $this->cmd('bbustatus', { '$controller' => $c });
@@ -261,7 +261,7 @@ sub parse {
 				warn "unparsed: [$_]";
 			}
 		}
-		close $fh;
+		$fh->close;
 	}
 
 	# Do enclosures now, which might NOT be attached the controllers
@@ -402,7 +402,7 @@ sub parse {
 			}
 
 		}
-		close $fh;
+		$fh->close;
 	}
 
 	return \%c;

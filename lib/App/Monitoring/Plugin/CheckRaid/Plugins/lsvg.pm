@@ -42,7 +42,7 @@ sub check {
 		chomp;
 		push @vg, $_;
 	}
-	close $fh;
+	$fh->close;
 
 	foreach my $vg (@vg) {
 		next unless $this->valid($vg); # skip entire VG
@@ -63,7 +63,7 @@ sub check {
 				push(@status, "lvm:$n:$s");
 			}
 		}
-		close $fh;
+		$fh->close;
 	}
 
 	return unless @status;

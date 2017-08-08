@@ -67,7 +67,7 @@ sub check_devices {
 				push(@{$status{$s}}, $dev.'#'.$disk);
 			}
 		}
-		close($fh);
+		$fh->close;
 	}
 
 	return unless %status;

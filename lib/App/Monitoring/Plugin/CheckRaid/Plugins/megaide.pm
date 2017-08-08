@@ -42,7 +42,7 @@ sub check {
 			}
 			last;
 		}
-		close $fh;
+		$fh->close;
 	}
 
 	return unless @status;

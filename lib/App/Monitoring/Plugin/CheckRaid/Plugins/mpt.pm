@@ -56,7 +56,7 @@ sub get_controller {
 			last;
 		}
 	}
-	$fh->close();
+	$fh->close;
 
 	return $id;
 }
@@ -127,7 +127,7 @@ sub parse {
 			$this->unknown;
 		}
 	}
-	close $fh;
+	$fh->close;
 
 	# extra parse, if mpt-status has -n flag, can process also resync state
 	# TODO: if -n becames default can do this all in one run
@@ -147,7 +147,7 @@ sub parse {
 				$this->unknown;
 			}
 		}
-		close $fh;
+		$fh->close;
 	}
 
 	return {

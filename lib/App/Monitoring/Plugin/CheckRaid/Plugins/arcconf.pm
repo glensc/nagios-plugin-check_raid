@@ -90,7 +90,7 @@ sub parse_status {
 			$this->unknown->message("Unknown line: [$_]");
 		}
 	}
-	close($fh);
+	$fh->close;
 
 	# Tasks seem to be Controller specific, but as we don't support over one controller, let it be global
 	$s{tasks} = { %task } if %task;
@@ -263,7 +263,7 @@ sub parse_ctrl_config {
 			warn "NOT PARSED: [$section] [$_]";
 		}
 	}
-	close $fh;
+	$fh->close;
 	&$flush() if $section;
 
 	$this->unknown->message("Command did not succeed") unless defined $ok;

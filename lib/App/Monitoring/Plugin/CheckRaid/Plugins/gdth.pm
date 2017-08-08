@@ -23,7 +23,7 @@ sub parse {
 
 	my $fh = $this->cmd('proc');
 	my @c = grep { !/^\./ } readdir($fh);
-	close($fh);
+	$fh->close;
 
 	my %c;
 	for my $c (@c) {
@@ -130,7 +130,7 @@ sub parse {
 				# nothing useful
 			}
 		}
-		close($fh);
+		$fh->close;
 
 		$c{$c} = { id => $c, array => { %ad }, logical => { %ld }, physical => { %pd } };
 	}

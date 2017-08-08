@@ -56,7 +56,7 @@ sub parse_blk {
 #			warn "[$_]\n";
 		}
 	}
-	close $fh;
+	$fh->close;
 
 	if (%blk) {
 		push(@blk, { %blk });

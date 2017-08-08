@@ -23,7 +23,7 @@ sub check {
 
 	my $fh = $this->cmd('proc');
 	my @c = grep { !/^\./ } readdir($fh);
-	close($fh);
+	$fh->close;
 
 	# TODO: check for failed disks!
 	for my $c (@c) {
@@ -37,7 +37,7 @@ sub check {
 				push(@status, "$c,$t,$l:$s");
 			}
 		}
-		close($fh);
+		$fh->close;
 	}
 
 	return unless @status;

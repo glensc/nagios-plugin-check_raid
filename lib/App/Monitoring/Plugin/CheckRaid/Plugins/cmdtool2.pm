@@ -41,7 +41,7 @@ sub check {
 			push(@c, $c);
 		}
 	}
-	close $fh;
+	$fh->close;
 
 	unless (@c) {
 		$this->warning;

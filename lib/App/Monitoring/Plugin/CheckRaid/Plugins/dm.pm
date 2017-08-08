@@ -189,6 +189,7 @@ sub _parse {
 		$this->unknown;
 	}
 	$fh->close;
+
 	return \@devices;
 }
 

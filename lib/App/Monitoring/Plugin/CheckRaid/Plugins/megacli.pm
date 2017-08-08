@@ -96,7 +96,7 @@ sub parse_pd {
 	}
 	push(@pd, { %pd }) if %pd;
 
-	$this->critical unless close $fh;
+	$this->critical unless $fh->close;
 	$this->critical if $rc;
 
 	return \@pd;
@@ -150,7 +150,7 @@ sub parse_ld {
 	}
 	push(@ld, { %ld }) if %ld;
 
-	$this->critical unless close $fh;
+	$this->critical unless $fh->close;
 	$this->critical if $rc;
 
 	return \@ld;
@@ -238,7 +238,7 @@ sub parse_bbu {
 		}
 
 	}
-	$this->critical unless close $fh;
+	$this->critical unless $fh->close;
 
 	push(@bbu, { %bbu }) if %bbu;
 

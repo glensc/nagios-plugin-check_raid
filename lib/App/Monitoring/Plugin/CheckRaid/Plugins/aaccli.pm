@@ -71,7 +71,7 @@ sub check {
 			$this->warning if ($stat eq "VfyRepl");
 		}
 	}
-	close $read;
+	$read->close;
 
 	return unless @status;
 

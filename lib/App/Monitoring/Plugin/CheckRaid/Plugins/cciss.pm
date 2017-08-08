@@ -90,7 +90,7 @@ sub detect {
 	eval { $fh = $this->cmd('detect hpsa'); };
 	if ($fh) {
 		my $refcnt = <$fh>;
-		close $fh;
+		$fh->close;
 
 		if ($refcnt) {
 			# TODO: how to figure which sgX is actually in use?
@@ -103,13 +103,12 @@ sub detect {
 			}
 		}
 	}
-	undef($fh);
 
 	# check legacy cciss devs
 	eval { $fh = $this->cmd('detect cciss'); };
 	if ($fh) {
 		my @c = grep { !/^\./ } readdir($fh);
-		close($fh);
+		$fh->close;
 
 		# find controllers
 		#	cciss0: HP Smart Array P400i Controller
@@ -134,10 +133,9 @@ sub detect {
 				# filter via valid() so could exclude devs
 				push(@devs, $dev) if $this->valid($dev);
 			}
-			close $fh;
+			$fh->close;
 		}
 	}
-	undef($fh);
 
 	return wantarray ? @devs : \@devs;
 }
