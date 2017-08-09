@@ -146,7 +146,8 @@ $App::Monitoring::Plugin::CheckRaid::Utils::debug = $mp->opts->debug;
 
 if ($mp->opts->debug) {
 	print "$PROGNAME $VERSION\n";
-	print "Visit <$BUGS_URL> how to report bugs\n\n",
+	print "Visit <$BUGS_URL> how to report bugs\n";
+	print "Please include output of **ALL** commands in bugreport\n\n";
 }
 
 my @plugins = $mc->active_plugins;
