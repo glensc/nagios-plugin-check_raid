@@ -10,6 +10,10 @@ include the BUG REPORT INFORMATION shown below. If you fail to provide this
 information, your problem can not be debugged and and issue will be closed.
 However, issue can be reopened if you later provide the information.
 
+Also, be sure you receive notifications when the issue is updated.
+It's unfortunately pretty common that your issue needs more information,
+but the reporter is not responding.
+
 Please provide output of all commands, even if you think it's irrelevant.
 
 For more information about reporting issues, see
