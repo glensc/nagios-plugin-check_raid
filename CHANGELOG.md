@@ -2,6 +2,8 @@
 
 ## [4.0.8] - UNRELEASED
 
+- update sudoers to allow icinga user, #171
+
 [4.0.8]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.7...master
 
 ## [4.0.7] - 2017-06-18
