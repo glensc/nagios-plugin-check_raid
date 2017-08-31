@@ -21,7 +21,7 @@ sub program_names {
 }
 
 sub active {
-	my ($this) = @_;
+	my ($this, $sudo) = @_;
 
 	# return if parent said NO
 	my $res = $this->SUPER::active(@_);
