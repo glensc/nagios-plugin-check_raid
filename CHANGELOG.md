@@ -321,7 +321,7 @@ CHANGES:
 [#35]: https://github.com/glensc/nagios-plugin-check_raid/pull/35
 [#37]: https://github.com/glensc/nagios-plugin-check_raid/pull/37
 
-## [3.0.1]
+## [3.0.1] - 2013-05-23
 
 - Fixes to `cciss` plugin, improvements in `mpt`, `areca`, `mdstat` plugins
 
