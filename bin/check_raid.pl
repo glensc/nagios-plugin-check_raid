@@ -150,14 +150,14 @@ if ($mp->opts->debug) {
 	print "Please include output of **ALL** commands in bugreport\n\n";
 }
 
+if ($mp->opts->sudoers) {
+	my $res = sudoers($mp->opts->debug, $mc->active_plugins(1));
+	$mp->plugin_exit(OK, $res ? "sudoers updated" : "sudoers not updated");
+}
+
 my @plugins = $mc->active_plugins;
 if (!@plugins) {
 	$mp->plugin_exit($plugin_options{options}{noraid_status}, "No active plugins (No RAID found)");
-}
-
-if ($mp->opts->sudoers) {
-	sudoers($mp->opts->debug, @plugins);
-	$mp->plugin_exit(OK, "sudoers updated");
 }
 
 # print active plugins

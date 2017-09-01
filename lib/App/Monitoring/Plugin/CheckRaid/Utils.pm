@@ -51,6 +51,9 @@ sub find_sudo {
 	local $/ = undef;
 	local $_ = <$fh>;
 	close($fh) or die $!;
+	# prefer -n to skip password prompt
+	push(@sudo, '-n') if /-n/;
+	# ..if not supported, add -A as well
 	push(@sudo, '-A') if /-A/;
 
 	return \@sudo;

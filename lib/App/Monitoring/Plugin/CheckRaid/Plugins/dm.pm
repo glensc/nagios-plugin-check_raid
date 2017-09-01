@@ -20,6 +20,18 @@ sub program_names {
 	qw(dmsetup);
 }
 
+sub active {
+	my ($this, $sudo) = @_;
+
+	# return if parent said NO
+	my $res = $this->SUPER::active(@_);
+	return $res unless $res;
+
+	# check if there really are any devices
+	my $c = $this->parse;
+	return !!@$c;
+}
+
 sub sudo {
 	my ($this, $deep) = @_;
 	# quick check when running check
@@ -54,7 +66,7 @@ sub parse_raid {
 		sync_ratio
 		sync_action
 		mismatch_cnt
-		);
+	);
 
 	my %h;
 	@h{@cols} = split;
@@ -127,6 +139,17 @@ sub get_fh {
 }
 
 sub parse {
+	my $this = shift;
+
+	# cache for single run
+	if (!defined($this->{parsed})) {
+		$this->{parsed} = $this->_parse;
+	}
+
+	return $this->{parsed};
+}
+
+sub _parse {
 	my $this = shift;
 
 	my @devices;

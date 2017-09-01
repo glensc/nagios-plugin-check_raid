@@ -66,6 +66,8 @@ sub plugin {
 # Returns the plugin objects
 sub active_plugins {
 	my $this = shift;
+	# whether the query is for sudo rules
+	my $sudo = shift || 0;
 
 	my @plugins = ();
 
@@ -75,7 +77,7 @@ sub active_plugins {
 		next unless $plugin->can('check');
 
 		# skip inactive plugins (disabled or no tools available)
-		next unless $plugin->active;
+		next unless $plugin->active($sudo);
 
 		push(@plugins, $plugin);
 	}
