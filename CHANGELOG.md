@@ -2,6 +2,12 @@
 
 ## [4.0.8] - 2017-09-01
 
+NOTES:
+- The annoying `dm` plugin bug present since `4.0.2` is fixed, however it will
+  print messages to `stderr`, which shouldn't affect nagios itself, only maybe
+  confusing when running script from terminal.
+
+CHANGES:
 - update sudoers to allow icinga user, [#171]
 - dm: detect if raid devices present, [#172] and [#138], [#158], [#142], [#170]
 
@@ -88,6 +94,7 @@
 NOTES:
 - `tw_cli` users need to update their `sudo` rules
 
+CHANGES:
 - megacli: Support Predictive Failures as Warning rather than critical [#123]
 - tw_cli: Implement detailed BBU & Enclosure checks [#131]
 
@@ -113,6 +120,7 @@ NOTES:
 - `arcconf` users need to update their `sudo` rules
 - `arcconf` & `tw_cli` respect bbu monitoring flag, which defaults to off
 
+CHANGES:
 - tw_cli: respect bbu monitoring flag in tw_cli (defaults to off). [#117]
 - hpssacli: make plugin to work if hpacucli is dected as well. [#116], [#114]
 - arcconf: parse multiple controllers. [#110], [#118]
@@ -195,8 +203,10 @@ NOTES:
 
 ## [3.2.1] - 2014-10-07
 
-NOTE: megacli now checks cache state, use `--cache-fail=STATE` if default `WARNING` is not for you.
+NOTES:
+- megacli now checks cache state, use `--cache-fail=STATE` if default `WARNING` is not for you.
 
+CHANGES:
 - cciss: fix parsing enclosure with space and no serial [#83]
 - megacli: alert if default is WriteBack, but current is WriteThrough [#65]
 
@@ -219,8 +229,9 @@ v1.10 enables check of individual disks and their S.M.A.R.T status.
 ## [3.1.0] - 2014-09-08
 
 NOTES:
-`mpt-status` and `sas2ircu` users need to update their `sudo` rules
+- `mpt-status` and `sas2ircu` users need to update their `sudo` rules
 
+CHANGES:
 - sudoers: disable requiretty (enabled in CentOS 6.5) [#52]
 - megacli fixes [#50], [#53], [#56], [#63], [#74], [#32]
 - arcconf fixes [#47], [#51], [#55], [#67], [#68], [#66]
@@ -318,13 +329,19 @@ NOTES:
 
 ## 2.2
 
+NOTES:
 - Project moved to [github](https://github.com/glensc/nagios-plugin-check_raid)
+
+CHANGES:
 - SAS2IRCU support
 - Areca SATA RAID Support
 
 ## 2.1
 
+NOTES:
 - New maintainer Elan Ruusamäe
+
+CHANGES:
 - Made script more generic and secure
 - Added `gdth`
 - Added `dpt_i2o`
@@ -335,7 +352,7 @@ NOTES:
 - Added HP/Compaq Smart Array via `cciss_vol_status`
 - Added HP MSA1500 check via serial line
 - Added checks via HP `hpacucli` utility.
-- Added `hpsa` module support for cciss_vol_status
+- Added `hpsa` module support for `cciss_vol_status`
 - Added `smartctl` checks for cciss disks
 
 ## 2.0
