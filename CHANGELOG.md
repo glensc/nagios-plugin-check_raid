@@ -1,10 +1,13 @@
 # check_raid changelog
 
-## [4.0.8] - UNRELEASED
+## [4.0.8] - 2017-09-01
 
-- update sudoers to allow icinga user, #171
+- update sudoers to allow icinga user, [#171]
+- dm: detect if raid devices present, [#172] and [#138], [#158], [#142], [#170]
 
-[4.0.8]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.7...master
+[4.0.8]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.7...4.0.8
+[#171]: https://github.com/glensc/nagios-plugin-check_raid/issues/171
+[#172]: https://github.com/glensc/nagios-plugin-check_raid/pull/172
 
 ## [4.0.7] - 2017-06-18
 
