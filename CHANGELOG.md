@@ -1,5 +1,9 @@
 # check_raid changelog
 
+## [4.0.9] - UNRELEASED
+
+[4.0.9]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.8...master
+
 ## [4.0.8] - 2017-09-01
 
 NOTES:
