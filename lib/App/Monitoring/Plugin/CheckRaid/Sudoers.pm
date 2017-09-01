@@ -13,6 +13,7 @@ our @EXPORT_OK = @EXPORT;
 #
 # if sudoers config has "#includedir" directive, add file to that dir
 # otherwise update main sudoers file
+# @returns true if file was updated
 sub sudoers {
 	my $dry_run = shift;
 	my @plugins = @_;
@@ -29,7 +30,7 @@ sub sudoers {
 
 	unless (@sudo) {
 		warn "Your configuration does not need to use sudo, sudoers not updated\n";
-		return;
+		return 0;
 	}
 
 	my @rules = join "\n", (
@@ -50,7 +51,7 @@ sub sudoers {
 		warn "--- sudoers ---\n";
 		print @rules;
 		warn "--- sudoers ---\n";
-		return;
+		return 0;
 	}
 
 	my $sudoers = find_file('/usr/local/etc/sudoers', '/etc/sudoers');
@@ -100,10 +101,12 @@ sub sudoers {
 		# use the new file
 		rename($new, $sudoers) or die $!;
 		warn "$sudoers file updated.\n";
-	} else {
-		warn "$sudoers file not changed.\n";
-		unlink($new);
+		return 1;
 	}
+
+	warn "$sudoers file not changed.\n";
+	unlink($new);
+	return 0;
 }
 
 # return first "#includedir" directive from $sudoers file

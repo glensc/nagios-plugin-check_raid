@@ -150,8 +150,8 @@ if ($mp->opts->debug) {
 }
 
 if ($mp->opts->sudoers) {
-	sudoers($mp->opts->debug, $mc->active_plugins(1));
-	$mp->plugin_exit(OK, "sudoers updated");
+	my $res = sudoers($mp->opts->debug, $mc->active_plugins(1));
+	$mp->plugin_exit(OK, $res ? "sudoers updated" : "sudoers not updated");
 }
 
 my @plugins = $mc->active_plugins;
