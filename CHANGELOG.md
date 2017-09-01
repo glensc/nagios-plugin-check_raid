@@ -8,6 +8,10 @@
 [4.0.8]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.7...4.0.8
 [#171]: https://github.com/glensc/nagios-plugin-check_raid/issues/171
 [#172]: https://github.com/glensc/nagios-plugin-check_raid/pull/172
+[#138]: https://github.com/glensc/nagios-plugin-check_raid/issues/138
+[#158]: https://github.com/glensc/nagios-plugin-check_raid/issues/158
+[#142]: https://github.com/glensc/nagios-plugin-check_raid/issues/142
+[#170]: https://github.com/glensc/nagios-plugin-check_raid/issues/170
 
 ## [4.0.7] - 2017-06-18
 
