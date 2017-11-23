@@ -1,0 +1,3 @@
+ioc0 vol_id 2 type IM, 2 phy, 58 GB, state OPTIMAL, flags ENABLED
+ioc0 phy 1 scsi_id 4 ATA      SSDSA2SH064G1GC  8860, 59 GB, state ONLINE, flags NONE
+ioc0 phy 0 scsi_id 3 ATA      SSDSA2SH064G1GC  8860, 59 GB, state ONLINE, flags NONE

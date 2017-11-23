@@ -6,7 +6,8 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 31;
+use constant TESTS => 8;
+use Test::More tests => 1 + TESTS * 5;
 use test;
 
 my @tests = (
@@ -46,6 +47,18 @@ my @tests = (
 		get_controller_no => 'pr57/getctrlno13',
 		input => 'pr57/status13',
 		message => 'Volume 13 (RAID-1, 2 disks, 135 GiB): OPTIMAL',
+	},
+	{
+		status => OK,
+		get_controller_no => 'pr177/mpt-status-p',
+		input => 'pr177/mpt-status-i-2',
+		message => 'Volume 2 (RAID-1, 2 disks, 58 GiB): OPTIMAL',
+	},
+	{
+		status => OK,
+		get_controller_no => 'pr177/mpt-status-p',
+		input => 'pr177/mpt-status-i-0',
+		message => 'Volume 0 (RAID-1, 2 disks, 33 GiB): OPTIMAL',
 	},
 );
 

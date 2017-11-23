@@ -2,6 +2,9 @@
 
 ## [4.0.9] - UNRELEASED
 
+- mpt-status: Enable checking of multiple mpt controllers, [#177]
+
+[#177]: https://github.com/glensc/nagios-plugin-check_raid/pull/177
 [4.0.9]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.8...master
 
 ## [4.0.8] - 2017-09-01
