@@ -6,7 +6,8 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 31;
+use constant TESTS => 8;
+use Test::More tests => 1 + TESTS * 5;
 use test;
 
 my @tests = (
