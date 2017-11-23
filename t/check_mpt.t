@@ -47,6 +47,12 @@ my @tests = (
 		input => 'pr57/status13',
 		message => 'Volume 13 (RAID-1, 2 disks, 135 GiB): OPTIMAL',
 	},
+	{
+		status => OK,
+		get_controller_no => 'pr177/mpt-status-p',
+		input => 'pr177/mpt-status-i-2',
+		message => 'Volume 2 (RAID-1, 2 disks, 58 GiB): OPTIMAL',
+	},
 );
 
 # test that plugin can be created
