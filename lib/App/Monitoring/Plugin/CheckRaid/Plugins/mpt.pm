@@ -42,21 +42,24 @@ sub active {
 	return defined($id);
 }
 
-# get controller from mpt-status -p
-# FIXME: could there be multiple controllers?
 sub get_controller {
 	my $this = shift;
+	
+	# controller ID may be given on the command line
+	my $id = $this->{options}{'mpt-id'};
+	if (!$id) {
 
-	my $fh = $this->cmd('get_controller_no');
-	my $id;
-	while (<$fh>) {
-		chomp;
-		if (/^Found.*id=(\d{1,2}),.*/) {
-			$id = $1;
-			last;
+		# get controller from mpt-status -p
+		my $fh = $this->cmd('get_controller_no');
+		while (<$fh>) {
+			chomp;
+			if (/^Found.*id=(\d{1,2}),.*/) {
+				$id = $1;
+				last;
+			}
 		}
+		close $fh;
 	}
-	close $fh;
 
 	return $id;
 }
