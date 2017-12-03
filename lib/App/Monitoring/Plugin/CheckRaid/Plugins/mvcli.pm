@@ -78,13 +78,14 @@ sub parse_smart {
 		while (<$fh>) {
 			chomp;
 
-			if (my($id, $name, $current, $worst, $treshold, $raw) = /
-				([\dA-F]{2})\s+ # attr
+			if (my($id, $name, $current, $worst, $treshold, $raw, $status) = /
+				([\dA-F]{2})\s+ # id
 				(.*?)\s+        # name
 				(\d+)\s+        # current
 				(\d+)\s+        # worst
 				(\d+)\s+        # treshold
-				([\dA-F]+)      # raw
+				([\dA-F]{12})   # raw
+				(?:\s+(\w+))?   # status
 			/x) {
 				my %attr = ();
 				$attr{id} = $id;
@@ -93,6 +94,7 @@ sub parse_smart {
 				$attr{worst} = int($worst);
 				$attr{treshold} = int($treshold);
 				$attr{raw} = $raw;
+				$attr{status} = $status || undef;
 				$attrs{$id} = { %attr };
 			} else {
 #				warn "[$_]\n";

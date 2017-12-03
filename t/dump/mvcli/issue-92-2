@@ -24,6 +24,7 @@ $VAR1 = {
                                           'id' => '01',
                                           'name' => 'Read Error Rate',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 51,
                                           'worst' => 200
                                         },
@@ -32,6 +33,7 @@ $VAR1 = {
                                           'id' => '03',
                                           'name' => 'Spin-Up Time',
                                           'raw' => '0000000015D7',
+                                          'status' => 'OK',
                                           'treshold' => 21,
                                           'worst' => 184
                                         },
@@ -40,6 +42,7 @@ $VAR1 = {
                                           'id' => '04',
                                           'name' => 'Start/Stop Count',
                                           'raw' => '000000000021',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 100
                                         },
@@ -48,6 +51,7 @@ $VAR1 = {
                                           'id' => '05',
                                           'name' => 'Reallocated Sectors',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 140,
                                           'worst' => 200
                                         },
@@ -56,6 +60,7 @@ $VAR1 = {
                                           'id' => '07',
                                           'name' => 'Seek Error Rate',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 200
                                         },
@@ -64,6 +69,7 @@ $VAR1 = {
                                           'id' => '09',
                                           'name' => 'Power-On Hours Count',
                                           'raw' => '000000000023',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 100
                                         },
@@ -72,6 +78,7 @@ $VAR1 = {
                                           'id' => '0A',
                                           'name' => 'Spin Retry Count',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 253
                                         },
@@ -80,6 +87,7 @@ $VAR1 = {
                                           'id' => '0B',
                                           'name' => 'Calibration retry',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 253
                                         },
@@ -88,6 +96,7 @@ $VAR1 = {
                                           'id' => '0C',
                                           'name' => 'Power Cycle Count',
                                           'raw' => '000000000021',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 100
                                         },
@@ -96,6 +105,7 @@ $VAR1 = {
                                           'id' => 'C0',
                                           'name' => 'Power-off retract',
                                           'raw' => '00000000000C',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 200
                                         },
@@ -104,6 +114,7 @@ $VAR1 = {
                                           'id' => 'C1',
                                           'name' => 'Load/Unload cycle',
                                           'raw' => '000000000026',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 200
                                         },
@@ -112,6 +123,7 @@ $VAR1 = {
                                           'id' => 'C2',
                                           'name' => 'HDA temperature',
                                           'raw' => '00000000001D',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 117
                                         },
@@ -120,6 +132,7 @@ $VAR1 = {
                                           'id' => 'C4',
                                           'name' => 'Reallocation count',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 200
                                         },
@@ -128,6 +141,7 @@ $VAR1 = {
                                           'id' => 'C5',
                                           'name' => 'Current pending',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 200
                                         },
@@ -136,6 +150,7 @@ $VAR1 = {
                                           'id' => 'C6',
                                           'name' => 'Offline scan wrong',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 253
                                         },
@@ -144,6 +159,7 @@ $VAR1 = {
                                           'id' => 'C7',
                                           'name' => 'UDMA CRC error rate',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 200
                                         },
@@ -152,6 +168,7 @@ $VAR1 = {
                                           'id' => 'C8',
                                           'name' => 'Write error rate',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 253
                                         }
@@ -162,6 +179,7 @@ $VAR1 = {
                                           'id' => '01',
                                           'name' => 'Read Error Rate',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 51,
                                           'worst' => 200
                                         },
@@ -170,6 +188,7 @@ $VAR1 = {
                                           'id' => '03',
                                           'name' => 'Spin-Up Time',
                                           'raw' => '0000000015D7',
+                                          'status' => 'OK',
                                           'treshold' => 21,
                                           'worst' => 184
                                         },
@@ -178,6 +197,7 @@ $VAR1 = {
                                           'id' => '04',
                                           'name' => 'Start/Stop Count',
                                           'raw' => '000000000021',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 100
                                         },
@@ -186,6 +206,7 @@ $VAR1 = {
                                           'id' => '05',
                                           'name' => 'Reallocated Sectors',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 140,
                                           'worst' => 200
                                         },
@@ -194,6 +215,7 @@ $VAR1 = {
                                           'id' => '07',
                                           'name' => 'Seek Error Rate',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 200
                                         },
@@ -202,6 +224,7 @@ $VAR1 = {
                                           'id' => '09',
                                           'name' => 'Power-On Hours Count',
                                           'raw' => '000000000023',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 100
                                         },
@@ -210,6 +233,7 @@ $VAR1 = {
                                           'id' => '0A',
                                           'name' => 'Spin Retry Count',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 253
                                         },
@@ -218,6 +242,7 @@ $VAR1 = {
                                           'id' => '0B',
                                           'name' => 'Calibration retry',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 253
                                         },
@@ -226,6 +251,7 @@ $VAR1 = {
                                           'id' => '0C',
                                           'name' => 'Power Cycle Count',
                                           'raw' => '000000000021',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 100
                                         },
@@ -234,6 +260,7 @@ $VAR1 = {
                                           'id' => 'C0',
                                           'name' => 'Power-off retract',
                                           'raw' => '00000000000C',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 200
                                         },
@@ -242,6 +269,7 @@ $VAR1 = {
                                           'id' => 'C1',
                                           'name' => 'Load/Unload cycle',
                                           'raw' => '000000000026',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 200
                                         },
@@ -250,6 +278,7 @@ $VAR1 = {
                                           'id' => 'C2',
                                           'name' => 'HDA temperature',
                                           'raw' => '00000000001D',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 117
                                         },
@@ -258,6 +287,7 @@ $VAR1 = {
                                           'id' => 'C4',
                                           'name' => 'Reallocation count',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 200
                                         },
@@ -266,6 +296,7 @@ $VAR1 = {
                                           'id' => 'C5',
                                           'name' => 'Current pending',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 200
                                         },
@@ -274,6 +305,7 @@ $VAR1 = {
                                           'id' => 'C6',
                                           'name' => 'Offline scan wrong',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 253
                                         },
@@ -282,6 +314,7 @@ $VAR1 = {
                                           'id' => 'C7',
                                           'name' => 'UDMA CRC error rate',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 200
                                         },
@@ -290,6 +323,7 @@ $VAR1 = {
                                           'id' => 'C8',
                                           'name' => 'Write error rate',
                                           'raw' => '000000000000',
+                                          'status' => 'OK',
                                           'treshold' => 0,
                                           'worst' => 253
                                         }
