@@ -167,11 +167,21 @@ sub parse {
 sub check {
 	my $this = shift;
 
-	my (@status);
-	my @d = $this->parse;
+	my @status;
+	my $c = $this->parse;
 
-	# not implemented yet
-	$this->unknown;
+	foreach my $vd (@{$c->{vd}}) {
+		my $size = $this->format_bytes($this->parse_bytes($vd->{size}));
+		if ($vd->{status} ne 'functional') {
+			$this->critical;
+		}
+		push(@status, "VD($vd->{name} $vd->{'RAID mode'} $size): $vd->{status}");
+	}
+
+	return unless @status;
+
+	# denote this plugin as ran ok
+	$this->ok;
 
 	$this->message(join('; ', @status));
 }

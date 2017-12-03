@@ -12,19 +12,19 @@ use test;
 
 my @tests = (
 	{
-		status => UNKNOWN,
+		status => OK,
 		'mvcli blk' => 'issue-92/blk',
 		'mvcli vd' => 'mvcli-92/mvcli.info.vd', # fake
 		'mvcli smart' => 'issue-92/smart-2',
-		message => '',
+		message => 'VD(VD0 RAID1 3.64 TiB): functional',
 		c => 'issue-92-1',
 	},
 	{
-		status => UNKNOWN,
+		status => OK,
 		'mvcli blk' => 'mvcli-92/mvcli.info.blk',
 		'mvcli vd' => 'mvcli-92/mvcli.info.vd',
 		'mvcli smart' => 'mvcli-92/mvcli.smart.p0',
-		message => '',
+		message => 'VD(VD0 RAID1 3.64 TiB): functional',
 		c => 'issue-92-2',
 	},
 );

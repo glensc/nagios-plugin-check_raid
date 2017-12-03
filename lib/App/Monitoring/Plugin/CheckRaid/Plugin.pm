@@ -281,6 +281,25 @@ use constant M => K * 1024;
 use constant G => M * 1024;
 use constant T => G * 1024;
 
+sub parse_bytes {
+	my ($this, $size) = @_;
+
+	if ($size =~ s/\sT//) {
+		return int($size) * T;
+	}
+	if ($size =~ s/\sG//) {
+		return int($size) * G;
+	}
+	if ($size =~ s/\sM//) {
+		return int($size) * M;
+	}
+	if ($size =~ s/\sK//) {
+		return int($size) * K;
+	}
+
+	return int($size);
+}
+
 sub format_bytes {
 	my $this = shift;
 
