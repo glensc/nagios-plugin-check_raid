@@ -1,0 +1,394 @@
+$VAR1 = {
+          'blk' => [
+                     {
+                       'blk_id' => 0,
+                       'block_status' => 'assigned',
+                       'offset' => 16384,
+                       'pd_id' => 2,
+                       'size' => 29977152,
+                       'vd_id' => 0
+                     },
+                     {
+                       'blk_id' => 4,
+                       'block_status' => 'assigned',
+                       'offset' => 16384,
+                       'pd_id' => 3,
+                       'size' => 29977152,
+                       'vd_id' => 0
+                     }
+                   ],
+          'smart' => {
+                       '2' => {
+                                '01' => {
+                                          'current' => 100,
+                                          'id' => '01',
+                                          'name' => 'Read Error Rate',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                '05' => {
+                                          'current' => 100,
+                                          'id' => '05',
+                                          'name' => 'Reallocated Sectors',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                '09' => {
+                                          'current' => 100,
+                                          'id' => '09',
+                                          'name' => 'Power-On Hours Count',
+                                          'raw' => '0000000005AC',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                '0C' => {
+                                          'current' => 100,
+                                          'id' => '0C',
+                                          'name' => 'Power Cycle Count',
+                                          'raw' => '00000000000C',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'AB' => {
+                                          'current' => 100,
+                                          'id' => 'AB',
+                                          'name' => 'Unknown',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'AC' => {
+                                          'current' => 100,
+                                          'id' => 'AC',
+                                          'name' => 'Unknown',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'AD' => {
+                                          'current' => 100,
+                                          'id' => 'AD',
+                                          'name' => 'Unknown',
+                                          'raw' => '000000000006',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'AE' => {
+                                          'current' => 100,
+                                          'id' => 'AE',
+                                          'name' => 'Unknown',
+                                          'raw' => '000000000004',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'B4' => {
+                                          'current' => 0,
+                                          'id' => 'B4',
+                                          'name' => 'Unused Reserved Block',
+                                          'raw' => '00000000086F',
+                                          'treshold' => 0,
+                                          'worst' => 0
+                                        },
+                                'B7' => {
+                                          'current' => 100,
+                                          'id' => 'B7',
+                                          'name' => 'SATA Downshift Error',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'B8' => {
+                                          'current' => 100,
+                                          'id' => 'B8',
+                                          'name' => 'End-to-End error',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'BB' => {
+                                          'current' => 100,
+                                          'id' => 'BB',
+                                          'name' => 'Reported Uncorrectable',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'C2' => {
+                                          'current' => 44,
+                                          'id' => 'C2',
+                                          'name' => 'HDA temperature',
+                                          'raw' => '000000000038',
+                                          'treshold' => 0,
+                                          'worst' => 23
+                                        },
+                                'C4' => {
+                                          'current' => 100,
+                                          'id' => 'C4',
+                                          'name' => 'Reallocation count',
+                                          'raw' => '000000000010',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'C5' => {
+                                          'current' => 100,
+                                          'id' => 'C5',
+                                          'name' => 'Current pending',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'C6' => {
+                                          'current' => 100,
+                                          'id' => 'C6',
+                                          'name' => 'Offline scan wrong',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'C7' => {
+                                          'current' => 100,
+                                          'id' => 'C7',
+                                          'name' => 'UDMA CRC error rate',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'CA' => {
+                                          'current' => 100,
+                                          'id' => 'CA',
+                                          'name' => 'Address Mark errors',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'CE' => {
+                                          'current' => 100,
+                                          'id' => 'CE',
+                                          'name' => 'Flying height',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'D2' => {
+                                          'current' => 100,
+                                          'id' => 'D2',
+                                          'name' => 'Vibration During Write',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'F6' => {
+                                          'current' => 100,
+                                          'id' => 'F6',
+                                          'name' => 'Invalid',
+                                          'raw' => '0000000042F0',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'F7' => {
+                                          'current' => 100,
+                                          'id' => 'F7',
+                                          'name' => 'Invalid',
+                                          'raw' => '000000007E33',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'F8' => {
+                                          'current' => 100,
+                                          'id' => 'F8',
+                                          'name' => 'Invalid',
+                                          'raw' => '000000009711',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        }
+                              },
+                       '3' => {
+                                '01' => {
+                                          'current' => 100,
+                                          'id' => '01',
+                                          'name' => 'Read Error Rate',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                '05' => {
+                                          'current' => 100,
+                                          'id' => '05',
+                                          'name' => 'Reallocated Sectors',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                '09' => {
+                                          'current' => 100,
+                                          'id' => '09',
+                                          'name' => 'Power-On Hours Count',
+                                          'raw' => '0000000005AC',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                '0C' => {
+                                          'current' => 100,
+                                          'id' => '0C',
+                                          'name' => 'Power Cycle Count',
+                                          'raw' => '00000000000C',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'AB' => {
+                                          'current' => 100,
+                                          'id' => 'AB',
+                                          'name' => 'Unknown',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'AC' => {
+                                          'current' => 100,
+                                          'id' => 'AC',
+                                          'name' => 'Unknown',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'AD' => {
+                                          'current' => 100,
+                                          'id' => 'AD',
+                                          'name' => 'Unknown',
+                                          'raw' => '000000000006',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'AE' => {
+                                          'current' => 100,
+                                          'id' => 'AE',
+                                          'name' => 'Unknown',
+                                          'raw' => '000000000004',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'B4' => {
+                                          'current' => 0,
+                                          'id' => 'B4',
+                                          'name' => 'Unused Reserved Block',
+                                          'raw' => '00000000086F',
+                                          'treshold' => 0,
+                                          'worst' => 0
+                                        },
+                                'B7' => {
+                                          'current' => 100,
+                                          'id' => 'B7',
+                                          'name' => 'SATA Downshift Error',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'B8' => {
+                                          'current' => 100,
+                                          'id' => 'B8',
+                                          'name' => 'End-to-End error',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'BB' => {
+                                          'current' => 100,
+                                          'id' => 'BB',
+                                          'name' => 'Reported Uncorrectable',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'C2' => {
+                                          'current' => 44,
+                                          'id' => 'C2',
+                                          'name' => 'HDA temperature',
+                                          'raw' => '000000000038',
+                                          'treshold' => 0,
+                                          'worst' => 23
+                                        },
+                                'C4' => {
+                                          'current' => 100,
+                                          'id' => 'C4',
+                                          'name' => 'Reallocation count',
+                                          'raw' => '000000000010',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'C5' => {
+                                          'current' => 100,
+                                          'id' => 'C5',
+                                          'name' => 'Current pending',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'C6' => {
+                                          'current' => 100,
+                                          'id' => 'C6',
+                                          'name' => 'Offline scan wrong',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'C7' => {
+                                          'current' => 100,
+                                          'id' => 'C7',
+                                          'name' => 'UDMA CRC error rate',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'CA' => {
+                                          'current' => 100,
+                                          'id' => 'CA',
+                                          'name' => 'Address Mark errors',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'CE' => {
+                                          'current' => 100,
+                                          'id' => 'CE',
+                                          'name' => 'Flying height',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'D2' => {
+                                          'current' => 100,
+                                          'id' => 'D2',
+                                          'name' => 'Vibration During Write',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'F6' => {
+                                          'current' => 100,
+                                          'id' => 'F6',
+                                          'name' => 'Invalid',
+                                          'raw' => '0000000042F0',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'F7' => {
+                                          'current' => 100,
+                                          'id' => 'F7',
+                                          'name' => 'Invalid',
+                                          'raw' => '000000007E33',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'F8' => {
+                                          'current' => 100,
+                                          'id' => 'F8',
+                                          'name' => 'Invalid',
+                                          'raw' => '000000009711',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        }
+                              }
+                     }
+        };

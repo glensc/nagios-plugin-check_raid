@@ -12,8 +12,8 @@ sub program_names {
 
 sub commands {
 	{
-		'mvcli blk' => ['-|', '@CMD'],
-		'mvcli smart' => ['-|', '@CMD'],
+		'mvcli blk' => ['-|', '@CMD', 'info', '-o', 'blk'],
+		'mvcli smart' => ['-|', '@CMD', 'smart', '-p', '0'],
 	}
 }
 

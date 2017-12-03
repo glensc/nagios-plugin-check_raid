@@ -1,0 +1,298 @@
+$VAR1 = {
+          'blk' => [
+                     {
+                       'blk_id' => 0,
+                       'block_status' => 'assigned',
+                       'offset' => 16384,
+                       'pd_id' => 0,
+                       'size' => 3906936640,
+                       'vd_id' => 0
+                     },
+                     {
+                       'blk_id' => 4,
+                       'block_status' => 'assigned',
+                       'offset' => 16384,
+                       'pd_id' => 1,
+                       'size' => 3906936640,
+                       'vd_id' => 0
+                     }
+                   ],
+          'smart' => {
+                       '0' => {
+                                '01' => {
+                                          'current' => 200,
+                                          'id' => '01',
+                                          'name' => 'Read Error Rate',
+                                          'raw' => '000000000000',
+                                          'treshold' => 51,
+                                          'worst' => 200
+                                        },
+                                '03' => {
+                                          'current' => 188,
+                                          'id' => '03',
+                                          'name' => 'Spin-Up Time',
+                                          'raw' => '0000000015D7',
+                                          'treshold' => 21,
+                                          'worst' => 184
+                                        },
+                                '04' => {
+                                          'current' => 100,
+                                          'id' => '04',
+                                          'name' => 'Start/Stop Count',
+                                          'raw' => '000000000021',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                '05' => {
+                                          'current' => 200,
+                                          'id' => '05',
+                                          'name' => 'Reallocated Sectors',
+                                          'raw' => '000000000000',
+                                          'treshold' => 140,
+                                          'worst' => 200
+                                        },
+                                '07' => {
+                                          'current' => 200,
+                                          'id' => '07',
+                                          'name' => 'Seek Error Rate',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 200
+                                        },
+                                '09' => {
+                                          'current' => 100,
+                                          'id' => '09',
+                                          'name' => 'Power-On Hours Count',
+                                          'raw' => '000000000023',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                '0A' => {
+                                          'current' => 100,
+                                          'id' => '0A',
+                                          'name' => 'Spin Retry Count',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 253
+                                        },
+                                '0B' => {
+                                          'current' => 100,
+                                          'id' => '0B',
+                                          'name' => 'Calibration retry',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 253
+                                        },
+                                '0C' => {
+                                          'current' => 100,
+                                          'id' => '0C',
+                                          'name' => 'Power Cycle Count',
+                                          'raw' => '000000000021',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'C0' => {
+                                          'current' => 200,
+                                          'id' => 'C0',
+                                          'name' => 'Power-off retract',
+                                          'raw' => '00000000000C',
+                                          'treshold' => 0,
+                                          'worst' => 200
+                                        },
+                                'C1' => {
+                                          'current' => 200,
+                                          'id' => 'C1',
+                                          'name' => 'Load/Unload cycle',
+                                          'raw' => '000000000026',
+                                          'treshold' => 0,
+                                          'worst' => 200
+                                        },
+                                'C2' => {
+                                          'current' => 121,
+                                          'id' => 'C2',
+                                          'name' => 'HDA temperature',
+                                          'raw' => '00000000001D',
+                                          'treshold' => 0,
+                                          'worst' => 117
+                                        },
+                                'C4' => {
+                                          'current' => 200,
+                                          'id' => 'C4',
+                                          'name' => 'Reallocation count',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 200
+                                        },
+                                'C5' => {
+                                          'current' => 200,
+                                          'id' => 'C5',
+                                          'name' => 'Current pending',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 200
+                                        },
+                                'C6' => {
+                                          'current' => 100,
+                                          'id' => 'C6',
+                                          'name' => 'Offline scan wrong',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 253
+                                        },
+                                'C7' => {
+                                          'current' => 200,
+                                          'id' => 'C7',
+                                          'name' => 'UDMA CRC error rate',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 200
+                                        },
+                                'C8' => {
+                                          'current' => 100,
+                                          'id' => 'C8',
+                                          'name' => 'Write error rate',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 253
+                                        }
+                              },
+                       '1' => {
+                                '01' => {
+                                          'current' => 200,
+                                          'id' => '01',
+                                          'name' => 'Read Error Rate',
+                                          'raw' => '000000000000',
+                                          'treshold' => 51,
+                                          'worst' => 200
+                                        },
+                                '03' => {
+                                          'current' => 188,
+                                          'id' => '03',
+                                          'name' => 'Spin-Up Time',
+                                          'raw' => '0000000015D7',
+                                          'treshold' => 21,
+                                          'worst' => 184
+                                        },
+                                '04' => {
+                                          'current' => 100,
+                                          'id' => '04',
+                                          'name' => 'Start/Stop Count',
+                                          'raw' => '000000000021',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                '05' => {
+                                          'current' => 200,
+                                          'id' => '05',
+                                          'name' => 'Reallocated Sectors',
+                                          'raw' => '000000000000',
+                                          'treshold' => 140,
+                                          'worst' => 200
+                                        },
+                                '07' => {
+                                          'current' => 200,
+                                          'id' => '07',
+                                          'name' => 'Seek Error Rate',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 200
+                                        },
+                                '09' => {
+                                          'current' => 100,
+                                          'id' => '09',
+                                          'name' => 'Power-On Hours Count',
+                                          'raw' => '000000000023',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                '0A' => {
+                                          'current' => 100,
+                                          'id' => '0A',
+                                          'name' => 'Spin Retry Count',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 253
+                                        },
+                                '0B' => {
+                                          'current' => 100,
+                                          'id' => '0B',
+                                          'name' => 'Calibration retry',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 253
+                                        },
+                                '0C' => {
+                                          'current' => 100,
+                                          'id' => '0C',
+                                          'name' => 'Power Cycle Count',
+                                          'raw' => '000000000021',
+                                          'treshold' => 0,
+                                          'worst' => 100
+                                        },
+                                'C0' => {
+                                          'current' => 200,
+                                          'id' => 'C0',
+                                          'name' => 'Power-off retract',
+                                          'raw' => '00000000000C',
+                                          'treshold' => 0,
+                                          'worst' => 200
+                                        },
+                                'C1' => {
+                                          'current' => 200,
+                                          'id' => 'C1',
+                                          'name' => 'Load/Unload cycle',
+                                          'raw' => '000000000026',
+                                          'treshold' => 0,
+                                          'worst' => 200
+                                        },
+                                'C2' => {
+                                          'current' => 121,
+                                          'id' => 'C2',
+                                          'name' => 'HDA temperature',
+                                          'raw' => '00000000001D',
+                                          'treshold' => 0,
+                                          'worst' => 117
+                                        },
+                                'C4' => {
+                                          'current' => 200,
+                                          'id' => 'C4',
+                                          'name' => 'Reallocation count',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 200
+                                        },
+                                'C5' => {
+                                          'current' => 200,
+                                          'id' => 'C5',
+                                          'name' => 'Current pending',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 200
+                                        },
+                                'C6' => {
+                                          'current' => 100,
+                                          'id' => 'C6',
+                                          'name' => 'Offline scan wrong',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 253
+                                        },
+                                'C7' => {
+                                          'current' => 200,
+                                          'id' => 'C7',
+                                          'name' => 'UDMA CRC error rate',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 200
+                                        },
+                                'C8' => {
+                                          'current' => 100,
+                                          'id' => 'C8',
+                                          'name' => 'Write error rate',
+                                          'raw' => '000000000000',
+                                          'treshold' => 0,
+                                          'worst' => 253
+                                        }
+                              }
+                     }
+        };
