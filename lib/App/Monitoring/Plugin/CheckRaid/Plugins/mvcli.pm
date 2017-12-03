@@ -13,6 +13,7 @@ sub program_names {
 sub commands {
 	{
 		'mvcli blk' => ['-|', '@CMD', 'info', '-o', 'blk'],
+		'mvcli vd' => ['-|', '@CMD', 'info', '-o', 'vd'],
 		'mvcli smart' => ['-|', '@CMD', 'smart', '-p', '0'],
 	}
 }
@@ -65,6 +66,48 @@ sub parse_blk {
 	return wantarray ? @blk : \@blk;
 }
 
+sub parse_vd {
+	my $this = shift;
+
+	my (@vd, %vd);
+	my ($name, $value);
+
+	my $fh = $this->cmd('mvcli vd');
+	while (<$fh>) {
+		chomp;
+
+		if (/^$/
+				|| /----+/
+				|| /SG driver version/
+				|| /Virtual Disk Information/
+			) {
+			next;
+		}
+
+		unless (($name, $value) = /^(.+):\s+(.+)$/) {
+			warn "UNPARSED: [$_]";
+			next;
+		}
+
+		if ($name eq 'id') {
+			# id is first item, so push previous item to list
+			if (%vd) {
+				push(@vd, { %vd });
+				%vd = ();
+			}
+		}
+
+		$vd{$name} = $value;
+	}
+	close $fh;
+
+	if (%vd) {
+		push(@vd, { %vd });
+	}
+
+	return wantarray ? @vd : \@vd;
+}
+
 sub parse_smart {
 	my ($this, $blk) = @_;
 
@@ -111,10 +154,12 @@ sub parse {
 	my $this = shift;
 
 	my $blk = $this->parse_blk;
+	my $vd = $this->parse_vd;
 	my $smart = $this->parse_smart($blk);
 
 	return {
 		blk => $blk,
+		vd => $vd,
 		smart => $smart,
 	};
 }

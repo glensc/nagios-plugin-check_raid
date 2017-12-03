@@ -436,5 +436,22 @@ $VAR1 = {
                                           'worst' => 100
                                         }
                               }
-                     }
+                     },
+          'vd' => [
+                    {
+                      '# of PDs' => '2',
+                      'BGA status' => 'not running',
+                      'Block ids' => '0 4',
+                      'Cache mode' => 'Not Support',
+                      'PD RAID setup' => '0 1',
+                      'RAID mode' => 'RAID1',
+                      'Running OS' => 'yes',
+                      'Stripe size' => '64',
+                      'Total # of VD' => '1',
+                      'id' => '0',
+                      'name' => 'VD0',
+                      'size' => '3815367 M',
+                      'status' => 'functional'
+                    }
+                  ]
         };

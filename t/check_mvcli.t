@@ -14,6 +14,7 @@ my @tests = (
 	{
 		status => UNKNOWN,
 		'mvcli blk' => 'issue-92/blk',
+		'mvcli vd' => 'mvcli-92/mvcli.info.vd', # fake
 		'mvcli smart' => 'issue-92/smart-2',
 		message => '',
 		c => 'issue-92-1',
@@ -21,6 +22,7 @@ my @tests = (
 	{
 		status => UNKNOWN,
 		'mvcli blk' => 'mvcli-92/mvcli.info.blk',
+		'mvcli vd' => 'mvcli-92/mvcli.info.vd',
 		'mvcli smart' => 'mvcli-92/mvcli.smart.p0',
 		message => '',
 		c => 'issue-92-2',
@@ -34,6 +36,7 @@ foreach my $test (@tests) {
 	my $plugin = mvcli->new(
 		commands => {
 			'mvcli blk' => ['<', TESTDIR . '/data/mvcli/' .$test->{'mvcli blk'} ],
+			'mvcli vd' => ['<', TESTDIR . '/data/mvcli/' .$test->{'mvcli vd'} ],
 			'mvcli smart' => ['<', TESTDIR . '/data/mvcli/' .$test->{'mvcli smart'} ],
 		},
 	);
