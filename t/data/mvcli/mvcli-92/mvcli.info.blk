@@ -1,0 +1,17 @@
+# /bin/mvcli info -o blk
+SG driver version 3.5.36.
+Block Information
+-----------------
+Block id:        0
+PD id:           0
+VD id:           0
+Block status:    assigned
+Size:            3906936640 K
+Starting offset: 16384 K
+
+Block id:        4
+PD id:           1
+VD id:           0
+Block status:    assigned
+Size:            3906936640 K
+Starting offset: 16384 K

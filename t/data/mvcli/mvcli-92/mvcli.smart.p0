@@ -1,0 +1,23 @@
+# /bin/mvcli smart -p 0
+SG driver version 3.5.36.
+SMART STATUS RETURN: OK.
+
+Smart Info
+ID      Attribute Name          Current Worst   Threshhold      RawValue        Status
+01      Read Error Rate         200     200     51              000000000000    OK
+03      Spin-Up Time            188     184     21              0000000015D7    OK
+04      Start/Stop Count        100     100     0               000000000021    OK
+05      Reallocated Sectors     200     200     140             000000000000    OK
+07      Seek Error Rate         200     200     0               000000000000    OK
+09      Power-On Hours Count    100     100     0               000000000023    OK
+0A      Spin Retry Count        100     253     0               000000000000    OK
+0B      Calibration retry       100     253     0               000000000000    OK
+0C      Power Cycle Count       100     100     0               000000000021    OK
+C0      Power-off retract       200     200     0               00000000000C    OK
+C1      Load/Unload cycle       200     200     0               000000000026    OK
+C2      HDA temperature         121     117     0               00000000001D    OK
+C4      Reallocation count      200     200     0               000000000000    OK
+C5      Current pending         200     200     0               000000000000    OK
+C6      Offline scan wrong      100     253     0               000000000000    OK
+C7      UDMA CRC error rate     200     200     0               000000000000    OK
+C8      Write error rate        100     253     0               000000000000    OK

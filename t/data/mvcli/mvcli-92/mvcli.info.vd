@@ -1,0 +1,20 @@
+# /bin/mvcli info -o vd
+SG driver version 3.5.36.
+
+Virtual Disk Information
+-------------------------
+id:                  0
+name:                VD0
+status:              functional
+Stripe size:         64
+RAID mode:           RAID1
+Cache mode:          Not Support
+size:                3815367 M
+BGA status:          not running
+Block ids:           0 4
+# of PDs:            2
+PD RAID setup:       0 1
+Running OS:          yes
+
+Total # of VD:       1
+

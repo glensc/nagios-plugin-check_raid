@@ -6,7 +6,8 @@ BEGIN {
 
 use strict;
 use warnings;
-use Test::More tests => 6;
+use constant TESTS => 2;
+use Test::More tests => 1 + TESTS * 5;
 use test;
 
 my @tests = (
@@ -14,6 +15,12 @@ my @tests = (
 		status => UNKNOWN,
 		'mvcli blk' => 'issue-92/blk',
 		'mvcli smart' => 'issue-92/smart-2',
+		message => '',
+	},
+	{
+		status => UNKNOWN,
+		'mvcli blk' => 'mvcli-92/mvcli.info.blk',
+		'mvcli smart' => 'mvcli-92/mvcli.smart.p0',
 		message => '',
 	},
 );
