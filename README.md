@@ -1,7 +1,11 @@
-# Nagios/Icinga plugin to check current server's RAID status
+# Nagios/Icinga/Sensu plugin to check current server's RAID status
 
 This plugin checks all RAID volumes (hardware and software) that can be
 identified.
+
+While written originally for Nagios, it's known to work also with:
+- [Icinga](https://www.icinga.com/)
+- [Sensu](https://sensuapp.org/docs/1.0/overview/what-is-sensu.html)
 
 This is supposed to be a general plugin to run via NRPE.
 It checks for the various RAID systems, and verifies they are working correctly.
