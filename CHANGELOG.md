@@ -3,8 +3,11 @@
 ## [4.0.9] - UNRELEASED
 
 - mpt-status: Enable checking of multiple mpt controllers, [#177]
+- add [sensu] support, [#178]
 
 [#177]: https://github.com/glensc/nagios-plugin-check_raid/pull/177
+[#178]: https://github.com/glensc/nagios-plugin-check_raid/issues/178
+[sensu]: https://sensuapp.org/docs/1.0/overview/what-is-sensu.html
 [4.0.9]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.8...master
 
 ## [4.0.8] - 2017-09-01
