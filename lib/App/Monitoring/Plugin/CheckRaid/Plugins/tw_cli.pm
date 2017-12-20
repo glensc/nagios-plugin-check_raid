@@ -560,11 +560,12 @@ sub check {
 		# report.
 		next unless defined($e->{status});
 
-		# Something is wrong, but we are not sure what yet.
-		$this->warning unless $e->{status} eq 'OK';
 		my @estatus;
 		
 		unless ($this->{options}{'ignore-fans'}) {
+			# Something is wrong, but we are not sure what yet.
+			$this->warning unless $e->{status} eq 'OK';
+			
 			for my $fan_id (sort keys %{$e->{fans}}) {
 				my $f = $e->{fans}->{$fan_id};
 				my $s = $f->{status};
