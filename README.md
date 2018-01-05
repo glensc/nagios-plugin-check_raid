@@ -114,7 +114,7 @@ License: GPL v2
 http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
 Steve Shipway Thanks M Carmier for megaraid section.
 
-(c) 2009-2016 Elan Ruusamäe <glen@pld-linux.org> (maintainer from version 2.1 and upwards)
+(c) 2009-2018 Elan Ruusamäe <glen@pld-linux.org> (maintainer from version 2.1 and upwards)
 
 
 
