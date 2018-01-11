@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 
-use Test::More tests => 22;
+use Test::More tests => 23;
 use test;
 
 my $bindir = TESTDIR . '/data/bin';
