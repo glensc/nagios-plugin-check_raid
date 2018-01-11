@@ -80,6 +80,10 @@ my %sudo = (
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpssacli controller all show status",
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpssacli controller * logicaldrive all show",
 	],
+	ssacli => [
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpssacli controller all show status",
+		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpssacli controller * logicaldrive all show",
+	],
 	areca => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/cli64 rsf info",
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/cli64 disk info",
