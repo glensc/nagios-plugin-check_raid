@@ -77,7 +77,7 @@ Supported RAIDs that can be checked:
 - Adaptec AAC RAID via `aaccli` or `afacli` or `arcconf`
 - AIX software RAID via `lsvg`
 - HP/Compaq Smart Array via `cciss_vol_status` (hpsa supported too)
-- HP Smart Array Controllers and MSA Controllers via `hpacucli` and `hpssacli`
+- HP Smart Array Controllers and MSA Controllers with `hpacucli`, `hpssacli`, `ssacli`
 - HP Smart Array (MSA1500) via serial line
 - Linux 3ware SATA RAID via `tw_cli`
 - Linux Device Mapper RAID via dmraid
