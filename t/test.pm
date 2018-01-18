@@ -23,6 +23,7 @@ use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::gdth';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::hp_msa';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::hpacucli';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::hpssacli';
+use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::ssacli';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::ips';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::lsraid';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::lsscsi';
