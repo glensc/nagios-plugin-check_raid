@@ -178,7 +178,7 @@ sub check {
 		if (exists $this->{options}{'mdstat_spare_count'})
 		{
 			my @spare_options = ();
-			@spare_options = split(/\|/, $this->{options}{'mdstat_spare_count'});
+			@spare_options = split(/\,/, $this->{options}{'mdstat_spare_count'});
 			foreach my $val (@spare_options)
 			{
 				my ($disk, $value) = split(/:/, $val);
