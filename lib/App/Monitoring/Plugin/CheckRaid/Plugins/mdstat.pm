@@ -171,6 +171,26 @@ sub check {
 
 		# failed disks
 		my @fd = map { $_->{dev} } grep { $_->{flags} =~ /F/ } @{$md{disks}};
+		# spare disks
+		my @sd = map { $_->{dev} } grep { $_->{flags} =~ /S/ } @{$md{disks}};
+
+		my $spare_count = 0;
+		if (exists $this->{options}{'mdstat_spare_count'})
+		{
+			my @spare_options = ();
+			@spare_options = split(/\|/, $this->{options}{'mdstat_spare_count'});
+			foreach my $val (@spare_options)
+			{
+				my ($disk, $value) = split(/:/, $val);
+				for(@md)
+				{
+					if ($md{dev} eq $disk)
+					{
+						$spare_count = $value;
+					}
+				}
+			}
+		}
 
 		# raid0 is just there or its not. raid0 can't degrade.
 		# same for linear, no $md_status available
@@ -194,6 +214,10 @@ sub check {
 			# FIXME: this is same as above?
 			$this->warning;
 			$s .= "hot-spare failure:". join(",", @fd) .":$md{status}";
+		} elsif (@sd < $spare_count)
+		{
+			$this->warning;
+			$s .= "Array ".$md{dev}." should have ".$spare_count." spares, but has only ".(0+@sd)." spares";
 		} else {
 			$s .= "$md{status}";
 		}
