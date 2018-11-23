@@ -161,6 +161,11 @@ sub check {
 	my (@status);
 	my @md = $this->parse;
 
+	my @spare_options = ();
+
+	@spare_options = split(/\,/, $this->{options}{'mdstat_spare_count'})
+		if (exists $this->{options}{'mdstat_spare_count'});
+
 	foreach (@md) {
 		my %md = %$_;
 
@@ -175,18 +180,18 @@ sub check {
 		my @sd = map { $_->{dev} } grep { $_->{flags} =~ /S/ } @{$md{disks}};
 
 		my $spare_count = 0;
-		if (exists $this->{options}{'mdstat_spare_count'})
+		OPTION_LOOP:
 		{
-			my @spare_options = ();
-			@spare_options = split(/\,/, $this->{options}{'mdstat_spare_count'});
-			foreach my $val (@spare_options)
+			foreach my $i (0 .. $#spare_options)
 			{
-				my ($disk, $value) = split(/:/, $val);
+				my ($disk, $value) = split(/:/, $spare_options[$i]);
 				for(@md)
 				{
 					if ($md{dev} eq $disk)
 					{
 						$spare_count = $value;
+						splice(@spare_options, $i, 1);
+						last OPTION_LOOP;
 					}
 				}
 			}
@@ -222,6 +227,17 @@ sub check {
 			$s .= "$md{status}";
 		}
 		push(@status, $s);
+	}
+
+	if ($#spare_options > 0)
+	{
+		$this->critical;
+		foreach (@spare_options)
+		{
+			my ($disk, $value) = split(/:/, $_);
+			my $s = "$disk is defined in spare_count option but could not be found!";
+			push(@status, $s);
+		}
 	}
 
 	return unless @status;
