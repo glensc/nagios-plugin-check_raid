@@ -163,8 +163,8 @@ sub check {
 
 	my @spare_options = ();
 
-	@spare_options = split(/\,/, $this->{options}{'mdstat_spare_count'})
-		if (exists $this->{options}{'mdstat_spare_count'});
+	@spare_options = split(/\,/, $this->{options}{mdstat_spare_count})
+		if (exists $this->{options}{mdstat_spare_count});
 
 	foreach (@md) {
 		my %md = %$_;
@@ -229,7 +229,7 @@ sub check {
 		push(@status, $s);
 	}
 
-	if ($#spare_options > 0)
+	if (scalar @spare_options > 0)
 	{
 		$this->critical;
 		foreach (@spare_options)
