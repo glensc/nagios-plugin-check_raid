@@ -5,10 +5,12 @@
 - mpt-status: Enable checking of multiple mpt controllers, [#177]
 - add [sensu] support, [#178]
 - enable usage of new HP ssacli (replacing hpssacli), [#182]
+- mdstat: Check if a certain amount of spares are present [#185]
 
 [#177]: https://github.com/glensc/nagios-plugin-check_raid/pull/177
 [#178]: https://github.com/glensc/nagios-plugin-check_raid/issues/178
 [#182]: https://github.com/glensc/nagios-plugin-check_raid/pull/182
+[#185]: https://github.com/glensc/nagios-plugin-check_raid/pull/185
 [sensu]: https://sensuapp.org/docs/1.0/overview/what-is-sensu.html
 [4.0.9]: https://github.com/glensc/nagios-plugin-check_raid/compare/4.0.8...master
 
