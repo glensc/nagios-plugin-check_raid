@@ -161,6 +161,11 @@ sub check {
 	my (@status);
 	my @md = $this->parse;
 
+	my @spare_options = ();
+
+	@spare_options = split(/\,/, $this->{options}{mdstat_spare_count})
+		if (exists $this->{options}{mdstat_spare_count});
+
 	foreach (@md) {
 		my %md = %$_;
 
@@ -171,6 +176,26 @@ sub check {
 
 		# failed disks
 		my @fd = map { $_->{dev} } grep { $_->{flags} =~ /F/ } @{$md{disks}};
+		# spare disks
+		my @sd = map { $_->{dev} } grep { $_->{flags} =~ /S/ } @{$md{disks}};
+
+		my $spare_count = 0;
+		OPTION_LOOP:
+		{
+			foreach my $i (0 .. $#spare_options)
+			{
+				my ($disk, $value) = split(/:/, $spare_options[$i]);
+				for(@md)
+				{
+					if ($md{dev} eq $disk)
+					{
+						$spare_count = $value;
+						splice(@spare_options, $i, 1);
+						last OPTION_LOOP;
+					}
+				}
+			}
+		}
 
 		# raid0 is just there or its not. raid0 can't degrade.
 		# same for linear, no $md_status available
@@ -194,10 +219,25 @@ sub check {
 			# FIXME: this is same as above?
 			$this->warning;
 			$s .= "hot-spare failure:". join(",", @fd) .":$md{status}";
+		} elsif (@sd < $spare_count)
+		{
+			$this->warning;
+			$s .= "Array ".$md{dev}." should have ".$spare_count." spares, but has only ".(0+@sd)." spares";
 		} else {
 			$s .= "$md{status}";
 		}
 		push(@status, $s);
+	}
+
+	if (scalar @spare_options > 0)
+	{
+		$this->critical;
+		foreach (@spare_options)
+		{
+			my ($disk, $value) = split(/:/, $_);
+			my $s = "$disk is defined in spare_count option but could not be found!";
+			push(@status, $s);
+		}
 	}
 
 	return unless @status;

@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 use constant INACTIVE_TESTS => 2;
-use constant ACTIVE_TESTS => 19;
+use constant ACTIVE_TESTS => 26;
 use Test::More tests => 1 + ACTIVE_TESTS * 6 + INACTIVE_TESTS * 2;
 use test;
 
@@ -95,6 +95,42 @@ my @tests = (
 		active => 1,
 		message => 'md1(1.82 TiB raid1):hot-spare failure:sdh1:UUUUU, md0(119.18 GiB raid1):UU',
 	},
+	{ input => 'pr185_0', status => OK,
+		mdstat_spare_count => 'md1:1',
+		active => 1,
+		message => 'md1(3.49 TiB raid5):UUUUU',
+	},
+	{ input => 'pr185_0', status => WARNING,
+		mdstat_spare_count => 'md1:2',
+		active => 1,
+		message => 'md1(3.49 TiB raid5):Array md1 should have 2 spares, but has only 1 spares',
+	},
+	{ input => 'pr185_0', status => CRITICAL,
+		mdstat_spare_count => 'md2:2',
+		active => 1,
+		message => 'md1(3.49 TiB raid5):UUUUU, md2 is defined in spare_count option but could not be found!',
+	},
+	{ input => 'pr185_1', status => OK,
+		mdstat_spare_count => 'md1:1,md2:2',
+		active => 1,
+		message => 'md1(3.49 TiB raid5):UUUUU, md2(3.49 TiB raid5):UUUUU',
+	},
+	{ input => 'pr185_1', status => WARNING,
+		mdstat_spare_count => 'md1:1,md2:3',
+		active => 1,
+		message => 'md1(3.49 TiB raid5):UUUUU, md2(3.49 TiB raid5):Array md2 should have 3 spares, but has only 2 spares',
+	},
+	{ input => 'pr185_1', status => WARNING,
+		mdstat_spare_count => 'md1:2,md2:3',
+		active => 1,
+		message => 'md1(3.49 TiB raid5):Array md1 should have 2 spares, but has only 1 spares, md2(3.49 TiB raid5):Array md2 should have 3 spares, but has only 2 spares',
+	},
+	{ input => 'pr185_1', status => CRITICAL,
+		mdstat_spare_count => 'md1:1,md2:2,md3:1',
+		active => 1,
+		message => 'md1(3.49 TiB raid5):UUUUU, md2(3.49 TiB raid5):UUUUU, md3 is defined in spare_count option but could not be found!',
+	},
+
 );
 
 # test that plugin can be created
@@ -108,6 +144,10 @@ foreach my $test (@tests) {
 	if (defined $test->{check_status}) {
 		$options{check_status} = $test->{check_status};
 	}
+	if (defined $test->{mdstat_spare_count}) {
+		$options{mdstat_spare_count} = $test->{mdstat_spare_count};
+	}
+
 	my $plugin = mdstat->new(
 		commands => {
 			'mdstat' => ['<', TESTDIR . '/data/mdstat/' . $test->{input}],
