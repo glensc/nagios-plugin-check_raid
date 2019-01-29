@@ -36,7 +36,7 @@ my @tests = (
 		pdlist => 'issue41/pdlist',
 		ldinfo => 'issue41/ldinfo',
 		battery => 'empty',
-		message => 'Volumes(3): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal; Devices(6): 11,10,09,08,12,13=Online',
+		message => 'Volumes(3): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal; Devices(6): 08,09,10,11,12,13=Online',
 		perfdata => '',
 		longoutput => [],
 		c => 'issue41',
@@ -76,7 +76,7 @@ my @tests = (
 		pdlist => 'issue39/batteries.pdlist.1',
 		ldinfo => 'issue39/batteries.ldinfo.1',,
 		battery => 'issue39/batteries.bbustatus.1',
-		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 08,07=Online; Batteries(1): 0=Operational',
+		message => 'Volumes(1): DISK0.0:Optimal; Devices(2): 07,08=Online; Batteries(1): 0=Operational',
 		perfdata => 'Battery0_T=18;;;; Battery0_V=3923;;;;',
 		longoutput => [
 			"Battery0:",
@@ -162,7 +162,7 @@ my @tests = (
 		pdlist => 'issue45/MegaCli64-list.out',
 		ldinfo => 'issue45/MegaCli64-ldinfo.out',
 		battery => 'issue45/MegaCli64-adpbbucmd.out',
-		message => 'Volumes(7): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal,DISK3.3:Optimal,DISK4.4:Optimal,DISK5.5:Optimal,DISK6.6:Optimal; Devices(8): 11,12,13,14,10,15,09,08=Online; Batteries(1): 0=Optimal',
+		message => 'Volumes(7): DISK0.0:Optimal,DISK1.1:Optimal,DISK2.2:Optimal,DISK3.3:Optimal,DISK4.4:Optimal,DISK5.5:Optimal,DISK6.6:Optimal; Devices(8): 08,09,10,11,12,13,14,15=Online; Batteries(1): 0=Optimal',
 		perfdata => 'Battery0_T=34;;;; Battery0_V=4073;;;;',
 		longoutput => [
 			"Battery0:",
@@ -213,7 +213,7 @@ my @tests = (
 		pdlist => 'issue49/pdlist',
 		ldinfo => 'empty', # faked, as original is MISSING, see #49
 		battery => 'issue49/battery',
-		message => 'Volumes(0): ; Devices(6): 10,09,13,08,11=Online 14 (IBM-ESXSST9300603SS F B53B3SE0WJ1Y0825B53B)=Predictive; Batteries(1): 0=Faulty',
+		message => 'Volumes(0): ; Devices(6): 08,09,10,11,13=Online 14 (IBM-ESXSST9300603SS F B53B3SE0WJ1Y0825B53B)=Predictive; Batteries(1): 0=Faulty',
 		perfdata => 'Battery0_T=36;;;; Battery0_V=4049;;;;',
 		longoutput => [
 			"Battery0:",
@@ -304,7 +304,7 @@ my @tests = (
 		pdlist => 'issue123/pdlist',
 		ldinfo => 'issue123/ldinfo',
 		battery => 'empty',
-		message => 'Volumes(1): DISK0.0:Optimal,WriteCache:DISABLED; Devices(8): 11,10,08,12,13,14,16=Online 09 (IBM-ESXSM)=Predictive',
+		message => 'Volumes(1): DISK0.0:Optimal,WriteCache:DISABLED; Devices(8): 08,10,11,12,13,14,16=Online 09 (IBM-ESXSM)=Predictive',
 		perfdata => '',
 		longoutput => [],
 		c => 'issue123',

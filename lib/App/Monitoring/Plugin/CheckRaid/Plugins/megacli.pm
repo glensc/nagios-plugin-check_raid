@@ -291,7 +291,7 @@ sub check {
 	}
 
 	my %dstatus;
-	foreach my $dev (@{$c->{physical}}) {
+	foreach my $dev (sort {$a->{dev} <=> $b->{dev}} @{$c->{physical}}) {
 		if ($dev->{state} eq 'Online' || $dev->{state} eq 'Hotspare' || $dev->{state} eq 'Unconfigured(good)' || $dev->{state} eq 'JBOD') {
 			push(@{$dstatus{$dev->{state}}}, sprintf "%02d", $dev->{dev});
 
