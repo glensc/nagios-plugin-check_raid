@@ -27,7 +27,7 @@ jobs:
       script:
         - set -e
         - sudo apt-get install rpm
-        - gem install --no-ri --no-rdoc fpm
+        - gem install fpm
         - make dist
       # https://docs.travis-ci.com/user/deployment/releases
       deploy:

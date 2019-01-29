@@ -114,8 +114,4 @@ License: GPL v2
 http://www.steveshipway.org/forum/viewtopic.php?f=20&t=417&p=3211
 Steve Shipway Thanks M Carmier for megaraid section.
 
-(c) 2009-2018 Elan Ruusamäe <glen@pld-linux.org> (maintainer from version 2.1 and upwards)
-
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/glensc/nagios-plugin-check_raid/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+(c) 2009-2019 Elan Ruusamäe <glen@pld-linux.org> (maintainer from version 2.1 and upwards)
