@@ -10,6 +10,8 @@ cache:
 
 jobs:
   include:
+    - perl: "5.28"
+    - perl: "5.26"
     - perl: "5.24"
     - perl: "5.22"
     - perl: "5.20"
