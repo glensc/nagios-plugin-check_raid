@@ -51,13 +51,13 @@ script:
   - set -e
   - make test
 
-before_deploy: |
-  ruby --version
-  gem install
+before_deploy:
+  - ruby --version
+  - gem install chandler
 
   # Create token in https://github.com/settings/tokens with 'public_repo' access
   # and set as env var:
   # $ travis env set -p CHANDLER_GITHUB_API_TOKEN ...
-  chandler push $TRAVIS_TAG
+  - chandler push $TRAVIS_TAG
 
 # vim:ft=yaml:et:ts=2:sw=2
