@@ -1,6 +1,6 @@
 # check_raid changelog
 
-## [4.0.9] - 2019-01-29
+## [4.0.9] - 2019-01-30
 
 CHANGES:
 - mpt-status: Enable checking of multiple mpt controllers, [#177]
