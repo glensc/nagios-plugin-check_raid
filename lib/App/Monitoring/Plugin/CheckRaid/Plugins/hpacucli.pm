@@ -286,11 +286,11 @@ sub cstatus {
 	# print those only if not ok and configured
 	if (($s = $c->{'Cache Status'}) && $s !~ /^(OK|Not Configured)/) {
 		push(@s, "Cache: $s");
-		$this->critical;
+		$this->cache_fail;
 	}
 	if (($s = $c->{'Battery/Capacitor Status'}) && $s !~ /^(OK|Not Configured)/) {
 		push(@s, "Battery: $s");
-		$this->critical;
+		$this->bbulearn;
 	}
 
 	# start with identifyier

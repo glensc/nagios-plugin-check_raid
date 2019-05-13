@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 15;
+use constant TESTS => 16;
 use Test::More tests => 1 + TESTS * 6;
 use test;
 
@@ -38,6 +38,17 @@ my @tests = (
 		logical => 'PR94/ld-show',
 		message => 'Smart Array P410i[OK]: Array A(OK)[LUN1:OK]',
 		c => '4',
+	},
+	{
+		status => OK,
+		controller => 'PR193/ctrl-status',
+		logical => 'PR193/ld-show',
+		message => 'Smart Array P420i[OK, Cache: Temporarily Disabled, Battery: Recharging]: Array A(OK)[LUN1:OK]',
+		c => 'PR193',
+		options => {
+			cache_fail_status => OK,
+			bbulearn_status => OK
+		},
 	},
 	{
 		status => CRITICAL,
@@ -138,6 +149,10 @@ foreach my $test (@tests) {
 		options => {
 		},
 	);
+
+	if ($test->{options}) {
+		$args{"options"} = $test->{options};
+	}
 
 	if ($test->{targets}) {
 		$args{'options'}{'hpacucli-target'} = $test->{targets};
