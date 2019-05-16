@@ -1,0 +1,27 @@
+$VAR1 = [
+          {
+            'Battery/Capacitor Status' => 'Recharging',
+            'Cache Status' => 'Temporarily Disabled',
+            'Controller Status' => 'OK',
+            'array' => [
+                         {
+                           'logicaldrives' => [
+                                                {
+                                                  'id' => '1',
+                                                  'raid' => 'RAID 1',
+                                                  'size' => '279.4 GB',
+                                                  'status' => 'OK'
+                                                }
+                                              ],
+                           'name' => 'A',
+                           'status' => 'OK'
+                         }
+                       ],
+            'controller' => 'Smart Array P420i',
+            'modes' => [
+                         'Embedded'
+                       ],
+            'slot' => '0',
+            'target' => 'slot=0'
+          }
+        ];
