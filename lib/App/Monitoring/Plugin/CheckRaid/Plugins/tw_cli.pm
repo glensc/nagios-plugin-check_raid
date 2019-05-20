@@ -560,15 +560,19 @@ sub check {
 		# report.
 		next unless defined($e->{status});
 
-		# Something is wrong, but we are not sure what yet.
-		$this->warning unless $e->{status} eq 'OK';
 		my @estatus;
-		for my $fan_id (sort keys %{$e->{fans}}) {
-			my $f = $e->{fans}->{$fan_id};
-			my $s = $f->{status};
-			next if $s eq 'NOT-REPORTABLE' or $s eq 'NOT-INSTALLED' or $s eq 'NO-DEVICE';
-			$this->warning if $s ne 'OK';
-			push(@estatus, "$fan_id=$s($f->{rpm})");
+		
+		unless ($this->{options}{'ignore-fans'}) {
+			# Something is wrong, but we are not sure what yet.
+			$this->warning unless $e->{status} eq 'OK';
+			
+			for my $fan_id (sort keys %{$e->{fans}}) {
+				my $f = $e->{fans}->{$fan_id};
+				my $s = $f->{status};
+				next if $s eq 'NOT-REPORTABLE' or $s eq 'NOT-INSTALLED' or $s eq 'NO-DEVICE';
+				$this->warning if $s ne 'OK';
+				push(@estatus, "$fan_id=$s($f->{rpm})");
+			}
 		}
 		for my $tmp_id (sort keys %{$e->{tempsensor}}) {
 			my $t = $e->{tempsensor}->{$tmp_id};
