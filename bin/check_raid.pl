@@ -6,6 +6,9 @@
 # See installation notes:
 # https://github.com/glensc/nagios-plugin-check_raid#installing
 #
+# nagios: -epn
+# https://assets.nagios.com/downloads/nagioscore/docs/nagioscore/3/en/embeddedperl.html
+
 use Monitoring::Plugin 0.37;
 use App::Monitoring::Plugin::CheckRaid;
 use App::Monitoring::Plugin::CheckRaid::Sudoers;
