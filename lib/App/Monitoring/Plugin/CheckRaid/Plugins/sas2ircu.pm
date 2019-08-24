@@ -217,7 +217,7 @@ sub check {
 						#if ($numslots == 10 ) { $state='FREDFISH';}
 
 						#when we get a state, test on it and report it..
-						if ($state =~ /Optimal|Ready/) {
+						if ($state =~ /Optimal|Ready|Hot Spare/) {
 							#do nothing at the moment.
 						} else {
 							$this->critical;
