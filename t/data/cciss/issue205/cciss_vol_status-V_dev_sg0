@@ -1,0 +1,23 @@
+Controller: Smart Array P420i
+  Board ID: 0x3354103c
+  Logical drives: 1
+  Running firmware: 8.32
+  ROM firmware: 8.32
+/dev/sda: (Smart Array P420i) RAID 1(1+0) Volume 0 status: OK. 
+  Physical drives: 8
+         connector 1I box 1 bay 1                  HP      EG0900FCVBL                          S0N2BEHX0000K50648RD     HPD9 OK
+         connector 1I box 1 bay 2                  HP      EG0900FCVBL                          S0N2C5810000K50663MY     HPD9 OK
+         connector 1I box 1 bay 3                  HP      EG0900FCSPN                              3410A0IPFTM11409     HPD0 OK
+         connector 1I box 1 bay 4                  HP      EG0900FCVBL                          S0N18Z0Q0000B429BNNF     HPD9 OK
+         connector 2I box 1 bay 5                  HP      EG0900FCSPN                              24R0A0AGFTM11409     HPD0 OK
+         connector 2I box 1 bay 6                  HP      EG0900FBVFQ                                      KVK7YKBJ     HPDE OK
+         connector 2I box 1 bay 7                  HP      EG0900FCVBL                          S0N25NCW0000M501EUAH     HPD9 OK
+         connector 2I box 1 bay 8                  HP      EG0900FCSPN                              93K0A0HFFTM11338     HPD0 OK
+/dev/sg0(Smart Array P420i:0): Non-Volatile Cache status:
+                   Cache configured: Yes
+                 Total cache memory: 816 MiB
+                        Cache Ratio: 10% Read / 90% Write
+                  Read cache memory: 81 MiB
+                 Write cache memory: 735 MiB
+                Write cache enabled: Yes
+   Flash backed cache present
