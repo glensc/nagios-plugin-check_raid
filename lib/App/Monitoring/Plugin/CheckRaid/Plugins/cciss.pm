@@ -172,7 +172,7 @@ sub cciss_vol_status_version {
 		close $fh;
 		return 0 unless $line;
 
-		if (my($v) = $line =~ /^cciss_vol_status version ([\d.]+)$/) {
+		if (my($v) = $line =~ /^cciss_vol_status version ([\d.]+)[a-z]?$/) {
 			return 0 + $v;
 		}
 		return 0;
