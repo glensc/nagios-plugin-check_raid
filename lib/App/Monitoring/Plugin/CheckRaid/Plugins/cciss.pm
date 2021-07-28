@@ -300,7 +300,7 @@ sub parse {
 		if (my ($phys1, $phys2, $box, $bay, $model, $serial_no, $fw_rev, $status) = m{
 			\sconnector\s(.)(.)\s # Phys connector 1&2
 			box\s(\d+)\s          # phys_box_on_bus
-			bay\s(\d+)\s          # phys_bay_in_box
+			bay\s(\d+)\s{1,2}     # phys_bay_in_box
 			(.{40})\s             # model
 			(.{40})\s             # serial no
 			(.{8})\s              # fw rev
