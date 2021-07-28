@@ -263,10 +263,11 @@ sub parse {
 		# /dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK
 		# /dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK.
 		# /dev/sda: (Smart Array P410i) RAID 5 Volume 0 status: OK.   At least one spare drive designated.  At least one spare drive has failed.
+		# /dev/sda: (Smart Array P420i) RAID 1(1+0) Volume 0 status: OK.
 		if (my($file, $board_name, $raid_level, $volume_number, $certain, $status, $spare_drive_status) = m{
 			^(/dev/[^:]+):\s        # File
 			\(([^)]+)\)\s           # Board Name
-			(RAID\s\d+|\([^)]+\))\s # RAID level
+			(RAID\s\d+(?:\(\d\+\d\))?|\([^)]+\))\s # RAID level with optional '(X+Y)')
 			Volume\s(\d+)           # Volume number
 			(\(\?\))?\s             # certain?
 			status:\s(.*?)\.        # status (without a dot)
