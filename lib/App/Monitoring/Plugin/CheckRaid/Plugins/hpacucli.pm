@@ -130,6 +130,13 @@ sub scan_targets {
 			next;
 		}
 
+		# Case for installed hpacucli but missing controllers
+		if (
+			/No controllers detected/
+		) {
+			return;
+		}
+
 		# Other statuses, try "key: value" pairs
 		if (my ($key, $value) = /^\s*(.+?):\s+(.+?)$/) {
 			$targets{$target}{$key} = $value;
