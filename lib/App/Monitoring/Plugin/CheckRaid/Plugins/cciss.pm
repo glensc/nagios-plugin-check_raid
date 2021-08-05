@@ -341,6 +341,8 @@ sub parse {
 			my $cache = $c{$cdev}{cache};
 			my %map = (
 				configured => qr/Cache configured: (.+)/,
+				total_cache_memory => qr/Total cache memory: (.+)/,
+				cache_ratio => qr/Cache Ratio: (.+)/,
 				read_cache_memory => qr/Read cache memory: (.+)/,
 				write_cache_memory => qr/Write cache memory: (.+)/,
 				write_cache_enabled => qr/Write cache enabled: (.+)/,
@@ -465,6 +467,8 @@ sub check {
 			}
 
 			push(@cstatus, "FlashCache") if $cache->{flash_cache};
+			push(@cstatus, "TotalMem:$cache->{total_cache_memory}") if $cache->{total_cache_memory};
+			push(@cstatus, "Ratio:'$cache->{cache_ratio}'") if $cache->{cache_ratio};
 			push(@cstatus, "ReadMem:$cache->{read_cache_memory}") if $cache->{read_cache_memory};
 			push(@cstatus, "WriteMem:$cache->{write_cache_memory}") if $cache->{write_cache_memory};
 
