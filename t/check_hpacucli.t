@@ -134,6 +134,13 @@ my @tests = (
 		message => 'Smart Array 6i[OK]: Array A(OK)[LUN1:OK]',
 		c => 'issue157',
 	},
+	{
+		status => WARNING,
+		controller => 'pr207/controller',
+		logical => 'pr207/logicaldrive',
+		message => 'No Controllers were found on this machine',
+		c => 'pr207',
+	},
 );
 
 # test that plugin can be created
