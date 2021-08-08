@@ -1,3 +1,5 @@
+# FORK TO FIX SOME ARCCONF PARSE ERRORS, NO OTHER FIXES
+
 # Nagios/Icinga/Sensu plugin to check current server's RAID status
 
 This plugin checks all RAID volumes (hardware and software) that can be
