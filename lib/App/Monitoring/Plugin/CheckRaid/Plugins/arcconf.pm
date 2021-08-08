@@ -193,7 +193,7 @@ sub parse_ctrl_config {
 		if (/^\s+---+/) {
 			if (my($s) = <$fh> =~ /^\s+(\S.+?)\s*?$/) {
 				$subsection = $s;
-				unless (<$fh> =~ /^\s+---+/) {
+				unless (<$fh> =~ /^$/ or /^\s+---+/) {
 					$this->parse_error($_);
 				}
 				next;
@@ -407,7 +407,7 @@ sub process_physical_device_information {
 			$pd[$ch][$pd]{esd} = $s if $s;
 
 			if ($s = $cs->{'Reported Location'}) {
-				my($e, $s) = $s =~ /(?:Enclosure|Connector) (\d+), (?:Slot|Device|Enclosure) (\d+)/;
+				my($e, $s) = $s =~ /(?:Enclosure|Connector) (\d+)[:A-Za-z0-9]*, (?:Slot|Device|Enclosure) (\d+)[:A-Za-z0-9]*/;
 				$pd[$ch][$pd]{location} = "$e:$s";
 			}
 
