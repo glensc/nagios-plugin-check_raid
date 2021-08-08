@@ -1,5 +1,13 @@
 # FORK TO FIX SOME ARCCONF PARSE ERRORS, NO OTHER FIXES
 
+Make it on debian:
+
+    apt-get install cpanminus
+    apt-get install ruby ruby-dev rubygems build-essential && gem install --no-document fpm
+
+    make pack
+    make deb
+
 # Nagios/Icinga/Sensu plugin to check current server's RAID status
 
 This plugin checks all RAID volumes (hardware and software) that can be
