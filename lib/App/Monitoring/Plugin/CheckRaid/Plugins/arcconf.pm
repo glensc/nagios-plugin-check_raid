@@ -259,6 +259,10 @@ sub parse_ctrl_config {
 			# not parsed yet
 		} elsif ($section eq 'Connector information') {
 			# not parsed yet
+		} elsif ($section eq 'Array Information') {
+			# not parsed yet
+		} elsif ($section eq 'Array Physical Device Information') {
+  			# not parsed yet
 		} else {
 			warn "NOT PARSED: [$section] [$_]";
 		}
@@ -403,7 +407,7 @@ sub process_physical_device_information {
 			$pd[$ch][$pd]{esd} = $s if $s;
 
 			if ($s = $cs->{'Reported Location'}) {
-				my($e, $s) = $s =~ /(?:Enclosure|Connector) (\d+), (?:Slot|Device) (\d+)/;
+				my($e, $s) = $s =~ /(?:Enclosure|Connector) (\d+), (?:Slot|Device|Enclosure) (\d+)/;
 				$pd[$ch][$pd]{location} = "$e:$s";
 			}
 
@@ -455,6 +459,12 @@ sub process_logical_drive_information {
 }
 
 sub process_maxcache_3_0_information {
+}
+
+sub process_array_information {
+}
+
+sub process_array_physical_device_information {
 }
 
 # TODO: issue152/arc2_getconfig.txt
