@@ -1,6 +1,6 @@
 # FORK TO FIX SOME ARCCONF PARSE ERRORS, NO OTHER FIXES
 
-Make it on debian:
+Make it on Debian:
 
     apt-get install cpanminus
     apt-get install ruby ruby-dev rubygems build-essential && gem install --no-document fpm
