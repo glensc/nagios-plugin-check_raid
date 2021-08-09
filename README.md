@@ -2,8 +2,8 @@
 
 Make it on Debian:
 
-    apt-get install cpanminus
-    apt-get install ruby ruby-dev rubygems build-essential && gem install --no-document fpm
+    apt-get -y install cpanminus
+    apt-get -y install ruby ruby-dev rubygems build-essential && gem install --no-document fpm
 
     make pack
     make deb
