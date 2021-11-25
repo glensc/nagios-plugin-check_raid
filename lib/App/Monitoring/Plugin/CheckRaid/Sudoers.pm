@@ -115,7 +115,7 @@ sub parse_sudoers_includedir {
 
 	open my $fh, '<', $sudoers or die "Can't open: $sudoers: $!";
 	while (<$fh>) {
-		if (my ($dir) = /^#includedir\s+(.+)$/) {
+		if (my ($dir) = /^[#@]includedir\s+(.+)$/) {
 			return $dir;
 		}
 	}
