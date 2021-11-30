@@ -263,6 +263,12 @@ sub parse_ctrl_config {
 			# not parsed yet
 		} elsif ($section eq 'Connector information') {
 			# not parsed yet
+		} elsif ($section eq 'Array Information') {
+			# not parsed yet
+		} elsif ($section eq 'Array Physical Device Information') {
+			# not parsed yet
+		} elsif ($section eq 'maxCache information') {
+			# not parsed yet
 		} else {
 			warn "NOT PARSED: [$section] [$_]";
 		}
@@ -463,6 +469,18 @@ sub process_maxcache_3_0_information {
 
 # TODO: issue152/arc2_getconfig.txt
 sub process_connector_information {
+}
+
+# TODO: arcconf31000/getconfig
+sub process_array_information {
+}
+
+# TODO: arcconf31000/getconfig
+sub process_array_physical_device_information {
+}
+
+# TODO: arcconf31000/getconfig
+sub process_maxcache_information {
 }
 
 # NB: side effect: ARCCONF changes current directory to /var/log
