@@ -1,0 +1,1377 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                          : Optimal
+   Controller Mode                            : RAID (Hide RAW)
+   Channel description                        : SCSI
+   Controller Model                           : Adaptec SmartRAID 3154-16i
+   Vendor ID                                  : 0x9005
+   Device ID                                  : 0x028F
+   Subsystem Vendor ID                        : 0x9005
+   Subsystem Device ID                        : 0x1380
+   Controller Serial Number                   : 1A17G3003F8
+   Controller World Wide Name                 : 50000D1F048FCC00
+   Physical Slot                              : 65535
+   Temperature                                : 56 C/ 132 F (Normal)
+   Host bus type                              : PCIe 3.0
+   Host bus speed                             : 7880 MBps
+   Host bus link width                        : 8 bit(s)/link(s)
+   PCI Address (Domain:Bus:Device:Function)   : 0:41:0:0
+   Number of Ports                            : 4
+   Internal Port Count                        : 4
+   External Port Count                        : 0
+   Defunct disk drive count                   : 0
+   NCQ status                                 : Enabled
+   Queue Depth                                : Automatic
+   Monitor and Performance Delay              : 60 minutes
+   Elevator Sort                              : Enabled
+   Degraded Mode Performance Optimization     : Disabled
+   Latency                                    : Disabled
+   Statistics data collection mode            : Disabled
+   Post Prompt Timeout                        : 0 seconds
+   Boot Controller                            : False
+   Primary Boot Volume                        : None
+   Secondary Boot Volume                      : None
+   Driver Name                                : smartpqi
+   Driver Supports SSD I/O Bypass             : Yes
+   NVMe Supported                             : No
+   NVMe Configuration Supported               : No
+   Manufacturing Part Number                  : Not Applicable
+   Manufacturing Spare Part Number            : Not Applicable
+   Manufacturing Wellness Log                 : Not Applicable
+   Manufacturing SKU Number                   : Not Applicable
+   Manufacturing Model                        : Not Applicable
+   NVRAM Checksum Status                      : Passed
+   Sanitize Lock Setting                      : None
+   Expander Minimum Scan Duration             : 0 seconds
+   Expander Scan Time-out                     : 350 seconds
+   Reboot Required Reasons                    : Not Available
+   --------------------------------------------------------
+   Power Settings
+   --------------------------------------------------------
+   Power Consumption                          : Not Available
+   Current Power Mode                         : Maximum Performance
+   Pending Power Mode                         : Not Applicable
+   Survival Mode                              : Enabled
+   --------------------------------------------------------
+   Cache Properties
+   --------------------------------------------------------
+   Cache Status                               : Ok
+   Cache Serial Number                        : Not Applicable
+   Cache memory                               : 3856 MB
+   Read Cache Percentage                      : 10 percent
+   Write Cache Percentage                     : 90 percent
+   No-Battery Write Cache                     : Disabled
+   Wait for Cache Room                        : Disabled
+   Write Cache Bypass Threshold Size          : 1040 KB
+   --------------------------------------------------------
+   Green Backup Information
+   --------------------------------------------------------
+   Backup Power Status                        : Ok
+   Battery/Capacitor Pack Count               : 1
+   Hardware Error                             : No Error
+   --------------------------------------------------------
+   Physical Drive Write Cache Policy Information
+   --------------------------------------------------------
+   Configured Drives                          : Default
+   Unconfigured Drives                        : Default
+   HBA Drives                                 : Default
+   --------------------------------------------------------
+   maxCache Properties
+   --------------------------------------------------------
+   maxCache Version                           : 4
+   maxCache RAID5 WriteBack Enabled           : Enabled
+   --------------------------------------------------------
+   RAID Properties
+   --------------------------------------------------------
+   Logical devices/Failed/Degraded            : 2/0/0
+   Spare Activation Mode                      : Failure
+   Background consistency check               : High
+   Consistency Check Delay                    : 0 seconds
+   Parallel Consistency Check Supported       : Enabled
+   Parallel Consistency Check Count           : 1
+   Inconsistency Repair Policy                : Enabled
+   Consistency Check Inconsistency Notify     : Enabled
+   Rebuild Priority                           : High
+   Expand Priority                            : Medium
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   Firmware                                   : 4.11
+   Driver                                     : Linux 1.1.4-130
+   Hardware Revision                          : A
+   --------------------------------------------------------
+   Temperature Sensors Information
+   --------------------------------------------------------
+   Sensor ID                                  : 0
+   Current Value                              : 39 deg C
+   Max Value Since Powered On                 : 41 deg C
+   Location                                   : Inlet Ambient
+
+   Sensor ID                                  : 1
+   Current Value                              : 56 deg C
+   Max Value Since Powered On                 : 58 deg C
+   Location                                   : ASIC
+
+   --------------------------------------------------------
+   Out Of Band Interface Settings
+   --------------------------------------------------------
+   OOB Interface                              : PBSI
+   Pending OOB Interface                      : PBSI
+   I2C Address                                : 0xDE
+   Pending I2C Address                        : 0xDE
+   --------------------------------------------------------
+   PBSI
+   --------------------------------------------------------
+   I2C Clock Speed                            : 400 KHZ
+   I2C Clock Stretching                       : Enabled
+   Pending I2C Clock Speed                    : 400 KHZ
+   Pending I2C Clock Stretching               : Enabled
+   --------------------------------------------------------
+   MCTP
+   --------------------------------------------------------
+   SMBus Device Type                          : Not Applicable
+   SMBus Channel                              : Not Applicable
+   Static EIDs Use On Initialization          : Not Applicable
+   VDM Notification                           : Not Applicable
+   Pending SMBus Device Type                  : Not Applicable
+   Pending SMBus Channel                      : Not Applicable
+   Pending Static EIDs Use On Initialization  : Not Applicable
+   Pending VDM Notification                   : Not Applicable
+   --------------------------------------------------------
+   Connector information
+                     
+   --------------------------------------------------------
+   Connector #0                               
+      Connector Name                          : CN0
+      Connection Number                       : 0
+      Functional Mode                         : RAID (Hide RAW)
+      Connector Location                      : Internal
+      SAS Address                             : 50000D1F048FCC00
+      Current Discovery Protocol              : SGPIO
+      Pending Discovery Protocol              : Not Applicable
+
+
+   Connector #1                               
+      Connector Name                          : CN1
+      Connection Number                       : 1
+      Functional Mode                         : RAID (Hide RAW)
+      Connector Location                      : Internal
+      SAS Address                             : 50000D1F048FCC04
+      Current Discovery Protocol              : SGPIO
+      Pending Discovery Protocol              : Not Applicable
+
+
+   Connector #2                               
+      Connector Name                          : CN2
+      Connection Number                       : 3
+      Functional Mode                         : RAID (Hide RAW)
+      Connector Location                      : Internal
+      SAS Address                             : 50000D1F048FCC08
+      Current Discovery Protocol              : SGPIO
+      Pending Discovery Protocol              : Not Applicable
+
+
+   Connector #3                               
+      Connector Name                          : CN3
+      Connection Number                       : 2
+      Functional Mode                         : RAID (Hide RAW)
+      Connector Location                      : Internal
+      SAS Address                             : 50000D1F048FCC0C
+      Current Discovery Protocol              : SGPIO
+      Pending Discovery Protocol              : Not Applicable
+
+
+
+----------------------------------------------------------------------
+Array Information
+----------------------------------------------------------------------
+Array Number 0
+   Name                                       : A
+   Status                                     : Ok
+   Interface                                  : SATA SSD
+   Total Size                                 : 457873 MB
+   Unused Size                                : 4 MB
+   Block Size                                 : 512 Bytes
+   Array Utilization                          : 100.00% Used, 0.00% Unused
+   Type                                       : Data
+   Transformation Status                      : Not Applicable
+   Spare Rebuild Mode                         : Dedicated
+   SSD I/O Bypass                             : Disabled
+   --------------------------------------------------------
+   Array Logical Device Information
+   --------------------------------------------------------
+   Logical 0                                  : Optimal (1, Data, 228902 MB) RAID1-240GB  OS
+   --------------------------------------------------------
+   Array Physical Device Information
+   --------------------------------------------------------
+   Device 0                                   : Present (228936MB, SATA, SSD, Connector:0, Device:0) BTYF127108H9240AGN
+   Device 1                                   : Present (228936MB, SATA, SSD, Connector:0, Device:1) BTYF127108HA240AGN
+
+
+Array Number 1
+   Name                                       : B
+   Status                                     : Ok
+   Interface                                  : SAS
+   Total Size                                 : 183115776 MB
+   Unused Size                                : 0 MB
+   Block Size                                 : 512 Bytes
+   Array Utilization                          : 100.00% Used, 0.00% Unused
+   Type                                       : Data
+   Transformation Status                      : Not Applicable
+   Spare Rebuild Mode                         : Dedicated
+   SSD I/O Bypass                             : Not Applicable
+   --------------------------------------------------------
+   Array Logical Device Information
+   --------------------------------------------------------
+   Logical 1                                  : Optimal (6, Data, 152596160 MB) RAID6-160T DATA
+   --------------------------------------------------------
+   Array Physical Device Information
+   --------------------------------------------------------
+   Device 4                                   : Present (15259648MB, SAS, HDD, Connector:1, Device:4) 2BGZ9B5N
+   Device 5                                   : Present (15259648MB, SAS, HDD, Connector:1, Device:5) 2BH4UVEN
+   Device 6                                   : Present (15259648MB, SAS, HDD, Connector:1, Device:6) 2BH4TZ6N
+   Device 7                                   : Present (15259648MB, SAS, HDD, Connector:1, Device:7) 2BGTMSAN
+   Device 8                                   : Present (15259648MB, SAS, HDD, Connector:2, Device:8) 2BH4UEHN
+   Device 9                                   : Present (15259648MB, SAS, HDD, Connector:2, Device:9) 2BH4V5VN
+   Device 10                                  : Present (15259648MB, SAS, HDD, Connector:2, Device:10) 2CG24W6S
+   Device 11                                  : Present (15259648MB, SAS, HDD, Connector:2, Device:11) 2CG267SS
+   Device 12                                  : Present (15259648MB, SAS, HDD, Connector:3, Device:12) 3WH250KJ
+   Device 13                                  : Present (15259648MB, SAS, HDD, Connector:3, Device:13) 2BGYPX4N
+   Device 14                                  : Present (15259648MB, SAS, HDD, Connector:3, Device:14) 3WH2U12J
+   Device 15                                  : Present (15259648MB, SAS, HDD, Connector:3, Device:15) 2BH4UWEN
+
+
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical Device number 0
+   Logical Device name                        : RAID1-240GB  OS
+   Disk Name                                  : /dev/sda
+   Block Size of member drives                : 512 Bytes
+   Array                                      : 0
+   RAID level                                 : 1
+   Status of Logical Device                   : Optimal
+   Size                                       : 228902 MB
+   Stripe-unit size                           : 256 KB
+   Full Stripe Size                           : 256 KB
+   Interface Type                             : SATA SSD
+   Device Type                                : Data
+   Boot Type                                  : None
+   Heads                                      : 255
+   Sectors Per Track                          : 32
+   Cylinders                                  : 57450
+   Caching                                    : Enabled
+   Mount Points                               : /boot/efi 512 MB  Partition Number 1 /boot 488 MB  Partition Number 2 
+   LD Acceleration Method                     : Controller Cache
+   Volume Unique Identifier                   : 600508B1001C50CDC910104454AF6DA9
+   --------------------------------------------------------
+   Array Physical Device Information
+   --------------------------------------------------------
+   Device 0                                   : Present (228936MB, SATA, SSD, Connector:0, Device:0) BTYF127108H9240AGN
+   Device 1                                   : Present (228936MB, SATA, SSD, Connector:0, Device:1) BTYF127108HA240AGN
+
+
+Logical Device number 1
+   Logical Device name                        : RAID6-160T DATA
+   Disk Name                                  : /dev/sdb
+   Block Size of member drives                : 512 Bytes
+   Array                                      : 1
+   RAID level                                 : 6
+   Status of Logical Device                   : Optimal
+   Parity Initialization Status               : Completed
+   Size                                       : 152596160 MB
+   Stripe-unit size                           : 256 KB
+   Full Stripe Size                           : 2560 KB
+   Interface Type                             : Serial Attached SCSI
+   Device Type                                : Data
+   Boot Type                                  : None
+   Heads                                      : 255
+   Sectors Per Track                          : 32
+   Cylinders                                  : 65535
+   Caching                                    : Enabled
+   Mount Points                               : Not Mounted
+   LD Acceleration Method                     : Controller Cache
+   Volume Unique Identifier                   : 600508B1001C47C3EFDBB3C9A2F3D4B5
+   --------------------------------------------------------
+   Array Physical Device Information
+   --------------------------------------------------------
+   Device 4                                   : Present (15259648MB, SAS, HDD, Connector:1, Device:4) 2BGZ9B5N
+   Device 5                                   : Present (15259648MB, SAS, HDD, Connector:1, Device:5) 2BH4UVEN
+   Device 6                                   : Present (15259648MB, SAS, HDD, Connector:1, Device:6) 2BH4TZ6N
+   Device 7                                   : Present (15259648MB, SAS, HDD, Connector:1, Device:7) 2BGTMSAN
+   Device 8                                   : Present (15259648MB, SAS, HDD, Connector:2, Device:8) 2BH4UEHN
+   Device 9                                   : Present (15259648MB, SAS, HDD, Connector:2, Device:9) 2BH4V5VN
+   Device 10                                  : Present (15259648MB, SAS, HDD, Connector:2, Device:10) 2CG24W6S
+   Device 11                                  : Present (15259648MB, SAS, HDD, Connector:2, Device:11) 2CG267SS
+   Device 12                                  : Present (15259648MB, SAS, HDD, Connector:3, Device:12) 3WH250KJ
+   Device 13                                  : Present (15259648MB, SAS, HDD, Connector:3, Device:13) 2BGYPX4N
+   Device 14                                  : Present (15259648MB, SAS, HDD, Connector:3, Device:14) 3WH2U12J
+   Device 15                                  : Present (15259648MB, SAS, HDD, Connector:3, Device:15) 2BH4UWEN
+
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+   Channel #0:
+      Device #0
+         Device is a Hard drive
+         State                                : Online
+         Drive has stale RIS data             : False
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,0(0:0)
+         Reported Location                    : Enclosure Direct Attached, Slot 0(Connector 0:CN0)
+         Array                                : 0
+         Vendor                               : ATA 
+         Model                                : INTEL SSDSC2KB240G8 
+         Firmware                             : XCV10132
+         Serial number                        : BTYF127108H9240AGN
+         World-wide name                      : 30000D1F048FCC02
+         Reserved Size                        : 32768 KB
+         Used Size                            : 228904 MB
+         Unused Size                          : 0 MB
+         Total Size                           : 228936 MB
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : Yes
+         NCQ supported                        : Supported
+         NCQ status                           : Enabled
+         Boot Type                            : None
+         Current Temperature                  : 34 deg C
+         Maximum Temperature                  : 36 deg C
+         Threshold Temperature                : 73 deg C
+         PHY Count                            : 1
+         Drive Configuration Type             : Data
+         Drive Exposed to OS                  : False
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : True
+         Sanitize Lock Anti-Freeze Support    : True
+         Sanitize Lock Setting                : None
+         Usage Remaining                      : 100 percent
+         Estimated Life Remaining             : Not Applicable
+         SSD Smart Trip Wearout               : False
+         56 Day Warning Present               : False
+         Drive Unique ID                      : 1B8F7E4BCC858DAE8029D94522BC106B
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 6 Gbps 
+            Negotiated Logical Link Rate      : 6 Gbps 
+            Maximum Link Rate                 : 6 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 0
+         Sectors Reads                        : 1411352214
+         Sectors Written                      : 176608557
+         Service Hours                        : 1027
+
+      Device #1
+         Device is a Hard drive
+         State                                : Online
+         Drive has stale RIS data             : False
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,1(1:0)
+         Reported Location                    : Enclosure Direct Attached, Slot 1(Connector 0:CN0)
+         Array                                : 0
+         Vendor                               : ATA 
+         Model                                : INTEL SSDSC2KB240G8 
+         Firmware                             : XCV10132
+         Serial number                        : BTYF127108HA240AGN
+         World-wide name                      : 30000D1F048FCC03
+         Reserved Size                        : 32768 KB
+         Used Size                            : 228904 MB
+         Unused Size                          : 0 MB
+         Total Size                           : 228936 MB
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : Yes
+         NCQ supported                        : Supported
+         NCQ status                           : Enabled
+         Boot Type                            : None
+         Current Temperature                  : 34 deg C
+         Maximum Temperature                  : 37 deg C
+         Threshold Temperature                : 73 deg C
+         PHY Count                            : 1
+         Drive Configuration Type             : Data
+         Drive Exposed to OS                  : False
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : True
+         Sanitize Lock Anti-Freeze Support    : True
+         Sanitize Lock Setting                : None
+         Usage Remaining                      : 100 percent
+         Estimated Life Remaining             : Not Applicable
+         SSD Smart Trip Wearout               : False
+         56 Day Warning Present               : False
+         Drive Unique ID                      : 4CD654A0C8B9283E8D23B074E1B8AF66
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 6 Gbps 
+            Negotiated Logical Link Rate      : 6 Gbps 
+            Maximum Link Rate                 : 6 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 0
+         Sectors Reads                        : 1404102986
+         Sectors Written                      : 180992561
+         Service Hours                        : 1027
+
+      Device #4
+         Device is a Hard drive
+         State                                : Online
+         Drive has stale RIS data             : False
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,4(4:0)
+         Reported Location                    : Enclosure Direct Attached, Slot 4(Connector 1:CN1)
+         Array                                : 1
+         Vendor                               : WDC 
+         Model                                : WUH721816AL5204 
+         Firmware                             : C232
+         Serial number                        : 2BGZ9B5N
+         World-wide name                      : 5000CCA295371915
+         Reserved Size                        : 32768 KB
+         Used Size                            : 15259616 MB
+         Unused Size                          : 0 MB
+         Total Size                           : 15259648 MB
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 33 deg C
+         Maximum Temperature                  : 35 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Data
+         Drive Exposed to OS                  : False
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CCA295371914619300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : Fail Drive Command
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 3
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 0
+         Sectors Reads                        : 4097033864
+         Sectors Written                      : 1775732056
+         Service Hours                        : 1007
+
+      Device #5
+         Device is a Hard drive
+         State                                : Online
+         Drive has stale RIS data             : False
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,5(5:0)
+         Reported Location                    : Enclosure Direct Attached, Slot 5(Connector 1:CN1)
+         Array                                : 1
+         Vendor                               : WDC 
+         Model                                : WUH721816AL5204 
+         Firmware                             : C232
+         Serial number                        : 2BH4UVEN
+         World-wide name                      : 5000CCA295412825
+         Reserved Size                        : 32768 KB
+         Used Size                            : 15259616 MB
+         Unused Size                          : 0 MB
+         Total Size                           : 15259648 MB
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 30 deg C
+         Maximum Temperature                  : 32 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Data
+         Drive Exposed to OS                  : False
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CCA295412824619300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 0
+         Sectors Reads                        : 380553739
+         Sectors Written                      : 1918140464
+         Service Hours                        : 1028
+
+      Device #6
+         Device is a Hard drive
+         State                                : Online
+         Drive has stale RIS data             : False
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,6(6:0)
+         Reported Location                    : Enclosure Direct Attached, Slot 6(Connector 1:CN1)
+         Array                                : 1
+         Vendor                               : WDC 
+         Model                                : WUH721816AL5204 
+         Firmware                             : C232
+         Serial number                        : 2BH4TZ6N
+         World-wide name                      : 5000CCA295411AF5
+         Reserved Size                        : 32768 KB
+         Used Size                            : 15259616 MB
+         Unused Size                          : 0 MB
+         Total Size                           : 15259648 MB
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 31 deg C
+         Maximum Temperature                  : 32 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Data
+         Drive Exposed to OS                  : False
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CCA295411AF4619300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 0
+         Sectors Reads                        : 374480187
+         Sectors Written                      : 1916883112
+         Service Hours                        : 1028
+
+      Device #7
+         Device is a Hard drive
+         State                                : Online
+         Drive has stale RIS data             : False
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,7(7:0)
+         Reported Location                    : Enclosure Direct Attached, Slot 7(Connector 1:CN1)
+         Array                                : 1
+         Vendor                               : WDC 
+         Model                                : WUH721816AL5204 
+         Firmware                             : C232
+         Serial number                        : 2BGTMSAN
+         World-wide name                      : 5000CCA2952CCC39
+         Reserved Size                        : 32768 KB
+         Used Size                            : 15259616 MB
+         Unused Size                          : 0 MB
+         Total Size                           : 15259648 MB
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 33 deg C
+         Maximum Temperature                  : 35 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Data
+         Drive Exposed to OS                  : False
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CCA2952CCC38619300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 0
+         Sectors Reads                        : 370251059
+         Sectors Written                      : 1919409184
+         Service Hours                        : 1028
+
+      Device #8
+         Device is a Hard drive
+         State                                : Online
+         Drive has stale RIS data             : False
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,8(8:0)
+         Reported Location                    : Enclosure Direct Attached, Slot 8(Connector 2:CN2)
+         Array                                : 1
+         Vendor                               : WDC 
+         Model                                : WUH721816AL5204 
+         Firmware                             : C232
+         Serial number                        : 2BH4UEHN
+         World-wide name                      : 5000CCA2954121E1
+         Reserved Size                        : 32768 KB
+         Used Size                            : 15259616 MB
+         Unused Size                          : 0 MB
+         Total Size                           : 15259648 MB
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 31 deg C
+         Maximum Temperature                  : 32 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Data
+         Drive Exposed to OS                  : False
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CCA2954121E0619300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 0
+         Sectors Reads                        : 367298763
+         Sectors Written                      : 1920685120
+         Service Hours                        : 1028
+
+      Device #9
+         Device is a Hard drive
+         State                                : Online
+         Drive has stale RIS data             : False
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,9(9:0)
+         Reported Location                    : Enclosure Direct Attached, Slot 9(Connector 2:CN2)
+         Array                                : 1
+         Vendor                               : WDC 
+         Model                                : WUH721816AL5204 
+         Firmware                             : C232
+         Serial number                        : 2BH4V5VN
+         World-wide name                      : 5000CCA295412D31
+         Reserved Size                        : 32768 KB
+         Used Size                            : 15259616 MB
+         Unused Size                          : 0 MB
+         Total Size                           : 15259648 MB
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 31 deg C
+         Maximum Temperature                  : 33 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Data
+         Drive Exposed to OS                  : False
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CCA295412D30619300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 0
+         Sectors Reads                        : 368136643
+         Sectors Written                      : 1918174176
+         Service Hours                        : 1028
+
+      Device #10
+         Device is a Hard drive
+         State                                : Online
+         Drive has stale RIS data             : False
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,10(10:0)
+         Reported Location                    : Enclosure Direct Attached, Slot 10(Connector 2:CN2)
+         Array                                : 1
+         Vendor                               : WDC 
+         Model                                : WUH721816AL5204 
+         Firmware                             : C232
+         Serial number                        : 2CG24W6S
+         World-wide name                      : 5000CCA2A103EC35
+         Reserved Size                        : 32768 KB
+         Used Size                            : 15259616 MB
+         Unused Size                          : 0 MB
+         Total Size                           : 15259648 MB
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 33 deg C
+         Maximum Temperature                  : 35 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Data
+         Drive Exposed to OS                  : False
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CCA2A103EC34619300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 0
+         Sectors Reads                        : 367715858
+         Sectors Written                      : 1916964833
+         Service Hours                        : 1028
+
+      Device #11
+         Device is a Hard drive
+         State                                : Online
+         Drive has stale RIS data             : False
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,11(11:0)
+         Reported Location                    : Enclosure Direct Attached, Slot 11(Connector 2:CN2)
+         Array                                : 1
+         Vendor                               : WDC 
+         Model                                : WUH721816AL5204 
+         Firmware                             : C232
+         Serial number                        : 2CG267SS
+         World-wide name                      : 5000CCA2A10400D1
+         Reserved Size                        : 32768 KB
+         Used Size                            : 15259616 MB
+         Unused Size                          : 0 MB
+         Total Size                           : 15259648 MB
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 31 deg C
+         Maximum Temperature                  : 32 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Data
+         Drive Exposed to OS                  : False
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CCA2A10400D0619300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 0
+         Sectors Reads                        : 363385997
+         Sectors Written                      : 1919580049
+         Service Hours                        : 1028
+
+      Device #12
+         Device is a Hard drive
+         State                                : Online
+         Drive has stale RIS data             : False
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,12(12:0)
+         Reported Location                    : Enclosure Direct Attached, Slot 12(Connector 3:CN3)
+         Array                                : 1
+         Vendor                               : WDC 
+         Model                                : WUH721816AL5204 
+         Firmware                             : C232
+         Serial number                        : 3WH250KJ
+         World-wide name                      : 5000CCA2843C4C55
+         Reserved Size                        : 32768 KB
+         Used Size                            : 15259616 MB
+         Unused Size                          : 0 MB
+         Total Size                           : 15259648 MB
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 31 deg C
+         Maximum Temperature                  : 32 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Data
+         Drive Exposed to OS                  : False
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CCA2843C4C54619300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 0
+         Sectors Reads                        : 368416726
+         Sectors Written                      : 1921129961
+         Service Hours                        : 1028
+
+      Device #13
+         Device is a Hard drive
+         State                                : Online
+         Drive has stale RIS data             : False
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,13(13:0)
+         Reported Location                    : Enclosure Direct Attached, Slot 13(Connector 3:CN3)
+         Array                                : 1
+         Vendor                               : WDC 
+         Model                                : WUH721816AL5204 
+         Firmware                             : C232
+         Serial number                        : 2BGYPX4N
+         World-wide name                      : 5000CCA295360401
+         Reserved Size                        : 32768 KB
+         Used Size                            : 15259616 MB
+         Unused Size                          : 0 MB
+         Total Size                           : 15259648 MB
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 34 deg C
+         Maximum Temperature                  : 35 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Data
+         Drive Exposed to OS                  : False
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CCA295360400619300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 0
+         Sectors Reads                        : 372224483
+         Sectors Written                      : 1918862576
+         Service Hours                        : 1028
+
+      Device #14
+         Device is a Hard drive
+         State                                : Online
+         Drive has stale RIS data             : False
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,14(14:0)
+         Reported Location                    : Enclosure Direct Attached, Slot 14(Connector 3:CN3)
+         Array                                : 1
+         Vendor                               : WDC 
+         Model                                : WUH721816AL5204 
+         Firmware                             : C232
+         Serial number                        : 3WH2U12J
+         World-wide name                      : 5000CCA2843D78E5
+         Reserved Size                        : 32768 KB
+         Used Size                            : 15259616 MB
+         Unused Size                          : 0 MB
+         Total Size                           : 15259648 MB
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 31 deg C
+         Maximum Temperature                  : 33 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Data
+         Drive Exposed to OS                  : False
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CCA2843D78E4619300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 0
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 0
+         Sectors Reads                        : 483765939
+         Sectors Written                      : 1917281928
+         Service Hours                        : 1028
+
+      Device #15
+         Device is a Hard drive
+         State                                : Online
+         Drive has stale RIS data             : False
+         Block Size                           : 512 Bytes
+         Physical Block Size                  : 4K Bytes
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,15(15:0)
+         Reported Location                    : Enclosure Direct Attached, Slot 15(Connector 3:CN3)
+         Array                                : 1
+         Vendor                               : WDC 
+         Model                                : WUH721816AL5204 
+         Firmware                             : C232
+         Serial number                        : 2BH4UWEN
+         World-wide name                      : 5000CCA2954128A1
+         Reserved Size                        : 32768 KB
+         Used Size                            : 15259616 MB
+         Unused Size                          : 0 MB
+         Total Size                           : 15259648 MB
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         SSD                                  : No
+         Boot Type                            : None
+         Rotational Speed                     : 7200 RPM
+         Current Temperature                  : 31 deg C
+         Maximum Temperature                  : 32 deg C
+         Threshold Temperature                : 85 deg C
+         PHY Count                            : 2
+         Drive Configuration Type             : Data
+         Drive Exposed to OS                  : False
+         Sanitize Erase Support               : True
+         Sanitize Lock Freeze Support         : False
+         Sanitize Lock Anti-Freeze Support    : False
+         Sanitize Lock Setting                : None
+         Drive Unique ID                      : 5000CCA2954128A0619300085000CCA2
+         Drive SKU Number                     : Not Applicable
+         Drive Part Number                    : Not Applicable
+         Last Failure Reason                  : No Failure
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            Negotiated Physical Link Rate     : 12 Gbps 
+            Negotiated Logical Link Rate      : 12 Gbps 
+            Maximum Link Rate                 : 12 Gbps 
+         Phy #1
+            Negotiated Physical Link Rate     : unknown 
+            Negotiated Logical Link Rate      : unknown 
+            Maximum Link Rate                 : 12 Gbps 
+
+      ----------------------------------------------------------------
+      Device Error Counters                   
+      ----------------------------------------------------------------
+         Aborted Commands                     : 0
+         Bad Target Errors                    : 0
+         Ecc Recovered Read Errors            : 0
+         Failed Read Recovers                 : 0
+         Failed Write Recovers                : 0
+         Format Errors                        : 0
+         Hardware Errors                      : 0
+         Hard Read Errors                     : 0
+         Hard Write Errors                    : 0
+         Hot Plug Count                       : 0
+         Media Failures                       : 0
+         Not Ready Errors                     : 6
+         Other Time Out Errors                : 0
+         Predictive Failures                  : 0
+         Retry Recovered Read Errors          : 0
+         Retry Recovered Write Errors         : 0
+         Scsi Bus Faults                      : 0
+         Sectors Reads                        : 307234936
+         Sectors Written                      : 754245192
+         Service Hours                        : 1028
+
+   Channel #2:
+      Device #4
+         Device is an Enclosure Services Device
+         Reported Channel,Device(T:L)         : 2,4(4:0)
+         Enclosure ID                         : 0
+         Enclosure Logical Identifier         : 50000D1F048FCC10
+         Type                                 : SES2
+         Vendor                               : Adaptec 
+         Model                                : Virtual SGPIO
+         Firmware                             : 4.11
+         Status of Enclosure Services Device
+            Speaker status                    : Not Available
+
+----------------------------------------------------------------------
+maxCache information
+----------------------------------------------------------------------
+   No maxCache Array found
+
+
+Command completed successfully.

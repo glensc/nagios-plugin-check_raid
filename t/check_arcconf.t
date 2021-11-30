@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 20;
+use constant TESTS => 21;
 use Test::More tests => 3 + TESTS * 6;
 use test;
 
@@ -165,6 +165,13 @@ my @tests = (
 		getconfig => 'pr156/arcconf.txt',
 		message => 'Controller:Optimal, Logical Device 0(RAID6-ID0-7):Optimal, Drives: N8GP15YY,N8GPZWEY,N8GPZZ7Y,N8GPYHUY,N8GPZZ3Y,N8GPZZ4Y,N8GPZZ9Y,N8GR000Y=Online',
 		c => 'pr156',
+	},
+	{
+		status => OK,
+		getstatus => 'arcconf31000/getstatus',
+		getconfig => 'arcconf31000/getconfig',
+		message => 'Controller:Optimal, Logical Device 0(RAID1-240GB  OS):Optimal, Logical Device 1(RAID6-160T DATA):Optimal, Drives: BTYF127108H9240AGN,BTYF127108HA240AGN,2BGZ9B5N,2BH4UVEN,2BH4TZ6N,2BGTMSAN,2BH4UEHN,2BH4V5VN,2CG24W6S,2CG267SS,3WH250KJ,2BGYPX4N,3WH2U12J,2BH4UWEN=Online',
+		c => 'arcconf31000',
 	},
 );
 
