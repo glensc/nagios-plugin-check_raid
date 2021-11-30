@@ -413,7 +413,7 @@ sub process_physical_device_information {
 			$pd[$ch][$pd]{esd} = $s if $s;
 
 			if ($s = $cs->{'Reported Location'}) {
-				my($e, $s) = $s =~ /(?:Enclosure|Connector) (\d+), (?:Slot|Device) (\d+)/;
+				my($e, $s) = $s =~ /(?:Enclosure|Connector) (\d+|Direct Attached), (?:Slot|Device) (\d+)/;
 				$pd[$ch][$pd]{location} = "$e:$s";
 			}
 
