@@ -193,7 +193,11 @@ sub parse_ctrl_config {
 		if (/^\s+---+/) {
 			if (my($s) = <$fh> =~ /^\s+(\S.+?)\s*?$/) {
 				$subsection = $s;
-				unless (<$fh> =~ /^\s+---+/) {
+				my $nextline = <$fh>;
+				if ($nextline =~ /^\s*$/) {
+					$nextline = <$fh>;
+				}
+				unless ($nextline =~ /^\s+---+/) {
 					$this->parse_error($_);
 				}
 				next;
