@@ -193,7 +193,11 @@ sub parse_ctrl_config {
 		if (/^\s+---+/) {
 			if (my($s) = <$fh> =~ /^\s+(\S.+?)\s*?$/) {
 				$subsection = $s;
-				unless (<$fh> =~ /^\s+---+/) {
+				my $nextline = <$fh>;
+				if ($nextline =~ /^\s*$/) {
+					$nextline = <$fh>;
+				}
+				unless ($nextline =~ /^\s+---+/) {
 					$this->parse_error($_);
 				}
 				next;
@@ -258,6 +262,12 @@ sub parse_ctrl_config {
 		} elsif ($section eq 'MaxCache 3.0 information') {
 			# not parsed yet
 		} elsif ($section eq 'Connector information') {
+			# not parsed yet
+		} elsif ($section eq 'Array Information') {
+			# not parsed yet
+		} elsif ($section eq 'Array Physical Device Information') {
+			# not parsed yet
+		} elsif ($section eq 'maxCache information') {
 			# not parsed yet
 		} else {
 			warn "NOT PARSED: [$section] [$_]";
@@ -403,7 +413,7 @@ sub process_physical_device_information {
 			$pd[$ch][$pd]{esd} = $s if $s;
 
 			if ($s = $cs->{'Reported Location'}) {
-				my($e, $s) = $s =~ /(?:Enclosure|Connector) (\d+), (?:Slot|Device) (\d+)/;
+				my($e, $s) = $s =~ /(?:Enclosure|Connector) (\d+|Direct Attached), (?:Slot|Device) (\d+)/;
 				$pd[$ch][$pd]{location} = "$e:$s";
 			}
 
@@ -459,6 +469,18 @@ sub process_maxcache_3_0_information {
 
 # TODO: issue152/arc2_getconfig.txt
 sub process_connector_information {
+}
+
+# TODO: arcconf31000/getconfig
+sub process_array_information {
+}
+
+# TODO: arcconf31000/getconfig
+sub process_array_physical_device_information {
+}
+
+# TODO: arcconf31000/getconfig
+sub process_maxcache_information {
 }
 
 # NB: side effect: ARCCONF changes current directory to /var/log
