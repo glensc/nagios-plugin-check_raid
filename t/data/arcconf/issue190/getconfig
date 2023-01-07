@@ -1,0 +1,1419 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Controller information
+----------------------------------------------------------------------
+   Controller Status                        : Optimal
+   Controller Mode                          : RAID (Expose RAW)
+   Channel description                      : SAS/SATA
+   Controller Model                         : Adaptec ASR8885Q
+   Controller Serial Number                 : 6G24636ABB1
+   Controller World Wide Name               : 50000D170175CF80
+   Controller Alarm                         : Enabled
+   Physical Slot                            : 3
+   Temperature                              : 54 C/ 129 F (Normal)
+   Installed memory                         : 1024 MB
+   Host bus type                            : PCIe
+   Host bus speed                           : 8000 MHz
+   Host bus link width                      : 8 bit(s)/link(s)
+   Global task priority                     : High
+   Performance Mode                         : Default/Dynamic
+   PCI Device ID                            : 653
+   Stayawake period                         : Disabled
+   Spinup limit internal drives             : 0
+   Spinup limit external drives             : 0
+   Defunct disk drive count                 : 0
+   NCQ status                               : Enabled
+   Statistics data collection mode          : Disabled
+   Monitor Log Severity Level               : Informational
+   Global Max SAS Phy Link Rate             : 12 Gbps
+   Verify Write Setting                     : Not Applicable
+   Save Custom Defaults Setting             : Disabled
+   Smart Poll                               : Enabled
+   Error Tunable Profile                    : Normal
+   --------------------------------------------------------
+   Cache Properties
+   --------------------------------------------------------
+   Controller Cache Preservation            : Disabled
+   Global Physical Device Write Cache Policy: Drive Specific
+   --------------------------------------------------------
+   maxCache Properties
+   --------------------------------------------------------
+   SSDs assigned to maxCache pool           : 0
+   Maximum SSDs allowed in maxCache pool    : 8
+   maxCache flush and fetch rate            : 100
+   maxCache Read, Write Balance Factor      : 3,1
+   maxCache Dirty Page Threshold            : 75
+   --------------------------------------------------------
+   RAID Properties
+   --------------------------------------------------------
+   Logical devices/Failed/Degraded          : 2/0/0
+   Copyback                                 : Disabled
+   Automatic Failover                       : Enabled
+   Background consistency check             : Enabled
+   Background consistency check period      : 0
+   --------------------------------------------------------
+   Controller BIOS Setting Information
+   --------------------------------------------------------
+   Runtime BIOS                             : Enabled
+   Array BBS Support                        : Disabled
+   Physical Drives Displayed during POST    : Enabled
+   Backplane Mode                           : IBPI
+   BIOS Halt on Missing Drive Count         : 255
+   --------------------------------------------------------
+   Controller Version Information
+   --------------------------------------------------------
+   BIOS                                     : 7.13-0 (33263)
+   Firmware                                 : 7.13-0 (33263)
+   Driver                                   : 1.2-1 (50877)
+   Boot Flash                               : 7.13-0 (33263)
+   CPLD (Load version/ Flash version)       : 8/ 11
+   SEEPROM (Load version/ Flash version)    : 1/ 1
+   FCT Custom Init String Version           : 0x0
+
+   --------------------------------------------------------
+   Controller Cache Backup Unit Information
+   --------------------------------------------------------
+
+    Overall Backup Unit Status              : Ready
+
+         Backup Unit Type                   : AFM-700/700LP
+         Non-Volatile Storage Status        : Ready
+         Supercap Status                    : Ready
+
+         -----------------------------------
+         Supercap Information               
+         -----------------------------------
+         Current Temperature                : 31 deg C
+         Threshold Temperature              : 55 deg C
+         Life-time Temperature Recorded     
+         (Min/Max)                          : 21 deg C/ 45 deg C
+
+         Voltage(Present/Max)               : 4955 mV/ 5302 mV
+         Life-time Max Voltage Recorded     : 5414 mV
+
+         Current Drawn(Present/Max)         : -11 mA/ 560 mA
+         Health                             : 100 percent
+         Charge Level                       : 100 percent
+         Estimated Life-time                : 5 Years, 0 Month
+         Serial Number                      : 6A256D6BB3F
+
+         Learn Status                       : Idle
+         Next Scheduled Learn Cycle         : 122 hours
+
+         Present Capacitance                : 298 farads
+
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical Device number 0
+   Logical Device name                      : STORAGE1
+   Block Size of member drives              : 512 Bytes
+   RAID level                               : 6 Reed-Solomon
+   Unique Identifier                        : A875F532
+   Status of Logical Device                 : Impacted ( Build/Verify with fix : 90 % )
+   Additional details                       : Initialized with Build/Clear
+   Size                                     : 40033270 MB
+   Parity space                             : 11438080 MB
+   Stripe-unit size                         : 256 KB
+   Interface Type                           : Serial ATA
+   Device Type                              : HDD
+   Read-cache setting                       : Enabled
+   Read-cache status                        : On
+   Write-cache setting                      : Enabled
+   Write-cache status                       : On
+   maxCache read cache setting              : Enabled
+   maxCache read cache status               : On
+   maxCache write cache setting             : Disabled
+   maxCache write cache status              : Off
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : No
+   Bootable                                 : Yes
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical Device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (5723166MB, SATA, HDD, Enclosure:1, Slot:0) NAG2Y0LY
+   Segment 1                                : Present (5723166MB, SATA, HDD, Enclosure:1, Slot:1) NCH2G2RZ
+   Segment 2                                : Present (5723166MB, SATA, HDD, Enclosure:1, Slot:2) NCGZBTHV
+   Segment 3                                : Present (5723166MB, SATA, HDD, Enclosure:1, Slot:3) NAGUKP3X
+   Segment 4                                : Present (5723166MB, SATA, HDD, Enclosure:1, Slot:4) NAG41A7Y
+   Segment 5                                : Present (5723166MB, SATA, HDD, Enclosure:1, Slot:5) NCH1S5MZ
+   Segment 6                                : Present (5723166MB, SATA, HDD, Enclosure:1, Slot:6) NCH1S6KZ
+   Segment 7                                : Present (5723166MB, SATA, HDD, Enclosure:1, Slot:7) NCH2EX3Z
+   Segment 8                                : Present (5723166MB, SATA, HDD, Enclosure:1, Slot:8) NCH2G8MZ
+
+Logical Device number 1
+   Logical Device name                      : STORAGE2
+   Block Size of member drives              : 512 Bytes
+   RAID level                               : 6 Reed-Solomon
+   Unique Identifier                        : A9720532
+   Status of Logical Device                 : Optimal
+   Additional details                       : Initialized with Build/Clear
+   Size                                     : 40033270 MB
+   Parity space                             : 11438080 MB
+   Stripe-unit size                         : 256 KB
+   Interface Type                           : Serial ATA
+   Device Type                              : HDD
+   Read-cache setting                       : Enabled
+   Read-cache status                        : On
+   Write-cache setting                      : On when protected by battery/ZMM
+   Write-cache status                       : On
+   maxCache read cache setting              : Enabled
+   maxCache read cache status               : On
+   maxCache write cache setting             : Disabled
+   maxCache write cache status              : Off
+   Partitioned                              : Yes
+   Protected by Hot-Spare                   : No
+   Bootable                                 : No
+   Failed stripes                           : No
+   Power settings                           : Disabled
+   --------------------------------------------------------
+   Logical Device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (5723166MB, SATA, HDD, Enclosure:1, Slot:9) NCGZEG3V
+   Segment 1                                : Present (5723166MB, SATA, HDD, Enclosure:1, Slot:10) NCH2K6VZ
+   Segment 2                                : Present (5723166MB, SATA, HDD, Enclosure:1, Slot:11) NCH2K32Z
+   Segment 3                                : Present (5723166MB, SATA, HDD, Enclosure:0, Slot:0) NAHGY61X
+   Segment 4                                : Present (5723166MB, SATA, HDD, Enclosure:0, Slot:1) NAGDP1WX
+   Segment 5                                : Present (5723166MB, SATA, HDD, Enclosure:0, Slot:2) NCH2GD0Z
+   Segment 6                                : Present (5723166MB, SATA, HDD, Enclosure:0, Slot:3) NCH1R41Z
+   Segment 7                                : Present (5723166MB, SATA, HDD, Enclosure:0, Slot:4) NCGZJYVV
+   Segment 8                                : Present (5723166MB, SATA, HDD, Enclosure:0, Slot:5) NCH2EX7Z
+
+
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,4(4:0)
+         Reported Location                  : Connector 1, Device 0
+         Vendor                             : ATA
+         Model                              : INTEL SSDSC2BA20
+         Firmware                           : 02705DV1
+         Serial number                      : BTTV605101CU200GGN
+         Reserved Size                      : 186520 KB
+         Used Size                          : 190600 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 190782 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full power,Powered off
+         SSD                                : Yes
+         Temperature                        : 27 C/ 80 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 30000D170175CF85
+            Attached PHY Identifier         : 5
+            Attached SAS Address            : 50000D170175CF80
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #1
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,5(5:0)
+         Reported Location                  : Connector 1, Device 1
+         Vendor                             : ATA
+         Model                              : INTEL SSDSC2BA20
+         Firmware                           : 02705DV1
+         Serial number                      : BTTV605101GX200GGN
+         Reserved Size                      : 186520 KB
+         Used Size                          : 190600 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 190782 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full power,Powered off
+         SSD                                : Yes
+         Temperature                        : 27 C/ 80 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 30000D170175CF86
+            Attached PHY Identifier         : 6
+            Attached SAS Address            : 50000D170175CF80
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #2
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 6.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,6(6:0)
+         Reported Location                  : Connector 1, Device 2
+         Vendor                             : ATA
+         Model                              : INTEL SSDSC2BA20
+         Firmware                           : 02705DV1
+         Serial number                      : BTTV605100CG200GGN
+         Reserved Size                      : 186520 KB
+         Used Size                          : 190600 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 190782 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full power,Powered off
+         SSD                                : Yes
+         Temperature                        : 27 C/ 80 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 30000D170175CF84
+            Attached PHY Identifier         : 4
+            Attached SAS Address            : 50000D170175CF80
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #3
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,16(16:0)
+         Reported Location                  : Enclosure 0, Slot 0(Connector 0)
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T7J0APGN
+         Serial number                      : NAHGY61X
+         World-wide name                    : 5000CCA242D4E24B
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 44 C/ 111 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 500304801EBDCA80
+            Attached PHY Identifier         : 0
+            Attached SAS Address            : 500304801EBDCABF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #4
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,17(17:0)
+         Reported Location                  : Enclosure 0, Slot 1(Connector 0)
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T7J0APGN
+         Serial number                      : NAGDP1WX
+         World-wide name                    : 5000CCA242C5C383
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 45 C/ 113 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 500304801EBDCA81
+            Attached PHY Identifier         : 1
+            Attached SAS Address            : 500304801EBDCABF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #5
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,18(18:0)
+         Reported Location                  : Enclosure 0, Slot 2(Connector 0)
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T907APGN
+         Serial number                      : NCH2GD0Z
+         World-wide name                    : 5000CCA24DCF3641
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 45 C/ 113 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 500304801EBDCA82
+            Attached PHY Identifier         : 2
+            Attached SAS Address            : 500304801EBDCABF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #6
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,19(19:0)
+         Reported Location                  : Enclosure 0, Slot 3(Connector 0)
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T907APGN
+         Serial number                      : NCH1R41Z
+         World-wide name                    : 5000CCA24DCEDEF3
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 44 C/ 111 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 500304801EBDCA83
+            Attached PHY Identifier         : 3
+            Attached SAS Address            : 500304801EBDCABF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #7
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,20(20:0)
+         Reported Location                  : Enclosure 0, Slot 4(Connector 0)
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T7J0APGN
+         Serial number                      : NCGZJYVV
+         World-wide name                    : 5000CCA24DCDE2CF
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 45 C/ 113 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 500304801EBDCA84
+            Attached PHY Identifier         : 4
+            Attached SAS Address            : 500304801EBDCABF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #8
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,21(21:0)
+         Reported Location                  : Enclosure 0, Slot 5(Connector 0)
+         Reported ESD(T:L)                  : 2,0(0:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T907APGN
+         Serial number                      : NCH2EX7Z
+         World-wide name                    : 5000CCA24DCF3477
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 41 C/ 105 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 500304801EBDCA85
+            Attached PHY Identifier         : 5
+            Attached SAS Address            : 500304801EBDCABF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #9
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,40(40:0)
+         Reported Location                  : Enclosure 1, Slot 0(Connector 0)
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T517APGN
+         Serial number                      : NAG2Y0LY
+         World-wide name                    : 5000CCA242C155AD
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 47 C/ 116 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 5003048018287480
+            Attached PHY Identifier         : 0
+            Attached SAS Address            : 50030480182874BF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #10
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,41(41:0)
+         Reported Location                  : Enclosure 1, Slot 1(Connector 0)
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T907APGN
+         Serial number                      : NCH2G2RZ
+         World-wide name                    : 5000CCA24DCF3521
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 48 C/ 118 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 5003048018287481
+            Attached PHY Identifier         : 1
+            Attached SAS Address            : 50030480182874BF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 5
+         SMART Warning Count                : 0
+
+      Device #11
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,42(42:0)
+         Reported Location                  : Enclosure 1, Slot 2(Connector 0)
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T7J0APGN
+         Serial number                      : NCGZBTHV
+         World-wide name                    : 5000CCA24DCDCF64
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 46 C/ 114 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 5003048018287482
+            Attached PHY Identifier         : 2
+            Attached SAS Address            : 50030480182874BF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #12
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,43(43:0)
+         Reported Location                  : Enclosure 1, Slot 3(Connector 0)
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T7J0APGN
+         Serial number                      : NAGUKP3X
+         World-wide name                    : 5000CCA242CB9FA6
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 51 C/ 123 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 5003048018287483
+            Attached PHY Identifier         : 3
+            Attached SAS Address            : 50030480182874BF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #13
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,44(44:0)
+         Reported Location                  : Enclosure 1, Slot 4(Connector 0)
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T7J0APGN
+         Serial number                      : NAG41A7Y
+         World-wide name                    : 5000CCA242C1D67A
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 52 C/ 125 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 5003048018287484
+            Attached PHY Identifier         : 4
+            Attached SAS Address            : 50030480182874BF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #14
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,45(45:0)
+         Reported Location                  : Enclosure 1, Slot 5(Connector 0)
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T907APGN
+         Serial number                      : NCH1S5MZ
+         World-wide name                    : 5000CCA24DCEE2E5
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 47 C/ 116 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 5003048018287485
+            Attached PHY Identifier         : 5
+            Attached SAS Address            : 50030480182874BF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #15
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,46(46:0)
+         Reported Location                  : Enclosure 1, Slot 6(Connector 0)
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T907APGN
+         Serial number                      : NCH1S6KZ
+         World-wide name                    : 5000CCA24DCEE302
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 47 C/ 116 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 5003048018287486
+            Attached PHY Identifier         : 6
+            Attached SAS Address            : 50030480182874BF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 2
+         SMART Warning Count                : 0
+
+      Device #16
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,47(47:0)
+         Reported Location                  : Enclosure 1, Slot 7(Connector 0)
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T907APGN
+         Serial number                      : NCH2EX3Z
+         World-wide name                    : 5000CCA24DCF3473
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 47 C/ 116 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 5003048018287487
+            Attached PHY Identifier         : 7
+            Attached SAS Address            : 50030480182874BF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #17
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,48(48:0)
+         Reported Location                  : Enclosure 1, Slot 8(Connector 0)
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T907APGN
+         Serial number                      : NCH2G8MZ
+         World-wide name                    : 5000CCA24DCF35D8
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 46 C/ 114 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 5003048018287488
+            Attached PHY Identifier         : 8
+            Attached SAS Address            : 50030480182874BF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #18
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,49(49:0)
+         Reported Location                  : Enclosure 1, Slot 9(Connector 0)
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T7J0APGN
+         Serial number                      : NCGZEG3V
+         World-wide name                    : 5000CCA24DCDD5A4
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 47 C/ 116 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 5003048018287489
+            Attached PHY Identifier         : 9
+            Attached SAS Address            : 50030480182874BF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #19
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,50(50:0)
+         Reported Location                  : Enclosure 1, Slot 10(Connector 0)
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T907APGN
+         Serial number                      : NCH2K6VZ
+         World-wide name                    : 5000CCA24DCF40E4
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 47 C/ 116 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 500304801828748A
+            Attached PHY Identifier         : 10
+            Attached SAS Address            : 50030480182874BF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #20
+         Device is a Hard drive
+         State                              : Online
+         Block Size                         : 512 Bytes
+         Supported                          : Yes
+         Programmed Max Speed               : SATA 6.0 Gb/s
+         Transfer Speed                     : SATA 12.0 Gb/s
+         Reported Channel,Device(T:L)       : 0,51(51:0)
+         Reported Location                  : Enclosure 1, Slot 11(Connector 0)
+         Reported ESD(T:L)                  : 2,1(1:0)
+         Vendor                             : ATA
+         Model                              : HGST HUS726060AL
+         Firmware                           : T907APGN
+         Serial number                      : NCH2K32Z
+         World-wide name                    : 5000CCA24DCF406F
+         Reserved Size                      : 4225560 KB
+         Used Size                          : 5719040 MB
+         Unused Size                        : 64 KB
+         Total Size                         : 5723166 MB
+         Write Cache                        : Enabled (write-back)
+         FRU                                : None
+         S.M.A.R.T.                         : No
+         S.M.A.R.T. warnings                : 0
+         Power State                        : Full rpm
+         Supported Power States             : Full rpm,Powered off,Reduced rpm
+         SSD                                : No
+         Temperature                        : 45 C/ 113 F 
+         NCQ status                         : Enabled
+      ----------------------------------------------------------------
+      Device Phy Information                
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                  : 0
+            SAS Address                     : 500304801828748B
+            Attached PHY Identifier         : 11
+            Attached SAS Address            : 50030480182874BF
+      ----------------------------------------------------------------
+      Runtime Error Counters                
+      ----------------------------------------------------------------
+         Hardware Error Count               : 0
+         Medium Error Count                 : 0
+         Parity Error Count                 : 0
+         Link Failure Count                 : 0
+         Aborted Command Count              : 0
+         SMART Warning Count                : 0
+
+      Device #21
+         Device is an Enclosure Services Device
+         Reported Channel,Device(T:L)       : 2,0(0:0)
+         Enclosure ID                       : 0
+         Enclosure Logical Identifier       : 500304801EBDCABF
+         Expander ID                        : 0
+         Expander SAS Address               : 500304801EBDCABF
+         Attached PHY Identifier            : 0,1,2,3
+         Type                               : SES2
+         Vendor                             : LSI
+         Model                              : SAS3x40
+         Firmware                           : 0601
+         Status of Enclosure Services Device
+            Temperature Sensor Status 1     : 29 C/ 84 F (Normal)
+            Temperature Sensor Status 2     : 62 C/ 143 F (Normal)
+            Speaker status                  : Not Available
+      Device #22
+         Device is an Enclosure Services Device
+         Reported Channel,Device(T:L)       : 2,1(1:0)
+         Enclosure ID                       : 1
+         Enclosure Logical Identifier       : 50030480182874BF
+         Expander ID                        : 1
+         Expander SAS Address               : 50030480182874BF
+         Type                               : SES2
+         Vendor                             : LSI
+         Model                              : SAS3x28
+         Firmware                           : 0601
+         Status of Enclosure Services Device
+            Temperature Sensor Status 1     : 37 C/ 98 F (Normal)
+            Temperature Sensor Status 2     : 69 C/ 156 F (Normal)
+            Speaker status                  : Not Available
+
+----------------------------------------------------------------------
+maxCache 3.0 information
+----------------------------------------------------------------------
+maxCache device number 100
+   maxCache device name                     : MaxCache 0
+   Block Size of member drives              : 512 Bytes
+   maxCache Dirty Status                    : Clean
+   RAID level                               : 5
+   Background Coherency Check               : Inactive
+   Status of maxCache                       : Optimal
+   Size                                     : 381190 MB
+   Additional details                       : Initialized with Build/Clear
+   Stripe-unit size                         : 1024 KB
+   maxCache read cache status               : On
+   maxCache write cache status              : On
+   Protected by Hot-Spare                   : No
+   Failed stripes                           : No
+   --------------------------------------------------------
+   Logical Device segment information
+   --------------------------------------------------------
+   Segment 0                                : Present (190782MB, SATA, SSD, Connector:1, Device:0) BTTV605101CU200GGN
+   Segment 1                                : Present (190782MB, SATA, SSD, Connector:1, Device:1) BTTV605101GX200GGN
+   Segment 2                                : Present (190782MB, SATA, SSD, Connector:1, Device:2) BTTV605100CG200GGN
+
+
+
+----------------------------------------------------------------------
+Connector information
+----------------------------------------------------------------------
+Connector #0
+   Connector Name                           : CN0
+
+   -------------------------------------------------------------------
+   Lane Information                         
+   -------------------------------------------------------------------
+   Lane #0                                  
+      Channel ID                            : 0
+      Device ID                             : 0
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 3
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+         Attached PHY Identifier            : 15
+         Attached SAS Address               : 500304801EBDCABF
+         Negotiated Logical Link Rate       : PHY enabled - 12 Gbps
+
+   Lane #1                                  
+      Channel ID                            : 0
+      Device ID                             : 1
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 2
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+         Attached PHY Identifier            : 14
+         Attached SAS Address               : 500304801EBDCABF
+         Negotiated Logical Link Rate       : PHY enabled - 12 Gbps
+
+   Lane #2                                  
+      Channel ID                            : 0
+      Device ID                             : 2
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 0
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+         Attached PHY Identifier            : 12
+         Attached SAS Address               : 500304801EBDCABF
+         Negotiated Logical Link Rate       : PHY enabled - 12 Gbps
+
+   Lane #3                                  
+      Channel ID                            : 0
+      Device ID                             : 3
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 1
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+         Attached PHY Identifier            : 13
+         Attached SAS Address               : 500304801EBDCABF
+         Negotiated Logical Link Rate       : PHY enabled - 12 Gbps
+
+
+Connector #1
+   Connector Name                           : CN1
+
+   -------------------------------------------------------------------
+   Lane Information                         
+   -------------------------------------------------------------------
+   Lane #0                                  
+      Channel ID                            : 0
+      Device ID                             : 4
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 5
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+         Attached PHY Identifier            : 0
+         Attached SAS Address               : 30000D170175CF85
+         Negotiated Logical Link Rate       : PHY enabled - 6 Gbps
+
+   Lane #1                                  
+      Channel ID                            : 0
+      Device ID                             : 5
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 6
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+         Attached PHY Identifier            : 0
+         Attached SAS Address               : 30000D170175CF86
+         Negotiated Logical Link Rate       : PHY enabled - 6 Gbps
+
+   Lane #2                                  
+      Channel ID                            : 0
+      Device ID                             : 6
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 4
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+         Attached PHY Identifier            : 0
+         Attached SAS Address               : 30000D170175CF84
+         Negotiated Logical Link Rate       : PHY enabled - 6 Gbps
+
+   Lane #3                                  
+      Channel ID                            : 0
+      Device ID                             : 7
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 7
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+
+
+Connector #2
+   Connector Name                           : CN2
+
+   -------------------------------------------------------------------
+   Lane Information                         
+   -------------------------------------------------------------------
+   Lane #0                                  
+      Channel ID                            : 0
+      Device ID                             : 8
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 10
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+
+   Lane #1                                  
+      Channel ID                            : 0
+      Device ID                             : 9
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 11
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+
+   Lane #2                                  
+      Channel ID                            : 0
+      Device ID                             : 10
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 9
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+
+   Lane #3                                  
+      Channel ID                            : 0
+      Device ID                             : 11
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 8
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+
+
+Connector #3
+   Connector Name                           : CN3
+
+   -------------------------------------------------------------------
+   Lane Information                         
+   -------------------------------------------------------------------
+   Lane #0                                  
+      Channel ID                            : 0
+      Device ID                             : 12
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 13
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+
+   Lane #1                                  
+      Channel ID                            : 0
+      Device ID                             : 13
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 12
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+
+   Lane #2                                  
+      Channel ID                            : 0
+      Device ID                             : 14
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 14
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+
+   Lane #3                                  
+      Channel ID                            : 0
+      Device ID                             : 15
+      SAS Address                           : 50000D170175CF80
+      PHY Identifier                        : 15
+      ----------------------------------------------------------------
+      Lane SAS Phy Information              
+      ----------------------------------------------------------------
+         SAS Address                        : 50000D170175CF80
+
+
+
+Command completed successfully.
