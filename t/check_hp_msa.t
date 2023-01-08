@@ -3,9 +3,9 @@ BEGIN {
 	(my $srcdir = $0) =~ s,/[^/]+$,/,;
 	unshift @INC, $srcdir;
 
-	if ($ENV{TRAVIS}) {
+	if ($ENV{TRAVIS} || $ENV{CI}) {
 		use Test::More;
-		plan skip_all => "Skipping test as can't open /dev in travis";
+		plan skip_all => "Skipping test as can't open /dev in travis or CI pipelines";
 		exit 0;
 	}
 }

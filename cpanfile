@@ -13,6 +13,7 @@ requires 'Monitoring::Plugin' => '0.37';
 
 on 'test' => sub {
 	requires 'ExtUtils::MakeMaker::CPANfile';
+	requires 'aliased';
 };
 
 # don't want these to be installed to 'local'
