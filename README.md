@@ -15,7 +15,7 @@ Neccessary `sudo` rules (detected for your system), can be installed when
 `check_raid` is invoked with `-S` argument. You need to be `root` user and it
 will add required lines to the sudo config file.
 
-[![Build Status](https://travis-ci.org/glensc/nagios-plugin-check_raid.png?branch=master)](https://travis-ci.org/glensc/nagios-plugin-check_raid)
+[![Test suite](https://github.com/glensc/nagios-plugin-check_raid/actions/workflows/perl.yml/badge.svg?branch=master)](https://github.com/glensc/nagios-plugin-check_raid/actions/workflows/perl.yml)
 
 ## Reporting bugs
 
