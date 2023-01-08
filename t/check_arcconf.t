@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 21;
+use constant TESTS => 22;
 use Test::More tests => 3 + TESTS * 6;
 use test;
 
@@ -172,6 +172,13 @@ my @tests = (
 		getconfig => 'arcconf31000/getconfig',
 		message => 'Controller:Optimal, Logical Device 0(RAID1-240GB  OS):Optimal, Logical Device 1(RAID6-160T DATA):Optimal, Drives: BTYF127108H9240AGN,BTYF127108HA240AGN,2BGZ9B5N,2BH4UVEN,2BH4TZ6N,2BGTMSAN,2BH4UEHN,2BH4V5VN,2CG24W6S,2CG267SS,3WH250KJ,2BGYPX4N,3WH2U12J,2BH4UWEN=Online',
 		c => 'arcconf31000',
+	},
+	{
+		status => CRITICAL,
+		getstatus => 'issue190/getstatus',
+		getconfig => 'issue190/getconfig',
+		message => 'Controller:Optimal, Logical Device #0: Build/Verify with fix: In Progress 90%, Logical Device 0(STORAGE1):Impacted ( Build/Verify with fix : 90 % ), Logical Device 1(STORAGE2):Optimal, Drives: BTTV605101CU200GGN,BTTV605101GX200GGN,BTTV605100CG200GGN,NAHGY61X,NAGDP1WX,NCH2GD0Z,NCH1R41Z,NCGZJYVV,NCH2EX7Z,NAG2Y0LY,NCH2G2RZ,NCGZBTHV,NAGUKP3X,NAG41A7Y,NCH1S5MZ,NCH1S6KZ,NCH2EX3Z,NCH2G8MZ,NCGZEG3V,NCH2K6VZ,NCH2K32Z=Online',
+		c => 'issue190',
 	},
 );
 

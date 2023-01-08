@@ -70,7 +70,7 @@ sub parse_status {
 			next;
 		}
 
-		if (/^\s+Logical device\s+: (\d+)/) {
+		if (/^\s+Logical [D|d]evice\s+: (\d+)/) {
 			$task{device} = $1;
 		} elsif (/^\s+Task ID\s+: (\d+)/) {
 			$task{id} = $1;
@@ -259,7 +259,7 @@ sub parse_ctrl_config {
 				}
 			}
 
-		} elsif ($section eq 'MaxCache 3.0 information') {
+		} elsif ($section eq 'MaxCache 3.0 information' || $section eq 'maxCache 3.0 information') {
 			# not parsed yet
 		} elsif ($section eq 'Connector information') {
 			# not parsed yet
@@ -464,6 +464,7 @@ sub process_logical_drive_information {
 	shift->process_logical_device_information(@_);
 }
 
+# TODO: pr66/arcconf-getconfig.out, issue31/getconfig, issue190/getconfig
 sub process_maxcache_3_0_information {
 }
 

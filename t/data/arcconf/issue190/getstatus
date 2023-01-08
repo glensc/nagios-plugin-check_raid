@@ -1,0 +1,11 @@
+Controllers found: 1
+Logical Device Task:
+   Logical Device                 : 0
+   Task ID                        : 101
+   Current operation              : Build/Verify with fix
+   Status                         : In Progress
+   Priority                       : High
+   Percentage complete            : 90
+
+
+Command completed successfully.
