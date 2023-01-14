@@ -1,0 +1,165 @@
+$VAR1 = {
+          'c0' => {
+                    'bbu' => 'OK',
+                    'bbustatus' => {
+                                     'bbu' => {
+                                                'BBUReady' => 'Yes',
+                                                'Hours' => '255',
+                                                'LastCapTest' => '07-May-2022',
+                                                'OnlineState' => 'On',
+                                                'Status' => 'OK',
+                                                'Temp' => 'OK',
+                                                'Volt' => 'OK'
+                                              }
+                                   },
+                    'drives' => 12,
+                    'drivestatus' => {
+                                       'p0' => {
+                                                 'encl' => '-',
+                                                 'model' => 'ST3320620AS',
+                                                 'phy' => 0,
+                                                 'size' => '298.09 GB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               },
+                                       'p1' => {
+                                                 'encl' => '-',
+                                                 'model' => 'ST3320620AS',
+                                                 'phy' => 1,
+                                                 'size' => '298.09 GB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               },
+                                       'p10' => {
+                                                  'encl' => '-',
+                                                  'model' => 'ST3320620AS',
+                                                  'phy' => 10,
+                                                  'size' => '298.09 GB',
+                                                  'status' => 'VERIFYING',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u1'
+                                                },
+                                       'p11' => {
+                                                  'encl' => '-',
+                                                  'model' => 'ST3320620AS',
+                                                  'phy' => 11,
+                                                  'size' => '298.09 GB',
+                                                  'status' => 'VERIFYING',
+                                                  'type' => 'SATA',
+                                                  'unit' => 'u2'
+                                                },
+                                       'p2' => {
+                                                 'encl' => '-',
+                                                 'model' => 'ST3320620AS',
+                                                 'phy' => 2,
+                                                 'size' => '298.09 GB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               },
+                                       'p3' => {
+                                                 'encl' => '-',
+                                                 'model' => 'ST3320620AS',
+                                                 'phy' => 3,
+                                                 'size' => '298.09 GB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               },
+                                       'p4' => {
+                                                 'encl' => '-',
+                                                 'model' => 'ST3320620AS',
+                                                 'phy' => 4,
+                                                 'size' => '298.09 GB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               },
+                                       'p5' => {
+                                                 'encl' => '-',
+                                                 'model' => 'ST3320620AS',
+                                                 'phy' => 5,
+                                                 'size' => '298.09 GB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               },
+                                       'p6' => {
+                                                 'encl' => '-',
+                                                 'model' => 'ST3320620AS',
+                                                 'phy' => 6,
+                                                 'size' => '298.09 GB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               },
+                                       'p7' => {
+                                                 'encl' => '-',
+                                                 'model' => 'ST3320620AS',
+                                                 'phy' => 7,
+                                                 'size' => '298.09 GB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               },
+                                       'p8' => {
+                                                 'encl' => '-',
+                                                 'model' => 'ST3320620AS',
+                                                 'phy' => 8,
+                                                 'size' => '298.09 GB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               },
+                                       'p9' => {
+                                                 'encl' => '-',
+                                                 'model' => 'ST3320620AS',
+                                                 'phy' => 9,
+                                                 'size' => '298.09 GB',
+                                                 'status' => 'OK',
+                                                 'type' => 'SATA',
+                                                 'unit' => 'u0'
+                                               }
+                                     },
+                    'model' => '9650SE-16ML',
+                    'optimal' => 1,
+                    'ports' => 16,
+                    'rrate' => 1,
+                    'units' => 3,
+                    'unitstatus' => {
+                                      'u0' => {
+                                                'avrify' => 'ON',
+                                                'cache' => 'W',
+                                                'rebuild_percent' => '-',
+                                                'size' => '1490.06',
+                                                'status' => 'VERIFYING',
+                                                'strip' => '64K',
+                                                'type' => 'RAID-10',
+                                                'vim_percent' => '25%'
+                                              },
+                                      'u1' => {
+                                                'avrify' => 'ON',
+                                                'cache' => '-',
+                                                'rebuild_percent' => '-',
+                                                'size' => '298.082',
+                                                'status' => 'VERIFY-PAUSED',
+                                                'strip' => '-',
+                                                'type' => 'SPARE',
+                                                'vim_percent' => '0%'
+                                              },
+                                      'u2' => {
+                                                'avrify' => 'ON',
+                                                'cache' => '-',
+                                                'rebuild_percent' => '-',
+                                                'size' => '298.082',
+                                                'status' => 'VERIFY-PAUSED',
+                                                'strip' => '-',
+                                                'type' => 'SPARE',
+                                                'vim_percent' => '0%'
+                                              }
+                                    },
+                    'vrate' => 1
+                  }
+        };

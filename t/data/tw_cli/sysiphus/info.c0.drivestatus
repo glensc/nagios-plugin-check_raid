@@ -1,0 +1,16 @@
+
+VPort Status         Unit Size      Type  Phy Encl-Slot    Model
+------------------------------------------------------------------------------
+p0    OK             u0   298.09 GB SATA  0   -            ST3320620AS
+p1    OK             u0   298.09 GB SATA  1   -            ST3320620AS
+p2    OK             u0   298.09 GB SATA  2   -            ST3320620AS
+p3    OK             u0   298.09 GB SATA  3   -            ST3320620AS
+p4    OK             u0   298.09 GB SATA  4   -            ST3320620AS
+p5    OK             u0   298.09 GB SATA  5   -            ST3320620AS
+p6    OK             u0   298.09 GB SATA  6   -            ST3320620AS
+p7    OK             u0   298.09 GB SATA  7   -            ST3320620AS
+p8    OK             u0   298.09 GB SATA  8   -            ST3320620AS
+p9    OK             u0   298.09 GB SATA  9   -            ST3320620AS
+p10   VERIFYING      u1   298.09 GB SATA  10  -            ST3320620AS
+p11   VERIFYING      u2   298.09 GB SATA  11  -            ST3320620AS
+
