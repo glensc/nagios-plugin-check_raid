@@ -1,0 +1,118 @@
+$VAR1 = {
+          '/dev/sda' => {
+                          'board_name' => 'Smart Array P420i',
+                          'cache' => {
+                                       'board' => 'Smart Array P420i',
+                                       'cache_ratio' => '10% Read / 90% Write',
+                                       'configured' => 'Yes',
+                                       'file' => '/dev/sg0',
+                                       'flash_cache' => 1,
+                                       'instance' => 0,
+                                       'read_cache_memory' => '81 MiB',
+                                       'total_cache_memory' => '816 MiB',
+                                       'write_cache_enabled' => 'Yes',
+                                       'write_cache_memory' => '735 MiB'
+                                     },
+                          'drives' => {
+                                        '1I-1-1' => {
+                                                      'bay' => 1,
+                                                      'box' => 1,
+                                                      'fw' => 'HPD9',
+                                                      'model' => 'HP      EG0900FCVBL',
+                                                      'phys1' => '1',
+                                                      'phys2' => 'I',
+                                                      'serial' => 'S0N2BEHX0000K50648RD',
+                                                      'slot' => '1I-1-1',
+                                                      'status' => 'OK'
+                                                    },
+                                        '1I-1-2' => {
+                                                      'bay' => 2,
+                                                      'box' => 1,
+                                                      'fw' => 'HPD9',
+                                                      'model' => 'HP      EG0900FCVBL',
+                                                      'phys1' => '1',
+                                                      'phys2' => 'I',
+                                                      'serial' => 'S0N2C5810000K50663MY',
+                                                      'slot' => '1I-1-2',
+                                                      'status' => 'OK'
+                                                    },
+                                        '1I-1-3' => {
+                                                      'bay' => 3,
+                                                      'box' => 1,
+                                                      'fw' => 'HPD0',
+                                                      'model' => 'HP      EG0900FCSPN',
+                                                      'phys1' => '1',
+                                                      'phys2' => 'I',
+                                                      'serial' => '3410A0IPFTM11409',
+                                                      'slot' => '1I-1-3',
+                                                      'status' => 'OK'
+                                                    },
+                                        '1I-1-4' => {
+                                                      'bay' => 4,
+                                                      'box' => 1,
+                                                      'fw' => 'HPD9',
+                                                      'model' => 'HP      EG0900FCVBL',
+                                                      'phys1' => '1',
+                                                      'phys2' => 'I',
+                                                      'serial' => 'S0N18Z0Q0000B429BNNF',
+                                                      'slot' => '1I-1-4',
+                                                      'status' => 'OK'
+                                                    },
+                                        '2I-1-5' => {
+                                                      'bay' => 5,
+                                                      'box' => 1,
+                                                      'fw' => 'HPD0',
+                                                      'model' => 'HP      EG0900FCSPN',
+                                                      'phys1' => '2',
+                                                      'phys2' => 'I',
+                                                      'serial' => '24R0A0AGFTM11409',
+                                                      'slot' => '2I-1-5',
+                                                      'status' => 'OK'
+                                                    },
+                                        '2I-1-6' => {
+                                                      'bay' => 6,
+                                                      'box' => 1,
+                                                      'fw' => 'HPDE',
+                                                      'model' => 'HP      EG0900FBVFQ',
+                                                      'phys1' => '2',
+                                                      'phys2' => 'I',
+                                                      'serial' => 'KVK7YKBJ',
+                                                      'slot' => '2I-1-6',
+                                                      'status' => 'OK'
+                                                    },
+                                        '2I-1-7' => {
+                                                      'bay' => 7,
+                                                      'box' => 1,
+                                                      'fw' => 'HPD9',
+                                                      'model' => 'HP      EG0900FCVBL',
+                                                      'phys1' => '2',
+                                                      'phys2' => 'I',
+                                                      'serial' => 'S0N25NCW0000M501EUAH',
+                                                      'slot' => '2I-1-7',
+                                                      'status' => 'OK'
+                                                    },
+                                        '2I-1-8' => {
+                                                      'bay' => 8,
+                                                      'box' => 1,
+                                                      'fw' => 'HPD0',
+                                                      'model' => 'HP      EG0900FCSPN',
+                                                      'phys1' => '2',
+                                                      'phys2' => 'I',
+                                                      'serial' => '93K0A0HFFTM11338',
+                                                      'slot' => '2I-1-8',
+                                                      'status' => 'OK'
+                                                    }
+                                      },
+                          'pd count' => '8',
+                          'volumes' => {
+                                         '0' => {
+                                                  'board_name' => 'Smart Array P420i',
+                                                  'certain' => 1,
+                                                  'raid_level' => 'RAID 1(1+0)',
+                                                  'spare_drive_status' => '',
+                                                  'status' => 'OK',
+                                                  'volume_number' => '0'
+                                                }
+                                       }
+                        }
+        };
