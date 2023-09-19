@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 
-use Test::More tests => 23;
+use Test::More tests => 24;
 use test;
 
 my $bindir = TESTDIR . '/data/bin';
@@ -72,6 +72,11 @@ my %sudo = (
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/sas2ircu * STATUS",
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/sas2ircu * DISPLAY",
 	],
+        sas3ircu => [
+                "CHECK_RAID ALL=(root) NOPASSWD: $bindir/sas3ircu LIST",
+                "CHECK_RAID ALL=(root) NOPASSWD: $bindir/sas3ircu * STATUS",
+                "CHECK_RAID ALL=(root) NOPASSWD: $bindir/sas3ircu * DISPLAY",
+        ],
 	hpacucli => [
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpacucli controller all show status",
 		"CHECK_RAID ALL=(root) NOPASSWD: $bindir/hpacucli controller * logicaldrive all show",
