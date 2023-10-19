@@ -1,0 +1,10 @@
+[dev   9,   0] /dev/md0         220071C8.96E87A52.5AA5BD5B.EB5F08FF online
+[dev   3,   1] /dev/hda1        220071C8.96E87A52.5AA5BD5B.EB5F08FF good
+[dev   3,  65] /dev/hdb1        220071C8.96E87A52.5AA5BD5B.EB5F08FF good
+[dev  22,   1] /dev/hdc1        220071C8.96E87A52.5AA5BD5B.EB5F08FF spare
+
+[dev   9,   1] /dev/md1         15C99EAE.88A2CDC2.519B5534.B69E747E online
+[dev   3,   2] /dev/hda2        15C99EAE.88A2CDC2.519B5534.B69E747E good
+[dev   3,  66] /dev/hdb2        15C99EAE.88A2CDC2.519B5534.B69E747E good
+[dev  22,   2] /dev/hdc2        15C99EAE.88A2CDC2.519B5534.B69E747E spare
+

@@ -1,0 +1,15 @@
+[dev   9,   0] /dev/md0         656728BD.8EB5EAFC.DE434304.C7077AA1 online
+[dev   3,   1] /dev/hda1        656728BD.8EB5EAFC.DE434304.C7077AA1 good
+[dev   3,  65] /dev/hdb1        656728BD.8EB5EAFC.DE434304.C7077AA1 good
+[dev  22,   1] /dev/hdc1        656728BD.8EB5EAFC.DE434304.C7077AA1 good
+
+[dev   9,   1] /dev/md1         35BF91DC.7B66416F.85A926FB.69511BF5 online
+[dev   3,   2] /dev/hda2        35BF91DC.7B66416F.85A926FB.69511BF5 good
+[dev   3,  66] /dev/hdb2        35BF91DC.7B66416F.85A926FB.69511BF5 good
+[dev  22,   2] /dev/hdc2        35BF91DC.7B66416F.85A926FB.69511BF5 good
+
+[dev   9,   2] /dev/md2         FB49011A.1964BBB7.F3E4906F.AEFE6E08 online
+[dev   3,   3] /dev/hda3        FB49011A.1964BBB7.F3E4906F.AEFE6E08 good
+[dev   3,  67] /dev/hdb3        FB49011A.1964BBB7.F3E4906F.AEFE6E08 good
+[dev  22,   3] /dev/hdc3        FB49011A.1964BBB7.F3E4906F.AEFE6E08 failed
+
