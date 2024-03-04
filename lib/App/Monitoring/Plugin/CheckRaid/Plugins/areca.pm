@@ -135,6 +135,9 @@ sub check {
 		} elsif ($usage =~ /Pass Through/) {
 			# Pass Through is OK
 			push(@{$drivestatus{$array_name}}, $id);
+		} elsif ($usage =~ /Raid Set/) {
+			# Disk in a raid is OK
+			push(@{$drivestatus{$array_name}}, $id);
 		} else {
 			push(@{$drivestatus{$array_name}}, $id);
 			$this->critical;
