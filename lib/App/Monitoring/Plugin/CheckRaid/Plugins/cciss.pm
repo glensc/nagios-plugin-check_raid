@@ -172,7 +172,7 @@ sub cciss_vol_status_version {
 		close $fh;
 		return 0 unless $line;
 
-		if (my($v) = $line =~ /^cciss_vol_status version ([\d.]+)$/) {
+		if (my($v) = $line =~ /^cciss_vol_status version ([\d.]+)[a-z]?$/) {
 			return 0 + $v;
 		}
 		return 0;
@@ -263,10 +263,11 @@ sub parse {
 		# /dev/cciss/c0d0: (Smart Array P400i) RAID 1 Volume 0 status: OK
 		# /dev/sda: (Smart Array P410i) RAID 1 Volume 0 status: OK.
 		# /dev/sda: (Smart Array P410i) RAID 5 Volume 0 status: OK.   At least one spare drive designated.  At least one spare drive has failed.
+		# /dev/sda: (Smart Array P420i) RAID 1(1+0) Volume 0 status: OK.
 		if (my($file, $board_name, $raid_level, $volume_number, $certain, $status, $spare_drive_status) = m{
 			^(/dev/[^:]+):\s        # File
 			\(([^)]+)\)\s           # Board Name
-			(RAID\s\d+|\([^)]+\))\s # RAID level
+			(RAID\s\d+(?:\(\d\+\d\))?|\([^)]+\))\s # RAID level with optional '(X+Y)')
 			Volume\s(\d+)           # Volume number
 			(\(\?\))?\s             # certain?
 			status:\s(.*?)\.        # status (without a dot)
@@ -299,7 +300,7 @@ sub parse {
 		if (my ($phys1, $phys2, $box, $bay, $model, $serial_no, $fw_rev, $status) = m{
 			\sconnector\s(.)(.)\s # Phys connector 1&2
 			box\s(\d+)\s          # phys_box_on_bus
-			bay\s(\d+)\s          # phys_bay_in_box
+			bay\s(\d+)\s{1,2}     # phys_bay_in_box
 			(.{40})\s             # model
 			(.{40})\s             # serial no
 			(.{8})\s              # fw rev
@@ -340,6 +341,8 @@ sub parse {
 			my $cache = $c{$cdev}{cache};
 			my %map = (
 				configured => qr/Cache configured: (.+)/,
+				total_cache_memory => qr/Total cache memory: (.+)/,
+				cache_ratio => qr/Cache Ratio: (.+)/,
 				read_cache_memory => qr/Read cache memory: (.+)/,
 				write_cache_memory => qr/Write cache memory: (.+)/,
 				write_cache_enabled => qr/Write cache enabled: (.+)/,
@@ -464,6 +467,8 @@ sub check {
 			}
 
 			push(@cstatus, "FlashCache") if $cache->{flash_cache};
+			push(@cstatus, "TotalMem:$cache->{total_cache_memory}") if $cache->{total_cache_memory};
+			push(@cstatus, "Ratio:'$cache->{cache_ratio}'") if $cache->{cache_ratio};
 			push(@cstatus, "ReadMem:$cache->{read_cache_memory}") if $cache->{read_cache_memory};
 			push(@cstatus, "WriteMem:$cache->{write_cache_memory}") if $cache->{write_cache_memory};
 

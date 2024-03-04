@@ -6,7 +6,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use constant TESTS => 13;
+use constant TESTS => 14;
 use Test::More tests =>  1 + TESTS * 6;
 use test;
 
@@ -166,6 +166,18 @@ my @tests = (
 		smartctl => '',
 		message => '/dev/sda(Smart Array): Volume 0 (RAID 5): OK, Drives(4): 1I-1-1,1I-1-2,1I-1-3,1I-1-4=OK, Cache: WriteCache FlashCache ReadMem:182 MiB WriteMem:1634 MiB',
 		c => 'issue149',
+	},
+	{
+		status => OK,
+		lsscsi => 'cciss/issue205/lsscsi-g',
+		detect_hpsa => '',
+		detect_cciss => '',
+		version => 'cciss-1.12a',
+		controller => 'issue205/cciss_vol_status-V_dev_sg0',
+		cciss_proc => '',
+		smartctl => '',
+		message => '/dev/sda(Smart Array P420i): Volume 0 (RAID 1(1+0)): OK, Drives(8): 1I-1-1,1I-1-2,1I-1-3,1I-1-4,2I-1-5,2I-1-6,2I-1-7,2I-1-8=OK, Cache: WriteCache FlashCache TotalMem:816 MiB Ratio:\'10% Read / 90% Write\' ReadMem:81 MiB WriteMem:735 MiB',
+		c => 'issue205',
 	},
 );
 
