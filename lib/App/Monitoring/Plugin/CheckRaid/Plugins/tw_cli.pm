@@ -433,7 +433,7 @@ sub check {
 				$this->warning;
 				$s .= " $u->{vim_percent}";
 
-			} elsif ($s eq 'VERIFYING') {
+			} elsif ($s =~ /VERIFYING|VERIFY-PAUSED/) {
 				$this->check_status;
 				$s .= " $u->{vim_percent}";
 
@@ -464,7 +464,7 @@ sub check {
 		foreach my $p (sort { $a cmp $b } keys %{$c->{drivestatus}}) {
 			my $d = $c->{drivestatus}->{$p};
 			my $ds = $d->{status};
-			if ($ds eq 'VERIFYING') {
+			if ($ds =~ /VERIFYING|VERIFY-PAUSED/) {
 				$this->check_status;
 			} elsif ($ds ne 'OK') {
 				$this->critical;

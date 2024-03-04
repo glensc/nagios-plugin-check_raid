@@ -1,0 +1,7 @@
+
+Unit  UnitType  Status         %RCmpl  %V/I/M  Stripe  Size(GB)  Cache  AVrfy
+------------------------------------------------------------------------------
+u0    RAID-10   VERIFYING      -      25%      64K     1490.06   W      ON
+u1    SPARE     VERIFY-PAUSED  -       0%      -       298.082   -      ON
+u2    SPARE     VERIFY-PAUSED  -       0%      -       298.082   -      ON
+

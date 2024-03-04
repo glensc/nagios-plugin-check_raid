@@ -94,6 +94,16 @@ my @tests = (
 	},
 	{
 		status => OK,
+		info => 'sysiphus/info',
+		show => 'sysiphus/show',
+		unitstatus => 'sysiphus/info.c0.unitstatus',
+		drivestatus => 'sysiphus/info.c0.drivestatus',
+		bbustatus => 'sysiphus/info.c0.bbustatus',
+		message => 'c0(9650SE-16ML): u0(RAID-10): VERIFYING 25%, Cache:W, c0(9650SE-16ML): u1(SPARE): VERIFY-PAUSED 0%, c0(9650SE-16ML): u2(SPARE): VERIFY-PAUSED 0%, Drives(12): p0,p1,p2,p3,p4,p5,p6,p7,p8,p9=OK p10,p11=VERIFYING, BBU: OK(Volt=OK,Temp=OK,Hours=255,LastCapTest=07-May-2022)',
+		c => 'sysiphus',
+	},
+	{
+		status => OK,
 		info => 'grubbs/info',
 		show => 'grubbs/show',
 		unitstatus => 'grubbs/info.c0.unitstatus',
