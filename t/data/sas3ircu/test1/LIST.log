@@ -1,0 +1,12 @@
+# /opt/lsi/sas3ircu/sas3ircu LIST
+*******************************************************************************************************************
+Avago Technologies SAS3 IR Configuration Utility.
+Version 17.00.00.00 (2018.04.02)
+Copyright (c) 2009-2018 Avago Technologies. All rights reserved.
+
+
+         Adapter      Vendor  Device                       SubSys  SubSys
+ Index    Type          ID      ID    Pci Address          Ven ID  Dev ID
+ -----  ------------  ------  ------  -----------------    ------  ------
+   0     SAS3008       1000h   97h    00h:02h:00h:00h      1458h   3008h
+SAS3IRCU: Utility Completed Successfully.

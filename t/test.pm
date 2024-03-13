@@ -35,6 +35,7 @@ use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::metastat';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::mpt';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::mvcli';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::sas2ircu';
+use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::sas3ircu';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::smartctl';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::tw_cli';
 use aliased 'App::Monitoring::Plugin::CheckRaid::Plugins::dm';

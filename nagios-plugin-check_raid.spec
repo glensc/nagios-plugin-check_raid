@@ -59,7 +59,7 @@ Supports:
 - Linux MPT hardware RAID via mpt-status
 - Linux MegaIDE hardware RAID controllers via /proc/megaide
 - Linux software RAID (md) via /proc/mdstat
-- SAS2IRCU support
+- SAS2IRCU, SAS3IRCU support
 - Serveraid IPS via ipssend
 - Solaris software RAID via metastat
 

@@ -1,0 +1,16 @@
+# /opt/lsi/sas3ircu/sas3ircu 0 STATUS
+*******************************************************************************************************************
+Avago Technologies SAS3 IR Configuration Utility.
+Version 17.00.00.00 (2018.04.02)
+Copyright (c) 2009-2018 Avago Technologies. All rights reserved.
+
+Background command progress status for controller 0...
+IR Volume 1
+  Volume ID                               : 323
+  Current operation                       : None
+  Volume status                           : Enabled
+  Volume state                            : Optimal
+  Volume wwid                             : 09cbec37412b0bc7
+  Physical disk I/Os                      : Not quiesced
+SAS3IRCU: Command STATUS Completed Successfully.
+SAS3IRCU: Utility Completed Successfully.

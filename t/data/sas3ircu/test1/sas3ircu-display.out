@@ -1,0 +1,110 @@
+# /opt/lsi/sas3ircu/sas3ircu 0 DISPLAY
+Avago Technologies SAS3 IR Configuration Utility.
+Version 17.00.00.00 (2018.04.02) 
+Copyright (c) 2009-2018 Avago Technologies. All rights reserved. 
+
+Read configuration has been initiated for controller 0
+------------------------------------------------------------------------
+Controller information
+------------------------------------------------------------------------
+  Controller type                         : SAS3008
+  BIOS version                            : 8.35.00.00
+  Firmware version                        : 15.00.00.00
+  Channel description                     : 1 Serial Attached SCSI
+  Initiator ID                            : 0
+  Maximum physical devices                : 255
+  Concurrent commands supported           : 3072
+  Slot                                    : 3
+  Segment                                 : 0
+  Bus                                     : 2
+  Device                                  : 0
+  Function                                : 0
+  RAID Support                            : Yes
+------------------------------------------------------------------------
+IR Volume information
+------------------------------------------------------------------------
+IR volume 1
+  Volume ID                               : 323
+  Status of volume                        : Okay (OKY)
+  Volume wwid                             : 09cbec37412b0bc7
+  RAID level                              : RAID10
+  Size (in MB)                            : 7324218
+  Physical hard disks                     :
+  PHY[0] Enclosure#/Slot#                 : 1:0
+  PHY[1] Enclosure#/Slot#                 : 1:1
+  PHY[2] Enclosure#/Slot#                 : 1:2
+  PHY[3] Enclosure#/Slot#                 : 1:3
+------------------------------------------------------------------------
+Physical device information
+------------------------------------------------------------------------
+Initiator at ID #0
+
+Device is a Hard disk
+  Enclosure #                             : 1
+  Slot #                                  : 0
+  SAS Address                             : 4433221-1-0200-0000
+  State                                   : Optimal (OPT)
+  Size (in MB)/(in sectors)               : 3662830/7501476527
+  Manufacturer                            : ATA     
+  Model Number                            : SAMSUNG MZ7L33T8
+  Firmware Revision                       : 004Q
+  Serial No                               : S6EMNE0RB00766
+  Unit Serial No(VPD)                     : S6EMNE0RB00766
+  GUID                                    : 5002538f01b17289
+  Protocol                                : SATA
+  Drive Type                              : SATA_SSD
+
+Device is a Hard disk
+  Enclosure #                             : 1
+  Slot #                                  : 1
+  SAS Address                             : 4433221-1-0300-0000
+  State                                   : Optimal (OPT)
+  Size (in MB)/(in sectors)               : 3662830/7501476527
+  Manufacturer                            : ATA
+  Model Number                            : SAMSUNG MZ7L33T8
+  Firmware Revision                       : 004Q
+  Serial No                               : S6EMNE0RB00770
+  Unit Serial No(VPD)                     : S6EMNE0RB00770
+  GUID                                    : 5002538f01b1728d
+  Protocol                                : SATA
+  Drive Type                              : SATA_SSD
+
+Device is a Hard disk
+  Enclosure #                             : 1
+  Slot #                                  : 2
+  SAS Address                             : 4433221-1-0100-0000
+  State                                   : Optimal (OPT)
+  Size (in MB)/(in sectors)               : 3662830/7501476527
+  Manufacturer                            : ATA
+  Model Number                            : SAMSUNG MZ7L33T8
+  Firmware Revision                       : 004Q
+  Serial No                               : S6EMNE0RB00777
+  Unit Serial No(VPD)                     : S6EMNE0RB00777
+  GUID                                    : 5002538f01b17294
+  Protocol                                : SATA
+  Drive Type                              : SATA_SSD
+
+Device is a Hard disk
+  Enclosure #                             : 1
+  Slot #                                  : 3
+  SAS Address                             : 4433221-1-0000-0000
+  State                                   : Optimal (OPT)
+  Size (in MB)/(in sectors)               : 3662830/7501476527
+  Manufacturer                            : ATA
+  Model Number                            : SAMSUNG MZ7L33T8
+  Firmware Revision                       : 004Q
+  Serial No                               : S6EMNE0RB00769
+  Unit Serial No(VPD)                     : S6EMNE0RB00769
+  GUID                                    : 5002538f01b1728c
+  Protocol                                : SATA
+  Drive Type                              : SATA_SSD
+------------------------------------------------------------------------
+Enclosure information
+------------------------------------------------------------------------
+  Enclosure#                              : 1
+  Logical ID                              : 50014850:00781f30
+  Numslots                                : 8
+  StartSlot                               : 0
+------------------------------------------------------------------------
+SAS3IRCU: Command DISPLAY Completed Successfully.
+SAS3IRCU: Utility Completed Successfully.

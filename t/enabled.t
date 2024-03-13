@@ -7,7 +7,7 @@ BEGIN {
 use strict;
 use warnings;
 
-use Test::More tests => 29;
+use Test::More tests => 30;
 use test;
 
 unshift(@App::Monitoring::Plugin::CheckRaid::Utils::paths, TESTDIR . '/data/bin');
